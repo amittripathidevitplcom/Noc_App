@@ -47,7 +47,7 @@ export class DocumentScrutinyStepIIApplicationsComponent implements OnInit {
     try {
       let ActionName = '';
       if (this.sSOLoginDataModel.RoleID == 17) {
-        ActionName = Status == 'Completed' ? 'Forward to DTE committee' : Status == 'Pending' ? 'Recommended by Inspection Committee,Not recommended by Inspection Committee' : Status == 'Revert' ? 'Revert after Inspection' : Status == 'Reject' ? 'Reject' : '';
+        ActionName = Status == 'Completed' ? 'Forward to DTE committee' : Status == 'Pending' ? 'Recommended by Inspection Committee,Not recommended by Inspection Committee,Revert to Nodal officer after inspection' : Status == 'Revert' ? 'Revert after Inspection' : Status == 'Reject' ? 'Reject' : '';
       }
       else {
         ActionName = Status == 'Completed' ? 'Forward to Inspection Committee after inspection,Forward To Joint Secretary after inspection' : Status == 'Pending' ? 'Forward to DTE committee' : '';

@@ -63,7 +63,7 @@ export class ApplicationLandingDetailsDTEComponent implements OnInit {
     try {
       let ActionName = '';
 
-      ActionName = Status == 'Completed' ? 'Forward to Generate Receipt' : Status == 'Pending' ? 'Apply NOC,ReSubmit Application' : Status=='Revert'?'Revert':'';
+      ActionName = Status == 'Completed' ? 'Forward to Generate Receipt' : Status == 'Pending' ? 'Apply NOC,ReSubmit Application,Revert to Nodal officer' : Status=='Revert'?'Revert':'';
 
       this.loaderService.requestStarted();
       await this.dteDocumentScrutinyService.GetApplyNOCApplicationList(RoleId, UserID, Status, ActionName)

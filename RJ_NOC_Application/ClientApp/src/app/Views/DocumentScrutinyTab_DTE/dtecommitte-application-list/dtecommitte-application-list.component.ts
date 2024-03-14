@@ -52,10 +52,10 @@ export class DTECommitteApplicationListComponent implements OnInit {
     try {
       let ActionName = '';
       if (this.Stage == 'Step1') {
-        ActionName = Status == 'Completed' ? 'Recommended by Inspection Committee,Not recommended by Inspection Committee,Forward to Inspection Committee,Forward To Joint Secretary' : Status == 'Pending' ? 'Forward,Forward to Inspection Committee,Forward to Inspection Committee after inspection' : '';
+        ActionName = Status == 'Completed' ? 'Recommended by Inspection Committee,Not recommended by Inspection Committee,Forward to Inspection Committee,Forward To Joint Secretary' : Status == 'Pending' ? 'Forward,Forward to Inspection Committee,Forward to Inspection Committee after inspection' : Status == 'Reject' ? 'Reject' : Status == 'Revert' ? 'Revert to Nodal officer' : '';
       }
       else {
-        ActionName = Status == 'Completed' ? 'Forward to Inspection Committee after inspection,Forward To Joint Secretary after inspection' : Status == 'Pending' ? 'Forward to DTE committee' : '';
+        ActionName = Status == 'Completed' ? 'Forward to Inspection Committee after inspection,Forward To Joint Secretary after inspection' : Status == 'Pending' ? 'Forward to DTE committee' : Status == 'Revert' ? 'Revert to Nodal officer after inspection' : Status == 'Reject' ? 'Reject after inspection' : '';
       }
             this.loaderService.requestStarted();
       await this.dteDocumentScrutinyService.GetApplyNOCApplicationList(RoleId, UserID, Status, ActionName)

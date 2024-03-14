@@ -891,10 +891,10 @@ export class FinalCheckListDTEComponent implements OnInit {
             this.WorkFlowActionList = data['Data'];
             if (this.WorkFlowActionList.length > 0) {
               if (this.sSOLoginDataModel.RoleID == 34 && this.QueryStringApplicationStatus == 'Step1') {
-                this.WorkFlowActionList = this.WorkFlowActionList.filter((x: { ActionID: number; }) => x.ActionID != 62 && x.ActionID != 63);
+                this.WorkFlowActionList = this.WorkFlowActionList.filter((x: { ActionID: number; }) => x.ActionID != 62 && x.ActionID != 63 && x.ActionID != 65 && x.ActionID != 66);
               }
               if (this.sSOLoginDataModel.RoleID == 34 && this.QueryStringApplicationStatus == 'Step2') {
-                this.WorkFlowActionList = this.WorkFlowActionList.filter((x: { ActionID: number; }) => x.ActionID != 6 && x.ActionID != 52);
+                this.WorkFlowActionList = this.WorkFlowActionList.filter((x: { ActionID: number; }) => x.ActionID != 6 && x.ActionID != 52 && x.ActionID != 64 && x.ActionID != 2);
               }
               this.ActionID = this.WorkFlowActionList[0]['ActionID'];
               var IsNextAction = this.WorkFlowActionList.find((x: { ActionID: number; }) => x.ActionID == this.ActionID)?.IsNextAction;

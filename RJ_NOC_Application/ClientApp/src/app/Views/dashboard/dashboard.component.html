@@ -1715,10 +1715,10 @@
                     <h4>Reverted</h4>
                     <a href="/documentscrutinyapplicationdte/Revert" style="background: none;"><h2>{{dashboardDataModel.Nodal_Reverted}}</h2></a>
                   </div>
-                  <div class="dashCardContent">
+                  <!--<div class="dashCardContent">
                     <h4>Rejected</h4>
                     <a href="/documentscrutinyapplicationdte/Reject" style="background: none;"><h2>{{dashboardDataModel.Nodal_Rejected}}</h2></a>
-                  </div>
+                  </div>-->
                 </div>
               </div>
             </div>
@@ -1726,7 +1726,7 @@
         </div>
 
         <div class="row" *ngIf="this.sSOLoginDataModel.DepartmentID==4 && (this.sSOLoginDataModel.RoleID==34 || this.sSOLoginDataModel.RoleID==16)">
-          <div class="col-lg-3 col-md-4 col-sm-6 col-12" *ngIf="this.sSOLoginDataModel.RoleID==34">
+          <div class="col-lg-6 col-md-6 col-sm-6 col-12" *ngIf="this.sSOLoginDataModel.RoleID==34">
             <div class="card staticsCards">
               <div class="card-header text-center text-white" style="background: rgba(0, 0, 0, 0.2) !important;"><h5>Document Scrutiny</h5></div>
               <div class="card-body">
@@ -1735,6 +1735,18 @@
                     <h4>Pending</h4>
                     <h2>
                       <a href="/dtecommitteapplicationlist/Pending/Step1" style="background: none;">{{dashboardDataModel.Pending}}</a>
+                    </h2>
+                  </div>
+                  <div class="dashCardContent text-start">
+                    <h4>Rejected</h4>
+                    <h2>
+                      <a href="/dtecommitteapplicationlist/Reject/Step1" style="background: none;">{{dashboardDataModel.Rejected}}</a>
+                    </h2>
+                  </div>
+                  <div class="dashCardContent text-start">
+                    <h4>Revert to Nodal</h4>
+                    <h2>
+                      <a href="/dtecommitteapplicationlist/Revert/Step1" style="background: none;">{{dashboardDataModel.RevertNodalofficer}}</a>
                     </h2>
                   </div>
                   <div class="dashCardContent">
@@ -1756,6 +1768,7 @@
                       <a href="/documentscrutinyapplicationlistdte/Pending" style="background: none;">{{dashboardDataModel.Pending}}</a>
                     </h2>
                   </div>
+                  
                   <div class="dashCardContent">
                     <h4>Forwarded</h4>
                     <a href="/documentscrutinyapplicationlistdte/Completed" style="background: none;"><h2>{{dashboardDataModel.Completed}}</h2></a>
@@ -1764,7 +1777,7 @@
               </div>
             </div>
           </div>
-          <div class="col-lg-3 col-md-4 col-sm-6 col-12" *ngIf="this.sSOLoginDataModel.RoleID==34">
+          <div class="col-lg-6 col-md-6 col-sm-6 col-12" *ngIf="this.sSOLoginDataModel.RoleID==34">
             <div class="card staticsCards">
               <div class="card-header text-center text-white" style="background: rgba(0, 0, 0, 0.2) !important;"><h5>Document Scrutiny After Inspection</h5></div>
               <div class="card-body">
@@ -1773,6 +1786,18 @@
                     <h4>Pending</h4>
                     <h2>
                       <a href="/dtecommitteapplicationlist/Pending/Step2" style="background: none;">{{dashboardDataModel.AfterInspectionPending}}</a>
+                    </h2>
+                  </div>
+                  <div class="dashCardContent text-start">
+                    <h4>Rejected</h4>
+                    <h2>
+                      <a href="/dtecommitteapplicationlist/Reject/Step2" style="background: none;">{{dashboardDataModel.Rejectedafterinspection}}</a>
+                    </h2>
+                  </div>
+                  <div class="dashCardContent text-start">
+                    <h4>Revert to Nodal</h4>
+                    <h2>
+                      <a href="/dtecommitteapplicationlist/Revert/Step2" style="background: none;">{{dashboardDataModel.RevertNodalofficerafterinspection}}</a>
                     </h2>
                   </div>
                   <div class="dashCardContent">

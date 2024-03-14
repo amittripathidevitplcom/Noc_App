@@ -22,7 +22,7 @@
 
           <mat-tab-group mat-align-tabs="center" class="tabUl1 d-block w-100" [selectedIndex]="selectedIndex" #tabs (selectedTabChange)="onTabChange($event)">
 
-            <mat-tab *ngIf="this.CheckList_legalEntityListData1.ManagementType == 'Private'">
+            <mat-tab [hidden]="this.CheckList_legalEntityListData1.ManagementType == 'Private'">
               <!--*ngIf="this.CheckList_legalEntityListData1.ManagementType == 'Private'"-->
               <ng-template mat-tab-label>
                 <i class="fa fa-gavel icon" aria-hidden="true"></i>

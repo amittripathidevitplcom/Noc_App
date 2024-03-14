@@ -68,8 +68,8 @@ export class DocumentScrutinyRequiredDocumentDTEComponent implements OnInit {
           this.ErrorMessage = data['ErrorMessage'];
           this.request.DocumentDetails = data['Data'][0]['CollegeDocument'][0];
           this.FinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
-          this.dsrequest.FinalRemark = this.FinalRemarks.find((x: { RoleIDS: number; VerificationStep: string }) => x.RoleIDS == this.sSOLoginDataModel.RoleID && x.VerificationStep == this.QueryStringApplicationStatus)?.Remark;
-          this.dsrequest.ActionID = this.FinalRemarks.find((x: { RoleIDS: number; VerificationStep: string }) => x.RoleIDS == this.sSOLoginDataModel.RoleID && x.VerificationStep == this.QueryStringApplicationStatus)?.ActionID;
+          this.dsrequest.FinalRemark = this.FinalRemarks.find((x: { RoleIDS: number; VerificationStep: string }) => x.RoleIDS == this.sSOLoginDataModel.RoleID )?.Remark;
+          this.dsrequest.ActionID = this.FinalRemarks.find((x: { RoleIDS: number; VerificationStep: string }) => x.RoleIDS == this.sSOLoginDataModel.RoleID )?.ActionID;
           if (this.dsrequest.ActionID == 2) {
             this.isDisabledAction = true;
           }
