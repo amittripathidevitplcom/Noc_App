@@ -368,7 +368,7 @@ import { ActivityDetailsComponent } from './Views/TabDetail/ActivityDetails/acti
 import { PreviewActivityDetailsComponent } from './Views/PreviewTabs/PreviewActivityDetails/preview-activity-details/preview-activity-details.component';
 import { OfficersDetailsComponent } from './Views/DTEStatistics/officers-details/officers-details.component';
 
-import { NewgrievancereportComponent } from './Views/DCE/newgrievancereport/newgrievancereport/newgrievancereport.component';
+//import { NewgrievancereportComponent } from './Views/DCE/newgrievancereport/newgrievancereport/newgrievancereport.component';
 
 
 

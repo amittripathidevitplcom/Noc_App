@@ -76,7 +76,7 @@ export class ApplyNocParameterDataModel {
   public DTE_ChangeInNameofInstitution!: ApplyNocParameterMasterList_ChangeInNameofInstitution;
   public DTE_ChangeInNameofInstitution_View: boolean = false;
 
-  
+
   /*Change of Site/ Location*/
   public DTE_ChangeofSite_Location!: ApplyNocParameterMasterList_ChangeofSite_Location;
   public DTE_ChangeofSite_Location_View: boolean = false;
@@ -225,7 +225,7 @@ export class ApplyNocApplicationDataModel {
   public GenerateReceipt_DTE: string = '';
   public GenerateReceiptPath_DTE: string = '';
 
-
+  public NOCPdfFileDataModel?: NOCPdfFileDataModel[] = [];
 }
 export class ApplyNocApplicationParameterDataModel {
   public ApplyNocParameterDetailID: number = 0;
@@ -631,4 +631,13 @@ export class ApplyNocParameterMasterList_CoursesforWorkingProfessionals {
 
   public Intake: number = 0;
   public FeeAmount: number = 0;
+}
+export class NOCPdfFileDataModel {
+  public ApplyNOCID: number = 0;
+  public ApplyNocParameterID: number = 0;
+  public ApplyNocFor: string = '';
+  public FileName: string = '';
+  public NOCFilePath: string = '';
+  public IsEsign: boolean = false;
+  public EsignBy: number = 0;
 }

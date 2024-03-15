@@ -328,4 +328,12 @@ export class DTEDocumentScrutinyService {
       ).toPromise();
   }
 
+
+  public async GenerateDTEActionSummaryPDF(ApplyNOCID: number) {
+    const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
+    return await this.http.get(this.APIUrl + '/GenerateDTEActionSummaryPDF/' + ApplyNOCID, httpOptions)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
 }

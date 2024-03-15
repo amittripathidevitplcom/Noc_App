@@ -29,6 +29,7 @@ import { SSOLoginService } from '../../../Services/SSOLogin/ssologin.service';
 import { elementAt } from 'rxjs';
 import { FileUploadService } from '../../../Services/FileUpload/file-upload.service';
 import { ApplyNocApplicationDataModel } from '../../../Models/ApplyNocParameterDataModel';
+import { GlobalConstants } from '../../../Common/GlobalConstants';
 
 
 @Injectable({
@@ -219,12 +220,13 @@ export class FinalCheckListDTEComponent implements OnInit {
     this.GetAcademicInformationDetailAllList();
     this.GetOtherDocuments('Other Document');
     this.GetHostelDetailList_DepartmentCollegeWise();
-    this.ViewApplyNocApplicationDetails(this.SelectedApplyNOCID);
+
     this.GetRoleListForApporval();
     this.GetWorkFlowActionListByRole();
     //this.NextGetWorkFlowActionListByRole();
     this.GetCollageDetails();
     this.GetApplicationCommitteeList(this.SelectedApplyNOCID);
+    this.ViewApplyNocApplicationDetails(this.SelectedApplyNOCID);
     this.GetDTECommitteeList(1);
     this.CheckTabsEntry();
     this.CommitteeMemberDetails = this.formBuilder.group(
@@ -1701,5 +1703,19 @@ export class FinalCheckListDTEComponent implements OnInit {
         this.loaderService.requestEnded();
       }, 200);
     }
+  }
+
+  async DownloadShortsummary() {
+    await this.dcedocumentScrutinyService.GenerateDTEActionSummaryPDF(this.SelectedApplyNOCID)
+      .then((data: any) => {
+        data = JSON.parse(JSON.stringify(data));
+        console.log(data);
+        if (data.State == "0") {
+          window.open(GlobalConstants.SystemGeneratedPDFPathURL + data.Data, "_blank");
+        }
+        else {
+          this.toastr.warning(data.ErrorMessage);
+        }
+      }, error => console.error(error));
   }
 }

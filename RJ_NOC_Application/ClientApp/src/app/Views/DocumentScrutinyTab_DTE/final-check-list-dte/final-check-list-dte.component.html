@@ -4,6 +4,12 @@
     <b><i class="bi bi-table"></i>&nbsp; Check List Details</b>
   </div>
   <!--Legal Entity-->
+
+  <div class="row">
+    <div class="col-md-12 text-end">
+      <button *ngIf="sSOLoginDataModel.RoleID==34" class="btn btn-primary" type="button" (click)="DownloadShortsummary()"> Download Short Summary Details</button>
+    </div>
+  </div>
   <div class="row">
     <div class="col-md-12">
       <div class="card mb-0">
@@ -2200,8 +2206,8 @@
     </div>
 
   </div>
-  
-  
+
+
   <div class="row  m-2" *ngIf="QueryStringStatus == 'Pending'">
     <div class="col-md-12  mb-5">
       <button type="button" class="btn btn-primary" (click)="DocumentScrutiny()" title="Submit">Submit</button>

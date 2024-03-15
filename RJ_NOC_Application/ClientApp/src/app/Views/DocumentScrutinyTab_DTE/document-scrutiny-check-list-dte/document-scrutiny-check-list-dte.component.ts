@@ -29,6 +29,7 @@ import { SSOLoginService } from '../../../Services/SSOLogin/ssologin.service';
 import { elementAt } from 'rxjs';
 import { FileUploadService } from '../../../Services/FileUpload/file-upload.service';
 import { ApplyNocApplicationDataModel } from '../../../Models/ApplyNocParameterDataModel';
+import { GlobalConstants } from '../../../Common/GlobalConstants';
 
 
 @Injectable({
@@ -1733,5 +1734,21 @@ export class DocumentScrutinyCheckListDTEComponent implements OnInit {
         this.loaderService.requestEnded();
       }, 200);
     }
+  }
+
+
+
+  async DownloadShortsummary() {
+    await this.dcedocumentScrutinyService.GenerateDTEActionSummaryPDF(this.SelectedApplyNOCID)
+      .then((data: any) => {
+        data = JSON.parse(JSON.stringify(data));
+        console.log(data);
+        if (data.State == "0") {
+          window.open(GlobalConstants.SystemGeneratedPDFPathURL + data.Data, "_blank");
+        }
+        else {
+          this.toastr.warning(data.ErrorMessage);
+        }
+      }, error => console.error(error));
   }
 }

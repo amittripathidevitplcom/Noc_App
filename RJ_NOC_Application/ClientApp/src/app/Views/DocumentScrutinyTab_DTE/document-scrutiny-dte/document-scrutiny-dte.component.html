@@ -21,16 +21,6 @@
         <div class="col-md-12">
 
           <mat-tab-group mat-align-tabs="center" class="tabUl1 d-block w-100" [selectedIndex]="selectedIndex" #tabs (selectedTabChange)="onTabChange($event)">
-
-            <mat-tab [hidden]="this.CheckList_legalEntityListData1.ManagementType == 'Private'">
-              <!--*ngIf="this.CheckList_legalEntityListData1.ManagementType == 'Private'"-->
-              <ng-template mat-tab-label>
-                <i class="fa fa-gavel icon" aria-hidden="true"></i>
-                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['LegalEntity']>0"></i>
-                <span>Legal Entity</span>
-              </ng-template>
-              <app-dtedocument-scrutiny-legal-entity></app-dtedocument-scrutiny-legal-entity>
-            </mat-tab>
             <mat-tab>
               <ng-template mat-tab-label>
                 <i class="fa fa-graduation-cap icon" aria-hidden="true"></i>
@@ -38,6 +28,15 @@
                 <span>College Detail</span>
               </ng-template>
               <app-document-scrutiny-college-detail-dte></app-document-scrutiny-college-detail-dte>
+            </mat-tab>
+            <mat-tab *ngIf="this.CheckList_legalEntityListData1.ManagementType == 'Private'">
+              <!--*ngIf="this.CheckList_legalEntityListData1.ManagementType == 'Private'"-->
+              <ng-template mat-tab-label>
+                <i class="fa fa-gavel icon" aria-hidden="true"></i>
+                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['LegalEntity']>0"></i>
+                <span>Legal Entity</span>
+              </ng-template>
+              <app-dtedocument-scrutiny-legal-entity></app-dtedocument-scrutiny-legal-entity>
             </mat-tab>
             <mat-tab>
               <ng-template mat-tab-label>
@@ -122,7 +121,7 @@
               <app-document-scrutiny-other-document-dte></app-document-scrutiny-other-document-dte>
             </mat-tab>
 
-            <mat-tab>
+            <mat-tab  *ngIf="CollegeType_IsExisting">
               <ng-template mat-tab-label>
                 <i class="fa fa-gavel icon" aria-hidden="true"></i>
                 <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['StaffDetails']>0"></i>
@@ -131,7 +130,7 @@
               <app-document-scrutiny-staff-details-dte></app-document-scrutiny-staff-details-dte>
             </mat-tab>
 
-            <mat-tab>
+            <mat-tab  *ngIf="CollegeType_IsExisting">
               <ng-template mat-tab-label>
                 <i class="fa fa-gavel icon" aria-hidden="true"></i>
                 <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['AcademicInformation']>0"></i>

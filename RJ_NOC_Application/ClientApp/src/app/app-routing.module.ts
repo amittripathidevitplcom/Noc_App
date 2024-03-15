@@ -911,9 +911,9 @@ const routes: Routes = [
         path: 'applynocmgone/:DepartmentID/:CollegeID', component: ApplyNOCMGOneComponent
       },
 
-      {
-        path: 'newgrievancereport', component: NewgrievancereportComponent
-      },
+      //{
+      //  path: 'newgrievancereport', component: NewgrievancereportComponent
+      //},
 
 
     ]

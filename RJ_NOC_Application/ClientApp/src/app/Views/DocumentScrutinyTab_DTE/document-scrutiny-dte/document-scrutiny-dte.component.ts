@@ -93,8 +93,6 @@ export class DocumentScrutinyDTEComponent implements OnInit {
     private commonMasterService: CommonMasterService, private router: ActivatedRoute, private modalService: NgbModal,
     private dcedocumentScrutinyService: DTEDocumentScrutinyService, private collegeService: CollegeService) { }
 
-
-
   async ngOnInit() {
     this.SelectedDepartmentID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DepartmentID')?.toString()));
     this.SelectedCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
@@ -107,7 +105,12 @@ export class DocumentScrutinyDTEComponent implements OnInit {
     await this.CheckTabsEntry();
     await this.ViewlegalEntityDataByID();
     try {
+      debugger;
       this.maxNumberOfTabs = await this.tabGroup._tabs.length - 1;
+      if (this.CheckList_legalEntityListData1.ManagementType == 'Private') {
+        this.maxNumberOfTabs = this.maxNumberOfTabs + 1;
+      }
+      console.log(this.maxNumberOfTabs);
     }
     catch (Ex) {
       if (this.CheckList_legalEntityListData1.ManagementType == 'Private') {
@@ -218,9 +221,6 @@ export class DocumentScrutinyDTEComponent implements OnInit {
           // data
           if (data['Data'].length > 0) {
             this.CheckList_legalEntityListData1 = data['Data'][0]['legalEntity'];
-            console.log('Deepak')
-            console.log(this.CheckList_legalEntityListData1)
-            console.log('Deepak')
           }
         }, (error: any) => console.error(error));
     }
