@@ -21,7 +21,7 @@
 <div class="container-fluid mainContents">
   <div class="row">
     <div class="col-md-12">
-      <div class="row">
+      <div class="row" *ngIf="SelectedDepartmentID==4">
         <div class="col-md-4 mb-3 d-flex align-items-center justify-content-between">
           <label class="fw-bold m-0 me-2 text-nowrap">College Type :</label>
           <select class="form-select" id="ddlSelectedCollegeEntryType" [(ngModel)]="SelectedCollegeEntryType">
@@ -37,7 +37,7 @@
         <div class="col-md-12">
           <mat-tab-group mat-align-tabs="left" class="tabUl1 d-block w-100" [selectedIndex]="selectedIndex" #tabs (selectedTabChange)="onTabChange($event)">
 
-            <mat-tab *ngIf="SelectedDepartmentID==3">
+            <mat-tab *ngIf="SelectedDepartmentID==3"  label="Class Wise Statistics">
               <ng-template mat-tab-label>
                 <i class="fa fa-globe icon" aria-hidden="true"></i>
                 <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['ClassWiseStatistics']>0"></i>
@@ -46,7 +46,7 @@
               </ng-template>
               <app-class-wise-student-details></app-class-wise-student-details>
             </mat-tab>
-            <mat-tab *ngIf="SelectedDepartmentID==3">
+            <mat-tab *ngIf="SelectedDepartmentID==3"  label="Subject Wise Statistics">
               <ng-template mat-tab-label>
                 <i class="fa fa-globe icon" aria-hidden="true"></i>
                 <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['SubjectWiseStatistics']>0"></i>
@@ -57,7 +57,7 @@
             </mat-tab>
 
             <!--Department 4-->
-            <mat-tab *ngIf="SelectedDepartmentID==4 && SelectedCollegeEntryType=='University'">
+            <mat-tab *ngIf="SelectedDepartmentID==4 && SelectedCollegeEntryType!='0'"  label="Officers Details">
               <ng-template mat-tab-label>
                 <i class="fa fa-globe icon" aria-hidden="true"></i>
                 <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['SubjectWiseStatistics']>0"></i>
@@ -67,25 +67,93 @@
               <app-officers-details></app-officers-details>
             </mat-tab>
 
-            <mat-tab *ngIf="SelectedDepartmentID==4 && SelectedCollegeEntryType=='College'">
+            <mat-tab *ngIf="SelectedDepartmentID==4 && SelectedCollegeEntryType!='0'"  label="Address">
               <ng-template mat-tab-label>
                 <i class="fa fa-globe icon" aria-hidden="true"></i>
                 <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['SubjectWiseStatistics']>0"></i>
                 <span class="badge pulse" *ngIf="CheckTabsEntryData['SubjectWiseStatistics']==0"></span>
-                <span>Officers Details</span>
+                <span>Address</span>
               </ng-template>
-              <app-officers-details></app-officers-details>
+              <app-address></app-address>
             </mat-tab>
 
+            <mat-tab *ngIf="SelectedDepartmentID==4 && SelectedCollegeEntryType!='0'"  label="Residential Facility">
+              <ng-template mat-tab-label>
+                <i class="fa fa-globe icon" aria-hidden="true"></i>
+                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['SubjectWiseStatistics']>0"></i>
+                <span class="badge pulse" *ngIf="CheckTabsEntryData['SubjectWiseStatistics']==0"></span>
+                <span>Residential Facility</span>
+              </ng-template>
+              <app-residential-facility></app-residential-facility>
+            </mat-tab>
 
+            <mat-tab *ngIf="SelectedDepartmentID==4 && SelectedCollegeEntryType!='0'"  label="Regional Centers">
+              <ng-template mat-tab-label>
+                <i class="fa fa-globe icon" aria-hidden="true"></i>
+                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['SubjectWiseStatistics']>0"></i>
+                <span class="badge pulse" *ngIf="CheckTabsEntryData['SubjectWiseStatistics']==0"></span>
+                <span>Regional Centers</span>
+              </ng-template>
+              <app-regional-centers></app-regional-centers>
+            </mat-tab>
+
+            <mat-tab *ngIf="SelectedDepartmentID==4 && SelectedCollegeEntryType!='0'"  label="Off-Shore Center">
+              <ng-template mat-tab-label>
+                <i class="fa fa-globe icon" aria-hidden="true"></i>
+                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['SubjectWiseStatistics']>0"></i>
+                <span class="badge pulse" *ngIf="CheckTabsEntryData['SubjectWiseStatistics']==0"></span>
+                <span>Off-Shore Center</span>
+              </ng-template>
+              <app-off-shore-center></app-off-shore-center>
+            </mat-tab>
+
+            <mat-tab *ngIf="SelectedDepartmentID==4 && SelectedCollegeEntryType!='0'"  label="Faculty">
+              <ng-template mat-tab-label>
+                <i class="fa fa-globe icon" aria-hidden="true"></i>
+                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['SubjectWiseStatistics']>0"></i>
+                <span class="badge pulse" *ngIf="CheckTabsEntryData['SubjectWiseStatistics']==0"></span>
+                <span>Faculty</span>
+              </ng-template>
+              <app-faculty></app-faculty>
+            </mat-tab>
+
+            <mat-tab *ngIf="SelectedDepartmentID==4 && SelectedCollegeEntryType!='0'"  label="Department">
+              <ng-template mat-tab-label>
+                <i class="fa fa-globe icon" aria-hidden="true"></i>
+                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['SubjectWiseStatistics']>0"></i>
+                <span class="badge pulse" *ngIf="CheckTabsEntryData['SubjectWiseStatistics']==0"></span>
+                <span>Department</span>
+              </ng-template>
+              <app-dtestatistics-department></app-dtestatistics-department>
+            </mat-tab>
+
+            <mat-tab *ngIf="SelectedDepartmentID==4 && SelectedCollegeEntryType!='0'" label="Regular Mode">
+              <ng-template mat-tab-label>
+                <i class="fa fa-globe icon" aria-hidden="true"></i>
+                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['SubjectWiseStatistics']>0"></i>
+                <span class="badge pulse" *ngIf="CheckTabsEntryData['SubjectWiseStatistics']==0"></span>
+                <span>Regular Mode</span>
+              </ng-template>
+              <app-regular-mode></app-regular-mode>
+            </mat-tab>
+
+            <mat-tab *ngIf="SelectedDepartmentID==4 && SelectedCollegeEntryType!='0'" label="Distance Mode">
+              <ng-template mat-tab-label>
+                <i class="fa fa-globe icon" aria-hidden="true"></i>
+                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['SubjectWiseStatistics']>0"></i>
+                <span class="badge pulse" *ngIf="CheckTabsEntryData['SubjectWiseStatistics']==0"></span>
+                <span>Distance Mode</span>
+              </ng-template>
+              <app-distance-mode></app-distance-mode>
+            </mat-tab>
 
           </mat-tab-group>
 
 
         </div>
         <div class="col-lg-12 col-md-12 col-sm-6 col-12 text-end mt-2">
-          <button *ngIf="this.selectedIndex != 0" class="btn btn-primary" type="button" (click)="PreviousStep()"><< Previous</button>
-          <button class="btn btn-primary" type="button" (click)="NextStep()" style="margin-left: 20px;">Next >></button>
+          <button *ngIf="this.selectedIndex != 0" class="btn btn-secondary" type="button" (click)="PreviousStep()"><< Previous</button>
+          <button class="btn btn-warning" type="button" (click)="NextStep()" style="margin-left: 20px;">Next >></button>
         </div>
       </div>
     </div>

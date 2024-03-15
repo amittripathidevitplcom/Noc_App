@@ -367,6 +367,14 @@ import { FinalCheckListDTEComponent } from './Views/DocumentScrutinyTab_DTE/fina
 import { ActivityDetailsComponent } from './Views/TabDetail/ActivityDetails/activity-details/activity-details.component';
 import { PreviewActivityDetailsComponent } from './Views/PreviewTabs/PreviewActivityDetails/preview-activity-details/preview-activity-details.component';
 import { OfficersDetailsComponent } from './Views/DTEStatistics/officers-details/officers-details.component';
+import { AddressComponent } from './Views/DTEStatistics/address/address.component';
+import { ResidentialFacilityComponent } from './Views/DTEStatistics/residential-facility/residential-facility.component';
+import { RegionalCentersComponent } from './Views/DTEStatistics/regional-centers/regional-centers.component';
+import { OffShoreCenterComponent } from './Views/DTEStatistics/off-shore-center/off-shore-center.component';
+import { FacultyComponent } from './Views/DTEStatistics/faculty/faculty.component';
+import { DTEStatisticsDepartmentComponent } from './Views/DTEStatistics/dtestatistics-department/dtestatistics-department.component';
+import { RegularModeComponent } from './Views/DTEStatistics/regular-mode/regular-mode.component';
+import { DistanceModeComponent } from './Views/DTEStatistics/distance-mode/distance-mode.component';
 
 //import { NewgrievancereportComponent } from './Views/DCE/newgrievancereport/newgrievancereport/newgrievancereport.component';
 
@@ -724,7 +732,15 @@ import { OfficersDetailsComponent } from './Views/DTEStatistics/officers-details
     FinalCheckListDTEComponent,
     ActivityDetailsComponent,
     PreviewActivityDetailsComponent,
-    OfficersDetailsComponent
+    OfficersDetailsComponent,
+    AddressComponent,
+    ResidentialFacilityComponent,
+    RegionalCentersComponent,
+    OffShoreCenterComponent,
+    FacultyComponent,
+    DTEStatisticsDepartmentComponent,
+    RegularModeComponent,
+    DistanceModeComponent
   ],
   imports: [
     CommonModule,

@@ -1,0 +1,162 @@
+<form [formGroup]="AddressFormGroup" class="form-horizontal">
+  <div class="card mb-0">
+    <div class="card-header d-xxl-flex d-xl-flex d-md-flex d-sm-block justify-content-between align-items-center">
+      <b><i class="bi bi-table"></i>&nbsp;Address</b>
+      <div class="d-flex align-items-center">
+        <div class="btn-group mr-15" role="group" aria-label="Basic outlined example">
+        </div>
+        <div class="d-flex align-items-center table-filter mr-15">
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="card">
+        <div class="card-header">
+          <b>Address Details</b>
+        </div>
+        <div class="card-body">
+          <div class="row">
+
+
+            <div class="col-lg-4 col-md-6 col-sm-12 col-12 mb-3">
+              <label class="form-label" for="txtCountry">Country</label>
+              <input class="form-control" id="txtCountry"
+                     formControlName="txtCountry" [(ngModel)]="request.Country" />
+            </div>
+
+            <div class="col-lg-4 col-md-6 col-sm-12 col-12 mb-3">
+              <label class="form-label" for="txtState">State</label>
+              <input class="form-control" id="txtState"
+                     formControlName="txtState" [(ngModel)]="request.State" />
+            </div>
+
+            <div class="col-lg-4 col-md-6 col-sm-12 col-12 mb-3">
+              <label for="ddlDistrictID" class="form-label">District <span style="color:red;">*</span></label>
+              <select class="form-select" id="ddlDistrictID" name="ddlDistrictID" [(ngModel)]="request.DistrictID" formControlName="ddlDistrictID" (change)="ddlDistrict_Change()">
+                <option value="0">--Select--</option>
+                <option *ngFor="let item of DistrictList" value="{{item.DistrictID}}">{{item.DistrictName}}</option>
+              </select>
+              <div *ngIf="isSubmitted&&form.ddlDistrictID.errors" class="text-danger">
+                <p *ngIf="!form.ddlDistrictID.errors.DropdownValidators"> This field is required .!</p>
+              </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 col-sm-12 col-12 mb-3">
+              <label class="form-label">Select Area <span style="color:red;">*</span></label>
+              <div class="clearfix"></div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" id="rbRural" name="rbRuralUrban" [(ngModel)]="request.RuralUrban" value="1" [value]="1" formControlName="rbRuralUrban" (change)="IsRuralOrUrban()">
+                <label class="form-check-label" for="rbRural">Rural</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" id="rbUrban" name="rbRuralUrban" [(ngModel)]="request.RuralUrban" value="2" [value]="2" formControlName="rbRuralUrban" (change)="IsRuralOrUrban()">
+                <label class="form-check-label" for="rbUrban">Urban</label>
+              </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 col-sm-12 col-12 mb-3">
+              <label for="ddlTehsilID" class="form-label">Tehsil <span style="color:red;">*</span></label>
+              <select class="form-select" id="ddlTehsilID" name="ddlTehsilID" [(ngModel)]="request.TehsilID" formControlName="ddlTehsilID">
+                <option value="0">--Select--</option>
+                <option *ngFor="let item of TehsilList" value="{{item.TehsilID}}">{{item.TehsilName}}</option>
+              </select>
+              <div *ngIf="isSubmitted&&form.ddlTehsilID.errors" class="text-danger">
+                <p *ngIf="!form.ddlTehsilID.errors.DropdownValidators"> This field is required .!</p>
+              </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 col-sm-12 col-12 mb-3" [hidden]="request.RuralUrban==1">
+              <label for="ddlCityID" class="form-label">City<span style="color:red;">*</span></label>
+              <select class="form-select" id="ddlCityID" name="ddlCityID" [(ngModel)]="request.CityID" formControlName="ddlCityID">
+                <option value="0">--Select--</option>
+                <option *ngFor="let item of CityList" value="{{item.CityID}}">{{item.City_English}}</option>
+              </select>
+            </div>
+
+
+
+            <div class="col-lg-4 col-md-6 col-sm-12 col-12 mb-3">
+              <label class="form-label" for="txtPinCode">Pin Code</label>
+              <input class="form-control" type="number" id="txtPinCode" maxlength="6"
+                     formControlName="txtPinCode" [(ngModel)]="request.PinCode" />
+
+              <div *ngIf="isSubmitted&&form.txtPinCode.errors" class="text-danger">
+                <p *ngIf="form.txtPinCode.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+              </div>
+
+            </div>
+
+            <div class="col-lg-4 col-md-6 col-sm-12 col-12 mb-3">
+              <label class="form-label" for="txtAddressLine1">Address Line1 <span style="color:red;">*</span></label>
+              <input class="form-control" id="txtAddressLine1"
+                     formControlName="txtAddressLine1" [(ngModel)]="request.AddressLine1" maxlength="200" />
+              <div *ngIf="isSubmitted&&form.txtAddressLine1.errors" class="text-danger">
+                <p *ngIf="form.txtAddressLine1.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+              </div>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-12 col-12 mb-3">
+              <label class="form-label" for="txtAddressLine2">Address Line2 <span style="color:red;">*</span></label>
+              <input class="form-control" id="txtAddressLine2"
+                     formControlName="txtAddressLine2" [(ngModel)]="request.AddressLine2" maxlength="200" />
+              <div *ngIf="isSubmitted&&form.txtAddressLine2.errors" class="text-danger">
+                <p *ngIf="form.txtAddressLine2.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+              </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 col-sm-12 col-12 mb-3">
+              <label class="form-label" for="txtLongitude">Longitude(in degree) <span style="color:red;">*</span></label>
+              <input class="form-control" id="txtLongitude" type="number"
+                     formControlName="txtLongitude" [(ngModel)]="request.Longitude" maxlength="10" />
+
+              <div *ngIf="isSubmitted&&form.txtLongitude.errors" class="text-danger">
+                <p *ngIf="form.txtLongitude.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+              </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 col-sm-12 col-12 mb-3">
+              <label class="form-label" for="txtLatitude">Latitude(in degree) <span style="color:red;">*</span></label>
+              <input class="form-control" id="txtLatitude" type="number"
+                     formControlName="txtLatitude" [(ngModel)]="request.Latitude" maxlength="10" />
+
+              <div *ngIf="isSubmitted&&form.txtLatitude.errors" class="text-danger">
+                <p *ngIf="form.txtLatitude.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+              </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 col-sm-12 col-12 mb-3">
+              <label class="form-label" for="txtTotalArea">Total Area (in acre) <span style="color:red;">*</span></label>
+              <input class="form-control" id="txtTotalArea" type="number"
+                     formControlName="txtTotalArea" [(ngModel)]="request.TotalArea" maxlength="10" />
+
+              <div *ngIf="isSubmitted&&form.txtTotalArea.errors" class="text-danger">
+                <p *ngIf="form.txtTotalArea.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+              </div>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-12 col-12 mb-3">
+              <label class="form-label" for="txtTotalConstructedArea">Total Constructed Area (in sq.m) <span style="color:red;">*</span></label>
+              <input class="form-control" id="txtTotalConstructedArea" type="number"
+                     formControlName="txtTotalConstructedArea" [(ngModel)]="request.TotalConstructedArea" maxlength="10" />
+              <div *ngIf="isSubmitted&&form.txtTotalConstructedArea.errors" class="text-danger">
+                <p *ngIf="form.txtTotalConstructedArea.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+              </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 col-sm-12 col-12 mb-3">
+              <label class="form-label" for="txtWebsite">Website</label>
+              <input class="form-control" id="txtWebsite" maxlength="100"
+                     formControlName="txtWebsite" [(ngModel)]="request.Website" />
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+    <div class="card-footer text-end">
+      <button type="button" (click)="SaveData()" class="btn btn-success">Save Draft</button>
+    </div>
+  </div>
+</form>
+
+

@@ -11,7 +11,9 @@ import { ClassWiseStudentDetailsServiceService } from '../../../Services/ClassWi
 import { CollegeService } from '../../../services/collegedetailsform/College/college.service';
 import { CommonMasterService } from '../../../Services/CommonMaster/common-master.service';
 import { LoaderService } from '../../../Services/Loader/loader.service';
-import { CourseMasterService } from '../../../Services/Master/AddCourse/course-master.service'; 
+import { CourseMasterService } from '../../../Services/Master/AddCourse/course-master.service';
+import { debug } from 'console';
+import { RegularModeComponent } from '../../DTEStatistics/regular-mode/regular-mode.component';
 
 @Component({
   selector: 'app-statistics-entry',
@@ -43,6 +45,7 @@ export class StatisticsEntryComponent implements OnInit {
   public SearchRecordID: string = '';
   closeResult!: string;
   selectedIndex: number = 0;
+  selectedTabName: string = 'Officers Details';
   maxNumberOfTabs: number = 0;
   public CollegeType_IsExisting: boolean = true;
 
@@ -55,6 +58,7 @@ export class StatisticsEntryComponent implements OnInit {
   public IsShowDraftFinalSubmit: boolean = true;
 
   public SelectedCollegeEntryType: string = "0";
+
 
   constructor(private courseMasterService: CourseMasterService, private toastr: ToastrService, private loaderService: LoaderService, private applyNOCApplicationService: ApplyNOCApplicationService,
     private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private _fb: FormBuilder, private collegeService: CollegeService
@@ -103,8 +107,15 @@ export class StatisticsEntryComponent implements OnInit {
 
   }
 
-  onTabChange(event: MatTabChangeEvent) {
+  async onTabChange(event: MatTabChangeEvent) {
+
     this.selectedIndex = event.index;
+
+    this.selectedTabName = this.tabGroup._tabs['_results'][this.selectedIndex]['textLabel'];
+    //console.log(this.selectedTabName);
+    //if (this.selectedTabName == "Regular Mode" || this.selectedTabName == 'Distance Mode') {
+    //  await this.regularModeComponent.ngOnInit();
+    //}
 
     try {
       this.ShowDraftFinalSubmitBtn();
