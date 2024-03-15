@@ -54,7 +54,7 @@ export class TotalApplicationListByDepartmentComponent implements OnInit {
   async LoadMaster() {
     try {
       this.loaderService.requestStarted();
-      await this.commonMasterService.GetUniversityByDepartmentId(3)
+      await this.commonMasterService.GetUniversityByDepartmentId(this.sSOLoginDataModel.DepartmentID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.UniversityList = data['Data'];

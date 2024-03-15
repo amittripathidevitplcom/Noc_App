@@ -49,7 +49,7 @@ export class JSApplicationListDTEComponent implements OnInit {
   async GetApplicationList(RoleId: number, UserID: number, Status: string) {
     try {
       let ActionName = '';
-      ActionName = Status == 'Completed' ? 'Release NOC' : Status == 'Pending' ? 'Forward To Joint Secretary,Forward To Joint Secretary after inspection': '';
+      ActionName = Status == 'Completed' ? 'Release NOC,Reject NOC' : Status == 'Pending' ? 'Forward To Joint Secretary,Forward To Joint Secretary after inspection': '';
       this.loaderService.requestStarted();
       await this.dteDocumentScrutinyService.GetApplyNOCApplicationList(RoleId, UserID, Status, ActionName)
         .then((data: any) => {
