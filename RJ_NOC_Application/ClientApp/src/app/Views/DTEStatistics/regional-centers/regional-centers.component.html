@@ -1,0 +1,129 @@
+<form [formGroup]="RegionalCentersFormGroup" class="form-horizontal">
+  <div class="card mb-0">
+    <div class="card-header d-xxl-flex d-xl-flex d-md-flex d-sm-block justify-content-between align-items-center">
+      <b><i class="bi bi-table"></i>&nbsp;Regional Centers (As per current session)</b>
+      <div class="d-flex align-items-center">
+        <div class="btn-group mr-15" role="group" aria-label="Basic outlined example">
+        </div>
+        <div class="d-flex align-items-center table-filter mr-15">
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-3">
+          <label class="form-label" for="ddlDistanceEducationMode">
+            Whether The University Offers Progrmme Through Distance Education Mode:
+          </label>
+          <select id="ddlDistanceEducationMode" class="form-select" formControlName="ddlDistanceEducationMode"
+                  [(ngModel)]="request.DistanceEducationMode">
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+          </select>
+        </div>
+
+        <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-3">
+          <label class="form-label" for="ddlPrivateExternalProgramme">
+            Whether the University Offers Private External Programme:
+          </label>
+          <select id="ddlPrivateExternalProgramme" class="form-select" formControlName="ddlPrivateExternalProgramme"
+                  [(ngModel)]="request.PrivateExternalProgramme">
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="clearfix"></div>
+      <div class="card mb-0">
+        <div class="card-header">
+          <div class="d-flex align-items-center">
+            <label class="form-label m-0 me-2 text-nowrap" for="ddlRegionalCenters">Whether the University has Regional Centers</label>
+            <select id="ddlRegionalCenters" class="form-select form-select-sm" style="max-width:200px" formControlName="ddlRegionalCenters" (change)="ddlRegionalCenters_OnChange()"
+                    [(ngModel)]="request.RegionalCenters">
+              <option value="Yes">Yes</option>
+              <option value="No">No</option>
+            </select>
+          </div>
+        </div>
+        <div class="card-body" *ngIf="request.RegionalCenters=='Yes'">
+          <div class="row">
+            <div class="col-lg-3 col-md-6 col-sm-12 col-12 mb-3">
+              <label class="form-label" for="txtName">Name Of Regional Center</label>
+              <input class="form-control" id="txtName" maxlength="100"
+                     formControlName="txtName" [(ngModel)]="request_RegionalCentersDetails.NameOfRegionalCenter" />
+            </div>
+
+            <div class="col-lg-3 col-md-6 col-sm-12 col-12 mb-3">
+              <label class="form-label">State</label>
+              <select class="form-select" id="ddlState" name="ddlState" [(ngModel)]="this.request_RegionalCentersDetails.StateID" formControlName="ddlState" (change)="GetDistrictListByStateID()">
+                <option value="0">--Select--</option>
+                <option *ngFor="let item of stateDataList" value="{{item.StateID}}">{{item.StateName}}</option>
+              </select>
+            </div>
+
+            <div class="col-lg-2 col-md-6 col-sm-12 col-12 mb-3">
+              <label class="form-label">District</label>
+              <select class="form-select" id="txtDistrict" name="txtDistrict" [(ngModel)]="this.request_RegionalCentersDetails.DistrictID" formControlName="txtDistrict">
+                <option value="0">--Select--</option>
+                <option *ngFor="let item of districtDataList" value="{{item.DistrictID}}">{{item.DistrictName}}</option>
+              </select>
+            </div>
+            <div class="col-lg-2 col-md-6 col-sm-12 col-12 mb-3">
+              <label class="form-label" for="txtNoofStudyCenters">No of Study Centers</label>
+              <input class="form-control" id="txtNoofStudyCenters" (keypress)="numberOnly($event)" maxlength="6"
+                     formControlName="txtNoofStudyCenters" [(ngModel)]="this.request_RegionalCentersDetails.NoofStudyCenters" />
+            </div>
+            <div class="col-lg-2 col-md-6 col-sm-12 col-12 mb-3 pt-4">
+              <button class="btn btn-primary" id="btnAdd" type="button" (click)="btnAdd_Click()"><i class="fa fa-plus"></i>&nbsp;Add</button>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="table-responsive">
+                <table class="table table-hover table-striped table-bordered tableHeaderTH mb-0">
+                  <thead>
+                    <tr>
+                      <th width="60px">Sr. No.</th>
+                      <th>Name Of Regional Center</th>
+                      <th>State</th>
+                      <th>District</th>
+                      <th>No of Study Centers</th>
+                      <th width="100px" class="text-center">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let row of this.request.RegionalCentersDetails ;let idx=index;">
+                      <td>{{idx+1}}</td>
+                      <td>{{row.NameOfRegionalCenter}}</td>
+                      <td>{{row.StateName}}</td>
+                      <td>{{row.DistrictName}}</td>
+                      <td>{{row.NoofStudyCenters}}</td>
+                      <td>
+                        <div class="d-flex justify-content-center">
+                          <button type="button" id="btnEdit_{{idx}}" class="btn btn-sm btn-primary"
+                                  (click)="btnEdit_Click(row,idx)" [attr.disabled]="isDisabledGrid ? true : null" title="Edit">
+                            <i class="fa fa-edit"></i>
+                          </button>
+                          <button type="button" class="btn btn-sm btn-danger" title="Delete"
+                                  (click)="btnDelete_Click(idx)">
+                            <i class="fa fa-trash" [attr.disabled]="isDisabledGrid ? true : null"></i>
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-footer text-end">
+      <button type="button" (click)="SaveData()" class="btn btn-success">Save Draft</button>
+    </div>
+  </div>
+</form>
+
+

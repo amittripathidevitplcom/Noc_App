@@ -1,0 +1,158 @@
+<form class="form-horizontal">
+  <div class="card mb-0">
+    <div class="card-header d-xxl-flex d-xl-flex d-md-flex d-sm-block justify-content-between align-items-center">
+      <b><i class="bi bi-table"></i>&nbsp;Details of Programmes (Distance Mode)(As per current session)</b>
+      <div class="d-flex align-items-center">
+        <div class="btn-group mr-15" role="group" aria-label="Basic outlined example">
+        </div>
+        <div class="d-flex align-items-center table-filter mr-15">
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="table-responsive">
+            <table class="table table-hover table-striped table-bordered tableHeaderTH tableHeaderTHMiddel tableLastclmFixed tableForm mb-0">
+              <thead>
+                <tr>
+                  <th rowspan="2" width="60px">S.No</th>
+                  <th rowspan="2" class="text-center">Faculty/ School</th>
+                  <th rowspan="2" class="text-center">Department/Centre</th>
+                  <th rowspan="2" class="text-center">Level</th>
+                  <th rowspan="2" class="text-center">Name Of The Programme</th>
+                  <th rowspan="2" class="text-center">Broad Discipline Group Category</th>
+                  <th rowspan="2" class="text-center">Broad Discipline Group Name</th>
+                  <th rowspan="2" class="text-center">Discipline</th>
+                  <th rowspan="2" class="text-center">Admission Criterion</th>
+                  <th rowspan="2" class="text-center">Examination System</th>
+                  <th colspan="2" class="text-center">Course Duration</th>
+                  <th rowspan="2" class="text-center">Approved Intake</th>
+                  <th rowspan="2" class="text-center">Type</th>
+                  <th rowspan="2" class="text-center">Whether Vocational Course</th>
+                  <th rowspan="2" class="text-center">Year of Start</th>
+                  <th rowspan="2" class="text-center">Accreditation Status</th>
+                  <th rowspan="2" width="100px" class="text-center">Action</th>
+                </tr>
+                <tr>
+                  <th class="text-center">Year</th>
+                  <th class="text-center">Month</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let row of this.request.ProgrammesDetails ;let idx=index;">
+                  <td>{{idx+1}}</td>
+                  <td>
+                    <input class="form-control form-control-sm" id="txtFaculty_School_{{idx}}" [(ngModel)]="row.Faculty_School"
+                           type="text" [ngModelOptions]="{standalone: true}" />
+                  </td>
+                  <td>
+                    <input class="form-control form-control-sm" id="txtDepartment_Centre_{{idx}}" [(ngModel)]="row.Department_Centre"
+                           type="text" [ngModelOptions]="{standalone: true}" />
+                  </td>
+                  <td>
+                    <select class="form-select form-select-sm" id="ddlLevel_{{idx}}" name="ddlLevel_{{idx}}"
+                            [(ngModel)]="row.LevelID" [ngModelOptions]="{standalone: true}">
+                      <option value="0">--Select--</option>
+                      <option *ngFor="let item of levelDataList" value="{{item.ID}}">{{item.Name}}</option>
+                    </select>
+                  </td>
+                  <td>
+                    <select class="form-select form-select-sm" id="ddlProgramme_{{idx}}" name="ddlProgramme_{{idx}}"
+                            [(ngModel)]="row.ProgrammeID" [ngModelOptions]="{standalone: true}">
+                      <option value="0">--Select--</option>
+                      <option *ngFor="let item of programmeDataList" value="{{item.StreamMasterID}}">{{item.StreamName}}</option>
+                    </select>
+                  </td>
+
+                  <td>
+                    <input class="form-control form-control-sm"
+                           id="txtBroadDisciplineGroupCategory_{{idx}}" [(ngModel)]="row.BroadDisciplineGroupCategory"
+                           type="text" [ngModelOptions]="{standalone: true}" />
+                  </td>
+                  <td>
+                    <input class="form-control form-control-sm"
+                           id="txtBroadDisciplineGroupName_{{idx}}" [(ngModel)]="row.BroadDisciplineGroupName"
+                           type="text" [ngModelOptions]="{standalone: true}" />
+                  </td>
+                  <td>
+                    <input class="form-control form-control-sm"
+                           id="txtDiscipline_{{idx}}" [(ngModel)]="row.Discipline" type="text" [ngModelOptions]="{standalone: true}" />
+                  </td>
+                  <td>
+                    <input class="form-control form-control-sm" id="txtAdmissionCriterion_{{idx}}" [(ngModel)]="row.AdmissionCriterion" type="text" [ngModelOptions]="{standalone: true}" />
+                  </td>
+                  <td>
+                    <input class="form-control form-control-sm" id="txtExaminationSystem_{{idx}}" [(ngModel)]="row.ExaminationSystem"
+                           type="text" [ngModelOptions]="{standalone: true}" />
+                  </td>
+                  <td>
+                    <input class="form-control form-control-sm width100px" id="txtYear_{{idx}}" [(ngModel)]="row.Year"
+                           (keypress)="numberOnly($event)" maxlength="4"
+                           type="text" [ngModelOptions]="{standalone: true}" />
+                  </td>
+                  <td>
+                    <input class="form-control form-control-sm width100px" id="txtMonth_{{idx}}" [(ngModel)]="row.Month"
+                           (keypress)="numberOnly($event)" maxlength="2"
+                           type="text" [ngModelOptions]="{standalone: true}" />
+                  </td>
+                  <td>
+                    <input class="form-control form-control-sm width100px" id="txtApprovedIntake_{{idx}}" [(ngModel)]="row.ApprovedIntake"
+                           type="text" [ngModelOptions]="{standalone: true}" (keypress)="numberOnly($event)" maxlength="6" />
+                  </td>
+                  <td>
+                    <input class="form-control form-control-sm" id="txtType_{{idx}}" [(ngModel)]="row.Type"
+                           type="text" [ngModelOptions]="{standalone: true}" />
+                  </td>
+                  <td>
+                    <select class="form-select form-select-sm width100px" id="ddlWhetherVocationalCourse_{{idx}}"
+                            [(ngModel)]="row.WhetherVocationalCourse"
+                            [ngModelOptions]="{standalone: true}">
+                      <option value="0">
+                        --Select--
+                      </option>
+                      <option value="Yes">Yes</option>
+                      <option value="No">No</option>
+                    </select>
+                  </td>
+                  <td>
+                    <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="4"
+                           id="txtYearofStart_{{idx}}" [(ngModel)]="row.YearofStart"
+                           type="text" [ngModelOptions]="{standalone: true}" />
+                  </td>
+                  <td>
+                    <input class="form-control form-control-sm" type="text"
+                           id="txtAccreditationStatus_School_{{idx}}" [(ngModel)]="row.AccreditationStatus"
+                           [ngModelOptions]="{standalone: true}" />
+                  </td>
+                  <td>
+                    <div class="d-flex justify-content-center">
+                      <button type="button" id="btnEdit_{{idx}}" class="btn btn-sm btn-primary
+                      " *ngIf="idx==(request.ProgrammesDetails.length-1)"
+                              (click)="btnAdd_Click(row,idx)" [attr.disabled]="isDisabledGrid ? true : null" title="Add">
+                        <i class="fa fa-plus"></i>
+                      </button>
+
+                      <button type="button" class="btn btn-sm btn-danger" title="Delete" *ngIf="(request.ProgrammesDetails.length-1)!=0"
+                              (click)="btnDelete_Click(idx)">
+                        <i class="fa fa-trash" [attr.disabled]="isDisabledGrid ? true : null"></i>
+                      </button>
+
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="card-footer text-end">
+      <button type="button" (click)="SaveData()" class="btn btn-success">Save Draft</button>
+    </div>
+  </div>
+</form>
+
+
