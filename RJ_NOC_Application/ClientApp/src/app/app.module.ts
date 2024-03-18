@@ -375,6 +375,9 @@ import { FacultyComponent } from './Views/DTEStatistics/faculty/faculty.componen
 import { DTEStatisticsDepartmentComponent } from './Views/DTEStatistics/dtestatistics-department/dtestatistics-department.component';
 import { RegularModeComponent } from './Views/DTEStatistics/regular-mode/regular-mode.component';
 import { DistanceModeComponent } from './Views/DTEStatistics/distance-mode/distance-mode.component';
+import { StudentEnrollmentDistanceModeComponent } from './Views/DTEStatistics/student-enrollment-distance-mode/student-enrollment-distance-mode.component';
+import { PlacementDetailsComponent } from './Views/DTEStatistics/placement-details/placement-details.component';
+import { FinancialDetailsComponent } from './Views/DTEStatistics/financial-details/financial-details.component';
 
 //import { NewgrievancereportComponent } from './Views/DCE/newgrievancereport/newgrievancereport/newgrievancereport.component';
 
@@ -740,7 +743,10 @@ import { DistanceModeComponent } from './Views/DTEStatistics/distance-mode/dista
     FacultyComponent,
     DTEStatisticsDepartmentComponent,
     RegularModeComponent,
-    DistanceModeComponent
+    DistanceModeComponent,
+    StudentEnrollmentDistanceModeComponent,
+    PlacementDetailsComponent,
+    FinancialDetailsComponent
   ],
   imports: [
     CommonModule,
