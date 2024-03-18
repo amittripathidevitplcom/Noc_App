@@ -89,7 +89,6 @@ export class DocumentScrutinyApplicationListDTEComponent implements OnInit {
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
           this.ApplicationDetails = data['Data'][0];
-          console.log(this.ApplicationDetails);
         }, error => console.error(error));
     }
     catch (Ex) {
@@ -433,7 +432,6 @@ export class DocumentScrutinyApplicationListDTEComponent implements OnInit {
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
           this.OtherInformation = data['Data'][0]['data'];
-          console.log(this.OtherInformation);
         }, error => console.error(error));
     }
     catch (Ex) {
@@ -452,7 +450,6 @@ export class DocumentScrutinyApplicationListDTEComponent implements OnInit {
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.FacilitiesDataAllList = data['Data'][0]['data'];
-          console.log(this.FacilitiesDataAllList);
         }, error => console.error(error));
     }
     catch (Ex) {
@@ -539,8 +536,6 @@ export class DocumentScrutinyApplicationListDTEComponent implements OnInit {
       await this.applyNocParameterService.GetApplyNocApplicationByApplicationID(applyNocApplicationID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
-
-          console.log(data['Data']);
           // data
           if (this.State == 0) {
             this.ApplyNocApplicationDetail = data['Data'];

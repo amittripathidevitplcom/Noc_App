@@ -336,7 +336,6 @@ export class DocumentScrutinyCheckListDTEComponent implements OnInit {
             if (data['Data'][0]['DocumentScrutinyFinalRemarkList'] != null) {
               this.LegalEntityFinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
             }
-            console.log(this.CheckList_legalEntityListData1);
           }
         }, (error: any) => console.error(error));
     }
@@ -562,10 +561,6 @@ export class DocumentScrutinyCheckListDTEComponent implements OnInit {
           this.ErrorMessage = data['ErrorMessage'];
           this.CheckList_DocumentDetails = data['Data'][0]['CollegeDocument'][0];
           this.RequiredDocument_FinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
-          console.log('college Document');
-          console.log(data['Data'][0]['CollegeDocument']);
-          console.log('college Document');
-
         }, error => console.error(error));
     }
     catch (Ex) {
@@ -663,8 +658,6 @@ export class DocumentScrutinyCheckListDTEComponent implements OnInit {
       await this.applyNocParameterService.GetApplyNocApplicationByApplicationID(applyNocApplicationID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
-
-          console.log(data['Data']);
           // data
           if (this.State == 0) {
             this.ApplyNocApplicationDetail = data['Data'];
@@ -1009,8 +1002,6 @@ export class DocumentScrutinyCheckListDTEComponent implements OnInit {
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.CheckTabsEntryData = data['Data'][0]['data'][0];
-          console.log(this.CheckTabsEntryData);
-          console.log('Deepak');
         }, error => console.error(error));
     }
     catch (Ex) {
@@ -1366,7 +1357,6 @@ export class DocumentScrutinyCheckListDTEComponent implements OnInit {
     //console.log(this.request_MemberList.ApplicationCommitteeList);
     this.request_MemberList.ApplyNocApplicationID = this.SelectedApplyNOCID;
     this.request_MemberList.UserID = this.sSOLoginDataModel.UserID;
-    console.log(this.request_MemberList);
     //Show Loading
     this.loaderService.requestStarted();
     this.isLoading = true;
@@ -1497,7 +1487,6 @@ export class DocumentScrutinyCheckListDTEComponent implements OnInit {
           this.ErrorMessage = data['ErrorMessage'];
           // data
           this.sSOVerifyDataModel = data['Data'];
-          console.log(this.sSOVerifyDataModel);
         }, (error: any) => console.error(error));
     }
     catch (Ex) {
@@ -1561,7 +1550,6 @@ export class DocumentScrutinyCheckListDTEComponent implements OnInit {
             this.UploadConsolidatedReportPath = this.ConsolidatedReportList[0].UploadConsolidatedReportPath;
             this.UploadConsolidatedReportDis_FileName = this.ConsolidatedReportList[0].UploadConsolidatedReportDis_FileName;
           }
-          console.log(data);
         }, error => console.error(error));
     }
     catch (Ex) {
@@ -1742,7 +1730,6 @@ export class DocumentScrutinyCheckListDTEComponent implements OnInit {
     await this.dcedocumentScrutinyService.GenerateDTEActionSummaryPDF(this.SelectedApplyNOCID)
       .then((data: any) => {
         data = JSON.parse(JSON.stringify(data));
-        console.log(data);
         if (data.State == "0") {
           window.open(GlobalConstants.SystemGeneratedPDFPathURL + data.Data, "_blank");
         }
