@@ -378,6 +378,12 @@ import { DistanceModeComponent } from './Views/DTEStatistics/distance-mode/dista
 import { StudentEnrollmentDistanceModeComponent } from './Views/DTEStatistics/student-enrollment-distance-mode/student-enrollment-distance-mode.component';
 import { PlacementDetailsComponent } from './Views/DTEStatistics/placement-details/placement-details.component';
 import { FinancialDetailsComponent } from './Views/DTEStatistics/financial-details/financial-details.component';
+import { InfrastructureDetailsComponent } from './Views/DTEStatistics/infrastructure-details/infrastructure-details.component';
+import { RegulatoryInformationComponent } from './Views/DTEStatistics/regulatory-information/regulatory-information.component';
+import { StudentEnrollmentRegularModeComponent } from './Views/DTEStatistics/student-enrollment-regular-mode/student-enrollment-regular-mode.component';
+import { RegionalCentreDistanceModeComponent } from './Views/DTEStatistics/regional-centre-distance-mode/regional-centre-distance-mode.component';
+import { PrivateExternalModeComponent } from './Views/DTEStatistics/private-external-mode/private-external-mode.component';
+import { RegularForeignStudentEnrolmentComponent } from './Views/DTEStatistics/regular-foreign-student-enrolment/regular-foreign-student-enrolment.component';
 
 //import { NewgrievancereportComponent } from './Views/DCE/newgrievancereport/newgrievancereport/newgrievancereport.component';
 
@@ -746,7 +752,13 @@ import { FinancialDetailsComponent } from './Views/DTEStatistics/financial-detai
     DistanceModeComponent,
     StudentEnrollmentDistanceModeComponent,
     PlacementDetailsComponent,
-    FinancialDetailsComponent
+    FinancialDetailsComponent,
+    InfrastructureDetailsComponent,
+    RegulatoryInformationComponent,
+    StudentEnrollmentRegularModeComponent,
+    RegionalCentreDistanceModeComponent,
+    PrivateExternalModeComponent,
+    RegularForeignStudentEnrolmentComponent
   ],
   imports: [
     CommonModule,

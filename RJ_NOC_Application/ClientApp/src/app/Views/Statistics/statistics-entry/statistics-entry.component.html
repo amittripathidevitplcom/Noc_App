@@ -147,6 +147,16 @@
               <app-distance-mode></app-distance-mode>
             </mat-tab>
 
+            <mat-tab *ngIf="SelectedDepartmentID==4 && SelectedCollegeEntryType!='0'" label="Student Enrollment Regular Mode">
+              <ng-template mat-tab-label>
+                <i class="fa fa-globe icon" aria-hidden="true"></i>
+                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['SubjectWiseStatistics']>0"></i>
+                <span class="badge pulse" *ngIf="CheckTabsEntryData['SubjectWiseStatistics']==0"></span>
+                <span>Student Enrollment Regular Mode</span>
+              </ng-template>
+              <app-student-enrollment-regular-mode></app-student-enrollment-regular-mode>
+            </mat-tab>
+
             <mat-tab *ngIf="SelectedDepartmentID==4 && SelectedCollegeEntryType!='0'" label="Student Enrollment Distance Mode">
               <ng-template mat-tab-label>
                 <i class="fa fa-globe icon" aria-hidden="true"></i>
@@ -155,6 +165,36 @@
                 <span>Student Enrollment Distance Mode</span>
               </ng-template>
               <app-student-enrollment-distance-mode></app-student-enrollment-distance-mode>
+            </mat-tab>
+
+            <mat-tab *ngIf="SelectedDepartmentID==4 && SelectedCollegeEntryType!='0'" label="Regional Centre Distance Mode">
+              <ng-template mat-tab-label>
+                <i class="fa fa-globe icon" aria-hidden="true"></i>
+                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['SubjectWiseStatistics']>0"></i>
+                <span class="badge pulse" *ngIf="CheckTabsEntryData['SubjectWiseStatistics']==0"></span>
+                <span>Regional Centre Distance Mode</span>
+              </ng-template>
+              <app-regional-centre-distance-mode></app-regional-centre-distance-mode>
+            </mat-tab>
+
+            <mat-tab *ngIf="SelectedDepartmentID==4 && SelectedCollegeEntryType!='0'" label="Pvt. External Mode">
+              <ng-template mat-tab-label>
+                <i class="fa fa-globe icon" aria-hidden="true"></i>
+                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['SubjectWiseStatistics']>0"></i>
+                <span class="badge pulse" *ngIf="CheckTabsEntryData['SubjectWiseStatistics']==0"></span>
+                <span>Pvt. External Mode</span>
+              </ng-template>
+              <app-private-external-mode></app-private-external-mode>
+            </mat-tab>
+
+            <mat-tab *ngIf="SelectedDepartmentID==4 && SelectedCollegeEntryType!='0'" label="Regu Foreign Stu Enrolment">
+              <ng-template mat-tab-label>
+                <i class="fa fa-globe icon" aria-hidden="true"></i>
+                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['SubjectWiseStatistics']>0"></i>
+                <span class="badge pulse" *ngIf="CheckTabsEntryData['SubjectWiseStatistics']==0"></span>
+                <span>Regu Foreign Stu Enrolment</span>
+              </ng-template>
+              <app-regular-foreign-student-enrolment></app-regular-foreign-student-enrolment>
             </mat-tab>
 
             <mat-tab *ngIf="SelectedDepartmentID==4 && SelectedCollegeEntryType!='0'" label="Placement Details">
@@ -176,6 +216,29 @@
               </ng-template>
               <app-financial-details></app-financial-details>
             </mat-tab>
+
+            <mat-tab *ngIf="SelectedDepartmentID==4 && SelectedCollegeEntryType!='0'" label="Infrastructure Details">
+              <ng-template mat-tab-label>
+                <i class="fa fa-globe icon" aria-hidden="true"></i>
+                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['SubjectWiseStatistics']>0"></i>
+                <span class="badge pulse" *ngIf="CheckTabsEntryData['SubjectWiseStatistics']==0"></span>
+                <span>Infrastructure Details</span>
+              </ng-template>
+              <app-infrastructure-details></app-infrastructure-details>
+            </mat-tab>
+
+
+            <mat-tab *ngIf="SelectedDepartmentID==4 && SelectedCollegeEntryType!='0'" label="Regulatory Information">
+              <ng-template mat-tab-label>
+                <i class="fa fa-globe icon" aria-hidden="true"></i>
+                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['SubjectWiseStatistics']>0"></i>
+                <span class="badge pulse" *ngIf="CheckTabsEntryData['SubjectWiseStatistics']==0"></span>
+                <span>Regulatory Information</span>
+              </ng-template>
+              <app-regulatory-information></app-regulatory-information>
+            </mat-tab>
+
+
 
           </mat-tab-group>
 

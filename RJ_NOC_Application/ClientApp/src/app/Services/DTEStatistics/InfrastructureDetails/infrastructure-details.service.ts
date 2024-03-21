@@ -3,14 +3,14 @@ import { HttpClient, HttpErrorResponse, HttpHeaders, HttpResponse, HttpParams } 
 import { Observable, throwError } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 import { GlobalConstants } from '../../../Common/GlobalConstants';
-import { StudentEnrollmentDistanceModeDataModel } from '../../../Models/DTEStatistics/StudentEnrollmentDistanceModeDataModel';
+import { InfrastructureDetailsDataModel } from '../../../Models/DTEStatistics/InfrastructureDetailsDataModel';
 
 @Injectable({
   providedIn: 'root'
 })
-export class StudentEnrollmentDistanceModeService {
+export class InfrastructureDetailsService {
 
-  readonly APIUrl = GlobalConstants.apiURL + "DTEStatistics_StudentEnrollmentDistanceMode";
+  readonly APIUrl = GlobalConstants.apiURL + "DTEStatistics_InfrastructureDetails";
   constructor(private http: HttpClient) { }
 
   extractData(res: Response) {
@@ -32,7 +32,7 @@ export class StudentEnrollmentDistanceModeService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-  public async SaveData(request: StudentEnrollmentDistanceModeDataModel) {
+  public async SaveData(request: InfrastructureDetailsDataModel) {
 
     const headers = { 'content-type': 'application/json' }
     const body = JSON.stringify(request);
