@@ -6,6 +6,9 @@ export class RegularForeignStudentEnrolmentDataModel {
   public SelectedCollegeEntryTypeName: string = "University";
   public FYearID: number = 0;
 
+  public ForeignStudentEnrolledInTheinstitution: number = 0;
+  public ApprovedIntakeCapacityOfInternationalStudents: number = 0;
+
   public EntryType: string = "RegularForeignStudentEnrolment";
   public RegularForeignStudentEnrolment: RegularForeignStudentEnrolmentDataModel_RegularForeignStudentEnrolment[] = [];
 
@@ -17,27 +20,16 @@ export class RegularForeignStudentEnrolmentDataModel {
 }
 
 export class RegularForeignStudentEnrolmentDataModel_RegularForeignStudentEnrolment {
-
-
-  //public Country: string = "";
-  //public Faculty_School: string = "";
-  //public Department_Centre: string = "";
-  //public Discipline: string = "";
-  //public Method_of_Admission: string = "";
-  //public No_of_Students_Enrolled_Total: number = 0;
-  //public No_of_Students_Enrolled_Girls: number = 0;
-  //public No_of_Students_Staying_in_Institutions_Hostel: number = 0;
-  //public Broad_Discipline_Group: string = "";
-  //public Broad_DisciplineGroup_Category: string = "";
-  //public Method_of_Admission2: string = "";
-
-
-  public NoOfStudentsPlaced_Male: number = 0;
-  public NoOfStudentsPlaced_Female: number = 0;
-  public NoOfStudentsPlaced_Total: number = 0;
-  public NoOfStudentsSelectedForHigherStudies_Male: number = 0;
-  public NoOfStudentsSelectedForHigherStudies_Female: number = 0;
-  public NoOfStudentsSelectedForHigherStudies_Total: number = 0;
-  public MedianAnnualSalaryforPlacedStudents: number = 0;
+  public Country: string = "";
+  public Faculty_School: string = "";
+  public Department_Centre: string = "";
+  public Discipline: string = "";
+  public Method_of_Admission: string = "";
+  public No_of_Students_Enrolled_Total: number = 0;
+  public No_of_Students_Enrolled_Girls: number = 0;
+  public No_of_Students_Staying_in_Institutions_Hostel: number = 0;
+  public Broad_Discipline_Group: string = "";
+  public Broad_DisciplineGroup_Category: string = "";
+  public Method_of_Admission2: string = "";
 }
 

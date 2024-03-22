@@ -197,6 +197,48 @@
               <app-regular-foreign-student-enrolment></app-regular-foreign-student-enrolment>
             </mat-tab>
 
+
+            <mat-tab *ngIf="SelectedDepartmentID==4 && SelectedCollegeEntryType!='0'" label="Examination Results Regular">
+              <ng-template mat-tab-label>
+                <i class="fa fa-globe icon" aria-hidden="true"></i>
+                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['SubjectWiseStatistics']>0"></i>
+                <span class="badge pulse" *ngIf="CheckTabsEntryData['SubjectWiseStatistics']==0"></span>
+                <span>Examination Results Regular</span>
+              </ng-template>
+              <app-examination-results-regular></app-examination-results-regular>
+            </mat-tab>
+
+            <mat-tab *ngIf="SelectedDepartmentID==4 && SelectedCollegeEntryType!='0'" label="Examination Results Distance">
+              <ng-template mat-tab-label>
+                <i class="fa fa-globe icon" aria-hidden="true"></i>
+                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['SubjectWiseStatistics']>0"></i>
+                <span class="badge pulse" *ngIf="CheckTabsEntryData['SubjectWiseStatistics']==0"></span>
+                <span>Examination Results Distance</span>
+              </ng-template>
+              <app-examination-results-distance></app-examination-results-distance>
+            </mat-tab>
+
+            <mat-tab *ngIf="SelectedDepartmentID==4 && SelectedCollegeEntryType!='0'" label="Exam Results Regional Center">
+              <ng-template mat-tab-label>
+                <i class="fa fa-globe icon" aria-hidden="true"></i>
+                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['SubjectWiseStatistics']>0"></i>
+                <span class="badge pulse" *ngIf="CheckTabsEntryData['SubjectWiseStatistics']==0"></span>
+                <span>Exam Results Regional Center</span>
+              </ng-template>
+              <app-exam-results-regional-center></app-exam-results-regional-center>
+            </mat-tab>
+
+            <mat-tab *ngIf="SelectedDepartmentID==4 && SelectedCollegeEntryType!='0'" label="Exam Results Pvt. External">
+              <ng-template mat-tab-label>
+                <i class="fa fa-globe icon" aria-hidden="true"></i>
+                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['SubjectWiseStatistics']>0"></i>
+                <span class="badge pulse" *ngIf="CheckTabsEntryData['SubjectWiseStatistics']==0"></span>
+                <span>Exam Results Pvt. External</span>
+              </ng-template>
+              <app-exam-results-private-external></app-exam-results-private-external>
+            </mat-tab>
+
+
             <mat-tab *ngIf="SelectedDepartmentID==4 && SelectedCollegeEntryType!='0'" label="Placement Details">
               <ng-template mat-tab-label>
                 <i class="fa fa-globe icon" aria-hidden="true"></i>
@@ -227,6 +269,15 @@
               <app-infrastructure-details></app-infrastructure-details>
             </mat-tab>
 
+            <mat-tab *ngIf="SelectedDepartmentID==4 && SelectedCollegeEntryType!='0'" label="Scholarship,Fellowship,Loan,Acc">
+              <ng-template mat-tab-label>
+                <i class="fa fa-globe icon" aria-hidden="true"></i>
+                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['SubjectWiseStatistics']>0"></i>
+                <span class="badge pulse" *ngIf="CheckTabsEntryData['SubjectWiseStatistics']==0"></span>
+                <span>Scholarship,Fellowship,Loan,Acc</span>
+              </ng-template>
+              <app-scholarship-fellowship-loan-acc></app-scholarship-fellowship-loan-acc>
+            </mat-tab>
 
             <mat-tab *ngIf="SelectedDepartmentID==4 && SelectedCollegeEntryType!='0'" label="Regulatory Information">
               <ng-template mat-tab-label>
@@ -237,6 +288,9 @@
               </ng-template>
               <app-regulatory-information></app-regulatory-information>
             </mat-tab>
+
+
+
 
 
 

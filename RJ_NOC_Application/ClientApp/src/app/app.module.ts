@@ -384,6 +384,11 @@ import { StudentEnrollmentRegularModeComponent } from './Views/DTEStatistics/stu
 import { RegionalCentreDistanceModeComponent } from './Views/DTEStatistics/regional-centre-distance-mode/regional-centre-distance-mode.component';
 import { PrivateExternalModeComponent } from './Views/DTEStatistics/private-external-mode/private-external-mode.component';
 import { RegularForeignStudentEnrolmentComponent } from './Views/DTEStatistics/regular-foreign-student-enrolment/regular-foreign-student-enrolment.component';
+import { ExaminationResultsRegularComponent } from './Views/DTEStatistics/examination-results-regular/examination-results-regular.component';
+import { ExaminationResultsDistanceComponent } from './Views/DTEStatistics/examination-results-distance/examination-results-distance.component';
+import { ExamResultsRegionalCenterComponent } from './Views/DTEStatistics/exam-results-regional-center/exam-results-regional-center.component';
+import { ExamResultsPrivateExternalComponent } from './Views/DTEStatistics/exam-results-private-external/exam-results-private-external.component';
+import { ScholarshipFellowshipLoanAccComponent } from './Views/DTEStatistics/scholarship-fellowship-loan-acc/scholarship-fellowship-loan-acc.component';
 
 //import { NewgrievancereportComponent } from './Views/DCE/newgrievancereport/newgrievancereport/newgrievancereport.component';
 
@@ -758,7 +763,12 @@ import { RegularForeignStudentEnrolmentComponent } from './Views/DTEStatistics/r
     StudentEnrollmentRegularModeComponent,
     RegionalCentreDistanceModeComponent,
     PrivateExternalModeComponent,
-    RegularForeignStudentEnrolmentComponent
+    RegularForeignStudentEnrolmentComponent,
+    ExaminationResultsRegularComponent,
+    ExaminationResultsDistanceComponent,
+    ExamResultsRegionalCenterComponent,
+    ExamResultsPrivateExternalComponent,
+    ScholarshipFellowshipLoanAccComponent
   ],
   imports: [
     CommonModule,
