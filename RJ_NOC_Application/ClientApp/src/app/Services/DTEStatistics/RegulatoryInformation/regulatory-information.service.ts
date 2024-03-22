@@ -3,14 +3,14 @@ import { HttpClient, HttpErrorResponse, HttpHeaders, HttpResponse, HttpParams } 
 import { Observable, throwError } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 import { GlobalConstants } from '../../../Common/GlobalConstants';
-import { StudentEnrollmentDistanceModeDataModel } from '../../../Models/DTEStatistics/StudentEnrollmentDistanceModeDataModel';
+import { RegulatoryInformationDataModel } from '../../../Models/DTEStatistics/RegulatoryInformationDataModel';
 
 @Injectable({
   providedIn: 'root'
 })
-export class StudentEnrollmentDistanceModeService {
+export class RegulatoryInformationService {
 
-  readonly APIUrl = GlobalConstants.apiURL + "DTEStatistics_StudentEnrollmentDistanceMode";
+  readonly APIUrl = GlobalConstants.apiURL + "DTEStatistics_RegulatoryInformation";
   constructor(private http: HttpClient) { }
 
   extractData(res: Response) {
@@ -21,18 +21,18 @@ export class StudentEnrollmentDistanceModeService {
     return throwError(error);
   }
   //Get 
-  public async GetByID(CollegeID: number, UserID: number, EntryType: string) {
+  public async GetByID(CollegeID: number, UserID: number) {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     };
-    return await this.http.get(this.APIUrl + "/" + CollegeID + "/" + UserID + "/" + EntryType)
+    return await this.http.get(this.APIUrl + "/" + CollegeID + "/" + UserID)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-  public async SaveData(request: StudentEnrollmentDistanceModeDataModel) {
+  public async SaveData(request: RegulatoryInformationDataModel) {
 
     const headers = { 'content-type': 'application/json' }
     const body = JSON.stringify(request);

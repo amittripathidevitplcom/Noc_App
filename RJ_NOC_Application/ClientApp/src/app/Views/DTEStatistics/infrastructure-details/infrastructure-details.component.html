@@ -1,7 +1,9 @@
 <form class="form-horizontal">
   <div class="card mb-0">
     <div class="card-header d-xxl-flex d-xl-flex d-md-flex d-sm-block justify-content-between align-items-center">
-      <b><i class="bi bi-table"></i>&nbsp;Financial Details (As per Current Session)</b>
+      <b>
+        <i class="bi bi-table"></i>&nbsp;Infrastructure Details (As per Current Session)
+      </b>
       <div class="d-flex align-items-center">
         <div class="btn-group mr-15" role="group" aria-label="Basic outlined example">
         </div>
@@ -13,7 +15,9 @@
       <div class="card">
         <div class="card-header">
           <b>
-            Income (As per Current Session)
+            (A) Note:<br />
+            NKN = National knowlege Network<br />
+            NMEICT =  National Mission On Education Through Information & Communication technology
           </b>
         </div>
         <div class="card-body">
@@ -26,17 +30,17 @@
                       <th width="60px">S.No</th>
 
                       <th>
-                        Items
+                        Text
                       </th>
                       <th class="text-center" style="width:20% !important">
-                        Amount In Absolute Rupees
+                        Value
                       </th>
 
                     </tr>
 
                   </thead>
                   <tbody>
-                    <tr *ngFor="let row of this.request.FinancialDetails_Income ;let idx=index;">
+                    <tr *ngFor="let row of this.request.InfrastructureDetails_A ;let idx=index;">
                       <td>
                         {{row.SNoText}}
 
@@ -45,35 +49,19 @@
                         {{row.Item}}
                       </td>
                       <td>
-                        <input class="form-control form-control-sm" id="Amount{{idx}}" [(ngModel)]="row.Amount" maxlength="15"
-                               type="text" (keypress)="DecimalOnly($event)" [ngModelOptions]="{standalone: true}"
-                               (change)="Income_Change()" />
+                        <input class="form-control form-control-sm" id="ValueA{{idx}}" [(ngModel)]="row.Value" maxlength="200"
+                               type="text" [ngModelOptions]="{standalone: true}" />
                       </td>
                     </tr>
                   </tbody>
-
-                  <tfoot>
-                    <tr class="fw-bold">
-                      <td>11</td>
-                      <td>Total</td>
-                      <td>
-                        <input class="form-control form-control-sm" id="TotalIncome" [(ngModel)]="TotalIncome"
-                               type="text" [ngModelOptions]="{standalone: true}" disabled />
-                      </td>
-                    </tr>
-                  </tfoot>
-
-
                 </table>
               </div>
             </div>
           </div>
-
-
           <div class="card mb-0">
             <div class="card-header">
               <b>
-                Expenditure (As per Current Session)
+                (B) Whether the University / Institution have Disaster Management facilities.
               </b>
             </div>
             <div class="card-body">
@@ -86,40 +74,27 @@
                           <th width="60px">S.No</th>
 
                           <th>
-                            Items
+                            Text
                           </th>
                           <th class="text-center" style="width:20% !important">
-                            Amount In Absolute Rupees
+                            Value
                           </th>
 
                         </tr>
 
                       </thead>
                       <tbody>
-                        <tr *ngFor="let row of this.request.FinancialDetails_Expenses ;let idx=index;">
+                        <tr *ngFor="let row of this.request.InfrastructureDetails_B ;let idx=index;">
                           <td>{{row.SNoText}}</td>
                           <td>
                             {{row.Item}}
                           </td>
                           <td>
-                            <input class="form-control form-control-sm" id="Amount{{idx}}" [(ngModel)]="row.Amount" maxlength="15"
-                                   type="text" (keypress)="DecimalOnly($event)" [ngModelOptions]="{standalone: true}"
-                                   (change)="Expense_Change()" />
+                            <input class="form-control form-control-sm" id="ValueB{{idx}}" [(ngModel)]="row.Value" maxlength="200"
+                                   type="text" [ngModelOptions]="{standalone: true}" />
                           </td>
                         </tr>
                       </tbody>
-                      <tfoot>
-                        <tr class="fw-bold">
-                          <td>8</td>
-                          <td>Total</td>
-                          <td>
-                            <input class="form-control form-control-sm" id="TotalExpenses" [(ngModel)]="TotalExpenses"
-                                   type="text" [ngModelOptions]="{standalone: true}" disabled />
-                          </td>
-                        </tr>
-                      </tfoot>
-
-
 
                     </table>
                   </div>
@@ -128,6 +103,8 @@
             </div>
           </div>
         </div>
+
+        
       </div>
     </div>
     <div class="card-footer text-end">

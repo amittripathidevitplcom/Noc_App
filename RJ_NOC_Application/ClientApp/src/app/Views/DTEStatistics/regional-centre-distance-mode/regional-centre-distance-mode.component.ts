@@ -10,11 +10,11 @@ import { StatisticsEntryComponent } from '../../Statistics/statistics-entry/stat
 import { StudentEnrollmentDistanceModeService } from '../../../Services/DTEStatistics/StudentEnrollmentDistanceMode/student-enrollment-distance-mode.service';
 
 @Component({
-  selector: 'app-student-enrollment-distance-mode',
-  templateUrl: './student-enrollment-distance-mode.component.html',
-  styleUrls: ['./student-enrollment-distance-mode.component.css']
+  selector: 'app-regional-centre-distance-mode',
+  templateUrl: './regional-centre-distance-mode.component.html',
+  styleUrls: ['./regional-centre-distance-mode.component.css']
 })
-export class StudentEnrollmentDistanceModeComponent implements OnInit {
+export class RegionalCentreDistanceModeComponent implements OnInit {
   sSOLoginDataModel = new SSOLoginDataModel();
   public SelectedCollageID: number = 0;
   public SelectedDepartmentID: number = 0;
@@ -45,7 +45,7 @@ export class StudentEnrollmentDistanceModeComponent implements OnInit {
     this.request.CollegeID = this.SelectedCollageID;
     this.request.ModifyBy = this.sSOLoginDataModel.UserID;
     this.request.Department = this.SelectedDepartmentID;
-    this.request.EntryType = "Distance Mode";
+    this.request.EntryType = "Regional Centre Mode";
 
     await this.CourseLevel();
     await this.GetProgramme();
@@ -363,7 +363,8 @@ export class StudentEnrollmentDistanceModeComponent implements OnInit {
         TotalCategoryFemale: 0,
         TotalCategoryTransGender: 0,
       })
-
+      debugger;
+      console.log(this.request.ProgrammesDetails.length);
       var trCss = (Number(this.request.ProgrammesDetails.length) + 1) % 2 === 0 ? "trAlter" : "";
 
       this.request.ProgrammesDetails.push({
@@ -417,7 +418,7 @@ export class StudentEnrollmentDistanceModeComponent implements OnInit {
     finally {
       setTimeout(() => {
 
-        const txtFaculty_School = document.getElementById('txtFaculty_School_' + (idx+1).toString());
+        const txtFaculty_School = document.getElementById('txtFaculty_School_' + (idx + 1).toString());
         if (txtFaculty_School) txtFaculty_School.focus();
 
 
