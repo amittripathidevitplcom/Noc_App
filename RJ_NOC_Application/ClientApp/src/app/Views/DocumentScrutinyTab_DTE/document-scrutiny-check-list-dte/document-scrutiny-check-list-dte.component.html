@@ -996,6 +996,10 @@
                 <thead>
                   <tr>
                     <th>Sr. No.</th>
+                    <th>
+                      Programme
+                    </th>
+                    <th>Course Level</th>
                     <th>Course</th>
                     <th>Width (In Feet) Size</th>
                     <th>Length (In Feet)</th>
@@ -1008,6 +1012,12 @@
                   <tr *ngFor="let item of CheckList_RoomDetails; let idx =index">
                     <td width="5%">
                       {{idx+1}}
+                    </td>
+                    <td>
+                      {{item.ProgrammeName}}
+                    </td>
+                    <td>
+                      {{item.CourseLevel}}
                     </td>
                     <td>
                       {{item.CourseName}}
@@ -1064,11 +1074,8 @@
       <!--Start Other Information-->
       <div class="card">
         <div class="card-header">
-          <span *ngIf="SelectedDepartmentID==6">
-            <b><i class="bi bi-table"></i>&nbsp; Clinical Details</b>
-          </span>
-          <span *ngIf="SelectedDepartmentID !=6">
-            <b> <i class="bi bi-table"></i>&nbsp; Other Information</b>
+          <span>
+            <b><i class="bi bi-table"></i>&nbsp;Other Infrastructure</b>
           </span>
         </div>
         <div class="card-body">

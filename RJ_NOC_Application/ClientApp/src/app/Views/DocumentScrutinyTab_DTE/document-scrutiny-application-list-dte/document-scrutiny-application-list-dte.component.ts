@@ -78,7 +78,7 @@ export class DocumentScrutinyApplicationListDTEComponent implements OnInit {
       //  ActionName = Status == 'Completed' ? 'Forward to Inspection Committee,Forward To Joint Secretary' : Status == 'Pending' ? 'Forward' : '';
       //}
       //else {
-      ActionName = Status == 'Completed' ? 'Recommended by Inspection Committee,Not recommended by Inspection Committee,Forward to Inspection Committee,Forward To Joint Secretary' : Status == 'Pending' ? 'Forward,Forward to Inspection Committee,Forward to Inspection Committee after inspection' : '';
+      ActionName = Status == 'Completed' ? 'Recommended by Inspection Committee,Not recommended by Inspection Committee,Forward to Inspection Committee,Forward To Joint Secretary,Deficiency (to be removed in 7 days)' : Status == 'Pending' ? 'Forward,Forward to Inspection Committee,Forward to Inspection Committee after inspection' : '';
       //}
       
       this.loaderService.requestStarted();

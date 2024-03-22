@@ -49,7 +49,7 @@ export class JSApplicationListDTEComponent implements OnInit {
   async GetApplicationList(RoleId: number, UserID: number, Status: string) {
     try {
       let ActionName = '';
-      ActionName = Status == 'Completed' ? 'Release NOC,Reject NOC' : Status == 'Pending' ? 'Forward To Joint Secretary,Forward To Joint Secretary after inspection': '';
+      ActionName = Status == 'Completed' ? 'Release NOC,Reject NOC' : Status == 'Pending' ? 'Forward To Joint Secretary,Forward To Joint Secretary after inspection' : Status == 'Esign' ? 'Release NOC,Reject NOC':'';
       this.loaderService.requestStarted();
       await this.dteDocumentScrutinyService.GetApplyNOCApplicationList(RoleId, UserID, Status, ActionName)
         .then((data: any) => {
@@ -58,6 +58,17 @@ export class JSApplicationListDTEComponent implements OnInit {
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
           this.ApplicationDetails = data['Data'][0];
+          if (Status == 'Completed') {
+            //item.IsEsign==0 && item.IsNOCIssued==1
+            this.ApplicationDetails = this.ApplicationDetails.filter((x: { IsEsign: boolean; IsNOCIssued: boolean }) => x.IsEsign == true && x.IsNOCIssued == true);
+          }
+          else if (Status == 'Esign') {
+            //item.IsEsign==0 && item.IsNOCIssued==1
+            this.ApplicationDetails = this.ApplicationDetails.filter((x: { IsEsign: boolean; IsNOCIssued: boolean }) => x.IsEsign == false && x.IsNOCIssued == true);
+          }
+          else {
+
+          }
         }, error => console.error(error));
     }
     catch (Ex) {

@@ -779,7 +779,7 @@ export class DocumentScrutinyCheckListDTEComponent implements OnInit {
         }
       }
       if (this.sSOLoginDataModel.RoleID == 16) {
-          await this.dcedocumentScrutinyService.UploadInspectionReport(this.SelectedCollageID, this.SelectedDepartmentID, this.SelectedApplyNOCID, this.sSOLoginDataModel.UserID, this.UploadConsolidatedReport, false)
+        await this.dcedocumentScrutinyService.UploadInspectionReport(this.SelectedCollageID, this.SelectedDepartmentID, this.SelectedApplyNOCID, this.sSOLoginDataModel.UserID, this.UploadInspectionReport, false)
             .then(async (data: any) => {
               data = JSON.parse(JSON.stringify(data));
             }, error => console.error(error));
