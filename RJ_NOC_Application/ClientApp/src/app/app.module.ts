@@ -389,6 +389,8 @@ import { ExaminationResultsDistanceComponent } from './Views/DTEStatistics/exami
 import { ExamResultsRegionalCenterComponent } from './Views/DTEStatistics/exam-results-regional-center/exam-results-regional-center.component';
 import { ExamResultsPrivateExternalComponent } from './Views/DTEStatistics/exam-results-private-external/exam-results-private-external.component';
 import { ScholarshipFellowshipLoanAccComponent } from './Views/DTEStatistics/scholarship-fellowship-loan-acc/scholarship-fellowship-loan-acc.component';
+import { DTEStatisticsStaffComponent } from './Views/DTEStatistics/dtestatistics-staff/dtestatistics-staff.component';
+import { DTEStatisticsNonTeachingComponent } from './Views/DTEStatistics/dtestatistics-non-teaching/dtestatistics-non-teaching.component';
 
 //import { NewgrievancereportComponent } from './Views/DCE/newgrievancereport/newgrievancereport/newgrievancereport.component';
 
@@ -768,7 +770,9 @@ import { ScholarshipFellowshipLoanAccComponent } from './Views/DTEStatistics/sch
     ExaminationResultsDistanceComponent,
     ExamResultsRegionalCenterComponent,
     ExamResultsPrivateExternalComponent,
-    ScholarshipFellowshipLoanAccComponent
+    ScholarshipFellowshipLoanAccComponent,
+    DTEStatisticsStaffComponent,
+    DTEStatisticsNonTeachingComponent
   ],
   imports: [
     CommonModule,
