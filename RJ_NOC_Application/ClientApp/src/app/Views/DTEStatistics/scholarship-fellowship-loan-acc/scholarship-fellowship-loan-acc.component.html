@@ -1,0 +1,660 @@
+<form class="form-horizontal">
+  <div class="card">
+    <div class="card-header d-xxl-flex d-xl-flex d-md-flex d-sm-block justify-content-between align-items-center">
+      <b><i class="bi bi-table"></i>&nbsp;Whether University/Institution Maintains Scholarship Data (As per earlier session )</b>
+      <div class="d-flex align-items-center">
+        <div class="btn-group mr-15" role="group" aria-label="Basic outlined example">
+        </div>
+        <div class="d-flex align-items-center table-filter mr-15">
+        </div>
+      </div>
+    </div>
+    <div class="card-body p-0">
+
+      <div class="table-responsive maxheight600px">
+        <table class="table table-bordered tableHeaderTH tableHeaderFixed tableHeaderTHMiddel  tableForm100 tableAlternate mb-0">
+          <thead>
+            <tr>
+              <th rowspan="3" class="text-center">Type</th>
+              <th rowspan="3" class="text-center stickyleft">Category</th>
+              <th colspan="18" class="text-center">Number of Students Availing Scholarship</th>
+              <th rowspan="3" class="text-center">Remarks</th>
+            </tr>
+            <tr>
+              <th colspan="3" class="text-center">General Category</th>
+              <th colspan="3" class="text-center">EWS Category (out of General Category)</th>
+              <th colspan="3" class="text-center">Scheduled Caste (SC)</th>
+              <th colspan="3" class="text-center">Scheduled Tribe (ST)</th>
+              <th colspan="3" class="text-center">Other Backward Classes (OBC)</th>
+              <th colspan="3" class="text-center">Total</th>
+            </tr>
+            <tr>
+              <th class="text-center">Total</th>
+              <th class="text-center">Female</th>
+              <th class="text-center">Trans Gender</th>
+              <th class="text-center">Total</th>
+              <th class="text-center">Female</th>
+              <th class="text-center">Trans Gender</th>
+              <th class="text-center">Total</th>
+              <th class="text-center">Female</th>
+              <th class="text-center">Trans Gender</th>
+              <th class="text-center">Total</th>
+              <th class="text-center">Female</th>
+              <th class="text-center">Trans Gender</th>
+              <th class="text-center">Total</th>
+              <th class="text-center">Female</th>
+              <th class="text-center">Trans Gender</th>
+              <th class="text-center">Total</th>
+              <th class="text-center">Female</th>
+              <th class="text-center">Trans Gender</th>
+            </tr>
+          </thead>
+          <tbody *ngFor="let row of this.request.Scholarship ;let idx=index;" class="{{row.trCss}}">
+            <tr>
+              <td rowspan="4">
+                <b>{{row.Type}}</b>
+              </td>
+              <td class="stickyleft"><b>{{row.Category}}</b></td>
+              <td>
+                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txtGeneralCategoryMale_{{idx}}" [(ngModel)]="row.GeneralCategoryMale" />
+              </td>
+              <td>
+                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txtGeneralCategoryFemale_{{idx}}" [(ngModel)]="row.GeneralCategoryFemale" />
+              </td>
+              <td>
+                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txtGeneralCategoryTransGender_{{idx}}" [(ngModel)]="row.GeneralCategoryTransGender" />
+              </td>
+
+              <td>
+                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txtGeneralCategoryMale_{{idx}}" [(ngModel)]="row.GeneralCategoryMale" />
+              </td>
+              <td>
+                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txtGeneralCategoryFemale_{{idx}}" [(ngModel)]="row.GeneralCategoryFemale" />
+              </td>
+              <td>
+                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txtGeneralCategoryTransGender_{{idx}}" [(ngModel)]="row.GeneralCategoryTransGender" />
+              </td>
+
+              <td>
+                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txtGeneralCategoryMale_{{idx}}" [(ngModel)]="row.GeneralCategoryMale" />
+              </td>
+              <td>
+                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txtGeneralCategoryFemale_{{idx}}" [(ngModel)]="row.GeneralCategoryFemale" />
+              </td>
+              <td>
+                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txtGeneralCategoryTransGender_{{idx}}" [(ngModel)]="row.GeneralCategoryTransGender" />
+              </td>
+
+              <td>
+                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txtGeneralCategoryMale_{{idx}}" [(ngModel)]="row.GeneralCategoryMale" />
+              </td>
+              <td>
+                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txtGeneralCategoryFemale_{{idx}}" [(ngModel)]="row.GeneralCategoryFemale" />
+              </td>
+              <td>
+                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txtGeneralCategoryTransGender_{{idx}}" [(ngModel)]="row.GeneralCategoryTransGender" />
+              </td>
+
+              <td>
+                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txtGeneralCategoryMale_{{idx}}" [(ngModel)]="row.GeneralCategoryMale" />
+              </td>
+              <td>
+                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txtGeneralCategoryFemale_{{idx}}" [(ngModel)]="row.GeneralCategoryFemale" />
+              </td>
+              <td>
+                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txtGeneralCategoryTransGender_{{idx}}" [(ngModel)]="row.GeneralCategoryTransGender" />
+              </td>
+
+              <td>
+                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txtGeneralCategoryMale_{{idx}}" [(ngModel)]="row.GeneralCategoryMale" />
+              </td>
+              <td>
+                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txtGeneralCategoryFemale_{{idx}}" [(ngModel)]="row.GeneralCategoryFemale" />
+              </td>
+              <td>
+                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txtGeneralCategoryTransGender_{{idx}}" [(ngModel)]="row.GeneralCategoryTransGender" />
+              </td>
+
+
+              <td rowspan="4">
+                <textarea class="form-control form-control-sm" id="txtRemark_{{idx}}" type="text" maxlength="200"
+                          [(ngModel)]="row.Remark" [ngModelOptions]="{standalone: true}"></textarea>
+              </td>
+            </tr>
+             
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-header d-xxl-flex d-xl-flex d-md-flex d-sm-block justify-content-between align-items-center">
+      <b>
+        <i class="bi bi-table"></i>&nbsp;Whether University/Institution Maintains Fellowship Data (As per current session )
+      </b>
+      <div class="d-flex align-items-center">
+        <div class="btn-group mr-15" role="group" aria-label="Basic outlined example">
+        </div>
+        <div class="d-flex align-items-center table-filter mr-15">
+        </div>
+      </div>
+    </div>
+    <div class="card-body p-0">
+
+      <div class="table-responsive maxheight600px">
+        <table class="table table-bordered tableHeaderTH tableHeaderFixed tableHeaderTHMiddel  tableForm100 tableAlternate mb-0">
+          <thead>
+            <tr>
+              <th rowspan="3" class="text-center stickyleft">Category</th>
+              <th colspan="18" class="text-center">
+                Number of Students Availing Fellowship
+              </th>
+              <th rowspan="3" class="text-center">Remarks</th>
+            </tr>
+            <tr>
+              <th colspan="3" class="text-center">General Category</th>
+              <th colspan="3" class="text-center">EWS Category (out of General Category)</th>
+              <th colspan="3" class="text-center">Scheduled Caste (SC)</th>
+              <th colspan="3" class="text-center">Scheduled Tribe (ST)</th>
+              <th colspan="3" class="text-center">Other Backward Classes (OBC)</th>
+              <th colspan="3" class="text-center">Total</th>
+            </tr>
+            <tr>
+              <th class="text-center">Male</th>
+              <th class="text-center">Female</th>
+              <th class="text-center">Trans Gender</th>
+              <th class="text-center">Male</th>
+              <th class="text-center">Female</th>
+              <th class="text-center">Trans Gender</th>
+              <th class="text-center">Male</th>
+              <th class="text-center">Female</th>
+              <th class="text-center">Trans Gender</th>
+              <th class="text-center">Male</th>
+              <th class="text-center">Female</th>
+              <th class="text-center">Trans Gender</th>
+              <th class="text-center">Male</th>
+              <th class="text-center">Female</th>
+              <th class="text-center">Trans Gender</th>
+              <th class="text-center">Male</th>
+              <th class="text-center">Female</th>
+              <th class="text-center">Trans Gender</th>
+            </tr>
+          </thead>
+
+          <tbody *ngFor="let row of this.request.Fellowship ;let idx=index;" class="{{row.trCss}}">
+
+            <tr>
+              <td class="stickyleft"><b>{{row.Category}}</b></td>
+              <td>
+                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txtGeneralCategoryMale_{{idx}}" [(ngModel)]="row.GeneralCategoryMale" />
+              </td>
+              <td>
+                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txtGeneralCategoryFemale_{{idx}}" [(ngModel)]="row.GeneralCategoryFemale" />
+              </td>
+              <td>
+                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txtGeneralCategoryTransGender_{{idx}}" [(ngModel)]="row.GeneralCategoryTransGender" />
+              </td>
+
+              <td>
+                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txtGeneralCategoryMale_{{idx}}" [(ngModel)]="row.GeneralCategoryMale" />
+              </td>
+              <td>
+                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txtGeneralCategoryFemale_{{idx}}" [(ngModel)]="row.GeneralCategoryFemale" />
+              </td>
+              <td>
+                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txtGeneralCategoryTransGender_{{idx}}" [(ngModel)]="row.GeneralCategoryTransGender" />
+              </td>
+
+              <td>
+                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txtGeneralCategoryMale_{{idx}}" [(ngModel)]="row.GeneralCategoryMale" />
+              </td>
+              <td>
+                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txtGeneralCategoryFemale_{{idx}}" [(ngModel)]="row.GeneralCategoryFemale" />
+              </td>
+              <td>
+                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txtGeneralCategoryTransGender_{{idx}}" [(ngModel)]="row.GeneralCategoryTransGender" />
+              </td>
+
+              <td>
+                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txtGeneralCategoryMale_{{idx}}" [(ngModel)]="row.GeneralCategoryMale" />
+              </td>
+              <td>
+                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txtGeneralCategoryFemale_{{idx}}" [(ngModel)]="row.GeneralCategoryFemale" />
+              </td>
+              <td>
+                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txtGeneralCategoryTransGender_{{idx}}" [(ngModel)]="row.GeneralCategoryTransGender" />
+              </td>
+
+              <td>
+                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txtGeneralCategoryMale_{{idx}}" [(ngModel)]="row.GeneralCategoryMale" />
+              </td>
+              <td>
+                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txtGeneralCategoryFemale_{{idx}}" [(ngModel)]="row.GeneralCategoryFemale" />
+              </td>
+              <td>
+                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txtGeneralCategoryTransGender_{{idx}}" [(ngModel)]="row.GeneralCategoryTransGender" />
+              </td>
+
+              <td>
+                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txtGeneralCategoryMale_{{idx}}" [(ngModel)]="row.GeneralCategoryMale" />
+              </td>
+              <td>
+                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txtGeneralCategoryFemale_{{idx}}" [(ngModel)]="row.GeneralCategoryFemale" />
+              </td>
+              <td>
+                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txtGeneralCategoryTransGender_{{idx}}" [(ngModel)]="row.GeneralCategoryTransGender" />
+              </td>
+
+
+              <td rowspan="4">
+                <textarea class="form-control form-control-sm" id="txtRemark_{{idx}}" type="text" maxlength="200"
+                          [(ngModel)]="row.Remark" [ngModelOptions]="{standalone: true}"></textarea>
+              </td>
+            </tr>
+
+            <tr class="lastColumnAuto" *ngFor="let item of row.StudentDetails;let idx_Item=index;">
+              <td class="stickyleft"><b>{{item.Category}}</b></td>
+
+              <td>
+                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txtGeneralCategoryMale_{{idx}}_{{idx_Item}}" [(ngModel)]="item.GeneralCategoryMale" />
+              </td>
+              <td>
+                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txtGeneralCategoryFemale_{{idx}}_{{idx_Item}}" [(ngModel)]="item.GeneralCategoryFemale" />
+              </td>
+              <td>
+                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txtGeneralCategoryTransGender_{{idx}}_{{idx_Item}}" [(ngModel)]="item.GeneralCategoryTransGender" />
+              </td>
+              <td>
+                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txtGeneralCategoryMale_{{idx}}_{{idx_Item}}" [(ngModel)]="item.GeneralCategoryMale" />
+              </td>
+              <td>
+                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txtGeneralCategoryFemale_{{idx}}_{{idx_Item}}" [(ngModel)]="item.GeneralCategoryFemale" />
+              </td>
+              <td>
+                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txtGeneralCategoryTransGender_{{idx}}_{{idx_Item}}" [(ngModel)]="item.GeneralCategoryTransGender" />
+              </td>
+              <td>
+                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txtGeneralCategoryMale_{{idx}}_{{idx_Item}}" [(ngModel)]="item.GeneralCategoryMale" />
+              </td>
+              <td>
+                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txtGeneralCategoryFemale_{{idx}}_{{idx_Item}}" [(ngModel)]="item.GeneralCategoryFemale" />
+              </td>
+              <td>
+                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txtGeneralCategoryTransGender_{{idx}}_{{idx_Item}}" [(ngModel)]="item.GeneralCategoryTransGender" />
+              </td>
+              <td>
+                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txtGeneralCategoryMale_{{idx}}_{{idx_Item}}" [(ngModel)]="item.GeneralCategoryMale" />
+              </td>
+              <td>
+                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txtGeneralCategoryFemale_{{idx}}_{{idx_Item}}" [(ngModel)]="item.GeneralCategoryFemale" />
+              </td>
+              <td>
+                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txtGeneralCategoryTransGender_{{idx}}_{{idx_Item}}" [(ngModel)]="item.GeneralCategoryTransGender" />
+              </td>
+              <td>
+                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txtGeneralCategoryMale_{{idx}}_{{idx_Item}}" [(ngModel)]="item.GeneralCategoryMale" />
+              </td>
+              <td>
+                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txtGeneralCategoryFemale_{{idx}}_{{idx_Item}}" [(ngModel)]="item.GeneralCategoryFemale" />
+              </td>
+              <td>
+                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txtGeneralCategoryTransGender_{{idx}}_{{idx_Item}}" [(ngModel)]="item.GeneralCategoryTransGender" />
+              </td>
+              <td>
+                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txtGeneralCategoryMale_{{idx}}_{{idx_Item}}" [(ngModel)]="item.GeneralCategoryMale" />
+              </td>
+              <td>
+                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txtGeneralCategoryFemale_{{idx}}_{{idx_Item}}" [(ngModel)]="item.GeneralCategoryFemale" />
+              </td>
+              <td>
+                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txtGeneralCategoryTransGender_{{idx}}_{{idx_Item}}" [(ngModel)]="item.GeneralCategoryTransGender" />
+              </td>
+
+            </tr>
+
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-header d-xxl-flex d-xl-flex d-md-flex d-sm-block justify-content-between align-items-center">
+      <b>
+        <i class="bi bi-table"></i>&nbsp;Whether University/Institution Maintains Education Loan (As per current session )
+      </b>
+      <div class="d-flex align-items-center">
+        <div class="btn-group mr-15" role="group" aria-label="Basic outlined example">
+        </div>
+        <div class="d-flex align-items-center table-filter mr-15">
+        </div>
+      </div>
+    </div>
+    <div class="card-body p-0">
+
+      <div class="table-responsive maxheight600px">
+        <table class="table table-bordered tableHeaderTH tableHeaderFixed tableHeaderTHMiddel  tableForm100 tableAlternate mb-0">
+          <thead>
+            <tr>
+              <th rowspan="3" class="text-center stickyleft">Category</th>
+              <th colspan="18" class="text-center">
+                Number of Students Availing Fellowship
+              </th>
+              <th rowspan="3" class="text-center">Remarks</th>
+            </tr>
+            <tr>
+              <th colspan="3" class="text-center">General Category</th>
+              <th colspan="3" class="text-center">EWS Category (out of General Category)</th>
+              <th colspan="3" class="text-center">Scheduled Caste (SC)</th>
+              <th colspan="3" class="text-center">Scheduled Tribe (ST)</th>
+              <th colspan="3" class="text-center">Other Backward Classes (OBC)</th>
+              <th colspan="3" class="text-center">Total</th>
+            </tr>
+            <tr>
+              <th class="text-center">Male</th>
+              <th class="text-center">Female</th>
+              <th class="text-center">Trans Gender</th>
+              <th class="text-center">Male</th>
+              <th class="text-center">Female</th>
+              <th class="text-center">Trans Gender</th>
+              <th class="text-center">Male</th>
+              <th class="text-center">Female</th>
+              <th class="text-center">Trans Gender</th>
+              <th class="text-center">Male</th>
+              <th class="text-center">Female</th>
+              <th class="text-center">Trans Gender</th>
+              <th class="text-center">Male</th>
+              <th class="text-center">Female</th>
+              <th class="text-center">Trans Gender</th>
+              <th class="text-center">Male</th>
+              <th class="text-center">Female</th>
+              <th class="text-center">Trans Gender</th>
+            </tr>
+          </thead>
+
+          <tbody *ngFor="let row of this.request.Loan ;let idx=index;" class="{{row.trCss}}">
+
+            <tr>
+              <td class="stickyleft"><b>{{row.Category}}</b></td>
+              <td>
+                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txtGeneralCategoryMale_{{idx}}" [(ngModel)]="row.GeneralCategoryMale" />
+              </td>
+              <td>
+                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txtGeneralCategoryFemale_{{idx}}" [(ngModel)]="row.GeneralCategoryFemale" />
+              </td>
+              <td>
+                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txtGeneralCategoryTransGender_{{idx}}" [(ngModel)]="row.GeneralCategoryTransGender" />
+              </td>
+
+              <td>
+                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txtGeneralCategoryMale_{{idx}}" [(ngModel)]="row.GeneralCategoryMale" />
+              </td>
+              <td>
+                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txtGeneralCategoryFemale_{{idx}}" [(ngModel)]="row.GeneralCategoryFemale" />
+              </td>
+              <td>
+                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txtGeneralCategoryTransGender_{{idx}}" [(ngModel)]="row.GeneralCategoryTransGender" />
+              </td>
+
+              <td>
+                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txtGeneralCategoryMale_{{idx}}" [(ngModel)]="row.GeneralCategoryMale" />
+              </td>
+              <td>
+                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txtGeneralCategoryFemale_{{idx}}" [(ngModel)]="row.GeneralCategoryFemale" />
+              </td>
+              <td>
+                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txtGeneralCategoryTransGender_{{idx}}" [(ngModel)]="row.GeneralCategoryTransGender" />
+              </td>
+
+              <td>
+                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txtGeneralCategoryMale_{{idx}}" [(ngModel)]="row.GeneralCategoryMale" />
+              </td>
+              <td>
+                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txtGeneralCategoryFemale_{{idx}}" [(ngModel)]="row.GeneralCategoryFemale" />
+              </td>
+              <td>
+                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txtGeneralCategoryTransGender_{{idx}}" [(ngModel)]="row.GeneralCategoryTransGender" />
+              </td>
+
+              <td>
+                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txtGeneralCategoryMale_{{idx}}" [(ngModel)]="row.GeneralCategoryMale" />
+              </td>
+              <td>
+                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txtGeneralCategoryFemale_{{idx}}" [(ngModel)]="row.GeneralCategoryFemale" />
+              </td>
+              <td>
+                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txtGeneralCategoryTransGender_{{idx}}" [(ngModel)]="row.GeneralCategoryTransGender" />
+              </td>
+
+              <td>
+                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txtGeneralCategoryMale_{{idx}}" [(ngModel)]="row.GeneralCategoryMale" />
+              </td>
+              <td>
+                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txtGeneralCategoryFemale_{{idx}}" [(ngModel)]="row.GeneralCategoryFemale" />
+              </td>
+              <td>
+                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txtGeneralCategoryTransGender_{{idx}}" [(ngModel)]="row.GeneralCategoryTransGender" />
+              </td>
+
+
+              <td rowspan="4">
+                <textarea class="form-control form-control-sm" id="txtRemark_{{idx}}" type="text" maxlength="200"
+                          [(ngModel)]="row.Remark" [ngModelOptions]="{standalone: true}"></textarea>
+              </td>
+            </tr>
+
+            <tr class="lastColumnAuto" *ngFor="let item of row.StudentDetails;let idx_Item=index;">
+              <td class="stickyleft"><b>{{item.Category}}</b></td>
+
+              <td>
+                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txtGeneralCategoryMale_{{idx}}_{{idx_Item}}" [(ngModel)]="item.GeneralCategoryMale" />
+              </td>
+              <td>
+                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txtGeneralCategoryFemale_{{idx}}_{{idx_Item}}" [(ngModel)]="item.GeneralCategoryFemale" />
+              </td>
+              <td>
+                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txtGeneralCategoryTransGender_{{idx}}_{{idx_Item}}" [(ngModel)]="item.GeneralCategoryTransGender" />
+              </td>
+              <td>
+                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txtGeneralCategoryMale_{{idx}}_{{idx_Item}}" [(ngModel)]="item.GeneralCategoryMale" />
+              </td>
+              <td>
+                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txtGeneralCategoryFemale_{{idx}}_{{idx_Item}}" [(ngModel)]="item.GeneralCategoryFemale" />
+              </td>
+              <td>
+                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txtGeneralCategoryTransGender_{{idx}}_{{idx_Item}}" [(ngModel)]="item.GeneralCategoryTransGender" />
+              </td>
+              <td>
+                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txtGeneralCategoryMale_{{idx}}_{{idx_Item}}" [(ngModel)]="item.GeneralCategoryMale" />
+              </td>
+              <td>
+                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txtGeneralCategoryFemale_{{idx}}_{{idx_Item}}" [(ngModel)]="item.GeneralCategoryFemale" />
+              </td>
+              <td>
+                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txtGeneralCategoryTransGender_{{idx}}_{{idx_Item}}" [(ngModel)]="item.GeneralCategoryTransGender" />
+              </td>
+              <td>
+                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txtGeneralCategoryMale_{{idx}}_{{idx_Item}}" [(ngModel)]="item.GeneralCategoryMale" />
+              </td>
+              <td>
+                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txtGeneralCategoryFemale_{{idx}}_{{idx_Item}}" [(ngModel)]="item.GeneralCategoryFemale" />
+              </td>
+              <td>
+                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txtGeneralCategoryTransGender_{{idx}}_{{idx_Item}}" [(ngModel)]="item.GeneralCategoryTransGender" />
+              </td>
+              <td>
+                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txtGeneralCategoryMale_{{idx}}_{{idx_Item}}" [(ngModel)]="item.GeneralCategoryMale" />
+              </td>
+              <td>
+                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txtGeneralCategoryFemale_{{idx}}_{{idx_Item}}" [(ngModel)]="item.GeneralCategoryFemale" />
+              </td>
+              <td>
+                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txtGeneralCategoryTransGender_{{idx}}_{{idx_Item}}" [(ngModel)]="item.GeneralCategoryTransGender" />
+              </td>
+              <td>
+                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txtGeneralCategoryMale_{{idx}}_{{idx_Item}}" [(ngModel)]="item.GeneralCategoryMale" />
+              </td>
+              <td>
+                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txtGeneralCategoryFemale_{{idx}}_{{idx_Item}}" [(ngModel)]="item.GeneralCategoryFemale" />
+              </td>
+              <td>
+                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txtGeneralCategoryTransGender_{{idx}}_{{idx_Item}}" [(ngModel)]="item.GeneralCategoryTransGender" />
+              </td>
+
+            </tr>
+
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-header d-xxl-flex d-xl-flex d-md-flex d-sm-block justify-content-between align-items-center">
+      <b>
+        <i class="bi bi-table"></i>&nbsp;Whether Institution Accredited (As per current session )
+      </b>
+      <div class="d-flex align-items-center">
+        <div class="btn-group mr-15" role="group" aria-label="Basic outlined example">
+        </div>
+        <div class="d-flex align-items-center table-filter mr-15">
+        </div>
+      </div>
+    </div>
+    <div class="card-body p-0">
+
+      <div class="table-responsive maxheight600px">
+        <table class="table table-bordered tableHeaderTH tableHeaderFixed tableHeaderTHMiddel  tableForm100 tableAlternate mb-0">
+          <thead>
+            <tr>
+              <th>S.No.</th>
+              <th>Name</th>
+              <th>Accreditation Body</th>
+              <th>Is Score Provided</th>
+              <th>Maximum Score</th>
+              <th>Score</th>
+              <th>Cycle of Accreditatio</th>
+              <th>Status of Accreditation</th>
+              <th>Date if Accreditation Validity</th>
+              <th>Grade</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr>
+              <td>1. </td>
+              <td><input class="form-control form-control-sm width200px" type="text" /> </td>
+              <td><input class="form-control form-control-sm width200px" type="text" /> </td>
+              <td><input class="form-control form-control-sm width100px" type="text" /> </td>
+              <td><input class="form-control form-control-sm width200px" type="text" /> </td>
+              <td><input class="form-control form-control-sm width100px" type="text" /> </td>
+              <td><input class="form-control form-control-sm width100px" type="text" /> </td>
+              <td><input class="form-control form-control-sm width200px" type="text" /> </td>
+              <td><input class="form-control form-control-sm width100px" type="text" /> </td>
+              <td><input class="form-control form-control-sm width100px" type="text" /> </td>
+            </tr>
+
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+
+
+    <div class="card-footer text-end">
+      <button type="button" (click)="SaveData()" class="btn btn-success">Save Draft</button>
+    </div>
+  </div>
+</form>
+
+

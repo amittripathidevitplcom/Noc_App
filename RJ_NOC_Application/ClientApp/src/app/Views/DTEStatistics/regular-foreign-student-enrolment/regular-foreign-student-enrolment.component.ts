@@ -106,7 +106,10 @@ export class RegularForeignStudentEnrolmentComponent implements OnInit {
 
           this.request.EntryID = data['Data'].EntryID;
           this.request.FYearID = data['Data'].FYearID;
-         
+
+          this.request.ForeignStudentEnrolledInTheinstitution = data['Data'].ForeignStudentEnrolledInTheinstitution;
+          this.request.ApprovedIntakeCapacityOfInternationalStudents = data['Data'].ApprovedIntakeCapacityOfInternationalStudents;
+
           if (data['Data'].RegularForeignStudentEnrolment != null) {
             if (data['Data'].RegularForeignStudentEnrolment.length > 0) {
               this.request.RegularForeignStudentEnrolment = data['Data'].RegularForeignStudentEnrolment;
@@ -130,32 +133,27 @@ export class RegularForeignStudentEnrolmentComponent implements OnInit {
 
     for (var i = 0; i < this.request.RegularForeignStudentEnrolment.length; i++) {
 
-      //  if (this.request.RegularForeignStudentEnrolment[i].Faculty_School == '') {
-      //    this.toastr.error('Faculty/ School field is required.!');
-      //    const txtFaculty_School = document.getElementById('txtFaculty_School_' + i.toString());
-      //    if (txtFaculty_School) txtFaculty_School.focus();
-      //    return;
-      //  }
-
-      //  if (this.request.RegularForeignStudentEnrolment[i].Department_Centre == '') {
-      //    this.toastr.error('Department/Centre field is required.!');
-      //    const txtDepartment_Centre_ = document.getElementById('txtDepartment_Centre_' + i.toString());
-      //    if (txtDepartment_Centre_) txtDepartment_Centre_.focus();
-      //    return;
-      //    return;
-      //  }
-      //  if (this.request.RegularForeignStudentEnrolment[i].LevelID == 0) {
-      //    this.toastr.error('Level field is required.!');
-      //    const ddlLevel_ = document.getElementById('ddlLevel_' + i.toString());
-      //    if (ddlLevel_) ddlLevel_.focus();
-      //    return;
-      //  }
-      //  if (this.request.RegularForeignStudentEnrolment[i].ProgrammeID == 0) {
-      //    this.toastr.error('Name Of The Programme field is required.!');
-      //    const ddlProgramme_ = document.getElementById('ddlProgramme_' + i.toString());
-      //    if (ddlProgramme_) ddlProgramme_.focus();
-      //    return;
-      //  }
+      if (this.request.RegularForeignStudentEnrolment[i].Country == '') {
+        this.toastr.error('Country field is required.!');
+        const txtCountry = document.getElementById('txtCountry' + i.toString());
+        if (txtCountry) txtCountry.focus();
+        return;
+      }
+      if (this.request.RegularForeignStudentEnrolment[i].Faculty_School == '') {
+        this.toastr.error('Faculty/School field is required.!');
+        const txtFaculty_School = document.getElementById('txtFaculty_School' + i.toString());
+        if (txtFaculty_School) txtFaculty_School.focus();
+        return;
+      }
+      if (this.request.RegularForeignStudentEnrolment[i].No_of_Students_Enrolled_Total == null) {
+        this.request.RegularForeignStudentEnrolment[i].No_of_Students_Enrolled_Total = 0;
+      }
+      if (this.request.RegularForeignStudentEnrolment[i].No_of_Students_Enrolled_Girls == null) {
+        this.request.RegularForeignStudentEnrolment[i].No_of_Students_Enrolled_Girls = 0;
+      }
+      if (this.request.RegularForeignStudentEnrolment[i].No_of_Students_Staying_in_Institutions_Hostel == null) {
+        this.request.RegularForeignStudentEnrolment[i].No_of_Students_Staying_in_Institutions_Hostel = 0;
+      }
     }
 
     this.loaderService.requestStarted();
@@ -201,11 +199,16 @@ export class RegularForeignStudentEnrolmentComponent implements OnInit {
     }
   }
   numberOnly(event: any): boolean {
-    const charCode = (event.which) ? event.which : event.keyCode;
-    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+    if (event.target.value.length < 6) {
+      const charCode = (event.which) ? event.which : event.keyCode;
+      if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+        return false;
+      }
+      return true;
+    }
+    else {
       return false;
     }
-    return true;
   }
   DecimalOnly(evt: any): boolean {
     var charCode = (evt.which) ? evt.which : evt.keyCode;
@@ -215,53 +218,34 @@ export class RegularForeignStudentEnrolmentComponent implements OnInit {
     return true;
   }
   async btnAdd_Click(row: RegularForeignStudentEnrolmentDataModel_RegularForeignStudentEnrolment, idx: number) {
-    debugger;
     if (row != undefined) {
-
-      if (row.NoOfStudentsPlaced_Male == null) {
-        this.toastr.error('No. Of Students Placed (Male).!');
-        const NoOfStudentsPlaced_Male = document.getElementById('NoOfStudentsPlaced_Male' + idx.toString());
-        if (NoOfStudentsPlaced_Male) NoOfStudentsPlaced_Male.focus();
+      if (row.Country == '') {
+        this.toastr.error('Country field is required.!');
+        const txtCountry = document.getElementById('txtCountry' + idx.toString());
+        if (txtCountry) txtCountry.focus();
         return;
       }
-      if (row.NoOfStudentsPlaced_Female == null) {
-        this.toastr.error('No. Of Students Placed (Female).!');
-        const NoOfStudentsPlaced_Female = document.getElementById('NoOfStudentsPlaced_Female' + idx.toString());
-        if (NoOfStudentsPlaced_Female) NoOfStudentsPlaced_Female.focus();
+      if (row.Faculty_School == '') {
+        this.toastr.error('Faculty/School field is required.!');
+        const txtFaculty_School = document.getElementById('txtFaculty_School' + idx.toString());
+        if (txtFaculty_School) txtFaculty_School.focus();
         return;
       }
-      if (row.NoOfStudentsSelectedForHigherStudies_Male == null) {
-        this.toastr.error('No. Of Students <br />Selected For Higher <br />Studies (Male)');
-        const NoOfStudentsSelectedForHigherStudies_Male = document.getElementById('NoOfStudentsSelectedForHigherStudies_Male' + idx.toString());
-        if (NoOfStudentsSelectedForHigherStudies_Male) NoOfStudentsSelectedForHigherStudies_Male.focus();
-        return;
-      }
-
-      if (row.NoOfStudentsSelectedForHigherStudies_Female == null) {
-        this.toastr.error('No. Of Students <br />Selected For Higher <br />Studies (Female)');
-        const NoOfStudentsSelectedForHigherStudies_Female = document.getElementById('NoOfStudentsSelectedForHigherStudies_Female' + idx.toString());
-        if (NoOfStudentsSelectedForHigherStudies_Female) NoOfStudentsSelectedForHigherStudies_Female.focus();
-        return;
-      }
-
-      if (row.MedianAnnualSalaryforPlacedStudents == null) {
-        this.toastr.error('Median Annual Salary for placed students');
-        const MedianAnnualSalaryforPlacedStudents = document.getElementById('MedianAnnualSalaryforPlacedStudents' + idx.toString());
-        if (MedianAnnualSalaryforPlacedStudents) MedianAnnualSalaryforPlacedStudents.focus();
-        return;
-      }
-
     }
 
     try {
       this.request.RegularForeignStudentEnrolment.push({
-        NoOfStudentsPlaced_Male: 0,
-        NoOfStudentsPlaced_Female: 0,
-        NoOfStudentsPlaced_Total: 0,
-        NoOfStudentsSelectedForHigherStudies_Male: 0,
-        NoOfStudentsSelectedForHigherStudies_Female: 0,
-        NoOfStudentsSelectedForHigherStudies_Total: 0,
-        MedianAnnualSalaryforPlacedStudents: 0,
+        Country: "",
+        Faculty_School: "",
+        Department_Centre: "",
+        Discipline: "",
+        Method_of_Admission: "",
+        No_of_Students_Enrolled_Total: 0,
+        No_of_Students_Enrolled_Girls: 0,
+        No_of_Students_Staying_in_Institutions_Hostel: 0,
+        Broad_Discipline_Group: "",
+        Broad_DisciplineGroup_Category: "",
+        Method_of_Admission2: ""
       });
 
     }
@@ -275,18 +259,6 @@ export class RegularForeignStudentEnrolmentComponent implements OnInit {
         if (btnAdd) { btnAdd.innerText = "Add"; }
       }, 200);
     }
-  }
-  async NoOfStudentsPlaced_Male_OnChange(row: RegularForeignStudentEnrolmentDataModel_RegularForeignStudentEnrolment, idx: number) {
-    row.NoOfStudentsPlaced_Total = (Number(row.NoOfStudentsPlaced_Male) + Number(row.NoOfStudentsPlaced_Female));
-  }
-  async NoOfStudentsPlaced_Female_OnChange(row: RegularForeignStudentEnrolmentDataModel_RegularForeignStudentEnrolment, idx: number) {
-    row.NoOfStudentsPlaced_Total = (Number(row.NoOfStudentsPlaced_Male) + Number(row.NoOfStudentsPlaced_Female));
-  }
-  async NoOfStudentsSelectedForHigherStudies_Male_OnChange(row: RegularForeignStudentEnrolmentDataModel_RegularForeignStudentEnrolment, idx: number) {
-    row.NoOfStudentsPlaced_Total = (Number(row.NoOfStudentsSelectedForHigherStudies_Male) + Number(row.NoOfStudentsSelectedForHigherStudies_Female));
-  }
-  async NoOfStudentsSelectedForHigherStudies_Female_OnChange(row: RegularForeignStudentEnrolmentDataModel_RegularForeignStudentEnrolment, idx: number) {
-    row.NoOfStudentsSelectedForHigherStudies_Total = (Number(row.NoOfStudentsSelectedForHigherStudies_Male) + Number(row.NoOfStudentsSelectedForHigherStudies_Female));
   }
 }
 
