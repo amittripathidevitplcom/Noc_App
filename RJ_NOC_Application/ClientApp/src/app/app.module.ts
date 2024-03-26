@@ -384,6 +384,7 @@ import { StudentEnrollmentRegularModeComponent } from './Views/DTEStatistics/stu
 import { RegionalCentreDistanceModeComponent } from './Views/DTEStatistics/regional-centre-distance-mode/regional-centre-distance-mode.component';
 import { PrivateExternalModeComponent } from './Views/DTEStatistics/private-external-mode/private-external-mode.component';
 import { RegularForeignStudentEnrolmentComponent } from './Views/DTEStatistics/regular-foreign-student-enrolment/regular-foreign-student-enrolment.component';
+import { BasicDetailsComponent } from './Views/DTEStatistics/basic-details/basic-details.component';
 
 //import { NewgrievancereportComponent } from './Views/DCE/newgrievancereport/newgrievancereport/newgrievancereport.component';
 
@@ -758,7 +759,8 @@ import { RegularForeignStudentEnrolmentComponent } from './Views/DTEStatistics/r
     StudentEnrollmentRegularModeComponent,
     RegionalCentreDistanceModeComponent,
     PrivateExternalModeComponent,
-    RegularForeignStudentEnrolmentComponent
+    RegularForeignStudentEnrolmentComponent,
+    BasicDetailsComponent
   ],
   imports: [
     CommonModule,
