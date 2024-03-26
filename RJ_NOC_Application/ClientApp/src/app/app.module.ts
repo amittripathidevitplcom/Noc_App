@@ -769,9 +769,8 @@ import { BasicDetailsComponent } from './Views/DTEStatistics/basic-details/basic
     ExaminationResultsDistanceComponent,
     ExamResultsRegionalCenterComponent,
     ExamResultsPrivateExternalComponent,
-    ScholarshipFellowshipLoanAccComponent
-    RegularForeignStudentEnrolmentComponent,
-    BasicDetailsComponent
+    ScholarshipFellowshipLoanAccComponent,
+      BasicDetailsComponent
   ],
   imports: [
     CommonModule,
