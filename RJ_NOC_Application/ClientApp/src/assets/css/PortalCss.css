@@ -1437,17 +1437,17 @@ b, strong, label.form-label, .fw-bold, .mat-tab-label span, .table th, .form-hor
   position: unset !important;
   right: auto !important;
 }
-.tableLastclmFixed tr th.stickyleft, .tableLastclmFixed tr td.stickyleft {
+.tableHeaderFixed tr th.stickyleft, .tableHeaderFixed tr td.stickyleft {
   position: sticky !important;
   left: 0px !important;
 }
-.tableLastclmFixed tr th.stickyleft300 {
+.tableHeaderFixed tr th.stickyleft300 {
   position: sticky !important;
   left: 120px !important;
 }
-  .tableLastclmFixed tr td.stickyleft {
-      background:#fff !important;
-  }
+.tableHeaderFixed tr td.stickyleft {
+  background: #fff !important;
+}
 
   .tableAlternate tbody.trAlter tr td {
     background: #f2f2f2 !important;
