@@ -11,6 +11,7 @@ export class ScholarshipFellowshipLoanAccDataModel {
   public Scholarship: ScholarshipFellowshipLoanAccDataModel_Scholarship[] = [];
   public Fellowship: ScholarshipFellowshipLoanAccDataModel_Scholarship[] = [];
   public Loan: ScholarshipFellowshipLoanAccDataModel_Scholarship[] = [];
+  public ACC: ScholarshipFellowshipLoanAccDataModel_ACC[] = [];
 
 
   public ActiveStatus: boolean = true;
@@ -20,7 +21,9 @@ export class ScholarshipFellowshipLoanAccDataModel {
 
 }
 export class ScholarshipFellowshipLoanAccDataModel_Scholarship {
+  public RowNo: number = 0;
   public SID: number = 0;
+  public EntryType: string = "";
   public Type: string = "";
   public Category: string = "";
   public General_Total: number = 0;
@@ -43,3 +46,17 @@ export class ScholarshipFellowshipLoanAccDataModel_Scholarship {
   public TOTAL_TransGender: number = 0;
   public Remarks: string = "";
 }
+
+export class ScholarshipFellowshipLoanAccDataModel_ACC {
+  public SNo: number = 0;
+  public Name: string = "";
+  public AccreditationBody: string = "";
+  public IsScoreProvided: string = "";
+  public MaximumScore: string = "";
+  public Score: string = "";
+  public CycleofAccreditatio: string = "";
+  public StatusofAccreditation: string = "";
+  public DateifAccreditationValidity: string = "";
+  public Grade: string = "";
+}
+
