@@ -773,8 +773,7 @@ import { BasicDetailsComponent } from './Views/DTEStatistics/basic-details/basic
     ExamResultsPrivateExternalComponent,
     ScholarshipFellowshipLoanAccComponent,
     DTEStatisticsStaffComponent,
-    DTEStatisticsNonTeachingComponent
-    ScholarshipFellowshipLoanAccComponent,
+    DTEStatisticsNonTeachingComponent,
       BasicDetailsComponent
   ],
   imports: [
