@@ -132,47 +132,28 @@ export class DTEStatisticsNonTeachingComponent implements OnInit {
 
     for (var i = 0; i < this.request.ProgrammesDetails.length; i++) {
 
-      if (this.request.ProgrammesDetails[i].Faculty_School == '') {
-        this.toastr.error('Faculty/ School field is required.!');
+      if (this.request.ProgrammesDetails[i].StaffType == '') {
+        this.toastr.error('Staff Type field is required.!');
         const txtFaculty_School = document.getElementById('txtFaculty_School_' + i.toString());
         if (txtFaculty_School) txtFaculty_School.focus();
         return;
       }
-      if (this.request.ProgrammesDetails[i].Department_Centre == '') {
-        this.toastr.error('Department/Centre field is required.!');
+      if (this.request.ProgrammesDetails[i].GroupName == '') {
+        this.toastr.error('Group field is required.!');
         const txtDepartment_Centre_ = document.getElementById('txtDepartment_Centre_' + i.toString());
         if (txtDepartment_Centre_) txtDepartment_Centre_.focus();
         return;
-        return;
       }
-      if (this.request.ProgrammesDetails[i].LevelID == 0) {
-        this.toastr.error('Level field is required.!');
-        const ddlLevel_ = document.getElementById('ddlLevel_' + i.toString());
+      if (this.request.ProgrammesDetails[i].SanctionedStrength == '') {
+        this.toastr.error('Sanctioned Strength field is required.!');
+        const ddlLevel_ = document.getElementById('txtDiscipline_' + i.toString());
         if (ddlLevel_) ddlLevel_.focus();
         return;
       }
 
-      if (this.request.ProgrammesDetails[i].Discipline == '') {
-        this.toastr.error('Discipline field is required.!');
-        const txtDiscipline_ = document.getElementById('txtDiscipline_' + i.toString());
-        if (txtDiscipline_) txtDiscipline_.focus();
-        return;
-      }
-      if (this.request.ProgrammesDetails[i].Year == null) {
-        this.toastr.error('Year field is required.!');
-        const txtYear_ = document.getElementById('txtYear_' + i.toString());
-        if (txtYear_) txtYear_.focus();
-        return;
-      }
-      if (this.request.ProgrammesDetails[i].Month == null) {
-        this.toastr.error('Month field is required.!');
-        const txtMonth_ = document.getElementById('txtMonth_' + i.toString());
-        if (txtMonth_) txtMonth_.focus();
-        return;
-      }
 
     }
-
+    await this.Modify_SaveJsonData()
 
     this.loaderService.requestStarted();
     this.isLoading = true;
@@ -225,140 +206,105 @@ export class DTEStatisticsNonTeachingComponent implements OnInit {
   }
   async btnAdd_Click(row: DTEStatisticsStaffDataModel_NonTeaching_ProgrammesDetails, idx: number) {
     if (row != undefined) {
-      if (row.Faculty_School == '') {
-        this.toastr.error('Faculty/ School field is required.!');
+      if (row.StaffType == '') {
+        this.toastr.error('Staff Type field is required.!');
         const txtFaculty_School = document.getElementById('txtFaculty_School_' + idx.toString());
         if (txtFaculty_School) txtFaculty_School.focus();
         return;
       }
-      if (row.Department_Centre == '') {
-        this.toastr.error('Department/Centre field is required.!');
+      if (row.GroupName == '') {
+        this.toastr.error('Group field is required.!');
         const txtDepartment_Centre_ = document.getElementById('txtDepartment_Centre_' + idx.toString());
         if (txtDepartment_Centre_) txtDepartment_Centre_.focus();
         return;
         return;
       }
-      if (row.LevelID == 0) {
-        this.toastr.error('Level field is required.!');
-        const ddlLevel_ = document.getElementById('ddlLevel_' + idx.toString());
+      if (row.SanctionedStrength == '') {
+        this.toastr.error('Sanctioned Strength field is required.!');
+        const ddlLevel_ = document.getElementById('txtDiscipline_' + idx.toString());
         if (ddlLevel_) ddlLevel_.focus();
         return;
       }
-      if (row.Discipline == '') {
-        this.toastr.error('Discipline field is required.!');
-        const txtDiscipline_ = document.getElementById('txtDiscipline_' + idx.toString());
-        if (txtDiscipline_) txtDiscipline_.focus();
-        return;
-      }
-      if (row.Year == null) {
-        this.toastr.error('Year field is required.!');
-        const txtYear_ = document.getElementById('txtYear_' + idx.toString());
-        if (txtYear_) txtYear_.focus();
-        return;
-      }
-      if (row.Month == null) {
-        this.toastr.error('Month field is required.!');
-        const txtMonth_ = document.getElementById('txtMonth_' + idx.toString());
-        if (txtMonth_) txtMonth_.focus();
-        return;
-      }
+
     }
 
     try {
       this.StudentDetails = [];
       this.StudentDetails.push({
-        Category: "PWD (out of Total)",
+        Category: "PWD",
         //General
-        GeneralCategorySeatsEarmarkedAsPerGOI: 0,
         GeneralCategoryMale: 0,
         GeneralCategoryFemale: 0,
         GeneralCategoryTransGender: 0,
         //EWS
-        EWSCategorySeatsEarmarkedAsPerGOI: 0,
         EWSCategoryMale: 0,
         EWSCategoryFemale: 0,
         EWSCategoryTransGender: 0,
         //SC
-        SCCategorySeatsEarmarkedAsPerGOI: 0,
         SCCategoryMale: 0,
         SCCategoryFemale: 0,
         SCCategoryTransGender: 0,
         //ST
-        STCategorySeatsEarmarkedAsPerGOI: 0,
         STCategoryMale: 0,
         STCategoryFemale: 0,
         STCategoryTransGender: 0,
         //OBC
-        OBCCategorySeatsEarmarkedAsPerGOI: 0,
         OBCCategoryMale: 0,
         OBCCategoryFemale: 0,
         OBCCategoryTransGender: 0,
         //Total
-        TotalCategorySeatsEarmarkedAsPerGOI: 0,
         TotalCategoryMale: 0,
         TotalCategoryFemale: 0,
         TotalCategoryTransGender: 0,
       }, {
-        Category: "Muslim Minority (out of Total)",
+        Category: "Muslim Minority",
         //General
-        GeneralCategorySeatsEarmarkedAsPerGOI: 0,
         GeneralCategoryMale: 0,
         GeneralCategoryFemale: 0,
         GeneralCategoryTransGender: 0,
         //EWS
-        EWSCategorySeatsEarmarkedAsPerGOI: 0,
         EWSCategoryMale: 0,
         EWSCategoryFemale: 0,
         EWSCategoryTransGender: 0,
         //SC
-        SCCategorySeatsEarmarkedAsPerGOI: 0,
         SCCategoryMale: 0,
         SCCategoryFemale: 0,
         SCCategoryTransGender: 0,
         //ST
-        STCategorySeatsEarmarkedAsPerGOI: 0,
         STCategoryMale: 0,
         STCategoryFemale: 0,
         STCategoryTransGender: 0,
         //OBC
-        OBCCategorySeatsEarmarkedAsPerGOI: 0,
         OBCCategoryMale: 0,
         OBCCategoryFemale: 0,
         OBCCategoryTransGender: 0,
         //Total
-        TotalCategorySeatsEarmarkedAsPerGOI: 0,
         TotalCategoryMale: 0,
         TotalCategoryFemale: 0,
         TotalCategoryTransGender: 0,
       }, {
-        Category: "Other Minority (out of Total)1",
+        Category: "Other Minority",
         //General
-        GeneralCategorySeatsEarmarkedAsPerGOI: 0,
         GeneralCategoryMale: 0,
         GeneralCategoryFemale: 0,
         GeneralCategoryTransGender: 0,
         //EWS
-        EWSCategorySeatsEarmarkedAsPerGOI: 0,
         EWSCategoryMale: 0,
         EWSCategoryFemale: 0,
         EWSCategoryTransGender: 0,
         //SC
-        SCCategorySeatsEarmarkedAsPerGOI: 0,
         SCCategoryMale: 0,
         SCCategoryFemale: 0,
         SCCategoryTransGender: 0,
         //ST
-        STCategorySeatsEarmarkedAsPerGOI: 0,
         STCategoryMale: 0,
         STCategoryFemale: 0,
         STCategoryTransGender: 0,
         //OBC
-        OBCCategorySeatsEarmarkedAsPerGOI: 0,
         OBCCategoryMale: 0,
         OBCCategoryFemale: 0,
         OBCCategoryTransGender: 0,
         //Total
-        TotalCategorySeatsEarmarkedAsPerGOI: 0,
         TotalCategoryMale: 0,
         TotalCategoryFemale: 0,
         TotalCategoryTransGender: 0,
@@ -368,46 +314,36 @@ export class DTEStatisticsNonTeachingComponent implements OnInit {
       var trCss = (Number(this.request.ProgrammesDetails.length) + 1) % 2 === 0 ? "trAlter" : "";
 
       this.request.ProgrammesDetails.push({
-        Faculty_School: "",
-        Department_Centre: "",
-        LevelID: 0,
-        LevelName: "",
-        Discipline: "",
-        Year: 0,
-        Month: 0,
-        Remark: '',
+        StaffType: "",
+        GroupName: "",
+        SanctionedStrength: "",
         Category: "Total",
         //General
-        GeneralCategorySeatsEarmarkedAsPerGOI: 0,
         GeneralCategoryMale: 0,
         GeneralCategoryFemale: 0,
         GeneralCategoryTransGender: 0,
         //EWS
-        EWSCategorySeatsEarmarkedAsPerGOI: 0,
         EWSCategoryMale: 0,
         EWSCategoryFemale: 0,
         EWSCategoryTransGender: 0,
         //SC
-        SCCategorySeatsEarmarkedAsPerGOI: 0,
         SCCategoryMale: 0,
         SCCategoryFemale: 0,
         SCCategoryTransGender: 0,
         //ST
-        STCategorySeatsEarmarkedAsPerGOI: 0,
         STCategoryMale: 0,
         STCategoryFemale: 0,
         STCategoryTransGender: 0,
         //OBC
-        OBCCategorySeatsEarmarkedAsPerGOI: 0,
         OBCCategoryMale: 0,
         OBCCategoryFemale: 0,
         OBCCategoryTransGender: 0,
         //Total
-        TotalCategorySeatsEarmarkedAsPerGOI: 0,
         TotalCategoryMale: 0,
         TotalCategoryFemale: 0,
         TotalCategoryTransGender: 0,
         StudentDetails: this.StudentDetails,
+        Remark: "",
         trCss: trCss
       });
 
@@ -429,7 +365,86 @@ export class DTEStatisticsNonTeachingComponent implements OnInit {
       }, 200);
     }
   }
+  Modify_SaveJsonData() {
+    for (var i = 0; i < this.request.ProgrammesDetails.length; i++) {
+
+      this.request.ProgrammesDetails[i].GeneralCategoryMale =
+        this.request.ProgrammesDetails[i].GeneralCategoryMale.toString().length == 0 ? 0 : this.request.ProgrammesDetails[i].GeneralCategoryMale;
+      this.request.ProgrammesDetails[i].GeneralCategoryFemale =
+        this.request.ProgrammesDetails[i].GeneralCategoryFemale.toString().length == 0 ? 0 : this.request.ProgrammesDetails[i].GeneralCategoryFemale;
+      this.request.ProgrammesDetails[i].GeneralCategoryTransGender =
+        this.request.ProgrammesDetails[i].GeneralCategoryTransGender.toString().length == 0 ? 0 : this.request.ProgrammesDetails[i].GeneralCategoryTransGender;
+      this.request.ProgrammesDetails[i].EWSCategoryMale =
+        this.request.ProgrammesDetails[i].EWSCategoryMale.toString().length == 0 ? 0 : this.request.ProgrammesDetails[i].EWSCategoryMale;
+      this.request.ProgrammesDetails[i].EWSCategoryFemale =
+        this.request.ProgrammesDetails[i].EWSCategoryFemale.toString().length == 0 ? 0 : this.request.ProgrammesDetails[i].EWSCategoryFemale;
+      this.request.ProgrammesDetails[i].EWSCategoryTransGender =
+        this.request.ProgrammesDetails[i].EWSCategoryTransGender.toString().length == 0 ? 0 : this.request.ProgrammesDetails[i].EWSCategoryTransGender;
+      this.request.ProgrammesDetails[i].SCCategoryMale =
+        this.request.ProgrammesDetails[i].SCCategoryMale.toString().length == 0 ? 0 : this.request.ProgrammesDetails[i].SCCategoryMale;
+      this.request.ProgrammesDetails[i].SCCategoryFemale =
+        this.request.ProgrammesDetails[i].SCCategoryFemale.toString().length == 0 ? 0 : this.request.ProgrammesDetails[i].SCCategoryFemale;
+      this.request.ProgrammesDetails[i].SCCategoryTransGender =
+        this.request.ProgrammesDetails[i].SCCategoryTransGender.toString().length == 0 ? 0 : this.request.ProgrammesDetails[i].SCCategoryTransGender;
+      this.request.ProgrammesDetails[i].STCategoryMale =
+        this.request.ProgrammesDetails[i].STCategoryMale.toString().length == 0 ? 0 : this.request.ProgrammesDetails[i].STCategoryMale;
+      this.request.ProgrammesDetails[i].STCategoryFemale =
+        this.request.ProgrammesDetails[i].STCategoryFemale.toString().length == 0 ? 0 : this.request.ProgrammesDetails[i].STCategoryFemale;
+      this.request.ProgrammesDetails[i].STCategoryTransGender =
+        this.request.ProgrammesDetails[i].STCategoryTransGender.toString().length == 0 ? 0 : this.request.ProgrammesDetails[i].STCategoryTransGender;
+      this.request.ProgrammesDetails[i].OBCCategoryMale =
+        this.request.ProgrammesDetails[i].OBCCategoryMale.toString().length == 0 ? 0 : this.request.ProgrammesDetails[i].OBCCategoryMale;
+      this.request.ProgrammesDetails[i].OBCCategoryFemale =
+        this.request.ProgrammesDetails[i].OBCCategoryFemale.toString().length == 0 ? 0 : this.request.ProgrammesDetails[i].OBCCategoryFemale;
+      this.request.ProgrammesDetails[i].OBCCategoryTransGender =
+        this.request.ProgrammesDetails[i].OBCCategoryTransGender.toString().length == 0 ? 0 : this.request.ProgrammesDetails[i].OBCCategoryTransGender;
+      this.request.ProgrammesDetails[i].TotalCategoryMale =
+        this.request.ProgrammesDetails[i].TotalCategoryMale.toString().length == 0 ? 0 : this.request.ProgrammesDetails[i].TotalCategoryMale;
+      this.request.ProgrammesDetails[i].TotalCategoryFemale =
+        this.request.ProgrammesDetails[i].TotalCategoryFemale.toString().length == 0 ? 0 : this.request.ProgrammesDetails[i].TotalCategoryFemale;
+      this.request.ProgrammesDetails[i].TotalCategoryTransGender =
+        this.request.ProgrammesDetails[i].TotalCategoryTransGender.toString().length == 0 ? 0 : this.request.ProgrammesDetails[i].TotalCategoryTransGender;
 
 
+      for (var j = 0; j < this.request.ProgrammesDetails[i].StudentDetails.length; j++) {
+        this.request.ProgrammesDetails[i].StudentDetails[j].GeneralCategoryMale =
+          this.request.ProgrammesDetails[i].StudentDetails[j].GeneralCategoryMale.toString().length == 0 ? 0 : this.request.ProgrammesDetails[i].StudentDetails[j].GeneralCategoryMale;
+        this.request.ProgrammesDetails[i].StudentDetails[j].GeneralCategoryFemale =
+          this.request.ProgrammesDetails[i].StudentDetails[j].GeneralCategoryFemale.toString().length == 0 ? 0 : this.request.ProgrammesDetails[i].StudentDetails[j].GeneralCategoryFemale;
+        this.request.ProgrammesDetails[i].StudentDetails[j].GeneralCategoryTransGender =
+          this.request.ProgrammesDetails[i].StudentDetails[j].GeneralCategoryTransGender.toString().length == 0 ? 0 : this.request.ProgrammesDetails[i].StudentDetails[j].GeneralCategoryTransGender;
+        this.request.ProgrammesDetails[i].StudentDetails[j].EWSCategoryMale =
+          this.request.ProgrammesDetails[i].StudentDetails[j].EWSCategoryMale.toString().length == 0 ? 0 : this.request.ProgrammesDetails[i].StudentDetails[j].EWSCategoryMale;
+        this.request.ProgrammesDetails[i].StudentDetails[j].EWSCategoryFemale =
+          this.request.ProgrammesDetails[i].StudentDetails[j].EWSCategoryFemale.toString().length == 0 ? 0 : this.request.ProgrammesDetails[i].StudentDetails[j].EWSCategoryFemale;
+        this.request.ProgrammesDetails[i].StudentDetails[j].EWSCategoryTransGender =
+          this.request.ProgrammesDetails[i].StudentDetails[j].EWSCategoryTransGender.toString().length == 0 ? 0 : this.request.ProgrammesDetails[i].StudentDetails[j].EWSCategoryTransGender;
+        this.request.ProgrammesDetails[i].StudentDetails[j].SCCategoryMale =
+          this.request.ProgrammesDetails[i].StudentDetails[j].SCCategoryMale.toString().length == 0 ? 0 : this.request.ProgrammesDetails[i].StudentDetails[j].SCCategoryMale;
+        this.request.ProgrammesDetails[i].StudentDetails[j].SCCategoryFemale =
+          this.request.ProgrammesDetails[i].StudentDetails[j].SCCategoryFemale.toString().length == 0 ? 0 : this.request.ProgrammesDetails[i].StudentDetails[j].SCCategoryFemale;
+        this.request.ProgrammesDetails[i].StudentDetails[j].SCCategoryTransGender =
+          this.request.ProgrammesDetails[i].StudentDetails[j].SCCategoryTransGender.toString().length == 0 ? 0 : this.request.ProgrammesDetails[i].StudentDetails[j].SCCategoryTransGender;
+        this.request.ProgrammesDetails[i].StudentDetails[j].STCategoryMale =
+          this.request.ProgrammesDetails[i].StudentDetails[j].STCategoryMale.toString().length == 0 ? 0 : this.request.ProgrammesDetails[i].StudentDetails[j].STCategoryMale;
+        this.request.ProgrammesDetails[i].StudentDetails[j].STCategoryFemale =
+          this.request.ProgrammesDetails[i].StudentDetails[j].STCategoryFemale.toString().length == 0 ? 0 : this.request.ProgrammesDetails[i].StudentDetails[j].STCategoryFemale;
+        this.request.ProgrammesDetails[i].StudentDetails[j].STCategoryTransGender =
+          this.request.ProgrammesDetails[i].StudentDetails[j].STCategoryTransGender.toString().length == 0 ? 0 : this.request.ProgrammesDetails[i].StudentDetails[j].STCategoryTransGender;
+        this.request.ProgrammesDetails[i].StudentDetails[j].OBCCategoryMale =
+          this.request.ProgrammesDetails[i].StudentDetails[j].OBCCategoryMale.toString().length == 0 ? 0 : this.request.ProgrammesDetails[i].StudentDetails[j].OBCCategoryMale;
+        this.request.ProgrammesDetails[i].StudentDetails[j].OBCCategoryFemale =
+          this.request.ProgrammesDetails[i].StudentDetails[j].OBCCategoryFemale.toString().length == 0 ? 0 : this.request.ProgrammesDetails[i].StudentDetails[j].OBCCategoryFemale;
+        this.request.ProgrammesDetails[i].StudentDetails[j].OBCCategoryTransGender =
+          this.request.ProgrammesDetails[i].StudentDetails[j].OBCCategoryTransGender.toString().length == 0 ? 0 : this.request.ProgrammesDetails[i].StudentDetails[j].OBCCategoryTransGender;
+        this.request.ProgrammesDetails[i].StudentDetails[j].TotalCategoryMale =
+          this.request.ProgrammesDetails[i].StudentDetails[j].TotalCategoryMale.toString().length == 0 ? 0 : this.request.ProgrammesDetails[i].StudentDetails[j].TotalCategoryMale;
+        this.request.ProgrammesDetails[i].StudentDetails[j].TotalCategoryFemale =
+          this.request.ProgrammesDetails[i].StudentDetails[j].TotalCategoryFemale.toString().length == 0 ? 0 : this.request.ProgrammesDetails[i].StudentDetails[j].TotalCategoryFemale;
+        this.request.ProgrammesDetails[i].StudentDetails[j].TotalCategoryTransGender =
+          this.request.ProgrammesDetails[i].StudentDetails[j].TotalCategoryTransGender.toString().length == 0 ? 0 : this.request.ProgrammesDetails[i].StudentDetails[j].TotalCategoryTransGender;
+      }
+    }
+  }
 }
 

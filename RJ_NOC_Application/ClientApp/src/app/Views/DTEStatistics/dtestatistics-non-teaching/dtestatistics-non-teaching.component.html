@@ -62,16 +62,16 @@
               <td rowspan="4">{{idx+1}}</td>
               <td rowspan="4">
                 <input class="form-control form-control-sm" id="txtFaculty_School_{{idx}}" type="text"
-                       [(ngModel)]="row.Faculty_School" [ngModelOptions]="{standalone: true}" />
+                       [(ngModel)]="row.StaffType" [ngModelOptions]="{standalone: true}" />
               </td>
               <td rowspan="4">
                 <input class="form-control form-control-sm" id="txtDepartment_Centre_{{idx}}" type="text"
-                       [(ngModel)]="row.Department_Centre" [ngModelOptions]="{standalone: true}" />
+                       [(ngModel)]="row.GroupName" [ngModelOptions]="{standalone: true}" />
               </td>
               
               <td rowspan="4">
                 <input class="form-control form-control-sm"
-                       id="txtDiscipline_{{idx}}" [(ngModel)]="row.Discipline" type="text" [ngModelOptions]="{standalone: true}" />
+                       id="txtDiscipline_{{idx}}" [(ngModel)]="row.SanctionedStrength" type="text" [ngModelOptions]="{standalone: true}" />
               </td>
              
               <td class="stickyleft"><b>{{row.Category}}</b></td>
