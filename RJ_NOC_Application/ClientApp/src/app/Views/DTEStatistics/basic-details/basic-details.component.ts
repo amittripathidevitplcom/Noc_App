@@ -8,6 +8,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { StatisticsEntryComponent } from '../../Statistics/statistics-entry/statistics-entry.component';
 import { BasicDetailsDataModel, BasicDetails_SpecialisationDetailsDataModel } from '../../../Models/DTEStatistics/BasicDetailsDataModel';
 import { BasicDetailsService } from '../../../Services/DTEStatistics/BasicDetails/basic-details.service';
+import { Console } from 'console';
 @Component({
   selector: 'app-basic-details',
   templateUrl: './basic-details.component.html',
@@ -69,11 +70,11 @@ export class BasicDetailsComponent {
     this.request.Department = this.SelectedDepartmentID;
     await this.GetByID();
 
-
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
 
     this.request.SelectedCollegeEntryTypeName = this.statisticsEntryComponent.SelectedCollegeEntryType;
     this.request.Nameofinstitution = this.statisticsEntryComponent.CollegeName;
+
   }
   get form() { return this.BasicDetailsFormGroup.controls; }
 
@@ -90,8 +91,14 @@ export class BasicDetailsComponent {
 
           this.request.EntryID = data['Data'].EntryID;
           this.request.FYearID = data['Data'].FYearID;
-          this.request.AisheCode = data['Data'].AisheCode;
-          this.request.YearofEstablishment = data['Data'].YearofEstablishment;
+          if (this.request.EntryID > 0) {
+            this.request.AisheCode = data['Data'].AisheCode;
+            this.request.YearofEstablishment = data['Data'].YearofEstablishment;
+          }
+          else {
+            this.request.AisheCode = this.statisticsEntryComponent.AISHECode;
+            this.request.YearofEstablishment = this.statisticsEntryComponent.YearofEstablishment;
+          }
           this.request.StatusPriorToEstablishment = data['Data'].StatusPriorToEstablishment;
           this.request.YearDeclaredUniversityInstitute = data['Data'].YearDeclaredUniversityInstitute;
           this.request.TypeOfInstitution = data['Data'].TypeOfInstitution;
@@ -128,6 +135,7 @@ export class BasicDetailsComponent {
     if (this.BasicDetailsFormGroup.invalid) {
       return
     }
+    await this.ModifyRequest();
     this.loaderService.requestStarted();
     this.isLoading = true;
     try {
@@ -243,4 +251,31 @@ export class BasicDetailsComponent {
     }
   }
 
+
+  async ModifyRequest() {
+    if (this.request.EnrolledStudentInNCC == null || this.request.EnrolledStudentInNCC == undefined || this.request.EnrolledStudentInNCC.toString() == '') {
+      this.request.EnrolledStudentInNCC =0
+    }
+    if (this.request.EnrolledFemaleStudentInNCC == null || this.request.EnrolledFemaleStudentInNCC == undefined || this.request.EnrolledFemaleStudentInNCC.toString() == '') {
+      this.request.EnrolledFemaleStudentInNCC = 0
+    }
+    if (this.request.EnrolledTotalStudentInNCC == null || this.request.EnrolledTotalStudentInNCC == undefined || this.request.EnrolledTotalStudentInNCC.toString() == '') {
+      this.request.EnrolledTotalStudentInNCC = 0
+    }
+
+    if (this.request.EnrolledStudentInNSS == null || this.request.EnrolledStudentInNSS == undefined || this.request.EnrolledStudentInNSS.toString() == '') {
+      this.request.EnrolledStudentInNSS = 0;
+    }
+    if (this.request.EnrolledFemaleStudentInNSS == null || this.request.EnrolledFemaleStudentInNSS == undefined || this.request.EnrolledFemaleStudentInNSS.toString() == '') {
+      this.request.EnrolledFemaleStudentInNSS = 0;
+    }
+    if (this.request.EnrolledTotalStudentInNSS == null || this.request.EnrolledTotalStudentInNSS == undefined || this.request.EnrolledTotalStudentInNSS.toString() == '') {
+      this.request.EnrolledTotalStudentInNSS = 0;
+    }
+    for (var i = 0; i < this.request.CollegeUnderUniversityDetails.length; i++) {
+      if (this.request.CollegeUnderUniversityDetails[i].NoOfColleges == null || this.request.CollegeUnderUniversityDetails[i].NoOfColleges == undefined || this.request.CollegeUnderUniversityDetails[i].NoOfColleges.toString() == '') {
+        this.request.CollegeUnderUniversityDetails[i].NoOfColleges = 0;
+      }
+    }
+  }
 }

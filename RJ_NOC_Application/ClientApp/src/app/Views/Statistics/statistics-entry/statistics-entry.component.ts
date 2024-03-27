@@ -123,7 +123,8 @@ export class StatisticsEntryComponent implements OnInit {
     catch (Ex) { }
     this.loaderService.requestEnded();
   }
-
+  public AISHECode: string = '';
+  public YearofEstablishment: string = '';
   async GetCollageDetails() {
     try {
       this.loaderService.requestStarted();
@@ -131,6 +132,8 @@ export class StatisticsEntryComponent implements OnInit {
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.collegeDataList = data['Data'];
+          this.AISHECode=this.collegeDataList['AISHECode'] 
+          this.YearofEstablishment = this.collegeDataList['YearofEstablishmentName'] 
           if (this.collegeDataList['CollegeStatus'] == 'New') {
             this.CollegeType_IsExisting = false;
           }
