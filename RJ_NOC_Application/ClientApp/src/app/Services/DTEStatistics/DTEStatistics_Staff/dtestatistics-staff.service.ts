@@ -40,7 +40,7 @@ export class DTEStatisticsStaffService {
         'Content-Type': 'application/json'
       })
     };
-    return await this.http.get(this.APIUrl + "/" + CollegeID + "/" + UserID + "/" + EntryType)
+    return await this.http.get(this.APIUrl + "/NonTeaching/" + CollegeID + "/" + UserID + "/" + EntryType)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();
@@ -49,7 +49,7 @@ export class DTEStatisticsStaffService {
 
     const headers = { 'content-type': 'application/json' }
     const body = JSON.stringify(request);
-    return await this.http.post(this.APIUrl, body, { 'headers': headers })
+    return await this.http.post(this.APIUrl +"/NonTeaching/", body, { 'headers': headers })
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();
