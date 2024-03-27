@@ -659,12 +659,7 @@ export class DocumentScrutinyCheckListDTEComponent implements OnInit {
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           // data
-          if (this.State == 0) {
-            this.ApplyNocApplicationDetail = data['Data'];
-          }
-          else {
-            this.toastr.error(this.ErrorMessage);
-          }
+          this.ApplyNocApplicationDetail = data['Data'];
         }, error => console.error(error));
     }
     catch (Ex) {

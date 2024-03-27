@@ -583,9 +583,14 @@ export class ApplicationDetailEntryComponent implements OnInit {
           this.IsShowDraftFinalSubmit = false;
         }
       }
-      else if (this.IsAHDegreeCollege == true)
-      {
-        if (this.CheckTabsEntryData['LandInformation'] > 0 && this.CheckTabsEntryData['Facility'] > 0 && this.CheckTabsEntryData['RequiredDocument'] > 0 && this.CheckTabsEntryData['OtherInformation'] > 0 ) {
+
+      else if (this.IsAHDegreeCollege == true && this.CollegeType_IsExisting == false) {
+        if (this.CheckTabsEntryData['LandInformation'] > 0  && this.CheckTabsEntryData['Facility'] > 0 && this.CheckTabsEntryData['RequiredDocument'] > 0 && this.CheckTabsEntryData['OtherInformation'] > 0) {
+          this.IsShowDraftFinalSubmit = false;
+        }
+      }
+      else if (this.IsAHDegreeCollege == true && this.CollegeType_IsExisting == true) {
+        if (this.CheckTabsEntryData['LandInformation'] > 0 && this.CheckTabsEntryData['OLDNOCDetails'] > 0 && this.CheckTabsEntryData['Facility'] > 0 && this.CheckTabsEntryData['RequiredDocument'] > 0 && this.CheckTabsEntryData['OtherInformation'] > 0) {
           this.IsShowDraftFinalSubmit = false;
         }
       }

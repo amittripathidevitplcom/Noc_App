@@ -195,7 +195,7 @@
 
 
             <!--Academic Information Only for New-->
-            <mat-tab *ngIf="CollegeType_IsExisting && SelectedDepartmentID!=5">
+            <mat-tab *ngIf="CollegeType_IsExisting && SelectedDepartmentID!=5 && IsAHDegreeCollege==false">
               <ng-template mat-tab-label>
                 <i class="fa fa-graduation-cap icon" aria-hidden="true"></i>
                 <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['AcademicInformation']>0"></i>

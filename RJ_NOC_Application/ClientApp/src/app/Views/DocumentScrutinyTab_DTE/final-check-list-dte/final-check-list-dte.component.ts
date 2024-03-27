@@ -664,15 +664,8 @@ export class FinalCheckListDTEComponent implements OnInit {
       await this.applyNocParameterService.GetApplyNocApplicationByApplicationID(applyNocApplicationID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
-
-          console.log(data['Data']);
           // data
-          if (this.State == 0) {
             this.ApplyNocApplicationDetail = data['Data'];
-          }
-          else {
-            this.toastr.error(this.ErrorMessage);
-          }
         }, error => console.error(error));
     }
     catch (Ex) {
