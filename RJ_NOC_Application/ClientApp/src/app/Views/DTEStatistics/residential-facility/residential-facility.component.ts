@@ -98,7 +98,6 @@ export class ResidentialFacilityComponent implements OnInit {
       await this.residentialFacilityService.GetByID(this.request.CollegeID, this.request.ModifyBy)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
-
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
@@ -129,6 +128,17 @@ export class ResidentialFacilityComponent implements OnInit {
     if (this.ResidentialFacilityFormGroup.invalid) {
       return
     }
+    if (this.request.IsStaffQuarterAvailable == null || this.request.IsStaffQuarterAvailable == undefined || this.request.IsStaffQuarterAvailable == '')
+    {
+      this.toastr.error("Is Staff Quarter Available field is required .!");
+      return;
+    }
+    if (this.request.IsStudentsHostelAvailable == null || this.request.IsStudentsHostelAvailable == undefined || this.request.IsStudentsHostelAvailable == '')
+    {
+      this.toastr.error("Is Students Hostel Available field is required .!");
+      return;
+    }
+
     this.loaderService.requestStarted();
     this.isLoading = true;
     try {

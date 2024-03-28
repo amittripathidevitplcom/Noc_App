@@ -81,11 +81,18 @@ export class RegionalCentersComponent implements OnInit {
 
           this.request.EntryID = data['Data'].EntryID;
           this.request.FYearID = data['Data'].FYearID;
-
-          this.request.DistanceEducationMode = data['Data'].DistanceEducationMode;
-          this.request.PrivateExternalProgramme = data['Data'].PrivateExternalProgramme;
-          this.request.RegionalCenters = data['Data'].RegionalCenters;
-          this.request.RegionalCentersDetails = data['Data'].RegionalCentersDetails;
+          if (data['Data'].DistanceEducationMode != null) {
+            this.request.DistanceEducationMode = data['Data'].DistanceEducationMode;
+          }
+          if (data['Data'].PrivateExternalProgramme != null) {
+            this.request.PrivateExternalProgramme = data['Data'].PrivateExternalProgramme;
+          }
+          if (data['Data'].RegionalCenters != null) {
+            this.request.RegionalCenters = data['Data'].RegionalCenters;
+          }
+          if (data['Data'].RegionalCentersDetails != null) {
+            this.request.RegionalCentersDetails = data['Data'].RegionalCentersDetails;
+          }
            
 
         }, error => console.error(error));

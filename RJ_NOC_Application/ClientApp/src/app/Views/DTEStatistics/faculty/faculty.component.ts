@@ -86,6 +86,12 @@ export class FacultyComponent implements OnInit {
     if (this.FacultyFormGroup.invalid) {
       return
     }
+
+    if (this.request.FacultyDetails.length==0) {
+      this.toastr.error("Enter Faculty Details.!");
+      return;
+    }
+
     this.loaderService.requestStarted();
     this.isLoading = true;
     try {

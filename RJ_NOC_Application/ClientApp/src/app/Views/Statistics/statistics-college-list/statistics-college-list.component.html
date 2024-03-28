@@ -60,7 +60,7 @@
                         <i class="fa fa-eye"></i>
                       </a>
                       <a *ngIf="row.IsStatisticsFinalSubmit!=0" class="btn btn-info" href="javascript:void(0)"
-                         title="View Statistics Data" (click)="PreviewStatistics_click(row.CollegeID)">
+                         title="View Statistics Data" (click)="PreviewStatistics_click(row.CollegeID,row.DepartmentID)">
                         <i class="fa fa-list"></i>
                       </a>
                       <a href="javascript:void(0)" title="Statistics Entry" (click)="DraftEdit_OnClick(row.DepartmentID,row.SearchRecordID)" class="btn btn-sm btn-info" *ngIf="row.IsStatisticsFinalSubmit==0">
@@ -111,11 +111,13 @@
         </button>
       </div>
       <div class="modal-body">
-        <div class="col-md-12">
+        <div class="col-md-12" *ngIf="ViewSelectedDepartmentID==3">
 
           <button type="button" class="btn btn-outline-primary"
                   style=" text-align: right; float: right; margin-bottom: 10px;"
-                  title="Excel" id="btnExportTable" (click)="btnExportTable_Click()">Export to Excel  <i class="fa fa-file-excel-o"></i></button>
+                  title="Excel" id="btnExportTable" (click)="btnExportTable_Click()">
+            Export to Excel  <i class="fa fa-file-excel-o"></i>
+          </button>
 
           <div class="clearfix"></div>
           <div class="card mb-0">
@@ -244,8 +246,8 @@
                         {{item.OFTotalMinorityGirls}}
                       </td>
                       <!--<td>
-                {{item.OFTotalMinorityTransgender}}
-              </td>-->
+                  {{item.OFTotalMinorityTransgender}}
+                </td>-->
 
                       <td>
 
@@ -273,8 +275,8 @@
                     <tr class="fw-bold">
                       <td colspan="4">Total</td>
                       <!--<td></td>
-              <td></td>
-              <td></td>-->
+                <td></td>
+                <td></td>-->
                       <td>{{SCBoysCountFooter}}</td>
                       <td>{{SCGirlsCountFooter}}</td>
                       <td>{{STBoysCountFooter}}</td>
@@ -293,8 +295,6 @@
                       <td>{{OFTotalMinorityBoysFooter}}</td>
                       <td>{{OFTotalMinorityGirlsFooter}}</td>
                       <!--<td>{{TotalOFTotalMinorityTransgenderFooter}}</td>-->
-                      
-
                       it
                       <td>{{TotalMinorityTotalFooter}}</td>
                       <td>{{OFTotalPHBoysFooter}}</td>
@@ -311,7 +311,7 @@
 
           </div>
         </div>
-        <div class="col-md-12">
+        <div class="col-md-12" *ngIf="ViewSelectedDepartmentID==3">
           <div class="clearfix"></div>
           <div class="card mb-0">
             <div class="card-header d-xxl-flex d-xl-flex d-md-flex d-sm-block justify-content-between align-items-center">
@@ -472,8 +472,13 @@
             </div>
           </div>
         </div>
+
+        <div class="col-md-12" *ngIf="ViewSelectedDepartmentID==4">
+          comming soon.!
+        </div>
+
+        </div>
       </div>
-    </div>
   </div>
   </div>
 

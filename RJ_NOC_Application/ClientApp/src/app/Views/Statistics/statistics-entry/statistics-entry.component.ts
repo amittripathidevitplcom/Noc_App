@@ -40,7 +40,7 @@ export class StatisticsEntryComponent implements OnInit {
   public CollegeID: number = 0;
   public LandClass: string = 'tabs-Link LandInformation';
   public CollegeName: string = '';
-  public CheckTabsEntryData: any = [];
+  public CheckTabsEntry_StatisticsEntryData: any = [];
 
   public SearchRecordID: string = '';
   closeResult!: string;
@@ -82,7 +82,7 @@ export class StatisticsEntryComponent implements OnInit {
       }, error => console.error(error));
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     await this.GetCollageDetails();
-    await this.CheckTabsEntry();
+    await this.CheckTabsEntry_StatisticsEntry();
     await this.GetCollegeBasicDetails();
     await this.ShowDraftFinalSubmitBtn();
     this.loaderService.requestEnded();
@@ -132,8 +132,8 @@ export class StatisticsEntryComponent implements OnInit {
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.collegeDataList = data['Data'];
-          this.AISHECode=this.collegeDataList['AISHECode'] 
-          this.YearofEstablishment = this.collegeDataList['YearofEstablishmentName'] 
+          this.AISHECode = this.collegeDataList['AISHECode']
+          this.YearofEstablishment = this.collegeDataList['YearofEstablishmentName']
           if (this.collegeDataList['CollegeStatus'] == 'New') {
             this.CollegeType_IsExisting = false;
           }
@@ -170,6 +170,9 @@ export class StatisticsEntryComponent implements OnInit {
 
   async StatisticsFinalSubmit() {
 
+    if (this.SelectedDepartmentID == 4) {
+      this.request.Confirmation = "Yes";
+    }
     if (this.request.Confirmation == "0") {
       this.toastr.error("Select data confirmation.!")
       return;
@@ -211,22 +214,58 @@ export class StatisticsEntryComponent implements OnInit {
       }
     }
   }
-  async ShowDraftFinalSubmitBtn() {
-    await this.CheckTabsEntry();
-    this.IsShowDraftFinalSubmit = true;
-    if (this.CheckTabsEntryData['ClassWiseStatistics'] > 0 && this.CheckTabsEntryData['SubjectWiseStatistics'] > 0) {
-      this.IsShowDraftFinalSubmit = false;
-    }
 
+
+  async ShowDraftFinalSubmitBtn() {
+    await this.CheckTabsEntry_StatisticsEntry();
+    this.IsShowDraftFinalSubmit = true;
+    if (this.SelectedDepartmentID == 3) {
+      if (this.CheckTabsEntry_StatisticsEntryData['ClassWiseStatistics'] > 0
+        && this.CheckTabsEntry_StatisticsEntryData['SubjectWiseStatistics'] > 0) {
+        this.IsShowDraftFinalSubmit = false;
+      }
+    }
+    else if (this.SelectedDepartmentID == 4) {
+      if (this.CheckTabsEntry_StatisticsEntryData['BasicInformation'] > 0
+        && this.CheckTabsEntry_StatisticsEntryData['OfficersDetails'] > 0
+        && this.CheckTabsEntry_StatisticsEntryData['Address'] > 0
+        && this.CheckTabsEntry_StatisticsEntryData['ResidentialFacility'] > 0
+        && this.CheckTabsEntry_StatisticsEntryData['RegionalCenters'] > 0
+        && this.CheckTabsEntry_StatisticsEntryData['OffShoreCenter'] > 0
+        && this.CheckTabsEntry_StatisticsEntryData['Faculty'] > 0
+        && this.CheckTabsEntry_StatisticsEntryData['Department'] > 0
+        && this.CheckTabsEntry_StatisticsEntryData['RegularMode'] > 0
+        && this.CheckTabsEntry_StatisticsEntryData['DistanceMode'] > 0
+        && this.CheckTabsEntry_StatisticsEntryData['StudentEnrlRegularMode'] > 0
+        && this.CheckTabsEntry_StatisticsEntryData['StudentEnrlDistanceMode'] > 0
+        && this.CheckTabsEntry_StatisticsEntryData['RegionalCentreDistancemode'] > 0
+        && this.CheckTabsEntry_StatisticsEntryData['PvtExternalMode'] > 0
+        && this.CheckTabsEntry_StatisticsEntryData['ReguForeignStuEnrolment'] > 0
+        && this.CheckTabsEntry_StatisticsEntryData['ExaminationResultsRegular'] > 0
+        && this.CheckTabsEntry_StatisticsEntryData['ExaminationResultsDistance'] > 0
+        && this.CheckTabsEntry_StatisticsEntryData['ExamResultsRegionalCenter'] > 0
+        && this.CheckTabsEntry_StatisticsEntryData['ExamResultspvtExternal'] > 0
+        && this.CheckTabsEntry_StatisticsEntryData['PlacementDetails'] > 0
+        && this.CheckTabsEntry_StatisticsEntryData['TeachingStaff'] > 0
+        && this.CheckTabsEntry_StatisticsEntryData['NonTeaching'] > 0
+        && this.CheckTabsEntry_StatisticsEntryData['FinancialDetails'] > 0
+        && this.CheckTabsEntry_StatisticsEntryData['InfrastructureDetails'] > 0
+        && this.CheckTabsEntry_StatisticsEntryData['Scholarship_Fellowship_Loan_Acc'] > 0
+        && this.CheckTabsEntry_StatisticsEntryData['RegulatoryInformation'] > 0) {
+        this.IsShowDraftFinalSubmit = false;
+      }
+    }
   }
-  async CheckTabsEntry() {
+
+
+  async CheckTabsEntry_StatisticsEntry() {
     try {
       this.loaderService.requestStarted();
-      await this.commonMasterService.CheckTabsEntry(this.SelectedCollageID.toString())
+      await this.commonMasterService.CheckTabsEntry_StatisticsEntry(this.SelectedCollageID.toString())
         .then(async (data: any) => {
           data = JSON.parse(JSON.stringify(data));
-          this.CheckTabsEntryData = data['Data'][0]['data'][0];
-          console.log(this.CheckTabsEntryData);
+          this.CheckTabsEntry_StatisticsEntryData = data['Data'][0]['data'][0];
+          console.log(this.CheckTabsEntry_StatisticsEntryData);
         }, error => console.error(error));
     }
     catch (Ex) {

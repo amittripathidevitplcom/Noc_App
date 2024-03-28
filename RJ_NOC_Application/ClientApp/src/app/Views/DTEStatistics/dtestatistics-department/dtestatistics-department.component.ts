@@ -87,6 +87,12 @@ export class DTEStatisticsDepartmentComponent implements OnInit {
     if (this.DepartmentFormGroup.invalid) {
       return
     }
+
+    if (this.request.DepartmentDetails.length == 0) {
+      this.toastr.error("Enter Department Details.!");
+      return;
+    }
+
     this.loaderService.requestStarted();
     this.isLoading = true;
     try {

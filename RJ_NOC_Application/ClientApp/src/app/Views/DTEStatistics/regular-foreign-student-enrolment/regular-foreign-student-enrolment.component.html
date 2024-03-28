@@ -16,14 +16,14 @@
         <div class="col-lg-6 col-md-6 col-12 mb-3">
           <label class="form-label">Whether Foreign Student Enrolled In the institution</label>
 
-          <input class="form-control form-control-sm width200px" id="txtForeignStudentEnrolledInTheinstitution"
+          <input class="form-control form-control-sm" id="txtForeignStudentEnrolledInTheinstitution"
                  [(ngModel)]="request.ForeignStudentEnrolledInTheinstitution" maxlength="6"
                  type="text" (keypress)="numberOnly($event)" [ngModelOptions]="{standalone: true}" />
 
         </div>
         <div class="col-lg-6 col-md-6 col-12 mb-3">
           <label class="form-label">Approved Intake Capacity of International Students</label>
-          <input class="form-control form-control-sm width200px" id="txtApprovedIntakeCapacityOfInternationalStudents"
+          <input class="form-control form-control-sm" id="txtApprovedIntakeCapacityOfInternationalStudents"
                  [(ngModel)]="request.ApprovedIntakeCapacityOfInternationalStudents" maxlength="6"
                  type="text" (keypress)="numberOnly($event)" [ngModelOptions]="{standalone: true}" />
         </div>
