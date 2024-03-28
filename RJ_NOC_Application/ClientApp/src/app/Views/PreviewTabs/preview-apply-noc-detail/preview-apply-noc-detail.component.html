@@ -101,6 +101,16 @@
             </label>
           </div>
         </div>
+        <div class="row" *ngIf="ApplyNocApplicationDetail.DepartmentID==4">
+          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+            <label>
+              <b>
+                Existing Letter of EOA :
+              </b>
+              <a class="bi bi-file-earmark-pdf-fill" *ngIf="ApplyNocApplicationDetail.ExistingLetterofEOA.includes('.pdf')" target="_blank" href="{{ApplyNocApplicationDetail.ExistingLetterofEOA}}" title="Existing Letter of EOA" style="font-size:25px"></a>
+            </label>
+          </div>
+        </div>
         <!--end-->
         <!--parameter detail-->
         <div class="row">
