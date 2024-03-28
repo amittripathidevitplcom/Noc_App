@@ -392,6 +392,7 @@ import { ScholarshipFellowshipLoanAccComponent } from './Views/DTEStatistics/sch
 import { DTEStatisticsStaffComponent } from './Views/DTEStatistics/dtestatistics-staff/dtestatistics-staff.component';
 import { DTEStatisticsNonTeachingComponent } from './Views/DTEStatistics/dtestatistics-non-teaching/dtestatistics-non-teaching.component';
 import { BasicDetailsComponent } from './Views/DTEStatistics/basic-details/basic-details.component';
+import { PreviewDTEStatisticsComponent } from './Views/DTEStatistics/preview-dtestatistics/preview-dtestatistics.component';
 
 //import { NewgrievancereportComponent } from './Views/DCE/newgrievancereport/newgrievancereport/newgrievancereport.component';
 
@@ -774,7 +775,8 @@ import { BasicDetailsComponent } from './Views/DTEStatistics/basic-details/basic
     ScholarshipFellowshipLoanAccComponent,
     DTEStatisticsStaffComponent,
     DTEStatisticsNonTeachingComponent,
-      BasicDetailsComponent
+      BasicDetailsComponent,
+      PreviewDTEStatisticsComponent
   ],
   imports: [
     CommonModule,

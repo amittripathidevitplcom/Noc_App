@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, Injectable, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -21,7 +21,9 @@ import { RegularModeComponent } from '../../DTEStatistics/regular-mode/regular-m
   styleUrls: ['./statistics-entry.component.css']
 })
 
-
+  @Injectable({
+    providedIn: 'root'
+  })
 
 export class StatisticsEntryComponent implements OnInit {
 

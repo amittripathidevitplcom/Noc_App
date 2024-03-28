@@ -9,6 +9,7 @@ import { OfficersDetailsDataModel } from '../../../Models/DTEStatistics/Officers
 import { DropdownValidators } from '../../../Services/CustomValidators/custom-validators.service';
 import { OfficersDetailsService } from '../../../Services/DTEStatistics/officers-details.service';
 import { StatisticsEntryComponent } from '../../Statistics/statistics-entry/statistics-entry.component';
+import { PreviewDTEStatisticsComponent } from '../preview-dtestatistics/preview-dtestatistics.component';
 
 @Component({
   selector: 'app-officers-details',
@@ -29,9 +30,10 @@ export class OfficersDetailsComponent implements OnInit {
   public SearchRecordID: string = ''
   public isSubmitted: boolean = false;
   public DesignationMasterList: any = [];
+  public PreviewStatus: string = 'N';
 
   constructor(private officersDetailsService: OfficersDetailsService, private loaderService: LoaderService, private router: ActivatedRoute, private commonMasterService: CommonMasterService, private routers: Router, private formBuilder: FormBuilder, private toastr: ToastrService
-    , private statisticsEntryComponent: StatisticsEntryComponent) {
+    , private statisticsEntryComponent: StatisticsEntryComponent, private previewDTEStatisticsComponent: PreviewDTEStatisticsComponent) {
   }
   async ngOnInit() {
     this.OfficersDetailsFormGroup = this.formBuilder.group(
@@ -48,16 +50,26 @@ export class OfficersDetailsComponent implements OnInit {
         txtEmail_Nodal: [''],
         txtTelephoneNo_Nodal: [''],
       })
+    this.PreviewStatus = this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('PreviewStatus')?.toString());
+    if (this.PreviewStatus != 'Y') {
+      this.SelectedDepartmentID = this.statisticsEntryComponent.SelectedDepartmentID;
+      this.SelectedCollageID = this.statisticsEntryComponent.SelectedCollageID;
+      this.request.SelectedCollegeEntryTypeName = this.statisticsEntryComponent.SelectedCollegeEntryType;
+    }
+    else {
+      this.OfficersDetailsFormGroup.disable();
+      this.SelectedDepartmentID = this.previewDTEStatisticsComponent.SelectedDepartmentID;
+      this.SelectedCollageID = await this.previewDTEStatisticsComponent.GetCollegeID_SearchRecordID();
+    }
 
-
-    this.SelectedDepartmentID = this.statisticsEntryComponent.SelectedDepartmentID;
-    this.SelectedCollageID = this.statisticsEntryComponent.SelectedCollageID;
+    //this.SelectedDepartmentID = this.statisticsEntryComponent.SelectedDepartmentID;
+    //this.SelectedCollageID = this.statisticsEntryComponent.SelectedCollageID;
 
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     this.request.CollegeID = this.SelectedCollageID;
     this.request.ModifyBy = this.sSOLoginDataModel.UserID;
     this.request.Department = this.SelectedDepartmentID;
-    this.request.SelectedCollegeEntryTypeName = this.statisticsEntryComponent.SelectedCollegeEntryType;
+    //this.request.SelectedCollegeEntryTypeName = this.statisticsEntryComponent.SelectedCollegeEntryType;
 
     await this.GetDesignation_OfficersDetailsMasterList();
     await this.GetByID()

@@ -1,7 +1,7 @@
 <form [formGroup]="BasicDetailsFormGroup" class="form-horizontal">
   <div class="card mb-0">
     <div class="card-header d-xxl-flex d-xl-flex d-md-flex d-sm-block justify-content-between align-items-center">
-      <b><i class="bi bi-table"></i>&nbsp;Regional Centers (As per current session)</b>
+      <b><i class="bi bi-table"></i>&nbsp;Basic Details (As per current session)</b>
       <div class="d-flex align-items-center">
         <div class="btn-group mr-15" role="group" aria-label="Basic outlined example">
         </div>
@@ -22,7 +22,7 @@
           <label class="form-label" for="txtNameofinstitution">
             Name of institution:
           </label>
-          <input [attr.disabled]="isDisabled ? true : null" class="form-control" id="txtNameofinstitution" maxlength="100"
+          <input class="form-control" id="txtNameofinstitution" maxlength="100"
                  formControlName="txtNameofinstitution" [(ngModel)]="request.Nameofinstitution" />
         </div>
         <div class="col-lg-4 col-md-6 col-sm-12 col-12 mb-3">
@@ -128,7 +128,7 @@
               <label class="form-label" for="txtEnrolledTotalStudentInNCC">
                 Total:
               </label>
-              <input [attr.disabled]="isDisabled ? true : null" class="form-control" id="txtEnrolledTotalStudentInNCC" (keypress)="numberOnly($event)" maxlength="6"
+              <input  class="form-control" id="txtEnrolledTotalStudentInNCC" (keypress)="numberOnly($event)" maxlength="6"
                      formControlName="txtEnrolledTotalStudentInNCC" [(ngModel)]="request.EnrolledTotalStudentInNCC" />
             </div>
 
@@ -162,7 +162,7 @@
               <label class="form-label" for="txtEnrolledTotalStudentInNSS">
                 Total:
               </label>
-              <input [attr.disabled]="isDisabled ? true : null" class="form-control" id="txtEnrolledTotalStudentInNSS" (keypress)="numberOnly($event)" maxlength="6" disabled
+              <input  class="form-control" id="txtEnrolledTotalStudentInNSS" (keypress)="numberOnly($event)" maxlength="6" disabled
                      formControlName="txtEnrolledTotalStudentInNSS" [(ngModel)]="request.EnrolledTotalStudentInNSS" />
             </div>
             <div class="col-lg-4 col-md-6 col-sm-12 col-12 mb-3">
@@ -195,8 +195,8 @@
             </label>
           </div>
         </div>
-        <div class="card-body">
-          <div class="row">
+        <div class="card-body" >
+          <div class="row"  *ngIf="PreviewStatus!='Y'">
             <div class="col-lg-3 col-md-6 col-sm-12 col-12 mb-3">
               <label class="form-label" for="txtSpecialisation">
                 Specialisation
@@ -243,7 +243,7 @@
                       <th>
                         Total
                       </th>
-                      <th width="100px" class="text-center">Action</th>
+                      <th width="100px" class="text-center"  *ngIf="PreviewStatus!='Y'">Action</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -253,15 +253,15 @@
                       <td>{{row.NoOfCollegesPermanentAffiliation}}</td>
                       <td>{{row.NoOfCollegesTemporaryAffiliation}}</td>
                       <td>{{row.Total}}</td>
-                      <td>
+                      <td  *ngIf="PreviewStatus!='Y'">
                         <div class="d-flex justify-content-center">
                           <button type="button" id="btnEdit_{{idx}}" class="btn btn-sm btn-primary"
-                                  (click)="btnEdit_Click(row,idx)" [attr.disabled]="isDisabledGrid ? true : null" title="Edit">
+                                  (click)="btnEdit_Click(row,idx)"  title="Edit">
                             <i class="fa fa-edit"></i>
                           </button>
                           <button type="button" class="btn btn-sm btn-danger" title="Delete"
                                   (click)="btnDelete_Click(idx)">
-                            <i class="fa fa-trash" [attr.disabled]="isDisabledGrid ? true : null"></i>
+                            <i class="fa fa-trash" ></i>
                           </button>
                         </div>
                       </td>
@@ -302,7 +302,10 @@
                     <tr *ngFor="let row of this.request.CollegeUnderUniversityDetails ;let idx=index;">
                       <td>{{idx+1}}</td>
                       <td>{{row.College}}</td>
-                      <td><input class="form-control" [ngModelOptions]="{standalone: true}" id="txtNoOfColleges_{{idx}}" maxlength="6" (keypress)="numberOnly($event)" [(ngModel)]="row.NoOfColleges" /></td>
+                      <td>
+                        <input *ngIf="PreviewStatus=='Y'" class="form-control disabled" disabled value="{{row.NoOfColleges}}" />
+                        <input *ngIf="PreviewStatus!='Y'" class="form-control" [ngModelOptions]="{standalone: true}" id="txtNoOfColleges_{{idx}}" maxlength="6" (keypress)="numberOnly($event)" [(ngModel)]="row.NoOfColleges" />
+                      </td>
                     </tr>
                   </tbody>
                 </table>
@@ -312,9 +315,10 @@
         </div>
       </div>
     </div>
-    <div class="card-footer text-end">
+    <div class="card-footer text-end" *ngIf="PreviewStatus!='Y'">
       <button type="button" (click)="SaveData()" class="btn btn-success">Save Draft</button>
     </div>
+   
   </div>
 </form>
 

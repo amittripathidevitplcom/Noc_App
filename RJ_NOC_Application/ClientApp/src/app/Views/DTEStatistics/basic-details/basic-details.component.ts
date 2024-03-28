@@ -6,9 +6,11 @@ import { ToastrService } from 'ngx-toastr';
 import { CommonMasterService } from '../../../Services/CommonMaster/common-master.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { StatisticsEntryComponent } from '../../Statistics/statistics-entry/statistics-entry.component';
+import { PreviewDTEStatisticsComponent } from '../preview-dtestatistics/preview-dtestatistics.component';
 import { BasicDetailsDataModel, BasicDetails_SpecialisationDetailsDataModel } from '../../../Models/DTEStatistics/BasicDetailsDataModel';
 import { BasicDetailsService } from '../../../Services/DTEStatistics/BasicDetails/basic-details.service';
 import { Console } from 'console';
+
 @Component({
   selector: 'app-basic-details',
   templateUrl: './basic-details.component.html',
@@ -29,11 +31,12 @@ export class BasicDetailsComponent {
 
   public CurrentIndex: number = -1;
   public isSubmitted: boolean = false;
+  public PreviewStatus: string = 'N';
+  public SearchRecordID: string = '';
   constructor(private loaderService: LoaderService, private router: ActivatedRoute, private commonMasterService: CommonMasterService, private routers: Router, private formBuilder: FormBuilder, private toastr: ToastrService
-    , private statisticsEntryComponent: StatisticsEntryComponent, private basicsetailsService: BasicDetailsService) {
+    , private previewDTEStatisticsComponent: PreviewDTEStatisticsComponent, private statisticsEntryComponent: StatisticsEntryComponent, private basicsetailsService: BasicDetailsService) {
   }
   async ngOnInit() {
-    this.isDisabled = true;
 
     this.BasicDetailsFormGroup = this.formBuilder.group(
       {
@@ -64,20 +67,31 @@ export class BasicDetailsComponent {
         txtNoOfCollegesTemporaryAffiliation: [''],
       });
     this.request.SpecialisationDetails = [];
-    this.SelectedDepartmentID = this.statisticsEntryComponent.SelectedDepartmentID;
-    this.SelectedCollageID = this.statisticsEntryComponent.SelectedCollageID;
+    this.PreviewStatus = this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('PreviewStatus')?.toString());
+    if (this.PreviewStatus != 'Y') {
+      this.SelectedDepartmentID = this.statisticsEntryComponent.SelectedDepartmentID;
+      this.SelectedCollageID = this.statisticsEntryComponent.SelectedCollageID;
+      this.request.SelectedCollegeEntryTypeName = this.statisticsEntryComponent.SelectedCollegeEntryType;
+      this.request.Nameofinstitution = this.statisticsEntryComponent.CollegeName;
+    }
+    else {
+      this.BasicDetailsFormGroup.disable();
+      this.SelectedDepartmentID = this.previewDTEStatisticsComponent.SelectedDepartmentID;
+      this.SelectedCollageID = await this.previewDTEStatisticsComponent.GetCollegeID_SearchRecordID();
+      var dt = await this.previewDTEStatisticsComponent.GetCollegeDetails_After();
+      //this.request.AisheCode = dt.AISHECode;
+      //this.request.YearofEstablishment = dt.YearofEstablishmentName;
+      this.request.Nameofinstitution = dt.CollegeNameEn;
+    }
     this.request.CollegeID = this.SelectedCollageID;
     this.request.Department = this.SelectedDepartmentID;
     await this.GetByID();
-
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
-
-    this.request.SelectedCollegeEntryTypeName = this.statisticsEntryComponent.SelectedCollegeEntryType;
-    this.request.Nameofinstitution = this.statisticsEntryComponent.CollegeName;
+    this.isDisabled = true;
 
   }
   get form() { return this.BasicDetailsFormGroup.controls; }
-
+  
   async GetByID() {
     try {
       this.loaderService.requestStarted();
@@ -88,7 +102,6 @@ export class BasicDetailsComponent {
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
-
           this.request.EntryID = data['Data'].EntryID;
           this.request.FYearID = data['Data'].FYearID;
           if (this.request.EntryID > 0) {
@@ -254,7 +267,7 @@ export class BasicDetailsComponent {
 
   async ModifyRequest() {
     if (this.request.EnrolledStudentInNCC == null || this.request.EnrolledStudentInNCC == undefined || this.request.EnrolledStudentInNCC.toString() == '') {
-      this.request.EnrolledStudentInNCC =0
+      this.request.EnrolledStudentInNCC = 0
     }
     if (this.request.EnrolledFemaleStudentInNCC == null || this.request.EnrolledFemaleStudentInNCC == undefined || this.request.EnrolledFemaleStudentInNCC.toString() == '') {
       this.request.EnrolledFemaleStudentInNCC = 0
