@@ -1608,14 +1608,14 @@
                     {{ApplyNocApplicationDetail['ApplicationTypeName']}}
                   </td>
                 </tr>
+                <tr *ngIf="ApplyNocApplicationDetail.DepartmentID==4 && idx==0">
+                  <td colspan="4">
+                    <b>  Existing Letter of EOA :</b><a class="bi bi-file-earmark-pdf-fill" *ngIf="ApplyNocApplicationDetail.ExistingLetterofEOA.includes('.pdf')" target="_blank" href="{{ApplyNocApplicationDetail.ExistingLetterofEOA}}" title="Existing Letter of EOA" style="font-size:25px"></a>
+                  </td>
+                </tr>
                 <tr>
                   <td colspan="4">
                     <b>{{parameterDetail.ApplyNocFor}} : {{parameterDetail.FeeAmount}}</b>
-                  </td>
-                </tr>
-                <tr *ngIf="ApplyNocApplicationDetail.DepartmentID==4">
-                  <td colspan="4">
-                    <b>  Existing Letter of EOA :</b><a class="bi bi-file-earmark-pdf-fill" *ngIf="ApplyNocApplicationDetail.ExistingLetterofEOA.includes('.pdf')" target="_blank" href="{{ApplyNocApplicationDetail.ExistingLetterofEOA}}" title="Existing Letter of EOA" style="font-size:25px"></a>
                   </td>
                 </tr>
                 <tr *ngIf="parameterDetail.ParameterCode=='DTE_BankDetails'">
