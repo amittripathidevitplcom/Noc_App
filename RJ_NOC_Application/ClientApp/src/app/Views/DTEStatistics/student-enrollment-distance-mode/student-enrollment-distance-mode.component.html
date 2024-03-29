@@ -200,7 +200,7 @@
                   </td>
 
                   <td rowspan="4">
-                    <textarea class="form-control form-control-sm" id="txtRemark_{{idx}}" type="text" maxlength="200"
+                    <textarea [disabled]="disabled" class="form-control form-control-sm" id="txtRemark_{{idx}}" type="text" maxlength="200"
                               [(ngModel)]="row.Remark" [ngModelOptions]="{standalone: true}"></textarea>
                   </td>
                   <td rowspan="4"  *ngIf="PreviewStatus!='Y'">
