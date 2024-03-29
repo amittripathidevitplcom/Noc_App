@@ -60,7 +60,7 @@
                         <i class="fa fa-eye"></i>
                       </a>
                       <a *ngIf="row.IsStatisticsFinalSubmit!=0" class="btn btn-info" href="javascript:void(0)"
-                         title="View Statistics Data" (click)="PreviewStatistics_click(row.CollegeID,row.DepartmentID)">
+                         title="View Statistics Data" (click)="PreviewStatistics_click(row.CollegeID,row.DepartmentID,row.SearchRecordID)">
                         <i class="fa fa-list"></i>
                       </a>
                       <a href="javascript:void(0)" title="Statistics Entry" (click)="DraftEdit_OnClick(row.DepartmentID,row.SearchRecordID)" class="btn btn-sm btn-info" *ngIf="row.IsStatisticsFinalSubmit==0">

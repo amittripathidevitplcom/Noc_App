@@ -9,6 +9,7 @@ import { RegulatoryInformationDataModel } from '../../../Models/DTEStatistics/Re
 import { DropdownValidators } from '../../../Services/CustomValidators/custom-validators.service';
 import { RegulatoryInformationService } from '../../../Services/DTEStatistics/RegulatoryInformation/regulatory-information.service';
 import { StatisticsEntryComponent } from '../../Statistics/statistics-entry/statistics-entry.component';
+import { PreviewDTEStatisticsComponent } from '../preview-dtestatistics/preview-dtestatistics.component';
 
 @Component({
   selector: 'app-regulatory-information',
@@ -29,9 +30,10 @@ export class RegulatoryInformationComponent implements OnInit {
   public SearchRecordID: string = ''
   public isSubmitted: boolean = false;
   public DesignationMasterList: any = [];
+  public PreviewStatus: string = 'N';
 
   constructor(private RegulatoryInformationService: RegulatoryInformationService, private loaderService: LoaderService, private router: ActivatedRoute, private commonMasterService: CommonMasterService, private routers: Router, private formBuilder: FormBuilder, private toastr: ToastrService
-    , private statisticsEntryComponent: StatisticsEntryComponent) {
+    , private statisticsEntryComponent: StatisticsEntryComponent, private previewDTEStatisticsComponent: PreviewDTEStatisticsComponent) {
   }
   async ngOnInit() {
     this.RegulatoryInformationFormGroup = this.formBuilder.group(
@@ -44,9 +46,18 @@ export class RegulatoryInformationComponent implements OnInit {
       })
 
 
-    this.SelectedDepartmentID = this.statisticsEntryComponent.SelectedDepartmentID;
-    this.SelectedCollageID = this.statisticsEntryComponent.SelectedCollageID;
-
+    this.PreviewStatus = this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('PreviewStatus')?.toString());
+    if (this.PreviewStatus != 'Y') {
+      this.SelectedDepartmentID = this.statisticsEntryComponent.SelectedDepartmentID;
+      this.SelectedCollageID = this.statisticsEntryComponent.SelectedCollageID;
+      this.request.SelectedCollegeEntryTypeName = this.statisticsEntryComponent.SelectedCollegeEntryType;
+    }
+    else {
+      this.RegulatoryInformationFormGroup.disable();
+      this.SelectedDepartmentID = this.previewDTEStatisticsComponent.SelectedDepartmentID;
+      this.SelectedCollageID = await this.previewDTEStatisticsComponent.GetCollegeID_SearchRecordID();
+      //var dt = await this.previewDTEStatisticsComponent.GetCollegeDetails_After();
+    }
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     this.request.CollegeID = this.SelectedCollageID;
     this.request.ModifyBy = this.sSOLoginDataModel.UserID;

@@ -11,7 +11,7 @@
     </div>
     <div class="card-body">
 
-      <div class="row">
+      <div class="row" *ngIf="PreviewStatus!='Y'">
         <div class="col-lg-3 col-md-6 col-sm-12 col-12 mb-3">
           <label class="form-label" for="txtNameofFaculty">Name of Faculty/School</label>
           <input class="form-control" id="txtNameofFaculty" maxlength="100"
@@ -30,14 +30,14 @@
                 <tr>
                   <th width="60px">Sr. No.</th>
                   <th>Name of Faculty/School</th>
-                  <th width="100px" class="text-center">Action</th>
+                  <th width="100px" class="text-center" *ngIf="PreviewStatus!='Y'">Action</th>
                 </tr>
               </thead>
               <tbody>
                 <tr *ngFor="let row of this.request.FacultyDetails ;let idx=index;">
                   <td>{{idx+1}}</td>
                   <td>{{row.NameofFaculty}}</td>
-                  <td>
+                  <td *ngIf="PreviewStatus!='Y'"> 
                     <div class="d-flex justify-content-center">
                       <button type="button" id="btnEdit_{{idx}}" class="btn btn-sm btn-primary"
                               (click)="btnEdit_Click(row,idx)" [attr.disabled]="isDisabledGrid ? true : null" title="Edit">
@@ -56,7 +56,7 @@
         </div>
       </div>
     </div>
-    <div class="card-footer text-end">
+    <div class="card-footer text-end" *ngIf="PreviewStatus!='Y'">
       <button type="button" (click)="SaveData()" class="btn btn-success">Save Draft</button>
     </div>
   </div>
