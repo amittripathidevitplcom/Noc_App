@@ -45,7 +45,7 @@
                         {{row.Item}}
                       </td>
                       <td>
-                        <input class="form-control form-control-sm" id="Amount{{idx}}" [(ngModel)]="row.Amount" maxlength="15"
+                        <input [disabled]="disabled" class="form-control form-control-sm" id="Amount{{idx}}" [(ngModel)]="row.Amount" maxlength="15"
                                type="text" (keypress)="DecimalOnly($event)" [ngModelOptions]="{standalone: true}"
                                (change)="Income_Change()" />
                       </td>
@@ -102,7 +102,7 @@
                             {{row.Item}}
                           </td>
                           <td>
-                            <input class="form-control form-control-sm" id="Amount{{idx}}" [(ngModel)]="row.Amount" maxlength="15"
+                            <input [disabled]="disabled" class="form-control form-control-sm" id="Amount{{idx}}" [(ngModel)]="row.Amount" maxlength="15"
                                    type="text" (keypress)="DecimalOnly($event)" [ngModelOptions]="{standalone: true}"
                                    (change)="Expense_Change()" />
                           </td>
@@ -130,7 +130,7 @@
         </div>
       </div>
     </div>
-    <div class="card-footer text-end">
+    <div class="card-footer text-end" *ngIf="PreviewStatus!='Y'">
       <button type="button" (click)="SaveData()" class="btn btn-success">Save Draft</button>
     </div>
   </div>

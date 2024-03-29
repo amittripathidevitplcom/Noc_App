@@ -8,6 +8,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ScholarshipFellowshipLoanAccDataModel, ScholarshipFellowshipLoanAccDataModel_ACC, ScholarshipFellowshipLoanAccDataModel_Scholarship } from '../../../Models/DTEStatistics/ScholarshipFellowshipLoanAccDataModel';
 import { StatisticsEntryComponent } from '../../Statistics/statistics-entry/statistics-entry.component';
 import { ScholarshipFellowshipLoanAccService } from '../../../Services/DTEStatistics/ScholarshipFellowshipLoanAcc/scholarship-fellowship-loan-acc.service';
+import { PreviewDTEStatisticsComponent } from '../preview-dtestatistics/preview-dtestatistics.component';
 
 @Component({
   selector: 'app-scholarship-fellowship-loan-acc',
@@ -28,9 +29,11 @@ export class ScholarshipFellowshipLoanAccComponent implements OnInit {
   public CurrentIndex: number = -1;
   public levelDataList: any = [];
   public programmeDataList: any = [];
+  public disabled: boolean = false;
+  public PreviewStatus: string = 'N';
 
   constructor(private ScholarshipFellowshipLoanAccService: ScholarshipFellowshipLoanAccService, private loaderService: LoaderService, private router: ActivatedRoute, private commonMasterService: CommonMasterService, private routers: Router, private formBuilder: FormBuilder, private toastr: ToastrService
-    , private statisticsEntryComponent: StatisticsEntryComponent) {
+    , private statisticsEntryComponent: StatisticsEntryComponent, private previewDTEStatisticsComponent: PreviewDTEStatisticsComponent) {
   }
   async ngOnInit() {
 
@@ -39,8 +42,18 @@ export class ScholarshipFellowshipLoanAccComponent implements OnInit {
     this.request.Loan = [];
     this.request.ACC = [];
 
-    this.SelectedDepartmentID = this.statisticsEntryComponent.SelectedDepartmentID;
-    this.SelectedCollageID = this.statisticsEntryComponent.SelectedCollageID;
+    this.PreviewStatus = this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('PreviewStatus')?.toString());
+    if (this.PreviewStatus != 'Y') {
+      this.SelectedDepartmentID = this.statisticsEntryComponent.SelectedDepartmentID;
+      this.SelectedCollageID = this.statisticsEntryComponent.SelectedCollageID;
+      this.request.SelectedCollegeEntryTypeName = this.statisticsEntryComponent.SelectedCollegeEntryType;
+    }
+    else {
+      this.disabled = true;
+      this.SelectedDepartmentID = this.previewDTEStatisticsComponent.SelectedDepartmentID;
+      this.SelectedCollageID = await this.previewDTEStatisticsComponent.GetCollegeID_SearchRecordID();
+      //var dt = await this.previewDTEStatisticsComponent.GetCollegeDetails_After();
+    }
 
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     this.request.CollegeID = this.SelectedCollageID;

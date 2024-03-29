@@ -56,86 +56,86 @@
               </td>
               <td class="stickyleft"><b>{{row.Category}}</b></td>
               <td>
-                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
                        id="txt_Scholarship_General_Total_{{idx}}" [(ngModel)]="row.General_Total" />
               </td>
               <td>
-                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
                        id="txt_Scholarship_General_Female_{{idx}}" [(ngModel)]="row.General_Female" />
               </td>
               <td>
-                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
                        id="txt_Scholarship_General_TransGender_{{idx}}" [(ngModel)]="row.General_TransGender" />
               </td>
 
               <td>
-                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
                        id="txt_Scholarship_EWS_Total_{{idx}}" [(ngModel)]="row.EWS_Total" />
               </td>
               <td>
-                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
                        id="txt_Scholarship_EWS_Female{{idx}}" [(ngModel)]="row.EWS_Female" />
               </td>
               <td>
-                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
                        id="txt_Scholarship_EWS_TransGender{{idx}}" [(ngModel)]="row.EWS_TransGender" />
               </td>
 
               <td>
-                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
                        id="txt_Scholarship_SC_Total{{idx}}" [(ngModel)]="row.SC_Total" />
               </td>
               <td>
-                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
                        id="txt_Scholarship_SC_Female{{idx}}" [(ngModel)]="row.SC_Female" />
               </td>
               <td>
-                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
                        id="txt_Scholarship_SC_TransGender{{idx}}" [(ngModel)]="row.SC_TransGender" />
               </td>
 
               <td>
-                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
                        id="txt_Scholarship_ST_Total{{idx}}" [(ngModel)]="row.ST_Total" />
               </td>
               <td>
-                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
                        id="txt_Scholarship_ST_Female{{idx}}" [(ngModel)]="row.ST_Female" />
               </td>
               <td>
-                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
                        id="txt_Scholarship_ST_TransGender{{idx}}" [(ngModel)]="row.ST_TransGender" />
               </td>
 
               <td>
-                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
                        id="txt_Scholarship_OBC_Total{{idx}}" [(ngModel)]="row.OBC_Total" />
               </td>
               <td>
-                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
                        id="txt_Scholarship_OBC_Female{{idx}}" [(ngModel)]="row.OBC_Female" />
               </td>
               <td>
-                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
                        id="txt_Scholarship_OBC_TransGender{{idx}}" [(ngModel)]="row.OBC_TransGender" />
               </td>
 
               <td>
-                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
                        id="txt_Scholarship_TOTAL_Total{{idx}}" [(ngModel)]="row.TOTAL_Total" />
               </td>
               <td>
-                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
                        id="txt_Scholarship_TOTAL_Female{{idx}}" [(ngModel)]="row.TOTAL_Female" />
               </td>
               <td>
-                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
                        id="txt_Scholarship_TOTAL_TransGender{{idx}}" [(ngModel)]="row.TOTAL_TransGender" />
               </td>
 
 
               <td>
-                <textarea class="form-control form-control-sm" id="txt_Scholarship_Remarks{{idx}}" type="text" maxlength="200"
+                <textarea [disabled]="disabled" class="form-control form-control-sm" id="txt_Scholarship_Remarks{{idx}}" type="text" maxlength="200"
                           [(ngModel)]="row.Remarks" [ngModelOptions]="{standalone: true}"></textarea>
               </td>
             </tr>
@@ -205,86 +205,86 @@
             <tr *ngFor="let row of this.request.Fellowship ;let idx=index;">
               <td class="stickyleft"><b>{{row.Category}}</b></td>
               <td>
-                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
                        id="txt_Fellowship_General_Total_{{idx}}" [(ngModel)]="row.General_Total" />
               </td>
               <td>
-                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
                        id="txt_Fellowship_General_Female_{{idx}}" [(ngModel)]="row.General_Female" />
               </td>
               <td>
-                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
                        id="txt_Fellowship_General_TransGender_{{idx}}" [(ngModel)]="row.General_TransGender" />
               </td>
 
               <td>
-                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
                        id="txt_Fellowship_EWS_Total_{{idx}}" [(ngModel)]="row.EWS_Total" />
               </td>
               <td>
-                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
                        id="txt_Fellowship_EWS_Female{{idx}}" [(ngModel)]="row.EWS_Female" />
               </td>
               <td>
-                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
                        id="txt_Fellowship_EWS_TransGender{{idx}}" [(ngModel)]="row.EWS_TransGender" />
               </td>
 
               <td>
-                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
                        id="txt_Fellowship_SC_Total{{idx}}" [(ngModel)]="row.SC_Total" />
               </td>
               <td>
-                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
                        id="txt_Fellowship_SC_Female{{idx}}" [(ngModel)]="row.SC_Female" />
               </td>
               <td>
-                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
                        id="txt_Fellowship_SC_TransGender{{idx}}" [(ngModel)]="row.SC_TransGender" />
               </td>
 
               <td>
-                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
                        id="txt_Fellowship_ST_Total{{idx}}" [(ngModel)]="row.ST_Total" />
               </td>
               <td>
-                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
                        id="txt_Fellowship_ST_Female{{idx}}" [(ngModel)]="row.ST_Female" />
               </td>
               <td>
-                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
                        id="txt_Fellowship_ST_TransGender{{idx}}" [(ngModel)]="row.ST_TransGender" />
               </td>
 
               <td>
-                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
                        id="txt_Fellowship_OBC_Total{{idx}}" [(ngModel)]="row.OBC_Total" />
               </td>
               <td>
-                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
                        id="txt_Fellowship_OBC_Female{{idx}}" [(ngModel)]="row.OBC_Female" />
               </td>
               <td>
-                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
                        id="txt_Fellowship_OBC_TransGender{{idx}}" [(ngModel)]="row.OBC_TransGender" />
               </td>
 
               <td>
-                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
                        id="txt_Fellowship_TOTAL_Total{{idx}}" [(ngModel)]="row.TOTAL_Total" />
               </td>
               <td>
-                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
                        id="txt_Fellowship_TOTAL_Female{{idx}}" [(ngModel)]="row.TOTAL_Female" />
               </td>
               <td>
-                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
                        id="txt_Fellowship_TOTAL_TransGender{{idx}}" [(ngModel)]="row.TOTAL_TransGender" />
               </td>
 
 
               <td>
-                <textarea class="form-control form-control-sm" id="txt_Fellowship_Remarks{{idx}}" type="text" maxlength="200"
+                <textarea [disabled]="disabled" class="form-control form-control-sm" id="txt_Fellowship_Remarks{{idx}}" type="text" maxlength="200"
                           [(ngModel)]="row.Remarks" [ngModelOptions]="{standalone: true}"></textarea>
               </td>
             </tr>
@@ -356,86 +356,86 @@
             <tr *ngFor="let row of this.request.Loan ;let idx=index;">
               <td class="stickyleft"><b>{{row.Category}}</b></td>
               <td>
-                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
                        id="txt_Loan_General_Total_{{idx}}" [(ngModel)]="row.General_Total" />
               </td>
               <td>
-                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
                        id="txt_Loan_General_Female_{{idx}}" [(ngModel)]="row.General_Female" />
               </td>
               <td>
-                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
                        id="txt_Loan_General_TransGender_{{idx}}" [(ngModel)]="row.General_TransGender" />
               </td>
 
               <td>
-                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
                        id="txt_Loan_EWS_Total_{{idx}}" [(ngModel)]="row.EWS_Total" />
               </td>
               <td>
-                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
                        id="txt_Loan_EWS_Female{{idx}}" [(ngModel)]="row.EWS_Female" />
               </td>
               <td>
-                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
                        id="txt_Loan_EWS_TransGender{{idx}}" [(ngModel)]="row.EWS_TransGender" />
               </td>
 
               <td>
-                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
                        id="txt_Loan_SC_Total{{idx}}" [(ngModel)]="row.SC_Total" />
               </td>
               <td>
-                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
                        id="txt_Loan_SC_Female{{idx}}" [(ngModel)]="row.SC_Female" />
               </td>
               <td>
-                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
                        id="txt_Loan_SC_TransGender{{idx}}" [(ngModel)]="row.SC_TransGender" />
               </td>
 
               <td>
-                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
                        id="txt_Loan_ST_Total{{idx}}" [(ngModel)]="row.ST_Total" />
               </td>
               <td>
-                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
                        id="txt_Loan_ST_Female{{idx}}" [(ngModel)]="row.ST_Female" />
               </td>
               <td>
-                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
                        id="txt_Loan_ST_TransGender{{idx}}" [(ngModel)]="row.ST_TransGender" />
               </td>
 
               <td>
-                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
                        id="txt_Loan_OBC_Total{{idx}}" [(ngModel)]="row.OBC_Total" />
               </td>
               <td>
-                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
                        id="txt_Loan_OBC_Female{{idx}}" [(ngModel)]="row.OBC_Female" />
               </td>
               <td>
-                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
                        id="txt_Loan_OBC_TransGender{{idx}}" [(ngModel)]="row.OBC_TransGender" />
               </td>
 
               <td>
-                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
                        id="txt_Loan_TOTAL_Total{{idx}}" [(ngModel)]="row.TOTAL_Total" />
               </td>
               <td>
-                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
                        id="txt_Loan_TOTAL_Female{{idx}}" [(ngModel)]="row.TOTAL_Female" />
               </td>
               <td>
-                <input class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
                        id="txt_Loan_TOTAL_TransGender{{idx}}" [(ngModel)]="row.TOTAL_TransGender" />
               </td>
 
 
               <td>
-                <textarea class="form-control form-control-sm" id="txt_Loan_Remarks{{idx}}" type="text" maxlength="200"
+                <textarea [disabled]="disabled" class="form-control form-control-sm" id="txt_Loan_Remarks{{idx}}" type="text" maxlength="200"
                           [(ngModel)]="row.Remarks" [ngModelOptions]="{standalone: true}"></textarea>
               </td>
 
@@ -474,7 +474,8 @@
               <th>Status of Accreditation</th>
               <th>Date if Accreditation Validity</th>
               <th>Grade</th>
-              <th>Action</th>
+              <th *ngIf="PreviewStatus!='Y'">Action</th>
+              <th *ngIf="PreviewStatus=='Y'"></th>
             </tr>
           </thead>
 
@@ -482,44 +483,44 @@
             <tr *ngFor="let row of request.ACC;let idx=index;">
               <td>{{idx+1}}</td>
               <td>
-                <input class="form-control form-control-sm width100px" maxlength="200" type="text" [ngModelOptions]="{standalone: true}"
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" maxlength="200" type="text" [ngModelOptions]="{standalone: true}"
                        id="txt_ACC_Name{{idx}}" [(ngModel)]="row.Name" />
               </td>
               <td>
-                <input class="form-control form-control-sm width100px" maxlength="200" type="text" [ngModelOptions]="{standalone: true}"
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" maxlength="200" type="text" [ngModelOptions]="{standalone: true}"
                        id="txt_ACC_AccreditationBody{{idx}}" [(ngModel)]="row.AccreditationBody" />
               </td>
               <td>
-                <input class="form-control form-control-sm width100px" maxlength="200" type="text" [ngModelOptions]="{standalone: true}"
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" maxlength="200" type="text" [ngModelOptions]="{standalone: true}"
                        id="txt_ACC_IsScoreProvided{{idx}}" [(ngModel)]="row.IsScoreProvided" />
               </td>
               <td>
-                <input class="form-control form-control-sm width100px" maxlength="200" type="text" [ngModelOptions]="{standalone: true}"
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" maxlength="200" type="text" [ngModelOptions]="{standalone: true}"
                        id="txt_ACC_MaximumScore{{idx}}" [(ngModel)]="row.MaximumScore" />
               </td>
               <td>
-                <input class="form-control form-control-sm width100px" maxlength="200" type="text" [ngModelOptions]="{standalone: true}"
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" maxlength="200" type="text" [ngModelOptions]="{standalone: true}"
                        id="txt_ACC_Score{{idx}}" [(ngModel)]="row.Score" />
               </td>
               <td>
-                <input class="form-control form-control-sm width100px" maxlength="200" type="text" [ngModelOptions]="{standalone: true}"
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" maxlength="200" type="text" [ngModelOptions]="{standalone: true}"
                        id="txt_ACC_CycleofAccreditatio{{idx}}" [(ngModel)]="row.CycleofAccreditatio" />
               </td>
               <td>
-                <input class="form-control form-control-sm width100px" maxlength="200" type="text" [ngModelOptions]="{standalone: true}"
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" maxlength="200" type="text" [ngModelOptions]="{standalone: true}"
                        id="txt_ACC_StatusofAccreditation{{idx}}" [(ngModel)]="row.StatusofAccreditation" />
               </td>
               <td>
-                <input class="form-control form-control-sm width100px" maxlength="200" type="text" [ngModelOptions]="{standalone: true}"
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" maxlength="200" type="text" [ngModelOptions]="{standalone: true}"
                        id="txt_ACC_DateifAccreditationValidity{{idx}}" [(ngModel)]="row.DateifAccreditationValidity" />
               </td>
               <td>
-                <input class="form-control form-control-sm width100px" maxlength="200" type="text" [ngModelOptions]="{standalone: true}"
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" maxlength="200" type="text" [ngModelOptions]="{standalone: true}"
                        id="txt_ACC_Grade{{idx}}" [(ngModel)]="row.Grade" />
               </td>
 
 
-              <td>
+              <td *ngIf="PreviewStatus!='Y'">
                 <div class="d-flex justify-content-center">
                   <button type="button" id="btnEdit_{{idx}}" class="btn btn-sm btn-primary
         " *ngIf="idx==(request.ACC.length-1)"
@@ -534,7 +535,7 @@
 
                 </div>
               </td>
-
+              <td *ngIf="PreviewStatus=='Y'"></td>
             </tr>
 
           </tbody>
@@ -544,7 +545,7 @@
     </div>
 
 
-    <div class="card-footer text-end">
+    <div class="card-footer text-end" *ngIf="PreviewStatus!='Y'">
       <button type="button" (click)="SaveData()" class="btn btn-success">Save Draft</button>
     </div>
   </div>

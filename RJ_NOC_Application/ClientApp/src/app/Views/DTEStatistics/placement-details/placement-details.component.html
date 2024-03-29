@@ -26,7 +26,8 @@
                   <th class="text-center">Total No. Of Students <br />Selected For Higher <br />Studies</th>
                   <th class="text-center">Median Annual Salary <br />for placed students</th>
 
-                  <th width="100px" class="text-center">Action</th>
+                  <th width="100px" class="text-center" *ngIf="PreviewStatus!='Y'">Action</th>
+                  <th width="100px" class="text-center" *ngIf="PreviewStatus=='Y'"></th>
                 </tr>
 
               </thead>
@@ -34,38 +35,38 @@
                 <tr *ngFor="let row of this.request.PlacementDetails ;let idx=index;">
                   <td>{{idx+1}}</td>
                   <td>
-                    <input class="form-control form-control-sm" id="NoOfStudentsPlaced_Male{{idx}}"
+                    <input [disabled]="disabled" class="form-control form-control-sm" id="NoOfStudentsPlaced_Male{{idx}}"
                            [(ngModel)]="row.NoOfStudentsPlaced_Male"  maxlength="6" (change)="NoOfStudentsPlaced_Male_OnChange(row,idx)"
                            type="text" (keypress)="numberOnly($event)" [ngModelOptions]="{standalone: true}" />
                   </td>
                   <td>
-                    <input class="form-control form-control-sm" id="NoOfStudentsPlaced_Female{{idx}}" [(ngModel)]="row.NoOfStudentsPlaced_Female"  maxlength="6" (change)="NoOfStudentsPlaced_Female_OnChange(row,idx)"
+                    <input [disabled]="disabled" class="form-control form-control-sm" id="NoOfStudentsPlaced_Female{{idx}}" [(ngModel)]="row.NoOfStudentsPlaced_Female"  maxlength="6" (change)="NoOfStudentsPlaced_Female_OnChange(row,idx)"
                            type="text" (keypress)="numberOnly($event)" [ngModelOptions]="{standalone: true}" />
                   </td>
                   <td>
-                    <input class="form-control form-control-sm" id="NoOfStudentsPlaced_Total{{idx}}" [(ngModel)]="row.NoOfStudentsPlaced_Total"  maxlength="6" disabled
+                    <input [disabled]="disabled" class="form-control form-control-sm" id="NoOfStudentsPlaced_Total{{idx}}" [(ngModel)]="row.NoOfStudentsPlaced_Total"  maxlength="6" disabled
                            type="text" (keypress)="numberOnly($event)" [ngModelOptions]="{standalone: true}" />
                   </td>
                   <td>
-                    <input class="form-control form-control-sm" id="NoOfStudentsSelectedForHigherStudies_Male{{idx}}" [(ngModel)]="row.NoOfStudentsSelectedForHigherStudies_Male" maxlength="6"
+                    <input [disabled]="disabled" class="form-control form-control-sm" id="NoOfStudentsSelectedForHigherStudies_Male{{idx}}" [(ngModel)]="row.NoOfStudentsSelectedForHigherStudies_Male" maxlength="6"
                            (change)="NoOfStudentsSelectedForHigherStudies_Male_OnChange(row,idx)"
                            type="text" (keypress)="numberOnly($event)" [ngModelOptions]="{standalone: true}" />
                   </td>
                   <td>
-                    <input class="form-control form-control-sm" id="NoOfStudentsSelectedForHigherStudies_Female{{idx}}" [(ngModel)]="row.NoOfStudentsSelectedForHigherStudies_Female" maxlength="6"
+                    <input [disabled]="disabled" class="form-control form-control-sm" id="NoOfStudentsSelectedForHigherStudies_Female{{idx}}" [(ngModel)]="row.NoOfStudentsSelectedForHigherStudies_Female" maxlength="6"
                            (change)="NoOfStudentsSelectedForHigherStudies_Female_OnChange(row,idx)"
                            type="text" (keypress)="numberOnly($event)" [ngModelOptions]="{standalone: true}" />
                   </td>
                   <td>
-                    <input class="form-control form-control-sm" id="NoOfStudentsSelectedForHigherStudies_Total{{idx}}" [(ngModel)]="row.NoOfStudentsSelectedForHigherStudies_Total" maxlength="6" disabled
+                    <input [disabled]="disabled" class="form-control form-control-sm" id="NoOfStudentsSelectedForHigherStudies_Total{{idx}}" [(ngModel)]="row.NoOfStudentsSelectedForHigherStudies_Total" maxlength="6" disabled
                            type="text" (keypress)="numberOnly($event)" [ngModelOptions]="{standalone: true}" />
                   </td>
                   <td>
-                    <input class="form-control form-control-sm" id="MedianAnnualSalaryforPlacedStudents{{idx}}" [(ngModel)]="row.MedianAnnualSalaryforPlacedStudents" maxlength="10"
+                    <input [disabled]="disabled" class="form-control form-control-sm" id="MedianAnnualSalaryforPlacedStudents{{idx}}" [(ngModel)]="row.MedianAnnualSalaryforPlacedStudents" maxlength="10"
                            type="text" (keypress)="DecimalOnly($event)" [ngModelOptions]="{standalone: true}" />
                   </td>
 
-                  <td>
+                  <td *ngIf="PreviewStatus!='Y'">
                     <div class="d-flex justify-content-center">
                       <button type="button" id="btnEdit_{{idx}}" class="btn btn-sm btn-primary 
                       " *ngIf="idx==(request.PlacementDetails.length-1)"
@@ -80,6 +81,9 @@
 
                     </div>
                   </td>
+                  <td *ngIf="PreviewStatus=='Y'">
+
+                  </td>
                 </tr>
               </tbody>
             </table>
@@ -89,7 +93,7 @@
     </div>
 
 
-    <div class="card-footer text-end">
+    <div class="card-footer text-end" *ngIf="PreviewStatus!='Y'">
       <button type="button" (click)="SaveData()" class="btn btn-success">Save Draft</button>
     </div>
   </div>

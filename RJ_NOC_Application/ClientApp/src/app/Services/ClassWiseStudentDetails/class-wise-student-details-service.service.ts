@@ -101,7 +101,17 @@ export class ClassWiseStudentDetailsServiceService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
+  public async GetCollegeStatisticsFinalSubmitStatus(CollegeID: number) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl + "/GetCollegeStatisticsFinalSubmitStatus/" + CollegeID)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
 
 }
 

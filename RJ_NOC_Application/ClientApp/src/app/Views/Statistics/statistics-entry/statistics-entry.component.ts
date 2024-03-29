@@ -83,6 +83,7 @@ export class StatisticsEntryComponent implements OnInit {
         }
       }, error => console.error(error));
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
+    await this.GetCollegeStatisticsFinalSubmitStatus();
     await this.GetCollageDetails();
     await this.CheckTabsEntry_StatisticsEntry();
     await this.GetCollegeBasicDetails();
@@ -310,7 +311,27 @@ export class StatisticsEntryComponent implements OnInit {
   }
 
 
-
+  async GetCollegeStatisticsFinalSubmitStatus() {
+    try {
+      this.loaderService.requestStarted();
+      await this.classWiseStudentDetailsServiceService.GetCollegeStatisticsFinalSubmitStatus(this.SelectedCollageID)
+        .then(async (data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          if (data.Data == true) {
+            this.toastr.warning('You have already submitted your final data.')
+            this.routers.navigate(['/statisticscollegelist']);
+          }
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
 }
 
 //export type StatisticsEntry = "University" | "College" | "Polytechnic" | "Standalone";

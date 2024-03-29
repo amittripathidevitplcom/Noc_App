@@ -9,6 +9,7 @@ import { FinancialDetailsDataModel, FinancialDetailsDataModel_FinancialDetails }
 import { StatisticsEntryComponent } from '../../Statistics/statistics-entry/statistics-entry.component';
 import { FinancialDetailsService } from '../../../Services/DTEStatistics/FinancialDetails/financial-details.service';
 import { async } from '@angular/core/testing';
+import { PreviewDTEStatisticsComponent } from '../preview-dtestatistics/preview-dtestatistics.component';
 
 @Component({
   selector: 'app-financial-details',
@@ -31,17 +32,29 @@ export class FinancialDetailsComponent implements OnInit {
   public programmeDataList: any = [];
   public TotalIncome: number = 0;
   public TotalExpenses: number = 0;
+  public disabled: boolean = false;
+  public PreviewStatus: string = 'N';
 
   constructor(private FinancialDetailsService: FinancialDetailsService, private loaderService: LoaderService, private router: ActivatedRoute, private commonMasterService: CommonMasterService, private routers: Router, private formBuilder: FormBuilder, private toastr: ToastrService
-    , private statisticsEntryComponent: StatisticsEntryComponent) {
+    , private statisticsEntryComponent: StatisticsEntryComponent, private previewDTEStatisticsComponent: PreviewDTEStatisticsComponent) {
   }
   async ngOnInit() {
 
     this.request.FinancialDetails_Income = [];
     this.request.FinancialDetails_Expenses = [];
 
-    this.SelectedDepartmentID = this.statisticsEntryComponent.SelectedDepartmentID;
-    this.SelectedCollageID = this.statisticsEntryComponent.SelectedCollageID;
+    this.PreviewStatus = this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('PreviewStatus')?.toString());
+    if (this.PreviewStatus != 'Y') {
+      this.SelectedDepartmentID = this.statisticsEntryComponent.SelectedDepartmentID;
+      this.SelectedCollageID = this.statisticsEntryComponent.SelectedCollageID;
+      this.request.SelectedCollegeEntryTypeName = this.statisticsEntryComponent.SelectedCollegeEntryType;
+    }
+    else {
+      this.disabled = true;
+      this.SelectedDepartmentID = this.previewDTEStatisticsComponent.SelectedDepartmentID;
+      this.SelectedCollageID = await this.previewDTEStatisticsComponent.GetCollegeID_SearchRecordID();
+      //var dt = await this.previewDTEStatisticsComponent.GetCollegeDetails_After();
+    }
 
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     this.request.CollegeID = this.SelectedCollageID;
