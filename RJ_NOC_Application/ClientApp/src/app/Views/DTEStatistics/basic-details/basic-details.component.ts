@@ -105,7 +105,6 @@ export class BasicDetailsComponent {
       this.SelectedDepartmentID = this.statisticsEntryComponent.SelectedDepartmentID;
       this.SelectedCollageID = this.statisticsEntryComponent.SelectedCollageID;
       this.request.SelectedCollegeEntryTypeName = this.statisticsEntryComponent.SelectedCollegeEntryType;
-      console.log(this.request.SelectedCollegeEntryTypeName);
       this.request.Nameofinstitution = this.statisticsEntryComponent.CollegeName;
     }
     else {

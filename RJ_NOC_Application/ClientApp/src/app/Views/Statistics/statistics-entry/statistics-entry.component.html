@@ -33,7 +33,7 @@
       <div class="row" *ngIf="SelectedDepartmentID==4">
         <div class="col-md-4 mb-3 d-flex align-items-center justify-content-between">
           <label class="fw-bold m-0 me-2 text-nowrap">College Type :</label>
-          <select class="form-select" id="ddlSelectedCollegeEntryType" [(ngModel)]="SelectedCollegeEntryType">
+          <select class="form-select" id="ddlSelectedCollegeEntryType" [(ngModel)]="SelectedCollegeEntryType" (change)="PageReload()">
             <option selected value="0">--Choose Option--</option>
             <option value="University">University</option>
             <option value="College">College</option>
