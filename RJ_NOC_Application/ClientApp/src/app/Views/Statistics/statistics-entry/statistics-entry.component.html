@@ -136,7 +136,7 @@
               <app-faculty></app-faculty>
             </mat-tab>
 
-            <mat-tab *ngIf="SelectedDepartmentID==4 && SelectedCollegeEntryType=='University'" label="Department">
+            <mat-tab *ngIf="SelectedDepartmentID==4 && (SelectedCollegeEntryType=='University' || SelectedCollegeEntryType=='College')" label="Department">
               <ng-template mat-tab-label>
                 <i class="fa fa-globe icon" aria-hidden="true"></i>
                 <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntry_StatisticsEntryData['Department']>0"></i>
@@ -146,12 +146,13 @@
               <app-dtestatistics-department></app-dtestatistics-department>
             </mat-tab>
 
-            <mat-tab *ngIf="SelectedDepartmentID==4 && SelectedCollegeEntryType=='University'" label="Regular Mode">
+            <mat-tab *ngIf="SelectedDepartmentID==4 && (SelectedCollegeEntryType=='University' || SelectedCollegeEntryType=='College')" label="Regular Mode">
               <ng-template mat-tab-label>
                 <i class="fa fa-globe icon" aria-hidden="true"></i>
                 <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntry_StatisticsEntryData['RegularMode']>0"></i>
                 <span class="badge pulse" *ngIf="CheckTabsEntry_StatisticsEntryData['RegularMode']==0"></span>
-                <span>Regular Mode</span>
+                <span *ngIf="SelectedCollegeEntryType=='University'"> Regular Mode</span>
+                <span *ngIf="SelectedCollegeEntryType=='College'"> Details of Programme</span>
               </ng-template>
               <app-regular-mode></app-regular-mode>
             </mat-tab>
