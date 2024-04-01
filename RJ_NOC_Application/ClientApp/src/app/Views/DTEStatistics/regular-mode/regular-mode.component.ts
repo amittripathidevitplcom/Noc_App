@@ -63,7 +63,7 @@ export class RegularModeComponent implements OnInit {
     await this.btnAdd_Click(this.request.ProgrammesDetails[0], 0);
     await this.GetByID();
     for (var i = 0; i < this.request.ProgrammesDetails.length; i++) {
-     
+
     }
   }
   async GetProgramme() {
@@ -142,25 +142,26 @@ export class RegularModeComponent implements OnInit {
     this.isSubmitted = true;
 
     for (var i = 0; i < this.request.ProgrammesDetails.length; i++) {
-
-      if (this.request.ProgrammesDetails[i].Faculty_School == '') {
-        this.toastr.error('Faculty/ School field is required.!');
-        const txtFaculty_School = document.getElementById('txtFaculty_School_' + i.toString());
-        if (txtFaculty_School) txtFaculty_School.focus();
-        return;
-      }
-      if (this.request.ProgrammesDetails[i].Department_Centre == '') {
-        this.toastr.error('Department/Centre field is required.!');
-        const txtDepartment_Centre_ = document.getElementById('txtDepartment_Centre_' + i.toString());
-        if (txtDepartment_Centre_) txtDepartment_Centre_.focus();
-        return;
-        return;
-      }
-      if (this.request.ProgrammesDetails[i].LevelID == 0) {
-        this.toastr.error('Level field is required.!');
-        const ddlLevel_ = document.getElementById('ddlLevel_' + i.toString());
-        if (ddlLevel_) ddlLevel_.focus();
-        return;
+      if (this.request.SelectedCollegeEntryTypeName == 'University') {
+        if (this.request.ProgrammesDetails[i].Faculty_School == '') {
+          this.toastr.error('Faculty/ School field is required.!');
+          const txtFaculty_School = document.getElementById('txtFaculty_School_' + i.toString());
+          if (txtFaculty_School) txtFaculty_School.focus();
+          return;
+        }
+        if (this.request.ProgrammesDetails[i].Department_Centre == '') {
+          this.toastr.error('Department/Centre field is required.!');
+          const txtDepartment_Centre_ = document.getElementById('txtDepartment_Centre_' + i.toString());
+          if (txtDepartment_Centre_) txtDepartment_Centre_.focus();
+          return;
+          return;
+        }
+        if (this.request.ProgrammesDetails[i].LevelID == 0) {
+          this.toastr.error('Level field is required.!');
+          const ddlLevel_ = document.getElementById('ddlLevel_' + i.toString());
+          if (ddlLevel_) ddlLevel_.focus();
+          return;
+        }
       }
       if (this.request.ProgrammesDetails[i].ProgrammeID == 0) {
         this.toastr.error('Name Of The Programme field is required.!');
@@ -222,24 +223,26 @@ export class RegularModeComponent implements OnInit {
   }
   async btnAdd_Click(row: RegularModeDataModel_ProgrammesDetails, idx: number) {
     if (row != undefined) {
-      if (row.Faculty_School == '') {
-        this.toastr.error('Faculty/ School field is required.!');
-        const txtFaculty_School = document.getElementById('txtFaculty_School_' + idx.toString());
-        if (txtFaculty_School) txtFaculty_School.focus();
-        return;
-      }
-      if (row.Department_Centre == '') {
-        this.toastr.error('Department/Centre field is required.!');
-        const txtDepartment_Centre_ = document.getElementById('txtDepartment_Centre_' + idx.toString());
-        if (txtDepartment_Centre_) txtDepartment_Centre_.focus();
-        return;
-        return;
-      }
-      if (row.LevelID == 0) {
-        this.toastr.error('Level field is required.!');
-        const ddlLevel_ = document.getElementById('ddlLevel_' + idx.toString());
-        if (ddlLevel_) ddlLevel_.focus();
-        return;
+      if (this.request.SelectedCollegeEntryTypeName == 'University') {
+        if (row.Faculty_School == '') {
+          this.toastr.error('Faculty/ School field is required.!');
+          const txtFaculty_School = document.getElementById('txtFaculty_School_' + idx.toString());
+          if (txtFaculty_School) txtFaculty_School.focus();
+          return;
+        }
+        if (row.Department_Centre == '') {
+          this.toastr.error('Department/Centre field is required.!');
+          const txtDepartment_Centre_ = document.getElementById('txtDepartment_Centre_' + idx.toString());
+          if (txtDepartment_Centre_) txtDepartment_Centre_.focus();
+          return;
+          return;
+        }
+        if (row.LevelID == 0) {
+          this.toastr.error('Level field is required.!');
+          const ddlLevel_ = document.getElementById('ddlLevel_' + idx.toString());
+          if (ddlLevel_) ddlLevel_.focus();
+          return;
+        }
       }
       if (row.ProgrammeID == 0) {
         this.toastr.error('Name Of The Programme field is required.!');

@@ -36,8 +36,9 @@
                 <tr>
                   <th width="60px">S.No</th>
                   <th class="text-center">Country</th>
-                  <th class="text-center">Faculty/School</th>
-                  <th class="text-center">Department/Centre</th>
+                  <th class="text-center" *ngIf="request.SelectedCollegeEntryTypeName=='University'">Faculty/School</th>
+                  <th class="text-center" *ngIf="request.SelectedCollegeEntryTypeName=='University'">Department/Centre</th>
+                  <th class="text-center" *ngIf="request.SelectedCollegeEntryTypeName=='College'">Department</th>
                   <th class="text-center">Discipline</th>
                   <th class="text-center">Method of Admission</th>
                   <th class="text-center">No. of Students Enrolled (Total)</th>
@@ -57,7 +58,7 @@
                     <input [disabled]="disabled" class="form-control form-control-sm width200px" id="txtCountry{{idx}}"
                            [(ngModel)]="row.Country" maxlength="200" type="text" [ngModelOptions]="{standalone: true}" />
                   </td>
-                  <td>
+                  <td *ngIf="request.SelectedCollegeEntryTypeName=='University'">
                     <input [disabled]="disabled" class="form-control form-control-sm width200px" id="txtFaculty_School{{idx}}"
                            [(ngModel)]="row.Faculty_School" maxlength="200" type="text" [ngModelOptions]="{standalone: true}" />
                   </td>
