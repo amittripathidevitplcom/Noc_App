@@ -139,6 +139,9 @@ export class BasicDetailsComponent {
           this.ErrorMessage = data['ErrorMessage'];
           this.request.EntryID = data['Data'].EntryID;
           this.request.FYearID = data['Data'].FYearID;
+          //if (this.PreviewStatus == 'Y') {
+          //  this.request.SelectedCollegeEntryTypeName = data['Data'].CollegeEntryType;
+          //}
           if (this.request.EntryID > 0) {
             this.request.AisheCode = data['Data'].AisheCode;
             this.request.YearofEstablishment = data['Data'].YearofEstablishment;
@@ -180,7 +183,7 @@ export class BasicDetailsComponent {
           this.request.OtherDiplomaCourse = data['Data'].OtherDiplomaCourse;
           this.request.WhetherAwardsDegreethroughAnyUniversity = data['Data'].WhetherAwardsDegreethroughAnyUniversity;
           this.request.OtherUniversityName = data['Data'].OtherUniversityName;
-          await this.GetAllDesignation();
+          
           this.request.InstituteHeadDetails = data['Data'].InstituteHeadDetails != null ? data['Data'].InstituteHeadDetails : new BasicDetails_InstituteHeadDetailsDataModel();
           this.request.NodalOfficerDetails = data['Data'].NodalOfficerDetails != null ? data['Data'].NodalOfficerDetails : new BasicDetails_NodalOfficerDetailsDataModel();
           this.request.AffiliationDetails = data['Data'].AffiliationDetails != null ? data['Data'].AffiliationDetails : new BasicDetails_AffiliationDetailsDataModel();

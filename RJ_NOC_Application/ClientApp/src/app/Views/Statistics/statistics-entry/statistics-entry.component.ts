@@ -14,6 +14,7 @@ import { LoaderService } from '../../../Services/Loader/loader.service';
 import { CourseMasterService } from '../../../Services/Master/AddCourse/course-master.service';
 import { debug } from 'console';
 import { RegularModeComponent } from '../../DTEStatistics/regular-mode/regular-mode.component';
+//import { BasicDetailsComponent } from '../../DTEStatistics/basic-details/basic-details.component';
 
 @Component({
   selector: 'app-statistics-entry',
@@ -61,7 +62,7 @@ export class StatisticsEntryComponent implements OnInit {
 
   public SelectedCollegeEntryType: string = "0";
 
-
+  //@ViewChild(BasicDetailsComponent) private basicdetailscomponent!: BasicDetailsComponent;
   constructor(private courseMasterService: CourseMasterService, private toastr: ToastrService, private loaderService: LoaderService, private applyNOCApplicationService: ApplyNOCApplicationService,
     private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private _fb: FormBuilder, private collegeService: CollegeService
     , private classWiseStudentDetailsServiceService: ClassWiseStudentDetailsServiceService, private modalService: NgbModal) {
@@ -332,6 +333,13 @@ export class StatisticsEntryComponent implements OnInit {
       }, 200);
     }
   }
+  //async PageReload() {
+  //  try {
+  //    this.basicdetailscomponent.ngOnInit();
+  //  }
+  //  catch (Ex) { }
+
+  //}
 }
 
 //export type StatisticsEntry = "University" | "College" | "Polytechnic" | "Standalone";
