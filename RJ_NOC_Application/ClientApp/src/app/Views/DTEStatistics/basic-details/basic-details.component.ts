@@ -7,7 +7,7 @@ import { CommonMasterService } from '../../../Services/CommonMaster/common-maste
 import { ActivatedRoute, Router } from '@angular/router';
 import { StatisticsEntryComponent } from '../../Statistics/statistics-entry/statistics-entry.component';
 import { PreviewDTEStatisticsComponent } from '../preview-dtestatistics/preview-dtestatistics.component';
-import { BasicDetailsDataModel, BasicDetails_SpecialisationDetailsDataModel } from '../../../Models/DTEStatistics/BasicDetailsDataModel';
+import { BasicDetailsDataModel, BasicDetails_AffiliationDetailsDataModel, BasicDetails_InstituteHeadDetailsDataModel, BasicDetails_NodalOfficerDetailsDataModel, BasicDetails_SpecialisationDetailsDataModel } from '../../../Models/DTEStatistics/BasicDetailsDataModel';
 import { BasicDetailsService } from '../../../Services/DTEStatistics/BasicDetails/basic-details.service';
 import { Console } from 'console';
 
@@ -33,6 +33,7 @@ export class BasicDetailsComponent {
   public isSubmitted: boolean = false;
   public PreviewStatus: string = 'N';
   public SearchRecordID: string = '';
+  public DesignationList: any = [];
   constructor(private loaderService: LoaderService, private router: ActivatedRoute, private commonMasterService: CommonMasterService, private routers: Router, private formBuilder: FormBuilder, private toastr: ToastrService
     , private previewDTEStatisticsComponent: PreviewDTEStatisticsComponent, private statisticsEntryComponent: StatisticsEntryComponent, private basicsetailsService: BasicDetailsService) {
   }
@@ -65,6 +66,38 @@ export class BasicDetailsComponent {
         txtSpecialisation: [''],
         txtNoOfCollegesPermanentAffiliation: [''],
         txtNoOfCollegesTemporaryAffiliation: [''],
+
+
+        ddlManagementOfTheInstitution: [''],
+        ddlIsEveningCollege: [''],
+        ddlAutonomousInstitute: [''],
+        txtMinorityCommunityType: [''],
+        txtEnrolledStudentInNCCOtherInstitute: [''],
+        txtEnrolledFemaleStudentInNCCOtherInstitute: [''],
+        txtSpecialisedUniversity: [''],
+        txtOtherSpecialisedUniversity: [''],
+        ddlWhetherTheCollegeRunningDiplomaLevelCourse: [''],
+        txtDiplomaLevelCourse: [''],
+        txtOtherDiplomaCourse: [''],
+        ddlWhetherAwardsDegreethroughAnyUniversity: [''],
+        txtOtherUniversityName: [''],
+
+
+        txtInstituteHeadNameOfUniversityNodalOfficerForAISHE: [''],
+        ddlInstituteHeadDesignation: [''],
+        txtInstituteHeadEmail: [''],
+        txtInstituteHeadMobileNo: [''],
+        txtInstituteHeadTelephoneNo: [''],
+
+        txtNodalOfficerNameOfUniversityNodalOfficerForAISHE: [''],
+        ddlNodalOfficerDesignation: [''],
+        txtNodalOfficerEmail: [''],
+        txtNodalOfficerMobileNo: [''],
+        txtNodalOfficerTelephoneNo: [''],
+
+        txtAffiliationNameStatutorybody: [''],
+        txtAffiliationYear: [''],
+        txtAffiliatedOtherUniversity: [''],
       });
     this.request.SpecialisationDetails = [];
     this.PreviewStatus = this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('PreviewStatus')?.toString());
@@ -72,6 +105,7 @@ export class BasicDetailsComponent {
       this.SelectedDepartmentID = this.statisticsEntryComponent.SelectedDepartmentID;
       this.SelectedCollageID = this.statisticsEntryComponent.SelectedCollageID;
       this.request.SelectedCollegeEntryTypeName = this.statisticsEntryComponent.SelectedCollegeEntryType;
+      console.log(this.request.SelectedCollegeEntryTypeName);
       this.request.Nameofinstitution = this.statisticsEntryComponent.CollegeName;
     }
     else {
@@ -85,18 +119,19 @@ export class BasicDetailsComponent {
     }
     this.request.CollegeID = this.SelectedCollageID;
     this.request.Department = this.SelectedDepartmentID;
+    await this.GetAllDesignation();
     await this.GetByID();
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     this.isDisabled = true;
 
   }
   get form() { return this.BasicDetailsFormGroup.controls; }
-  
+
   async GetByID() {
     try {
       this.loaderService.requestStarted();
       await this.basicsetailsService.GetByID(this.request.CollegeID, 0)
-        .then((data: any) => {
+        .then(async (data: any) => {
           data = JSON.parse(JSON.stringify(data));
 
           this.State = data['State'];
@@ -132,6 +167,23 @@ export class BasicDetailsComponent {
           this.request.SpecialisationDetails = data['Data'].SpecialisationDetails;
           this.request.CollegeUnderUniversityDetails = data['Data'].CollegeUnderUniversityDetails;
 
+          this.request.ManagementOfTheInstitution = data['Data'].ManagementOfTheInstitution;
+          this.request.IsEveningCollege = data['Data'].IsEveningCollege;
+          this.request.AutonomousInstitute = data['Data'].AutonomousInstitute;
+          this.request.MinorityCommunityType = data['Data'].MinorityCommunityType;
+          this.request.EnrolledStudentInNCCOtherInstitute = data['Data'].EnrolledStudentInNCCOtherInstitute;
+          this.request.EnrolledFemaleStudentInNCCOtherInstitute = data['Data'].EnrolledFemaleStudentInNCCOtherInstitute;
+          this.request.SpecialisedUniversity = data['Data'].SpecialisedUniversity;
+          this.request.OtherSpecialisedUniversity = data['Data'].OtherSpecialisedUniversity;
+          this.request.WhetherTheCollegeRunningDiplomaLevelCourse = data['Data'].WhetherTheCollegeRunningDiplomaLevelCourse;
+          this.request.DiplomaLevelCourse = data['Data'].DiplomaLevelCourse;
+          this.request.OtherDiplomaCourse = data['Data'].OtherDiplomaCourse;
+          this.request.WhetherAwardsDegreethroughAnyUniversity = data['Data'].WhetherAwardsDegreethroughAnyUniversity;
+          this.request.OtherUniversityName = data['Data'].OtherUniversityName;
+          await this.GetAllDesignation();
+          this.request.InstituteHeadDetails = data['Data'].InstituteHeadDetails != null ? data['Data'].InstituteHeadDetails : new BasicDetails_InstituteHeadDetailsDataModel();
+          this.request.NodalOfficerDetails = data['Data'].NodalOfficerDetails != null ? data['Data'].NodalOfficerDetails : new BasicDetails_NodalOfficerDetailsDataModel();
+          this.request.AffiliationDetails = data['Data'].AffiliationDetails != null ? data['Data'].AffiliationDetails : new BasicDetails_AffiliationDetailsDataModel();
         }, error => console.error(error));
     }
     catch (Ex) {
@@ -289,6 +341,38 @@ export class BasicDetailsComponent {
       if (this.request.CollegeUnderUniversityDetails[i].NoOfColleges == null || this.request.CollegeUnderUniversityDetails[i].NoOfColleges == undefined || this.request.CollegeUnderUniversityDetails[i].NoOfColleges.toString() == '') {
         this.request.CollegeUnderUniversityDetails[i].NoOfColleges = 0;
       }
+    }
+
+
+    if (this.request.EnrolledStudentInNCCOtherInstitute == null || this.request.EnrolledStudentInNCCOtherInstitute == undefined || this.request.EnrolledStudentInNCCOtherInstitute.toString() == '') {
+      this.request.EnrolledStudentInNCCOtherInstitute = 0;
+    }
+    if (this.request.EnrolledFemaleStudentInNCCOtherInstitute == null || this.request.EnrolledFemaleStudentInNCCOtherInstitute == undefined || this.request.EnrolledFemaleStudentInNCCOtherInstitute.toString() == '') {
+      this.request.EnrolledFemaleStudentInNCCOtherInstitute = 0;
+    }
+  }
+
+  async GetAllDesignation() {
+    //Show Loading
+    this.loaderService.requestStarted();
+    this.isLoading = true;
+    try {
+      await this.commonMasterService.GetAllDesignation()
+        .then((data: any) => {
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.DesignationList = data['Data'];
+        });
+    }
+    catch (ex) {
+      console.log(ex)
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+        this.isLoading = false;
+      }, 200);
     }
   }
 }

@@ -74,11 +74,40 @@
               <input class="form-control" id="txtOwnershipStatusOfInstitution" maxlength="100"
                      formControlName="txtOwnershipStatusOfInstitution" [(ngModel)]="request.OwnershipStatusOfInstitution" />
             </div>
+            <div class="col-lg-4 col-md-6 col-sm-12 col-12 mb-3" *ngIf="this.request.SelectedCollegeEntryTypeName=='College'">
+              <label class="form-label" for="ddlManagementOfTheInstitution">
+                Management Of The Institution:
+              </label>
+              <select id="ddlManagementOfTheInstitution" class="form-select" formControlName="ddlManagementOfTheInstitution" [(ngModel)]="request.ManagementOfTheInstitution">
+                <option value="Government">Government</option>
+                <option value="Private">Private</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-12 col-12 mb-3" *ngIf="this.request.SelectedCollegeEntryTypeName=='College'">
+              <label class="form-label" for="ddlIsEveningCollege">
+                Is It evening college:
+              </label>
+              <select id="ddlIsEveningCollege" class="form-select" formControlName="ddlIsEveningCollege" [(ngModel)]="request.IsEveningCollege">
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+              </select>
+            </div>
+
             <div class="col-lg-4 col-md-6 col-sm-12 col-12 mb-3">
               <label class="form-label" for="ddlInstitutionfromonegender">
                 Whether the Institution is exclusively meant for students from one gender:
               </label>
               <select id="ddlInstitutionfromonegender" class="form-select" formControlName="ddlInstitutionfromonegender" [(ngModel)]="request.Institutionfromonegender">
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+              </select>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-12 col-12 mb-3" *ngIf="this.request.SelectedCollegeEntryTypeName=='College'">
+              <label class="form-label" for="ddlIsEveningCollege">
+                Autonomous Institute:
+              </label>
+              <select id="ddlAutonomousInstitute" class="form-select" formControlName="ddlAutonomousInstitute" [(ngModel)]="request.AutonomousInstitute">
                 <option value="Yes">Yes</option>
                 <option value="No">No</option>
               </select>
@@ -101,6 +130,13 @@
                 <option value="No">No</option>
               </select>
             </div>
+            <div class="col-lg-4 col-md-6 col-sm-12 col-12 mb-3" *ngIf="this.request.SelectedCollegeEntryTypeName=='College'">
+              <label class="form-label" for="txtMinorityCommunityType">
+                Minority Community Type:
+              </label>
+              <input class="form-control" id="txtMinorityCommunityType"
+                     formControlName="txtMinorityCommunityType" [(ngModel)]="request.MinorityCommunityType" />
+            </div>
             <div class="col-lg-4 col-md-6 col-sm-12 col-12 mb-3">
               <label class="form-label" for="ddlIsInstitutionNCC">
                 Whether The Institution Has The National Cadet Corps(NCC) unit:
@@ -112,27 +148,44 @@
             </div>
             <div class="col-lg-4 col-md-6 col-sm-12 col-12 mb-3" *ngIf="request.IsInstitutionNCC=='Yes'">
               <label class="form-label" for="txtEnrolledStudentInNCC">
-                Number Of Students Enrolled In NCC:
+                {{this.request.SelectedCollegeEntryTypeName=='University'?'Number Of Students Enrolled In NCC:':'Number of male students in NCC from your Institution:'}}
               </label>
               <input class="form-control" id="txtEnrolledStudentInNCC" (keypress)="numberOnly($event)" maxlength="6" (keyup)="TotalStudentsEnrolledInNCC()"
                      formControlName="txtEnrolledStudentInNCC" [(ngModel)]="request.EnrolledStudentInNCC" />
             </div>
             <div class="col-lg-4 col-md-6 col-sm-12 col-12 mb-3" *ngIf="request.IsInstitutionNCC=='Yes'">
               <label class="form-label" for="txtEnrolledFemaleStudentInNCC">
-                Female:
+                {{this.request.SelectedCollegeEntryTypeName=='University'?'Female:':'Number of female students in NCC from your Institution:'}}
               </label>
               <input class="form-control" id="txtEnrolledFemaleStudentInNCC" (keypress)="numberOnly($event)" maxlength="6" (keyup)="TotalStudentsEnrolledInNCC()"
                      formControlName="txtEnrolledFemaleStudentInNCC" [(ngModel)]="request.EnrolledFemaleStudentInNCC" />
             </div>
-            <div class="col-lg-4 col-md-6 col-sm-12 col-12 mb-3" *ngIf="request.IsInstitutionNCC=='Yes'">
+            <div class="col-lg-4 col-md-6 col-sm-12 col-12 mb-3" *ngIf="request.IsInstitutionNCC=='Yes' && this.request.SelectedCollegeEntryTypeName=='University'">
               <label class="form-label" for="txtEnrolledTotalStudentInNCC">
                 Total:
               </label>
-              <input  class="form-control" id="txtEnrolledTotalStudentInNCC" (keypress)="numberOnly($event)" maxlength="6"
+              <input class="form-control" id="txtEnrolledTotalStudentInNCC" (keypress)="numberOnly($event)" maxlength="6"
                      formControlName="txtEnrolledTotalStudentInNCC" [(ngModel)]="request.EnrolledTotalStudentInNCC" />
             </div>
 
 
+
+            <div class="col-lg-4 col-md-6 col-sm-12 col-12 mb-3" *ngIf="request.IsInstitutionNCC=='Yes' && this.request.SelectedCollegeEntryTypeName=='College'">
+              <label class="form-label" for="txtEnrolledStudentInNCCOtherInstitute">
+                <span>
+                  Number of male students in NCC from Other Institutions :
+                </span>
+              </label>
+              <input class="form-control" id="txtEnrolledStudentInNCCOtherInstitute" (keypress)="numberOnly($event)" maxlength="6"
+                     formControlName="txtEnrolledStudentInNCCOtherInstitute" [(ngModel)]="request.EnrolledStudentInNCCOtherInstitute" />
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-12 col-12 mb-3" *ngIf="request.IsInstitutionNCC=='Yes'">
+              <label class="form-label" for="txtEnrolledFemaleStudentInNCCOtherInstitute">
+                Number of female students in NCC from Other Institutions :
+              </label>
+              <input class="form-control" id="txtEnrolledFemaleStudentInNCCOtherInstitute" (keypress)="numberOnly($event)" maxlength="6"
+                     formControlName="txtEnrolledFemaleStudentInNCCOtherInstitute" [(ngModel)]="request.EnrolledFemaleStudentInNCCOtherInstitute" />
+            </div>
 
 
             <div class="col-lg-4 col-md-6 col-sm-12 col-12 mb-3">
@@ -146,14 +199,14 @@
             </div>
             <div class="col-lg-4 col-md-6 col-sm-12 col-12 mb-3" *ngIf="request.IsInstitutionNSS=='Yes'">
               <label class="form-label" for="txtEnrolledStudentInNSS">
-                Number Of Students Enrolled In NSS:
+                {{this.request.SelectedCollegeEntryTypeName=='University'?'Number Of Students Enrolled In NSS:':'Number Of male Students Enrolled In NSS:'}}
               </label>
               <input class="form-control" id="txtEnrolledStudentInNSS" (keypress)="numberOnly($event)" maxlength="6"
                      formControlName="txtEnrolledStudentInNSS" [(ngModel)]="request.EnrolledStudentInNSS" (keyup)="TotalStudentsEnrolledInNSS()" />
             </div>
             <div class="col-lg-4 col-md-6 col-sm-12 col-12 mb-3" *ngIf="request.IsInstitutionNSS=='Yes'">
               <label class="form-label" for="txtEnrolledFemaleStudentInNSS">
-                Female:
+                {{this.request.SelectedCollegeEntryTypeName=='University'?'Female :':'Number Of female Students Enrolled In NSS:'}}
               </label>
               <input class="form-control" id="txtEnrolledFemaleStudentInNSS" (keypress)="numberOnly($event)" maxlength="6"
                      formControlName="txtEnrolledFemaleStudentInNSS" [(ngModel)]="request.EnrolledFemaleStudentInNSS" (keyup)="TotalStudentsEnrolledInNSS()" />
@@ -162,7 +215,7 @@
               <label class="form-label" for="txtEnrolledTotalStudentInNSS">
                 Total:
               </label>
-              <input  class="form-control" id="txtEnrolledTotalStudentInNSS" (keypress)="numberOnly($event)" maxlength="6" disabled
+              <input class="form-control" id="txtEnrolledTotalStudentInNSS" (keypress)="numberOnly($event)" maxlength="6" disabled
                      formControlName="txtEnrolledTotalStudentInNSS" [(ngModel)]="request.EnrolledTotalStudentInNSS" />
             </div>
             <div class="col-lg-4 col-md-6 col-sm-12 col-12 mb-3">
@@ -174,7 +227,7 @@
                 <option value="No">No</option>
               </select>
             </div>
-            <div class="col-lg-4 col-md-6 col-sm-12 col-12 mb-3">
+            <div class="col-lg-4 col-md-6 col-sm-12 col-12 mb-3" *ngIf="this.request.SelectedCollegeEntryTypeName=='University'">
               <label class="form-label" for="txtAffiliatedInstitutions">
                 Affiliated Institutions To The University(Not Applicable For Private And Demeed To be Universities):
               </label>
@@ -182,12 +235,66 @@
                      formControlName="txtAffiliatedInstitutions" [(ngModel)]="request.AffiliatedInstitutions" />
             </div>
           </div>
-
+          <div class="row" *ngIf="this.request.SelectedCollegeEntryTypeName=='College'">
+            <div class="col-lg-4 col-md-6 col-sm-12 col-12 mb-3">
+              <label class="form-label" for="txtSpecialisedUniversity">
+                Specialised University
+              </label>
+              <input class="form-control" id="txtSpecialisedUniversity" maxlength="100"
+                     formControlName="txtSpecialisedUniversity" [(ngModel)]="request.SpecialisedUniversity" />
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-12 col-12 mb-3">
+              <label class="form-label" for="txtOtherSpecialisedUniversity">
+                Other  Specialised University
+              </label>
+              <input class="form-control" id="txtOtherSpecialisedUniversity" maxlength="100"
+                     formControlName="txtOtherSpecialisedUniversity" [(ngModel)]="request.OtherSpecialisedUniversity" />
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-12 col-12 mb-3">
+              <label class="form-label" for="ddlWhetherTheCollegeRunningDiplomaLevelCourse">
+                Whether The College Is Running Only Diploma Level Course:
+              </label>
+              <select id="ddlWhetherTheCollegeRunningDiplomaLevelCourse" class="form-select" formControlName="ddlWhetherTheCollegeRunningDiplomaLevelCourse" [(ngModel)]="request.WhetherTheCollegeRunningDiplomaLevelCourse">
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+              </select>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-12 col-12 mb-3">
+              <label class="form-label" for="txtDiplomaLevelCourse">
+                Diploma Level Course:
+              </label>
+              <input class="form-control" id="txtDiplomaLevelCourse" maxlength="100"
+                     formControlName="txtDiplomaLevelCourse" [(ngModel)]="request.DiplomaLevelCourse" />
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-12 col-12 mb-3">
+              <label class="form-label" for="txtOtherDiplomaCourse">
+                Other Diploma Course:
+              </label>
+              <input class="form-control" id="txtOtherDiplomaCourse" maxlength="100"
+                     formControlName="txtOtherDiplomaCourse" [(ngModel)]="request.OtherDiplomaCourse" />
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-12 col-12 mb-3">
+              <label class="form-label" for="ddlWhetherAwardsDegreethroughAnyUniversity">
+                Whether Awards Degree through Any University:
+              </label>
+              <select id="ddlWhetherAwardsDegreethroughAnyUniversity" class="form-select" formControlName="ddlWhetherAwardsDegreethroughAnyUniversity" [(ngModel)]="request.WhetherAwardsDegreethroughAnyUniversity">
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+              </select>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-12 col-12 mb-3" *ngIf="request.WhetherAwardsDegreethroughAnyUniversity=='Yes'">
+              <label class="form-label" for="txtOtherUniversityName">
+                University Name:
+              </label>
+              <input class="form-control" id="txtOtherUniversityName" maxlength="100"
+                     formControlName="txtOtherUniversityName" [(ngModel)]="request.OtherUniversityName" />
+            </div>
+          </div>
         </div>
       </div>
 
       <div class="clearfix"></div>
-      <div class="card">
+      <div class="card" *ngIf=" this.request.SelectedCollegeEntryTypeName=='University'">
         <div class="card-header">
           <div class="d-flex align-items-center">
             <label class="form-label m-0 me-2 text-nowrap">
@@ -195,8 +302,8 @@
             </label>
           </div>
         </div>
-        <div class="card-body" >
-          <div class="row"  *ngIf="PreviewStatus!='Y'">
+        <div class="card-body">
+          <div class="row" *ngIf="PreviewStatus!='Y'">
             <div class="col-lg-3 col-md-6 col-sm-12 col-12 mb-3">
               <label class="form-label" for="txtSpecialisation">
                 Specialisation
@@ -243,7 +350,7 @@
                       <th>
                         Total
                       </th>
-                      <th width="100px" class="text-center"  *ngIf="PreviewStatus!='Y'">Action</th>
+                      <th width="100px" class="text-center" *ngIf="PreviewStatus!='Y'">Action</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -253,15 +360,15 @@
                       <td>{{row.NoOfCollegesPermanentAffiliation}}</td>
                       <td>{{row.NoOfCollegesTemporaryAffiliation}}</td>
                       <td>{{row.Total}}</td>
-                      <td  *ngIf="PreviewStatus!='Y'">
+                      <td *ngIf="PreviewStatus!='Y'">
                         <div class="d-flex justify-content-center">
                           <button type="button" id="btnEdit_{{idx}}" class="btn btn-sm btn-primary"
-                                  (click)="btnEdit_Click(row,idx)"  title="Edit">
+                                  (click)="btnEdit_Click(row,idx)" title="Edit">
                             <i class="fa fa-edit"></i>
                           </button>
                           <button type="button" class="btn btn-sm btn-danger" title="Delete"
                                   (click)="btnDelete_Click(idx)">
-                            <i class="fa fa-trash" ></i>
+                            <i class="fa fa-trash"></i>
                           </button>
                         </div>
                       </td>
@@ -274,7 +381,7 @@
         </div>
       </div>
       <div class="clearfix"></div>
-      <div class="card mb-0">
+      <div class="card mb-0" *ngIf=" this.request.SelectedCollegeEntryTypeName=='University'">
         <div class="card-header">
           <div class="d-flex align-items-center">
             <label class="form-label m-0 me-2 text-nowrap">
@@ -314,11 +421,160 @@
           </div>
         </div>
       </div>
+      <div class="clearfix"></div>
+      <div class="card" *ngIf=" this.request.SelectedCollegeEntryTypeName=='College'">
+        <div class="card-header">
+          <div class="d-flex align-items-center">
+            <label class="form-label m-0 me-2 text-nowrap">
+              Institute Head Details
+            </label>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="row" *ngIf="PreviewStatus!='Y'">
+            <div class="col-lg-4 col-md-6 col-sm-12 col-12 mb-3">
+              <label class="form-label" for="txtInstituteHeadNameOfUniversityNodalOfficerForAISHE">
+                Name Of University Nodal Officer For AISHE
+              </label>
+              <input class="form-control" id="txtInstituteHeadNameOfUniversityNodalOfficerForAISHE" maxlength="100"
+                     formControlName="txtInstituteHeadNameOfUniversityNodalOfficerForAISHE" [(ngModel)]="request.InstituteHeadDetails.NameOfUniversityNodalOfficerForAISHE" />
+            </div>
+
+            <div class="col-lg-4 col-md-6 col-sm-12 col-12 mb-3">
+              <label class="form-label">
+                Designation
+              </label>
+              <select class="form-select" id="ddlInstituteHeadDesignation" name="ddlInstituteHeadDesignation" [(ngModel)]="request.InstituteHeadDetails.DesignationID" formControlName="ddlInstituteHeadDesignation">
+                <option value="0">--Select--</option>
+                <option *ngFor="let item of DesignationList" value="{{item.DesignationID}}">{{item.DesignationName}}</option>
+              </select>
+            </div>
+
+            <div class="col-lg-4 col-md-6 col-sm-12 col-12 mb-3">
+              <label class="form-label">
+                Email
+              </label>
+              <input class="form-control" id="txtInstituteHeadEmail" maxlength="100"
+                     formControlName="txtInstituteHeadEmail" [(ngModel)]="request.InstituteHeadDetails.Email" />
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-12 col-12 mb-3">
+              <label class="form-label">
+                Mobile No
+              </label>
+              <input class="form-control" id="txtInstituteHeadMobileNo" maxlength="10" (keypress)="numberOnly($event)"
+                     formControlName="txtInstituteHeadMobileNo" [(ngModel)]="request.InstituteHeadDetails.MobileNo" />
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-12 col-12 mb-3">
+              <label class="form-label">
+                Telephone No (with std code)
+              </label>
+              <input class="form-control" id="txtInstituteHeadTelephoneNo" maxlength="15" (keypress)="numberOnly($event)"
+                     formControlName="txtInstituteHeadTelephoneNo" [(ngModel)]="request.InstituteHeadDetails.TelephoneNo" />
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+      <div class="clearfix"></div>
+      <div class="card" *ngIf=" this.request.SelectedCollegeEntryTypeName=='College'">
+        <div class="card-header">
+          <div class="d-flex align-items-center">
+            <label class="form-label m-0 me-2 text-nowrap">
+              Nodal Officer Details
+            </label>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="row" *ngIf="PreviewStatus!='Y'">
+            <div class="col-lg-4 col-md-6 col-sm-12 col-12 mb-3">
+              <label class="form-label" for="txtNodalOfficerNameOfUniversityNodalOfficerForAISHE">
+                Name Of University Nodal Officer For AISHE
+              </label>
+              <input class="form-control" id="txtNodalOfficerNameOfUniversityNodalOfficerForAISHE" maxlength="100"
+                     formControlName="txtNodalOfficerNameOfUniversityNodalOfficerForAISHE" [(ngModel)]="request.NodalOfficerDetails.NameOfUniversityNodalOfficerForAISHE" />
+            </div>
+
+            <div class="col-lg-4 col-md-6 col-sm-12 col-12 mb-3">
+              <label class="form-label">
+                Designation
+              </label>
+              <select class="form-select" id="ddlNodalOfficerDesignation" name="ddlNodalOfficerDesignation" [(ngModel)]="request.NodalOfficerDetails.DesignationID" formControlName="ddlNodalOfficerDesignation">
+                <option value="0">--Select--</option>
+                <option *ngFor="let item of DesignationList" value="{{item.DesignationID}}">{{item.DesignationName}}</option>
+              </select>
+            </div>
+
+            <div class="col-lg-4 col-md-6 col-sm-12 col-12 mb-3">
+              <label class="form-label">
+                Email
+              </label>
+              <input class="form-control" id="txtNodalOfficerEmail" maxlength="100"
+                     formControlName="txtNodalOfficerEmail" [(ngModel)]="request.NodalOfficerDetails.Email" />
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-12 col-12 mb-3">
+              <label class="form-label">
+                Mobile No
+              </label>
+              <input class="form-control" id="txtNodalOfficerMobileNo" maxlength="10" (keypress)="numberOnly($event)"
+                     formControlName="txtNodalOfficerMobileNo" [(ngModel)]="request.NodalOfficerDetails.MobileNo" />
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-12 col-12 mb-3">
+              <label class="form-label">
+                Telephone No (with std code)
+              </label>
+              <input class="form-control" id="txtNodalOfficerTelephoneNo" maxlength="15" (keypress)="numberOnly($event)"
+                     formControlName="txtNodalOfficerTelephoneNo" [(ngModel)]="request.NodalOfficerDetails.TelephoneNo" />
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+
+      <div class="clearfix"></div>
+      <div class="card" *ngIf=" this.request.SelectedCollegeEntryTypeName=='College'">
+        <div class="card-header">
+          <div class="d-flex align-items-center">
+            <label class="form-label m-0 me-2 text-nowrap">
+              Affiliation Details
+            </label>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="row" *ngIf="PreviewStatus!='Y'">
+            <div class="col-lg-4 col-md-6 col-sm-12 col-12 mb-3">
+              <label class="form-label" for="txtAffiliationNameStatutorybody">
+                Name of the Statutory body through which recognized
+              </label>
+              <input class="form-control" id="txtAffiliationNameStatutorybody" maxlength="100"
+                     formControlName="txtAffiliationNameStatutorybody" [(ngModel)]="request.AffiliationDetails.NameStatutorybody" />
+            </div>
+
+            <div class="col-lg-4 col-md-6 col-sm-12 col-12 mb-3">
+              <label class="form-label">
+                Year of Affiliation with University
+              </label>
+              <input class="form-control" id="txtAffiliationYear" maxlength="100"
+                     formControlName="txtAffiliationYear" [(ngModel)]="request.AffiliationDetails.AffiliationYear" />
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-12 col-12 mb-3">
+              <label class="form-label">
+                Name Of The Other University To Which Affiliated
+              </label>
+              <input class="form-control" id="txtAffiliatedOtherUniversity" maxlength="100"
+                     formControlName="txtAffiliatedOtherUniversity" [(ngModel)]="request.AffiliationDetails.AffiliatedOtherUniversity" />
+            </div>
+
+          </div>
+
+        </div>
+      </div>
     </div>
     <div class="card-footer text-end" *ngIf="PreviewStatus!='Y'">
       <button type="button" (click)="SaveData()" class="btn btn-success">Save Draft</button>
     </div>
-   
+
   </div>
 </form>
 
