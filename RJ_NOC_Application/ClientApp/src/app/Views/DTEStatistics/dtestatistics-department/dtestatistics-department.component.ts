@@ -30,7 +30,7 @@ export class DTEStatisticsDepartmentComponent implements OnInit {
   public SearchRecordID: string = ''
   public isSubmitted: boolean = false;
   public CurrentIndex: number = -1;
-  public PreviewStatus: string = 'N';
+  public PreviewStatus: string = 'N'; 
   constructor(private dTEStatisticsDepartmentService: DTEStatisticsDepartmentService, private loaderService: LoaderService, private router: ActivatedRoute, private commonMasterService: CommonMasterService, private routers: Router, private formBuilder: FormBuilder, private toastr: ToastrService
     , private statisticsEntryComponent: StatisticsEntryComponent, private previewDTEStatisticsComponent: PreviewDTEStatisticsComponent) {
   }
@@ -59,6 +59,7 @@ export class DTEStatisticsDepartmentComponent implements OnInit {
     this.request.ModifyBy = this.sSOLoginDataModel.UserID;
     this.request.Department = this.SelectedDepartmentID;
     this.request.SelectedCollegeEntryTypeName = this.statisticsEntryComponent.SelectedCollegeEntryType;
+     
 
     await this.GetByID();
   }
@@ -164,9 +165,11 @@ export class DTEStatisticsDepartmentComponent implements OnInit {
 
   async btnAdd_Click() {
     try {
-      if (this.request_DepartmentDetails.NameofFaculty == '') {
-        this.toastr.error("Name of Faculty/School.!");
-        return;
+      if (this.request.SelectedCollegeEntryTypeName == 'University') {
+        if (this.request_DepartmentDetails.NameofFaculty == '') {
+          this.toastr.error("Name of Faculty/School.!");
+          return;
+        }
       }
       if (this.request_DepartmentDetails.NameOfDepartmentCentres == '') {
         this.toastr.error("Name Of Department/Centres.!");

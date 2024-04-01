@@ -67,6 +67,7 @@
             </mat-tab>
 
             <!--Department 4-->
+            <mat-tab *ngIf="SelectedDepartmentID==4 && (SelectedCollegeEntryType=='University' || SelectedCollegeEntryType=='College')" label="Basic Details">
             <mat-tab *ngIf="SelectedDepartmentID==4 && (SelectedCollegeEntryType=='University' ||SelectedCollegeEntryType=='College')" label="Basic Details">
               <ng-template mat-tab-label>
                 <i class="fa fa-globe icon" aria-hidden="true"></i>
@@ -76,7 +77,7 @@
               </ng-template>
               <app-basic-details></app-basic-details>
             </mat-tab>
-            <mat-tab *ngIf="SelectedDepartmentID==4 && SelectedCollegeEntryType=='University'" label="Officers Details">
+            <mat-tab *ngIf="SelectedDepartmentID==4 && (SelectedCollegeEntryType=='University' || SelectedCollegeEntryType=='College')" label="Officers Details">
               <ng-template mat-tab-label>
                 <i class="fa fa-globe icon" aria-hidden="true"></i>
                 <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntry_StatisticsEntryData['OfficersDetails']>0"></i>
@@ -86,7 +87,7 @@
               <app-officers-details></app-officers-details>
             </mat-tab>
 
-            <mat-tab *ngIf="SelectedDepartmentID==4 && SelectedCollegeEntryType=='University'" label="Address">
+            <mat-tab *ngIf="SelectedDepartmentID==4 && (SelectedCollegeEntryType=='University' || SelectedCollegeEntryType=='College')" label="Address">
               <ng-template mat-tab-label>
                 <i class="fa fa-globe icon" aria-hidden="true"></i>
                 <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntry_StatisticsEntryData['Address']>0"></i>
@@ -96,7 +97,7 @@
               <app-address></app-address>
             </mat-tab>
 
-            <mat-tab *ngIf="SelectedDepartmentID==4 && SelectedCollegeEntryType=='University'" label="Residential Facility">
+            <mat-tab *ngIf="SelectedDepartmentID==4 && (SelectedCollegeEntryType=='University' || SelectedCollegeEntryType=='College')" label="Residential Facility">
               <ng-template mat-tab-label>
                 <i class="fa fa-globe icon" aria-hidden="true"></i>
                 <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntry_StatisticsEntryData['ResidentialFacility']>0"></i>
@@ -136,7 +137,7 @@
               <app-faculty></app-faculty>
             </mat-tab>
 
-            <mat-tab *ngIf="SelectedDepartmentID==4 && SelectedCollegeEntryType=='University'" label="Department">
+            <mat-tab *ngIf="SelectedDepartmentID==4 && (SelectedCollegeEntryType=='University' || SelectedCollegeEntryType=='College')" label="Department">
               <ng-template mat-tab-label>
                 <i class="fa fa-globe icon" aria-hidden="true"></i>
                 <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntry_StatisticsEntryData['Department']>0"></i>
@@ -146,12 +147,13 @@
               <app-dtestatistics-department></app-dtestatistics-department>
             </mat-tab>
 
-            <mat-tab *ngIf="SelectedDepartmentID==4 && SelectedCollegeEntryType=='University'" label="Regular Mode">
+            <mat-tab *ngIf="SelectedDepartmentID==4 && (SelectedCollegeEntryType=='University' || SelectedCollegeEntryType=='College')" label="Regular Mode">
               <ng-template mat-tab-label>
                 <i class="fa fa-globe icon" aria-hidden="true"></i>
                 <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntry_StatisticsEntryData['RegularMode']>0"></i>
                 <span class="badge pulse" *ngIf="CheckTabsEntry_StatisticsEntryData['RegularMode']==0"></span>
-                <span>Regular Mode</span>
+                <span *ngIf="SelectedCollegeEntryType=='University'"> Regular Mode</span>
+                <span *ngIf="SelectedCollegeEntryType=='College'"> Details of Programme</span>
               </ng-template>
               <app-regular-mode></app-regular-mode>
             </mat-tab>
@@ -166,15 +168,28 @@
               <app-distance-mode></app-distance-mode>
             </mat-tab>
 
-            <mat-tab *ngIf="SelectedDepartmentID==4 && SelectedCollegeEntryType=='University'" label="Student Enrollment Regular Mode">
+            <mat-tab *ngIf="SelectedDepartmentID==4 && (SelectedCollegeEntryType=='University' || SelectedCollegeEntryType=='College')" label="Student Enrollment Regular Mode">
               <ng-template mat-tab-label>
                 <i class="fa fa-globe icon" aria-hidden="true"></i>
                 <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntry_StatisticsEntryData['StudentEnrlRegularMode']>0"></i>
                 <span class="badge pulse" *ngIf="CheckTabsEntry_StatisticsEntryData['StudentEnrlRegularMode']==0"></span>
-                <span>Student Enrollment Regular Mode</span>
+                <span *ngIf="SelectedCollegeEntryType=='University'"> Student Enrollment Regular Mode</span>
+                <span *ngIf="SelectedCollegeEntryType=='College'"> Details of Student Enrollment</span>
               </ng-template>
               <app-student-enrollment-regular-mode></app-student-enrollment-regular-mode>
             </mat-tab>
+
+            <mat-tab *ngIf="SelectedDepartmentID==4 && (SelectedCollegeEntryType=='College')" label="Other Minority Breakup">
+              <ng-template mat-tab-label>
+                <i class="fa fa-globe icon" aria-hidden="true"></i>
+                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntry_StatisticsEntryData['StudentEnrlRegularMode']>0"></i>
+                <span class="badge pulse" *ngIf="CheckTabsEntry_StatisticsEntryData['StudentEnrlRegularMode']==0"></span>
+                <span *ngIf="SelectedCollegeEntryType=='College'">Other Minority Breakup</span>
+              </ng-template>
+              <!--<app-student-enrollment-regular-mode></app-student-enrollment-regular-mode>-->
+            </mat-tab>
+
+            
 
             <mat-tab *ngIf="SelectedDepartmentID==4 && SelectedCollegeEntryType=='University'" label="Student Enrollment Distance Mode">
               <ng-template mat-tab-label>
@@ -206,23 +221,25 @@
               <app-private-external-mode></app-private-external-mode>
             </mat-tab>
 
-            <mat-tab *ngIf="SelectedDepartmentID==4 && SelectedCollegeEntryType=='University'" label="Regu Foreign Stu Enrolment">
+            <mat-tab *ngIf="SelectedDepartmentID==4 && (SelectedCollegeEntryType=='University' || SelectedCollegeEntryType=='College')" label="Regu Foreign Stu Enrolment">
               <ng-template mat-tab-label>
                 <i class="fa fa-globe icon" aria-hidden="true"></i>
                 <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntry_StatisticsEntryData['ReguForeignStuEnrolment']>0"></i>
                 <span class="badge pulse" *ngIf="CheckTabsEntry_StatisticsEntryData['ReguForeignStuEnrolment']==0"></span>
-                <span>Regu Foreign Stu Enrolment</span>
+                <span *ngIf="SelectedCollegeEntryType=='University'">Regu Foreign Stu Enrolment</span>
+                <span *ngIf="SelectedCollegeEntryType=='College'">Foreign Student Enrollment</span>
               </ng-template>
               <app-regular-foreign-student-enrolment></app-regular-foreign-student-enrolment>
             </mat-tab>
 
 
-            <mat-tab *ngIf="SelectedDepartmentID==4 && SelectedCollegeEntryType=='University'" label="Examination Results Regular">
+            <mat-tab *ngIf="SelectedDepartmentID==4 && (SelectedCollegeEntryType=='University' || SelectedCollegeEntryType=='College')" label="Examination Results Regular">
               <ng-template mat-tab-label>
                 <i class="fa fa-globe icon" aria-hidden="true"></i>
                 <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntry_StatisticsEntryData['ExaminationResultsRegular']>0"></i>
                 <span class="badge pulse" *ngIf="CheckTabsEntry_StatisticsEntryData['ExaminationResultsRegular']==0"></span>
-                <span>Examination Results Regular</span>
+                <span *ngIf="SelectedCollegeEntryType=='University'">Examination Results Regular</span>
+                <span *ngIf="SelectedCollegeEntryType=='College'">Examination Result</span>
               </ng-template>
               <app-examination-results-regular></app-examination-results-regular>
             </mat-tab>
@@ -258,7 +275,7 @@
             </mat-tab>
 
 
-            <mat-tab *ngIf="SelectedDepartmentID==4 && SelectedCollegeEntryType=='University'" label="Placement Details">
+            <mat-tab *ngIf="SelectedDepartmentID==4 && (SelectedCollegeEntryType=='University' || SelectedCollegeEntryType=='College')" label="Placement Details">
               <ng-template mat-tab-label>
                 <i class="fa fa-globe icon" aria-hidden="true"></i>
                 <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntry_StatisticsEntryData['PlacementDetails']>0"></i>
@@ -268,7 +285,7 @@
               <app-placement-details></app-placement-details>
             </mat-tab>
 
-            <mat-tab *ngIf="SelectedDepartmentID==4 && SelectedCollegeEntryType=='University'" label="Teaching Staff">
+            <mat-tab *ngIf="SelectedDepartmentID==4  && (SelectedCollegeEntryType=='University' || SelectedCollegeEntryType=='College')" label="Teaching Staff">
               <ng-template mat-tab-label>
                 <i class="fa fa-globe icon" aria-hidden="true"></i>
                 <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntry_StatisticsEntryData['TeachingStaff']>0"></i>
@@ -279,7 +296,7 @@
             </mat-tab>
 
 
-            <mat-tab *ngIf="SelectedDepartmentID==4 && SelectedCollegeEntryType=='University'" label="Non Teaching">
+            <mat-tab *ngIf="SelectedDepartmentID==4  && (SelectedCollegeEntryType=='University' || SelectedCollegeEntryType=='College')" label="Non Teaching">
               <ng-template mat-tab-label>
                 <i class="fa fa-globe icon" aria-hidden="true"></i>
                 <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntry_StatisticsEntryData['NonTeaching']>0"></i>
@@ -289,7 +306,7 @@
               <app-dtestatistics-non-teaching></app-dtestatistics-non-teaching>
             </mat-tab>
 
-            <mat-tab *ngIf="SelectedDepartmentID==4 && SelectedCollegeEntryType=='University'" label="Financial Details">
+            <mat-tab *ngIf="SelectedDepartmentID==4  && (SelectedCollegeEntryType=='University' || SelectedCollegeEntryType=='College')" label="Financial Details">
               <ng-template mat-tab-label>
                 <i class="fa fa-globe icon" aria-hidden="true"></i>
                 <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntry_StatisticsEntryData['FinancialDetails']>0"></i>
@@ -299,7 +316,7 @@
               <app-financial-details></app-financial-details>
             </mat-tab>
 
-            <mat-tab *ngIf="SelectedDepartmentID==4 && SelectedCollegeEntryType=='University'" label="Infrastructure Details">
+            <mat-tab *ngIf="SelectedDepartmentID==4  && (SelectedCollegeEntryType=='University' || SelectedCollegeEntryType=='College')" label="Infrastructure Details">
               <ng-template mat-tab-label>
                 <i class="fa fa-globe icon" aria-hidden="true"></i>
                 <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntry_StatisticsEntryData['InfrastructureDetails']>0"></i>
@@ -309,7 +326,7 @@
               <app-infrastructure-details></app-infrastructure-details>
             </mat-tab>
 
-            <mat-tab *ngIf="SelectedDepartmentID==4 && SelectedCollegeEntryType=='University'" label="Scholarship,Fellowship,Loan,Acc">
+            <mat-tab *ngIf="SelectedDepartmentID==4  && (SelectedCollegeEntryType=='University' || SelectedCollegeEntryType=='College')" label="Scholarship,Fellowship,Loan,Acc">
               <ng-template mat-tab-label>
                 <i class="fa fa-globe icon" aria-hidden="true"></i>
                 <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntry_StatisticsEntryData['Scholarship_Fellowship_Loan_Acc']>0"></i>

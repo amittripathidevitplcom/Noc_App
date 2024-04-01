@@ -1,7 +1,8 @@
 <form class="form-horizontal">
   <div class="card mb-0">
     <div class="card-header d-xxl-flex d-xl-flex d-md-flex d-sm-block justify-content-between align-items-center">
-      <b><i class="bi bi-table"></i>&nbsp;Details of Programmes (Regular Mode)(As per current session)</b>
+      <b *ngIf="request.SelectedCollegeEntryTypeName=='University'"><i class="bi bi-table"></i>&nbsp;Details of Programmes (Regular Mode)(As per current session)</b>
+      <b *ngIf="request.SelectedCollegeEntryTypeName=='College'"><i class="bi bi-table"></i>&nbsp;Details of Programme (As per Current Session)</b>
       <div class="d-flex align-items-center">
         <div class="btn-group mr-15" role="group" aria-label="Basic outlined example">
         </div>
@@ -17,9 +18,10 @@
               <thead>
                 <tr>
                   <th rowspan="2" width="60px">S.No</th>
-                  <th rowspan="2" class="text-center">Faculty/ School</th>
-                  <th rowspan="2" class="text-center">Department/Centre</th>
-                  <th rowspan="2" class="text-center">Level</th>
+                  <th rowspan="2" class="text-center" *ngIf="request.SelectedCollegeEntryTypeName=='University'">Faculty/ School</th>
+                  <th rowspan="2" class="text-center" *ngIf="request.SelectedCollegeEntryTypeName=='University'">Department/Centre</th>
+                  <th rowspan="2" class="text-center" *ngIf="request.SelectedCollegeEntryTypeName=='University'">Level</th>
+
                   <th rowspan="2" class="text-center">Name Of The Programme</th>
                   <th rowspan="2" class="text-center">Broad Discipline Group Category</th>
                   <th rowspan="2" class="text-center">Broad Discipline Group Name</th>
@@ -43,15 +45,15 @@
               <tbody>
                 <tr *ngFor="let row of this.request.ProgrammesDetails ;let idx=index;">
                   <td>{{idx+1}}</td>
-                  <td>
+                  <td *ngIf="request.SelectedCollegeEntryTypeName=='University'">
                     <input [disabled]="disabled" class="form-control form-control-sm" id="txtFaculty_School_{{idx}}" [(ngModel)]="row.Faculty_School"
                            type="text" [ngModelOptions]="{standalone: true}" />
                   </td>
-                  <td>
+                  <td *ngIf="request.SelectedCollegeEntryTypeName=='University'">
                     <input [disabled]="disabled" class="form-control form-control-sm" id="txtDepartment_Centre_{{idx}}" [(ngModel)]="row.Department_Centre"
                            type="text" [ngModelOptions]="{standalone: true}" />
                   </td>
-                  <td>
+                  <td *ngIf="request.SelectedCollegeEntryTypeName=='University'">
                     <select [disabled]="disabled" class="form-select form-select-sm" id="ddlLevel_{{idx}}" name="ddlLevel_{{idx}}"
                             [(ngModel)]="row.LevelID" [ngModelOptions]="{standalone: true}">
                       <option value="0">--Select--</option>
