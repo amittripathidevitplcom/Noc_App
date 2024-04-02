@@ -56,11 +56,10 @@ export class PreviewDTEStatisticsComponent implements OnInit {
   }
 
   async ngOnInit() {
-    // $(".secondTab").addClass("highLightTab");
     this.loaderService.requestStarted();
-    debugger;
     this.SelectedDepartmentID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DepartmentID')?.toString()));
     this.SearchRecordID = this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString());
+    this.SelectedCollegeEntryType = this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('EntryType')?.toString());
     this.SelectedCollageID = await this.GetCollegeID_SearchRecordID();
     if (this.SelectedCollageID == null || this.SelectedCollageID == 0 || this.SelectedCollageID == undefined) {
       this.routers.navigate(['/statisticscollegelist']);

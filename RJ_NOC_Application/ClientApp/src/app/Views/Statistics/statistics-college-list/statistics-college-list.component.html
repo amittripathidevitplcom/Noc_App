@@ -56,16 +56,18 @@
                 <tr *ngFor="let row of draftApplicatoinListData | tableSearchFilter:searchText; let idx=index;">
                   <td style="width:5%">
                     <div class="d-flex">
+
                       <a href="javascript:void(0)" title="View Application" (click)="ApplicationSummary_OnClick(row.DepartmentID,row.CollegeID)" class="btn btn-sm btn-secondary">
                         <i class="fa fa-eye"></i>
                       </a>
                       <a *ngIf="row.IsStatisticsFinalSubmit!=0" class="btn btn-info" href="javascript:void(0)"
-                         title="View Statistics Data" (click)="PreviewStatistics_click(row.CollegeID,row.DepartmentID,row.SearchRecordID)">
+                         title="View Statistics Data" (click)="PreviewStatistics_click(row.CollegeID,row.DepartmentID,row.SearchRecordID,row.SelectedCollegeEntryType)">
                         <i class="fa fa-list"></i>
                       </a>
                       <a href="javascript:void(0)" title="Statistics Entry" (click)="DraftEdit_OnClick(row.DepartmentID,row.SearchRecordID)" class="btn btn-sm btn-info" *ngIf="row.IsStatisticsFinalSubmit==0">
                         <i class="fa fa-edit"></i>
                       </a>
+
                     </div>
                   </td>
                   <td>{{idx+1}}</td>

@@ -17,6 +17,8 @@
 <div class="container-fluid mainContents">
   <div class="row">
     <div class="col-md-12">
+
+
       <div class="row">
         <div class="col-md-12">
           <div class="card">
@@ -29,128 +31,162 @@
           </div>
         </div>
       </div>
-      <div class="row">
+
+      <div class="row" *ngIf="SelectedDepartmentID==4 && (SelectedCollegeEntryType=='University' || SelectedCollegeEntryType=='College' || SelectedCollegeEntryType=='Polytechnic' || SelectedCollegeEntryType=='Standalone')">
         <div class="col-md-12">
           <div class="card">
             <div class="card-header">
-              <b><i class="bi bi-table"></i> Officers Details</b>
+              <b><i class="bi bi-table"></i> Basic Details</b>
+            </div>
+            <div class="card-body">
+              <app-basic-details></app-basic-details>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row" *ngIf="SelectedDepartmentID==4 && (SelectedCollegeEntryType=='University' || SelectedCollegeEntryType=='College' || SelectedCollegeEntryType=='Polytechnic' || SelectedCollegeEntryType=='Standalone')">
+        <div class="col-md-12">
+          <div class="card">
+            <div class="card-header">
+              <b><i class="bi bi-table"></i>Officers Details</b>
             </div>
             <div class="card-body">
               <app-officers-details></app-officers-details>
             </div>
           </div>
-
         </div>
       </div>
-      <div class="row">
+
+      <div class="row" *ngIf="SelectedDepartmentID==4 && (SelectedCollegeEntryType=='University' || SelectedCollegeEntryType=='College' || SelectedCollegeEntryType=='Polytechnic' || SelectedCollegeEntryType=='Standalone')">
         <div class="col-md-12">
           <div class="card">
             <div class="card-header">
-              <b><i class="bi bi-table"></i> Address</b>
+              <b><i class="bi bi-table"></i>Address</b>
             </div>
             <div class="card-body">
               <app-address></app-address>
             </div>
           </div>
-
         </div>
       </div>
-      <div class="row">
+
+      <div class="row" *ngIf="SelectedDepartmentID==4 && (SelectedCollegeEntryType=='University' || SelectedCollegeEntryType=='College' || SelectedCollegeEntryType=='Polytechnic' || SelectedCollegeEntryType=='Standalone')">
         <div class="col-md-12">
           <div class="card">
             <div class="card-header">
-              <b><i class="bi bi-table"></i> Residential Facility</b>
+              <b><i class="bi bi-table"></i>Residential Facility</b>
             </div>
             <div class="card-body">
               <app-residential-facility></app-residential-facility>
             </div>
           </div>
-
         </div>
       </div>
-      <div class="row">
+
+
+      <div class="row" *ngIf="SelectedDepartmentID==4 && SelectedCollegeEntryType=='University'">
         <div class="col-md-12">
           <div class="card">
             <div class="card-header">
-              <b><i class="bi bi-table"></i> Regional Centers</b>
+              <b><i class="bi bi-table"></i>Regional Centers</b>
             </div>
             <div class="card-body">
               <app-regional-centers></app-regional-centers>
             </div>
           </div>
-
         </div>
       </div>
-      <div class="row">
+
+      <div class="row" *ngIf="SelectedDepartmentID==4 && SelectedCollegeEntryType=='University'">
         <div class="col-md-12">
           <div class="card">
             <div class="card-header">
-              <b><i class="bi bi-table"></i> Off-Shore Center</b>
+              <b><i class="bi bi-table"></i>Off-Shore Center</b>
             </div>
             <div class="card-body">
               <app-off-shore-center></app-off-shore-center>
             </div>
           </div>
-
         </div>
       </div>
-      <div class="row">
+
+
+      <div class="row" *ngIf="SelectedDepartmentID==4 && SelectedCollegeEntryType=='University'">
         <div class="col-md-12">
           <div class="card">
             <div class="card-header">
-              <b><i class="bi bi-table"></i> Faculty</b>
+              <b><i class="bi bi-table"></i>Faculty</b>
             </div>
             <div class="card-body">
               <app-faculty></app-faculty>
             </div>
           </div>
-
         </div>
       </div>
-      <div class="row">
+
+      <div class="row" *ngIf="SelectedDepartmentID==4 && (SelectedCollegeEntryType=='University' || SelectedCollegeEntryType=='College')">
         <div class="col-md-12">
           <div class="card">
             <div class="card-header">
-              <b><i class="bi bi-table"></i> Department</b>
+              <b><i class="bi bi-table"></i>Department</b>
             </div>
             <div class="card-body">
               <app-dtestatistics-department></app-dtestatistics-department>
             </div>
           </div>
-
         </div>
       </div>
-      <div class="row">
+
+      <div class="row" *ngIf="SelectedDepartmentID==4 && (SelectedCollegeEntryType=='University' || SelectedCollegeEntryType=='College'  || SelectedCollegeEntryType=='Polytechnic'  || SelectedCollegeEntryType=='Standalone')">
         <div class="col-md-12">
           <div class="card">
             <div class="card-header">
-              <b><i class="bi bi-table"></i> Regular Mode</b>
+              <b>
+                <i class="bi bi-table"></i>
+                <span *ngIf="SelectedCollegeEntryType=='University'"> Regular Mode</span>
+                <span *ngIf="SelectedCollegeEntryType=='College'"> Details of Programme</span>
+                <span *ngIf="SelectedCollegeEntryType=='Polytechnic'">Regular Programme Details</span>
+                <span *ngIf="SelectedCollegeEntryType=='Standalone'">Regular Programme Details</span>
+              </b>
             </div>
             <div class="card-body">
               <app-regular-mode></app-regular-mode>
             </div>
           </div>
-
         </div>
       </div>
-      <div class="row">
+
+      <div class="row" *ngIf="SelectedDepartmentID==4 && (SelectedCollegeEntryType=='University' || SelectedCollegeEntryType=='Polytechnic' || SelectedCollegeEntryType=='Standalone')">
         <div class="col-md-12">
           <div class="card">
             <div class="card-header">
-              <b><i class="bi bi-table"></i> Distance Mode</b>
+              <b>
+                <i class="bi bi-table"></i>
+                <span *ngIf="SelectedCollegeEntryType=='University'">Distance Mode</span>
+                <span *ngIf="SelectedCollegeEntryType=='Polytechnic'">Distance Programme Details</span>
+                <span *ngIf="SelectedCollegeEntryType=='Standalone'">Distance Programme Details</span>
+              </b>
             </div>
             <div class="card-body">
               <app-distance-mode></app-distance-mode>
             </div>
           </div>
-
         </div>
       </div>
-      <div class="row">
+
+
+      <div class="row" *ngIf="SelectedDepartmentID==4 && (SelectedCollegeEntryType=='University' || SelectedCollegeEntryType=='College' || SelectedCollegeEntryType=='Polytechnic' || SelectedCollegeEntryType=='Standalone')">
         <div class="col-md-12">
           <div class="card">
             <div class="card-header">
-              <b><i class="bi bi-table"></i> Student Enrollment Regular Mode</b>
+              <b>
+                <i class="bi bi-table"></i>
+                <span *ngIf="SelectedCollegeEntryType=='University'"> Student Enrollment Regular Mode</span>
+                <span *ngIf="SelectedCollegeEntryType=='College'"> Details of Student Enrollment</span>
+                <span *ngIf="SelectedCollegeEntryType=='Polytechnic'"> Regular Student Enrollment</span>
+                <span *ngIf="SelectedCollegeEntryType=='Standalone'"> Regular Student Enrollment</span>
+              </b>
             </div>
             <div class="card-body">
               <app-student-enrollment-regular-mode></app-student-enrollment-regular-mode>
@@ -158,11 +194,19 @@
           </div>
         </div>
       </div>
-      <div class="row">
+
+
+      <div class="row" *ngIf="SelectedDepartmentID==4  && (SelectedCollegeEntryType=='University' || SelectedCollegeEntryType=='Polytechnic' || SelectedCollegeEntryType=='Standalone')">
         <div class="col-md-12">
           <div class="card">
             <div class="card-header">
-              <b><i class="bi bi-table"></i> Student Enrollment Distance Mode</b>
+              <b>
+                <i class="bi bi-table"></i>
+                <span class="badge pulse" *ngIf="CheckTabsEntry_StatisticsEntryData['StudentEnrlDistanceMode']==0"></span>
+                <span *ngIf="SelectedCollegeEntryType=='University'">Student Enrollment Distance Mode</span>
+                <span *ngIf="SelectedCollegeEntryType=='Polytechnic'">Distance Student Enrollment</span>
+                <span *ngIf="SelectedCollegeEntryType=='Standalone'">Distance Student Enrollment</span>
+              </b>
             </div>
             <div class="card-body">
               <app-student-enrollment-distance-mode></app-student-enrollment-distance-mode>
@@ -170,11 +214,47 @@
           </div>
         </div>
       </div>
-      <div class="row">
+
+      <div class="row" *ngIf="SelectedDepartmentID==4 && (SelectedCollegeEntryType=='College' || SelectedCollegeEntryType=='Polytechnic' || SelectedCollegeEntryType=='Standalone' || SelectedCollegeEntryType=='Standalone')">
         <div class="col-md-12">
           <div class="card">
             <div class="card-header">
-              <b><i class="bi bi-table"></i> Regional Centre Distance Mode</b>
+              <b>
+                <i class="bi bi-table"></i>
+                <span>Other Minority Breakup</span>
+              </b>
+            </div>
+            <div class="card-body">
+              <!--<app-student-enrollment-regular-mode></app-student-enrollment-regular-mode>-->
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row" *ngIf="SelectedDepartmentID==4 && (SelectedCollegeEntryType=='College' || SelectedCollegeEntryType=='Polytechnic' || SelectedCollegeEntryType=='Standalone' || SelectedCollegeEntryType=='Standalone')">
+        <div class="col-md-12">
+          <div class="card">
+            <div class="card-header">
+              <b>
+                <i class="bi bi-table"></i>
+                <span>Distance Other Minority Breakup</span>
+              </b>
+            </div>
+            <div class="card-body">
+              <!--<app-student-enrollment-regular-mode></app-student-enrollment-regular-mode>-->
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row" *ngIf="SelectedDepartmentID==4 && SelectedCollegeEntryType=='University'">
+        <div class="col-md-12">
+          <div class="card">
+            <div class="card-header">
+              <b>
+                <i class="bi bi-table"></i>
+                <span>Regional Centre Distance Mode</span>
+              </b>
             </div>
             <div class="card-body">
               <app-regional-centre-distance-mode></app-regional-centre-distance-mode>
@@ -182,11 +262,15 @@
           </div>
         </div>
       </div>
-      <div class="row">
+
+      <div class="row" *ngIf="SelectedDepartmentID==4 && SelectedCollegeEntryType=='University'">
         <div class="col-md-12">
           <div class="card">
             <div class="card-header">
-              <b><i class="bi bi-table"></i> Pvt. External Mode</b>
+              <b>
+                <i class="bi bi-table"></i>
+                <span>Pvt. External Mode</span>
+              </b>
             </div>
             <div class="card-body">
               <app-private-external-mode></app-private-external-mode>
@@ -194,11 +278,16 @@
           </div>
         </div>
       </div>
-      <div class="row">
+
+      <div class="row" *ngIf="SelectedDepartmentID==4 && (SelectedCollegeEntryType=='University' || SelectedCollegeEntryType=='College' || SelectedCollegeEntryType=='Polytechnic' || SelectedCollegeEntryType=='Standalone')">
         <div class="col-md-12">
           <div class="card">
             <div class="card-header">
-              <b><i class="bi bi-table"></i> Regular Foreign Student Enrolment</b>
+              <b>
+                <i class="bi bi-table"></i>
+                <span *ngIf="SelectedCollegeEntryType=='University'">Regu Foreign Stu Enrolment</span>
+                <span *ngIf="SelectedCollegeEntryType=='College' || SelectedCollegeEntryType=='Polytechnic' || SelectedCollegeEntryType=='Standalone'">Foreign Student Enrollment</span>
+              </b>
             </div>
             <div class="card-body">
               <app-regular-foreign-student-enrolment></app-regular-foreign-student-enrolment>
@@ -206,11 +295,18 @@
           </div>
         </div>
       </div>
-      <div class="row">
+
+      <div class="row" *ngIf="SelectedDepartmentID==4 && (SelectedCollegeEntryType=='University' || SelectedCollegeEntryType=='College'  || SelectedCollegeEntryType=='Polytechnic' || SelectedCollegeEntryType=='Standalone')">
         <div class="col-md-12">
           <div class="card">
             <div class="card-header">
-              <b><i class="bi bi-table"></i> Examination Results Regular</b>
+              <b>
+                <i class="bi bi-table"></i>
+                <span *ngIf="SelectedCollegeEntryType=='University'">Examination Results Regular</span>
+                <span *ngIf="SelectedCollegeEntryType=='College'">Examination Result</span>
+                <span *ngIf="SelectedCollegeEntryType=='Polytechnic'">Regular Examination Result</span>
+                <span *ngIf="SelectedCollegeEntryType=='Standalone'">Regular Examination Result</span>
+              </b>
             </div>
             <div class="card-body">
               <app-examination-results-regular></app-examination-results-regular>
@@ -218,11 +314,17 @@
           </div>
         </div>
       </div>
-      <div class="row">
+
+      <div class="row" *ngIf="SelectedDepartmentID==4 && (SelectedCollegeEntryType=='University' || SelectedCollegeEntryType=='Polytechnic' || SelectedCollegeEntryType=='Standalone')">
         <div class="col-md-12">
           <div class="card">
             <div class="card-header">
-              <b><i class="bi bi-table"></i> Examination Results Distance</b>
+              <b>
+                <i class="bi bi-table"></i>
+                <span *ngIf="SelectedCollegeEntryType=='University'">Examination Results Distance</span>
+                <span *ngIf="SelectedCollegeEntryType=='Polytechnic'">Distance Examination Results</span>
+                <span *ngIf="SelectedCollegeEntryType=='Standalone'">Distance Examination Results</span>
+              </b>
             </div>
             <div class="card-body">
               <app-examination-results-distance></app-examination-results-distance>
@@ -230,11 +332,15 @@
           </div>
         </div>
       </div>
-      <div class="row">
+
+      <div class="row" *ngIf="SelectedDepartmentID==4 && SelectedCollegeEntryType=='University'">
         <div class="col-md-12">
           <div class="card">
             <div class="card-header">
-              <b><i class="bi bi-table"></i> Exam Results Regional Center</b>
+              <b>
+                <i class="bi bi-table"></i>
+                <span>Exam Results Regional Center</span>
+              </b>
             </div>
             <div class="card-body">
               <app-exam-results-regional-center></app-exam-results-regional-center>
@@ -242,11 +348,15 @@
           </div>
         </div>
       </div>
-      <div class="row">
+
+      <div class="row" *ngIf="SelectedDepartmentID==4 && SelectedCollegeEntryType=='University'">
         <div class="col-md-12">
           <div class="card">
             <div class="card-header">
-              <b><i class="bi bi-table"></i> Exam Results Pvt. External</b>
+              <b>
+                <i class="bi bi-table"></i>
+                <span>Exam Results Pvt. External</span>
+              </b>
             </div>
             <div class="card-body">
               <app-exam-results-private-external></app-exam-results-private-external>
@@ -254,11 +364,15 @@
           </div>
         </div>
       </div>
-      <div class="row">
+
+      <div class="row" *ngIf="SelectedDepartmentID==4 && (SelectedCollegeEntryType=='University' || SelectedCollegeEntryType=='College' ||   SelectedCollegeEntryType=='Polytechnic' || SelectedCollegeEntryType=='Standalone')">
         <div class="col-md-12">
           <div class="card">
             <div class="card-header">
-              <b><i class="bi bi-table"></i> Placement Details</b>
+              <b>
+                <i class="bi bi-table"></i>
+                <span>Placement Details</span>
+              </b>
             </div>
             <div class="card-body">
               <app-placement-details></app-placement-details>
@@ -266,11 +380,16 @@
           </div>
         </div>
       </div>
-      <div class="row">
+
+
+      <div class="row" *ngIf="SelectedDepartmentID==4  && (SelectedCollegeEntryType=='University' || SelectedCollegeEntryType=='College' ||   SelectedCollegeEntryType=='Polytechnic' || SelectedCollegeEntryType=='Standalone')">
         <div class="col-md-12">
           <div class="card">
             <div class="card-header">
-              <b><i class="bi bi-table"></i> Teaching Staff</b>
+              <b>
+                <i class="bi bi-table"></i>
+                <span>Teaching Staff</span>
+              </b>
             </div>
             <div class="card-body">
               <app-dtestatistics-staff></app-dtestatistics-staff>
@@ -278,11 +397,15 @@
           </div>
         </div>
       </div>
-      <div class="row">
+
+      <div class="row" *ngIf="SelectedDepartmentID==4  && (SelectedCollegeEntryType=='University' || SelectedCollegeEntryType=='College' ||   SelectedCollegeEntryType=='Polytechnic' || SelectedCollegeEntryType=='Standalone')">
         <div class="col-md-12">
           <div class="card">
             <div class="card-header">
-              <b><i class="bi bi-table"></i> Non Teaching</b>
+              <b>
+                <i class="bi bi-table"></i>
+                <span>Non Teaching</span>
+              </b>
             </div>
             <div class="card-body">
               <app-dtestatistics-non-teaching></app-dtestatistics-non-teaching>
@@ -290,11 +413,15 @@
           </div>
         </div>
       </div>
-      <div class="row">
+
+      <div class="row" *ngIf="SelectedDepartmentID==4  && (SelectedCollegeEntryType=='University' || SelectedCollegeEntryType=='College' ||   SelectedCollegeEntryType=='Polytechnic' || SelectedCollegeEntryType=='Standalone')">
         <div class="col-md-12">
           <div class="card">
             <div class="card-header">
-              <b><i class="bi bi-table"></i> Financial Details</b>
+              <b>
+                <i class="bi bi-table"></i>
+                <span>Financial Details</span>
+              </b>
             </div>
             <div class="card-body">
               <app-financial-details></app-financial-details>
@@ -302,11 +429,15 @@
           </div>
         </div>
       </div>
-      <div class="row">
+
+      <div class="row" *ngIf="SelectedDepartmentID==4  && (SelectedCollegeEntryType=='University' || SelectedCollegeEntryType=='College' ||   SelectedCollegeEntryType=='Polytechnic' || SelectedCollegeEntryType=='Standalone')">
         <div class="col-md-12">
           <div class="card">
             <div class="card-header">
-              <b><i class="bi bi-table"></i> Infrastructure Details</b>
+              <b>
+                <i class="bi bi-table"></i>
+                <span>Infrastructure Details</span>
+              </b>
             </div>
             <div class="card-body">
               <app-infrastructure-details></app-infrastructure-details>
@@ -314,11 +445,14 @@
           </div>
         </div>
       </div>
-      <div class="row">
+      <div class="row" *ngIf="SelectedDepartmentID==4  && (SelectedCollegeEntryType=='University' || SelectedCollegeEntryType=='College' ||   SelectedCollegeEntryType=='Polytechnic' || SelectedCollegeEntryType=='Standalone')">
         <div class="col-md-12">
           <div class="card">
             <div class="card-header">
-              <b><i class="bi bi-table"></i> Scholarship,Fellowship,Loan,Acc</b>
+              <b>
+                <i class="bi bi-table"></i>
+                <span>Scholarship,Fellowship,Loan,Acc</span>
+              </b>
             </div>
             <div class="card-body">
               <app-scholarship-fellowship-loan-acc></app-scholarship-fellowship-loan-acc>
@@ -326,19 +460,24 @@
           </div>
         </div>
       </div>
-      <div class="row">
+
+      <div class="row"*ngIf="SelectedDepartmentID==4 && SelectedCollegeEntryType=='University'">
         <div class="col-md-12">
           <div class="card">
             <div class="card-header">
-              <b><i class="bi bi-table"></i> Regulatory Information</b>
+              <b>
+                <i class="bi bi-table"></i>
+                <span>Regulatory Information</span>
+              </b>
             </div>
             <div class="card-body">
               <app-regulatory-information></app-regulatory-information>
             </div>
           </div>
-
         </div>
       </div>
+       
+
     </div>
   </div>
 </div>

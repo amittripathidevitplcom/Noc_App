@@ -191,6 +191,8 @@ export class StatisticsEntryComponent implements OnInit {
       try {
         this.request.CollegeID = this.SelectedCollageID;
         this.request.SSOID = this.sSOLoginDataModel.SSOID;
+        this.request.SelectedCollegeEntryType = this.SelectedCollegeEntryType;
+
         await this.classWiseStudentDetailsServiceService.StatisticsFinalSubmit_Save(this.request)
           .then((data: any) => {
             this.State = data['State'];
