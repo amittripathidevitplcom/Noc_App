@@ -395,6 +395,7 @@ import { BasicDetailsComponent } from './Views/DTEStatistics/basic-details/basic
 import { PreviewDTEStatisticsComponent } from './Views/DTEStatistics/preview-dtestatistics/preview-dtestatistics.component';
 
 //import { NewgrievancereportComponent } from './Views/DCE/newgrievancereport/newgrievancereport/newgrievancereport.component';
+import { OtherMinorityDataComponent} from './Views/DTEStatistics/OtherMinorityData/other-minority-data/other-minority-data.component';
 
 
 
@@ -776,7 +777,9 @@ import { PreviewDTEStatisticsComponent } from './Views/DTEStatistics/preview-dte
     DTEStatisticsStaffComponent,
     DTEStatisticsNonTeachingComponent,
       BasicDetailsComponent,
-      PreviewDTEStatisticsComponent
+      PreviewDTEStatisticsComponent,
+    FinancialDetailsComponent,
+    OtherMinorityDataComponent
   ],
   imports: [
     CommonModule,
