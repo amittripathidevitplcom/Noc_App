@@ -1,7 +1,7 @@
 
 <div class="card">
   <div class="card-header">
-    <b><i class="bi bi-building-add"></i>&nbsp; Other Information</b>
+    <b><i class="bi bi-building-add"></i>&nbsp;{{SelectedDepartmentID==6?'Clinical Details':SelectedDepartmentID!=6 ?'Other Infrastucture':''}}</b>
   </div>
   <div class="card-body">
     <div class="row" *ngIf="OtherInformation.length>0">

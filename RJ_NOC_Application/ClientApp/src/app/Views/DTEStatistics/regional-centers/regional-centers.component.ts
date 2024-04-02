@@ -8,6 +8,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { RegionalCentersDataModel, RegionalCenters_RegionalCentersDetails } from '../../../Models/DTEStatistics/RegionalCentersDataModel';
 import { StatisticsEntryComponent } from '../../Statistics/statistics-entry/statistics-entry.component';
 import { RegionalCentersService } from '../../../Services/DTEStatistics/RegionalCenters/regional-centers.service';
+import { PreviewDTEStatisticsComponent } from '../preview-dtestatistics/preview-dtestatistics.component';
 
 @Component({
   selector: 'app-regional-centers',
@@ -33,9 +34,10 @@ export class RegionalCentersComponent implements OnInit {
   public stateDataList: any = [];
   public districtDataList: any = [];
   public CurrentIndex: number = -1;
+  public PreviewStatus: string = 'N';
 
   constructor(private RegionalCentersService: RegionalCentersService, private loaderService: LoaderService, private router: ActivatedRoute, private commonMasterService: CommonMasterService, private routers: Router, private formBuilder: FormBuilder, private toastr: ToastrService
-    , private statisticsEntryComponent: StatisticsEntryComponent) {
+    , private statisticsEntryComponent: StatisticsEntryComponent, private previewDTEStatisticsComponent: PreviewDTEStatisticsComponent) {
   }
   async ngOnInit() {
     this.RegionalCentersFormGroup = this.formBuilder.group(
@@ -53,8 +55,18 @@ export class RegionalCentersComponent implements OnInit {
       })
     this.request.RegionalCentersDetails = []
 
-    this.SelectedDepartmentID = this.statisticsEntryComponent.SelectedDepartmentID;
-    this.SelectedCollageID = this.statisticsEntryComponent.SelectedCollageID;
+    this.PreviewStatus = this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('PreviewStatus')?.toString());
+    if (this.PreviewStatus != 'Y') {
+      this.SelectedDepartmentID = this.statisticsEntryComponent.SelectedDepartmentID;
+      this.SelectedCollageID = this.statisticsEntryComponent.SelectedCollageID;
+      this.request.SelectedCollegeEntryTypeName = this.statisticsEntryComponent.SelectedCollegeEntryType;
+    }
+    else {
+      this.RegionalCentersFormGroup.disable();
+      this.SelectedDepartmentID = this.previewDTEStatisticsComponent.SelectedDepartmentID;
+      this.SelectedCollageID = await this.previewDTEStatisticsComponent.GetCollegeID_SearchRecordID();
+      //var dt = await this.previewDTEStatisticsComponent.GetCollegeDetails_After();
+    }
 
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     this.request.CollegeID = this.SelectedCollageID;
@@ -81,11 +93,18 @@ export class RegionalCentersComponent implements OnInit {
 
           this.request.EntryID = data['Data'].EntryID;
           this.request.FYearID = data['Data'].FYearID;
-
-          this.request.DistanceEducationMode = data['Data'].DistanceEducationMode;
-          this.request.PrivateExternalProgramme = data['Data'].PrivateExternalProgramme;
-          this.request.RegionalCenters = data['Data'].RegionalCenters;
-          this.request.RegionalCentersDetails = data['Data'].RegionalCentersDetails;
+          if (data['Data'].DistanceEducationMode != null) {
+            this.request.DistanceEducationMode = data['Data'].DistanceEducationMode;
+          }
+          if (data['Data'].PrivateExternalProgramme != null) {
+            this.request.PrivateExternalProgramme = data['Data'].PrivateExternalProgramme;
+          }
+          if (data['Data'].RegionalCenters != null) {
+            this.request.RegionalCenters = data['Data'].RegionalCenters;
+          }
+          if (data['Data'].RegionalCentersDetails != null) {
+            this.request.RegionalCentersDetails = data['Data'].RegionalCentersDetails;
+          }
            
 
         }, error => console.error(error));

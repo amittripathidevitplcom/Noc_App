@@ -20,12 +20,12 @@
           <div class="row">
             <div class="col-md-12">
               <div class="table-responsive">
-                <table class="table table-hover table-striped table-bordered tableHeaderTH tableHeaderTHMiddel tableLastclmFixed mb-0">
+                <table class="table table-hover table-striped table-bordered tableHeaderTH tableHeaderTHMiddel tableLastclmFixed">
                   <thead>
                     <tr>
                       <th width="60px">S.No</th>
 
-                      <th class="text-center">
+                      <th>
                         Items
                       </th>
                       <th class="text-center" style="width:20% !important">
@@ -45,9 +45,9 @@
                         {{row.Item}}
                       </td>
                       <td>
-                        <input class="form-control form-control-sm" id="Amount{{idx}}" [(ngModel)]="row.Amount" maxlength="15"
+                        <input [disabled]="disabled" class="form-control form-control-sm" id="Amount{{idx}}" [(ngModel)]="row.Amount" maxlength="15"
                                type="text" (keypress)="DecimalOnly($event)" [ngModelOptions]="{standalone: true}"
-                               (change)="Income_Change()"/>
+                               (change)="Income_Change()" />
                       </td>
                     </tr>
                   </tbody>
@@ -68,60 +68,61 @@
               </div>
             </div>
           </div>
-        </div>
-
-        <div class="card">
-          <div class="card-header">
-            <b>
-              Expenditure (As per Current Session)
-            </b>
-          </div>
-          <div class="card-body">
-            <div class="row">
-              <div class="col-md-12">
-                <div class="table-responsive">
-                  <table class="table table-hover table-striped table-bordered tableHeaderTH tableHeaderTHMiddel tableLastclmFixed mb-0">
-                    <thead>
-                      <tr>
-                        <th width="60px">S.No</th>
-
-                        <th class="text-center">
-                          Items
-                        </th>
-                        <th class="text-center" style="width:20% !important">
-                          Amount In Absolute Rupees
-                        </th>
-
-                      </tr>
-
-                    </thead>
-                    <tbody>
-                      <tr *ngFor="let row of this.request.FinancialDetails_Expenses ;let idx=index;">
-                        <td>{{row.SNoText}}</td>
-                        <td>
-                          {{row.Item}}
-                        </td>
-                        <td>
-                          <input class="form-control form-control-sm" id="Amount{{idx}}" [(ngModel)]="row.Amount" maxlength="15"
-                                 type="text" (keypress)="DecimalOnly($event)" [ngModelOptions]="{standalone: true}"
-                                 (change)="Expense_Change()" />
-                        </td>
-                      </tr>
-                    </tbody>
-                    <tfoot>
-                      <tr class="fw-bold">
-                        <td>8</td>
-                        <td>Total</td>
-                        <td>
-                          <input class="form-control form-control-sm" id="TotalExpenses" [(ngModel)]="TotalExpenses"
-                                 type="text" [ngModelOptions]="{standalone: true}" disabled />
-                        </td>
-                      </tr>
-                    </tfoot>
 
 
+          <div class="card mb-0">
+            <div class="card-header">
+              <b>
+                Expenditure (As per Current Session)
+              </b>
+            </div>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="table-responsive">
+                    <table class="table table-hover table-striped table-bordered tableHeaderTH tableHeaderTHMiddel tableLastclmFixed mb-0">
+                      <thead>
+                        <tr>
+                          <th width="60px">S.No</th>
 
-                  </table>
+                          <th>
+                            Items
+                          </th>
+                          <th class="text-center" style="width:20% !important">
+                            Amount In Absolute Rupees
+                          </th>
+
+                        </tr>
+
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let row of this.request.FinancialDetails_Expenses ;let idx=index;">
+                          <td>{{row.SNoText}}</td>
+                          <td>
+                            {{row.Item}}
+                          </td>
+                          <td>
+                            <input [disabled]="disabled" class="form-control form-control-sm" id="Amount{{idx}}" [(ngModel)]="row.Amount" maxlength="15"
+                                   type="text" (keypress)="DecimalOnly($event)" [ngModelOptions]="{standalone: true}"
+                                   (change)="Expense_Change()" />
+                          </td>
+                        </tr>
+                      </tbody>
+                      <tfoot>
+                        <tr class="fw-bold">
+                          <td>8</td>
+                          <td>Total</td>
+                          <td>
+                            <input class="form-control form-control-sm" id="TotalExpenses" [(ngModel)]="TotalExpenses"
+                                   type="text" [ngModelOptions]="{standalone: true}" disabled />
+                          </td>
+                        </tr>
+                      </tfoot>
+
+
+
+                    </table>
+                  </div>
                 </div>
               </div>
             </div>
@@ -129,7 +130,7 @@
         </div>
       </div>
     </div>
-    <div class="card-footer text-end">
+    <div class="card-footer text-end" *ngIf="PreviewStatus!='Y'">
       <button type="button" (click)="SaveData()" class="btn btn-success">Save Draft</button>
     </div>
   </div>

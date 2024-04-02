@@ -1,0 +1,340 @@
+<form class="form-horizontal">
+  <div class="card mb-0">
+    <div class="card-header d-xxl-flex d-xl-flex d-md-flex d-sm-block justify-content-between align-items-center">
+      <b><i class="bi bi-table"></i>&nbsp;Details of Programmes (Regional Centre Mode)(As per current session)</b>
+      <div class="d-flex align-items-center">
+        <div class="btn-group mr-15" role="group" aria-label="Basic outlined example">
+        </div>
+        <div class="d-flex align-items-center table-filter mr-15">
+        </div>
+      </div>
+    </div>
+    <div class="card-body p-0">
+
+      <div class="table-responsive maxheight600px">
+        <table class="table table-bordered tableHeaderTH tableHeaderFixed tableHeaderTHMiddel tableLastclmFixed tableForm100 tableAlternate mb-0">
+          <thead>
+            <tr>
+              <th rowspan="3" width="60px">S.No</th>
+              <th rowspan="3" class="text-center">Faculty/ School</th>
+              <th rowspan="3" class="text-center">Department/Centre</th>
+              <th rowspan="3" class="text-center">Level</th>
+              <th rowspan="3" class="text-center">Discipline</th>
+              <th rowspan="3" class="text-center">Year</th>
+              <th rowspan="3" class="text-center">Month</th>
+              <th rowspan="3" class="text-center stickyleft">Category</th>
+              <th colspan="24" class="text-center">Enrolment Details (Regular Mode)</th>
+              <th rowspan="3" class="text-center">Remarks</th>
+              <th rowspan="3" width="100px" class="text-center" *ngIf="PreviewStatus!='Y'">Action</th>
+              <th rowspan="3" width="100px" class="text-center" *ngIf="PreviewStatus=='Y'"></th>
+            </tr>
+            <tr>
+              <th colspan="4" class="text-center">General Category</th>
+              <th colspan="4" class="text-center">EWS Category (out of General Category)</th>
+              <th colspan="4" class="text-center">Scheduled Caste (SC)</th>
+              <th colspan="4" class="text-center">Scheduled Tribe (ST)</th>
+              <th colspan="4" class="text-center">Other Backward Classes (OBC)</th>
+              <th colspan="4" class="text-center">Total</th>
+            </tr>
+            <tr>
+              <th class="text-center">Seats earmarked as per GOI/State Govt.</th>
+              <th class="text-center">Male</th>
+              <th class="text-center">Female</th>
+              <th class="text-center">Trans Gender</th>
+              <th class="text-center">Seats earmarked as per GOI/State Govt.</th>
+              <th class="text-center">Male</th>
+              <th class="text-center">Female</th>
+              <th class="text-center">Trans Gender</th>
+              <th class="text-center">Seats earmarked as per GOI/State Govt.</th>
+              <th class="text-center">Male</th>
+              <th class="text-center">Female</th>
+              <th class="text-center">Trans Gender</th>
+              <th class="text-center">Seats earmarked as per GOI/State Govt.</th>
+              <th class="text-center">Male</th>
+              <th class="text-center">Female</th>
+              <th class="text-center">Trans Gender</th>
+              <th class="text-center">Seats earmarked as per GOI/State Govt.</th>
+              <th class="text-center">Male</th>
+              <th class="text-center">Female</th>
+              <th class="text-center">Trans Gender</th>
+              <th class="text-center">Seats earmarked as per GOI/State Govt.</th>
+              <th class="text-center">Male</th>
+              <th class="text-center">Female</th>
+              <th class="text-center">Trans Gender</th>
+            </tr>
+          </thead>
+
+          <tbody *ngFor="let row of this.request.ProgrammesDetails ;let idx=index;" class="{{row.trCss}}">
+
+            <tr>
+              <td rowspan="4">{{idx+1}}</td>
+              <td rowspan="4">
+                <input [disabled]="disabled" class="form-control form-control-sm" id="txtFaculty_School_{{idx}}" type="text"
+                       [(ngModel)]="row.Faculty_School" [ngModelOptions]="{standalone: true}" />
+              </td>
+              <td rowspan="4">
+                <input [disabled]="disabled" class="form-control form-control-sm" id="txtDepartment_Centre_{{idx}}" type="text"
+                       [(ngModel)]="row.Department_Centre" [ngModelOptions]="{standalone: true}" />
+              </td>
+              <td rowspan="4">
+                <select [disabled]="disabled" class="form-select form-select-sm" id="ddlLevel_{{idx}}" name="ddlLevel_{{idx}}"
+                        [(ngModel)]="row.LevelID" [ngModelOptions]="{standalone: true}">
+                  <option value="0">--Select--</option>
+                  <option *ngFor="let item of levelDataList" value="{{item.ID}}">{{item.Name}}</option>
+                </select>
+              </td>
+              <td rowspan="4">
+                <input [disabled]="disabled" class="form-control form-control-sm"
+                       id="txtDiscipline_{{idx}}" [(ngModel)]="row.Discipline" type="text" [ngModelOptions]="{standalone: true}" />
+              </td>
+              <td rowspan="4">
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" id="txtYear_{{idx}}" [(ngModel)]="row.Year"
+                       (keypress)="numberOnly($event)" maxlength="4"
+                       type="text" [ngModelOptions]="{standalone: true}" />
+              </td>
+              <td rowspan="4">
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" id="txtMonth_{{idx}}" [(ngModel)]="row.Month"
+                       (keypress)="numberOnly($event)" maxlength="2"
+                       type="text" [ngModelOptions]="{standalone: true}" />
+              </td>
+
+
+              <td class="stickyleft"><b>{{row.Category}}</b></td>
+
+              <td>
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txtGeneralCategorySeatsEarmarkedAsPerGOI_{{idx}}" [(ngModel)]="row.GeneralCategorySeatsEarmarkedAsPerGOI" />
+              </td>
+              <td>
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txtGeneralCategoryMale_{{idx}}" [(ngModel)]="row.GeneralCategoryMale" />
+              </td>
+              <td>
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txtGeneralCategoryFemale_{{idx}}" [(ngModel)]="row.GeneralCategoryFemale" />
+              </td>
+              <td>
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txtGeneralCategoryTransGender_{{idx}}" [(ngModel)]="row.GeneralCategoryTransGender" />
+              </td>
+
+              <td>
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txtEWSCategorySeatsEarmarkedAsPerGOI_{{idx}}" [(ngModel)]="row.EWSCategorySeatsEarmarkedAsPerGOI" />
+              </td>
+              <td>
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txtEWSCategoryMale_{{idx}}" [(ngModel)]="row.EWSCategoryMale" />
+              </td>
+              <td>
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txtEWSCategoryFemale_{{idx}}" [(ngModel)]="row.EWSCategoryFemale" />
+              </td>
+              <td>
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txtEWSCategoryTransGender_{{idx}}" [(ngModel)]="row.EWSCategoryTransGender" />
+              </td>
+              <td>
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txtSCCategorySeatsEarmarkedAsPerGOI_{{idx}}" [(ngModel)]="row.SCCategorySeatsEarmarkedAsPerGOI" />
+              </td>
+              <td>
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txtSCCategoryMale_{{idx}}" [(ngModel)]="row.SCCategoryMale" />
+              </td>
+              <td>
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txtSCCategoryFemale_{{idx}}" [(ngModel)]="row.SCCategoryFemale" />
+              </td>
+              <td>
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txtSCCategoryTransGender_{{idx}}" [(ngModel)]="row.SCCategoryTransGender" />
+              </td>
+              <td>
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txtSTCategorySeatsEarmarkedAsPerGOI_{{idx}}" [(ngModel)]="row.STCategorySeatsEarmarkedAsPerGOI" />
+              </td>
+              <td>
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txtSTCategoryMale_{{idx}}" [(ngModel)]="row.STCategoryMale" />
+              </td>
+              <td>
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txtSTCategoryFemale_{{idx}}" [(ngModel)]="row.STCategoryFemale" />
+              </td>
+              <td>
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txtSTCategoryTransGender_{{idx}}" [(ngModel)]="row.STCategoryTransGender" />
+              </td>
+              <td>
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txtOBCCategorySeatsEarmarkedAsPerGOI_{{idx}}" [(ngModel)]="row.OBCCategorySeatsEarmarkedAsPerGOI" />
+              </td>
+              <td>
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txtOBCCategoryMale_{{idx}}" [(ngModel)]="row.OBCCategoryMale" />
+              </td>
+              <td>
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txtOBCCategoryFemale_{{idx}}" [(ngModel)]="row.OBCCategoryFemale" />
+              </td>
+              <td>
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txtOBCCategoryTransGender_{{idx}}" [(ngModel)]="row.OBCCategoryTransGender" />
+              </td>
+              <td>
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txtTotalCategorySeatsEarmarkedAsPerGOI_{{idx}}" [(ngModel)]="row.TotalCategorySeatsEarmarkedAsPerGOI" />
+              </td>
+              <td>
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txtTotalCategoryMale_{{idx}}" [(ngModel)]="row.TotalCategoryMale" />
+              </td>
+              <td>
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txtTotalCategoryFemale_{{idx}}" [(ngModel)]="row.TotalCategoryFemale" />
+              </td>
+              <td>
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txtTotalCategoryTransGender_{{idx}}" [(ngModel)]="row.TotalCategoryTransGender" />
+              </td>
+
+              <td rowspan="4">
+                <textarea [disabled]="disabled" class="form-control form-control-sm" id="txtRemark_{{idx}}" type="text" maxlength="200"
+                          [(ngModel)]="row.Remark" [ngModelOptions]="{standalone: true}"></textarea>
+              </td>
+              <td rowspan="4"  *ngIf="PreviewStatus!='Y'">
+                <div class="d-flex justify-content-center">
+                  <button type="button" id="btnEdit_{{idx}}" class="btn btn-sm btn-primary"
+                          *ngIf="idx==(request.ProgrammesDetails.length-1)"
+                          (click)="btnAdd_Click(row,idx)" [attr.disabled]="isDisabledGrid ? true : null" title="Add">
+                    <i class="fa fa-plus"></i>
+                  </button>
+
+                  <button type="button" class="btn btn-sm btn-danger" title="Delete" *ngIf="(request.ProgrammesDetails.length-1)!=0"
+                          (click)="btnDelete_Click(idx)">
+                    <i class="fa fa-trash" [attr.disabled]="isDisabledGrid ? true : null"></i>
+                  </button>
+
+                </div>
+              </td>
+              <td  *ngIf="PreviewStatus=='Y'">
+
+              </td>
+            </tr>
+
+            <tr class="lastColumnAuto" *ngFor="let item of row.StudentDetails;let idx_Item=index;">
+              <td class="stickyleft"><b>{{item.Category}}</b></td>
+              <td>
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txtGeneralCategorySeatsEarmarkedAsPerGOI_{{idx}}_{{idx_Item}}" [(ngModel)]="item.GeneralCategorySeatsEarmarkedAsPerGOI" />
+              </td>
+              <td>
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txtGeneralCategoryMale_{{idx}}_{{idx_Item}}" [(ngModel)]="item.GeneralCategoryMale" />
+              </td>
+              <td>
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txtGeneralCategoryFemale_{{idx}}_{{idx_Item}}" [(ngModel)]="item.GeneralCategoryFemale" />
+              </td>
+              <td>
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txtGeneralCategoryTransGender_{{idx}}_{{idx_Item}}" [(ngModel)]="item.GeneralCategoryTransGender" />
+              </td>
+
+              <td>
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txtEWSCategorySeatsEarmarkedAsPerGOI_{{idx}}_{{idx_Item}}" [(ngModel)]="item.EWSCategorySeatsEarmarkedAsPerGOI" />
+              </td>
+              <td>
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txtEWSCategoryMale_{{idx}}_{{idx_Item}}" [(ngModel)]="item.EWSCategoryMale" />
+              </td>
+              <td>
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txtEWSCategoryFemale_{{idx}}_{{idx_Item}}" [(ngModel)]="item.EWSCategoryFemale" />
+              </td>
+              <td>
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txtEWSCategoryTransGender_{{idx}}_{{idx_Item}}" [(ngModel)]="item.EWSCategoryTransGender" />
+              </td>
+              <td>
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txtSCCategorySeatsEarmarkedAsPerGOI_{{idx}}_{{idx_Item}}" [(ngModel)]="item.SCCategorySeatsEarmarkedAsPerGOI" />
+              </td>
+              <td>
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txtSCCategoryMale_{{idx}}_{{idx_Item}}" [(ngModel)]="item.SCCategoryMale" />
+              </td>
+              <td>
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txtSCCategoryFemale_{{idx}}_{{idx_Item}}" [(ngModel)]="item.SCCategoryFemale" />
+              </td>
+              <td>
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txtSCCategoryTransGender_{{idx}}_{{idx_Item}}" [(ngModel)]="item.SCCategoryTransGender" />
+              </td>
+              <td>
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txtSTCategorySeatsEarmarkedAsPerGOI_{{idx}}_{{idx_Item}}" [(ngModel)]="item.STCategorySeatsEarmarkedAsPerGOI" />
+              </td>
+              <td>
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txtSTCategoryMale_{{idx}}_{{idx_Item}}" [(ngModel)]="item.STCategoryMale" />
+              </td>
+              <td>
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txtSTCategoryFemale_{{idx}}_{{idx_Item}}" [(ngModel)]="item.STCategoryFemale" />
+              </td>
+              <td>
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txtSTCategoryTransGender_{{idx}}_{{idx_Item}}" [(ngModel)]="item.STCategoryTransGender" />
+              </td>
+              <td>
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txtOBCCategorySeatsEarmarkedAsPerGOI_{{idx}}_{{idx_Item}}" [(ngModel)]="item.OBCCategorySeatsEarmarkedAsPerGOI" />
+              </td>
+              <td>
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txtOBCCategoryMale_{{idx}}_{{idx_Item}}" [(ngModel)]="item.OBCCategoryMale" />
+              </td>
+              <td>
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txtOBCCategoryFemale_{{idx}}_{{idx_Item}}" [(ngModel)]="item.OBCCategoryFemale" />
+              </td>
+              <td>
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txtOBCCategoryTransGender_{{idx}}_{{idx_Item}}" [(ngModel)]="item.OBCCategoryTransGender" />
+              </td>
+              <td>
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txtTotalCategorySeatsEarmarkedAsPerGOI_{{idx}}_{{idx_Item}}" [(ngModel)]="item.TotalCategorySeatsEarmarkedAsPerGOI" />
+              </td>
+              <td>
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txtTotalCategoryMale_{{idx}}_{{idx_Item}}" [(ngModel)]="item.TotalCategoryMale" />
+              </td>
+              <td>
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txtTotalCategoryFemale_{{idx}}_{{idx_Item}}" [(ngModel)]="item.TotalCategoryFemale" />
+              </td>
+              <td>
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txtTotalCategoryTransGender_{{idx}}_{{idx_Item}}" [(ngModel)]="item.TotalCategoryTransGender" />
+              </td>
+            </tr>
+
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+
+
+    <div class="card-footer text-end"  *ngIf="PreviewStatus!='Y'">
+      <button type="button" (click)="SaveData()" class="btn btn-success">Save Draft</button>
+    </div>
+  </div>
+</form>
+
+

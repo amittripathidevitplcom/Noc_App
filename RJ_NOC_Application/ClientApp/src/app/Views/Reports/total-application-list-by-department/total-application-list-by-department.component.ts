@@ -12,6 +12,7 @@ import { DraftApplicationListService } from '../../../Services/DraftApplicationL
 import { CollegeService } from '../../../services/collegedetailsform/College/college.service';
 import { CommonDataModel_TotalApplicationSearchFilter } from '../../../Models/CommonMasterDataModel';
 import { ModalDismissReasons, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { DTEDocumentScrutinyService } from '../../../Services/DTEDocumentScrutiny/dtedocument-scrutiny.service';
 
 @Injectable()
 
@@ -39,7 +40,7 @@ export class TotalApplicationListByDepartmentComponent implements OnInit {
 
 
 
-  constructor(private modalService: NgbModal, private draftApplicationListService: DraftApplicationListService, private routers: Router, private router: ActivatedRoute, private dceDocumentScrutinyService: DCEDocumentScrutinyService, private toastr: ToastrService, private loaderService: LoaderService, private commonMasterService: CommonMasterService, private applyNocParameterService: ApplyNocParameterService) {
+  constructor(private dcedocumentScrutinyService: DTEDocumentScrutinyService,private modalService: NgbModal, private draftApplicationListService: DraftApplicationListService, private routers: Router, private router: ActivatedRoute, private dceDocumentScrutinyService: DCEDocumentScrutinyService, private toastr: ToastrService, private loaderService: LoaderService, private commonMasterService: CommonMasterService, private applyNocParameterService: ApplyNocParameterService) {
   }
 
   async ngOnInit() {
@@ -120,6 +121,7 @@ export class TotalApplicationListByDepartmentComponent implements OnInit {
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.TotalApplicationList = data['Data'][0]['data'];
+          console.log(this.TotalApplicationList);
         }, (error: any) => console.error(error));
     }
     catch (Ex) {
@@ -220,6 +222,29 @@ export class TotalApplicationListByDepartmentComponent implements OnInit {
     }
     else {
       window.open('/applicationsummary' + "/" + encodeURI(this.commonMasterService.Encrypt(DepartmentID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(CollegeID.toString())), '_blank')
+    }
+  }
+
+  async GenerateConsolidatedReport(CollegeID: number, DepartmentID: number, ApplyNOCID: number) {
+    try {
+      this.loaderService.requestStarted();
+      await this.dcedocumentScrutinyService.GenerateConsolidatedReport(CollegeID, DepartmentID, ApplyNOCID, this.sSOLoginDataModel.UserID, '', false)
+        .then(async (data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.toastr.success(this.SuccessMessage);
+          await this.GetTotalApplicationList();
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
     }
   }
 }

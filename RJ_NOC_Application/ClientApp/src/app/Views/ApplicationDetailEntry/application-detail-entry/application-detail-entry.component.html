@@ -89,7 +89,7 @@
             </mat-tab>
 
             <!--Building Documents-->
-            <mat-tab>
+            <mat-tab *ngIf="IsAHDegreeCollege==false">
               <ng-template mat-tab-label>
                 <i class="fa fa-building-o icon" aria-hidden="true"></i>
                 <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['BuildingDocuments']>0"></i>
@@ -101,7 +101,7 @@
             </mat-tab>
 
 
-            <mat-tab *ngIf="this.SelectedDepartmentID!= 5">
+            <mat-tab *ngIf="this.SelectedDepartmentID!= 5 && IsAHDegreeCollege==false">
               <ng-template mat-tab-label>
                 <i class="fa fa-home icon" aria-hidden="true"></i>
                 <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['RoomDetails']>0"></i>
@@ -160,7 +160,7 @@
 
 
             <!--Other Document-->
-            <mat-tab *ngIf="SelectedDepartmentID!=5">
+            <mat-tab *ngIf="SelectedDepartmentID!=5 && IsAHDegreeCollege==false">
               <ng-template mat-tab-label>
                 <i class="fa fa-files-o icon" aria-hidden="true"></i>
                 <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['OtherDocument']>0"></i>
@@ -173,7 +173,7 @@
 
 
             <!--Staff Details-->
-            <mat-tab *ngIf="CollegeType_IsExisting && SelectedDepartmentID!=5 && SelectedDepartmentID!=4">
+            <mat-tab *ngIf="CollegeType_IsExisting && SelectedDepartmentID!=5 && SelectedDepartmentID!=4 && IsAHDegreeCollege==false">
               <ng-template mat-tab-label>
                 <i class="fa fa-users icon" aria-hidden="true"></i>
                 <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['StaffDetails']>0"></i>
@@ -195,7 +195,7 @@
 
 
             <!--Academic Information Only for New-->
-            <mat-tab *ngIf="CollegeType_IsExisting && SelectedDepartmentID!=5">
+            <mat-tab *ngIf="CollegeType_IsExisting && SelectedDepartmentID!=5 && IsAHDegreeCollege==false">
               <ng-template mat-tab-label>
                 <i class="fa fa-graduation-cap icon" aria-hidden="true"></i>
                 <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['AcademicInformation']>0"></i>
@@ -239,7 +239,7 @@
               <app-hostel-details></app-hostel-details>
             </mat-tab>
 
-            <mat-tab *ngIf="SelectedDepartmentID==2">
+            <mat-tab *ngIf="SelectedDepartmentID==2 && IsAHDegreeCollege==false">
               <ng-template mat-tab-label>
                 <i class="fa fa-bed icon" aria-hidden="true"></i>
                 <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['VeterinaryHospital']>0"></i>

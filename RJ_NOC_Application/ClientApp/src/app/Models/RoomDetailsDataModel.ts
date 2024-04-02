@@ -31,5 +31,7 @@ export class RoomDetailsDataModel_RoomDetails extends DocumentScrutiny_ActionMod
   public NoOfLab: number = null;
   public ImageFileName: string = '';
   public ImageFilePath: string = '';
+  public ProgrammeName?: string = '';
+  public CourseLevel?: string = '';
  
 }

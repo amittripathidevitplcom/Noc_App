@@ -11,8 +11,8 @@
     </div>
     <div class="card-body">
 
-      <div class="row">
-        <div class="col-lg-3 col-md-6 col-sm-12 col-12 mb-3">
+      <div class="row" *ngIf="PreviewStatus!='Y'">
+        <div class="col-lg-3 col-md-6 col-sm-12 col-12 mb-3" *ngIf="request.SelectedCollegeEntryTypeName=='University'">
           <label class="form-label" for="txtNameofDepartment">Name of Faculty/School</label>
           <input class="form-control" id="txtNameofDepartment" maxlength="100"
                  formControlName="txtNameofDepartment" [(ngModel)]="request_DepartmentDetails.NameofFaculty" />
@@ -35,17 +35,17 @@
               <thead>
                 <tr>
                   <th width="60px">Sr. No.</th>
-                  <th>Name of Faculty/School</th>
+                  <th *ngIf="request.SelectedCollegeEntryTypeName=='University'">Name of Faculty/School</th>
                   <th>Name Of Department/Centres</th>
-                  <th width="100px" class="text-center">Action</th>
+                  <th width="100px" class="text-center" *ngIf="PreviewStatus!='Y'">Action</th>
                 </tr>
               </thead>
               <tbody>
                 <tr *ngFor="let row of this.request.DepartmentDetails ;let idx=index;">
                   <td>{{idx+1}}</td>
-                  <td>{{row.NameofFaculty}}</td>
+                  <td *ngIf="request.SelectedCollegeEntryTypeName=='University'">{{row.NameofFaculty}}</td>
                   <td>{{row.NameOfDepartmentCentres}}</td>
-                  <td>
+                  <td *ngIf="PreviewStatus!='Y'">
                     <div class="d-flex justify-content-center">
                       <button type="button" id="btnEdit_{{idx}}" class="btn btn-sm btn-primary"
                               (click)="btnEdit_Click(row,idx)" [attr.disabled]="isDisabledGrid ? true : null" title="Edit">
@@ -64,7 +64,7 @@
         </div>
       </div>
     </div>
-    <div class="card-footer text-end">
+    <div class="card-footer text-end" *ngIf="PreviewStatus!='Y'">
       <button type="button" (click)="SaveData()" class="btn btn-success">Save Draft</button>
     </div>
   </div>

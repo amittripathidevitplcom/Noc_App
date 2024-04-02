@@ -378,6 +378,21 @@ import { DistanceModeComponent } from './Views/DTEStatistics/distance-mode/dista
 import { StudentEnrollmentDistanceModeComponent } from './Views/DTEStatistics/student-enrollment-distance-mode/student-enrollment-distance-mode.component';
 import { PlacementDetailsComponent } from './Views/DTEStatistics/placement-details/placement-details.component';
 import { FinancialDetailsComponent } from './Views/DTEStatistics/financial-details/financial-details.component';
+import { InfrastructureDetailsComponent } from './Views/DTEStatistics/infrastructure-details/infrastructure-details.component';
+import { RegulatoryInformationComponent } from './Views/DTEStatistics/regulatory-information/regulatory-information.component';
+import { StudentEnrollmentRegularModeComponent } from './Views/DTEStatistics/student-enrollment-regular-mode/student-enrollment-regular-mode.component';
+import { RegionalCentreDistanceModeComponent } from './Views/DTEStatistics/regional-centre-distance-mode/regional-centre-distance-mode.component';
+import { PrivateExternalModeComponent } from './Views/DTEStatistics/private-external-mode/private-external-mode.component';
+import { RegularForeignStudentEnrolmentComponent } from './Views/DTEStatistics/regular-foreign-student-enrolment/regular-foreign-student-enrolment.component';
+import { ExaminationResultsRegularComponent } from './Views/DTEStatistics/examination-results-regular/examination-results-regular.component';
+import { ExaminationResultsDistanceComponent } from './Views/DTEStatistics/examination-results-distance/examination-results-distance.component';
+import { ExamResultsRegionalCenterComponent } from './Views/DTEStatistics/exam-results-regional-center/exam-results-regional-center.component';
+import { ExamResultsPrivateExternalComponent } from './Views/DTEStatistics/exam-results-private-external/exam-results-private-external.component';
+import { ScholarshipFellowshipLoanAccComponent } from './Views/DTEStatistics/scholarship-fellowship-loan-acc/scholarship-fellowship-loan-acc.component';
+import { DTEStatisticsStaffComponent } from './Views/DTEStatistics/dtestatistics-staff/dtestatistics-staff.component';
+import { DTEStatisticsNonTeachingComponent } from './Views/DTEStatistics/dtestatistics-non-teaching/dtestatistics-non-teaching.component';
+import { BasicDetailsComponent } from './Views/DTEStatistics/basic-details/basic-details.component';
+import { PreviewDTEStatisticsComponent } from './Views/DTEStatistics/preview-dtestatistics/preview-dtestatistics.component';
 
 //import { NewgrievancereportComponent } from './Views/DCE/newgrievancereport/newgrievancereport/newgrievancereport.component';
 import { OtherMinorityDataComponent} from './Views/DTEStatistics/OtherMinorityData/other-minority-data/other-minority-data.component';
@@ -747,6 +762,22 @@ import { OtherMinorityDataComponent} from './Views/DTEStatistics/OtherMinorityDa
     DistanceModeComponent,
     StudentEnrollmentDistanceModeComponent,
     PlacementDetailsComponent,
+    FinancialDetailsComponent,
+    InfrastructureDetailsComponent,
+    RegulatoryInformationComponent,
+    StudentEnrollmentRegularModeComponent,
+    RegionalCentreDistanceModeComponent,
+    PrivateExternalModeComponent,
+    RegularForeignStudentEnrolmentComponent,
+    ExaminationResultsRegularComponent,
+    ExaminationResultsDistanceComponent,
+    ExamResultsRegionalCenterComponent,
+    ExamResultsPrivateExternalComponent,
+    ScholarshipFellowshipLoanAccComponent,
+    DTEStatisticsStaffComponent,
+    DTEStatisticsNonTeachingComponent,
+      BasicDetailsComponent,
+      PreviewDTEStatisticsComponent
     FinancialDetailsComponent,
     OtherMinorityDataComponent
   ],

@@ -9,6 +9,7 @@ import { StatisticsEntryComponent } from '../../Statistics/statistics-entry/stat
 import { AddressDataModel } from '../../../Models/DTEStatistics/AddressDataModel';
 import { AddressService } from '../../../Services/DTEStatistics/Address/address.service';
 import { DropdownValidators } from '../../../Services/CustomValidators/custom-validators.service';
+import { PreviewDTEStatisticsComponent } from '../preview-dtestatistics/preview-dtestatistics.component';
 
 @Component({
   selector: 'app-address',
@@ -34,9 +35,9 @@ export class AddressComponent implements OnInit {
   public TehsilList: any = [];
   public CityList: any = [];
   public IsRural: boolean = true;
-
+  public PreviewStatus: string = 'N';
   constructor(private addressService: AddressService, private loaderService: LoaderService, private router: ActivatedRoute, private commonMasterService: CommonMasterService, private routers: Router, private formBuilder: FormBuilder, private toastr: ToastrService
-    , private statisticsEntryComponent: StatisticsEntryComponent) {
+    , private statisticsEntryComponent: StatisticsEntryComponent, private previewDTEStatisticsComponent: PreviewDTEStatisticsComponent) {
   }
   async ngOnInit() {
     this.AddressFormGroup = this.formBuilder.group(
@@ -58,8 +59,18 @@ export class AddressComponent implements OnInit {
       })
 
 
-    this.SelectedDepartmentID = this.statisticsEntryComponent.SelectedDepartmentID;
-    this.SelectedCollageID = this.statisticsEntryComponent.SelectedCollageID;
+    this.PreviewStatus = this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('PreviewStatus')?.toString());
+    if (this.PreviewStatus != 'Y') {
+      this.SelectedDepartmentID = this.statisticsEntryComponent.SelectedDepartmentID;
+      this.SelectedCollageID = this.statisticsEntryComponent.SelectedCollageID;
+      this.request.SelectedCollegeEntryTypeName = this.statisticsEntryComponent.SelectedCollegeEntryType;
+    }
+    else {
+      this.AddressFormGroup.disable();
+      this.SelectedDepartmentID = this.previewDTEStatisticsComponent.SelectedDepartmentID;
+      this.SelectedCollageID = await this.previewDTEStatisticsComponent.GetCollegeID_SearchRecordID();
+      //var dt = await this.previewDTEStatisticsComponent.GetCollegeDetails_After();
+    }
 
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     this.request.CollegeID = this.SelectedCollageID;

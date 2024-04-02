@@ -134,9 +134,10 @@ export class ApplicationDetailEntryComponent implements OnInit {
     catch (Ex) { }
     this.loaderService.requestEnded();
   }
-
+  public IsAHDegreeCollege: boolean = false;
   async GetCollageDetails() {
     try {
+      this.IsAHDegreeCollege = false;
       this.loaderService.requestStarted();
       await this.collegeService.GetData(this.SelectedCollageID)
         .then((data: any) => {
@@ -146,6 +147,9 @@ export class ApplicationDetailEntryComponent implements OnInit {
           if (this.collegeDataList['CollegeStatus'] == 'New') {
             this.CollegeType_IsExisting = false;
             //this.isAcademicInformation = false;
+          }
+          if (this.collegeDataList['CollegeLevelName'] == 'UG' && this.collegeDataList['DepartmentID'] == 2) {
+            this.IsAHDegreeCollege = true;
           }
         }, error => console.error(error));
     }
@@ -280,7 +284,7 @@ export class ApplicationDetailEntryComponent implements OnInit {
                   }
                 }
 
-                if (data['Data'][0]['data'][0]['PendingClassRoomDetails'] > 0) {
+                if (data['Data'][0]['data'][0]['PendingClassRoomDetails'] > 0 && this.IsAHDegreeCollege == false) {
                   this.toastr.error("Enter All Class Room Details.")
                   DCPendingPoint += "Enter All Class Room Details." + "\n";
                   this.isCheck30Female = true;
@@ -289,7 +293,7 @@ export class ApplicationDetailEntryComponent implements OnInit {
                   }
                 }
 
-                if (data['Data'][0]['data'][0]['PendingClassWiseNoofRoomRoomDetails'] > 0) {
+                if (data['Data'][0]['data'][0]['PendingClassWiseNoofRoomRoomDetails'] > 0 && this.IsAHDegreeCollege == false) {
                   this.toastr.error("Enter Class Wise No of Room Details.")
                   DCPendingPoint += "Enter Class Wise No of Room Details." + "\n";
                   this.isCheck30Female = true;
@@ -320,7 +324,7 @@ export class ApplicationDetailEntryComponent implements OnInit {
                 }
 
                 //
-                if (this.SelectedDepartmentID == 2 && this.CollegeType_IsExisting == true) {
+                if (this.SelectedDepartmentID == 2 && this.CollegeType_IsExisting == true && this.IsAHDegreeCollege == false) {
                   this.SeatValue = Number(data['Data'][0]['data'][0]['SeatsValue'])
                   if (data['Data'][0]['data'][0]['PendingPrincipal'] == 0) {
                     this.toastr.error('Please Add One Principal in Staff details.')
@@ -574,8 +578,19 @@ export class ApplicationDetailEntryComponent implements OnInit {
     }
     //Animal Husbandry
     else if (this.SelectedDepartmentID == 2) {
-      if (this.CollegeType_IsExisting == true) {
+      if (this.CollegeType_IsExisting == true && this.IsAHDegreeCollege == false) {
         if (this.CheckTabsEntryData['LandInformation'] > 0 && this.CheckTabsEntryData['Facility'] > 0 && this.CheckTabsEntryData['RequiredDocument'] > 0 && this.CheckTabsEntryData['RoomDetails'] > 0 && this.CheckTabsEntryData['OtherInformation'] > 0 && this.CheckTabsEntryData['BuildingDocuments'] > 0 && this.CheckTabsEntryData['StaffDetails'] > 0 && this.CheckTabsEntryData['OLDNOCDetails'] > 0 && this.CheckTabsEntryData['AcademicInformation'] > 0 && this.CheckTabsEntryData['OtherDocument'] > 0 && this.CheckTabsEntryData['VeterinaryHospital'] > 0) {
+          this.IsShowDraftFinalSubmit = false;
+        }
+      }
+
+      else if (this.IsAHDegreeCollege == true && this.CollegeType_IsExisting == false) {
+        if (this.CheckTabsEntryData['LandInformation'] > 0  && this.CheckTabsEntryData['Facility'] > 0 && this.CheckTabsEntryData['RequiredDocument'] > 0 && this.CheckTabsEntryData['OtherInformation'] > 0) {
+          this.IsShowDraftFinalSubmit = false;
+        }
+      }
+      else if (this.IsAHDegreeCollege == true && this.CollegeType_IsExisting == true) {
+        if (this.CheckTabsEntryData['LandInformation'] > 0 && this.CheckTabsEntryData['OLDNOCDetails'] > 0 && this.CheckTabsEntryData['Facility'] > 0 && this.CheckTabsEntryData['RequiredDocument'] > 0 && this.CheckTabsEntryData['OtherInformation'] > 0) {
           this.IsShowDraftFinalSubmit = false;
         }
       }

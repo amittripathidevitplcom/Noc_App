@@ -8,6 +8,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FacultyDataModel, Faculty_FacultyDetails } from '../../../Models/DTEStatistics/FacultyDataModel';
 import { StatisticsEntryComponent } from '../../Statistics/statistics-entry/statistics-entry.component';
 import { FacultyService } from '../../../Services/DTEStatistics/Faculty/faculty.service';
+import { PreviewDTEStatisticsComponent } from '../preview-dtestatistics/preview-dtestatistics.component';
 
 @Component({
   selector: 'app-faculty',
@@ -29,9 +30,10 @@ export class FacultyComponent implements OnInit {
   public SearchRecordID: string = ''
   public isSubmitted: boolean = false; 
   public CurrentIndex: number = -1;
+  public PreviewStatus: string = 'N';
 
   constructor(private FacultyService: FacultyService, private loaderService: LoaderService, private router: ActivatedRoute, private commonMasterService: CommonMasterService, private routers: Router, private formBuilder: FormBuilder, private toastr: ToastrService
-    , private statisticsEntryComponent: StatisticsEntryComponent) {
+    , private statisticsEntryComponent: StatisticsEntryComponent, private previewDTEStatisticsComponent: PreviewDTEStatisticsComponent) {
   }
   async ngOnInit() {
     this.FacultyFormGroup = this.formBuilder.group(
@@ -39,9 +41,18 @@ export class FacultyComponent implements OnInit {
         txtNameofFaculty: [''],
       });
     this.request.FacultyDetails = [];
-
-    this.SelectedDepartmentID = this.statisticsEntryComponent.SelectedDepartmentID;
-    this.SelectedCollageID = this.statisticsEntryComponent.SelectedCollageID;
+    this.PreviewStatus = this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('PreviewStatus')?.toString());
+    if (this.PreviewStatus != 'Y') {
+      this.SelectedDepartmentID = this.statisticsEntryComponent.SelectedDepartmentID;
+      this.SelectedCollageID = this.statisticsEntryComponent.SelectedCollageID;
+      this.request.SelectedCollegeEntryTypeName = this.statisticsEntryComponent.SelectedCollegeEntryType;
+    }
+    else {
+      this.FacultyFormGroup.disable();
+      this.SelectedDepartmentID = this.previewDTEStatisticsComponent.SelectedDepartmentID;
+      this.SelectedCollageID = await this.previewDTEStatisticsComponent.GetCollegeID_SearchRecordID();
+      //var dt = await this.previewDTEStatisticsComponent.GetCollegeDetails_After();
+    }
 
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     this.request.CollegeID = this.SelectedCollageID;
@@ -86,6 +97,12 @@ export class FacultyComponent implements OnInit {
     if (this.FacultyFormGroup.invalid) {
       return
     }
+
+    if (this.request.FacultyDetails.length==0) {
+      this.toastr.error("Enter Faculty Details.!");
+      return;
+    }
+
     this.loaderService.requestStarted();
     this.isLoading = true;
     try {

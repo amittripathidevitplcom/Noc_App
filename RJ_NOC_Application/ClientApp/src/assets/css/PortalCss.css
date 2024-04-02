@@ -1410,6 +1410,19 @@ b, strong, label.form-label, .fw-bold, .mat-tab-label span, .table th, .form-hor
     min-width: 100px;
     max-width: 100px;
   }
+
+.tableForm100 .form-select {
+  min-width: 150px;
+  max-width: 150px;
+}
+.tableForm100 .form-control {
+  min-width: 100px;
+  max-width: 100px;
+}
+
+
+
+
 .tableLastclmFixed tr:nth-child(1) th:nth-last-child(1), .tableLastclmFixed tr td:nth-last-child(1) {
   position: sticky !important;
   right: 0px !important;
@@ -1418,4 +1431,50 @@ b, strong, label.form-label, .fw-bold, .mat-tab-label span, .table th, .form-hor
   position: sticky !important;
   right: 0px !important;
   background:#fff !important;
+}
+
+.tableLastclmFixed tr.lastColumnAuto td:nth-last-child(1) {
+  position: unset !important;
+  right: auto !important;
+}
+.tableHeaderFixed tr th.stickyleft, .tableHeaderFixed tr td.stickyleft {
+  position: sticky !important;
+  left: 0px !important;
+}
+.tableHeaderFixed tr th.stickyleft300 {
+  position: sticky !important;
+  left: 120px !important;
+}
+.tableHeaderFixed tr td.stickyleft {
+  background: #fff !important;
+}
+
+  .tableAlternate tbody.trAlter tr td {
+    background: #f2f2f2 !important;
+  }
+.tableHeaderFixed thead {
+    position:sticky;
+    top:1px;
+    z-index:9999;
+}
+.tableHeaderFixed thead tr th {
+  padding-top: 1px;
+  padding-bottom: 1px;
+}
+@media(min-width:1600px) {
+  .maxheight600px {
+    max-height: calc(100vh - 400px);
+  }
+}
+@media(max-width:1599px) {
+  .maxheight600px {
+    max-height: 485px;
+  }
+}
+
+.form-control.width200px {
+    width:200px;
+}
+.form-control.width100px {
+    width:100px;
 }

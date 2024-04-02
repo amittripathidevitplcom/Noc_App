@@ -659,12 +659,7 @@ export class DocumentScrutinyCheckListDTEComponent implements OnInit {
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           // data
-          if (this.State == 0) {
-            this.ApplyNocApplicationDetail = data['Data'];
-          }
-          else {
-            this.toastr.error(this.ErrorMessage);
-          }
+          this.ApplyNocApplicationDetail = data['Data'];
         }, error => console.error(error));
     }
     catch (Ex) {
@@ -779,7 +774,7 @@ export class DocumentScrutinyCheckListDTEComponent implements OnInit {
         }
       }
       if (this.sSOLoginDataModel.RoleID == 16) {
-          await this.dcedocumentScrutinyService.UploadInspectionReport(this.SelectedCollageID, this.SelectedDepartmentID, this.SelectedApplyNOCID, this.sSOLoginDataModel.UserID, this.UploadConsolidatedReport, false)
+        await this.dcedocumentScrutinyService.UploadInspectionReport(this.SelectedCollageID, this.SelectedDepartmentID, this.SelectedApplyNOCID, this.sSOLoginDataModel.UserID, this.UploadInspectionReport, false)
             .then(async (data: any) => {
               data = JSON.parse(JSON.stringify(data));
             }, error => console.error(error));

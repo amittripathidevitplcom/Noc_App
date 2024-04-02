@@ -31,6 +31,7 @@ export class StatisticsCollegeListComponent implements OnInit {
   /*Save Data Model*/
 
   public IsShowStaticData: boolean = false;
+  public ViewSelectedDepartmentID: number = 0;
   public UserID: number = 0;
   public draftApplicatoinListData: any = [];
   searchText: string = '';
@@ -75,9 +76,7 @@ export class StatisticsCollegeListComponent implements OnInit {
   async ApplicationSummary_OnClick(DepartmentID: number, CollegeID: string) {
     this.routers.navigate(['/applicationsummary' + "/" + encodeURI(this.commonMasterService.Encrypt(DepartmentID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(CollegeID.toString()))]);
   }
-
-
-
+   
 
   SCBoysCountFooter: number = 0
   STBoysCountFooter: number = 0
@@ -251,11 +250,16 @@ export class StatisticsCollegeListComponent implements OnInit {
   
   modalReference!: NgbModalRef;
   closeResult!: string;
-  async PreviewStatistics_click(CollegeID: number) {
+  async PreviewStatistics_click(CollegeID: number, _ViewSelectedDepartmentID: number, SearchRecordID: string) {
     try {
+      if (_ViewSelectedDepartmentID == 4) {
+        this.routers.navigate([]).then(result => { window.open('/previewdtestatistics' + "/" + encodeURI(this.commonMasterService.Encrypt(_ViewSelectedDepartmentID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(SearchRecordID.toString())) + "/Y", '_blank'); });;
+        return;
+      }
       await this.GetCollegeWiseStudenetDetails(CollegeID);
       await this.GetSubjectWiseStudenetDetails(CollegeID);
       this.IsShowStaticData = true;
+      this.ViewSelectedDepartmentID = _ViewSelectedDepartmentID;
       // model popup
       //this.modalService.open(content, { size: 'xl', ariaLabelledBy: 'modal-applynocpayment-title', backdrop: 'static' }).result.then((result) => {
       //  this.closeResult = `Closed with: ${result}`;

@@ -9,6 +9,7 @@ import { ResidentialFacilityDataModel, ResidentialFacility_HostelDetailsDataMode
 import { DropdownValidators } from '../../../Services/CustomValidators/custom-validators.service';
 import { ResidentialFacilityService } from '../../../Services/DTEStatistics/ResidentialFacility/residential-facility.service';
 import { StatisticsEntryComponent } from '../../Statistics/statistics-entry/statistics-entry.component';
+import { PreviewDTEStatisticsComponent } from '../preview-dtestatistics/preview-dtestatistics.component';
 
 @Component({
   selector: 'app-residential-facility',
@@ -32,9 +33,9 @@ export class ResidentialFacilityComponent implements OnInit {
   public DesignationMasterList: any = [];
   public HostelCategoryList: any = [];
   public CurrentIndex: number = -1;
-
+  public PreviewStatus: string = 'N';
   constructor(private residentialFacilityService: ResidentialFacilityService, private loaderService: LoaderService, private router: ActivatedRoute, private commonMasterService: CommonMasterService, private routers: Router, private formBuilder: FormBuilder, private toastr: ToastrService
-    , private statisticsEntryComponent: StatisticsEntryComponent) {
+    , private statisticsEntryComponent: StatisticsEntryComponent, private previewDTEStatisticsComponent: PreviewDTEStatisticsComponent) {
   }
   async ngOnInit() {
     this.ResidentialFacilityFormGroup = this.formBuilder.group(
@@ -54,8 +55,18 @@ export class ResidentialFacilityComponent implements OnInit {
       })
     this.request.HostelDetails = []
 
-    this.SelectedDepartmentID = this.statisticsEntryComponent.SelectedDepartmentID;
-    this.SelectedCollageID = this.statisticsEntryComponent.SelectedCollageID;
+    this.PreviewStatus = this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('PreviewStatus')?.toString());
+    if (this.PreviewStatus != 'Y') {
+      this.SelectedDepartmentID = this.statisticsEntryComponent.SelectedDepartmentID;
+      this.SelectedCollageID = this.statisticsEntryComponent.SelectedCollageID;
+      this.request.SelectedCollegeEntryTypeName = this.statisticsEntryComponent.SelectedCollegeEntryType;
+    }
+    else {
+      this.ResidentialFacilityFormGroup.disable();
+      this.SelectedDepartmentID = this.previewDTEStatisticsComponent.SelectedDepartmentID;
+      this.SelectedCollageID = await this.previewDTEStatisticsComponent.GetCollegeID_SearchRecordID();
+      //var dt = await this.previewDTEStatisticsComponent.GetCollegeDetails_After();
+    }
 
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     this.request.CollegeID = this.SelectedCollageID;
@@ -98,7 +109,6 @@ export class ResidentialFacilityComponent implements OnInit {
       await this.residentialFacilityService.GetByID(this.request.CollegeID, this.request.ModifyBy)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
-
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
@@ -129,6 +139,17 @@ export class ResidentialFacilityComponent implements OnInit {
     if (this.ResidentialFacilityFormGroup.invalid) {
       return
     }
+    if (this.request.IsStaffQuarterAvailable == null || this.request.IsStaffQuarterAvailable == undefined || this.request.IsStaffQuarterAvailable == '')
+    {
+      this.toastr.error("Is Staff Quarter Available field is required .!");
+      return;
+    }
+    if (this.request.IsStudentsHostelAvailable == null || this.request.IsStudentsHostelAvailable == undefined || this.request.IsStudentsHostelAvailable == '')
+    {
+      this.toastr.error("Is Students Hostel Available field is required .!");
+      return;
+    }
+
     this.loaderService.requestStarted();
     this.isLoading = true;
     try {

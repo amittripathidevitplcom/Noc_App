@@ -1,0 +1,101 @@
+<form [formGroup]="RegulatoryInformationFormGroup" class="form-horizontal">
+  <div class="card mb-0">
+    <div class="card-header d-xxl-flex d-xl-flex d-md-flex d-sm-block justify-content-between align-items-center">
+      <b><i class="bi bi-table"></i>&nbsp;Regulatory Information (As per Current Session)</b>
+      <div class="d-flex align-items-center">
+        <div class="btn-group mr-15" role="group" aria-label="Basic outlined example">
+        </div>
+        <div class="d-flex align-items-center table-filter mr-15">
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="card">
+        <div class="card-header">
+          <b>Regulatory Information</b>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-lg-4 col-md-6 col-sm-12 col-12 mb-3">
+              <label class="form-label" for="ddlUniversityHasUploaded">University Has Uploaded The Act,Statues,Rules and Ordinance On their Website</label>
+              <select id="ddlUniversityHasUploaded" class="form-select form-select-sm" formControlName="ddlUniversityHasUploaded"
+                      [(ngModel)]="request.UniversityHasUploaded">
+                <option value="">--Select--</option>
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+              </select>
+
+              <div *ngIf="isSubmitted&&form.ddlUniversityHasUploaded.errors" class="text-danger">
+                <p *ngIf="form.ddlUniversityHasUploaded.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+              </div> 
+
+            </div>
+
+            <div class="col-lg-4 col-md-6 col-sm-12 col-12 mb-3">
+              <label class="form-label" for="ddlUniversityIsComplying">University Is Complying With All The UGC's Regulation And Rules</label>
+              <select id="ddlUniversityIsComplying" class="form-select form-select-sm" formControlName="ddlUniversityIsComplying"
+                      [(ngModel)]="request.UniversityIsComplying">
+                <option value="">--Select--</option>
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+              </select>
+
+              <div *ngIf="isSubmitted&&form.ddlUniversityIsComplying.errors" class="text-danger">
+                <p *ngIf="form.ddlUniversityIsComplying.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+              </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 col-sm-12 col-12 mb-3">
+              <label class="form-label" for="ddlUniversityHadMinimum">University had a minimum of 180 actual teaching days in the last academic year</label>
+              <select id="ddlUniversityHadMinimum" class="form-select form-select-sm" formControlName="ddlUniversityHadMinimum"
+                      [(ngModel)]="request.UniversityHadMinimum">
+                <option value="">--Select--</option>
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+              </select>
+
+              <div *ngIf="isSubmitted&&form.ddlUniversityHadMinimum.errors" class="text-danger">
+                <p *ngIf="form.ddlUniversityHadMinimum.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <b>Inclusion As A University By UGC or Any Other National Agency</b>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-lg-4 col-md-6 col-sm-12 col-12 mb-3">
+              <label class="form-label" for="txtUnderSection">Under Section</label>
+              <input class="form-control" id="txtUnderSection"
+                     formControlName="txtUnderSection" [(ngModel)]="request.UnderSection" />
+              <div *ngIf="isSubmitted&&form.txtUnderSection.errors" class="text-danger">
+                <p *ngIf="form.txtUnderSection.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+              </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 col-sm-12 col-12 mb-3">
+              <label class="form-label" for="txtDate">Date</label>
+              <input class="form-control" id="txtDate" type="date"
+                     formControlName="txtDate" [(ngModel)]="request.Date" />
+              <div *ngIf="isSubmitted&&form.txtDate.errors" class="text-danger">
+                <p *ngIf="form.txtDate.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      
+      <div class="card-footer text-end" *ngIf="PreviewStatus!='Y'">
+        <button type="button" (click)="SaveData()" class="btn btn-success">Save Draft</button>
+      </div>
+      </div>
+    </div>
+  </div>
+</form>
+
+

@@ -20,7 +20,7 @@
           </div>
         </div>
         <div class="card-body">
-          <div class="row">
+          <div class="row" *ngIf="PreviewStatus!='Y'">
             <div class="col-lg-3 col-md-6 col-sm-12 col-12 mb-3">
               <label class="form-label" for="txtNameOffShoreCenter">Name of Off-shore Center/College</label>
               <input class="form-control" id="txtNameOffShoreCenter" maxlength="100"
@@ -64,7 +64,7 @@
                       <th>Study Mode</th>
                       <th>Total Enrolled Students</th>
                       <th>Total Enrolled Girls Students</th>
-                      <th width="100px" class="text-center">Action</th>
+                      <th width="100px" class="text-center" *ngIf="PreviewStatus!='Y'">Action</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -75,7 +75,7 @@
                       <td>{{row.StudyMode}}</td>
                       <td>{{row.TotalEnrolledGirlsStudents}}</td>
                       <td>{{row.TotalEnrolledStudents}}</td>
-                      <td>
+                      <td *ngIf="PreviewStatus!='Y'">
                         <div class="d-flex justify-content-center">
                           <button type="button" id="btnEdit_{{idx}}" class="btn btn-sm btn-primary"
                                   (click)="btnEdit_Click(row,idx)" [attr.disabled]="isDisabledGrid ? true : null" title="Edit">
@@ -98,7 +98,7 @@
       </div>
     </div>
 
-    <div class="card-footer text-end">
+    <div class="card-footer text-end" *ngIf="PreviewStatus!='Y'">
       <button type="button" (click)="SaveData()" class="btn btn-success">Save Draft</button>
     </div>
   </div>

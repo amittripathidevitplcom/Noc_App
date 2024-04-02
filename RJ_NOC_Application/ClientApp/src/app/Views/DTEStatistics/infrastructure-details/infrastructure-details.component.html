@@ -1,0 +1,116 @@
+<form class="form-horizontal">
+  <div class="card mb-0">
+    <div class="card-header d-xxl-flex d-xl-flex d-md-flex d-sm-block justify-content-between align-items-center">
+      <b>
+        <i class="bi bi-table"></i>&nbsp;Infrastructure Details (As per Current Session)
+      </b>
+      <div class="d-flex align-items-center">
+        <div class="btn-group mr-15" role="group" aria-label="Basic outlined example">
+        </div>
+        <div class="d-flex align-items-center table-filter mr-15">
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="card">
+        <div class="card-header">
+          <b>
+            (A) Note:<br />
+            NKN = National knowlege Network<br />
+            NMEICT =  National Mission On Education Through Information & Communication technology
+          </b>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="table-responsive">
+                <table class="table table-hover table-striped table-bordered tableHeaderTH tableHeaderTHMiddel tableLastclmFixed">
+                  <thead>
+                    <tr>
+                      <th width="60px">S.No</th>
+
+                      <th>
+                        Text
+                      </th>
+                      <th class="text-center" style="width:20% !important">
+                        Value
+                      </th>
+
+                    </tr>
+
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let row of this.request.InfrastructureDetails_A ;let idx=index;">
+                      <td>
+                        {{row.SNoText}}
+
+                      </td>
+                      <td>
+                        {{row.Item}}
+                      </td>
+                      <td>
+                        <input [disabled]="disabled" class="form-control form-control-sm" id="ValueA{{idx}}" [(ngModel)]="row.Value" maxlength="200"
+                               type="text" [ngModelOptions]="{standalone: true}" />
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <div class="card mb-0">
+            <div class="card-header">
+              <b>
+                (B) Whether the University / Institution have Disaster Management facilities.
+              </b>
+            </div>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="table-responsive">
+                    <table class="table table-hover table-striped table-bordered tableHeaderTH tableHeaderTHMiddel tableLastclmFixed mb-0">
+                      <thead>
+                        <tr>
+                          <th width="60px">S.No</th>
+
+                          <th>
+                            Text
+                          </th>
+                          <th class="text-center" style="width:20% !important">
+                            Value
+                          </th>
+
+                        </tr>
+
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let row of this.request.InfrastructureDetails_B ;let idx=index;">
+                          <td>{{row.SNoText}}</td>
+                          <td>
+                            {{row.Item}}
+                          </td>
+                          <td>
+                            <input [disabled]="disabled" class="form-control form-control-sm" id="ValueB{{idx}}" [(ngModel)]="row.Value" maxlength="200"
+                                   type="text" [ngModelOptions]="{standalone: true}" />
+                          </td>
+                        </tr>
+                      </tbody>
+
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        
+      </div>
+    </div>
+    <div class="card-footer text-end" *ngIf="PreviewStatus!='Y'">
+      <button type="button" (click)="SaveData()" class="btn btn-success">Save Draft</button>
+    </div>
+  </div>
+</form>
+
+

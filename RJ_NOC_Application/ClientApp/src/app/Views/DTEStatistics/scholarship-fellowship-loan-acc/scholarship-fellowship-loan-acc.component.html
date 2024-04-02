@@ -1,0 +1,554 @@
+<form class="form-horizontal">
+  <div class="card">
+    <div class="card-header d-xxl-flex d-xl-flex d-md-flex d-sm-block justify-content-between align-items-center">
+      <b><i class="bi bi-table"></i>&nbsp;Whether University/Institution Maintains Scholarship Data (As per earlier session )</b>
+      <div class="d-flex align-items-center">
+        <div class="btn-group mr-15" role="group" aria-label="Basic outlined example">
+        </div>
+        <div class="d-flex align-items-center table-filter mr-15">
+        </div>
+      </div>
+    </div>
+    <div class="card-body p-0">
+
+      <div class="table-responsive maxheight600px">
+        <table class="table table-bordered tableHeaderTH tableHeaderFixed tableHeaderTHMiddel  tableForm100 tableAlternate mb-0">
+          <thead>
+            <tr>
+              <th rowspan="3" class="text-center">Type</th>
+              <th rowspan="3" class="text-center stickyleft">Category</th>
+              <th colspan="18" class="text-center">Number of Students Availing Scholarship</th>
+              <th rowspan="3" class="text-center">Remarks</th>
+            </tr>
+            <tr>
+              <th colspan="3" class="text-center">General Category</th>
+              <th colspan="3" class="text-center">EWS Category (out of General Category)</th>
+              <th colspan="3" class="text-center">Scheduled Caste (SC)</th>
+              <th colspan="3" class="text-center">Scheduled Tribe (ST)</th>
+              <th colspan="3" class="text-center">Other Backward Classes (OBC)</th>
+              <th colspan="3" class="text-center">Total</th>
+            </tr>
+            <tr>
+              <th class="text-center">Total</th>
+              <th class="text-center">Female</th>
+              <th class="text-center">Trans Gender</th>
+              <th class="text-center">Total</th>
+              <th class="text-center">Female</th>
+              <th class="text-center">Trans Gender</th>
+              <th class="text-center">Total</th>
+              <th class="text-center">Female</th>
+              <th class="text-center">Trans Gender</th>
+              <th class="text-center">Total</th>
+              <th class="text-center">Female</th>
+              <th class="text-center">Trans Gender</th>
+              <th class="text-center">Total</th>
+              <th class="text-center">Female</th>
+              <th class="text-center">Trans Gender</th>
+              <th class="text-center">Total</th>
+              <th class="text-center">Female</th>
+              <th class="text-center">Trans Gender</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let row of this.request.Scholarship ;let idx=index;">
+              <td *ngIf="row.RowNo==1" rowspan="4">
+                <b>{{row.Type}}</b>
+              </td>
+              <td class="stickyleft"><b>{{row.Category}}</b></td>
+              <td>
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txt_Scholarship_General_Total_{{idx}}" [(ngModel)]="row.General_Total" />
+              </td>
+              <td>
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txt_Scholarship_General_Female_{{idx}}" [(ngModel)]="row.General_Female" />
+              </td>
+              <td>
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txt_Scholarship_General_TransGender_{{idx}}" [(ngModel)]="row.General_TransGender" />
+              </td>
+
+              <td>
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txt_Scholarship_EWS_Total_{{idx}}" [(ngModel)]="row.EWS_Total" />
+              </td>
+              <td>
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txt_Scholarship_EWS_Female{{idx}}" [(ngModel)]="row.EWS_Female" />
+              </td>
+              <td>
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txt_Scholarship_EWS_TransGender{{idx}}" [(ngModel)]="row.EWS_TransGender" />
+              </td>
+
+              <td>
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txt_Scholarship_SC_Total{{idx}}" [(ngModel)]="row.SC_Total" />
+              </td>
+              <td>
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txt_Scholarship_SC_Female{{idx}}" [(ngModel)]="row.SC_Female" />
+              </td>
+              <td>
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txt_Scholarship_SC_TransGender{{idx}}" [(ngModel)]="row.SC_TransGender" />
+              </td>
+
+              <td>
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txt_Scholarship_ST_Total{{idx}}" [(ngModel)]="row.ST_Total" />
+              </td>
+              <td>
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txt_Scholarship_ST_Female{{idx}}" [(ngModel)]="row.ST_Female" />
+              </td>
+              <td>
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txt_Scholarship_ST_TransGender{{idx}}" [(ngModel)]="row.ST_TransGender" />
+              </td>
+
+              <td>
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txt_Scholarship_OBC_Total{{idx}}" [(ngModel)]="row.OBC_Total" />
+              </td>
+              <td>
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txt_Scholarship_OBC_Female{{idx}}" [(ngModel)]="row.OBC_Female" />
+              </td>
+              <td>
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txt_Scholarship_OBC_TransGender{{idx}}" [(ngModel)]="row.OBC_TransGender" />
+              </td>
+
+              <td>
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txt_Scholarship_TOTAL_Total{{idx}}" [(ngModel)]="row.TOTAL_Total" />
+              </td>
+              <td>
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txt_Scholarship_TOTAL_Female{{idx}}" [(ngModel)]="row.TOTAL_Female" />
+              </td>
+              <td>
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txt_Scholarship_TOTAL_TransGender{{idx}}" [(ngModel)]="row.TOTAL_TransGender" />
+              </td>
+
+
+              <td>
+                <textarea [disabled]="disabled" class="form-control form-control-sm" id="txt_Scholarship_Remarks{{idx}}" type="text" maxlength="200"
+                          [(ngModel)]="row.Remarks" [ngModelOptions]="{standalone: true}"></textarea>
+              </td>
+            </tr>
+
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-header d-xxl-flex d-xl-flex d-md-flex d-sm-block justify-content-between align-items-center">
+      <b>
+        <i class="bi bi-table"></i>&nbsp;Whether University/Institution Maintains Fellowship Data (As per current session )
+      </b>
+      <div class="d-flex align-items-center">
+        <div class="btn-group mr-15" role="group" aria-label="Basic outlined example">
+        </div>
+        <div class="d-flex align-items-center table-filter mr-15">
+        </div>
+      </div>
+    </div>
+    <div class="card-body p-0">
+
+      <div class="table-responsive maxheight600px">
+        <table class="table table-bordered tableHeaderTH tableHeaderFixed tableHeaderTHMiddel  tableForm100 tableAlternate mb-0">
+          <thead>
+            <tr>
+              <th rowspan="3" class="text-center stickyleft">Category</th>
+              <th colspan="18" class="text-center">
+                Number of Students Availing Fellowship
+              </th>
+              <th rowspan="3" class="text-center">Remarks</th>
+            </tr>
+            <tr>
+              <th colspan="3" class="text-center">General Category</th>
+              <th colspan="3" class="text-center">EWS Category (out of General Category)</th>
+              <th colspan="3" class="text-center">Scheduled Caste (SC)</th>
+              <th colspan="3" class="text-center">Scheduled Tribe (ST)</th>
+              <th colspan="3" class="text-center">Other Backward Classes (OBC)</th>
+              <th colspan="3" class="text-center">Total</th>
+            </tr>
+            <tr>
+              <th class="text-center">Male</th>
+              <th class="text-center">Female</th>
+              <th class="text-center">Trans Gender</th>
+              <th class="text-center">Male</th>
+              <th class="text-center">Female</th>
+              <th class="text-center">Trans Gender</th>
+              <th class="text-center">Male</th>
+              <th class="text-center">Female</th>
+              <th class="text-center">Trans Gender</th>
+              <th class="text-center">Male</th>
+              <th class="text-center">Female</th>
+              <th class="text-center">Trans Gender</th>
+              <th class="text-center">Male</th>
+              <th class="text-center">Female</th>
+              <th class="text-center">Trans Gender</th>
+              <th class="text-center">Male</th>
+              <th class="text-center">Female</th>
+              <th class="text-center">Trans Gender</th>
+            </tr>
+          </thead>
+
+          <tbody>
+
+            <tr *ngFor="let row of this.request.Fellowship ;let idx=index;">
+              <td class="stickyleft"><b>{{row.Category}}</b></td>
+              <td>
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txt_Fellowship_General_Total_{{idx}}" [(ngModel)]="row.General_Total" />
+              </td>
+              <td>
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txt_Fellowship_General_Female_{{idx}}" [(ngModel)]="row.General_Female" />
+              </td>
+              <td>
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txt_Fellowship_General_TransGender_{{idx}}" [(ngModel)]="row.General_TransGender" />
+              </td>
+
+              <td>
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txt_Fellowship_EWS_Total_{{idx}}" [(ngModel)]="row.EWS_Total" />
+              </td>
+              <td>
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txt_Fellowship_EWS_Female{{idx}}" [(ngModel)]="row.EWS_Female" />
+              </td>
+              <td>
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txt_Fellowship_EWS_TransGender{{idx}}" [(ngModel)]="row.EWS_TransGender" />
+              </td>
+
+              <td>
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txt_Fellowship_SC_Total{{idx}}" [(ngModel)]="row.SC_Total" />
+              </td>
+              <td>
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txt_Fellowship_SC_Female{{idx}}" [(ngModel)]="row.SC_Female" />
+              </td>
+              <td>
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txt_Fellowship_SC_TransGender{{idx}}" [(ngModel)]="row.SC_TransGender" />
+              </td>
+
+              <td>
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txt_Fellowship_ST_Total{{idx}}" [(ngModel)]="row.ST_Total" />
+              </td>
+              <td>
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txt_Fellowship_ST_Female{{idx}}" [(ngModel)]="row.ST_Female" />
+              </td>
+              <td>
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txt_Fellowship_ST_TransGender{{idx}}" [(ngModel)]="row.ST_TransGender" />
+              </td>
+
+              <td>
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txt_Fellowship_OBC_Total{{idx}}" [(ngModel)]="row.OBC_Total" />
+              </td>
+              <td>
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txt_Fellowship_OBC_Female{{idx}}" [(ngModel)]="row.OBC_Female" />
+              </td>
+              <td>
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txt_Fellowship_OBC_TransGender{{idx}}" [(ngModel)]="row.OBC_TransGender" />
+              </td>
+
+              <td>
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txt_Fellowship_TOTAL_Total{{idx}}" [(ngModel)]="row.TOTAL_Total" />
+              </td>
+              <td>
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txt_Fellowship_TOTAL_Female{{idx}}" [(ngModel)]="row.TOTAL_Female" />
+              </td>
+              <td>
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txt_Fellowship_TOTAL_TransGender{{idx}}" [(ngModel)]="row.TOTAL_TransGender" />
+              </td>
+
+
+              <td>
+                <textarea [disabled]="disabled" class="form-control form-control-sm" id="txt_Fellowship_Remarks{{idx}}" type="text" maxlength="200"
+                          [(ngModel)]="row.Remarks" [ngModelOptions]="{standalone: true}"></textarea>
+              </td>
+            </tr>
+
+
+
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-header d-xxl-flex d-xl-flex d-md-flex d-sm-block justify-content-between align-items-center">
+      <b>
+        <i class="bi bi-table"></i>&nbsp;Whether University/Institution Maintains Education Loan (As per current session )
+      </b>
+      <div class="d-flex align-items-center">
+        <div class="btn-group mr-15" role="group" aria-label="Basic outlined example">
+        </div>
+        <div class="d-flex align-items-center table-filter mr-15">
+        </div>
+      </div>
+    </div>
+    <div class="card-body p-0">
+
+      <div class="table-responsive maxheight600px">
+        <table class="table table-bordered tableHeaderTH tableHeaderFixed tableHeaderTHMiddel  tableForm100 tableAlternate mb-0">
+          <thead>
+            <tr>
+              <th rowspan="3" class="text-center stickyleft">Category</th>
+              <th colspan="18" class="text-center">
+                Number of Students Availing Fellowship
+              </th>
+              <th rowspan="3" class="text-center">Remarks</th>
+            </tr>
+            <tr>
+              <th colspan="3" class="text-center">General Category</th>
+              <th colspan="3" class="text-center">EWS Category (out of General Category)</th>
+              <th colspan="3" class="text-center">Scheduled Caste (SC)</th>
+              <th colspan="3" class="text-center">Scheduled Tribe (ST)</th>
+              <th colspan="3" class="text-center">Other Backward Classes (OBC)</th>
+              <th colspan="3" class="text-center">Total</th>
+            </tr>
+            <tr>
+              <th class="text-center">Male</th>
+              <th class="text-center">Female</th>
+              <th class="text-center">Trans Gender</th>
+              <th class="text-center">Male</th>
+              <th class="text-center">Female</th>
+              <th class="text-center">Trans Gender</th>
+              <th class="text-center">Male</th>
+              <th class="text-center">Female</th>
+              <th class="text-center">Trans Gender</th>
+              <th class="text-center">Male</th>
+              <th class="text-center">Female</th>
+              <th class="text-center">Trans Gender</th>
+              <th class="text-center">Male</th>
+              <th class="text-center">Female</th>
+              <th class="text-center">Trans Gender</th>
+              <th class="text-center">Male</th>
+              <th class="text-center">Female</th>
+              <th class="text-center">Trans Gender</th>
+            </tr>
+          </thead>
+
+          <tbody>
+
+            <tr *ngFor="let row of this.request.Loan ;let idx=index;">
+              <td class="stickyleft"><b>{{row.Category}}</b></td>
+              <td>
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txt_Loan_General_Total_{{idx}}" [(ngModel)]="row.General_Total" />
+              </td>
+              <td>
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txt_Loan_General_Female_{{idx}}" [(ngModel)]="row.General_Female" />
+              </td>
+              <td>
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txt_Loan_General_TransGender_{{idx}}" [(ngModel)]="row.General_TransGender" />
+              </td>
+
+              <td>
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txt_Loan_EWS_Total_{{idx}}" [(ngModel)]="row.EWS_Total" />
+              </td>
+              <td>
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txt_Loan_EWS_Female{{idx}}" [(ngModel)]="row.EWS_Female" />
+              </td>
+              <td>
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txt_Loan_EWS_TransGender{{idx}}" [(ngModel)]="row.EWS_TransGender" />
+              </td>
+
+              <td>
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txt_Loan_SC_Total{{idx}}" [(ngModel)]="row.SC_Total" />
+              </td>
+              <td>
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txt_Loan_SC_Female{{idx}}" [(ngModel)]="row.SC_Female" />
+              </td>
+              <td>
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txt_Loan_SC_TransGender{{idx}}" [(ngModel)]="row.SC_TransGender" />
+              </td>
+
+              <td>
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txt_Loan_ST_Total{{idx}}" [(ngModel)]="row.ST_Total" />
+              </td>
+              <td>
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txt_Loan_ST_Female{{idx}}" [(ngModel)]="row.ST_Female" />
+              </td>
+              <td>
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txt_Loan_ST_TransGender{{idx}}" [(ngModel)]="row.ST_TransGender" />
+              </td>
+
+              <td>
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txt_Loan_OBC_Total{{idx}}" [(ngModel)]="row.OBC_Total" />
+              </td>
+              <td>
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txt_Loan_OBC_Female{{idx}}" [(ngModel)]="row.OBC_Female" />
+              </td>
+              <td>
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txt_Loan_OBC_TransGender{{idx}}" [(ngModel)]="row.OBC_TransGender" />
+              </td>
+
+              <td>
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txt_Loan_TOTAL_Total{{idx}}" [(ngModel)]="row.TOTAL_Total" />
+              </td>
+              <td>
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txt_Loan_TOTAL_Female{{idx}}" [(ngModel)]="row.TOTAL_Female" />
+              </td>
+              <td>
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" (keypress)="numberOnly($event)" maxlength="6" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txt_Loan_TOTAL_TransGender{{idx}}" [(ngModel)]="row.TOTAL_TransGender" />
+              </td>
+
+
+              <td>
+                <textarea [disabled]="disabled" class="form-control form-control-sm" id="txt_Loan_Remarks{{idx}}" type="text" maxlength="200"
+                          [(ngModel)]="row.Remarks" [ngModelOptions]="{standalone: true}"></textarea>
+              </td>
+
+            </tr>
+
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-header d-xxl-flex d-xl-flex d-md-flex d-sm-block justify-content-between align-items-center">
+      <b>
+        <i class="bi bi-table"></i>&nbsp;Whether Institution Accredited (As per current session )
+      </b>
+      <div class="d-flex align-items-center">
+        <div class="btn-group mr-15" role="group" aria-label="Basic outlined example">
+        </div>
+        <div class="d-flex align-items-center table-filter mr-15">
+        </div>
+      </div>
+    </div>
+    <div class="card-body p-0">
+
+      <div class="table-responsive maxheight600px">
+        <table class="table table-bordered tableHeaderTH tableHeaderFixed tableHeaderTHMiddel  tableForm100 tableAlternate mb-0">
+          <thead>
+            <tr>
+              <th>S.No.</th>
+              <th>Name</th>
+              <th>Accreditation Body</th>
+              <th>Is Score Provided</th>
+              <th>Maximum Score</th>
+              <th>Score</th>
+              <th>Cycle of Accreditatio</th>
+              <th>Status of Accreditation</th>
+              <th>Date if Accreditation Validity</th>
+              <th>Grade</th>
+              <th *ngIf="PreviewStatus!='Y'">Action</th>
+              <th *ngIf="PreviewStatus=='Y'"></th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr *ngFor="let row of request.ACC;let idx=index;">
+              <td>{{idx+1}}</td>
+              <td>
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" maxlength="200" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txt_ACC_Name{{idx}}" [(ngModel)]="row.Name" />
+              </td>
+              <td>
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" maxlength="200" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txt_ACC_AccreditationBody{{idx}}" [(ngModel)]="row.AccreditationBody" />
+              </td>
+              <td>
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" maxlength="200" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txt_ACC_IsScoreProvided{{idx}}" [(ngModel)]="row.IsScoreProvided" />
+              </td>
+              <td>
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" maxlength="200" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txt_ACC_MaximumScore{{idx}}" [(ngModel)]="row.MaximumScore" />
+              </td>
+              <td>
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" maxlength="200" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txt_ACC_Score{{idx}}" [(ngModel)]="row.Score" />
+              </td>
+              <td>
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" maxlength="200" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txt_ACC_CycleofAccreditatio{{idx}}" [(ngModel)]="row.CycleofAccreditatio" />
+              </td>
+              <td>
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" maxlength="200" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txt_ACC_StatusofAccreditation{{idx}}" [(ngModel)]="row.StatusofAccreditation" />
+              </td>
+              <td>
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" maxlength="200" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txt_ACC_DateifAccreditationValidity{{idx}}" [(ngModel)]="row.DateifAccreditationValidity" />
+              </td>
+              <td>
+                <input [disabled]="disabled" class="form-control form-control-sm width100px" maxlength="200" type="text" [ngModelOptions]="{standalone: true}"
+                       id="txt_ACC_Grade{{idx}}" [(ngModel)]="row.Grade" />
+              </td>
+
+
+              <td *ngIf="PreviewStatus!='Y'">
+                <div class="d-flex justify-content-center">
+                  <button type="button" id="btnEdit_{{idx}}" class="btn btn-sm btn-primary
+        " *ngIf="idx==(request.ACC.length-1)"
+                          (click)="btnAdd_Click(row,idx)" [attr.disabled]="isDisabledGrid ? true : null" title="Add">
+                    <i class="fa fa-plus"></i>
+                  </button>
+
+                  <button type="button" class="btn btn-sm btn-danger" title="Delete" *ngIf="(request.ACC.length-1)!=0"
+                          (click)="btnDelete_Click(idx)">
+                    <i class="fa fa-trash" [attr.disabled]="isDisabledGrid ? true : null"></i>
+                  </button>
+
+                </div>
+              </td>
+              <td *ngIf="PreviewStatus=='Y'"></td>
+            </tr>
+
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+
+
+    <div class="card-footer text-end" *ngIf="PreviewStatus!='Y'">
+      <button type="button" (click)="SaveData()" class="btn btn-success">Save Draft</button>
+    </div>
+  </div>
+</form>
+
+
