@@ -234,10 +234,10 @@
                 <span class="badge pulse" *ngIf="CheckTabsEntry_StatisticsEntryData['RegularOtherMinorityBreakup']==0"></span>
                 <span>Other Minority Breakup</span>
               </ng-template>
-              <!--<app-student-enrollment-regular-mode></app-student-enrollment-regular-mode>-->
+              <app-other-minority-data></app-other-minority-data>
             </mat-tab>
 
-            <!--<mat-tab *ngIf="SelectedDepartmentID==4 && (SelectedCollegeEntryType=='College' || SelectedCollegeEntryType=='Polytechnic' || SelectedCollegeEntryType=='Standalone' || SelectedCollegeEntryType=='Standalone')" label="Other Minority Breakup">
+            <mat-tab *ngIf="SelectedDepartmentID==4 && ( SelectedCollegeEntryType=='Polytechnic' || SelectedCollegeEntryType=='Standalone' )" label="Other Minority Breakup">
               <ng-template mat-tab-label>
                 <i class="fa fa-globe icon" aria-hidden="true"></i>
                 <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntry_StatisticsEntryData['DistanceOtherMinorityBreakup']>0"></i>
@@ -245,7 +245,8 @@
                 <span>Distance Other Minority Breakup</span>
               </ng-template>
               <app-distance-other-minority-breakup></app-distance-other-minority-breakup>
-            </mat-tab>-->
+            </mat-tab>
+
             <mat-tab *ngIf="SelectedDepartmentID==4 && SelectedCollegeEntryType=='University'" label="Regional Centre Distance Mode">
               <ng-template mat-tab-label>
                 <i class="fa fa-globe icon" aria-hidden="true"></i>

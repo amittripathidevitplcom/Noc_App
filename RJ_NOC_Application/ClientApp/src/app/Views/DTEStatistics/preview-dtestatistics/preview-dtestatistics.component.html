@@ -203,7 +203,7 @@
         </div>
       </div>
 
-      <div class="row" *ngIf="SelectedDepartmentID==4 && (SelectedCollegeEntryType=='College' || SelectedCollegeEntryType=='Polytechnic' || SelectedCollegeEntryType=='Standalone' || SelectedCollegeEntryType=='Standalone')">
+      <div class="row" *ngIf="SelectedDepartmentID==4 && (SelectedCollegeEntryType=='College' || SelectedCollegeEntryType=='Polytechnic' || SelectedCollegeEntryType=='Standalone')">
         <div class="col-md-12">
           <div class="card">
             <div class="card-header">
@@ -213,13 +213,13 @@
               </b>
             </div>
             <div class="card-body">
-              <!--<app-student-enrollment-regular-mode></app-student-enrollment-regular-mode>-->
+              <app-other-minority-data></app-other-minority-data>
             </div>
           </div>
         </div>
       </div>
 
-      <div class="row" *ngIf="SelectedDepartmentID==4 && (SelectedCollegeEntryType=='College' || SelectedCollegeEntryType=='Polytechnic' || SelectedCollegeEntryType=='Standalone' || SelectedCollegeEntryType=='Standalone')">
+      <div class="row" *ngIf="SelectedDepartmentID==4 && (SelectedCollegeEntryType=='Polytechnic' || SelectedCollegeEntryType=='Standalone')">
         <div class="col-md-12">
           <div class="card">
             <div class="card-header">
@@ -229,7 +229,7 @@
               </b>
             </div>
             <div class="card-body">
-              <!--<app-student-enrollment-regular-mode></app-student-enrollment-regular-mode>-->
+              <app-distance-other-minority-breakup></app-distance-other-minority-breakup>
             </div>
           </div>
         </div>
