@@ -149,13 +149,16 @@ export class RegularModeComponent implements OnInit {
           if (txtFaculty_School) txtFaculty_School.focus();
           return;
         }
+      }
+      if (this.request.SelectedCollegeEntryTypeName == 'University') {
         if (this.request.ProgrammesDetails[i].Department_Centre == '') {
           this.toastr.error('Department/Centre field is required.!');
           const txtDepartment_Centre_ = document.getElementById('txtDepartment_Centre_' + i.toString());
           if (txtDepartment_Centre_) txtDepartment_Centre_.focus();
           return;
-          return;
         }
+      }
+      if (this.request.SelectedCollegeEntryTypeName == 'University' || this.request.SelectedCollegeEntryTypeName == 'Polytechnic' || this.request.SelectedCollegeEntryTypeName == 'Standalone') {
         if (this.request.ProgrammesDetails[i].LevelID == 0) {
           this.toastr.error('Level field is required.!');
           const ddlLevel_ = document.getElementById('ddlLevel_' + i.toString());
@@ -163,6 +166,7 @@ export class RegularModeComponent implements OnInit {
           return;
         }
       }
+
       if (this.request.ProgrammesDetails[i].ProgrammeID == 0) {
         this.toastr.error('Name Of The Programme field is required.!');
         const ddlProgramme_ = document.getElementById('ddlProgramme_' + i.toString());
@@ -223,6 +227,8 @@ export class RegularModeComponent implements OnInit {
   }
   async btnAdd_Click(row: RegularModeDataModel_ProgrammesDetails, idx: number) {
     if (row != undefined) {
+
+
       if (this.request.SelectedCollegeEntryTypeName == 'University') {
         if (row.Faculty_School == '') {
           this.toastr.error('Faculty/ School field is required.!');
@@ -235,8 +241,9 @@ export class RegularModeComponent implements OnInit {
           const txtDepartment_Centre_ = document.getElementById('txtDepartment_Centre_' + idx.toString());
           if (txtDepartment_Centre_) txtDepartment_Centre_.focus();
           return;
-          return;
         }
+      }
+      if (this.request.SelectedCollegeEntryTypeName == 'University' || this.request.SelectedCollegeEntryTypeName == 'Polytechnic' || this.request.SelectedCollegeEntryTypeName == 'Standalone') {
         if (row.LevelID == 0) {
           this.toastr.error('Level field is required.!');
           const ddlLevel_ = document.getElementById('ddlLevel_' + idx.toString());
