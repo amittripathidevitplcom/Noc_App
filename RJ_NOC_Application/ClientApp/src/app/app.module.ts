@@ -380,6 +380,7 @@ import { PlacementDetailsComponent } from './Views/DTEStatistics/placement-detai
 import { FinancialDetailsComponent } from './Views/DTEStatistics/financial-details/financial-details.component';
 
 //import { NewgrievancereportComponent } from './Views/DCE/newgrievancereport/newgrievancereport/newgrievancereport.component';
+import { OtherMinorityDataComponent} from './Views/DTEStatistics/OtherMinorityData/other-minority-data/other-minority-data.component';
 
 
 
@@ -746,7 +747,8 @@ import { FinancialDetailsComponent } from './Views/DTEStatistics/financial-detai
     DistanceModeComponent,
     StudentEnrollmentDistanceModeComponent,
     PlacementDetailsComponent,
-    FinancialDetailsComponent
+    FinancialDetailsComponent,
+    OtherMinorityDataComponent
   ],
   imports: [
     CommonModule,
