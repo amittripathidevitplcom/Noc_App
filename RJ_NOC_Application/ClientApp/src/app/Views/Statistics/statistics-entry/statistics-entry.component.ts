@@ -22,9 +22,9 @@ import { BasicDetailsComponent } from '../../DTEStatistics/basic-details/basic-d
   styleUrls: ['./statistics-entry.component.css']
 })
 
-  @Injectable({
-    providedIn: 'root'
-  })
+@Injectable({
+  providedIn: 'root'
+})
 
 export class StatisticsEntryComponent implements OnInit {
 
@@ -191,6 +191,8 @@ export class StatisticsEntryComponent implements OnInit {
       try {
         this.request.CollegeID = this.SelectedCollageID;
         this.request.SSOID = this.sSOLoginDataModel.SSOID;
+        this.request.SelectedCollegeEntryType = this.SelectedCollegeEntryType;
+
         await this.classWiseStudentDetailsServiceService.StatisticsFinalSubmit_Save(this.request)
           .then((data: any) => {
             this.State = data['State'];
@@ -230,7 +232,7 @@ export class StatisticsEntryComponent implements OnInit {
         this.IsShowDraftFinalSubmit = false;
       }
     }
-    else if (this.SelectedDepartmentID == 4) {
+    else if (this.SelectedDepartmentID == 4 && this.SelectedCollegeEntryType == 'University') {
       if (this.CheckTabsEntry_StatisticsEntryData['BasicInformation'] > 0
         && this.CheckTabsEntry_StatisticsEntryData['OfficersDetails'] > 0
         && this.CheckTabsEntry_StatisticsEntryData['Address'] > 0
@@ -260,7 +262,74 @@ export class StatisticsEntryComponent implements OnInit {
         this.IsShowDraftFinalSubmit = false;
       }
     }
+    else if (this.SelectedDepartmentID == 4 && this.SelectedCollegeEntryType == 'College') {
+      if (this.CheckTabsEntry_StatisticsEntryData['BasicInformation'] > 0
+        && this.CheckTabsEntry_StatisticsEntryData['OfficersDetails'] > 0
+        && this.CheckTabsEntry_StatisticsEntryData['Address'] > 0
+        && this.CheckTabsEntry_StatisticsEntryData['ResidentialFacility'] > 0
+        && this.CheckTabsEntry_StatisticsEntryData['Department'] > 0
+        && this.CheckTabsEntry_StatisticsEntryData['RegularMode'] > 0
+        && this.CheckTabsEntry_StatisticsEntryData['StudentEnrlRegularMode'] > 0
+        && this.CheckTabsEntry_StatisticsEntryData['ReguForeignStuEnrolment'] > 0
+        && this.CheckTabsEntry_StatisticsEntryData['ExaminationResultsRegular'] > 0
+        && this.CheckTabsEntry_StatisticsEntryData['PlacementDetails'] > 0
+        && this.CheckTabsEntry_StatisticsEntryData['TeachingStaff'] > 0
+        && this.CheckTabsEntry_StatisticsEntryData['NonTeaching'] > 0
+        && this.CheckTabsEntry_StatisticsEntryData['FinancialDetails'] > 0
+        && this.CheckTabsEntry_StatisticsEntryData['InfrastructureDetails'] > 0
+        && this.CheckTabsEntry_StatisticsEntryData['RegularOtherMinorityBreakup'] > 0
+        && this.CheckTabsEntry_StatisticsEntryData['Scholarship_Fellowship_Loan_Acc'] > 0) {
+        this.IsShowDraftFinalSubmit = false;
+      }
+    }
+    else if (this.SelectedDepartmentID == 4 && this.SelectedCollegeEntryType == 'Polytechnic') {
+      if (this.CheckTabsEntry_StatisticsEntryData['BasicInformation'] > 0
+        && this.CheckTabsEntry_StatisticsEntryData['OfficersDetails'] > 0
+        && this.CheckTabsEntry_StatisticsEntryData['Address'] > 0
+        && this.CheckTabsEntry_StatisticsEntryData['ResidentialFacility'] > 0
+        && this.CheckTabsEntry_StatisticsEntryData['RegularMode'] > 0
+        && this.CheckTabsEntry_StatisticsEntryData['DistanceMode'] > 0
+        && this.CheckTabsEntry_StatisticsEntryData['StudentEnrlRegularMode'] > 0
+        && this.CheckTabsEntry_StatisticsEntryData['StudentEnrlDistanceMode'] > 0
+        && this.CheckTabsEntry_StatisticsEntryData['ReguForeignStuEnrolment'] > 0
+        && this.CheckTabsEntry_StatisticsEntryData['ExaminationResultsRegular'] > 0
+        && this.CheckTabsEntry_StatisticsEntryData['ExaminationResultsDistance'] > 0
+        && this.CheckTabsEntry_StatisticsEntryData['PlacementDetails'] > 0
+        && this.CheckTabsEntry_StatisticsEntryData['TeachingStaff'] > 0
+        && this.CheckTabsEntry_StatisticsEntryData['NonTeaching'] > 0
+        && this.CheckTabsEntry_StatisticsEntryData['FinancialDetails'] > 0
+        && this.CheckTabsEntry_StatisticsEntryData['InfrastructureDetails'] > 0
+        && this.CheckTabsEntry_StatisticsEntryData['RegularOtherMinorityBreakup'] > 0
+        && this.CheckTabsEntry_StatisticsEntryData['DistanceOtherMinorityBreakup'] > 0
+        && this.CheckTabsEntry_StatisticsEntryData['Scholarship_Fellowship_Loan_Acc'] > 0) {
+        this.IsShowDraftFinalSubmit = false;
+      }
+    }
+    else if (this.SelectedDepartmentID == 4 && this.SelectedCollegeEntryType == 'Standalone') {
+      if (this.CheckTabsEntry_StatisticsEntryData['BasicInformation'] > 0
+        && this.CheckTabsEntry_StatisticsEntryData['OfficersDetails'] > 0
+        && this.CheckTabsEntry_StatisticsEntryData['Address'] > 0
+        && this.CheckTabsEntry_StatisticsEntryData['ResidentialFacility'] > 0
+        && this.CheckTabsEntry_StatisticsEntryData['RegularMode'] > 0
+        && this.CheckTabsEntry_StatisticsEntryData['DistanceMode'] > 0
+        && this.CheckTabsEntry_StatisticsEntryData['StudentEnrlRegularMode'] > 0
+        && this.CheckTabsEntry_StatisticsEntryData['StudentEnrlDistanceMode'] > 0
+        && this.CheckTabsEntry_StatisticsEntryData['ReguForeignStuEnrolment'] > 0
+        && this.CheckTabsEntry_StatisticsEntryData['ExaminationResultsRegular'] > 0
+        && this.CheckTabsEntry_StatisticsEntryData['ExaminationResultsDistance'] > 0
+        && this.CheckTabsEntry_StatisticsEntryData['PlacementDetails'] > 0
+        && this.CheckTabsEntry_StatisticsEntryData['TeachingStaff'] > 0
+        && this.CheckTabsEntry_StatisticsEntryData['NonTeaching'] > 0
+        && this.CheckTabsEntry_StatisticsEntryData['FinancialDetails'] > 0
+        && this.CheckTabsEntry_StatisticsEntryData['InfrastructureDetails'] > 0
+        && this.CheckTabsEntry_StatisticsEntryData['RegularOtherMinorityBreakup'] > 0
+        && this.CheckTabsEntry_StatisticsEntryData['DistanceOtherMinorityBreakup'] > 0
+        && this.CheckTabsEntry_StatisticsEntryData['Scholarship_Fellowship_Loan_Acc'] > 0) {
+        this.IsShowDraftFinalSubmit = false;
+      }
+    }
   }
+
 
 
   async CheckTabsEntry_StatisticsEntry() {
@@ -343,6 +412,11 @@ export class StatisticsEntryComponent implements OnInit {
     catch (Ex) { }
 
   }
+
+  btnChangeEntryType_Click() {
+    this.SelectedCollegeEntryType = "0";
+  }
+
 }
 
 //export type StatisticsEntry = "University" | "College" | "Polytechnic" | "Standalone";

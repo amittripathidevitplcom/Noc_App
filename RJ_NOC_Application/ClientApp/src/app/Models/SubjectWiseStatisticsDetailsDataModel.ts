@@ -36,6 +36,7 @@ export class StatisticsFinalSubmitDataModel {
   public CollegeID: number = 0
   public SSOID: string = ''
   public Confirmation: string = '0'
+  public SelectedCollegeEntryType: string = 'College'
 }
 
 

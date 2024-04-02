@@ -98,6 +98,8 @@ export class BasicDetailsComponent {
         txtAffiliationNameStatutorybody: [''],
         txtAffiliationYear: [''],
         txtAffiliatedOtherUniversity: [''],
+
+        txtYearofRecognition: [''],
       });
     this.request.SpecialisationDetails = [];
     this.PreviewStatus = this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('PreviewStatus')?.toString());
@@ -182,6 +184,7 @@ export class BasicDetailsComponent {
           this.request.OtherDiplomaCourse = data['Data'].OtherDiplomaCourse;
           this.request.WhetherAwardsDegreethroughAnyUniversity = data['Data'].WhetherAwardsDegreethroughAnyUniversity;
           this.request.OtherUniversityName = data['Data'].OtherUniversityName;
+          this.request.YearofRecognition = data['Data'].YearofRecognition;
           
           this.request.InstituteHeadDetails = data['Data'].InstituteHeadDetails != null ? data['Data'].InstituteHeadDetails : new BasicDetails_InstituteHeadDetailsDataModel();
           this.request.NodalOfficerDetails = data['Data'].NodalOfficerDetails != null ? data['Data'].NodalOfficerDetails : new BasicDetails_NodalOfficerDetailsDataModel();

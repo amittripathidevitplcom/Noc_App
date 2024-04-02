@@ -32,21 +32,27 @@
           <input class="form-control" id="txtYearofEstablishment" maxlength="100"
                  formControlName="txtYearofEstablishment" [(ngModel)]="request.YearofEstablishment" />
         </div>
-        <div class="col-lg-4 col-md-6 col-sm-12 col-12 mb-3">
+        <div class="col-lg-4 col-md-6 col-sm-12 col-12 mb-3" *ngIf="this.request.SelectedCollegeEntryTypeName=='University' || this.request.SelectedCollegeEntryTypeName=='College'">
           <label class="form-label" for="txtStatusPriorToEstablishment">
             Status Prior To Establishment If Applicable:
           </label>
           <input class="form-control" id="txtStatusPriorToEstablishment" maxlength="100"
                  formControlName="txtStatusPriorToEstablishment" [(ngModel)]="request.StatusPriorToEstablishment" />
         </div>
-        <div class="col-lg-4 col-md-6 col-sm-12 col-12 mb-3">
+        <div class="col-lg-4 col-md-6 col-sm-12 col-12 mb-3" *ngIf="this.request.SelectedCollegeEntryTypeName=='University'">
           <label class="form-label" for="txtYearDeclaredUniversityInstitute">
             Year When Declared University/ Institute Of National importance:
           </label>
           <input class="form-control" id="txtYearDeclaredUniversityInstitute" maxlength="100"
                  formControlName="txtYearDeclaredUniversityInstitute" [(ngModel)]="request.YearDeclaredUniversityInstitute" />
         </div>
-
+        <div class="col-lg-4 col-md-6 col-sm-12 col-12 mb-3" *ngIf="this.request.SelectedCollegeEntryTypeName=='Polytechnic'">
+          <label class="form-label" for="txtYearofRecognition">
+          Year of Recognition:
+                      </label>
+          <input class="form-control" id="txtYearofRecognition" maxlength="100"
+                 formControlName="txtYearofRecognition" [(ngModel)]="request.YearofRecognition" />
+        </div>
       </div>
 
       <div class="clearfix"></div>
@@ -130,7 +136,7 @@
                 <option value="No">No</option>
               </select>
             </div>
-            <div class="col-lg-4 col-md-6 col-sm-12 col-12 mb-3" *ngIf="this.request.SelectedCollegeEntryTypeName=='College'">
+            <div class="col-lg-4 col-md-6 col-sm-12 col-12 mb-3" *ngIf="this.request.SelectedCollegeEntryTypeName=='College'||this.request.SelectedCollegeEntryTypeName=='Polytechnic'">
               <label class="form-label" for="txtMinorityCommunityType">
                 Minority Community Type:
               </label>
@@ -170,7 +176,7 @@
 
 
 
-            <div class="col-lg-4 col-md-6 col-sm-12 col-12 mb-3" *ngIf="request.IsInstitutionNCC=='Yes' && this.request.SelectedCollegeEntryTypeName=='College'">
+            <div class="col-lg-4 col-md-6 col-sm-12 col-12 mb-3" *ngIf="request.IsInstitutionNCC=='Yes' && (this.request.SelectedCollegeEntryTypeName=='College'||this.request.SelectedCollegeEntryTypeName=='Polytechnic')">
               <label class="form-label" for="txtEnrolledStudentInNCCOtherInstitute">
                 <span>
                   Number of male students in NCC from Other Institutions :
@@ -179,7 +185,7 @@
               <input class="form-control" id="txtEnrolledStudentInNCCOtherInstitute" (keypress)="numberOnly($event)" maxlength="6"
                      formControlName="txtEnrolledStudentInNCCOtherInstitute" [(ngModel)]="request.EnrolledStudentInNCCOtherInstitute" />
             </div>
-            <div class="col-lg-4 col-md-6 col-sm-12 col-12 mb-3" *ngIf="request.IsInstitutionNCC=='Yes'">
+            <div class="col-lg-4 col-md-6 col-sm-12 col-12 mb-3" *ngIf="request.IsInstitutionNCC=='Yes'&& (this.request.SelectedCollegeEntryTypeName=='College'||this.request.SelectedCollegeEntryTypeName=='Polytechnic')">
               <label class="form-label" for="txtEnrolledFemaleStudentInNCCOtherInstitute">
                 Number of female students in NCC from Other Institutions :
               </label>
@@ -218,7 +224,7 @@
               <input class="form-control" id="txtEnrolledTotalStudentInNSS" (keypress)="numberOnly($event)" maxlength="6" disabled
                      formControlName="txtEnrolledTotalStudentInNSS" [(ngModel)]="request.EnrolledTotalStudentInNSS" />
             </div>
-            <div class="col-lg-4 col-md-6 col-sm-12 col-12 mb-3">
+            <div class="col-lg-4 col-md-6 col-sm-12 col-12 mb-3" *ngIf="this.request.SelectedCollegeEntryTypeName=='College'||this.request.SelectedCollegeEntryTypeName=='University'">
               <label class="form-label" for="ddlIsspecializedUniversity">
                 Is It A specialized University:
               </label>
@@ -273,6 +279,8 @@
               <input class="form-control" id="txtOtherDiplomaCourse" maxlength="100"
                      formControlName="txtOtherDiplomaCourse" [(ngModel)]="request.OtherDiplomaCourse" />
             </div>
+          </div>
+          <div class="row" *ngIf="this.request.SelectedCollegeEntryTypeName=='College' || this.request.SelectedCollegeEntryTypeName=='Polytechnic'">
             <div class="col-lg-4 col-md-6 col-sm-12 col-12 mb-3">
               <label class="form-label" for="ddlWhetherAwardsDegreethroughAnyUniversity">
                 Whether Awards Degree through Any University:
@@ -533,7 +541,7 @@
       </div>
 
       <div class="clearfix"></div>
-      <div class="card" *ngIf=" this.request.SelectedCollegeEntryTypeName=='College'">
+      <div class="card" *ngIf=" this.request.SelectedCollegeEntryTypeName=='College' || this.request.SelectedCollegeEntryTypeName=='Polytechnic' ">
         <div class="card-header">
           <div class="d-flex align-items-center">
             <label class="form-label m-0 me-2 text-nowrap">
@@ -542,7 +550,7 @@
           </div>
         </div>
         <div class="card-body">
-          <div class="row" *ngIf="PreviewStatus!='Y'">
+          <div class="row" *ngIf="this.request.SelectedCollegeEntryTypeName=='College' || this.request.SelectedCollegeEntryTypeName=='Polytechnic'">
             <div class="col-lg-4 col-md-6 col-sm-12 col-12 mb-3">
               <label class="form-label" for="txtAffiliationNameStatutorybody">
                 Name of the Statutory body through which recognized
@@ -551,14 +559,14 @@
                      formControlName="txtAffiliationNameStatutorybody" [(ngModel)]="request.AffiliationDetails.NameStatutorybody" />
             </div>
 
-            <div class="col-lg-4 col-md-6 col-sm-12 col-12 mb-3">
+            <div class="col-lg-4 col-md-6 col-sm-12 col-12 mb-3" *ngIf="this.request.SelectedCollegeEntryTypeName=='College'">
               <label class="form-label">
                 Year of Affiliation with University
               </label>
               <input class="form-control" id="txtAffiliationYear" maxlength="100"
                      formControlName="txtAffiliationYear" [(ngModel)]="request.AffiliationDetails.AffiliationYear" />
             </div>
-            <div class="col-lg-4 col-md-6 col-sm-12 col-12 mb-3">
+            <div class="col-lg-4 col-md-6 col-sm-12 col-12 mb-3" *ngIf="this.request.SelectedCollegeEntryTypeName=='College'">
               <label class="form-label">
                 Name Of The Other University To Which Affiliated
               </label>

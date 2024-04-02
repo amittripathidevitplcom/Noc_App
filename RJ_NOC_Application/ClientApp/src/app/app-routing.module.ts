@@ -849,7 +849,7 @@ const routes: Routes = [
         path: 'statisticsentry/:DepartmentID/:CollegeID', component: StatisticsEntryComponent
       },
       {
-        path: 'previewdtestatistics/:DepartmentID/:CollegeID/:PreviewStatus', component: PreviewDTEStatisticsComponent
+        path: 'previewdtestatistics/:DepartmentID/:CollegeID/:PreviewStatus/:EntryType', component: PreviewDTEStatisticsComponent
       },
 
       {

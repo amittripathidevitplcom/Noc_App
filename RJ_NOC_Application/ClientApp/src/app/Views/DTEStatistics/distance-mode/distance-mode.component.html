@@ -17,8 +17,8 @@
               <thead>
                 <tr>
                   <th rowspan="2" width="60px">S.No</th>
-                  <th rowspan="2" class="text-center">Faculty/ School</th>
-                  <th rowspan="2" class="text-center">Department/Centre</th>
+                  <th rowspan="2" class="text-center" *ngIf="(request.SelectedCollegeEntryTypeName=='University')">Faculty/ School</th>
+                  <th rowspan="2" class="text-center" *ngIf="(request.SelectedCollegeEntryTypeName=='University')">Department/Centre</th>
                   <th rowspan="2" class="text-center">Level</th>
                   <th rowspan="2" class="text-center">Name Of The Programme</th>
                   <th rowspan="2" class="text-center">Broad Discipline Group Category</th>
@@ -43,11 +43,11 @@
               <tbody>
                 <tr *ngFor="let row of this.request.ProgrammesDetails ;let idx=index;">
                   <td>{{idx+1}}</td>
-                  <td>
+                  <td  *ngIf="(request.SelectedCollegeEntryTypeName=='University')">
                     <input [disabled]="disabled" class="form-control form-control-sm" id="txtFaculty_School_{{idx}}" [(ngModel)]="row.Faculty_School"
                            type="text" [ngModelOptions]="{standalone: true}" />
                   </td>
-                  <td>
+                  <td  *ngIf="(request.SelectedCollegeEntryTypeName=='University')">
                     <input [disabled]="disabled" class="form-control form-control-sm" id="txtDepartment_Centre_{{idx}}" [(ngModel)]="row.Department_Centre"
                            type="text" [ngModelOptions]="{standalone: true}" />
                   </td>

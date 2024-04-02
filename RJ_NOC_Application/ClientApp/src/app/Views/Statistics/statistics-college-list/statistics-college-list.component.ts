@@ -250,10 +250,10 @@ export class StatisticsCollegeListComponent implements OnInit {
   
   modalReference!: NgbModalRef;
   closeResult!: string;
-  async PreviewStatistics_click(CollegeID: number, _ViewSelectedDepartmentID: number, SearchRecordID: string) {
+  async PreviewStatistics_click(CollegeID: number, _ViewSelectedDepartmentID: number, SearchRecordID: string, SelectedCollegeEntryType: string) {
     try {
       if (_ViewSelectedDepartmentID == 4) {
-        this.routers.navigate([]).then(result => { window.open('/previewdtestatistics' + "/" + encodeURI(this.commonMasterService.Encrypt(_ViewSelectedDepartmentID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(SearchRecordID.toString())) + "/Y", '_blank'); });;
+        this.routers.navigate([]).then(result => { window.open('/previewdtestatistics' + "/" + encodeURI(this.commonMasterService.Encrypt(_ViewSelectedDepartmentID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(SearchRecordID.toString())) + "/Y" + "/" + SelectedCollegeEntryType, '_blank'); });;
         return;
       }
       await this.GetCollegeWiseStudenetDetails(CollegeID);

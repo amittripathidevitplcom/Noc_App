@@ -17,25 +17,25 @@
             <table class="table table-hover table-striped table-bordered tableHeaderTH tableHeaderTHMiddel tableLastclmFixed mb-0">
               <thead>
                 <tr>
-                  <th width="60px" *ngIf="request.SelectedCollegeEntryTypeName=='University'">S.No</th>
+                  <th width="60px" *ngIf="request.SelectedCollegeEntryTypeName=='University'  || request.SelectedCollegeEntryTypeName=='Polytechnic'">S.No</th>
 
                   <th class="text-center">No. Of Students<br /> Placed (Male)</th>
                   <th class="text-center">No. Of Students<br /> Placed (Female)</th>
-                  <th class="text-center" *ngIf="request.SelectedCollegeEntryTypeName=='University'">Total Number Of <br />Students Placed</th>
+                  <th class="text-center" *ngIf="request.SelectedCollegeEntryTypeName=='University' || request.SelectedCollegeEntryTypeName=='Polytechnic'">Total Number Of <br />Students Placed</th>
 
                   <th class="text-center">No. Of Students <br />Selected For Higher <br />Studies (Male)</th>
                   <th class="text-center">No. Of Students <br />Selected For Higher <br />Studies (Female)</th>
-                  <th class="text-center" *ngIf="request.SelectedCollegeEntryTypeName=='University'">Total No. Of Students <br />Selected For Higher <br />Studies</th>
+                  <th class="text-center" *ngIf="request.SelectedCollegeEntryTypeName=='University' || request.SelectedCollegeEntryTypeName=='Polytechnic' ">Total No. Of Students <br />Selected For Higher <br />Studies</th>
                   <th class="text-center">Median Annual Salary <br />for placed students</th>
 
-                  <th width="100px" class="text-center" *ngIf="PreviewStatus!='Y' &&  request.SelectedCollegeEntryTypeName=='University'">Action</th>
+                  <th width="100px" class="text-center" *ngIf="PreviewStatus!='Y' &&  request.SelectedCollegeEntryTypeName=='University' || request.SelectedCollegeEntryTypeName=='Polytechnic'">Action</th>
                   <th width="100px" class="text-center" *ngIf="PreviewStatus=='Y'"></th>
                 </tr>
 
               </thead>
               <tbody>
                 <tr *ngFor="let row of this.request.PlacementDetails ;let idx=index;">
-                  <td *ngIf="request.SelectedCollegeEntryTypeName=='University'">{{idx+1}}</td>
+                  <td *ngIf="request.SelectedCollegeEntryTypeName=='University'  || request.SelectedCollegeEntryTypeName=='Polytechnic'">{{idx+1}}</td>
                   <td>
                     <input [disabled]="disabled" class="form-control form-control-sm" id="NoOfStudentsPlaced_Male{{idx}}"
                            [(ngModel)]="row.NoOfStudentsPlaced_Male"  maxlength="6" (change)="NoOfStudentsPlaced_Male_OnChange(row,idx)"
@@ -45,7 +45,7 @@
                     <input [disabled]="disabled" class="form-control form-control-sm" id="NoOfStudentsPlaced_Female{{idx}}" [(ngModel)]="row.NoOfStudentsPlaced_Female"  maxlength="6" (change)="NoOfStudentsPlaced_Female_OnChange(row,idx)"
                            type="text" (keypress)="numberOnly($event)" [ngModelOptions]="{standalone: true}" />
                   </td>
-                  <td *ngIf="request.SelectedCollegeEntryTypeName=='University'">
+                  <td *ngIf="request.SelectedCollegeEntryTypeName=='University'  || request.SelectedCollegeEntryTypeName=='Polytechnic'">
                     <input [disabled]="disabled" class="form-control form-control-sm" id="NoOfStudentsPlaced_Total{{idx}}" [(ngModel)]="row.NoOfStudentsPlaced_Total"  maxlength="6" disabled
                            type="text" (keypress)="numberOnly($event)" [ngModelOptions]="{standalone: true}" />
                   </td>
@@ -59,7 +59,7 @@
                            (change)="NoOfStudentsSelectedForHigherStudies_Female_OnChange(row,idx)"
                            type="text" (keypress)="numberOnly($event)" [ngModelOptions]="{standalone: true}" />
                   </td>
-                  <td *ngIf="request.SelectedCollegeEntryTypeName=='University'">
+                  <td *ngIf="request.SelectedCollegeEntryTypeName=='University'  || request.SelectedCollegeEntryTypeName=='Polytechnic'">
                     <input [disabled]="disabled" class="form-control form-control-sm" id="NoOfStudentsSelectedForHigherStudies_Total{{idx}}" [(ngModel)]="row.NoOfStudentsSelectedForHigherStudies_Total" maxlength="6" disabled
                            type="text" (keypress)="numberOnly($event)" [ngModelOptions]="{standalone: true}" />
                   </td>
@@ -68,7 +68,7 @@
                            type="text" (keypress)="DecimalOnly($event)" [ngModelOptions]="{standalone: true}" />
                   </td>
 
-                  <td *ngIf="PreviewStatus!='Y'&& request.SelectedCollegeEntryTypeName=='University'">
+                  <td *ngIf="PreviewStatus!='Y'&& request.SelectedCollegeEntryTypeName=='University'  || request.SelectedCollegeEntryTypeName=='Polytechnic'">
                     <div class="d-flex justify-content-center">
                       <button type="button" id="btnEdit_{{idx}}" class="btn btn-sm btn-primary 
                       " *ngIf="idx==(request.PlacementDetails.length-1)"

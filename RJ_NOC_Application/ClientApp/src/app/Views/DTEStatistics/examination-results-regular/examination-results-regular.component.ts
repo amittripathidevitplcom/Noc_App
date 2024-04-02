@@ -9,7 +9,7 @@ import { ExaminationResultsRegularDataModel, ExaminationResultsRegularDataModel_
 import { StatisticsEntryComponent } from '../../Statistics/statistics-entry/statistics-entry.component';
 import { ExaminationResultsRegularService } from '../../../Services/DTEStatistics/ExaminationResultsRegular/examination-results-regular.service';
 import { PreviewDTEStatisticsComponent } from '../preview-dtestatistics/preview-dtestatistics.component';
- 
+
 
 @Component({
   selector: 'app-examination-results-regular',
@@ -152,13 +152,16 @@ export class ExaminationResultsRegularComponent implements OnInit {
           if (txtFaculty_School) txtFaculty_School.focus();
           return;
         }
+      }
+      if (this.request.SelectedCollegeEntryTypeName == 'University') {
         if (this.request.ProgrammesDetails[i].Department_Centre == '') {
           this.toastr.error('Department/Centre field is required.!');
           const txtDepartment_Centre_ = document.getElementById('txtDepartment_Centre_' + i.toString());
           if (txtDepartment_Centre_) txtDepartment_Centre_.focus();
           return;
-          return;
         }
+      }
+      if (this.request.SelectedCollegeEntryTypeName == 'University' || this.request.SelectedCollegeEntryTypeName == 'Polytechnic') {
         if (this.request.ProgrammesDetails[i].LevelID == 0) {
           this.toastr.error('Level field is required.!');
           const ddlLevel_ = document.getElementById('ddlLevel_' + i.toString());
@@ -173,7 +176,7 @@ export class ExaminationResultsRegularComponent implements OnInit {
         if (txtDiscipline_) txtDiscipline_.focus();
         return;
       }
-    
+
 
     }
 
@@ -237,13 +240,16 @@ export class ExaminationResultsRegularComponent implements OnInit {
           if (txtFaculty_School) txtFaculty_School.focus();
           return;
         }
+      }
+      if (this.request.SelectedCollegeEntryTypeName == 'University') {
         if (row.Department_Centre == '') {
           this.toastr.error('Department/Centre field is required.!');
           const txtDepartment_Centre_ = document.getElementById('txtDepartment_Centre_' + idx.toString());
           if (txtDepartment_Centre_) txtDepartment_Centre_.focus();
           return;
-          return;
         }
+      }
+      if (this.request.SelectedCollegeEntryTypeName == 'University' || this.request.SelectedCollegeEntryTypeName == 'Polytechnic') {
         if (row.LevelID == 0) {
           this.toastr.error('Level field is required.!');
           const ddlLevel_ = document.getElementById('ddlLevel_' + idx.toString());
@@ -257,7 +263,7 @@ export class ExaminationResultsRegularComponent implements OnInit {
         if (txtDiscipline_) txtDiscipline_.focus();
         return;
       }
-     
+
     }
 
     try {
@@ -288,7 +294,7 @@ export class ExaminationResultsRegularComponent implements OnInit {
           AppeardTotalCategoryMale: 0,
           AppeardTotalCategoryFemale: 0,
           AppeardTotalCategoryTransGender: 0,
-           
+
 
 
           //Total Number of Students Passed/Awarded Degree
@@ -316,7 +322,7 @@ export class ExaminationResultsRegularComponent implements OnInit {
           PassedTotalCategoryMale: 0,
           PassedTotalCategoryFemale: 0,
           PassedTotalCategoryTransGender: 0,
-           
+
           //Out of Total, Number of Students Passed with 60% or above
           OutofTotalPassedCategory: 'PWD',
           OutofTotalPassedGeneralCategoryMale: 0,
@@ -342,7 +348,7 @@ export class ExaminationResultsRegularComponent implements OnInit {
           OutofTotalPassedTotalCategoryMale: 0,
           OutofTotalPassedTotalCategoryFemale: 0,
           OutofTotalPassedTotalCategoryTransGender: 0,
-           
+
 
         },
         {
@@ -371,7 +377,7 @@ export class ExaminationResultsRegularComponent implements OnInit {
           AppeardTotalCategoryFemale: 0,
           AppeardTotalCategoryTransGender: 0,
 
-           
+
 
           //Total Number of Students Passed/Awarded Degree
           PassedCategory: 'Muslim Minority',
@@ -398,7 +404,7 @@ export class ExaminationResultsRegularComponent implements OnInit {
           PassedTotalCategoryMale: 0,
           PassedTotalCategoryFemale: 0,
           PassedTotalCategoryTransGender: 0,
-           
+
           //Out of Total, Number of Students Passed with 60% or above
           OutofTotalPassedCategory: 'Muslim Minority',
           OutofTotalPassedGeneralCategoryMale: 0,
@@ -424,7 +430,7 @@ export class ExaminationResultsRegularComponent implements OnInit {
           OutofTotalPassedTotalCategoryMale: 0,
           OutofTotalPassedTotalCategoryFemale: 0,
           OutofTotalPassedTotalCategoryTransGender: 0,
-           
+
         },
         {
           AppeardCategory: 'Other Minority',
@@ -451,7 +457,7 @@ export class ExaminationResultsRegularComponent implements OnInit {
           AppeardTotalCategoryMale: 0,
           AppeardTotalCategoryFemale: 0,
           AppeardTotalCategoryTransGender: 0,
-           
+
 
           //Total Number of Students Passed/Awarded Degree
           PassedCategory: 'Other Minority',
@@ -478,7 +484,7 @@ export class ExaminationResultsRegularComponent implements OnInit {
           PassedTotalCategoryMale: 0,
           PassedTotalCategoryFemale: 0,
           PassedTotalCategoryTransGender: 0,
-           
+
 
           //Out of Total, Number of Students Passed with 60% or above
           OutofTotalPassedCategory: 'Other Minority',
@@ -505,10 +511,10 @@ export class ExaminationResultsRegularComponent implements OnInit {
           OutofTotalPassedTotalCategoryMale: 0,
           OutofTotalPassedTotalCategoryFemale: 0,
           OutofTotalPassedTotalCategoryTransGender: 0,
-           
+
 
         }
-       )
+      )
 
       var trCss = (Number(this.request.ProgrammesDetails.length) + 1) % 2 === 0 ? "trAlter" : "";
 
