@@ -52,6 +52,7 @@ export class BasicDetailsDataModel {
   public OtherDiplomaCourse: string = "";
   public WhetherAwardsDegreethroughAnyUniversity: string = "";
   public OtherUniversityName: string = "";
+  public YearofRecognition: string = "";
 
 }
 
