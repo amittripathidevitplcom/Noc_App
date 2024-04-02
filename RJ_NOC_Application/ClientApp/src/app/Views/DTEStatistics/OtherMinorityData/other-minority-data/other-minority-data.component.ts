@@ -44,7 +44,7 @@ export class OtherMinorityDataComponent {
     this.request.ModifyBy = this.sSOLoginDataModel.UserID;
     this.request.Department = this.SelectedDepartmentID;
     this.request.SelectedCollegeEntryTypeName = this.statisticsEntryComponent.SelectedCollegeEntryType;
-    this.request.EntryType = "Other Minority Details";
+    this.request.EntryType = "Other Minority Data";
 
     await this.CourseLevel();
     await this.GetProgramme();

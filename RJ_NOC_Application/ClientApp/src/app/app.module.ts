@@ -395,7 +395,8 @@ import { BasicDetailsComponent } from './Views/DTEStatistics/basic-details/basic
 import { PreviewDTEStatisticsComponent } from './Views/DTEStatistics/preview-dtestatistics/preview-dtestatistics.component';
 
 //import { NewgrievancereportComponent } from './Views/DCE/newgrievancereport/newgrievancereport/newgrievancereport.component';
-import { OtherMinorityDataComponent} from './Views/DTEStatistics/OtherMinorityData/other-minority-data/other-minority-data.component';
+import { DistanceOtherMinorityBreakupComponent } from './Views/DTEStatistics/distance-other-minority-breakup/distance-other-minority-breakup.component';
+import { OtherMinorityDataComponent } from './Views/DTEStatistics/OtherMinorityData/other-minority-data/other-minority-data.component';
 
 
 
@@ -779,7 +780,8 @@ import { OtherMinorityDataComponent} from './Views/DTEStatistics/OtherMinorityDa
       BasicDetailsComponent,
       PreviewDTEStatisticsComponent,
     FinancialDetailsComponent,
-    OtherMinorityDataComponent
+    OtherMinorityDataComponent,
+    DistanceOtherMinorityBreakupComponent
   ],
   imports: [
     CommonModule,

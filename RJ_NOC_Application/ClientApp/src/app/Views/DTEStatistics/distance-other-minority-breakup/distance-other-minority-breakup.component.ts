@@ -99,6 +99,7 @@ export class DistanceOtherMinorityBreakupComponent {
     }
   };
   async GetByID() {
+    debugger;
     try {
 
       this.loaderService.requestStarted();

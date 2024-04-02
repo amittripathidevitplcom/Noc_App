@@ -225,13 +225,16 @@ export class StatisticsEntryComponent implements OnInit {
 
   async ShowDraftFinalSubmitBtn() {
     await this.CheckTabsEntry_StatisticsEntry();
+    debugger;
     this.IsShowDraftFinalSubmit = true;
     if (this.SelectedDepartmentID == 3) {
+      debugger;
       if (this.CheckTabsEntry_StatisticsEntryData['ClassWiseStatistics'] > 0
         && this.CheckTabsEntry_StatisticsEntryData['SubjectWiseStatistics'] > 0) {
         this.IsShowDraftFinalSubmit = false;
       }
     }
+   
     else if (this.SelectedDepartmentID == 4 && this.SelectedCollegeEntryType == 'University') {
       if (this.CheckTabsEntry_StatisticsEntryData['BasicInformation'] > 0
         && this.CheckTabsEntry_StatisticsEntryData['OfficersDetails'] > 0
@@ -269,6 +272,8 @@ export class StatisticsEntryComponent implements OnInit {
         && this.CheckTabsEntry_StatisticsEntryData['ResidentialFacility'] > 0
         && this.CheckTabsEntry_StatisticsEntryData['Department'] > 0
         && this.CheckTabsEntry_StatisticsEntryData['RegularMode'] > 0
+        && this.CheckTabsEntry_StatisticsEntryData['OtherMinorityData'] > 0
+        && this.CheckTabsEntry_StatisticsEntryData['DistanceOtherMinorityBreakup'] > 0
         && this.CheckTabsEntry_StatisticsEntryData['StudentEnrlRegularMode'] > 0
         && this.CheckTabsEntry_StatisticsEntryData['ReguForeignStuEnrolment'] > 0
         && this.CheckTabsEntry_StatisticsEntryData['ExaminationResultsRegular'] > 0
@@ -300,7 +305,6 @@ export class StatisticsEntryComponent implements OnInit {
         && this.CheckTabsEntry_StatisticsEntryData['FinancialDetails'] > 0
         && this.CheckTabsEntry_StatisticsEntryData['InfrastructureDetails'] > 0
         && this.CheckTabsEntry_StatisticsEntryData['RegularOtherMinorityBreakup'] > 0
-        && this.CheckTabsEntry_StatisticsEntryData['DistanceOtherMinorityBreakup'] > 0
         && this.CheckTabsEntry_StatisticsEntryData['Scholarship_Fellowship_Loan_Acc'] > 0) {
         this.IsShowDraftFinalSubmit = false;
       }
@@ -323,7 +327,6 @@ export class StatisticsEntryComponent implements OnInit {
         && this.CheckTabsEntry_StatisticsEntryData['FinancialDetails'] > 0
         && this.CheckTabsEntry_StatisticsEntryData['InfrastructureDetails'] > 0
         && this.CheckTabsEntry_StatisticsEntryData['RegularOtherMinorityBreakup'] > 0
-        && this.CheckTabsEntry_StatisticsEntryData['DistanceOtherMinorityBreakup'] > 0
         && this.CheckTabsEntry_StatisticsEntryData['Scholarship_Fellowship_Loan_Acc'] > 0) {
         this.IsShowDraftFinalSubmit = false;
       }

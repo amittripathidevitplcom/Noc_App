@@ -3,9 +3,9 @@ export class OtherMinorityDataModel {
   public EntryDate: string = "";
   public Department: number = 0;
   public CollegeID: number = 0;
-  public SelectedCollegeEntryTypeName: string = "University";
+  public SelectedCollegeEntryTypeName: string = "College";
   public FYearID: number = 0;
-  public EntryType: string = "OtherMinorityDetails";
+  public EntryType: string = "";
   public OtherMinorityDetails: OtherMinorityDataModel_OtherMinorityDetails[] = [];
   public ModifyBy: number = 0;
 }
