@@ -777,7 +777,7 @@ import { OtherMinorityDataComponent} from './Views/DTEStatistics/OtherMinorityDa
     DTEStatisticsStaffComponent,
     DTEStatisticsNonTeachingComponent,
       BasicDetailsComponent,
-      PreviewDTEStatisticsComponent
+      PreviewDTEStatisticsComponent,
     FinancialDetailsComponent,
     OtherMinorityDataComponent
   ],
