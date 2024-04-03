@@ -46,12 +46,13 @@ export class RegularForeignStudentEnrolmentComponent implements OnInit {
       this.SelectedDepartmentID = this.statisticsEntryComponent.SelectedDepartmentID;
       this.SelectedCollageID = this.statisticsEntryComponent.SelectedCollageID;
       this.request.SelectedCollegeEntryTypeName = this.statisticsEntryComponent.SelectedCollegeEntryType;
-      this.request.SelectedCollegeEntryTypeName = this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('EntryType')?.toString());
+      
     }
     else {
       this.disabled = true;
       this.SelectedDepartmentID = this.previewDTEStatisticsComponent.SelectedDepartmentID;
       this.SelectedCollageID = await this.previewDTEStatisticsComponent.GetCollegeID_SearchRecordID();
+      this.request.SelectedCollegeEntryTypeName = this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('EntryType')?.toString());
     }
 
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));

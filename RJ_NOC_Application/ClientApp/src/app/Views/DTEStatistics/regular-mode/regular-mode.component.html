@@ -20,7 +20,7 @@
                   <th rowspan="2" width="60px">S.No</th>
                   <th rowspan="2" class="text-center" *ngIf="request.SelectedCollegeEntryTypeName=='University'">Faculty/ School</th>
                   <th rowspan="2" class="text-center" *ngIf="request.SelectedCollegeEntryTypeName=='University'">Department/Centre</th>
-                  <th rowspan="2" class="text-center" *ngIf="(request.SelectedCollegeEntryTypeName=='University' || request.SelectedCollegeEntryTypeName=='Polytechnic' || request.SelectedCollegeEntryTypeName=='Standalone')">Level</th>
+                  <th rowspan="2" class="text-center">Level</th>
 
                   <th rowspan="2" class="text-center">Name Of The Programme</th>
                   <th rowspan="2" class="text-center">Broad Discipline Group Category</th>
@@ -53,7 +53,7 @@
                     <input [disabled]="disabled" class="form-control form-control-sm" id="txtDepartment_Centre_{{idx}}" [(ngModel)]="row.Department_Centre"
                            type="text" [ngModelOptions]="{standalone: true}" />
                   </td>
-                  <td *ngIf="(request.SelectedCollegeEntryTypeName=='University' || request.SelectedCollegeEntryTypeName=='Polytechnic' || request.SelectedCollegeEntryTypeName=='Standalone')">
+                  <td>
                     <select [disabled]="disabled" class="form-select form-select-sm" id="ddlLevel_{{idx}}" name="ddlLevel_{{idx}}"
                             [(ngModel)]="row.LevelID" [ngModelOptions]="{standalone: true}">
                       <option value="0">--Select--</option>

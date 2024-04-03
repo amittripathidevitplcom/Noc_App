@@ -62,7 +62,8 @@
                     <input [disabled]="disabled" class="form-control form-control-sm width200px" id="txtFaculty_School{{idx}}"
                            [(ngModel)]="row.Faculty_School" maxlength="200" type="text" [ngModelOptions]="{standalone: true}" />
                   </td>
-                  <td>
+                  <td *ngIf="request.SelectedCollegeEntryTypeName=='College'">
+                    
                     <input [disabled]="disabled" class="form-control form-control-sm width200px" id="txtDepartment_Centre{{idx}}"
                            [(ngModel)]="row.Department_Centre" maxlength="200" type="text" [ngModelOptions]="{standalone: true}" />
                   </td>

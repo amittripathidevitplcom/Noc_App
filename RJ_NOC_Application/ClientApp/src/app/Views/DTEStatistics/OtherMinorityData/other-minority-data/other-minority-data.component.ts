@@ -9,6 +9,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { OtherMinorityDataModel, OtherMinorityDataModel_OtherMinorityDetails } from '../../../../Models/DTEStatistics/OtherMinorityDataModel';
 import { StatisticsEntryComponent } from '../../../Statistics/statistics-entry/statistics-entry.component';
 import { OtherMinorityDataService } from '../../../../Services/DTEStatistics/OtherMinorityData/other-minority-data.service';
+import { PreviewDTEStatisticsComponent } from '../../preview-dtestatistics/preview-dtestatistics.component';
 //import { PlacementDetailsService } from '../../../../Services/DTEStatistics/PlacementDetails/placement-details.service';
 
 @Component({
@@ -30,20 +31,32 @@ export class OtherMinorityDataComponent {
   public CurrentIndex: number = -1;
   public levelDataList: any = [];
   public programmeDataList: any = [];
+  public disabled: boolean = false;
+  public PreviewStatus: string = 'N';
 
   constructor(private OtherMinorityDataService: OtherMinorityDataService, private loaderService: LoaderService, private router: ActivatedRoute, private commonMasterService: CommonMasterService, private routers: Router, private formBuilder: FormBuilder, private toastr: ToastrService
-    , private statisticsEntryComponent: StatisticsEntryComponent) {
+    , private statisticsEntryComponent: StatisticsEntryComponent,  private previewDTEStatisticsComponent: PreviewDTEStatisticsComponent) {
   }
   async ngOnInit() {
     this.request.OtherMinorityDetails = [];
-    this.SelectedDepartmentID = this.statisticsEntryComponent.SelectedDepartmentID;
-    this.SelectedCollageID = this.statisticsEntryComponent.SelectedCollageID;
+
+    this.PreviewStatus = this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('PreviewStatus')?.toString());
+    if (this.PreviewStatus != 'Y') {
+      this.SelectedDepartmentID = this.statisticsEntryComponent.SelectedDepartmentID;
+      this.SelectedCollageID = this.statisticsEntryComponent.SelectedCollageID;
+      this.request.SelectedCollegeEntryTypeName = this.statisticsEntryComponent.SelectedCollegeEntryType;
+    }
+    else {
+      this.disabled = true;
+      this.SelectedDepartmentID = this.previewDTEStatisticsComponent.SelectedDepartmentID;
+      this.SelectedCollageID = await this.previewDTEStatisticsComponent.GetCollegeID_SearchRecordID();
+      this.request.SelectedCollegeEntryTypeName = this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('EntryType')?.toString());
+    }
 
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     this.request.CollegeID = this.SelectedCollageID;
     this.request.ModifyBy = this.sSOLoginDataModel.UserID;
     this.request.Department = this.SelectedDepartmentID;
-    this.request.SelectedCollegeEntryTypeName = this.statisticsEntryComponent.SelectedCollegeEntryType;
     this.request.EntryType = "Other Minority Data";
 
     await this.CourseLevel();

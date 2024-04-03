@@ -158,14 +158,14 @@ export class RegularModeComponent implements OnInit {
           return;
         }
       }
-      if (this.request.SelectedCollegeEntryTypeName == 'University' || this.request.SelectedCollegeEntryTypeName == 'Polytechnic' || this.request.SelectedCollegeEntryTypeName == 'Standalone') {
-        if (this.request.ProgrammesDetails[i].LevelID == 0) {
-          this.toastr.error('Level field is required.!');
-          const ddlLevel_ = document.getElementById('ddlLevel_' + i.toString());
-          if (ddlLevel_) ddlLevel_.focus();
-          return;
-        }
+
+      if (this.request.ProgrammesDetails[i].LevelID == 0) {
+        this.toastr.error('Level field is required.!');
+        const ddlLevel_ = document.getElementById('ddlLevel_' + i.toString());
+        if (ddlLevel_) ddlLevel_.focus();
+        return;
       }
+
 
       if (this.request.ProgrammesDetails[i].ProgrammeID == 0) {
         this.toastr.error('Name Of The Programme field is required.!');
@@ -243,14 +243,14 @@ export class RegularModeComponent implements OnInit {
           return;
         }
       }
-      if (this.request.SelectedCollegeEntryTypeName == 'University' || this.request.SelectedCollegeEntryTypeName == 'Polytechnic' || this.request.SelectedCollegeEntryTypeName == 'Standalone') {
-        if (row.LevelID == 0) {
-          this.toastr.error('Level field is required.!');
-          const ddlLevel_ = document.getElementById('ddlLevel_' + idx.toString());
-          if (ddlLevel_) ddlLevel_.focus();
-          return;
-        }
+
+      if (row.LevelID == 0) {
+        this.toastr.error('Level field is required.!');
+        const ddlLevel_ = document.getElementById('ddlLevel_' + idx.toString());
+        if (ddlLevel_) ddlLevel_.focus();
+        return;
       }
+
       if (row.ProgrammeID == 0) {
         this.toastr.error('Name Of The Programme field is required.!');
         const ddlProgramme_ = document.getElementById('ddlProgramme_' + idx.toString());
