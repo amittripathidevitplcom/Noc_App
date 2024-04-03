@@ -114,8 +114,7 @@ export class BasicDetailsComponent {
       this.SelectedDepartmentID = this.previewDTEStatisticsComponent.SelectedDepartmentID;
       this.SelectedCollageID = await this.previewDTEStatisticsComponent.GetCollegeID_SearchRecordID();
       var dt = await this.previewDTEStatisticsComponent.GetCollegeDetails_After();
-      //this.request.AisheCode = dt.AISHECode;
-      //this.request.YearofEstablishment = dt.YearofEstablishmentName;
+      this.request.SelectedCollegeEntryTypeName = this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('EntryType')?.toString());
       this.request.Nameofinstitution = dt.CollegeNameEn;
     }
     this.request.CollegeID = this.SelectedCollageID;

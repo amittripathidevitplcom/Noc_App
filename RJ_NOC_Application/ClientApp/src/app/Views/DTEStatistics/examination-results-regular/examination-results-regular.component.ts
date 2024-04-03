@@ -52,7 +52,7 @@ export class ExaminationResultsRegularComponent implements OnInit {
       this.disabled = true;
       this.SelectedDepartmentID = this.previewDTEStatisticsComponent.SelectedDepartmentID;
       this.SelectedCollageID = await this.previewDTEStatisticsComponent.GetCollegeID_SearchRecordID();
-      //var dt = await this.previewDTEStatisticsComponent.GetCollegeDetails_After();
+      this.request.SelectedCollegeEntryTypeName = this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('EntryType')?.toString());
     }
 
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));

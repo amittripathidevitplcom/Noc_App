@@ -1,19 +1,14 @@
 import { Component, Injectable, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
 import { MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ModalDismissReasons, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { SSOLoginDataModel } from '../../../Models/SSOLoginDataModel';
 import { StatisticsFinalSubmitDataModel } from '../../../Models/SubjectWiseStatisticsDetailsDataModel';
-import { ApplyNOCApplicationService } from '../../../Services/ApplyNOCApplicationList/apply-nocapplication.service';
 import { ClassWiseStudentDetailsServiceService } from '../../../Services/ClassWiseStudentDetails/class-wise-student-details-service.service';
 import { CollegeService } from '../../../services/collegedetailsform/College/college.service';
 import { CommonMasterService } from '../../../Services/CommonMaster/common-master.service';
 import { LoaderService } from '../../../Services/Loader/loader.service';
-import { CourseMasterService } from '../../../Services/Master/AddCourse/course-master.service';
-import { debug } from 'console';
-import { RegularModeComponent } from '../../DTEStatistics/regular-mode/regular-mode.component';
 import { BasicDetailsComponent } from '../../DTEStatistics/basic-details/basic-details.component';
 
 @Component({
@@ -27,9 +22,6 @@ import { BasicDetailsComponent } from '../../DTEStatistics/basic-details/basic-d
 })
 
 export class StatisticsEntryComponent implements OnInit {
-
-
-
   @ViewChild('tabs') tabGroup!: MatTabGroup;
   public collegeDataList: any = [];
   sSOLoginDataModel = new SSOLoginDataModel();
@@ -64,14 +56,12 @@ export class StatisticsEntryComponent implements OnInit {
 
   @ViewChild(BasicDetailsComponent)
   private basicdetailscomponent!: BasicDetailsComponent;
-  constructor(private courseMasterService: CourseMasterService, private toastr: ToastrService, private loaderService: LoaderService, private applyNOCApplicationService: ApplyNOCApplicationService,
-    private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private _fb: FormBuilder, private collegeService: CollegeService
+  constructor(private toastr: ToastrService, private loaderService: LoaderService,
+    private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private collegeService: CollegeService
     , private classWiseStudentDetailsServiceService: ClassWiseStudentDetailsServiceService, private modalService: NgbModal) {
-
   }
 
   async ngOnInit() {
-    // $(".secondTab").addClass("highLightTab");
     this.loaderService.requestStarted();
     this.SelectedDepartmentID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DepartmentID')?.toString()));
 
@@ -92,7 +82,6 @@ export class StatisticsEntryComponent implements OnInit {
     await this.ShowDraftFinalSubmitBtn();
     this.loaderService.requestEnded();
     this.maxNumberOfTabs = this.tabGroup._tabs.length - 1;
-
   }
 
   NextStep() {
@@ -101,27 +90,16 @@ export class StatisticsEntryComponent implements OnInit {
 
     }
     this.ShowDraftFinalSubmitBtn();
-
   }
-
   PreviousStep() {
     if (this.selectedIndex != 0) {
       this.selectedIndex = this.selectedIndex - 1;
     }
     this.ShowDraftFinalSubmitBtn();
-
   }
-
   async onTabChange(event: MatTabChangeEvent) {
-
     this.selectedIndex = event.index;
-
     this.selectedTabName = this.tabGroup._tabs['_results'][this.selectedIndex]['textLabel'];
-    //console.log(this.selectedTabName);
-    //if (this.selectedTabName == "Regular Mode" || this.selectedTabName == 'Distance Mode') {
-    //  await this.regularModeComponent.ngOnInit();
-    //}
-
     try {
       this.ShowDraftFinalSubmitBtn();
     }
@@ -222,7 +200,6 @@ export class StatisticsEntryComponent implements OnInit {
     }
   }
 
-
   async ShowDraftFinalSubmitBtn() {
     await this.CheckTabsEntry_StatisticsEntry();
     debugger;
@@ -272,7 +249,7 @@ export class StatisticsEntryComponent implements OnInit {
         && this.CheckTabsEntry_StatisticsEntryData['ResidentialFacility'] > 0
         && this.CheckTabsEntry_StatisticsEntryData['Department'] > 0
         && this.CheckTabsEntry_StatisticsEntryData['RegularMode'] > 0
-        && this.CheckTabsEntry_StatisticsEntryData['OtherMinorityData'] > 0
+        && this.CheckTabsEntry_StatisticsEntryData['DistanceOtherMinorityBreakup'] > 0
         && this.CheckTabsEntry_StatisticsEntryData['StudentEnrlRegularMode'] > 0
         && this.CheckTabsEntry_StatisticsEntryData['ReguForeignStuEnrolment'] > 0
         && this.CheckTabsEntry_StatisticsEntryData['ExaminationResultsRegular'] > 0
@@ -281,7 +258,6 @@ export class StatisticsEntryComponent implements OnInit {
         && this.CheckTabsEntry_StatisticsEntryData['NonTeaching'] > 0
         && this.CheckTabsEntry_StatisticsEntryData['FinancialDetails'] > 0
         && this.CheckTabsEntry_StatisticsEntryData['InfrastructureDetails'] > 0
-        && this.CheckTabsEntry_StatisticsEntryData['RegularOtherMinorityBreakup'] > 0
         && this.CheckTabsEntry_StatisticsEntryData['Scholarship_Fellowship_Loan_Acc'] > 0) {
         this.IsShowDraftFinalSubmit = false;
       }
@@ -303,8 +279,8 @@ export class StatisticsEntryComponent implements OnInit {
         && this.CheckTabsEntry_StatisticsEntryData['NonTeaching'] > 0
         && this.CheckTabsEntry_StatisticsEntryData['FinancialDetails'] > 0
         && this.CheckTabsEntry_StatisticsEntryData['InfrastructureDetails'] > 0
-        && this.CheckTabsEntry_StatisticsEntryData['OtherMinorityData'] > 0
         && this.CheckTabsEntry_StatisticsEntryData['DistanceOtherMinorityBreakup'] > 0
+        && this.CheckTabsEntry_StatisticsEntryData['RegularOtherMinorityBreakup'] > 0
         && this.CheckTabsEntry_StatisticsEntryData['Scholarship_Fellowship_Loan_Acc'] > 0) {
         this.IsShowDraftFinalSubmit = false;
       }
@@ -326,8 +302,8 @@ export class StatisticsEntryComponent implements OnInit {
         && this.CheckTabsEntry_StatisticsEntryData['NonTeaching'] > 0
         && this.CheckTabsEntry_StatisticsEntryData['FinancialDetails'] > 0
         && this.CheckTabsEntry_StatisticsEntryData['InfrastructureDetails'] > 0
-        && this.CheckTabsEntry_StatisticsEntryData['OtherMinorityData'] > 0
         && this.CheckTabsEntry_StatisticsEntryData['DistanceOtherMinorityBreakup'] > 0
+        && this.CheckTabsEntry_StatisticsEntryData['RegularOtherMinorityBreakup'] > 0
         && this.CheckTabsEntry_StatisticsEntryData['Scholarship_Fellowship_Loan_Acc'] > 0) {
         this.IsShowDraftFinalSubmit = false;
       }
@@ -409,9 +385,7 @@ export class StatisticsEntryComponent implements OnInit {
   }
   async PageReload() {
     try {
-      this.basicdetailscomponent.request.SelectedCollegeEntryTypeName = this.SelectedCollegeEntryType;
-      //await this.basicdetailscomponent.GetAllDesignation();
-      //await this.basicdetailscomponent.GetByID();
+      this.basicdetailscomponent.request.SelectedCollegeEntryTypeName = this.SelectedCollegeEntryType; 
     }
     catch (Ex) { }
 
@@ -422,5 +396,3 @@ export class StatisticsEntryComponent implements OnInit {
   }
 
 }
-
-//export type StatisticsEntry = "University" | "College" | "Polytechnic" | "Standalone";

@@ -28,7 +28,7 @@ export class RegularModeDataModel_ProgrammesDetails {
   public BroadDisciplineGroupName: string = "";
   public Discipline: string = "";
   public AdmissionCriterion: string = "";
-  public ExaminationSystem: string = "";
+  public ExaminationSystem: string = "0";
   public Year: number = 0;
   public Month: number = 0;
   public ApprovedIntake: number = 0;

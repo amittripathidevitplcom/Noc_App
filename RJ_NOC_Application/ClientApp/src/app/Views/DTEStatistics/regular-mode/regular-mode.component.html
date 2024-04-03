@@ -86,8 +86,15 @@
                     <input [disabled]="disabled" class="form-control form-control-sm" id="txtAdmissionCriterion_{{idx}}" [(ngModel)]="row.AdmissionCriterion" type="text" [ngModelOptions]="{standalone: true}" />
                   </td>
                   <td>
-                    <input [disabled]="disabled" class="form-control form-control-sm" id="txtExaminationSystem_{{idx}}" [(ngModel)]="row.ExaminationSystem"
-                           type="text" [ngModelOptions]="{standalone: true}" />
+                    <select [disabled]="disabled" class="form-select form-select-sm" id="txtExaminationSystem_{{idx}}" name="txtExaminationSystem_{{idx}}"
+                            [(ngModel)]="row.ExaminationSystem" [ngModelOptions]="{standalone: true}">
+                      <option value="0">--Select--</option>
+                      <option value="ANNUAL">ANNUAL</option>
+                      <option value="SEMESTER">SEMESTER</option>
+                      <option value="Tri-Semester">Tri-Semester</option>
+                    </select>
+                    <!--<input [disabled]="disabled" class="form-control form-control-sm" id="txtExaminationSystem_{{idx}}" [(ngModel)]="row.ExaminationSystem"
+         type="text" [ngModelOptions]="{standalone: true}" />-->
                   </td>
                   <td>
                     <input [disabled]="disabled" class="form-control form-control-sm width100px" id="txtYear_{{idx}}" [(ngModel)]="row.Year"

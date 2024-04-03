@@ -41,20 +41,20 @@ export class DistanceModeComponent implements OnInit {
     this.PreviewStatus = this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('PreviewStatus')?.toString());
     if (this.PreviewStatus != 'Y') {
       this.SelectedDepartmentID = this.statisticsEntryComponent.SelectedDepartmentID;
-      this.SelectedCollageID = this.statisticsEntryComponent.SelectedCollageID;
+      this.SelectedCollageID = this.statisticsEntryComponent.SelectedCollageID; 
       this.request.SelectedCollegeEntryTypeName = this.statisticsEntryComponent.SelectedCollegeEntryType;
     }
     else {
       this.disabled = true;
       this.SelectedDepartmentID = this.previewDTEStatisticsComponent.SelectedDepartmentID;
       this.SelectedCollageID = await this.previewDTEStatisticsComponent.GetCollegeID_SearchRecordID();
+      this.request.SelectedCollegeEntryTypeName = this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('EntryType')?.toString());
     }
 
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     this.request.CollegeID = this.SelectedCollageID;
     this.request.ModifyBy = this.sSOLoginDataModel.UserID;
     this.request.Department = this.SelectedDepartmentID;
-    this.request.SelectedCollegeEntryTypeName = this.statisticsEntryComponent.SelectedCollegeEntryType;
     this.request.EntryType = "Distance Mode";
 
     await this.CourseLevel();

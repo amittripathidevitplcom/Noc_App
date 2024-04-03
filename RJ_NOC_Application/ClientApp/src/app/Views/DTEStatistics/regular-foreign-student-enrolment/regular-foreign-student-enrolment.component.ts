@@ -46,6 +46,7 @@ export class RegularForeignStudentEnrolmentComponent implements OnInit {
       this.SelectedDepartmentID = this.statisticsEntryComponent.SelectedDepartmentID;
       this.SelectedCollageID = this.statisticsEntryComponent.SelectedCollageID;
       this.request.SelectedCollegeEntryTypeName = this.statisticsEntryComponent.SelectedCollegeEntryType;
+      this.request.SelectedCollegeEntryTypeName = this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('EntryType')?.toString());
     }
     else {
       this.disabled = true;
@@ -57,7 +58,6 @@ export class RegularForeignStudentEnrolmentComponent implements OnInit {
     this.request.CollegeID = this.SelectedCollageID;
     this.request.ModifyBy = this.sSOLoginDataModel.UserID;
     this.request.Department = this.SelectedDepartmentID;
-    this.request.SelectedCollegeEntryTypeName = this.statisticsEntryComponent.SelectedCollegeEntryType;
     this.request.EntryType = "Distance Mode";
 
     await this.CourseLevel();

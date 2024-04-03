@@ -50,6 +50,7 @@ export class StudentEnrollmentRegularModeComponent implements OnInit {
       this.disabled = true;
       this.SelectedDepartmentID = this.previewDTEStatisticsComponent.SelectedDepartmentID;
       this.SelectedCollageID = await this.previewDTEStatisticsComponent.GetCollegeID_SearchRecordID();
+      this.request.SelectedCollegeEntryTypeName = this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('EntryType')?.toString());
     }
 
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));

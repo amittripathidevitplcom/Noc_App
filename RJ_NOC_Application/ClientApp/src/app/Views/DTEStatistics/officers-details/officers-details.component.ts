@@ -60,6 +60,7 @@ export class OfficersDetailsComponent implements OnInit {
       this.OfficersDetailsFormGroup.disable();
       this.SelectedDepartmentID = this.previewDTEStatisticsComponent.SelectedDepartmentID;
       this.SelectedCollageID = await this.previewDTEStatisticsComponent.GetCollegeID_SearchRecordID();
+      this.request.SelectedCollegeEntryTypeName = this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('EntryType')?.toString());
     }
 
     //this.SelectedDepartmentID = this.statisticsEntryComponent.SelectedDepartmentID;
@@ -68,8 +69,7 @@ export class OfficersDetailsComponent implements OnInit {
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     this.request.CollegeID = this.SelectedCollageID;
     this.request.ModifyBy = this.sSOLoginDataModel.UserID;
-    this.request.Department = this.SelectedDepartmentID;
-    //this.request.SelectedCollegeEntryTypeName = this.statisticsEntryComponent.SelectedCollegeEntryType;
+    this.request.Department = this.SelectedDepartmentID; 
 
     await this.GetDesignation_OfficersDetailsMasterList();
     await this.GetByID()
