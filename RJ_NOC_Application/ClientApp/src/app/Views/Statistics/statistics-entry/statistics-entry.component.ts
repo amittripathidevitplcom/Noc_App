@@ -249,7 +249,7 @@ export class StatisticsEntryComponent implements OnInit {
         && this.CheckTabsEntry_StatisticsEntryData['ResidentialFacility'] > 0
         && this.CheckTabsEntry_StatisticsEntryData['Department'] > 0
         && this.CheckTabsEntry_StatisticsEntryData['RegularMode'] > 0
-        && this.CheckTabsEntry_StatisticsEntryData['DistanceOtherMinorityBreakup'] > 0
+        && this.CheckTabsEntry_StatisticsEntryData['RegularOtherMinorityBreakup'] > 0
         && this.CheckTabsEntry_StatisticsEntryData['StudentEnrlRegularMode'] > 0
         && this.CheckTabsEntry_StatisticsEntryData['ReguForeignStuEnrolment'] > 0
         && this.CheckTabsEntry_StatisticsEntryData['ExaminationResultsRegular'] > 0
