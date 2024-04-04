@@ -125,7 +125,7 @@ export class RegularForeignStudentEnrolmentComponent implements OnInit {
           this.request.ForeignStudentEnrolledInTheinstitution = data['Data'].ForeignStudentEnrolledInTheinstitution;
           this.request.ApprovedIntakeCapacityOfInternationalStudents = data['Data'].ApprovedIntakeCapacityOfInternationalStudents;
 
-          this.request.AlsoIncludeTemporaryContractualVisitingTeacherData = data['Data'].AlsoIncludeTemporaryContractualVisitingTeacherData;
+          this.request.AlsoIncludeTemporaryContractualVisitingTeacherData = data['Data'].AlsoIncludeTemporaryContractualVisitingTeacherData+--;
           this.request.ForeignRegularStudentEnrollementThroughProgrammesOfferedByInstitution = data['Data'].ForeignRegularStudentEnrollementThroughProgrammesOfferedByInstitution;
 
           if (data['Data'].RegularForeignStudentEnrolment != null) {
