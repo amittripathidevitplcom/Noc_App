@@ -31,6 +31,10 @@
                   <th rowspan="2" class="text-center">Type</th>
                   <th rowspan="2" class="text-center">Whether Vocational Course</th>
                   <th rowspan="2" class="text-center">Year of Start</th>
+
+                  <th rowspan="2" class="text-center" *ngIf="request.SelectedCollegeEntryTypeName!='University'">Statuatory Body Through Which Approved</th>
+                  <th rowspan="2" class="text-center" *ngIf="request.SelectedCollegeEntryTypeName!='University'">University Through Which Approved</th>
+
                   <th rowspan="2" class="text-center">Accreditation Status</th>
                   <th rowspan="2" width="100px" class="text-center" *ngIf="PreviewStatus!='Y'">Action</th>
                   <th rowspan="2" width="100px" class="text-center" *ngIf="PreviewStatus=='Y'"></th>
@@ -43,11 +47,11 @@
               <tbody>
                 <tr *ngFor="let row of this.request.ProgrammesDetails ;let idx=index;">
                   <td>{{idx+1}}</td>
-                  <td  *ngIf="(request.SelectedCollegeEntryTypeName=='University')">
+                  <td *ngIf="(request.SelectedCollegeEntryTypeName=='University')">
                     <input [disabled]="disabled" class="form-control form-control-sm" id="txtFaculty_School_{{idx}}" [(ngModel)]="row.Faculty_School"
                            type="text" [ngModelOptions]="{standalone: true}" />
                   </td>
-                  <td  *ngIf="(request.SelectedCollegeEntryTypeName=='University')">
+                  <td *ngIf="(request.SelectedCollegeEntryTypeName=='University')">
                     <input [disabled]="disabled" class="form-control form-control-sm" id="txtDepartment_Centre_{{idx}}" [(ngModel)]="row.Department_Centre"
                            type="text" [ngModelOptions]="{standalone: true}" />
                   </td>
@@ -126,6 +130,18 @@
                            id="txtYearofStart_{{idx}}" [(ngModel)]="row.YearofStart"
                            type="text" [ngModelOptions]="{standalone: true}" />
                   </td>
+
+                  <td *ngIf="request.SelectedCollegeEntryTypeName!='University'">
+                    <input [disabled]="disabled" class="form-control form-control-sm" type="text" maxlength="200"
+                           id="txtStatuatoryBodyThroughWhichApproved_{{idx}}" [(ngModel)]="row.StatuatoryBodyThroughWhichApproved"
+                           [ngModelOptions]="{standalone: true}" />
+                  </td>
+                  <td *ngIf="request.SelectedCollegeEntryTypeName!='University'">
+                    <input [disabled]="disabled" class="form-control form-control-sm" type="text" maxlength="200"
+                           id="txtUniversityThroughWhichApproved{{idx}}" [(ngModel)]="row.UniversityThroughWhichApproved"
+                           [ngModelOptions]="{standalone: true}" />
+                  </td>
+
                   <td>
                     <input [disabled]="disabled" class="form-control form-control-sm" type="text"
                            id="txtAccreditationStatus_School_{{idx}}" [(ngModel)]="row.AccreditationStatus"
@@ -147,7 +163,6 @@
                     </div>
                   </td>
                   <td *ngIf="PreviewStatus=='Y'">
-
                   </td>
                 </tr>
               </tbody>

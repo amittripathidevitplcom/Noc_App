@@ -34,8 +34,8 @@
                   <th rowspan="2" class="text-center">Whether Vocational Course</th>
                   <th rowspan="2" class="text-center">Year of Start</th>
 
-                  <th rowspan="2" class="text-center" *ngIf="request.SelectedCollegeEntryTypeName=='College'">Statuatory Body Through Which Approved</th>
-                  <th rowspan="2" class="text-center" *ngIf="request.SelectedCollegeEntryTypeName=='College'">University Through Which Approved</th>
+                  <th rowspan="2" class="text-center" *ngIf="request.SelectedCollegeEntryTypeName!='University'">Statuatory Body Through Which Approved</th>
+                  <th rowspan="2" class="text-center" *ngIf="request.SelectedCollegeEntryTypeName!='University'">University Through Which Approved</th>
 
                   <th rowspan="2" class="text-center">Accreditation Status</th>
                   <th rowspan="2" width="100px" class="text-center" *ngIf="PreviewStatus!='Y'">Action</th>
@@ -134,12 +134,12 @@
                            id="txtYearofStart_{{idx}}" [(ngModel)]="row.YearofStart"
                            type="text" [ngModelOptions]="{standalone: true}" />
                   </td>
-                  <td>
+                  <td *ngIf="request.SelectedCollegeEntryTypeName!='University'">
                     <input [disabled]="disabled" class="form-control form-control-sm" type="text"  maxlength="200"
                            id="txtStatuatoryBodyThroughWhichApproved_{{idx}}" [(ngModel)]="row.StatuatoryBodyThroughWhichApproved"
                            [ngModelOptions]="{standalone: true}" />
                   </td>
-                  <td>
+                  <td *ngIf="request.SelectedCollegeEntryTypeName!='University'">
                     <input [disabled]="disabled" class="form-control form-control-sm" type="text" maxlength="200"
                            id="txtUniversityThroughWhichApproved{{idx}}" [(ngModel)]="row.UniversityThroughWhichApproved"
                            [ngModelOptions]="{standalone: true}" />
