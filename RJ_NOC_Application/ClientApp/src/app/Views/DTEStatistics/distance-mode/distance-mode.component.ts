@@ -269,6 +269,8 @@ export class DistanceModeComponent implements OnInit {
         WhetherVocationalCourse: "0",
         YearofStart: "",
         AccreditationStatus: "",
+        StatuatoryBodyThroughWhichApproved: '',
+        UniversityThroughWhichApproved: ''
       });
 
     }

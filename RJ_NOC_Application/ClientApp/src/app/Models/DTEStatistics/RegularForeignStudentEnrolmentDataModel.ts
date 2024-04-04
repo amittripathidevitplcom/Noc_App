@@ -9,6 +9,9 @@ export class RegularForeignStudentEnrolmentDataModel {
   public ForeignStudentEnrolledInTheinstitution: number = 0;
   public ApprovedIntakeCapacityOfInternationalStudents: number = 0;
 
+  public AlsoIncludeTemporaryContractualVisitingTeacherData: number = 0;
+  public ForeignRegularStudentEnrollementThroughProgrammesOfferedByInstitution: number = 0;
+
   public EntryType: string = "RegularForeignStudentEnrolment";
   public RegularForeignStudentEnrolment: RegularForeignStudentEnrolmentDataModel_RegularForeignStudentEnrolment[] = [];
 

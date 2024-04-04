@@ -1,7 +1,5 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-/*import { LoaderService } from '../../../Services/Loader/loader.service';*/
-/*import { LoaderService } from '../../../../Services/Loader/loader.service';*/
 import { LoaderService } from '../../../Services/Loader/loader.service';
 import { SSOLoginDataModel } from '../../../Models/SSOLoginDataModel';
 import { ToastrService } from 'ngx-toastr';
@@ -146,41 +144,7 @@ export class DistanceOtherMinorityBreakupComponent {
   }
 
   async SaveData() {
-    debugger;
-
     this.isSubmitted = true;
-
-
-    for (var i = 0; i < this.request.OtherMinorityDetails.length; i++) {
-
-      //  if (this.request.PlacementDetails[i].Faculty_School == '') {
-      //    this.toastr.error('Faculty/ School field is required.!');
-      //    const txtFaculty_School = document.getElementById('txtFaculty_School_' + i.toString());
-      //    if (txtFaculty_School) txtFaculty_School.focus();
-      //    return;
-      //  }
-
-      //  if (this.request.PlacementDetails[i].Department_Centre == '') {
-      //    this.toastr.error('Department/Centre field is required.!');
-      //    const txtDepartment_Centre_ = document.getElementById('txtDepartment_Centre_' + i.toString());
-      //    if (txtDepartment_Centre_) txtDepartment_Centre_.focus();
-      //    return;
-      //    return;
-      //  }
-      //  if (this.request.PlacementDetails[i].LevelID == 0) {
-      //    this.toastr.error('Level field is required.!');
-      //    const ddlLevel_ = document.getElementById('ddlLevel_' + i.toString());
-      //    if (ddlLevel_) ddlLevel_.focus();
-      //    return;
-      //  }
-      //  if (this.request.PlacementDetails[i].ProgrammeID == 0) {
-      //    this.toastr.error('Name Of The Programme field is required.!');
-      //    const ddlProgramme_ = document.getElementById('ddlProgramme_' + i.toString());
-      //    if (ddlProgramme_) ddlProgramme_.focus();
-      //    return;
-      //  }
-    }
-
     this.loaderService.requestStarted();
     this.isLoading = true;
     try {
