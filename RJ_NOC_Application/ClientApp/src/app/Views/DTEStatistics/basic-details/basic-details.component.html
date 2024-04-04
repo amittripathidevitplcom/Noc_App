@@ -46,7 +46,7 @@
           <input class="form-control" id="txtYearDeclaredUniversityInstitute" maxlength="100"
                  formControlName="txtYearDeclaredUniversityInstitute" [(ngModel)]="request.YearDeclaredUniversityInstitute" />
         </div>
-        <div class="col-lg-4 col-md-6 col-sm-12 col-12 mb-3" *ngIf="this.request.SelectedCollegeEntryTypeName=='Polytechnic'">
+        <div class="col-lg-4 col-md-6 col-sm-12 col-12 mb-3" *ngIf="this.request.SelectedCollegeEntryTypeName=='Polytechnic' || this.request.SelectedCollegeEntryTypeName=='Standalone'">
           <label class="form-label" for="txtYearofRecognition">
           Year of Recognition:
                       </label>
@@ -80,7 +80,7 @@
               <input class="form-control" id="txtOwnershipStatusOfInstitution" maxlength="100"
                      formControlName="txtOwnershipStatusOfInstitution" [(ngModel)]="request.OwnershipStatusOfInstitution" />
             </div>
-            <div class="col-lg-4 col-md-6 col-sm-12 col-12 mb-3" *ngIf="this.request.SelectedCollegeEntryTypeName=='College'">
+            <div class="col-lg-4 col-md-6 col-sm-12 col-12 mb-3" *ngIf="this.request.SelectedCollegeEntryTypeName=='College' || this.request.SelectedCollegeEntryTypeName=='Standalone'">
               <label class="form-label" for="ddlManagementOfTheInstitution">
                 Management Of The Institution:
               </label>
@@ -136,7 +136,7 @@
                 <option value="No">No</option>
               </select>
             </div>
-            <div class="col-lg-4 col-md-6 col-sm-12 col-12 mb-3" *ngIf="this.request.SelectedCollegeEntryTypeName=='College'||this.request.SelectedCollegeEntryTypeName=='Polytechnic'">
+            <div class="col-lg-4 col-md-6 col-sm-12 col-12 mb-3" *ngIf="this.request.SelectedCollegeEntryTypeName=='College'||this.request.SelectedCollegeEntryTypeName=='Polytechnic' ||  this.request.SelectedCollegeEntryTypeName=='Standalone'">
               <label class="form-label" for="txtMinorityCommunityType">
                 Minority Community Type:
               </label>
@@ -176,7 +176,7 @@
 
 
 
-            <div class="col-lg-4 col-md-6 col-sm-12 col-12 mb-3" *ngIf="request.IsInstitutionNCC=='Yes' && (this.request.SelectedCollegeEntryTypeName=='College'||this.request.SelectedCollegeEntryTypeName=='Polytechnic')">
+            <div class="col-lg-4 col-md-6 col-sm-12 col-12 mb-3" *ngIf="request.IsInstitutionNCC=='Yes' && (this.request.SelectedCollegeEntryTypeName=='College'||this.request.SelectedCollegeEntryTypeName=='Polytechnic' || this.request.SelectedCollegeEntryTypeName=='Standalone')">
               <label class="form-label" for="txtEnrolledStudentInNCCOtherInstitute">
                 <span>
                   Number of male students in NCC from Other Institutions :
@@ -185,7 +185,7 @@
               <input class="form-control" id="txtEnrolledStudentInNCCOtherInstitute" (keypress)="numberOnly($event)" maxlength="6"
                      formControlName="txtEnrolledStudentInNCCOtherInstitute" [(ngModel)]="request.EnrolledStudentInNCCOtherInstitute" />
             </div>
-            <div class="col-lg-4 col-md-6 col-sm-12 col-12 mb-3" *ngIf="request.IsInstitutionNCC=='Yes'&& (this.request.SelectedCollegeEntryTypeName=='College'||this.request.SelectedCollegeEntryTypeName=='Polytechnic')">
+            <div class="col-lg-4 col-md-6 col-sm-12 col-12 mb-3" *ngIf="request.IsInstitutionNCC=='Yes'&& (this.request.SelectedCollegeEntryTypeName=='College'||this.request.SelectedCollegeEntryTypeName=='Polytechnic' ||  this.request.SelectedCollegeEntryTypeName=='Standalone')">
               <label class="form-label" for="txtEnrolledFemaleStudentInNCCOtherInstitute">
                 Number of female students in NCC from Other Institutions :
               </label>
@@ -280,7 +280,7 @@
                      formControlName="txtOtherDiplomaCourse" [(ngModel)]="request.OtherDiplomaCourse" />
             </div>
           </div>
-          <div class="row" *ngIf="this.request.SelectedCollegeEntryTypeName=='College' || this.request.SelectedCollegeEntryTypeName=='Polytechnic'">
+          <div class="row" *ngIf="this.request.SelectedCollegeEntryTypeName=='College' || this.request.SelectedCollegeEntryTypeName=='Polytechnic'|| this.request.SelectedCollegeEntryTypeName=='Standalone'">
             <div class="col-lg-4 col-md-6 col-sm-12 col-12 mb-3">
               <label class="form-label" for="ddlWhetherAwardsDegreethroughAnyUniversity">
                 Whether Awards Degree through Any University:
@@ -541,7 +541,7 @@
       </div>
 
       <div class="clearfix"></div>
-      <div class="card" *ngIf=" this.request.SelectedCollegeEntryTypeName=='College' || this.request.SelectedCollegeEntryTypeName=='Polytechnic' ">
+      <div class="card" *ngIf=" this.request.SelectedCollegeEntryTypeName=='College' || this.request.SelectedCollegeEntryTypeName=='Polytechnic' || this.request.SelectedCollegeEntryTypeName=='Standalone' ">
         <div class="card-header">
           <div class="d-flex align-items-center">
             <label class="form-label m-0 me-2 text-nowrap">
@@ -550,7 +550,7 @@
           </div>
         </div>
         <div class="card-body">
-          <div class="row" *ngIf="this.request.SelectedCollegeEntryTypeName=='College' || this.request.SelectedCollegeEntryTypeName=='Polytechnic'">
+          <div class="row" *ngIf="this.request.SelectedCollegeEntryTypeName=='College' || this.request.SelectedCollegeEntryTypeName=='Polytechnic' ||  this.request.SelectedCollegeEntryTypeName=='Standalone'">
             <div class="col-lg-4 col-md-6 col-sm-12 col-12 mb-3">
               <label class="form-label" for="txtAffiliationNameStatutorybody">
                 Name of the Statutory body through which recognized

@@ -23,7 +23,8 @@
                   <th colspan="3" class="text-center">ST</th>
                   <th colspan="3" class="text-center">OBC</th>
                   <th colspan="3" class="text-center">TOTAL</th>
-                  <th width="100px" class="text-center">Action</th>
+                  <th width="100px" class="text-center"  *ngIf="PreviewStatus!='Y'">Action</th>
+                  <th width="100px" class="text-center"  *ngIf="PreviewStatus=='Y'"></th>
                 </tr>
                 <tr>
                   <th width="60px">S.No.</th>
@@ -54,88 +55,88 @@
                 <tr *ngFor="let row of this.request.OtherMinorityDetails ;let idx=index;">
                   <td>{{idx+1}}</td>
                   <td>
-                    <input class="form-control form-control-sm" id="Discipline{{idx}}"
+                    <input [disabled]="disabled" class="form-control form-control-sm" id="Discipline{{idx}}"
                            [(ngModel)]="row.Discipline" 
                            type="text" [ngModelOptions]="{standalone: true}" />
                   </td>
                   <td>
-                    <input class="form-control form-control-sm" id="Year{{idx}}" [(ngModel)]="row.Year" 
+                    <input [disabled]="disabled" class="form-control form-control-sm" id="Year{{idx}}" [(ngModel)]="row.Year" 
                            type="text" (keypress)="numberOnly($event)" [ngModelOptions]="{standalone: true}" />
                   </td>
                   <td>
-                    <input class="form-control form-control-sm" id="General_Male{{idx}}" [(ngModel)]="row.General_Male"
+                    <input [disabled]="disabled" class="form-control form-control-sm" id="General_Male{{idx}}" [(ngModel)]="row.General_Male"
                            type="text" (keypress)="numberOnly($event)" [ngModelOptions]="{standalone: true}" />
                   </td>
                   <td>
-                    <input class="form-control form-control-sm" id="General_Female{{idx}}" [(ngModel)]="row.General_Female" 
+                    <input [disabled]="disabled" class="form-control form-control-sm" id="General_Female{{idx}}" [(ngModel)]="row.General_Female" 
                        type="text" (keypress)="numberOnly($event)" [ngModelOptions]="{standalone: true}" />
                   </td>
                   <td>
-                    <input class="form-control form-control-sm" id="General_Transgender{{idx}}" [(ngModel)]="row.General_Transgender" 
+                    <input [disabled]="disabled" class="form-control form-control-sm" id="General_Transgender{{idx}}" [(ngModel)]="row.General_Transgender" 
                            type="text" (keypress)="numberOnly($event)" [ngModelOptions]="{standalone: true}" />
                   </td>
                   <td>
-                    <input class="form-control form-control-sm" id="EWS_Male{{idx}}" [(ngModel)]="row.EWS_Male" 
+                    <input [disabled]="disabled" class="form-control form-control-sm" id="EWS_Male{{idx}}" [(ngModel)]="row.EWS_Male" 
                            type="text" (keypress)="numberOnly($event)" [ngModelOptions]="{standalone: true}" />
                   </td>
                   <td>
-                    <input class="form-control form-control-sm" id="EWS_Female{{idx}}" [(ngModel)]="row.EWS_Female"
+                    <input [disabled]="disabled" class="form-control form-control-sm" id="EWS_Female{{idx}}" [(ngModel)]="row.EWS_Female"
                            type="text" (keypress)="numberOnly($event)" [ngModelOptions]="{standalone: true}" />
                   </td>
                   <td>
-                    <input class="form-control form-control-sm" id="EWS_Transgender{{idx}}" [(ngModel)]="row.EWS_Transgender" 
+                    <input [disabled]="disabled" class="form-control form-control-sm" id="EWS_Transgender{{idx}}" [(ngModel)]="row.EWS_Transgender" 
                            type="text" (keypress)="numberOnly($event)" [ngModelOptions]="{standalone: true}" />
                   </td>
                   <td>
-                    <input class="form-control form-control-sm" id="SC_Male{{idx}}" [(ngModel)]="row.SC_Male" 
+                    <input [disabled]="disabled" class="form-control form-control-sm" id="SC_Male{{idx}}" [(ngModel)]="row.SC_Male" 
                            type="text" (keypress)="numberOnly($event)" [ngModelOptions]="{standalone: true}" />
                   </td>
                   <td>
-                    <input class="form-control form-control-sm" id="SC_Female{{idx}}" [(ngModel)]="row.SC_Female" 
+                    <input [disabled]="disabled" class="form-control form-control-sm" id="SC_Female{{idx}}" [(ngModel)]="row.SC_Female" 
                            type="text" (keypress)="numberOnly($event)" [ngModelOptions]="{standalone: true}" />
                   </td>
 
                   <td>
-                    <input class="form-control form-control-sm" id="SC_Transgender{{idx}}" [(ngModel)]="row.SC_Transgender" 
+                    <input [disabled]="disabled" class="form-control form-control-sm" id="SC_Transgender{{idx}}" [(ngModel)]="row.SC_Transgender" 
                            type="text" (keypress)="numberOnly($event)" [ngModelOptions]="{standalone: true}" />
                   </td>
                   <td>
-                    <input class="form-control form-control-sm" id="ST_Male{{idx}}" [(ngModel)]="row.ST_Male" 
+                    <input [disabled]="disabled" class="form-control form-control-sm" id="ST_Male{{idx}}" [(ngModel)]="row.ST_Male" 
                            type="text" (keypress)="numberOnly($event)" [ngModelOptions]="{standalone: true}" />
                   </td>
                   <td>
-                    <input class="form-control form-control-sm" id="ST_Female{{idx}}" [(ngModel)]="row.ST_Female" 
+                    <input [disabled]="disabled" class="form-control form-control-sm" id="ST_Female{{idx}}" [(ngModel)]="row.ST_Female" 
                            type="text" (keypress)="numberOnly($event)" [ngModelOptions]="{standalone: true}" />
                   </td>
                   <td>
-                    <input class="form-control form-control-sm" id="ST_Transgender{{idx}}" [(ngModel)]="row.ST_Transgender" 
+                    <input [disabled]="disabled" class="form-control form-control-sm" id="ST_Transgender{{idx}}" [(ngModel)]="row.ST_Transgender" 
                            type="text" (keypress)="numberOnly($event)" [ngModelOptions]="{standalone: true}" />
                   </td>
                   <td>
-                    <input class="form-control form-control-sm" id="OBC_Male{{idx}}" [(ngModel)]="row.OBC_Male" 
+                    <input [disabled]="disabled" class="form-control form-control-sm" id="OBC_Male{{idx}}" [(ngModel)]="row.OBC_Male" 
                            type="text" (keypress)="numberOnly($event)" [ngModelOptions]="{standalone: true}" />
                   </td>
                   <td>
-                    <input class="form-control form-control-sm" id="OBC_Female{{idx}}" [(ngModel)]="row.OBC_Female" 
+                    <input [disabled]="disabled" class="form-control form-control-sm" id="OBC_Female{{idx}}" [(ngModel)]="row.OBC_Female" 
                            type="text" (keypress)="numberOnly($event)" [ngModelOptions]="{standalone: true}" />
                   </td>
                   <td>
-                    <input class="form-control form-control-sm" id="OBC_Transgender{{idx}}" [(ngModel)]="row.OBC_Transgender" 
+                    <input [disabled]="disabled" class="form-control form-control-sm" id="OBC_Transgender{{idx}}" [(ngModel)]="row.OBC_Transgender" 
                            type="text" (keypress)="numberOnly($event)" [ngModelOptions]="{standalone: true}" />
                   </td>
                   <td>
-                    <input class="form-control form-control-sm" id="Total_Male{{idx}}" [(ngModel)]="row.Total_Male" 
+                    <input [disabled]="disabled" class="form-control form-control-sm" id="Total_Male{{idx}}" [(ngModel)]="row.Total_Male" 
                            type="text" (keypress)="numberOnly($event)" [ngModelOptions]="{standalone: true}" />
                   </td>
                   <td>
-                    <input class="form-control form-control-sm" id="Total_Female{{idx}}" [(ngModel)]="row.Total_Female" 
+                    <input [disabled]="disabled" class="form-control form-control-sm" id="Total_Female{{idx}}" [(ngModel)]="row.Total_Female" 
                            type="text" (keypress)="numberOnly($event)" [ngModelOptions]="{standalone: true}" />
                   </td>
                   <td>
-                    <input class="form-control form-control-sm" id="Total_Transgender{{idx}}" [(ngModel)]="row.Total_Transgender" 
+                    <input [disabled]="disabled" class="form-control form-control-sm" id="Total_Transgender{{idx}}" [(ngModel)]="row.Total_Transgender" 
                            type="text" (keypress)="numberOnly($event)" [ngModelOptions]="{standalone: true}" />
                   </td>
-                  <td>
+                  <td  *ngIf="PreviewStatus!='Y'">
                     <div class="d-flex justify-content-center">
                       <button type="button" id="btnEdit_{{idx}}" class="btn btn-sm btn-primary
            " *ngIf="idx==(request.OtherMinorityDetails.length-1)"
@@ -150,6 +151,9 @@
 
                     </div>
                   </td>
+                  <td  *ngIf="PreviewStatus=='Y'">
+
+                  </td>
                 </tr>
               </tbody>
             </table>
@@ -159,7 +163,7 @@
     </div>
 
 
-    <div class="card-footer text-end">
+    <div class="card-footer text-end" *ngIf="PreviewStatus!='Y'">
       <button type="button" (click)="SaveData()" class="btn btn-success">Save Draft</button>
     </div>
   </div>

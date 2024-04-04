@@ -53,6 +53,7 @@ export class OtherMinorityDataComponent {
       this.request.SelectedCollegeEntryTypeName = this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('EntryType')?.toString());
     }
 
+
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     this.request.CollegeID = this.SelectedCollageID;
     this.request.ModifyBy = this.sSOLoginDataModel.UserID;
