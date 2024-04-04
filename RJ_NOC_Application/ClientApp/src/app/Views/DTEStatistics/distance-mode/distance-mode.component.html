@@ -131,6 +131,7 @@
                            type="text" [ngModelOptions]="{standalone: true}" />
                   </td>
 
+
                   <td *ngIf="request.SelectedCollegeEntryTypeName!='University'">
                     <input [disabled]="disabled" class="form-control form-control-sm" type="text" maxlength="200"
                            id="txtStatuatoryBodyThroughWhichApproved_{{idx}}" [(ngModel)]="row.StatuatoryBodyThroughWhichApproved"
