@@ -35,5 +35,7 @@ export class RegularModeDataModel_ProgrammesDetails {
   public Type: string = "";
   public WhetherVocationalCourse: string = "";
   public YearofStart: string = "";
+  public StatuatoryBodyThroughWhichApproved: string = "";
+  public UniversityThroughWhichApproved: string = "";
   public AccreditationStatus: string = "";
 }

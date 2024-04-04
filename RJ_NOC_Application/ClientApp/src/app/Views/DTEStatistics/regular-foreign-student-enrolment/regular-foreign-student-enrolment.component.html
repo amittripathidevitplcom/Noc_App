@@ -21,12 +21,31 @@
                  type="text" (keypress)="numberOnly($event)" [ngModelOptions]="{standalone: true}" />
 
         </div>
-        <div class="col-lg-6 col-md-6 col-12 mb-3">
+        <div class="col-lg-6 col-md-6 col-12 mb-3" *ngIf="request.SelectedCollegeEntryTypeName=='University'">
           <label class="form-label">Approved Intake Capacity of International Students</label>
           <input [disabled]="disabled" class="form-control form-control-sm" id="txtApprovedIntakeCapacityOfInternationalStudents"
                  [(ngModel)]="request.ApprovedIntakeCapacityOfInternationalStudents" maxlength="6"
                  type="text" (keypress)="numberOnly($event)" [ngModelOptions]="{standalone: true}" />
         </div>
+
+        <div class="col-lg-6 col-md-6 col-12 mb-3" *ngIf="request.SelectedCollegeEntryTypeName=='College'">
+          <label class="form-label">Also include Temporary/Contractual/Visiting Teacher data</label>
+          <input [disabled]="disabled" class="form-control form-control-sm" id="txtAlsoIncludeTemporaryContractualVisitingTeacherData"
+                 [(ngModel)]="request.AlsoIncludeTemporaryContractualVisitingTeacherData" maxlength="6"
+                 type="text" (keypress)="numberOnly($event)" [ngModelOptions]="{standalone: true}" />
+        </div>
+
+        <div class="col-lg-6 col-md-6 col-12 mb-3" *ngIf="request.SelectedCollegeEntryTypeName=='College'">
+          <label class="form-label">Foreign Regular Student Enrollement Through Programmes offered by institution</label>
+          <input [disabled]="disabled" class="form-control form-control-sm" id="txtForeignRegularStudentEnrollementThroughProgrammesOfferedByInstitution"
+                 [(ngModel)]="request.ForeignRegularStudentEnrollementThroughProgrammesOfferedByInstitution" maxlength="6"
+                 type="text" (keypress)="numberOnly($event)" [ngModelOptions]="{standalone: true}" />
+        </div>
+
+
+
+
+
       </div>
       <div class="row">
         <div class="col-md-12">
