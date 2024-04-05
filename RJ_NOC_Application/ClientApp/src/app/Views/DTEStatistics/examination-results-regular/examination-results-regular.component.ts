@@ -161,7 +161,7 @@ export class ExaminationResultsRegularComponent implements OnInit {
           return;
         }
       }
-      if (this.request.SelectedCollegeEntryTypeName == 'University' || this.request.SelectedCollegeEntryTypeName == 'Polytechnic') {
+      if (this.request.SelectedCollegeEntryTypeName == 'University' || this.request.SelectedCollegeEntryTypeName == 'Polytechnic' || this.request.SelectedCollegeEntryTypeName == 'Standalone') {
         if (this.request.ProgrammesDetails[i].LevelID == 0) {
           this.toastr.error('Level field is required.!');
           const ddlLevel_ = document.getElementById('ddlLevel_' + i.toString());
