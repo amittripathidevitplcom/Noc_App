@@ -309,7 +309,8 @@ export class OtherMinorityDataComponent {
         OBC_Transgender: 0,
         Total_Male: 0,
         Total_Female: 0,
-        Total_Transgender:0,
+        Total_Transgender: 0,
+        Type: ""
 
       });
 

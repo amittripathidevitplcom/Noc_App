@@ -266,6 +266,7 @@ export class DistanceOtherMinorityBreakupComponent {
         Total_Transgender: 0,
         LevelID: 0,
         LevelName: '',
+        Type:''
       });
 
     }

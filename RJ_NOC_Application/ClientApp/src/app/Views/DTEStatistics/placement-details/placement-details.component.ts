@@ -271,6 +271,7 @@ export class PlacementDetailsComponent implements OnInit {
         NoOfStudentsSelectedForHigherStudies_Female: 0,
         NoOfStudentsSelectedForHigherStudies_Total: 0,
         MedianAnnualSalaryforPlacedStudents: 0,
+        SelfEmployed:''
       });
 
     }

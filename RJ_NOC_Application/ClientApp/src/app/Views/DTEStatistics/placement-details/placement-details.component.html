@@ -25,8 +25,9 @@
 
                   <th class="text-center">No. Of Students <br />Selected For Higher <br />Studies (Male)</th>
                   <th class="text-center">No. Of Students <br />Selected For Higher <br />Studies (Female)</th>
-                  <th class="text-center" *ngIf="request.SelectedCollegeEntryTypeName=='University' || request.SelectedCollegeEntryTypeName=='Polytechnic' ">Total No. Of Students <br />Selected For Higher <br />Studies</th>
+                  <th class="text-center" *ngIf="request.SelectedCollegeEntryTypeName=='University' || request.SelectedCollegeEntryTypeName=='Polytechnic' || request.SelectedCollegeEntryTypeName=='Standalone' ">Total No. Of Students <br />Selected For Higher <br />Studies</th>
                   <th class="text-center">Median Annual Salary <br />for placed students</th>
+                  <th class="text-center" *ngIf="request.SelectedCollegeEntryTypeName=='Polytechnic' || request.SelectedCollegeEntryTypeName=='Standalone'">Selt Employed</th>
 
                   <th width="100px" class="text-center" *ngIf="PreviewStatus!='Y' &&  request.SelectedCollegeEntryTypeName=='University' || request.SelectedCollegeEntryTypeName=='Polytechnic'">Action</th>
                   <th width="100px" class="text-center" *ngIf="PreviewStatus=='Y'"></th>
@@ -38,15 +39,15 @@
                   <td *ngIf="request.SelectedCollegeEntryTypeName=='University'  || request.SelectedCollegeEntryTypeName=='Polytechnic'">{{idx+1}}</td>
                   <td>
                     <input [disabled]="disabled" class="form-control form-control-sm" id="NoOfStudentsPlaced_Male{{idx}}"
-                           [(ngModel)]="row.NoOfStudentsPlaced_Male"  maxlength="6" (change)="NoOfStudentsPlaced_Male_OnChange(row,idx)"
+                           [(ngModel)]="row.NoOfStudentsPlaced_Male" maxlength="6" (change)="NoOfStudentsPlaced_Male_OnChange(row,idx)"
                            type="text" (keypress)="numberOnly($event)" [ngModelOptions]="{standalone: true}" />
                   </td>
                   <td>
-                    <input [disabled]="disabled" class="form-control form-control-sm" id="NoOfStudentsPlaced_Female{{idx}}" [(ngModel)]="row.NoOfStudentsPlaced_Female"  maxlength="6" (change)="NoOfStudentsPlaced_Female_OnChange(row,idx)"
+                    <input [disabled]="disabled" class="form-control form-control-sm" id="NoOfStudentsPlaced_Female{{idx}}" [(ngModel)]="row.NoOfStudentsPlaced_Female" maxlength="6" (change)="NoOfStudentsPlaced_Female_OnChange(row,idx)"
                            type="text" (keypress)="numberOnly($event)" [ngModelOptions]="{standalone: true}" />
                   </td>
                   <td *ngIf="request.SelectedCollegeEntryTypeName=='University'  || request.SelectedCollegeEntryTypeName=='Polytechnic' || request.SelectedCollegeEntryTypeName=='Standalone'">
-                    <input [disabled]="disabled" class="form-control form-control-sm" id="NoOfStudentsPlaced_Total{{idx}}" [(ngModel)]="row.NoOfStudentsPlaced_Total"  maxlength="6" disabled
+                    <input [disabled]="disabled" class="form-control form-control-sm" id="NoOfStudentsPlaced_Total{{idx}}" [(ngModel)]="row.NoOfStudentsPlaced_Total" maxlength="6" disabled
                            type="text" (keypress)="numberOnly($event)" [ngModelOptions]="{standalone: true}" />
                   </td>
                   <td>
@@ -54,12 +55,12 @@
                            (change)="NoOfStudentsSelectedForHigherStudies_Male_OnChange(row,idx)"
                            type="text" (keypress)="numberOnly($event)" [ngModelOptions]="{standalone: true}" />
                   </td>
-                  <td >
+                  <td>
                     <input [disabled]="disabled" class="form-control form-control-sm" id="NoOfStudentsSelectedForHigherStudies_Female{{idx}}" [(ngModel)]="row.NoOfStudentsSelectedForHigherStudies_Female" maxlength="6"
                            (change)="NoOfStudentsSelectedForHigherStudies_Female_OnChange(row,idx)"
                            type="text" (keypress)="numberOnly($event)" [ngModelOptions]="{standalone: true}" />
                   </td>
-                  <td *ngIf="request.SelectedCollegeEntryTypeName=='University'  || request.SelectedCollegeEntryTypeName=='Polytechnic'">
+                  <td *ngIf="request.SelectedCollegeEntryTypeName=='University'  || request.SelectedCollegeEntryTypeName=='Polytechnic' || request.SelectedCollegeEntryTypeName=='Standalone'">
                     <input [disabled]="disabled" class="form-control form-control-sm" id="NoOfStudentsSelectedForHigherStudies_Total{{idx}}" [(ngModel)]="row.NoOfStudentsSelectedForHigherStudies_Total" maxlength="6" disabled
                            type="text" (keypress)="numberOnly($event)" [ngModelOptions]="{standalone: true}" />
                   </td>
@@ -68,9 +69,15 @@
                            type="text" (keypress)="DecimalOnly($event)" [ngModelOptions]="{standalone: true}" />
                   </td>
 
+                  <td *ngIf="(request.SelectedCollegeEntryTypeName=='Polytechnic' || request.SelectedCollegeEntryTypeName=='Standalone')">
+                    <input [disabled]="disabled" class="form-control form-control-sm" id="Type{{idx}}"
+                           [(ngModel)]="row.SelfEmployed"
+                           type="text" [ngModelOptions]="{standalone: true}" />
+                  </td>
+
                   <td *ngIf="PreviewStatus!='Y'&& request.SelectedCollegeEntryTypeName=='University'  || request.SelectedCollegeEntryTypeName=='Polytechnic'">
                     <div class="d-flex justify-content-center">
-                      <button type="button" id="btnEdit_{{idx}}" class="btn btn-sm btn-primary 
+                      <button type="button" id="btnEdit_{{idx}}" class="btn btn-sm btn-primary
                       " *ngIf="idx==(request.PlacementDetails.length-1)"
                               (click)="btnAdd_Click(row,idx)" [attr.disabled]="isDisabledGrid ? true : null" title="Add">
                         <i class="fa fa-plus"></i>
@@ -84,7 +91,6 @@
                     </div>
                   </td>
                   <td *ngIf="PreviewStatus=='Y'">
-
                   </td>
                 </tr>
               </tbody>

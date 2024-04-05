@@ -27,5 +27,6 @@ export class PlacementDetailsDataModel_PlacementDetails {
   public NoOfStudentsSelectedForHigherStudies_Female: number = 0;
   public NoOfStudentsSelectedForHigherStudies_Total: number = 0;
   public MedianAnnualSalaryforPlacedStudents: number = 0;
+  public SelfEmployed: string = "";
 }
 

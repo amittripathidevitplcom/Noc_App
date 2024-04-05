@@ -30,6 +30,7 @@
                   <th width="60px">S.No.</th>
                   <th class="text-center">Level</th>
                   <th class="text-center">Discipline</th>
+                  <th class="text-center" *ngIf="(request.SelectedCollegeEntryTypeName=='Polytechnic' || request.SelectedCollegeEntryTypeName=='Standalone')">Type</th>
                   <th class="text-center">Year</th>
                   <th class="text-center">Male</th>
                   <th class="text-center">Female</th>
@@ -70,6 +71,17 @@
                            [(ngModel)]="row.Discipline"
                            type="text" [ngModelOptions]="{standalone: true}" />
                   </td>
+
+
+
+
+                  <td *ngIf="(request.SelectedCollegeEntryTypeName=='Polytechnic' || request.SelectedCollegeEntryTypeName=='Standalone')">
+                    <input [disabled]="disabled" class="form-control form-control-sm" id="Type{{idx}}"
+                           [(ngModel)]="row.Type"
+                           type="text" [ngModelOptions]="{standalone: true}" />
+                  </td>
+
+
                   <td>
                     <input [disabled]="disabled" class="form-control form-control-sm" id="Year{{idx}}" [(ngModel)]="row.Year"
                            type="text" (keypress)="numberOnly($event)" [ngModelOptions]="{standalone: true}" />

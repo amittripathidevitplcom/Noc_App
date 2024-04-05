@@ -33,5 +33,6 @@ export class OtherMinorityDataModel_OtherMinorityDetails {
   public Total_Male: number = 0;
   public Total_Female: number = 0;
   public Total_Transgender: number = 0;
+  public Type: string = "";
 }
 
