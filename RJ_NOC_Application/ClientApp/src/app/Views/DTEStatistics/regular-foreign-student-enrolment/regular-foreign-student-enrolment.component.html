@@ -21,7 +21,7 @@
                  type="text" (keypress)="numberOnly($event)" [ngModelOptions]="{standalone: true}" />
 
         </div>
-        <div class="col-lg-6 col-md-6 col-12 mb-3" *ngIf="request.SelectedCollegeEntryTypeName=='University'">
+        <div class="col-lg-6 col-md-6 col-12 mb-3" *ngIf="request.SelectedCollegeEntryTypeName=='University' || request.SelectedCollegeEntryTypeName=='Polytechnic' ||request.SelectedCollegeEntryTypeName=='Standalone'">
           <label class="form-label">Approved Intake Capacity of International Students</label>
           <input [disabled]="disabled" class="form-control form-control-sm" id="txtApprovedIntakeCapacityOfInternationalStudents"
                  [(ngModel)]="request.ApprovedIntakeCapacityOfInternationalStudents" maxlength="6"
@@ -35,7 +35,7 @@
                  type="text" (keypress)="numberOnly($event)" [ngModelOptions]="{standalone: true}" />
         </div>
 
-        <div class="col-lg-6 col-md-6 col-12 mb-3" *ngIf="request.SelectedCollegeEntryTypeName=='College'">
+        <div class="col-lg-6 col-md-6 col-12 mb-3" *ngIf="request.SelectedCollegeEntryTypeName=='College' || request.SelectedCollegeEntryTypeName=='Polytechnic' ||request.SelectedCollegeEntryTypeName=='Standalone'">
           <label class="form-label">Foreign Regular Student Enrollement Through Programmes offered by institution</label>
           <input [disabled]="disabled" class="form-control form-control-sm" id="txtForeignRegularStudentEnrollementThroughProgrammesOfferedByInstitution"
                  [(ngModel)]="request.ForeignRegularStudentEnrollementThroughProgrammesOfferedByInstitution" maxlength="6"
@@ -57,15 +57,18 @@
                   <th class="text-center">Country</th>
                   <th class="text-center" *ngIf="request.SelectedCollegeEntryTypeName=='University'">Faculty/School</th>
                   <th class="text-center" *ngIf="request.SelectedCollegeEntryTypeName=='University'">Department/Centre</th>
-                  <th class="text-center" *ngIf="request.SelectedCollegeEntryTypeName=='College'">Department</th>
+                  <th class="text-center" *ngIf="request.SelectedCollegeEntryTypeName=='College' || request.SelectedCollegeEntryTypeName=='Polytechnic' || request.SelectedCollegeEntryTypeName=='Standalone'">Department</th>
                   <th class="text-center">Discipline</th>
+                  <th class="text-center" *ngIf="request.SelectedCollegeEntryTypeName=='Standalone' || request.SelectedCollegeEntryTypeName=='Polytechnic' || request.SelectedCollegeEntryTypeName=='College'">Level</th>
+                  <th class="text-center" *ngIf="request.SelectedCollegeEntryTypeName=='Standalone' || request.SelectedCollegeEntryTypeName=='Polytechnic' || request.SelectedCollegeEntryTypeName=='College'">Programme</th>
+                  <th class="text-center">Broad Discipline Group</th>
+                  <th class="text-center">Broad Discipline Group Category</th>
                   <th class="text-center">Method of Admission</th>
                   <th class="text-center">No. of Students Enrolled (Total)</th>
                   <th class="text-center">No. of Students Enrolled (Girls)</th>
                   <th class="text-center">No. of Students Staying in Institutions Hostel</th>
-                  <th class="text-center">Broad Discipline Group</th>
-                  <th class="text-center">Broad Discipline Group Category</th>
-                  <th class="text-center">Method of Admission</th>
+
+                  <!--<th class="text-center">Method of Admission</th>-->
                   <th width="100px" class="text-center" *ngIf="PreviewStatus!='Y'">Action</th>
                   <th width="100px" class="text-center" *ngIf="PreviewStatus=='Y'"></th>
                 </tr>
@@ -81,8 +84,8 @@
                     <input [disabled]="disabled" class="form-control form-control-sm width200px" id="txtFaculty_School{{idx}}"
                            [(ngModel)]="row.Faculty_School" maxlength="200" type="text" [ngModelOptions]="{standalone: true}" />
                   </td>
-                  <td *ngIf="request.SelectedCollegeEntryTypeName=='College'">
-                    
+                  <td *ngIf="request.SelectedCollegeEntryTypeName=='College' || request.SelectedCollegeEntryTypeName=='Polytechnic' || request.SelectedCollegeEntryTypeName=='Standalone'">
+
                     <input [disabled]="disabled" class="form-control form-control-sm width200px" id="txtDepartment_Centre{{idx}}"
                            [(ngModel)]="row.Department_Centre" maxlength="200" type="text" [ngModelOptions]="{standalone: true}" />
                   </td>
@@ -90,9 +93,36 @@
                     <input [disabled]="disabled" class="form-control form-control-sm width200px" id="txtDiscipline{{idx}}"
                            [(ngModel)]="row.Discipline" maxlength="200" type="text" [ngModelOptions]="{standalone: true}" />
                   </td>
+
+
+                  <td *ngIf="request.SelectedCollegeEntryTypeName=='Standalone' || request.SelectedCollegeEntryTypeName=='Polytechnic' || request.SelectedCollegeEntryTypeName=='College'">
+                    <select [disabled]="disabled" class="form-control form-control-sm width200px" id="ddlLevel_{{idx}}" name="ddlLevel_{{idx}}"
+                            [(ngModel)]="row.LevelID" [ngModelOptions]="{standalone: true}">
+                      <option value="0">--Select--</option>
+                      <option *ngFor="let item of levelDataList" value="{{item.ID}}">{{item.Name}}</option>
+                    </select>
+                  </td>
+
+                  <td *ngIf="request.SelectedCollegeEntryTypeName=='Standalone' || request.SelectedCollegeEntryTypeName=='Polytechnic' || request.SelectedCollegeEntryTypeName=='College'">
+                    <select [disabled]="disabled" class="form-control form-control-sm width200px" id="ddlProgramme_{{idx}}" name="ddlProgramme_{{idx}}"
+                            [(ngModel)]="row.ProgrammeID" [ngModelOptions]="{standalone: true}">
+                      <option value="0">--Select--</option>
+                      <option *ngFor="let item of programmeDataList" value="{{item.StreamMasterID}}">{{item.StreamName}}</option>
+                    </select>
+                  </td>
+
                   <td>
-                    <input [disabled]="disabled" class="form-control form-control-sm width200px" id="txtMethod_of_Admission{{idx}}"
-                           [(ngModel)]="row.Method_of_Admission" maxlength="200" type="text" [ngModelOptions]="{standalone: true}" />
+                    <input [disabled]="disabled" class="form-control form-control-sm width200px" id="txtBroad_Discipline_Group{{idx}}"
+                           [(ngModel)]="row.Broad_Discipline_Group" maxlength="200" type="text" [ngModelOptions]="{standalone: true}" />
+                  </td>
+                  <td>
+                    <input [disabled]="disabled" class="form-control form-control-sm width200px" id="txtBroad_DisciplineGroup_Category{{idx}}"
+                           [(ngModel)]="row.Broad_DisciplineGroup_Category" maxlength="200" type="text" [ngModelOptions]="{standalone: true}" />
+                  </td>
+
+                  <td>
+                        <input [disabled]="disabled" class="form-control form-control-sm width200px" id="txtMethod_of_Admission{{idx}}"
+                          [(ngModel)]="row.Method_of_Admission" maxlength="200" type="text" [ngModelOptions]="{standalone: true}" />
                   </td>
                   <td>
                     <input [disabled]="disabled" class="form-control form-control-sm width100px" id="txtNo_of_Students_Enrolled_Total{{idx}}"
@@ -109,18 +139,11 @@
                            [(ngModel)]="row.No_of_Students_Staying_in_Institutions_Hostel" maxlength="6"
                            type="number" (keypress)="numberOnly($event)" [ngModelOptions]="{standalone: true}" />
                   </td>
-                  <td>
-                    <input [disabled]="disabled" class="form-control form-control-sm width200px" id="txtBroad_Discipline_Group{{idx}}"
-                           [(ngModel)]="row.Broad_Discipline_Group" maxlength="200" type="text" [ngModelOptions]="{standalone: true}" />
-                  </td>
-                  <td>
-                    <input [disabled]="disabled" class="form-control form-control-sm width200px" id="txtBroad_DisciplineGroup_Category{{idx}}"
-                           [(ngModel)]="row.Broad_DisciplineGroup_Category" maxlength="200" type="text" [ngModelOptions]="{standalone: true}" />
-                  </td>
-                  <td>
+
+                  <!--<td>
                     <input [disabled]="disabled" class="form-control form-control-sm width200px" id="txtMethod_of_Admission2{{idx}}"
                            [(ngModel)]="row.Method_of_Admission2" maxlength="200" type="text" [ngModelOptions]="{standalone: true}" />
-                  </td>
+                  </td>-->
 
                   <td *ngIf="PreviewStatus!='Y'">
                     <div class="d-flex justify-content-center">
@@ -137,7 +160,6 @@
                     </div>
                   </td>
                   <td *ngIf="PreviewStatus=='Y'">
-
                   </td>
                 </tr>
               </tbody>

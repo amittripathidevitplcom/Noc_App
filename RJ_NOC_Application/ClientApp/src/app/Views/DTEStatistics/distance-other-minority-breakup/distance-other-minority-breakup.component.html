@@ -28,6 +28,7 @@
                 </tr>
                 <tr>
                   <th width="60px">S.No.</th>
+                  <th class="text-center">Level</th>
                   <th class="text-center">Discipline</th>
                   <th class="text-center">Year</th>
                   <th class="text-center">Male</th>
@@ -54,6 +55,16 @@
               <tbody>
                 <tr *ngFor="let row of this.request.OtherMinorityDetails ;let idx=index;">
                   <td>{{idx+1}}</td>
+
+                  <td>
+                    <select [disabled]="disabled" class="form-select form-select-sm" id="ddlLevel_{{idx}}" name="ddlLevel_{{idx}}"
+                            [(ngModel)]="row.LevelID" [ngModelOptions]="{standalone: true}">
+                      <option value="0">--Select--</option>
+                      <option *ngFor="let item of levelDataList" value="{{item.ID}}">{{item.Name}}</option>
+                    </select>
+                  </td>
+
+
                   <td>
                     <input [disabled]="disabled" class="form-control form-control-sm" id="Discipline{{idx}}"
                            [(ngModel)]="row.Discipline"
@@ -136,7 +147,7 @@
                     <input [disabled]="disabled" class="form-control form-control-sm" id="Total_Transgender{{idx}}" [(ngModel)]="row.Total_Transgender"
                            type="text" (keypress)="numberOnly($event)" [ngModelOptions]="{standalone: true}" />
                   </td>
-                  <td  *ngIf="PreviewStatus!='Y'">
+                  <td *ngIf="PreviewStatus!='Y'">
                     <div class="d-flex justify-content-center">
                       <button type="button" id="btnEdit_{{idx}}" class="btn btn-sm btn-primary
            " *ngIf="idx==(request.OtherMinorityDetails.length-1)"
@@ -151,8 +162,7 @@
 
                     </div>
                   </td>
-                  <td  *ngIf="PreviewStatus=='Y'">
-
+                  <td *ngIf="PreviewStatus=='Y'">
                   </td>
                 </tr>
               </tbody>

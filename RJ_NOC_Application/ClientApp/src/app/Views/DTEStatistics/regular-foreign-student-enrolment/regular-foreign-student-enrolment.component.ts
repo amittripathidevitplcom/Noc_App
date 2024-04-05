@@ -157,15 +157,15 @@ export class RegularForeignStudentEnrolmentComponent implements OnInit {
         if (txtCountry) txtCountry.focus();
         return;
       }
-      if (this.request.SelectedCollegeEntryTypeName == 'University') {
-        if (this.request.SelectedCollegeEntryTypeName == 'University') {
+      if (this.request.SelectedCollegeEntryTypeName == 'University' || this.request.SelectedCollegeEntryTypeName == 'Standaloane') {
+        
           if (this.request.RegularForeignStudentEnrolment[i].Faculty_School == '') {
             this.toastr.error('Faculty/School field is required.!');
             const txtFaculty_School = document.getElementById('txtFaculty_School' + i.toString());
             if (txtFaculty_School) txtFaculty_School.focus();
             return;
           }
-        }
+        
       }
       if (this.request.RegularForeignStudentEnrolment[i].No_of_Students_Enrolled_Total == null) {
         this.request.RegularForeignStudentEnrolment[i].No_of_Students_Enrolled_Total = 0;
@@ -247,7 +247,7 @@ export class RegularForeignStudentEnrolmentComponent implements OnInit {
         if (txtCountry) txtCountry.focus();
         return;
       }
-      if (this.request.SelectedCollegeEntryTypeName == 'University') {
+      if (this.request.SelectedCollegeEntryTypeName == 'University' || this.request.SelectedCollegeEntryTypeName=='Standaloane') {
         if (row.Faculty_School == '') {
           this.toastr.error('Faculty/School field is required.!');
           const txtFaculty_School = document.getElementById('txtFaculty_School' + idx.toString());
@@ -269,7 +269,11 @@ export class RegularForeignStudentEnrolmentComponent implements OnInit {
         No_of_Students_Staying_in_Institutions_Hostel: 0,
         Broad_Discipline_Group: "",
         Broad_DisciplineGroup_Category: "",
-        Method_of_Admission2: ""
+        Method_of_Admission2: "",
+         LevelID: 0,
+         LevelName: "",
+         ProgrammeID:0,
+        NameOfTheProgramme:""
       });
 
     }

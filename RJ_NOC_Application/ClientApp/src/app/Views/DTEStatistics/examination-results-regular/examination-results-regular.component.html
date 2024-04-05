@@ -23,7 +23,7 @@
               <th rowspan="3" width="60px">S.No</th>
               <th rowspan="3" class="text-center" *ngIf="request.SelectedCollegeEntryTypeName=='University'">Faculty/ School</th>
               <th rowspan="3" class="text-center" *ngIf="request.SelectedCollegeEntryTypeName=='University'">Department/Centre</th>
-              <th rowspan="3" class="text-center" *ngIf="(request.SelectedCollegeEntryTypeName=='University' || request.SelectedCollegeEntryTypeName=='Polytechnic')">Level</th>
+              <th rowspan="3" class="text-center" *ngIf="(request.SelectedCollegeEntryTypeName=='University' || request.SelectedCollegeEntryTypeName=='Polytechnic' || request.SelectedCollegeEntryTypeName=='Standalone')">Level</th>
               <th rowspan="3" class="text-center">Discipline</th>
               <th rowspan="3" class="text-center stickyleft">Category</th>
               <th colspan="18" class="text-left stickyleft300">Total Number of Students Appeard in Final Year</th>
@@ -126,7 +126,7 @@
                 <input [disabled]="disabled" class="form-control form-control-sm" id="txtDepartment_Centre_{{idx}}" type="text"
                        [(ngModel)]="row.Department_Centre" [ngModelOptions]="{standalone: true}" />
               </td>
-              <td rowspan="4" *ngIf="(request.SelectedCollegeEntryTypeName=='University' || request.SelectedCollegeEntryTypeName=='Polytechnic')">
+              <td rowspan="4" *ngIf="(request.SelectedCollegeEntryTypeName=='University' || request.SelectedCollegeEntryTypeName=='Polytechnic' || request.SelectedCollegeEntryTypeName=='Standalone')">
                 <select [disabled]="disabled" class="form-select form-select-sm" id="ddlLevel_{{idx}}" name="ddlLevel_{{idx}}"
                         [(ngModel)]="row.LevelID" [ngModelOptions]="{standalone: true}">
                   <option value="0">--Select--</option>

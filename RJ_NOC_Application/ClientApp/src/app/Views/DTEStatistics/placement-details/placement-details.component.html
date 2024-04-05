@@ -21,7 +21,7 @@
 
                   <th class="text-center">No. Of Students<br /> Placed (Male)</th>
                   <th class="text-center">No. Of Students<br /> Placed (Female)</th>
-                  <th class="text-center" *ngIf="request.SelectedCollegeEntryTypeName=='University' || request.SelectedCollegeEntryTypeName=='Polytechnic'">Total Number Of <br />Students Placed</th>
+                  <th class="text-center" *ngIf="request.SelectedCollegeEntryTypeName=='University' || request.SelectedCollegeEntryTypeName=='Polytechnic' || request.SelectedCollegeEntryTypeName=='Standalone'">Total Number Of <br />Students Placed</th>
 
                   <th class="text-center">No. Of Students <br />Selected For Higher <br />Studies (Male)</th>
                   <th class="text-center">No. Of Students <br />Selected For Higher <br />Studies (Female)</th>
@@ -45,7 +45,7 @@
                     <input [disabled]="disabled" class="form-control form-control-sm" id="NoOfStudentsPlaced_Female{{idx}}" [(ngModel)]="row.NoOfStudentsPlaced_Female"  maxlength="6" (change)="NoOfStudentsPlaced_Female_OnChange(row,idx)"
                            type="text" (keypress)="numberOnly($event)" [ngModelOptions]="{standalone: true}" />
                   </td>
-                  <td *ngIf="request.SelectedCollegeEntryTypeName=='University'  || request.SelectedCollegeEntryTypeName=='Polytechnic'">
+                  <td *ngIf="request.SelectedCollegeEntryTypeName=='University'  || request.SelectedCollegeEntryTypeName=='Polytechnic' || request.SelectedCollegeEntryTypeName=='Standalone'">
                     <input [disabled]="disabled" class="form-control form-control-sm" id="NoOfStudentsPlaced_Total{{idx}}" [(ngModel)]="row.NoOfStudentsPlaced_Total"  maxlength="6" disabled
                            type="text" (keypress)="numberOnly($event)" [ngModelOptions]="{standalone: true}" />
                   </td>

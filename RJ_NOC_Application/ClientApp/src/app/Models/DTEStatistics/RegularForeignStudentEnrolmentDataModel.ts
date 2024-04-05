@@ -34,5 +34,9 @@ export class RegularForeignStudentEnrolmentDataModel_RegularForeignStudentEnrolm
   public Broad_Discipline_Group: string = "";
   public Broad_DisciplineGroup_Category: string = "";
   public Method_of_Admission2: string = "";
+  public LevelID: number = 0;
+  public LevelName: string = "";
+  public ProgrammeID: number = 0;
+  public NameOfTheProgramme: string = "";
 }
 

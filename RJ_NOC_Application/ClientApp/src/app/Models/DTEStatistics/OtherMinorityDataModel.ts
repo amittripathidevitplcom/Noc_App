@@ -11,6 +11,8 @@ export class OtherMinorityDataModel {
 }
 
 export class OtherMinorityDataModel_OtherMinorityDetails {
+  public LevelID: number = 0;
+  public LevelName: string = "";
   public Discipline: string = "";
   public Year: number = 0;
   public General_Male: number = 0;

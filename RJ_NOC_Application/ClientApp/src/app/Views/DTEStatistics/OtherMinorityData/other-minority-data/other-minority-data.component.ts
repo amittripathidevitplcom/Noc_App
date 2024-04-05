@@ -177,6 +177,15 @@ export class OtherMinorityDataComponent {
       //    if (ddlProgramme_) ddlProgramme_.focus();
       //    return;
       //  }
+
+      //if (this.request.OtherMinorityDetails[i].LevelID == 0) {
+      //  this.toastr.error('Level field is required.!');
+      //  const ddlLevel_ = document.getElementById('ddlLevel_' + i.toString());
+      //  if (ddlLevel_) ddlLevel_.focus();
+      //  return;
+      //}
+
+      
     }
 
     this.loaderService.requestStarted();
@@ -272,12 +281,15 @@ export class OtherMinorityDataComponent {
       //  if (MedianAnnualSalaryforPlacedStudents) MedianAnnualSalaryforPlacedStudents.focus();
       //  return;
       //}
+     
 
 
     }
 
     try {
       this.request.OtherMinorityDetails.push({
+        LevelID: 0,
+        LevelName: "",
         Discipline: "",
         Year: 0,
         General_Male: 0,

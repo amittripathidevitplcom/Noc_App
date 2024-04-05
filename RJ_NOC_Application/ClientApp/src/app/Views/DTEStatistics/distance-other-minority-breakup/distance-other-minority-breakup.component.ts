@@ -264,7 +264,8 @@ export class DistanceOtherMinorityBreakupComponent {
         Total_Male: 0,
         Total_Female: 0,
         Total_Transgender: 0,
-
+        LevelID: 0,
+        LevelName: '',
       });
 
     }
