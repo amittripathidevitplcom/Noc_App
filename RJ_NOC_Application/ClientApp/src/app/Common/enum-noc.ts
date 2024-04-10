@@ -28,6 +28,7 @@ export enum EnumCheckListType_Agri {
   DSPV = "DSPV_Agri",
   PIPV = "PIPV_Agri",
 }
+
 export enum EnumCheckListType_AH {
   PVCRD = "PVCRD",
   PVPIC = "PVPIC",
