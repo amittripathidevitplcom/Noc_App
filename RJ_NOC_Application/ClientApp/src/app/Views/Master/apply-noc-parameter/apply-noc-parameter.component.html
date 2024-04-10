@@ -55,7 +55,7 @@
         <tbody *ngIf="draftApplicatoinListData !=null && draftApplicatoinListData.length>0">
 
           <tr *ngFor="let row of draftApplicatoinListData  | tableSearchFilter:searchText; let idx=index;">
-            <td style="display:flex">
+            <td>
               <button *ngIf="row.IsApplyNOCFinalSubmit==false && row.IsOpenNOCApplication==true" class="btn btn-primary" (click)="ClickApplyNOC(row.DepartmentID,row.CollegeID,row.IsApplyNOCFinalSubmit,row.PendingNOC)" type="button" id="dropdownMenuButton1"
                       style="background-color: #132649;">
                 Apply Noc
