@@ -48,6 +48,7 @@ export class WorkFlowMasterListComponent implements OnInit {
 
 
   async OpenWorkFlowMasterDetailsModel(WorkFlowMasterID: number) {
+    debugger;
     try {
       this.loaderService.requestStarted();
       await this.workFlowMasterService.GetWorkFlowMasterList(WorkFlowMasterID)

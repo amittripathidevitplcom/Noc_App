@@ -2,13 +2,13 @@
 <div class="container-fluid breadcrumbBox py-2">
   <div class="row align-items-center">
     <div class="col-md-6">
-      <h3>Work Flow Master List</h3>
+      <h3>Work Flow Format 3</h3>
     </div>
     <div class="col-md-6 d-flex justify-content-end">
       <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="#">Admin</a></li>
-          <li class="breadcrumb-item active" aria-current="page">Work Flow Master List</li>
+          <li class="breadcrumb-item active" aria-current="page">Work Flow Format 3</li>
         </ol>
       </nav>
     </div>
@@ -20,10 +20,10 @@
       <div class="clearfix"></div>
       <div class="card mb-0">
         <div class="card-header d-flex justify-content-between align-items-center">
-          <b><i class="bi bi-table"></i>&nbsp; Work Flow Master List</b>
+          <b><i class="bi bi-table"></i>&nbsp; Work Flow Format 3</b>
           <div class="d-flex align-items-center table-filter">
             <i class="fa fa-search"></i>
-            <input type="text" class="form-control" placeholder="Search Here" [(ngModel)]="searchText" />
+            <input type="text" class="form-control" placeholder="Search Here" />
           </div>
         </div>
         <div class="card-body">
@@ -33,31 +33,32 @@
                 <tr>
                   <th>Sr. No</th>
                   <th>Department Name</th>
-                  <th>Role Level Name</th>
-                  <th>Role Name</th>
                   <th>Action</th>
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let item of WorkFlowMasterList  | tableSearchFilter:searchText;let idx=index;">
+                <tr *ngFor="let item of WorkFlowFormat3Data  | tableSearchFilter:searchText;let idx=index;">
                   <td>
                     {{idx+1}}
                   </td>
                   <td>
                     {{item.DepartmentName}}
                   </td>
-                  <td>
+                  <!--<td>
                     {{item.RoleLevelName}}
                   </td>
                   <td>
                     {{item.RoleName}}
-                  </td>
-                  <td>
-                    <button type="button" title="Edit" class="btn btn-sm btn-info" routerLink="/workflowmaster/{{item.WorkFlowMasterID}}"><i class="fa fa-edit"></i></button>
-                    <button type="button" title="Edit" class="btn btn-sm btn-info" (click)="OpenWorkFlowMasterDetailsModel(item.WorkFlowMasterID)"><i class="fa fa-eye"></i></button>
-                  </td>
+                  </td>-->
+                <td>
+                  <!--<button type="button" title="Edit" class="btn btn-sm btn-info" routerLink="/workflowmaster/{{item.WorkFlowMasterID}}"><i class="fa fa-edit"></i></button>-->
+                  <button type="button" title="Edit" class="btn btn-sm btn-info" (click)="OpenWorkFlowMasterDetailsModel(item.DepartmentID, 'Details')"><i class="fa fa-eye"></i></button>
+
+               
+                  
+                </td>
                 </tr>
-                <tr *ngIf="WorkFlowMasterList.length==0">
+                <tr *ngIf="WorkFlowFormat3Data.length==0">
                   <td colspan="8" style="text-align:center;color:red">
                     No Data Found!!!
                   </td>
@@ -76,18 +77,18 @@
               </div>
               <div class="modal-body">
                 <div class="row">
-                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                  <!--<div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                     <label>Department : </label>
                     {{request.DepartmentName}}
-                  </div>
-                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                  </div>-->
+                  <!--<div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                     <label>Role Level : </label>
                     {{request.RoleLevelName}}
-                  </div>
-                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                  </div>-->
+                  <!--<div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                     <label>Role : </label>
                     {{request.RoleName}}
-                  </div>
+                  </div>-->
                 </div>
                 <div class="row">
                   <div class="card mb-0">
@@ -101,29 +102,24 @@
                             <tr>
                               <th>Sr. No</th>
                               <th>Action Head</th>
+                              <th>Role</th>
                               <th>Action</th>
-                              <th>List Code</th>
-                              <th>Role Level</th>
-                              <th>Next User Group</th>
+                              <th>NextRoleName</th>
                               <th>Priority</th>
-                              <th>Completion Days</th>
-                              <th>Office Group</th>
+                             
                             </tr>
                           </thead>
                           <tbody>
-                            <tr *ngFor="let item of request.WorkFlowMasterDetailList let idx =index">
+                            <tr *ngFor="let item of WorkFlowFormat3Data_Details let idx =index">
                               <td>{{idx+1}}</td>
                               <td>
-                                {{item.ActionHeadName}}
+                                {{item.ActionHead}}
+                              </td>
+                              <td>
+                                {{item.Role}}
                               </td>
                               <td>
                                 {{item.ActionName}}
-                              </td>
-                              <td>
-                                {{item.ListCode}}
-                              </td>
-                              <td>
-                                {{item.RoleLevelName}}
                               </td>
                               <td>
                                 {{item.NextRoleName}}
@@ -131,12 +127,7 @@
                               <td>
                                 {{item.Priority}}
                               </td>
-                              <td>
-                                {{item.CompletionDays}}
-                              </td>
-                              <td>
-                                {{item.ActionHeadID}}
-                              </td>
+                              
                             </tr>
                           </tbody>
                         </table>

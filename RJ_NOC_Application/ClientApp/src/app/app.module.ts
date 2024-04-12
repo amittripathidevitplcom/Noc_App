@@ -397,6 +397,8 @@ import { PreviewDTEStatisticsComponent } from './Views/DTEStatistics/preview-dte
 //import { NewgrievancereportComponent } from './Views/DCE/newgrievancereport/newgrievancereport/newgrievancereport.component';
 import { DistanceOtherMinorityBreakupComponent } from './Views/DTEStatistics/distance-other-minority-breakup/distance-other-minority-breakup.component';
 import { OtherMinorityDataComponent } from './Views/DTEStatistics/OtherMinorityData/other-minority-data/other-minority-data.component';
+import { WorkFlowFormat3Component } from './Views/Admin/work-flow-master/work-flow-format3/work-flow-format3/work-flow-format3.component';
+
 
 
 
@@ -781,7 +783,9 @@ import { OtherMinorityDataComponent } from './Views/DTEStatistics/OtherMinorityD
       PreviewDTEStatisticsComponent,
     FinancialDetailsComponent,
     OtherMinorityDataComponent,
-    DistanceOtherMinorityBreakupComponent
+    DistanceOtherMinorityBreakupComponent,
+    WorkFlowFormat3Component,
+
   ],
   imports: [
     CommonModule,

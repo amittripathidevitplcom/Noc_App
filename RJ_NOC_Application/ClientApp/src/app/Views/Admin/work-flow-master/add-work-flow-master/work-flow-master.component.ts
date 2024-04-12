@@ -79,6 +79,8 @@ export class WorkFlowMasterComponent implements OnInit {
         RoleLevelName: '',
         NextRoleName: '',
         OfficeGroupName: '',
+        RoleName: '',
+        DepartmentID:0,
       });
     if (this.router.snapshot.paramMap.get('id') != null) {
       this.WorkFlowMasterID = this.router.snapshot.paramMap.get('id');
@@ -190,6 +192,8 @@ export class WorkFlowMasterComponent implements OnInit {
           RoleLevelName: '',
           NextRoleName: '',
           OfficeGroupName: '',
+          RoleName: '',
+          DepartmentID:0,
         });
       }
     }
@@ -331,6 +335,8 @@ export class WorkFlowMasterComponent implements OnInit {
       RoleLevelName: '',
       NextRoleName: '',
       OfficeGroupName: '',
+      RoleName: '',
+      DepartmentID:0,
     });
   }
   ValidateAddNewRoleMap(IsAddNew: boolean) {
