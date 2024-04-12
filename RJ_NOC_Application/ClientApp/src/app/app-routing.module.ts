@@ -223,6 +223,7 @@ import { DTECommitteApplicationListComponent } from './Views/DocumentScrutinyTab
 import { FinalCheckListDTEComponent } from './Views/DocumentScrutinyTab_DTE/final-check-list-dte/final-check-list-dte.component';
 import { RevertCheckListDTEComponent } from './Views/DocumentScrutinyTab_DTE/revert-check-list-dte/revert-check-list-dte.component';
 import { PreviewDTEStatisticsComponent } from './Views/DTEStatistics/preview-dtestatistics/preview-dtestatistics.component';
+import { WorkFlowFormat3Component } from './Views/Admin/work-flow-master/work-flow-format3/work-flow-format3/work-flow-format3.component';
 
 
 const routes: Routes = [
@@ -918,6 +919,10 @@ const routes: Routes = [
       //{
       //  path: 'newgrievancereport', component: NewgrievancereportComponent
       //},
+
+      {
+        path: 'workflowformat3', component: WorkFlowFormat3Component
+      }
 
 
     ]

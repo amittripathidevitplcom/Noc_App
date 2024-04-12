@@ -36,5 +36,13 @@ export class WorkFlowMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
+
+  public async GetWorkFlowformat3(DepartmentID: number, ReportType: string) {
+    const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
+    return await this.http.get(this.APIUrl + '/GetWorkFlowformat3/' + DepartmentID + "/" + ReportType, httpOptions)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
 }
 

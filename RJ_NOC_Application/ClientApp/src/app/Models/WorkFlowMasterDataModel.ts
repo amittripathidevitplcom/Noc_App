@@ -11,6 +11,7 @@ export class WorkFlowMasterDataModel {
   public RoleLevelName: string = '';
   public RoleName: string = '';
   public WorkFlowMasterDetailList: WorkFlowMasterDetail[] = [];
+  public ReportType: string = '';
 }
 
 export class WorkFlowMasterDetail {
@@ -33,4 +34,6 @@ export class WorkFlowMasterDetail {
   public RoleLevelName: string = '';
   public NextRoleName: string = '';
   public OfficeGroupName: string = '';
+  public RoleName: string = '';
+  public DepartmentID: number = 0;
 }
