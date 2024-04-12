@@ -28,8 +28,8 @@
             <div class="row">
               <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                 <label for="ddlDepartmentId">Department *</label>
-                <select id="ddlDepartmentId" name="ddlDepartmentId" [(ngModel)]="request.DepartmentID" class="form-control" formControlName="ddlDepartmentId">
-                  <!--(change)="GetSchemeListByDepartment(request.DepartmentID)"-->
+                <select id="ddlDepartmentId" name="ddlDepartmentId" #SelectedDepartmentId [(ngModel)]="request.DepartmentID" class="form-control" formControlName="ddlDepartmentId"
+                          (change)="GetWorkflowNOCType(SelectedDepartmentId.Value)">
                   <option value="0" disabled>--Select--</option>
                   <option *ngFor="let item of DepartmentData"
                           value="{{item.DepartmentID}}">
@@ -38,6 +38,19 @@
                 </select>
                 <div *ngIf="isSubmitted&&form.ddlDepartmentId.errors" class="text-danger">
                   <p *ngIf="!form.ddlDepartmentId.errors.DropdownValidators"><i class="fa fa-exclamation-circle" aria-hidden="true"></i> This field is required .!</p>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label for="ddlnoctype">NOC Type *</label>
+                <select id="ddlnoctype" name="ddlnoctype" [(ngModel)]="request.NOCTypeID" class="form-control" formControlName="ddlnoctype">
+                  <option value="0" disabled>--Select--</option>
+                  <option *ngFor="let item of WorkflowNOCTypelst"
+                          value="{{item.ID}}">
+                    {{item.Name}}
+                  </option>
+                </select>
+                <div *ngIf="isSubmitted&&form.ddlnoctype.errors" class="text-danger">
+                  <p *ngIf="!form.ddlnoctype.errors.DropdownValidators"><i class="fa fa-exclamation-circle" aria-hidden="true"></i> This field is required .!</p>
                 </div>
               </div>
               <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
@@ -50,7 +63,7 @@
                   </option>
                 </select>
                 <div *ngIf="isSubmitted&&form.ddlRoleLevelId.errors" class="text-danger">
-                  <p *ngIf="!form.ddlRoleLevelId.errors.DropdownValidators" ><i class="fa fa-exclamation-circle" aria-hidden="true"></i> This field is required .!</p>
+                  <p *ngIf="!form.ddlRoleLevelId.errors.DropdownValidators"><i class="fa fa-exclamation-circle" aria-hidden="true"></i> This field is required .!</p>
                 </div>
               </div>
               <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">

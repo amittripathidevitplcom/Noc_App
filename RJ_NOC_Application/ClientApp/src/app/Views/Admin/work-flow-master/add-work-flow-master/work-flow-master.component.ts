@@ -36,6 +36,7 @@ export class WorkFlowMasterComponent implements OnInit {
     this.WorkFlowMasterForm = this.formBuilder.group(
       {
         ddlDepartmentId: ['', [DropdownValidators]],
+        ddlnoctype: ['', [DropdownValidators]],
         ddlRoleLevelId: ['', [DropdownValidators]],
         ddlRoleId: ['', [DropdownValidators]]
       });
@@ -385,6 +386,28 @@ export class WorkFlowMasterComponent implements OnInit {
             this.GetRoleListByLevelID(this.request.WorkFlowMasterDetailList[i].RoleLevelID, i);
           }
           console.log(this.request);
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+
+
+  public WorkflowNOCTypelst: any = [];
+  async GetWorkflowNOCType(DepartmentID: number) {
+    try {
+      this.loaderService.requestStarted();
+      await this.commonMasterService.GetCommonMasterList_DepartmentAndTypeWise(DepartmentID, "WorkflowNOCType")
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.WorkflowNOCTypelst = data['Data'];
         }, error => console.error(error));
     }
     catch (Ex) {
