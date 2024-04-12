@@ -2,6 +2,7 @@ export class WorkFlowMasterDataModel {
   public WorkFlowMasterID: number = 0;
   public DepartmentID: number = 0;
   public NOCTypeID: number = 0;
+  public NOCTypeName: string = '';
   public RoleLevelID: number = 0;
   public RoleID: number = 0;
   public DepartmentName: string = '';

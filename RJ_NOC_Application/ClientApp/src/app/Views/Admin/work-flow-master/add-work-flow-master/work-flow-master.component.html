@@ -29,7 +29,7 @@
               <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                 <label for="ddlDepartmentId">Department *</label>
                 <select id="ddlDepartmentId" name="ddlDepartmentId" #SelectedDepartmentId [(ngModel)]="request.DepartmentID" class="form-control" formControlName="ddlDepartmentId"
-                          (change)="GetWorkflowNOCType(SelectedDepartmentId.Value)">
+                          (change)="GetWorkflowNOCType(SelectedDepartmentId.value)">
                   <option value="0" disabled>--Select--</option>
                   <option *ngFor="let item of DepartmentData"
                           value="{{item.DepartmentID}}">
