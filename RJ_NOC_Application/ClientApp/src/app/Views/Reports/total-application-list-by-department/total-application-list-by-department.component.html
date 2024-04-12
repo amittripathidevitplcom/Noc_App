@@ -96,7 +96,7 @@
                   <i class="fa fa-eye"></i>
                 </a>
                 &nbsp;<button type="button" class="btn btn-sm btn-info" title="View Application trail" (click)="GetApplicationTrail(mymodal,row.ApplicationID)"><i class="fa fa-list"></i></button>
-                <button type="button" class="btn btn-sm btn-primary mt-4" *ngIf="row.ConsolidatedReport=='' && row.DepartmentID==4 && row.IsFinalSubmit==true" title="Generate Consolidated Report" (click)="GenerateConsolidatedReport(row.CollegeID,row.DepartmentID,row.ApplicationID)"><i class="bi bi-file-pdf"></i> Generate Consolidated Report</button>
+                <button type="button" class="btn btn-sm btn-primary mt-4" *ngIf="row.ConsolidatedReport=='' && row.DepartmentID==4 && row.IsFinalSubmit==true && sSOLoginDataModel.RoleID==10" title="Generate Consolidated Report" (click)="GenerateConsolidatedReport(row.CollegeID,row.DepartmentID,row.ApplicationID)"><i class="bi bi-file-pdf"></i> Generate Consolidated Report</button>
                 <a class="btn btn-sm btn-primary bi bi-file-earmark-pdf-fill mt-4" *ngIf="row.ConsolidatedReport!='' && row.DepartmentID==4 && row.IsFinalSubmit==true" href="{{row.ConsolidatedReportPath}}" title="Consolidated Report" target="_blank">Consolidated Report </a>
 
               </td>

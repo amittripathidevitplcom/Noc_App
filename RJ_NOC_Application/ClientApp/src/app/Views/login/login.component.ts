@@ -8,7 +8,8 @@ import { LoaderService } from '../../Services/Loader/loader.service';
 import { SSOLandingDataDataModel, SSOLoginDataModel } from '../../Models/SSOLoginDataModel';
 import { SSOLoginService } from '../../Services/SSOLogin/ssologin.service';
 import { GlobalConstants } from '../../Common/GlobalConstants';
- 
+import { CookieService } from 'ngx-cookie-service';
+
 
 
 @Injectable()
@@ -45,7 +46,7 @@ export class LoginComponent implements OnInit {
 
 
   constructor(private loginService: LoginService, private toastr: ToastrService, private loaderService: LoaderService, private sSOLoginService: SSOLoginService,
-    private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private _fb: FormBuilder) {
+    private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private _fb: FormBuilder, private cookieService: CookieService) {
 
   }
   async ngOnInit() {
@@ -99,14 +100,16 @@ export class LoginComponent implements OnInit {
       this.sSOLandingDataDataModel.Username = this.UserName;
       this.sSOLandingDataDataModel.Password = this.Password;
       this.sSOLandingDataDataModel.LoginType = "0";
-      
+
       await this.sSOLoginService.GetSSOUserLogionDetails(this.sSOLandingDataDataModel)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
-          
+
+          this.cookieService.set('LoginStatus', "OK");
+
           if (this.State == 0) {
             this.sSOLoginDataModel = data['Data'];
           }
@@ -124,7 +127,7 @@ export class LoginComponent implements OnInit {
           data = JSON.parse(JSON.stringify(data));
           console.log(data);
           if (data['Data'][0]['data'].length > 0) {
-            
+
             this.sSOLoginDataModel.SSOID = data['Data'][0]['data'][0]['SSOID'];
             this.sSOLoginDataModel.RoleID = data['Data'][0]['data'][0]['RoleID'];
             this.sSOLoginDataModel.RoleName = data['Data'][0]['data'][0]['RoleName'];

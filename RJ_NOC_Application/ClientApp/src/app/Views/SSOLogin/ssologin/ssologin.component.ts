@@ -233,6 +233,7 @@ export class SSOLoginComponent implements OnInit {
       
 
       localStorage.setItem('SSOLoginUser', JSON.stringify(this.sSOLoginDataModel))
+      this.cookieService.set('LoginStatus', "OK");
       /// localStorage.setItem('SSOLoginUser', this.SSOjson)
 
       //console.log(this.SSOjson);

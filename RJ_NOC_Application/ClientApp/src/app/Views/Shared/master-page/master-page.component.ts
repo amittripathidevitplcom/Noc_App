@@ -11,6 +11,7 @@ import { CommonMasterService } from '../../../Services/CommonMaster/common-maste
 //import { Keepalive } from '@ng-idle/keepalive';
 import { Idle, DEFAULT_INTERRUPTSOURCES } from "@ng-idle/core";
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { CookieService } from 'ngx-cookie-service';
 
 
 @Component({
@@ -34,7 +35,8 @@ export class MasterPageComponent implements OnInit {
 
   @ViewChild('mymodalSessionExpired') mymodalSessionExpired: TemplateRef<any> | undefined;
 
-  constructor(private commonMasterService: CommonMasterService, private router: Router, private loaderService: LoaderService, private menuService: MenuService, private sanitizer: DomSanitizer, location: PlatformLocation, private idle: Idle, private modalService: NgbModal) {
+  constructor(private commonMasterService: CommonMasterService, private router: Router, private loaderService: LoaderService, private menuService: MenuService, private sanitizer: DomSanitizer, location: PlatformLocation, private idle: Idle, private modalService: NgbModal,
+   private cookieService: CookieService) {
     location.onPopState(() => {
       console.log('pressed back in add!!!!!');
     });
@@ -45,6 +47,10 @@ export class MasterPageComponent implements OnInit {
     this.timedOut = false;
   }
   async ngOnInit() {
+
+    if (this.cookieService.get('LoginStatus') != 'OK') {
+      await this.Logout();
+    }
 
     //Added By rishi kapoor >> Manage Session
     this.idle.setIdle(2);
