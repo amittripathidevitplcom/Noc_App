@@ -1,25 +1,20 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse, HttpHeaders, HttpResponse, HttpParams } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { HttpClient } from '@angular/common/http';
+import { throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { GlobalConstants } from '../../../Common/GlobalConstants';
-
 @Injectable({
   providedIn: 'root'
 })
 export class HospitalDetailService {
-
   readonly APIUrl = GlobalConstants.apiURL + "HospitalMaster";
   constructor(private http: HttpClient) { }
-
   extractData(res: Response) {
     return res;
   }
-
   handleErrorObservable(error: Response | any) {
     return throwError(error);
   }
-
   public async GetHospitalAreaValidation() {
     const headers = { 'content-type': 'application/json' }
     return await this.http.get(this.APIUrl + "/GetHospitalAreaValidation", { 'headers': headers })
@@ -27,7 +22,6 @@ export class HospitalDetailService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
   public async GetDataList(courseId: number) {
     const headers = { 'content-type': 'application/json' }
     return await this.http.get(this.APIUrl + "/GetDataList/" + courseId, { 'headers': headers })
@@ -35,8 +29,6 @@ export class HospitalDetailService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
-
   public async GetData(hospitalId: number) {
     const headers = { 'content-type': 'application/json' }
     return await this.http.get(this.APIUrl + "/GetData/" + hospitalId, { 'headers': headers })
@@ -44,7 +36,6 @@ export class HospitalDetailService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
   public async IsSuperSpecialtyHospital(collegeId: number) {
     const headers = { 'content-type': 'application/json' }
     return await this.http.get(this.APIUrl + "/IsSuperSpecialtyHospital/" + collegeId, { 'headers': headers })
@@ -52,7 +43,6 @@ export class HospitalDetailService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
   public async SaveData(request: any) {
     const headers = { 'content-type': 'application/json' }
     const body = JSON.stringify(request);
@@ -61,7 +51,6 @@ export class HospitalDetailService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
   public async DeleteData(hospitalId: number, modifiedBy: number) {
     const headers = { 'content-type': 'application/json' }
     return await this.http.post(this.APIUrl + "/DeleteData/" + hospitalId + "/" + modifiedBy, { 'headers': headers })

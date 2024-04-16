@@ -9,9 +9,7 @@ import { AadharServiceDataModel } from '../../Models/AadharServiceDataModel';
   providedIn: 'root'
 })
 export class AadharServiceDetails {
-
   readonly APIUrl = GlobalConstants.apiURL + "AadharService";
-
   constructor(private http: HttpClient) { }
   extractData(res: Response) {
     return res;
@@ -19,9 +17,7 @@ export class AadharServiceDetails {
   handleErrorObservable(error: Response | any) {
     return throwError(error);
   }
-
-  public async SendAadharOTP(request: AadharServiceDataModel)
-  {
+  public async SendAadharOTP(request: AadharServiceDataModel) {
     const headers = { 'content-type': 'application/json' }
     const body = JSON.stringify(request);
     return await this.http.post(this.APIUrl + "/SendAadharOTP", body, { 'headers': headers })
@@ -29,7 +25,6 @@ export class AadharServiceDetails {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
   public async SendOtpByAadharNo_Esign(request: AadharServiceDataModel) {
     const headers = { 'content-type': 'application/json' }
     const body = JSON.stringify(request);
@@ -38,7 +33,6 @@ export class AadharServiceDetails {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
   public async ValidateAadharOTP(request: AadharServiceDataModel) {
     const headers = { 'content-type': 'application/json' }
     const body = JSON.stringify(request);
@@ -56,7 +50,6 @@ export class AadharServiceDetails {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
   public async GetAadharByVID(request: AadharServiceDataModel) {
     const headers = { 'content-type': 'application/json' }
     const body = JSON.stringify(request);
@@ -65,7 +58,6 @@ export class AadharServiceDetails {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
   public async eSignPDF(PDFFileName: string, OTPTransactionID: string, DepartmentID: number, ParamID: number) {
 
     const httpOptions = {
@@ -78,6 +70,4 @@ export class AadharServiceDetails {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
-
 }

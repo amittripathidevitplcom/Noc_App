@@ -9,9 +9,7 @@ import { GlobalConstants } from '../../Common/GlobalConstants';
   providedIn: 'root'
 })
 export class AcademicInformationDetailsService {
-
   readonly APIUrl = GlobalConstants.apiURL + "AcademicInformationDetails";
-
   constructor(private http: HttpClient) { }
   extractData(res: Response) {
     return res;
@@ -20,7 +18,6 @@ export class AcademicInformationDetailsService {
     return throwError(error);
   }
   public async SaveData(request: AcademicInformationDetailsDataModel) {
-    
     const headers = { 'content-type': 'application/json' }
     const body = JSON.stringify(request);
     return await this.http.post(this.APIUrl + "/SaveData", body, { 'headers': headers })
@@ -29,7 +26,6 @@ export class AcademicInformationDetailsService {
       ).toPromise();
   }
   public async GetAcademicInformationDetailAllList(UserID: number, CollegeID: Number, ApplyNOCID: number=0) {
-    
     return await this.http.get(this.APIUrl + "/GetAcademicInformationDetailAllList/" + UserID + "/" + CollegeID + "/" + ApplyNOCID)
       .pipe(
         catchError(this.handleErrorObservable)

@@ -1,23 +1,19 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse, HttpHeaders, HttpResponse, HttpParams } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { CourseMasterDataModel, DTECourseMasterDataModel } from '../../../Models/CourseMasterDataModel';
-
 import { GlobalConstants } from '../../../Common/GlobalConstants';
 @Injectable({
   providedIn: 'root'
 })
 export class CourseMasterService {
-
   readonly APIUrl = GlobalConstants.apiURL + "CourseMaster";
   constructor(private http: HttpClient) { }
-
   extractData(res: Response) {
     return res;
   }
   handleErrorObservable(error: Response | any) {
-    // return Observable.throw(error);
     return throwError(error);
   }
   //Get 
@@ -32,8 +28,7 @@ export class CourseMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
-  public async GetListDTE(UserID: number, LoginSSOID: string, CollegeWiseCourseID: number, collegeID: number, ApplyNOCID: number=0) {
+  public async GetListDTE(UserID: number, LoginSSOID: string, CollegeWiseCourseID: number, collegeID: number, ApplyNOCID: number = 0) {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
@@ -63,7 +58,6 @@ export class CourseMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
   public async DTESaveData(request: DTECourseMasterDataModel) {
     const headers = { 'content-type': 'application/json' }
     const body = JSON.stringify(request);
@@ -79,7 +73,6 @@ export class CourseMasterService {
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();
-
   }
   public async GetProjectCandidateInfo(ProjectID: number) {
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
@@ -87,9 +80,7 @@ export class CourseMasterService {
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();
-
   }
-
   //Get 
   public async GetCoursesByCollegeID(CollegeID: number, UserID: number) {
     const httpOptions = {

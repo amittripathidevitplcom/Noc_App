@@ -9,15 +9,12 @@ import { FacultyDataModel } from '../../../Models/DTEStatistics/FacultyDataModel
   providedIn: 'root'
 })
 export class FacultyService {
-
   readonly APIUrl = GlobalConstants.apiURL + "DTEStatistics_Faculty";
   constructor(private http: HttpClient) { }
-
   extractData(res: Response) {
     return res;
   }
   handleErrorObservable(error: Response | any) {
-    // return Observable.throw(error);
     return throwError(error);
   }
   //Get 
@@ -33,7 +30,6 @@ export class FacultyService {
       ).toPromise();
   }
   public async SaveData(request: FacultyDataModel) {
-
     const headers = { 'content-type': 'application/json' }
     const body = JSON.stringify(request);
     return await this.http.post(this.APIUrl, body, { 'headers': headers })
@@ -41,5 +37,4 @@ export class FacultyService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
 }

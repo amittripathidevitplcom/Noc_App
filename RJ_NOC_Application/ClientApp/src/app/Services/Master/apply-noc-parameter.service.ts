@@ -1,28 +1,21 @@
-import { HttpClient, HttpErrorResponse, HttpHeaders, HttpResponse, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { GlobalConstants } from '../../Common/GlobalConstants';
-import { Observable, throwError } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { ApplyNocFDRDetailsDataModel, ApplyNocOfflinePaymentModal, ApplyNocParameterDataModel } from '../../Models/ApplyNocParameterDataModel';
-
 @Injectable({
   providedIn: 'root'
 })
 export class ApplyNocParameterService {
-
   readonly APIUrl = GlobalConstants.apiURL + "ApplyNocParameterMaster";
-
   constructor(private http: HttpClient) { }
-
   extractData(res: Response) {
     return res;
   }
-
   handleErrorObservable(error: Response | any) {
-    // return Observable.throw(error);
     return throwError(error);
   }
-
   public async GetApplyNocParameterMaster(CollegeID: number) {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -34,7 +27,6 @@ export class ApplyNocParameterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
   public async SaveApplyNocApplication(request: ApplyNocParameterDataModel) {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -48,7 +40,6 @@ export class ApplyNocParameterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
   public async GetApplyNocForByParameter(CollegeID: number, ApplyNocForCode: string) {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -70,7 +61,6 @@ export class ApplyNocParameterService {
     }
     return response;
   }
-
   public async GetApplyNoc_FDRMasterByCollegeID(CollegeID: number) {
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
     return await this.http.get(this.APIUrl + '/GetApplyNoc_FDRMasterByCollegeID/' + CollegeID, httpOptions)
@@ -79,7 +69,6 @@ export class ApplyNocParameterService {
       ).toPromise();
   }
   public async SaveApplyNoc_FDRMasterDetail(request: ApplyNocFDRDetailsDataModel) {
-
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
@@ -98,21 +87,18 @@ export class ApplyNocParameterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
   public async GetApplyNocApplicationList(SSOID: string) {
     return await this.http.get(this.APIUrl + "/GetApplyNocApplicationList" + "/" + SSOID)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
   public async GetApplyNocApplicationByApplicationID(ApplyNocApplicationID: number) {
     return await this.http.get(this.APIUrl + "/GetApplyNocApplicationByApplicationID/" + ApplyNocApplicationID)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
   public async DeleteApplyNocApplicationByApplicationID(ApplyNocApplicationID: number, ModifyBy: number) {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -130,8 +116,6 @@ export class ApplyNocParameterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
-
   public async FinalSubmitApplyNocApplicationByApplicationID(ApplyNocApplicationID: number, ModifyBy: number) {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -143,24 +127,18 @@ export class ApplyNocParameterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
-
   public async GetApplicationPaymentHistoryApplicationID(ApplyNocApplicationID: number) {
     return await this.http.get(this.APIUrl + "/GetApplicationPaymentHistoryApplicationID/" + ApplyNocApplicationID)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
-
-
   public async GetNocLateFees(DepartmentID: number) {
     return await this.http.get(this.APIUrl + "/GetNocLateFees/" + DepartmentID)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
   public async GetApplyNocApplicationLists(SelectedCollageID: number, SelectedDepartmentID: number) {
     return await this.http.get(this.APIUrl + "/GetApplyNocApplicationLists" + "/" + SelectedCollageID + "/" + SelectedDepartmentID)
       .pipe(
@@ -180,9 +158,7 @@ export class ApplyNocParameterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
   public async SaveOfflinePaymnetDetail(request: ApplyNocOfflinePaymentModal) {
-
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
@@ -194,7 +170,6 @@ export class ApplyNocParameterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
   public async GetOfflinePaymentDetails(ApplyNocApplicationID: number, PaymentOfflineID: number, ActionName: string) {
     return await this.http.get(this.APIUrl + "/GetOfflinePaymentDetails/" + ApplyNocApplicationID + "/" + PaymentOfflineID + "/" + ActionName)
       .pipe(
@@ -202,7 +177,6 @@ export class ApplyNocParameterService {
       ).toPromise();
   }
   public async SaveApplyNocMinisterFile(ApplyNocID: number, MinisterFile: string) {
-
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'

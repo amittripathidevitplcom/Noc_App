@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse, HttpHeaders, HttpResponse, HttpParams } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { GlobalConstants } from '../../../Common/GlobalConstants';
 import { ExaminationResultsRegularDataModel } from '../../../Models/DTEStatistics/ExaminationResultsRegularDataModel';
 
@@ -9,15 +9,12 @@ import { ExaminationResultsRegularDataModel } from '../../../Models/DTEStatistic
   providedIn: 'root'
 })
 export class ExaminationResultsRegularService {
-
   readonly APIUrl = GlobalConstants.apiURL + "DTEStatistics_ExaminationResults";
   constructor(private http: HttpClient) { }
-
   extractData(res: Response) {
     return res;
   }
   handleErrorObservable(error: Response | any) {
-    // return Observable.throw(error);
     return throwError(error);
   }
   //Get 
@@ -33,7 +30,6 @@ export class ExaminationResultsRegularService {
       ).toPromise();
   }
   public async SaveData(request: ExaminationResultsRegularDataModel) {
-
     const headers = { 'content-type': 'application/json' }
     const body = JSON.stringify(request);
     return await this.http.post(this.APIUrl, body, { 'headers': headers })
@@ -41,5 +37,4 @@ export class ExaminationResultsRegularService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
 }

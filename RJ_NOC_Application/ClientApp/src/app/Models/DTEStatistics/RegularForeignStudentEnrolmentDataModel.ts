@@ -4,24 +4,17 @@ export class RegularForeignStudentEnrolmentDataModel {
   public Department: number = 0;
   public CollegeID: number = 0;
   public SelectedCollegeEntryTypeName: string = "University";
-  public FYearID: number = 0;
-
+  public FYearID: number = 0; 
   public ForeignStudentEnrolledInTheinstitution: number = 0;
-  public ApprovedIntakeCapacityOfInternationalStudents: number = 0;
-
+  public ApprovedIntakeCapacityOfInternationalStudents: number = 0; 
   public AlsoIncludeTemporaryContractualVisitingTeacherData: number = 0;
-  public ForeignRegularStudentEnrollementThroughProgrammesOfferedByInstitution: number = 0;
-
+  public ForeignRegularStudentEnrollementThroughProgrammesOfferedByInstitution: number = 0; 
   public EntryType: string = "RegularForeignStudentEnrolment";
-  public RegularForeignStudentEnrolment: RegularForeignStudentEnrolmentDataModel_RegularForeignStudentEnrolment[] = [];
-
+  public RegularForeignStudentEnrolment: RegularForeignStudentEnrolmentDataModel_RegularForeignStudentEnrolment[] = []; 
   public ActiveStatus: boolean = true;
   public DeleteStatus: boolean = false;
-  public ModifyBy: number = 0;
-
-
-}
-
+  public ModifyBy: number = 0; 
+} 
 export class RegularForeignStudentEnrolmentDataModel_RegularForeignStudentEnrolment {
   public Country: string = "";
   public Faculty_School: string = "";

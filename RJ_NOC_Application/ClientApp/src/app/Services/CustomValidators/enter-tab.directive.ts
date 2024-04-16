@@ -1,29 +1,19 @@
 import {
   Directive,
   Renderer2,
-  ContentChildren,
-  QueryList,
-  Input,
-  HostListener,
   ElementRef,
-  ViewContainerRef,
-  HostBinding,
   ContentChild,
 } from '@angular/core';
-import { NgControl, FormControl } from '@angular/forms';
-
 @Directive({
   selector: '[enter-tab]',
 })
 export class EnterTabDirective {
   @ContentChild('nextTab') controls;//: QueryList<any>;
   nextTab;
-
   constructor(private renderer: Renderer2, private el: ElementRef) { }
 
   ngAfterViewInit(): void {
     console.log(this.controls)
-
     this.controls.changes.subscribe((controls) => {
       this.createKeydownEnter(controls);
     });

@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse, HttpHeaders, HttpResponse, HttpParams } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { SubjectMasterDataModel } from '../../../Models/SubjectMasterDataModel';
-
 import { GlobalConstants } from '../../../Common/GlobalConstants';
 @Injectable({
   providedIn: 'root'
@@ -15,7 +14,6 @@ export class SubjectMasterService {
     return res;
   }
   handleErrorObservable(error: Response | any) {
-    // return Observable.throw(error);
     return throwError(error);
   }
   //Get 
@@ -56,17 +54,5 @@ export class SubjectMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-  //public async GetDepartmentByCourse(DepartmentID: number) {    
-  //  const httpOptions = {
-  //    headers: new HttpHeaders({
-  //      'Content-Type': 'application/json'
-  //    })
-  //  };
-  //  return await this.http.get(this.APIUrl + "/GetDepartmentByCourse/" + DepartmentID)
-  //    .pipe(
-  //      catchError(this.handleErrorObservable)
-  //    ).toPromise();
-  //}
-
 }
 

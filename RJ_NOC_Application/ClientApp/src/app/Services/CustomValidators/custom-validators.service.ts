@@ -1,36 +1,4 @@
-//import { Injectable } from '@angular/core';
-//import { AbstractControl, FormGroup, ValidatorFn } from '@angular/forms';
-
-//export function DropdownValidators(control: AbstractControl): { [key: string]: boolean } | null {
-//  if (control.value !== undefined && (isNaN(control.value) || control.value < 1)) {
-//    return { 'dropdown': true };
-//  }
-//  return null;
-//}
-
-///*export default class MatchingValidation {*/
-//export function MatchingValidation(controlName: string, checkControlName: string): ValidatorFn {
-//    return (controls: AbstractControl) => {
-//      const control = controls.get(controlName);
-//      const checkControl = controls.get(checkControlName);
-
-//      if (checkControl.errors && !checkControl.errors.matching) {
-//        return null;
-//      }
-
-//      if (control.value !== checkControl.value) {
-//        controls.get(checkControlName).setErrors({ matching: true });
-//        return { matching: true };
-//      } else {
-//        return null;
-//      }
-//    };
-//  }
-///*}*/
-
-import { Injectable } from '@angular/core';
 import { AbstractControl, FormGroup, ValidatorFn } from '@angular/forms';
-
 export function DropdownValidators(control: AbstractControl): { [key: string]: boolean } | null {
   if (control.value !== undefined && (isNaN(control.value) || control.value < 1)) {
     return { 'dropdown': true };
@@ -39,21 +7,14 @@ export function DropdownValidators(control: AbstractControl): { [key: string]: b
 }
 export function createPasswordStrengthValidator(control: AbstractControl): ValidatorFn {
   return (control: AbstractControl): { [key: string]: boolean } | null => {
-
     const value = control.value;
-
     if (!value) {
       return null;
     }
-
     const hasUpperCase = /[A-Z]+/.test(value);
-
     const hasLowerCase = /[a-z]+/.test(value);
-
     const hasNumeric = /[0-9]+/.test(value);
-
     const passwordValid = hasUpperCase && hasLowerCase && hasNumeric;
-
     return !passwordValid ? { passwordStrength: true } : null;
   }
 }
@@ -61,16 +22,13 @@ export function MustMatch(controlName: string, matchingControlName: string) {
   return (group: AbstractControl): { [key: string]: boolean } | null => {
     const control = group.get(controlName);
     const matchingControl = group.get(matchingControlName);
-
     if (!control || !matchingControl) {
       return null;
     }
-
     // return if another validator has already found an error on the matchingControl
     if (matchingControl.errors && !matchingControl.errors.mustMatch) {
       return null;
     }
-
     // set error on matchingControl if validation fails
     if (control.value !== matchingControl.value) {
       matchingControl.setErrors({ mustMatch: true });

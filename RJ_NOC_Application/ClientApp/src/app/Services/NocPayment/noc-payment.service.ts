@@ -1,38 +1,29 @@
 import { Injectable } from '@angular/core';
 import { GlobalConstants } from '../../Common/GlobalConstants';
-import { HttpClient, HttpErrorResponse, HttpHeaders, HttpResponse, HttpParams } from '@angular/common/http';
-import { catchError, map, tap } from 'rxjs/operators';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs/internal/observable/throwError';
 import { EmitraRequestDetails, RequestDetails, TransactionSearchFilterModel, TransactionStatusDataModel } from '../../Models/PaymentDataModel';
-
-
 @Injectable({
   providedIn: 'root'
 })
-export class NocpaymentService
-{
+export class NocpaymentService {
   readonly APIUrl = GlobalConstants.apiURL + "Payment";
   constructor(private http: HttpClient) { }
-
   extractData(res: Response) {
     return res;
   }
-  handleErrorObservable(error: Response | any)
-  {
-    // return Observable.throw(error);
+  handleErrorObservable(error: Response | any) {
     return throwError(error);
   }
-
-  public async PaymentRequest(request: RequestDetails)
-  {
+  public async PaymentRequest(request: RequestDetails) {
     const headers = { 'content-type': 'application/json' }
     const body = JSON.stringify(request);
-    return await this.http.post(this.APIUrl +"/PaymentRequest", body, { 'headers': headers })
+    return await this.http.post(this.APIUrl + "/PaymentRequest", body, { 'headers': headers })
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
   public async GetTransactionStatus(request: TransactionStatusDataModel) {
     const headers = { 'content-type': 'application/json' }
     const body = JSON.stringify(request);
@@ -41,8 +32,6 @@ export class NocpaymentService
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
-  //refund API
   public async RPPTransactionRefund(request: TransactionStatusDataModel) {
     const headers = { 'content-type': 'application/json' }
     const body = JSON.stringify(request);
@@ -51,7 +40,6 @@ export class NocpaymentService
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
   public async RPPTransactionRefundStatus(request: TransactionStatusDataModel) {
     const headers = { 'content-type': 'application/json' }
     const body = JSON.stringify(request);
@@ -60,23 +48,18 @@ export class NocpaymentService
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
-
   public async GetPaymentListIDWise(PRnNO: string) {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     };
-    return await this.http.get(this.APIUrl +  "/GetTransactionDetails/" + PRnNO )
+    return await this.http.get(this.APIUrl + "/GetTransactionDetails/" + PRnNO)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
-
-  public async GetPreviewPaymentDetails(CollegeID: Number)
-  {
+  public async GetPreviewPaymentDetails(CollegeID: Number) {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
@@ -87,9 +70,7 @@ export class NocpaymentService
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-  
-  public async GetOfflinePaymentDetails(CollegeID: Number)
-  {
+  public async GetOfflinePaymentDetails(CollegeID: Number) {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
@@ -100,11 +81,7 @@ export class NocpaymentService
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
-
-
-  public async EmitraPayment(request: EmitraRequestDetails)
-  {
+  public async EmitraPayment(request: EmitraRequestDetails) {
     const headers = { 'content-type': 'application/json' }
     const body = JSON.stringify(request);
     return await this.http.post(this.APIUrl + "/EmitraPayment", body, { 'headers': headers })
@@ -112,8 +89,6 @@ export class NocpaymentService
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
-
   public async GetEmitraTransactionDetails(PRnNO: string) {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -125,8 +100,7 @@ export class NocpaymentService
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-  public async GetRPPTransactionList(request: TransactionSearchFilterModel)
-  {
+  public async GetRPPTransactionList(request: TransactionSearchFilterModel) {
     const headers = { 'content-type': 'application/json' }
     const body = JSON.stringify(request);
     return await this.http.post(this.APIUrl + "/GetRPPTransactionList", body, { 'headers': headers })
@@ -134,7 +108,6 @@ export class NocpaymentService
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
   public async GRAS_PaymentRequest(request: RequestDetails) {
     const headers = { 'content-type': 'application/json' }
     const body = JSON.stringify(request);
@@ -143,8 +116,4 @@ export class NocpaymentService
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
-
-
-
 }

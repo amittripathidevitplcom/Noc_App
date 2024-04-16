@@ -7,9 +7,7 @@ import moment from 'moment';
   providedIn: 'root'
 })
 export class InputValidationService {
-
   constructor(private datePipe: DatePipe,) { }
-
   keyPressNumbers(event: any) {
     var charCode = (event.which) ? event.which : event.keyCode;
     // Only Numbers 0-9
@@ -20,7 +18,6 @@ export class InputValidationService {
       return true;
     }
   }
-
   keyPressNumbersWithDecimal(event: any) {
     var charCode = (event.which) ? event.which : event.keyCode;
     if (charCode != 46 && charCode > 31
@@ -30,7 +27,6 @@ export class InputValidationService {
     }
     return true;
   }
-
   keyPressNumbersWithDecimalWithMins(event: any) {
     var charCode = (event.which) ? event.which : event.keyCode;
     if (charCode != 46 && charCode > 31
@@ -40,7 +36,6 @@ export class InputValidationService {
     }
     return true;
   }
-
   keyPressAlphanumeric(event: any) {
     var inp = String.fromCharCode(event.keyCode);
     if (/[a-zA-Z0-9]/.test(inp)) {
@@ -50,7 +45,6 @@ export class InputValidationService {
       return false;
     }
   }
-
   CoustomRountOff(Amount: string) {
     var valueInt: number = Number(Amount);
     if (Amount.includes(".")) {
@@ -64,7 +58,6 @@ export class InputValidationService {
     }
     return valueInt;
   }
-
   public ConvertDateToLocalFormat(DateValue: string) {
     console.log("Selected Date : " + DateValue);
     if (DateValue.length > 10) {
@@ -121,5 +114,4 @@ export class InputValidationService {
    // console.log("formatDate : " + myFormattedDate);
     return myFormattedDate;
   }
-
 }

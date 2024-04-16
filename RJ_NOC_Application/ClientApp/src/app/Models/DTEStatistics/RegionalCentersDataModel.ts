@@ -4,19 +4,14 @@ export class RegionalCentersDataModel {
   public Department: number = 0;
   public CollegeID: number = 0;
   public SelectedCollegeEntryTypeName: string = "University";
-  public FYearID: number = 0;
-  
+  public FYearID: number = 0; 
   public DistanceEducationMode: string = "Yes"; 
   public PrivateExternalProgramme: string = "Yes"; 
-  public RegionalCenters: string = "Yes"; 
-
-  public RegionalCentersDetails: RegionalCenters_RegionalCentersDetails[] = [];
-
+  public RegionalCenters: string = "Yes";  
+  public RegionalCentersDetails: RegionalCenters_RegionalCentersDetails[] = []; 
   public ActiveStatus: boolean = true;
   public DeleteStatus: boolean = false;
-  public ModifyBy: number = 0;
-
-
+  public ModifyBy: number = 0; 
 }
 
 export class RegionalCenters_RegionalCentersDetails {

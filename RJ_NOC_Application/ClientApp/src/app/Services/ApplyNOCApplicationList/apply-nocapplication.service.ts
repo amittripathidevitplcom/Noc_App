@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse, HttpHeaders, HttpResponse, HttpParams } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
-import { ApplyNOCApplicationDataModel, CommiteeInspection_RNCCheckList_DataModel, GenerateNOC_DataModel, NOCIssuedRequestDataModel, ParameterFeeMaster } from '../../Models/ApplyNOCApplicationDataModel';
-import { DocumentScrutinyDataModel, DocumentScrutinyList_DataModel } from '../../Models/DocumentScrutinyDataModel';
-
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { throwError } from 'rxjs';
+import { catchError, } from 'rxjs/operators';
+import { CommiteeInspection_RNCCheckList_DataModel, NOCIssuedRequestDataModel, ParameterFeeMaster } from '../../Models/ApplyNOCApplicationDataModel';
+import { DocumentScrutinyDataModel } from '../../Models/DocumentScrutinyDataModel';
 import { GlobalConstants } from '../../Common/GlobalConstants';
 @Injectable({
   providedIn: 'root'
@@ -16,7 +15,6 @@ export class ApplyNOCApplicationService {
     return res;
   }
   handleErrorObservable(error: Response | any) {
-    // return Observable.throw(error);
     return throwError(error);
   }
   //Get 
@@ -60,7 +58,6 @@ export class ApplyNOCApplicationService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
   public async GetDocumentScrutinyData_TabNameCollegeWise(TabName: string, CollegeID: number, RoleID: number) {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -72,7 +69,6 @@ export class ApplyNOCApplicationService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
   public async GetRevertApplyNOCApplicationDepartmentRoleWise(DepartmentID: number, RoleID: number) {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -84,7 +80,6 @@ export class ApplyNOCApplicationService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
   public async SaveCommiteeInspectionRNCCheckList(request: CommiteeInspection_RNCCheckList_DataModel[]) {
     const headers = { 'content-type': 'application/json' }
     const body = JSON.stringify(request);
@@ -93,7 +88,6 @@ export class ApplyNOCApplicationService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
   public async GetApplyNOCCompletedReport(UserID: number, ActionName: string, RoleID: number, DepartmentID: number) {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -116,7 +110,6 @@ export class ApplyNOCApplicationService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
   public async GeForwardCommiteeAHList(UserID: number, ActionName: string, RoleID: number, DepartmentID: number) {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -150,7 +143,6 @@ export class ApplyNOCApplicationService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
   public async GetApplyNOCApplicationType(CollegeID: number) {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -163,15 +155,6 @@ export class ApplyNOCApplicationService {
       ).toPromise();
   }
   public async GeneratePDFForJointSecretary(ApplyNOCID: number, DepartmentID: number, RoleID: number, UserID: number, NOCIssuedRemark: string) {
-    //const httpOptions = {
-    //  headers: new HttpHeaders({
-    //    'Content-Type': 'application/json'
-    //  })
-    //};
-    //return await this.http.get(this.APIUrl + "/GeneratePDFForJointSecretary/" + ApplyNOCID + "/" + DepartmentID + "/" + RoleID + "/" + UserID + "/" + NOCIssuedRemark)
-    //  .pipe(
-    //    catchError(this.handleErrorObservable)
-    //  ).toPromise();
     const headers = { 'content-type': 'application/json' }
     const body = JSON.stringify({ ApplyNOCID: ApplyNOCID, DepartmentID: DepartmentID, RoleID: RoleID, UserID: UserID, NOCIssuedRemark: NOCIssuedRemark });
     return await this.http.post(this.APIUrl + '/GeneratePDFForJointSecretary/', body, { 'headers': headers })
@@ -179,9 +162,8 @@ export class ApplyNOCApplicationService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-  public async GenerateNOCForDCE(request:NOCIssuedRequestDataModel) {
+  public async GenerateNOCForDCE(request: NOCIssuedRequestDataModel) {
     const headers = { 'content-type': 'application/json' }
-    //const body = JSON.stringify({ ApplyNOCID: ApplyNOCID, DepartmentID: DepartmentID, RoleID: RoleID, UserID: UserID, NOCIssuedRemark: NOCIssuedRemark });
     return await this.http.post(this.APIUrl + '/GenerateNOCForDCE/', request, { 'headers': headers })
       .pipe(
         catchError(this.handleErrorObservable)
@@ -210,18 +192,16 @@ export class ApplyNOCApplicationService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
   public async GetNocLateFees(DepartmentID: number) {
     return await this.http.get(this.APIUrl + "/GetNocLateFees/" + DepartmentID)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
   public async SubmitRevertApplication(ApplyNOCID: number, DepartmentID: number) {
     const headers = { 'content-type': 'application/json' }
     var request = {
-      ApplyNOCID: ApplyNOCID,DepartmentID: DepartmentID
+      ApplyNOCID: ApplyNOCID, DepartmentID: DepartmentID
     };
     const body = JSON.stringify(request);
     return await this.http.post(this.APIUrl + '/SubmitRevertApplication/', body, { 'headers': headers })
@@ -229,7 +209,6 @@ export class ApplyNOCApplicationService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
   public async GetParameterFeeMaster(request: ParameterFeeMaster) {
     const headers = { 'content-type': 'application/json' }
     const body = JSON.stringify(request);
@@ -260,7 +239,6 @@ export class ApplyNOCApplicationService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
   public async CountTotalRevertDCE(ApplyNOCID: number, RoleID: number, UserID: number) {
     const httpOptions = {
       headers: new HttpHeaders({

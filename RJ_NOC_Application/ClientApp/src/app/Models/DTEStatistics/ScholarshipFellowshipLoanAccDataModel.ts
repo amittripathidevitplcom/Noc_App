@@ -4,21 +4,15 @@ export class ScholarshipFellowshipLoanAccDataModel {
   public Department: number = 0;
   public CollegeID: number = 0;
   public SelectedCollegeEntryTypeName: string = "University";
-  public FYearID: number = 0;
-
-  public EntryType: string = "Regular Mode";
-
+  public FYearID: number = 0; 
+  public EntryType: string = "Regular Mode"; 
   public Scholarship: ScholarshipFellowshipLoanAccDataModel_Scholarship[] = [];
   public Fellowship: ScholarshipFellowshipLoanAccDataModel_Scholarship[] = [];
   public Loan: ScholarshipFellowshipLoanAccDataModel_Scholarship[] = [];
-  public ACC: ScholarshipFellowshipLoanAccDataModel_ACC[] = [];
-
-
+  public ACC: ScholarshipFellowshipLoanAccDataModel_ACC[] = []; 
   public ActiveStatus: boolean = true;
   public DeleteStatus: boolean = false;
-  public ModifyBy: number = 0;
-
-
+  public ModifyBy: number = 0; 
 }
 export class ScholarshipFellowshipLoanAccDataModel_Scholarship {
   public RowNo: number = 0;

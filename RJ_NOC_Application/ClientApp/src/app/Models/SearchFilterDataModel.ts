@@ -16,8 +16,6 @@ export class DCENOCReportSearchFilterDataModel {
   public ApplicationStatusID: number = 0
   public YearNewExistingID: number = 0
 }
-
-
 export class TotalCollegeReportSearchFilter {
   public DepartmentID: number = 0
   public UniversityID: number = 0
@@ -74,14 +72,8 @@ export class DCECollegesReportSearchFilter {
   public AISHECode: string='';
   public ApplicationId: string='';
 }
-
-
 export class GrievanceReportSearchFilter {
-
- 
   public FromDate: string = '';
   public ToDate: string = '';
   public searchText = '';
- 
- 
 }

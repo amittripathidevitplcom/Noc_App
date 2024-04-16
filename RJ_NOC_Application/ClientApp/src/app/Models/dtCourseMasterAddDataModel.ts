@@ -1,4 +1,3 @@
-
     export class dtCourseMasterAddDataModel
     {
       public CourseID: number = 0;
@@ -13,13 +12,6 @@
      
       public ActiveStatus: boolean = true;
       public DeleteStatus: boolean = false;
-
-
       public StreamID: number = 0;
       public UniversityID: number = 0;
-     
-     
-
-
     }
-

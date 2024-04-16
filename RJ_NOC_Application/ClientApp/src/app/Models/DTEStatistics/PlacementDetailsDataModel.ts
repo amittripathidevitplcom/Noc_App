@@ -1,6 +1,3 @@
-
-
-
 export class PlacementDetailsDataModel {
   public EntryID: number = 0;
   public EntryDate: string = "";
@@ -14,11 +11,8 @@ export class PlacementDetailsDataModel {
 
   public ActiveStatus: boolean = true;
   public DeleteStatus: boolean = false;
-  public ModifyBy: number = 0;
-
-
-}
-
+  public ModifyBy: number = 0; 
+} 
 export class PlacementDetailsDataModel_PlacementDetails {
   public NoOfStudentsPlaced_Male: number = 0;
   public NoOfStudentsPlaced_Female: number = 0;

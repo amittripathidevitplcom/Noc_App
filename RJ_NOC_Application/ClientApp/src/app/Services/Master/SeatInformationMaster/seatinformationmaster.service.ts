@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse, HttpHeaders, HttpResponse, HttpParams } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { SeatInformationMasterDataModel } from '../../../Models/SeatInformationMasterDataModel';
-
 import { GlobalConstants } from '../../../Common/GlobalConstants';
 @Injectable({
   providedIn: 'root'
@@ -15,12 +14,10 @@ export class SeatInformationmasterService {
     return res;
   }
   handleErrorObservable(error: Response | any) {
-    // return Observable.throw(error);
     return throwError(error);
   }
   //Get 
   public async GetSeatInformationList(UserID: number) {
-    
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
@@ -57,7 +54,6 @@ export class SeatInformationmasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
 }
 
 

@@ -1,16 +1,14 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse, HttpHeaders, HttpResponse, HttpParams } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { FarmLandDetailDataModel } from '../../Models/FarmLandDetailDataModel';
 import { GlobalConstants } from '../../Common/GlobalConstants';
-
 @Injectable({
   providedIn: 'root'
 })
 export class FarmLandDetailService {
   readonly APIUrl = GlobalConstants.apiURL + "FarmLandDetails";
-
   constructor(private http: HttpClient) { }
   extractData(res: Response) {
     return res;
@@ -18,7 +16,6 @@ export class FarmLandDetailService {
   handleErrorObservable(error: Response | any) {
     return throwError(error);
   }
-
   public async SaveData(request: FarmLandDetailDataModel) {
     debugger;
     const headers = { 'content-type': 'application/json' }
@@ -28,7 +25,7 @@ export class FarmLandDetailService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-  public async GetAllFarmLandDetalsListByCollegeID(CollegeID: number, ApplyNOCID: number=0) {
+  public async GetAllFarmLandDetalsListByCollegeID(CollegeID: number, ApplyNOCID: number = 0) {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'

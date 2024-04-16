@@ -1,48 +1,30 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse, HttpHeaders, HttpResponse, HttpParams } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
-//import { CommonMasterData_UnderAccountGroup, PrintPassbookDataModel } from 'app/Models/CommonMasterDataModel';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { GlobalConstants } from '../../Common/GlobalConstants';
-
-import * as CryptoJS from 'crypto-js';
-import internal from 'stream';
 import { CommonDataModel_TotalApplicationSearchFilter } from '../../Models/CommonMasterDataModel';
-
-
-
 @Injectable({
   providedIn: 'root'
 })
 export class CommonMasterService {
-
-
-
   readonly APIUrl_CommonMaster = GlobalConstants.apiURL + "CommonFuncation";
   readonly APIUrl_SocietyMaster = GlobalConstants.apiURL + "SocietyMaster";
   readonly APIUrl_SSOAPI = GlobalConstants.apiURL + "SSOAPI";
   readonly APIUrl = GlobalConstants.apiURL + "VeterinaryHospital";
-
   constructor(private http: HttpClient) { }
-
   extractData(res: Response) {
     return res;
   }
   handleErrorObservable(error: Response | any) {
-    // return Observable.throw(error);
     return throwError(error);
   }
-
   public Encrypt(planTest: any) {
     return planTest;
-    //return CryptoJS.AES.encrypt(planTest.trim(), "RJNoc").toString();
   }
   public Decrypt(encryptText: any) {
-    return encryptText
-    //return CryptoJS.AES.decrypt(encryptText.trim(), "RJNoc").toString(CryptoJS.enc.Utf8);
+    return encryptText;
   }
-
-
   public async AppointmentPatientDetails(AppID: number) {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -65,9 +47,6 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
-
-
   public async ProjectWise_EmployeeDocumentList(ProjectID: number, EmployeeID: number) {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -79,9 +58,6 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
-
-
   public async EmployeeProfileDetails(EmployeeID: number) {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -93,9 +69,6 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
-
-
   public async Load_StateWise_DistrictMaster(StateID: number) {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -108,7 +81,6 @@ export class CommonMasterService {
       ).toPromise();
   }
   public async GetDepartmentList() {
-
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
@@ -120,7 +92,6 @@ export class CommonMasterService {
       ).toPromise();
   }
   public async GetDepartmentList_IsOpenNOCApplication() {
-
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
@@ -132,7 +103,6 @@ export class CommonMasterService {
       ).toPromise();
   }
   public async GetSchemeListByDepartment(DepatmentID: number) {
-
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
@@ -144,7 +114,6 @@ export class CommonMasterService {
       ).toPromise();
   }
   public async GetModuleList() {
-
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
@@ -156,7 +125,6 @@ export class CommonMasterService {
       ).toPromise();
   }
   public async GetSubmoduleListByModule(ModuleID: number) {
-
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
@@ -168,7 +136,6 @@ export class CommonMasterService {
       ).toPromise();
   }
   public async GetLevelList() {
-
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
@@ -180,7 +147,6 @@ export class CommonMasterService {
       ).toPromise();
   }
   public async GetRoleListByLevel(LevelID: number) {
-
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
@@ -192,7 +158,6 @@ export class CommonMasterService {
       ).toPromise();
   }
   public async GetRoleListByLevelID(LevelID: number) {
-
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
@@ -203,10 +168,7 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
-
   public async GetActionHeadList() {
-
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
@@ -228,8 +190,6 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
-
   public async GetDepartmentMaster() {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -296,7 +256,6 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
   public async GetDistrictList() {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -308,7 +267,6 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
   public async GetCommonMasterList_DepartmentAndTypeWise(DepartmentID: number, Type: string) {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -342,7 +300,6 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
   public async GetStateList() {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -355,7 +312,6 @@ export class CommonMasterService {
       ).toPromise();
   }
   public async GetDivisionList() {
-
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
@@ -366,9 +322,7 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
   public async GetCityByDistrict(DistrictID: number) {
-
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
@@ -380,7 +334,6 @@ export class CommonMasterService {
       ).toPromise();
   }
   public async GetDistrictByDivsionId(divisionId: number) {
-
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
@@ -392,7 +345,6 @@ export class CommonMasterService {
       ).toPromise();
   }
   public async GetUniversityByDepartmentId(departmentId: number, IsLaw: number = 0) {
-
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
@@ -403,9 +355,7 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
   public async GetDistrictListByStateID(StateID: number) {
-
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
@@ -416,9 +366,6 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
-
-
   public async GetDocumentMasterList_DepartmentAndTypeWise(DepartmentID: number, Type: string) {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -430,19 +377,6 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
-
-  //public async GetLandAreaMasterList_DepartmentWise(DepartmentID: number) {
-  //  const httpOptions = {
-  //    headers: new HttpHeaders({
-  //      'Content-Type': 'application/json'
-  //    })
-  //  };
-  //  return await this.http.get(this.APIUrl_CommonMaster + "/GetLandAreaMasterList_DepartmentWise/" + DepartmentID)
-  //    .pipe(
-  //      catchError(this.handleErrorObservable)
-  //    ).toPromise();
-  //}
   public async GetLandTypeMasterList_DepartmentAndLandConvertWise(DepartmentID: number, Type: string) {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -454,7 +388,6 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
   public async GetLandDoucmentTypeMasterList_DepartmentWise(DepartmentID: number) {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -466,8 +399,6 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
-
   public async GetCourseList_CollegeWise(CollegeID: number, CourseType: string = 'All') {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -490,7 +421,6 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
   public async GetCollegeWise_SubjectList_StaffDetails(CollegeID: number, Type: string, CourseID: number = 0) {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -513,7 +443,6 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
   public async GetCourseRoomSize(CourseID: number, CollegeID: number) {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -547,7 +476,6 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
   public async GetOtherInformationSize(OtherInformationID: number) {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -559,23 +487,7 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
-  ///Deepak
-
-  //public async GetQualificationMasterList_DepartmentAndTypeWise(DepartmentID: number, Type: string) {
-  //  const httpOptions = {
-  //    headers: new HttpHeaders({
-  //      'Content-Type': 'application/json'
-  //    })
-  //  };
-  //  return await this.http.get(this.APIUrl_CommonMaster + "/GetQualificationMasterList_DepartmentAndTypeWise/" + DepartmentID + "/" + Type)
-  //    .pipe(
-  //      catchError(this.handleErrorObservable)
-  //    ).toPromise();
-  //}
-
   public async GetSuvdivisionByDistrictId(districtId: number) {
-
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
@@ -586,9 +498,7 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
   public async GetTehsilByDistrictId(districtId: number) {
-
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
@@ -599,9 +509,7 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
   public async GetPanchyatSamitiByDistrictId(districtId: number) {
-
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
@@ -612,9 +520,7 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
   public async GetParliamentAreaByDistrictId(districtId: number) {
-
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
@@ -625,10 +531,7 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
-
   public async GetAllFinancialYear() {
-
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
@@ -639,9 +542,7 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
   public async GetAllFinancialYear_AcademicInformation() {
-
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
@@ -653,7 +554,6 @@ export class CommonMasterService {
       ).toPromise();
   }
   public async GetAllFinancialYear_OldNOC(CollegeID: number) {
-
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
@@ -664,10 +564,7 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
-
   public async GetAllDesignation() {
-
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
@@ -678,9 +575,7 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
   public async GetDesignation_OfficersDetails(Type: string) {
-
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
@@ -691,8 +586,6 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
-
   public async GetBuildingTypeCheck(SelectedDepartmentID: number) {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -704,7 +597,6 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
   public async GetBuildingUploadDetails(DepartmentId: number) {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -715,10 +607,7 @@ export class CommonMasterService {
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();
-
-
   }
-
   public async SendMessage(MobileNo: string, MessageType: string) {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -729,8 +618,6 @@ export class CommonMasterService {
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();
-
-
   }
   public async GetSocietyDetailByRegistrationNo(RegistrationNo: string, districtId: number) {
     const httpOptions = {
@@ -743,8 +630,6 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
-
   public async GetLandAreaMasterList_DepartmentWise(DepartmentID: number, CollageID: number) {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -756,7 +641,6 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
   public async GetLandSqureMeterMappingDetails_DepartmentWise(DepartmentID: number, CollageID: number, LandAreaId: number) {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -768,9 +652,6 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
-
-
   public async GetTermAndConditionList_DepartmentWise(DepartmentID: number) {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -793,7 +674,6 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
   public async GetIssuedYearDetails() {
     var lstIssuedYear = [];
     lstIssuedYear.push({ yearid: 11, yearname: 'Permanently' })
@@ -802,7 +682,6 @@ export class CommonMasterService {
     }
     return lstIssuedYear;
   }
-
   public async GetAllOccupation() {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -825,7 +704,6 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
   public async GetCollegeWiseSubjectList(CollegeID: number) {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -838,7 +716,6 @@ export class CommonMasterService {
       ).toPromise();
   }
   public async GetFacilitiesMasterList_DepartmentAndTypeWise(DepartmentID: number, Type: string) {
-
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
@@ -850,7 +727,6 @@ export class CommonMasterService {
       ).toPromise();
   }
   public async GetActivityMasterList_DepartmentAndTypeWise(DepartmentID: number, Type: string) {
-
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
@@ -862,7 +738,6 @@ export class CommonMasterService {
       ).toPromise();
   }
   public async GetFacilitiesMasterList_DepartmentCollegeAndTypeWise(DepartmentID: number, CollegeID: number = 0, FacilitieID: number = 0, Type: string) {
-
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
@@ -874,9 +749,7 @@ export class CommonMasterService {
       ).toPromise();
   }
 
-
   public async GetActivityMasterList_DepartmentCollegeAndTypeWise(DepartmentID: number, CollegeID: number = 0, FacilitieID: number = 0, Type: string) {
-
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
@@ -887,10 +760,7 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
-
   public async GetFacilitesMinSize(FacilitieID: number) {
-
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
@@ -912,8 +782,6 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
-
   public async Check_SSOIDWise_LegalEntity(SSOID: string) {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -926,7 +794,6 @@ export class CommonMasterService {
       ).toPromise();
   }
   public async GetDashboardDataSSOWise(SSOID: string, DepartmentID: number, RoleID: number, UserID: number) {
-
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
@@ -938,7 +805,6 @@ export class CommonMasterService {
       ).toPromise();
   }
   public async GetCollegeBasicDetails(CollegeID: string) {
-
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
@@ -950,7 +816,6 @@ export class CommonMasterService {
       ).toPromise();
   }
   public async GetRoleList() {
-
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
@@ -962,7 +827,6 @@ export class CommonMasterService {
       ).toPromise();
   }
   public async GetRoleList_CreateUser() {
-
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
@@ -973,8 +837,6 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
-
   public async CheckTabsEntry(CollegeID: string) {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -1004,7 +866,6 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
   public async LOIFinalSubmit(CollegeID: string) {
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
     return await this.http.post(this.APIUrl_CommonMaster + '/LOIFinalSubmit/' + CollegeID, httpOptions)
@@ -1012,8 +873,6 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
-
   public async Check30Female(CollegeID: number) {
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
     return await this.http.get(this.APIUrl_SocietyMaster + '/Check30Female/' + CollegeID, httpOptions)
@@ -1021,8 +880,6 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
-
   public async GetTabFieldByTabName(TabName: string) {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -1035,7 +892,6 @@ export class CommonMasterService {
       ).toPromise();
   }
   public async GetCommitteeList() {
-
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
@@ -1046,9 +902,7 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
   public async GetRoleListForApporval(RoleID: number, DepartmentID: number) {
-
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
@@ -1059,9 +913,7 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
   public async GetUserDetailsByRoleID(RoleID: number, DepartmentID: number) {
-
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
@@ -1073,7 +925,6 @@ export class CommonMasterService {
       ).toPromise();
   }
   public async GetWorkFlowActionListByRole(RoleID: number, Type: string, DepartmentID: number) {
-
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
@@ -1085,7 +936,6 @@ export class CommonMasterService {
       ).toPromise();
   }
   public async GetRNCCheckListByTypeDepartment(Type: string, DepartmentID: number, ApplyNOCID: number, CreatedBy: number, RoleID: number) {
-
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
@@ -1096,9 +946,6 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
-
-
   public async GetStreamList_CourseIDWise(DepartmentID: number, CourseLevelID: number, CourseID: number) {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -1110,10 +957,7 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
-
   public async GetApplicationTrail_DepartmentApplicationWise(ApplicationID: number, DepartmentID: number) {
-
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
@@ -1124,9 +968,7 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
   public async GetCourseList_ByCourseLevelIDWise(CourseLevelID: number, DepartmentID: number) {
-
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
@@ -1137,7 +979,6 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
   public async GetSubjectList_StreamIDWise(StreamID: number, DepartmentID: number, CourseLevelID: number, CourseID: number) {
     const httpOptions =
     {
@@ -1150,8 +991,6 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
-
   public async GetCollegeWiseCourseList(CollegeID: any) {
     const httpOptions =
     {
@@ -1164,7 +1003,6 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
   public async GetCollegeWiseCourseIDSubjectList(CollegeID: any, CollegeWiseCourseID: any, ViewMode: string) {
     const httpOptions =
     {
@@ -1177,7 +1015,6 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
   public async GetStreamMasterList(DepartmentID: number) {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -1189,7 +1026,6 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
   public async GetMappedStreamListByID(DepartmentID: number) {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -1201,7 +1037,6 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
   public async GetMappedCourseListByID(DepartmentID: number) {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -1224,7 +1059,6 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
   public async GetDocumentScritintyTaril(ID: number, NOCApplyID: number, CollageID: number, DepartmentID: number, ActionType: string) {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -1237,7 +1071,6 @@ export class CommonMasterService {
       ).toPromise();
   }
   public async GetStaffDesignation(IsTeaching: number, DepartmentID: number) {
-
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
@@ -1259,8 +1092,6 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
-
   public async GetCollegeInspectionFee(CollegeID: number, DepartmentID: number) {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -1272,11 +1103,7 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
-
-
   public async GetUniversityDepartmentWise(DepartmentID: number) {
-
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
@@ -1298,7 +1125,6 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
   public async GetCourseLevelByCollegeIDAndDepartmentID(CollegeID: number, DepartmentID: number) {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -1321,7 +1147,6 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
   public async GetCollegeLandConversionDetail(DepartmentID: number, LandDetailsID: number, Type: string) {
 
     return await this.http.get(this.APIUrl_CommonMaster + "/GetCollegeLandConversionDetail/" + DepartmentID + "/" + LandDetailsID + "/" + Type)
@@ -1340,9 +1165,7 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
   public async GetNOCApplicationStepList(ApplyNocID: number, CurrentActionID: number, DepartmentID: number, ActionType: string) {
-
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
@@ -1354,7 +1177,6 @@ export class CommonMasterService {
       ).toPromise();
   }
   public async GetDownloadPdfDetails(DepartmentID: number, CollageID: number) {
-
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
@@ -1365,7 +1187,6 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
   public async GetOldNOCCourseList_CollegeWise(CollegeID: number) {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -1377,9 +1198,7 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
   public async GetPaymentMode() {
-
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
@@ -1452,9 +1271,7 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
   public async GetLOIApplicationTrail(ApplicationID: number, DepartmentID: number) {
-
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
@@ -1465,7 +1282,6 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
   public async GetLOIDocumentScritintyTaril(ID: number, NOCApplyID: number, CollageID: number, DepartmentID: number, ActionType: string) {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -1499,7 +1315,6 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
   public async GetProgramMaster_CollegeIDWise(CollegeID: number, GetType: string) {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -1533,5 +1348,4 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
 }

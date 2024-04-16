@@ -1,18 +1,14 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse, HttpHeaders, HttpResponse, HttpParams } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { GlobalConstants } from '../../Common/GlobalConstants';
-
-
-
 @Injectable({
   providedIn: 'root'
 })
-export class DraftApplicationListService { 
+export class DraftApplicationListService {
   readonly APIUrl_CommonMaster = GlobalConstants.apiURL + "CollegeMaster";
-
-  constructor(private http: HttpClient) { } 
+  constructor(private http: HttpClient) { }
   extractData(res: Response) {
     return res;
   }
@@ -41,8 +37,7 @@ export class DraftApplicationListService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
-  public async CollegeDetails(LoginSSOID: string,Type:string='College') {
+  public async CollegeDetails(LoginSSOID: string, Type: string = 'College') {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
@@ -53,7 +48,6 @@ export class DraftApplicationListService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
   public async ViewTotalCollegeDataByID(CollegeID: number, UserID: number) {
     return await this.http.get(this.APIUrl_CommonMaster + "/ViewTotalCollegeDataByID/" + CollegeID + "/" + UserID)
       .pipe(
@@ -71,7 +65,6 @@ export class DraftApplicationListService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
   public async LOIFinalSubmit_OTPVerification(CollegeID: number) {
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
 
@@ -79,6 +72,5 @@ export class DraftApplicationListService {
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();
-
   }
 }

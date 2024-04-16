@@ -1,6 +1,5 @@
 export class ApplyNocParameterDataModel {
-  public ApplyNocApplicationID: number = 0;
-
+  public ApplyNocApplicationID: number = 0; 
   public ApplyNocID: number = 0;
   public DepartmentID: number = 0;
   public ApplyNocFor: string = '';
@@ -12,16 +11,13 @@ export class ApplyNocParameterDataModel {
   public ApplicationTypeName: string = '';
   public TotalFeeAmount: number = 0;
   public CreatedBy: number = 0;
-  public ModifyBy: number = 0;
-
+  public ModifyBy: number = 0; 
   public SSOID: string = '';
   public TotalNocFee: number = 0;
   public LateFee: number = 0;
   public ExistingLetterofEOA: string = '';
   public ExistingLetterofEOA_Dis_FileName: string = '';
-  public ExistingLetterofEOA_Path: string = '';
-
-
+  public ExistingLetterofEOA_Path: string = ''; 
   public ApplyNocParameterMasterListDataModel: ApplyNocParameterMasterListDataModel[] = [];
 
   public ApplyNocParameterMasterList_TNOCExtension: ApplyNocParameterMaster_TNOCExtensionDataModel = null;
@@ -51,44 +47,31 @@ export class ApplyNocParameterDataModel {
   public DTE_ChangeInTheMinorityStatusoftheInstitution: string = '';
   public DTE_ChangeInTheMinorityStatusoftheInstitution_Dis_FileName: string = '';
   public DTE_ChangeInTheMinorityStatusoftheInstitution_Path: string = '';
-  public DTE_ChangeInTheMinorityStatusoftheInstitution_FeeAmount: number = 0;
-
+  public DTE_ChangeInTheMinorityStatusoftheInstitution_FeeAmount: number = 0; 
   /*Merger of Institutions under the same Trust / Society / Company*/
   public DTE_MergerofInstitutions!: ApplyNocParameterMasterList_MergerofInstitutions;
-  public DTE_MergerofInstitutions_View: boolean = false;
-
+  public DTE_MergerofInstitutions_View: boolean = false; 
   /*Change in the name of Trust/Society/Company*/
   public DTE_ChangeinNameofSociety!: ApplyNocParameterMasterList_ChangeinNameofSociety;
-  public DTE_ChangeinNameofSociety_View: boolean = false;
-
+  public DTE_ChangeinNameofSociety_View: boolean = false; 
   /*Change in the name of Trust/Society/Company*/
   public DTE_IncreaseinIntakeAdditionofCourse!: ApplyNocParameterMasterList_IncreaseinIntakeAdditionofCourse;
   public DTE_IncreaseinIntakeAdditionofCourse_List: ApplyNocParameterMasterList_IncreaseinIntakeAdditionofCourse[] = [];
-  public DTE_IncreaseinIntakeAdditionofCourse_View: boolean = false;
-
+  public DTE_IncreaseinIntakeAdditionofCourse_View: boolean = false; 
   /*To start new Programme/ Level in the existing Institutions*/
   public DTE_TostartNewProgramme!: ApplyNocParameterMasterList_TostartNewProgramme;
   public DTE_TostartNewProgramme_List: ApplyNocParameterMasterList_TostartNewProgramme[] = [];
-  public DTE_TostartNewProgramme_View: boolean = false;
-
-
+  public DTE_TostartNewProgramme_View: boolean = false; 
   /*Change in Name of Institution*/
   public DTE_ChangeInNameofInstitution!: ApplyNocParameterMasterList_ChangeInNameofInstitution;
-  public DTE_ChangeInNameofInstitution_View: boolean = false;
-
-
+  public DTE_ChangeInNameofInstitution_View: boolean = false; 
   /*Change of Site/ Location*/
   public DTE_ChangeofSite_Location!: ApplyNocParameterMasterList_ChangeofSite_Location;
-  public DTE_ChangeofSite_Location_View: boolean = false;
-
+  public DTE_ChangeofSite_Location_View: boolean = false; 
   /*Increase in Intake / Addition of Course*/
   public DTE_IncreaseInIntake_AdditionofCourse!: ApplyNocParameterMasterList_IncreaseInIntake_AdditionofCourse;
   public DTE_IncreaseInIntake_AdditionofCourse_List: ApplyNocParameterMasterList_IncreaseInIntake_AdditionofCourse[] = [];
-  public DTE_IncreaseInIntake_AdditionofCourse_View: boolean = false;
-
-
-
-
+  public DTE_IncreaseInIntake_AdditionofCourse_View: boolean = false; 
   //Amit Kumar 
   public DTE_AdditionofIntegratedDualDegreeList: ApplyNocParameterMasterList_AdditionofIntegratedDualDegree[] = [];
   public DTE_AdditionofIntegratedDualDegree: ApplyNocParameterMasterList_AdditionofIntegratedDualDegree[] = [];
@@ -107,14 +90,11 @@ export class ApplyNocParameterDataModel {
   public DTE_ClosureOfCourses_View: boolean = false;
   public DTE_MergerOfTheCourseList: ApplyNocParameterMasterList_MergerOfTheCourse[] = [];
   public DTE_MergerOfTheCourse: ApplyNocParameterMasterList_MergerOfTheCourse[] = [];
-  public DTE_MergerOfTheCourse_View: boolean = false;
-
-
+  public DTE_MergerOfTheCourse_View: boolean = false; 
   /*Introduction Off Campus*/
   public DTE_IntroductionOffCampus!: ApplyNocParameterMasterList_IntroductionOffCampus;
   public DTE_IntroductionOffCampus_List: ApplyNocParameterMasterList_IntroductionOffCampus[] = [];
-  public DTE_IntroductionOffCampus_View: boolean = false;
-
+  public DTE_IntroductionOffCampus_View: boolean = false; 
   /*Courses for Working Professionals*/
   public DTE_CoursesforWorkingProfessionals!: ApplyNocParameterMasterList_CoursesforWorkingProfessionals;
   public DTE_CoursesforWorkingProfessionals_List: ApplyNocParameterMasterList_CoursesforWorkingProfessionals[] = [];
@@ -131,10 +111,7 @@ export class ApplyNocParameterMasterListDataModel {
 }
 export class ApplyNocParameterMaster_TNOCExtensionDataModel extends ApplyNocParameterMasterListDataModel {
   public ApplyNocParameterCourseList: ApplyNocParameterCourseDataModel[] = [];
-}
-
-
-
+} 
 export class ApplyNocParameterCourseDataModel {
   public ApplyNocID: number = 0;
   public CourseID: number = 0;
@@ -153,8 +130,7 @@ export class ApplyNocParameterSubjectDataModel {
 }
 export class ApplyNocParameterMaster_AdditionOfNewSeats60DataModel extends ApplyNocParameterMasterListDataModel {
   public ApplyNocParameterCourseList: ApplyNocParameterCourseDataModel[] = [];
-}
-
+} 
 export class ApplyNocFDRDetailsDataModel {
   public ApplyNocFDRID: number = 0;
   public ApplyNocID: number = 0;
@@ -176,9 +152,7 @@ export class ApplyNocFDRDetailsDataModel {
   public FDRDocumentPath: string = '';
   public FDRDocument_Dis_FileName: string = '';
   public FDRExpriyDate: string = '';
-
-}
-
+} 
 // list details
 export class ApplyNocApplicationDataModel {
   public ApplyNocApplicationID: number = 0;
@@ -212,19 +186,15 @@ export class ApplyNocApplicationDataModel {
   public NOCFilePath: string = '';
   public ApplicationFeeAmount: number = 0;
   public ServiceId: number = 0;
-  public ApplyNocApplicationParameterList: ApplyNocApplicationParameterDataModel[] = [];
-
-  public ChangeInPlaceOfCollegeList?: ApplyNocParameterMasterList_ChangeInPlaceOfCollege[] = [];
-
+  public ApplyNocApplicationParameterList: ApplyNocApplicationParameterDataModel[] = []; 
+  public ChangeInPlaceOfCollegeList?: ApplyNocParameterMasterList_ChangeInPlaceOfCollege[] = []; 
   public ChangeInNameOfCollegeList?: ApplyNocParameterMasterList_ChangeInNameOfCollege[] = [];
   public ChangeInCoedtoGirlsList?: ApplyNocParameterMasterList_ChangeInCoedtoGirls[] = [];
   public ChangeInGirlstoCoedList?: ApplyNocParameterMasterList_ChangeInGirlstoCoed[] = [];
   public ChangeInCollegeManagementList?: ApplyNocParameterMasterList_ChangeInCollegeManagement[] = [];
-  public MergerCollegeList?: ApplyNocParameterMasterList_MergerCollege[] = [];
-
+  public MergerCollegeList?: ApplyNocParameterMasterList_MergerCollege[] = []; 
   public GenerateReceipt_DTE: string = '';
-  public GenerateReceiptPath_DTE: string = '';
-
+  public GenerateReceiptPath_DTE: string = ''; 
   public NOCPdfFileDataModel?: NOCPdfFileDataModel[] = [];
 }
 export class ApplyNocApplicationParameterDataModel {
@@ -242,13 +212,9 @@ export class ApplyNocApplicationDetailDataModel {
   public CourseID: number = 0;
   public CourseName: string = '';
   public SubjectID: string = '';
-  public SubjectName: string = '';
-
-}
-
-
-//DCE
-
+  public SubjectName: string = ''; 
+} 
+//DCE 
 export class ApplyNocParameterMasterList_ChangeInNameOfCollege {
   public ApplyNocID: number = 0;
   public FeeAmount: number = 0;
@@ -257,8 +223,7 @@ export class ApplyNocParameterMasterList_ChangeInNameOfCollege {
   public Dis_DocumentName: string = '';
   public DocumentName: string = '';
   public DocumentPath: string = '';
-}
-
+} 
 export class ApplyNocParameterMasterList_ChangeInPlaceOfCollege {
   public ApplyNocID: number = 0;
   public FeeAmount: number = 0;
@@ -269,16 +234,14 @@ export class ApplyNocParameterMasterList_ChangeInPlaceOfCollege {
   public Dis_PlaceDocumentName: string = '';
   public PlaceDocumentName: string = '';
   public PlaceDocumentPath: string = '';
-}
-
+} 
 export class ApplyNocParameterMasterList_ChangeInCoedtoGirls {
   public ApplyNocID: number = 0;
   public FeeAmount: number = 0;
   public Dis_ConsentManagementDocument: string = '';
   public ConsentManagementDocument: string = '';
   public ConsentManagementDocumentPath: string = '';
-}
-
+} 
 export class ApplyNocParameterMasterList_ChangeInGirlstoCoed {
   public ApplyNocID: number = 0;
   public FeeAmount: number = 0;
@@ -299,36 +262,28 @@ export class ApplyNocParameterMasterList_ChangeInCollegeManagement {
   public Dis_AnnexureDocument: string = '';
   public AnnexureDocument: string = '';
   public AnnexureDocumentPath: string = '';
-}
-
+} 
 export class ApplyNocParameterMasterList_MergerCollege {
   public ApplyNocID: number = 0;
   public FeeAmount: number = 0;
-
   public Dis_SocietyProposal: string = '';
   public SocietyProposal: string = '';
   public SocietyProposalPath: string = '';
-
   public Dis_AllNOC: string = '';
   public AllNOC: string = '';
   public AllNOCPath: string = '';
-
   public Dis_UniversityAffiliation: string = '';
   public UniversityAffiliation: string = '';
   public UniversityAffiliationPath: string = '';
-
   public Dis_NOCAffiliationUniversity: string = '';
   public NOCAffiliationUniversity: string = '';
   public NOCAffiliationUniversityPath: string = '';
-
   public Dis_ConsentAffidavit: string = '';
   public ConsentAffidavit: string = '';
   public ConsentAffidavitPath: string = '';
-
   public Dis_OtherAllNOC: string = '';
   public OtherAllNOC: string = '';
   public OtherAllNOCPath: string = '';
-
   public Dis_OtherUniversityAffiliation: string = '';
   public OtherUniversityAffiliation: string = '';
   public OtherUniversityAffiliationPath: string = '';
@@ -353,8 +308,6 @@ export class ApplyNocParameterMasterList_MergerCollege {
   public StaffInformation: string = '';
   public StaffInformationPath: string = '';
 }
-
-
 export class ApplyNocLateFeeDetailDataModal {
   public ID: number = 0;
   public DepartmentID: number = 0;
@@ -364,7 +317,6 @@ export class ApplyNocLateFeeDetailDataModal {
   public StartDate: string = '';
   public EndDate: string = '';
 }
-
 export class ApplyNocOfflinePaymentModal {
   public ID: number = 0;
   public DepartmentID: number = 0;
@@ -394,9 +346,7 @@ export class ApplyNocParameterMasterList_BankDetails {
   public OldAccountNumber: string = '';
   public NewAccountNumber: string = '';
   public FeeAmount: number = 0;
-
-}
-
+} 
 export class ApplyNocParameterMasterList_MergerofInstitutions {
   public DetailID: number = 0;
   public ApplyNocID: number = 0;
@@ -412,7 +362,6 @@ export class ApplyNocParameterMasterList_MergerofInstitutions {
   public NewTrustName: string = '';
   public NewInstituteName: string = '';
 }
-
 export class ApplyNocParameterMasterList_ChangeinNameofSociety {
   public DetailID: number = 0;
   public ApplyNocID: number = 0;
@@ -456,7 +405,6 @@ export class ApplyNocParameterMasterList_TostartNewProgramme {
   public Intake: number = 0;
   public FeeAmount: number = 0;
 }
-
 export class ApplyNocParameterMasterList_ChangeInNameofInstitution {
   public DetailID: number = 0;
   public ApplyNocID: number = 0;
@@ -496,7 +444,6 @@ export class ApplyNocParameterMasterList_IncreaseInIntake_AdditionofCourse {
   public UpdatedIntake: number = 0;
   public FeeAmount: number = 0;
 }
-
 
 //Amit
 export class ApplyNocParameterMasterList_AdditionofIntegratedDualDegree {
@@ -543,7 +490,6 @@ export class ApplyNocParameterMasterList_ReductionInIntake {
   public CourseLevelID: number = 0;
   public CourseLevelName: string = '';
 }
-
 export class ApplyNocParameterMasterList_ClosureOfProgram {
   public DetailID: number = 0;
   public ApplyNocID: number = 0;
@@ -555,7 +501,6 @@ export class ApplyNocParameterMasterList_ClosureOfProgram {
   public CourseLevelID: number = 0;
   public CourseLevelName: string = '';
 }
-
 export class ApplyNocParameterMasterList_ClosureOfCourses {
   public DetailID: number = 0;
   public ApplyNocID: number = 0;
@@ -571,7 +516,6 @@ export class ApplyNocParameterMasterList_ClosureOfCourses {
   public CourseLevelID: number = 0;
   public CourseLevelName: string = '';
 }
-
 export class ApplyNocParameterMasterList_MergerOfTheCourse {
   public DetailID: number = 0;
   public ApplyNocID: number = 0;
@@ -592,11 +536,7 @@ export class ApplyNocParameterMasterList_MergerOfTheCourse {
   public CourseIntake1: number = 0;
   public CourseIntake2: number = 0;
   public MergerIntake: number = 0;
-
-
 }
-
-
 export class ApplyNocParameterMasterList_IntroductionOffCampus {
   public DetailID: number = 0;
   public ApplyNocID: number = 0;
@@ -615,7 +555,6 @@ export class ApplyNocParameterMasterList_IntroductionOffCampus {
   public Dis_DocumentName: string = '';
   public DocumentPath: string = '';
 }
-
 export class ApplyNocParameterMasterList_CoursesforWorkingProfessionals {
   public DetailID: number = 0;
   public ApplyNocID: number = 0;

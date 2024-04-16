@@ -1,13 +1,10 @@
-import { Component, OnInit, Input, Injectable, ViewChild, ElementRef } from '@angular/core';
-import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators, FormArray } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 import { LoaderService } from '../../../../Services/Loader/loader.service';
-import { ActivatedRoute, Router } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
 import { SSOLoginDataModel } from '../../../../Models/SSOLoginDataModel';
 import { NOCIssuedDataModel } from '../../../../Models/ApplyNOCApplicationDataModel';
 import { CommonMasterService } from '../../../../Services/CommonMaster/common-master.service';
 import { ApplyNOCApplicationService } from '../../../../Services/ApplyNOCApplicationList/apply-nocapplication.service';
-
 @Component({
   selector: 'app-nocissued-report',
   templateUrl: './nocissued-report.component.html',
@@ -32,19 +29,14 @@ export class NOCIssuedReportComponent implements OnInit {
   isEdit: boolean = false;
   public UserID: number = 0;
   public SelectedDepartmentID: number = 0;
- 
   public MaxDate: Date = new Date();
-
-
-  constructor(private loaderService: LoaderService, private toastr: ToastrService, private applyNOCApplicationService: ApplyNOCApplicationService,
-    private router: ActivatedRoute, private routers: Router, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService) { }
-
+  constructor(private loaderService: LoaderService, private applyNOCApplicationService: ApplyNOCApplicationService,
+    private commonMasterService: CommonMasterService) { }
   async ngOnInit() {
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     await this.GetIssuedNOCReportAdmin(this.sSOLoginDataModel.UserID, this.sSOLoginDataModel.RoleID);
   }
   get form() { return this.NOCIssuedReport.controls; }
-
   async GetCollageMaster() {
     try {
       this.loaderService.requestStarted();
@@ -52,7 +44,6 @@ export class NOCIssuedReportComponent implements OnInit {
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.collegeDataList = data['Data'];
-          console.log(this.collegeDataList);
         }, error => console.error(error));
     }
     catch (Ex) {
@@ -116,7 +107,6 @@ export class NOCIssuedReportComponent implements OnInit {
         this.loaderService.requestEnded();
       }, 200);
     }
-
   }
   async ResetControl() {
     const ddlCollegeID = document.getElementById('ddlCollegeID')
@@ -127,12 +117,7 @@ export class NOCIssuedReportComponent implements OnInit {
     this.request.FromDate = '';
     this.request.ToDate = '';
   }
-
   async ClearNOCIssuedReport() {
     this.IssuedNOCReportList = [];
   }
-
 }
-
-
-

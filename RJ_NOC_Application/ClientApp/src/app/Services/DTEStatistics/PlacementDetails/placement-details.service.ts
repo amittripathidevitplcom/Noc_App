@@ -1,23 +1,19 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse, HttpHeaders, HttpResponse, HttpParams } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { GlobalConstants } from '../../../Common/GlobalConstants';
 import { PlacementDetailsDataModel } from '../../../Models/DTEStatistics/PlacementDetailsDataModel';
-
 @Injectable({
   providedIn: 'root'
 })
 export class PlacementDetailsService {
-
   readonly APIUrl = GlobalConstants.apiURL + "DTEStatistics_PlacementDetails";
   constructor(private http: HttpClient) { }
-
   extractData(res: Response) {
     return res;
   }
   handleErrorObservable(error: Response | any) {
-    // return Observable.throw(error);
     return throwError(error);
   }
   //Get 
@@ -33,7 +29,6 @@ export class PlacementDetailsService {
       ).toPromise();
   }
   public async SaveData(request: PlacementDetailsDataModel) {
-
     const headers = { 'content-type': 'application/json' }
     const body = JSON.stringify(request);
     return await this.http.post(this.APIUrl, body, { 'headers': headers })
@@ -41,5 +36,4 @@ export class PlacementDetailsService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
 }

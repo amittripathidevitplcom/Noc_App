@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse, HttpHeaders, HttpResponse, HttpParams } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { GrievanceDataModel } from '../../Models/GrievanceDataModel';
-
 import { GlobalConstants } from '../../Common/GlobalConstants';
 @Injectable({
   providedIn: 'root'
@@ -15,12 +14,10 @@ export class GrievanceService {
     return res;
   }
   handleErrorObservable(error: Response | any) {
-    // return Observable.throw(error);
     return throwError(error);
   }
   //Get 
   public async GetAllAnimalList(UserID: number) {
-
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
@@ -50,19 +47,17 @@ export class GrievanceService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
   public async GetGrievance_AddedSSOIDWise(SSOID: string) {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     };
-    return await this.http.get(this.APIUrl + "/GetGrievance_AddedSSOIDWise/" + SSOID )
+    return await this.http.get(this.APIUrl + "/GetGrievance_AddedSSOIDWise/" + SSOID)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
   public async DeleteData(GrievanceID: number, UserID: number) {
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
     return await this.http.post(this.APIUrl + '/Delete/' + GrievanceID + "/" + UserID, httpOptions)
@@ -70,7 +65,6 @@ export class GrievanceService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
 }
 
 

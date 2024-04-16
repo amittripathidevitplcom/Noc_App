@@ -5,9 +5,7 @@ export class AddressDataModel {
   public CollegeID: number = 0;
   public SelectedCollegeEntryTypeName: string = "University";
   public FYearID: number = 0;
-
- 
-  
+   
   public Country: string = "India";
   public State: string = "Rajasthan";
   public DistrictID: number = 0;

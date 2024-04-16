@@ -17,9 +17,7 @@ export class ActivityDetailsDataModel {
   public Action: string = '';
   public Remark: string = '';
   public ActivityName: string = '';
-  public Remarks: string = '';
-
-
+  public Remarks: string = ''; 
   public C_Action: string = '';
   public C_Remark: string = '';
   public S_Action: string = '';

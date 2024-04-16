@@ -1,4 +1,3 @@
-
 export class ImportExcelDataDataModel {
   public StaticsFileID: number = 0;
   public DataType: string = '';

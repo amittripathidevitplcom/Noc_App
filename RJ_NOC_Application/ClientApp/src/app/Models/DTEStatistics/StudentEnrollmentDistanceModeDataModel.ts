@@ -5,16 +5,12 @@ export class StudentEnrollmentDistanceModeDataModel {
   public CollegeID: number = 0;
   public SelectedCollegeEntryTypeName: string = "University";
   public FYearID: number = 0;
-
+   
   public EntryType: string = "Regular Mode";
-  public ProgrammesDetails: StudentEnrollmentDistanceModeDataModel_ProgrammesDetails[] = [];
- 
-
+  public ProgrammesDetails: StudentEnrollmentDistanceModeDataModel_ProgrammesDetails[] = []; 
   public ActiveStatus: boolean = true;
   public DeleteStatus: boolean = false;
-  public ModifyBy: number = 0;
-
-
+  public ModifyBy: number = 0; 
 }
 
 export class StudentEnrollmentDistanceModeDataModel_ProgrammesDetails {

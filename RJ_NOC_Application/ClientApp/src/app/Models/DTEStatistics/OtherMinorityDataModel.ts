@@ -9,7 +9,6 @@ export class OtherMinorityDataModel {
   public OtherMinorityDetails: OtherMinorityDataModel_OtherMinorityDetails[] = [];
   public ModifyBy: number = 0;
 }
-
 export class OtherMinorityDataModel_OtherMinorityDetails {
   public LevelID: number = 0;
   public LevelName: string = "";
@@ -35,4 +34,3 @@ export class OtherMinorityDataModel_OtherMinorityDetails {
   public Total_Transgender: number = 0;
   public Type: string = "";
 }
-

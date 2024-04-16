@@ -8,18 +8,14 @@ import { GlobalConstants } from '../../Common/GlobalConstants';
   providedIn: 'root'
 })
 export class AgricultureDocumentScrutinyService {
-
   readonly APIUrl = GlobalConstants.apiURL + "AgricultureDocumentScrutiny";
   constructor(private http: HttpClient) { }
-
   extractData(res: Response) {
     return res;
   }
   handleErrorObservable(error: Response | any) {
-    // return Observable.throw(error);
     return throwError(error);
   }
-
   public async DocumentScrutiny_LegalEntity(CollegeID: number, RoleID: number, ApplyNOCID: number) {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -53,7 +49,6 @@ export class AgricultureDocumentScrutinyService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
   public async DocumentScrutiny_LandDetails(CollageID: number, RoleID: number, ApplyNOCID: number) {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -65,7 +60,6 @@ export class AgricultureDocumentScrutinyService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
   public async DocumentScrutiny_FacilityDetail(CollageID: number, RoleID: number, ApplyNOCID: number) {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -110,7 +104,6 @@ export class AgricultureDocumentScrutinyService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
   public async DocumentScrutiny_StaffDetails(CollageID: number, RoleID: number, ApplyNOCID: number) {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -122,7 +115,6 @@ export class AgricultureDocumentScrutinyService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
   public async DocumentScrutiny_OldNOCDetails(CollageID: number, RoleID: number, ApplyNOCID: number) {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -168,7 +160,6 @@ export class AgricultureDocumentScrutinyService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
   public async DocumentScrutiny_FarmLandDetails(CollageID: number, RoleID: number, ApplyNOCID: number) {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -180,8 +171,6 @@ export class AgricultureDocumentScrutinyService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
-
   public async GetPhysicalVerificationAppliationList(SSOID: string, UserID: number, RoleID: number, DepartmentID: number, QueryStringStatus: string) {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -194,7 +183,6 @@ export class AgricultureDocumentScrutinyService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
   public async GetFinalVerificationAppliationList(SSOID: string, UserID: number, RoleID: number, DepartmentID: number, QueryStringStatus: string) {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -207,7 +195,6 @@ export class AgricultureDocumentScrutinyService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
   public async GetPostVerificationAppliationList(SSOID: string, UserID: number, RoleID: number, DepartmentID: number, QueryStringStatus: string) {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -220,7 +207,6 @@ export class AgricultureDocumentScrutinyService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
   public async GetPreVerificationDoneList(SSOID: string, UserID: number, RoleID: number, DepartmentID: number, QueryStringStatus: string) {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -233,7 +219,6 @@ export class AgricultureDocumentScrutinyService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
   public async GetPostVerificationDoneList(SSOID: string, UserID: number, RoleID: number, DepartmentID: number, QueryStringStatus: string) {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -246,7 +231,6 @@ export class AgricultureDocumentScrutinyService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
   public async GetFinalVerificationDoneList(SSOID: string, UserID: number, RoleID: number, DepartmentID: number, QueryStringStatus: string) {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -259,7 +243,6 @@ export class AgricultureDocumentScrutinyService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
   public async FinalSubmitInspectionCommittee(ApplyNOCID: number, DepartmentID: number, UserID: Number, ActionName: string) {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -271,7 +254,6 @@ export class AgricultureDocumentScrutinyService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
   public async GetPreVerificationchecklistDetails(Type: string, DepartmentID: number, ApplyNOCID: number, CreatedBy: number, RoleID: number) {
 
     const httpOptions = {
@@ -284,7 +266,6 @@ export class AgricultureDocumentScrutinyService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
   public async FinalSubmitPreVerification(ApplyNOCID: number, DepartmentID: number, UserID: Number, ActionName: string) {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -296,9 +277,7 @@ export class AgricultureDocumentScrutinyService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
   public async GetNOCApplicationList(Action: string, DepartmentID: number, UserID: number, RoleID: number) {
-
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
@@ -309,7 +288,6 @@ export class AgricultureDocumentScrutinyService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
   public async GetFinalNOCApplicationList(SSOID: string, UserID: number, RoleID: number, DepartmentID: number, QueryStringStatus: string) {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -322,9 +300,7 @@ export class AgricultureDocumentScrutinyService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
   public async GetNOCCourse(ActionType: string, DepartmentID: number, ApplyNocID: number, CollegeID: number) {
-
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
@@ -335,9 +311,7 @@ export class AgricultureDocumentScrutinyService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
   public async UpdateNOCPDFData(ActionType: string, DepartmentID: number, ApplyNocID: number, CollegeID: number, UserID: number, RoleID: number) {
-
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
@@ -348,7 +322,6 @@ export class AgricultureDocumentScrutinyService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
   public async FinalNOCRejectRelese(ApplyNOCID: number, DepartmentID: number, RoleID: number, UserID: number, NOCIssuedRemark: string, Status: string) {
 
     const headers = { 'content-type': 'application/json' }

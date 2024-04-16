@@ -4,16 +4,12 @@ export class RegularModeDataModel {
   public Department: number = 0;
   public CollegeID: number = 0;
   public SelectedCollegeEntryTypeName: string = "University";
-  public FYearID: number = 0;
-
+  public FYearID: number = 0; 
   public EntryType: string = "Regular Mode";
-  public ProgrammesDetails: RegularModeDataModel_ProgrammesDetails[] = [];
-
+  public ProgrammesDetails: RegularModeDataModel_ProgrammesDetails[] = []; 
   public ActiveStatus: boolean = true;
   public DeleteStatus: boolean = false;
-  public ModifyBy: number = 0;
-
-
+  public ModifyBy: number = 0; 
 }
 
 export class RegularModeDataModel_ProgrammesDetails {
@@ -22,8 +18,7 @@ export class RegularModeDataModel_ProgrammesDetails {
   public LevelID: number = 0;
   public LevelName: string = "";
   public ProgrammeID: number = 0;
-  public NameOfTheProgramme: string = "";
-
+  public NameOfTheProgramme: string = ""; 
   public BroadDisciplineGroupCategory: string = "";
   public BroadDisciplineGroupName: string = "";
   public Discipline: string = "";

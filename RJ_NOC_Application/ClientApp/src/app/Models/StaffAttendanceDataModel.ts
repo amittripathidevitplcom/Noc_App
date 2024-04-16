@@ -1,6 +1,4 @@
-
 export class StaffAttendanceDataModel {
-
   public StaffAttendanceID: number = 0;
   public CollegeID: number = 0;
   public CourseID: number = 0;
@@ -17,7 +15,6 @@ export class AttendanceDataModel {
   public StaffID: string = '';
   public PresentStatus: number = 0;
 }
-
 export class StaffAttendanceReportDataModel {
   public CollegeID: number = 0;
   public CourseID: number = 0;

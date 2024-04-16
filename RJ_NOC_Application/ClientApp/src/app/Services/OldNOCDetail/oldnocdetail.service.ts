@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse, HttpHeaders, HttpResponse, HttpParams } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { GlobalConstants } from '../../Common/GlobalConstants';
 import { OldNocDetailsDataModel } from '../../Models/TabDetailDataModel';
 
@@ -11,15 +11,12 @@ import { OldNocDetailsDataModel } from '../../Models/TabDetailDataModel';
 export class OldnocdetailService {
   readonly APIUrl = GlobalConstants.apiURL + "OldNOCDetail";
   constructor(private http: HttpClient) { }
-
   extractData(res: Response) {
     return res;
   }
   handleErrorObservable(error: Response | any) {
-    // return Observable.throw(error);
     return throwError(error);
   }
-
   public async SaveData(OldNOCDetailDataModel: OldNocDetailsDataModel) {
     const headers = { 'content-type': 'application/json' }
     const body = JSON.stringify(OldNOCDetailDataModel);

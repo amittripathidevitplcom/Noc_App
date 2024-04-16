@@ -1,5 +1,3 @@
-
-
     export class OtherInformationMasterDataModel
     {
       public ID: number = 0;
@@ -17,8 +15,5 @@
       public Dis_AnnexurePath2: string = '';
      // public Annexure2Path: string = '';
       public ActiveStatus: boolean = true;
-      
-
-
     }
 

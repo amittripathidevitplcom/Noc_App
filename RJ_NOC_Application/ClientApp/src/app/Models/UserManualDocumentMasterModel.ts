@@ -12,5 +12,4 @@ export class UserManualDocumentMasterModel {
   public CreatedBy: number = 0;
   public ModifyBy: number = 0;
   public OrderBy: number = 0;
-
 }

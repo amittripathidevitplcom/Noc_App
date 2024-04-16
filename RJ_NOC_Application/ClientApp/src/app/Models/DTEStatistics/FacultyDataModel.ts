@@ -10,11 +10,8 @@ export class FacultyDataModel {
 
   public ActiveStatus: boolean = true;
   public DeleteStatus: boolean = false;
-  public ModifyBy: number = 0;
-
-
+  public ModifyBy: number = 0; 
 }
-
 export class Faculty_FacultyDetails {
   public NameofFaculty: string = "";
 }

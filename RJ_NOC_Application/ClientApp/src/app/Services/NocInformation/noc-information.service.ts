@@ -1,14 +1,12 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse, HttpHeaders, HttpResponse, HttpParams } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { HttpClient } from '@angular/common/http';
+import { throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { GlobalConstants } from '../../Common/GlobalConstants';
-
 @Injectable({
   providedIn: 'root'
 })
 export class NocInformationService {
-
   readonly APIUrl = GlobalConstants.apiURL + "ApplyNOC";
   constructor(private http: HttpClient) {
   }

@@ -10,7 +10,6 @@ import { GlobalConstants } from '../../Common/GlobalConstants';
 })
 export class ActivityDetailsService {
   readonly APIUrl = GlobalConstants.apiURL + "ActivityDetails";
-
   constructor(private http: HttpClient) { }
   extractData(res: Response) {
     return res;
@@ -19,7 +18,6 @@ export class ActivityDetailsService {
     return throwError(error);
   }
   public async SaveData(request: ActivityDetailsDataModel, files: File) {
-
     const headers = { 'content-type': 'application/json' }
     const body = JSON.stringify(request);
     return await this.http.post(this.APIUrl + "/SaveData", body, { 'headers': headers })
@@ -28,7 +26,6 @@ export class ActivityDetailsService {
       ).toPromise();
   }
   public async GetActivityDetailAllList(UserID: number, CollageID: number, ApplyNOCID: number = 0) {
-
     return await this.http.get(this.APIUrl + "/GetActivityDetailAllList/" + UserID + "/" + CollageID + "/" + ApplyNOCID)
       .pipe(
         catchError(this.handleErrorObservable)

@@ -1,4 +1,3 @@
-
     export class NewsUpdateMasterDataModel
     {
       public ID: number = 0;
@@ -11,6 +10,5 @@
       public ActiveStatus: boolean = true;
       public StartDate: string = '';
       public EndDate: string = '';
-     
     }
 

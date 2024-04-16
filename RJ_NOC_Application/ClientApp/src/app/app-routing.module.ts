@@ -818,8 +818,8 @@ const routes: Routes = [
       {
         path: 'dcenocreport/:Status', component: DCENOCReportComponent
       },
-       {
-         path: 'newgrievance', component: NewGrievanceComponent
+      {
+        path: 'newgrievance', component: NewGrievanceComponent
       },
 
       {
@@ -866,7 +866,7 @@ const routes: Routes = [
         path: 'collegesubmitstatisticsreport', component: CollegeSubmitStatisticsReportDCEComponent
       },
 
-      
+
       {
         path: 'statisticsdraftcollegereport', component: StatisticsDraftCollgerReportComponent
       },
@@ -915,11 +915,9 @@ const routes: Routes = [
       {
         path: 'applynocmgone/:DepartmentID/:CollegeID', component: ApplyNOCMGOneComponent
       },
-
       //{
       //  path: 'newgrievancereport', component: NewgrievancereportComponent
       //},
-
       {
         path: 'workflowformat3', component: WorkFlowFormat3Component
       }
@@ -956,47 +954,13 @@ const routes: Routes = [
   {
     path: 'applicationpdf/:CollegeID/:DepartmentID/:Status', component: ApplicationPDFComponent
   },
-
-
-  //Medical College Tab Routing
-  //{
-  //  path: 'landdetails', component: LandDetailsComponent
-  //},
-  //{
-  //  path: 'facilitydetails', component: FacilityDetailsComponent
-  //},
-  //{
-  //  path: 'requireddocument', component: RequiredDocumentComponent
-  //},
   {
     path: '**', component: PageNotFoundComponent
   }
 
-
-
 ];
-//const addLocationGuard = (r: Route): Route => r.redirectTo ? r : { ...r, canActivate: [SkipLocationChangeGuard] };
-//const addLocationGuard = (r: ActivatedRoute): ActivatedRoute => (r.redirectTo: any) ?r: { ...r, canActivate: [SkipLocationChangeGuard] };
-
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  //imports: [
-  //  RouterModule.forRoot(routes.map(addLocationGuard)),
-  // // RouterModule.forRoot(routes.),
-  // // RouterModule.bind(routes.map(addLocationGuard)),
-  //],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
-
-
-
-//class NeverActivate implements CanActivate {
-
-//  canActivate(
-//    route: ActivatedRouteSnapshot,
-//    state: RouterStateSnapshot
-//  ): Observable<boolean> | Promise<boolean> | boolean {
-//    return false; // never allow activation
-//  }
-//}
+export class AppRoutingModule { } 

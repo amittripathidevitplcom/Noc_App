@@ -1,19 +1,15 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse, HttpHeaders, HttpResponse, HttpParams } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { GlobalConstants } from '../../Common/GlobalConstants';
-import { AadharServiceDataModel } from '../../Models/AadharServiceDataModel';
 import { PostClassWiseStudentDetailsDataModel } from '../../Models/ClassWiseStudentDetailsDataModel';
 import { CollegeList_StatisticsFinalSubmitedDataModel_Filter, PostSubjectWiseStatisticsDetailsDataModel, StatisticsFinalSubmitDataModel, TotalNotFilledStatics_DataModel_Filter } from '../../Models/SubjectWiseStatisticsDetailsDataModel';
-
 @Injectable({
   providedIn: 'root'
 })
 export class ClassWiseStudentDetailsServiceService {
-
   readonly APIUrl = GlobalConstants.apiURL + "ClassWiseStudentDetails";
-
   constructor(private http: HttpClient) { }
   extractData(res: Response) {
     return res;
@@ -21,8 +17,7 @@ export class ClassWiseStudentDetailsServiceService {
   handleErrorObservable(error: Response | any) {
     return throwError(error);
   }
-
-  public async GetCollegeWiseStudenetDetails(CollegeID: number, ApplyNOCID: number=0) {
+  public async GetCollegeWiseStudenetDetails(CollegeID: number, ApplyNOCID: number = 0) {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
@@ -33,9 +28,7 @@ export class ClassWiseStudentDetailsServiceService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
-
-  public async GetSubjectWiseStudenetDetails(CollegeID: number, ApplyNOCID: number=0) {
+  public async GetSubjectWiseStudenetDetails(CollegeID: number, ApplyNOCID: number = 0) {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
@@ -46,9 +39,7 @@ export class ClassWiseStudentDetailsServiceService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
-  public async SaveData(request: PostClassWiseStudentDetailsDataModel)
-  {
+  public async SaveData(request: PostClassWiseStudentDetailsDataModel) {
     const headers = { 'content-type': 'application/json' }
     const body = JSON.stringify(request);
     return await this.http.post(this.APIUrl, body, { 'headers': headers })
@@ -56,7 +47,6 @@ export class ClassWiseStudentDetailsServiceService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
   public async SaveDataSubjectWise(request: PostSubjectWiseStatisticsDetailsDataModel) {
     const headers = { 'content-type': 'application/json' }
     const body = JSON.stringify(request);
@@ -81,7 +71,6 @@ export class ClassWiseStudentDetailsServiceService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
   public async CollegeList_StatisticsDraftSubmited(request: CollegeList_StatisticsFinalSubmitedDataModel_Filter) {
     const headers = { 'content-type': 'application/json' }
     const body = JSON.stringify(request);
@@ -90,10 +79,7 @@ export class ClassWiseStudentDetailsServiceService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
-
   public async CollegeList_StatisticsNotFilledReport(request: TotalNotFilledStatics_DataModel_Filter) {
-
     const headers = { 'content-type': 'application/json' }
     const body = JSON.stringify(request);
     return await this.http.post(this.APIUrl + "/CollegeList_StatisticsNotFilledReport", body, { 'headers': headers })
@@ -112,6 +98,5 @@ export class ClassWiseStudentDetailsServiceService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
 }
 

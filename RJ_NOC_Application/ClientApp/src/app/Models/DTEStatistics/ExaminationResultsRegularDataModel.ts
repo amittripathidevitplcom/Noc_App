@@ -5,16 +5,11 @@ export class ExaminationResultsRegularDataModel {
   public CollegeID: number = 0;
   public SelectedCollegeEntryTypeName: string = "University";
   public FYearID: number = 0;
-
   public EntryType: string = "Examination Results Regular";
   public ProgrammesDetails: ExaminationResultsRegularDataModel_ProgrammesDetails[] = [];
- 
-
   public ActiveStatus: boolean = true;
   public DeleteStatus: boolean = false;
-  public ModifyBy: number = 0;
-
-
+  public ModifyBy: number = 0; 
 }
 
 export class ExaminationResultsRegularDataModel_ProgrammesDetails {
@@ -23,10 +18,8 @@ export class ExaminationResultsRegularDataModel_ProgrammesDetails {
   public LevelID: number = 0;
   public LevelName: string = "";
   public Discipline: string = "";
-  
   public StudentDetails: ExaminationResultsRegularDataModel_StudentDetails[] = [];
 
-  //Total Number of Students Appeard in Final Year
   public AppeardCategory: string = "";
   public AppeardGeneralCategoryMale: number = 0;
   public AppeardGeneralCategoryFemale: number = 0;
@@ -54,8 +47,6 @@ export class ExaminationResultsRegularDataModel_ProgrammesDetails {
 
   public AppeardRemark: string = "";
   public trCss: string = "";
-
-
   //Total Number of Students Passed/Awarded Degree
   public PassedCategory: string = "";
   public PassedGeneralCategoryMale: number = 0;

@@ -4,20 +4,16 @@ import { Observable, throwError } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 import { GlobalConstants } from '../../../Common/GlobalConstants';
 import { InfrastructureDetailsDataModel } from '../../../Models/DTEStatistics/InfrastructureDetailsDataModel';
-
 @Injectable({
   providedIn: 'root'
 })
 export class InfrastructureDetailsService {
-
   readonly APIUrl = GlobalConstants.apiURL + "DTEStatistics_InfrastructureDetails";
   constructor(private http: HttpClient) { }
-
   extractData(res: Response) {
     return res;
   }
   handleErrorObservable(error: Response | any) {
-    // return Observable.throw(error);
     return throwError(error);
   }
   //Get 
@@ -33,7 +29,6 @@ export class InfrastructureDetailsService {
       ).toPromise();
   }
   public async SaveData(request: InfrastructureDetailsDataModel) {
-
     const headers = { 'content-type': 'application/json' }
     const body = JSON.stringify(request);
     return await this.http.post(this.APIUrl, body, { 'headers': headers })
@@ -41,5 +36,4 @@ export class InfrastructureDetailsService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
 }

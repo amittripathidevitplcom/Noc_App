@@ -11,13 +11,11 @@ import { GlobalConstants } from '../../../Common/GlobalConstants';
 export class WorkFlowMasterService {
   readonly APIUrl = GlobalConstants.apiURL + "WorkFlowMaster";
   constructor(private http: HttpClient) {
-
   }
   extractData(res: Response) {
     return res;
   }
   handleErrorObservable(error: Response | any) {
-    // return Observable.throw(error);
     return throwError(error);
   }
   public async SaveData(request: WorkFlowMasterDataModel) {
@@ -28,7 +26,6 @@ export class WorkFlowMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
   public async GetWorkFlowMasterList(WorkFlowMasterID: number) {
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
     return await this.http.get(this.APIUrl + '/GetWorkFlowMasterList/' + WorkFlowMasterID , httpOptions)
@@ -36,7 +33,6 @@ export class WorkFlowMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
   public async GetWorkFlowformat3(DepartmentID: number, ReportType: string) {
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
     return await this.http.get(this.APIUrl + '/GetWorkFlowformat3/' + DepartmentID + "/" + ReportType, httpOptions)

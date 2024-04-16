@@ -1,26 +1,19 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse, HttpHeaders, HttpResponse, HttpParams } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
-import { LandDetailDataModel } from '../../Models/LandDetailDataModel';
-
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { GlobalConstants } from '../../Common/GlobalConstants';
-import { SearchFilterDataModel } from '../../Models/TabDetailDataModel';
-import { DCENOCReportSearchFilterDataModel } from '../../Models/SearchFilterDataModel';
 @Injectable({
   providedIn: 'root'
 })
 export class DTEDocumentScrutinyService {
-
   readonly APIUrl = GlobalConstants.apiURL + "DepartmentOfTechnicalDocumentScrutiny";
   readonly DTEAPIUrl = GlobalConstants.apiURL + "DTECommitteeMaster";
   constructor(private http: HttpClient) { }
-
   extractData(res: Response) {
     return res;
   }
   handleErrorObservable(error: Response | any) {
-    // return Observable.throw(error);
     return throwError(error);
   }
   //Get 
@@ -46,7 +39,6 @@ export class DTEDocumentScrutinyService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
   public async DocumentScrutiny_OtherInformation(CollageID: number, RoleID: number, ApplyNOCID: number, VerificationStep: string) {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -69,7 +61,6 @@ export class DTEDocumentScrutinyService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
   public async DocumentScrutiny_AcademicInformation(CollageID: number, RoleID: number, ApplyNOCID: number, VerificationStep: string) {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -92,7 +83,6 @@ export class DTEDocumentScrutinyService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
   public async DocumentScrutiny_LegalEntity(CollegeID: number, RoleID: number, ApplyNOCID: number, VerificationStep: string) {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -175,7 +165,6 @@ export class DTEDocumentScrutinyService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
   public async DocumentScrutiny_CourseDetails(CollageID: number, RoleID: number, ApplyNOCID: number, VerificationStep: string) {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -187,7 +176,6 @@ export class DTEDocumentScrutinyService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
   public async CheckDocumentScrutinyTabsData(ApplyNOCID: number, RoleID: number, CollegeID: number, VerificationStep: string) {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -210,7 +198,6 @@ export class DTEDocumentScrutinyService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
   public async WorkflowInsertDTE(RoleID: number, UserID: number, ActionID: number, ApplyNOCID: number, DepartmentID: number, CheckList_FinalRemark: string, NextRoleID: number, NextUserID: number, NextActionID: number) {
     const headers = { 'content-type': 'application/json' }
     var request = {
@@ -222,7 +209,6 @@ export class DTEDocumentScrutinyService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
   public async GeneratePDF_DTENOC(NOCID: number, UserID: number, NOCRemark: string, IsNOCIssued: number) {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -257,7 +243,6 @@ export class DTEDocumentScrutinyService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
   public async GetApplicationCommitteeList(DTECommitteeMasterID: number) {
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
     return await this.http.get(this.DTEAPIUrl + '/GetDTECommitteeMasterList/' + DTECommitteeMasterID, httpOptions)
@@ -265,7 +250,6 @@ export class DTEDocumentScrutinyService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
   public async GenerateReceipt(CollegeID: number, DepartmentID: number, ApplyNOCID: number, UserID: number, DocumentName: string, IsEsign: boolean) {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -278,7 +262,6 @@ export class DTEDocumentScrutinyService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
   public async GenerateConsolidatedReport(CollegeID: number, DepartmentID: number, ApplyNOCID: number, UserID: number, DocumentName: string, IsEsign: boolean) {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -291,7 +274,6 @@ export class DTEDocumentScrutinyService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
   public async GetConsolidatedReportByApplyNOCID(ApplyNOCID: number) {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -327,8 +309,6 @@ export class DTEDocumentScrutinyService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
-
   public async GenerateDTEActionSummaryPDF(ApplyNOCID: number) {
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
     return await this.http.get(this.APIUrl + '/GenerateDTEActionSummaryPDF/' + ApplyNOCID, httpOptions)

@@ -1,23 +1,19 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse, HttpHeaders, HttpResponse, HttpParams } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { ParliamentAreaDataModel } from '../../../Models/ParliamentAreaDataModel';
-
 import { GlobalConstants } from '../../../Common/GlobalConstants';
 @Injectable({
   providedIn: 'root'
 })
 export class ParliamentAreaMasterService {
-
   readonly APIUrl = GlobalConstants.apiURL + "ParliamentAreaMaster";
   constructor(private http: HttpClient) { }
-
   extractData(res: Response) {
     return res;
   }
   handleErrorObservable(error: Response | any) {
-    // return Observable.throw(error);
     return throwError(error);
   }
   //Get 
@@ -38,7 +34,7 @@ export class ParliamentAreaMasterService {
         'Content-Type': 'application/json'
       })
     };
-    return await this.http.get(this.APIUrl + "/" + ParliamentAreaID )
+    return await this.http.get(this.APIUrl + "/" + ParliamentAreaID)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();
@@ -53,12 +49,9 @@ export class ParliamentAreaMasterService {
   }
   public async DeleteData(ParliamentAreaID: number) {
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
-
     return await this.http.post(this.APIUrl + '/Delete/' + ParliamentAreaID, httpOptions)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();
-
   }
-    
 }

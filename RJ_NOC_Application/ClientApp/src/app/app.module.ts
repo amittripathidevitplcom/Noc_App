@@ -7,19 +7,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CommonModule } from '@angular/common';
- import { MatTabsModule } from '@angular/material/tabs'; 
+import { MatTabsModule } from '@angular/material/tabs';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown'
-import { APP_BASE_HREF } from '@angular/common'; 
-/*import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';*/
-//import { MatIconModule } from '@angular/material/icon';
-//import { MatButtonModule } from '@angular/material/button';
-//import { MatInputModule } from '@angular/material/input';
-//import { MatFormFieldModule } from '@angular/material/form-field';
-//import { MatStepperModule } from '@angular/material/stepper';
-/*import { NgShortcutModule, NgShortcutConfig } from 'ng-shortcut';*/
-import { AutocompleteLibModule } from 'angular-ng-autocomplete'; 
-
-
+import { APP_BASE_HREF } from '@angular/common';
+import { AutocompleteLibModule } from 'angular-ng-autocomplete';
 import { ApplicationListComponent } from './Views/application-list/application-list.component';
 import { CollegeDetailsComponent } from './Views/college-details/college-details.component';
 import { BasicBscNursingComponent } from './Views/CollegeDetailsForm/basic-bsc-nursing/basic-bsc-nursing.component';
@@ -61,8 +52,6 @@ import { BScNCollegeOfNursingComponent } from './Views/CollegeDetailsForm/bsc-nc
 import { WorkFlowMasterComponent } from './Views/Admin/work-flow-master/add-work-flow-master/work-flow-master.component';
 import { WorkFlowMasterListComponent } from './Views/Admin/work-flow-master/work-flow-master-list/work-flow-master-list.component';
 import { ApplicationDetailEntryComponent } from './Views/ApplicationDetailEntry/application-detail-entry/application-detail-entry.component';
-/*import { MedicalGroupSubDetailsComponent } from './Views/medical-group-sub-details/medical-group-sub-details.component';*/
-
 import { FacilityDetailsComponent } from './Views/TabDetail/facility-details/facility-details.component';
 import { LandDetailsComponent } from './Views/TabDetail/land-details/land-details.component';
 import { RequiredDocumentComponent } from './Views/TabDetail/required-document/required-document.component';
@@ -235,7 +224,6 @@ import { InspectionCommitteePhysicalVerificationDCEComponent } from './Views/DCE
 import { NodalOfficerApplicationListComponent } from './Views/DCE/nodal-officer-application-list/nodal-officer-application-list.component';
 import { DocumentScrutinyClassWiseStudentDetailsComponent } from './Views/DocumentScrutinyTabDCE/document-scrutiny-class-wise-student-details/document-scrutiny-class-wise-student-details.component';
 import { DocumentScrutinySubjectWiseStudentStatisticsComponent } from './Views/DocumentScrutinyTabDCE/document-scrutiny-subject-wise-student-statistics/document-scrutiny-subject-wise-student-statistics.component';
-//import { AhDocumentScrutinyForwardToCommetteReportComponent } from './Views/DocumentScrutinyTab_AH/ahDocumentScrutinyForwardToCommetteReport/ah-document-scrutiny-forward-to-commette-report/ah-document-scrutiny-forward-to-commette-report.component';
 import { AhInspectionCommitteePhysicalVerificationComponent } from './Views/DocumentScrutinyTab_AH/ah-inspection-committee-physical-verification/ah-inspection-committee-physical-verification.component';
 import { AhPreVerificationDoneListComponent } from './Views/DocumentScrutinyTab_AH/ah-pre-verification-done-list/ah-pre-verification-done-list.component';
 import { IssuedNOCReportComponent } from './Views/Reports/Medical/issued-noc-report/issued-noc-report.component';
@@ -393,14 +381,9 @@ import { DTEStatisticsStaffComponent } from './Views/DTEStatistics/dtestatistics
 import { DTEStatisticsNonTeachingComponent } from './Views/DTEStatistics/dtestatistics-non-teaching/dtestatistics-non-teaching.component';
 import { BasicDetailsComponent } from './Views/DTEStatistics/basic-details/basic-details.component';
 import { PreviewDTEStatisticsComponent } from './Views/DTEStatistics/preview-dtestatistics/preview-dtestatistics.component';
-
-//import { NewgrievancereportComponent } from './Views/DCE/newgrievancereport/newgrievancereport/newgrievancereport.component';
 import { DistanceOtherMinorityBreakupComponent } from './Views/DTEStatistics/distance-other-minority-breakup/distance-other-minority-breakup.component';
 import { OtherMinorityDataComponent } from './Views/DTEStatistics/OtherMinorityData/other-minority-data/other-minority-data.component';
 import { WorkFlowFormat3Component } from './Views/Admin/work-flow-master/work-flow-format3/work-flow-format3/work-flow-format3.component';
-
-
-
 
 
 
@@ -641,7 +624,7 @@ import { WorkFlowFormat3Component } from './Views/Admin/work-flow-master/work-fl
     AhPhysicalFinalVerificationComponent,
     AhFinalVerificationDoneListComponent,
     AhFinalNocApplicationListComponent,
-    
+
     EnableControlDirective,
     EnterTabDirective,
     PreviewApplyNocDetailComponent,
@@ -709,39 +692,39 @@ import { WorkFlowFormat3Component } from './Views/Admin/work-flow-master/work-fl
     PreviewClasswiseStaticComponent,
     PreviewSubjectwiseStaticComponent,
     HomeComponent,
-    
+
     DCENOCReportComponent,
-          CollegeReportDCEComponent,
-          TotalCollegeDepartmentWiseReportsComponent,
-          NewGrievanceComponent,
-          CollegeSubmitStatisticsReportDCEComponent,
-          TotalApplicationListByDepartmentComponent,
-          StatisticsDraftCollgerReportComponent,
-          DTEDocumentScrutinyLegalEntityComponent,
-          DocumentScrutinyDTEComponent,
-          DocumentScrutinyCollegeDetailDTEComponent,
-          DocumentScrutinyCollegeManagementSocietyDTEComponent,
-          DocumentScrutinyOLDNOCDetailsDTEComponent,
-          DocumentScrutinyLandDetailDTEComponent,
-          DocumentScrutinyBuildingDetailDTEComponent,
-          DocumentScrutinyCourseDetailDTEComponent,
-          DocumentScrutinyHostalDetailsComponentDTEComponent,
-          DocumentScrutinyAcademicInformationDTEComponent,
-          DocumentScrutinyStaffDetailsDTEComponent,
-          DocumentScrutinyOtherDocumentDTEComponent,
-          DocumentScrutinyFacilityDTEComponent,
-          DocumentScrutinyRequiredDocumentDTEComponent,
-          DocumentScrutinyRoomDetailsDTEComponent,
-          DocumentScrutinyOtherInfrastuctureDTEComponent,
-          DocumentScrutinyCheckListDTEComponent,
-          ApplicationLandingDetailsDTEComponent,
-          DTECommitteeMasterComponent,
-          DocumentScrutinyApplicationListDTEComponent,
-          JSApplicationListDTEComponent,
-          RevertApplicationDetailEntryDTEComponent,
-          TotalNotFilledStaticsReportComponent,
-          SecretaryFinalCheckListMGOneComponent,
-          DtcoursemasterComponent,
+    CollegeReportDCEComponent,
+    TotalCollegeDepartmentWiseReportsComponent,
+    NewGrievanceComponent,
+    CollegeSubmitStatisticsReportDCEComponent,
+    TotalApplicationListByDepartmentComponent,
+    StatisticsDraftCollgerReportComponent,
+    DTEDocumentScrutinyLegalEntityComponent,
+    DocumentScrutinyDTEComponent,
+    DocumentScrutinyCollegeDetailDTEComponent,
+    DocumentScrutinyCollegeManagementSocietyDTEComponent,
+    DocumentScrutinyOLDNOCDetailsDTEComponent,
+    DocumentScrutinyLandDetailDTEComponent,
+    DocumentScrutinyBuildingDetailDTEComponent,
+    DocumentScrutinyCourseDetailDTEComponent,
+    DocumentScrutinyHostalDetailsComponentDTEComponent,
+    DocumentScrutinyAcademicInformationDTEComponent,
+    DocumentScrutinyStaffDetailsDTEComponent,
+    DocumentScrutinyOtherDocumentDTEComponent,
+    DocumentScrutinyFacilityDTEComponent,
+    DocumentScrutinyRequiredDocumentDTEComponent,
+    DocumentScrutinyRoomDetailsDTEComponent,
+    DocumentScrutinyOtherInfrastuctureDTEComponent,
+    DocumentScrutinyCheckListDTEComponent,
+    ApplicationLandingDetailsDTEComponent,
+    DTECommitteeMasterComponent,
+    DocumentScrutinyApplicationListDTEComponent,
+    JSApplicationListDTEComponent,
+    RevertApplicationDetailEntryDTEComponent,
+    TotalNotFilledStaticsReportComponent,
+    SecretaryFinalCheckListMGOneComponent,
+    DtcoursemasterComponent,
     UserManualDocumentMasterComponent,
     GenerateReceiptListDTEComponent,
     DocumentScrutinyStepIIApplicationsComponent,
@@ -779,8 +762,8 @@ import { WorkFlowFormat3Component } from './Views/Admin/work-flow-master/work-fl
     ScholarshipFellowshipLoanAccComponent,
     DTEStatisticsStaffComponent,
     DTEStatisticsNonTeachingComponent,
-      BasicDetailsComponent,
-      PreviewDTEStatisticsComponent,
+    BasicDetailsComponent,
+    PreviewDTEStatisticsComponent,
     FinancialDetailsComponent,
     OtherMinorityDataComponent,
     DistanceOtherMinorityBreakupComponent,
@@ -798,7 +781,7 @@ import { WorkFlowFormat3Component } from './Views/Admin/work-flow-master/work-fl
     //MatPaginatorModule,
     //MatSortModule,
     //MatTableModule,
-    MatTabsModule, 
+    MatTabsModule,
     //FormsModule,
     //NgbPopoverModule,
     /*MatStepperModule,*/
@@ -808,7 +791,7 @@ import { WorkFlowFormat3Component } from './Views/Admin/work-flow-master/work-fl
     //MatInputModule,
     //MatButtonModule,
     //MatIconModule,
-    RouterModule, 
+    RouterModule,
     NgMultiSelectDropDownModule.forRoot(),
     AutocompleteLibModule,
     NgIdleModule.forRoot(),
@@ -830,7 +813,7 @@ import { WorkFlowFormat3Component } from './Views/Admin/work-flow-master/work-fl
 
     },
     {
-      provide: APP_BASE_HREF, useValue: '/' 
+      provide: APP_BASE_HREF, useValue: '/'
     }
   ],
   bootstrap: [AppComponent]

@@ -1,25 +1,19 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse, HttpHeaders, HttpResponse, HttpParams } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
-import { LandDetailDataModel } from '../../Models/LandDetailDataModel';
-
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { GlobalConstants } from '../../Common/GlobalConstants';
 import { CommiteeInspection_RNCCheckList_DataModel } from '../../Models/ApplyNOCApplicationDataModel';
-import { SearchFilterDataModel } from '../../Models/TabDetailDataModel';
 @Injectable({
   providedIn: 'root'
 })
 export class MGOneDocumentScrutinyService {
-
   readonly APIUrl = GlobalConstants.apiURL + "MGOneDocumentScrutiny";
   constructor(private http: HttpClient) { }
-
   extractData(res: Response) {
     return res;
   }
   handleErrorObservable(error: Response | any) {
-    // return Observable.throw(error);
     return throwError(error);
   }
   //Get 
@@ -45,8 +39,6 @@ export class MGOneDocumentScrutinyService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
-
   public async DocumentScrutiny_HospitalDetail(CollageID: number, RoleID: number, ApplyNOCID: number) {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -69,7 +61,6 @@ export class MGOneDocumentScrutinyService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
   public async DocumentScrutiny_LegalEntity(CollegeID: number, RoleID: number, ApplyNOCID: number) {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -92,7 +83,6 @@ export class MGOneDocumentScrutinyService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
   public async DocumentScrutiny_BuildingDetails(CollageID: number, RoleID: number, ApplyNOCID: number) {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -104,9 +94,6 @@ export class MGOneDocumentScrutinyService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
-  //Get 
-
   public async CheckDocumentScrutinyTabsData(ApplyNOCID: number, RoleID: number, CollegeID: number) {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -118,7 +105,6 @@ export class MGOneDocumentScrutinyService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
   //Nodal Officer Applicaiton List 
   public async GetLOIApplicationList(RoleId: number, UserID: number, Status: string, ActionName: string) {
     const httpOptions = {
@@ -131,7 +117,6 @@ export class MGOneDocumentScrutinyService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
   public async GeneratePDF_MedicalGroupLOI(LOIID: number, UserID: number, LOIRemark: string, IsLOIIssued: number) {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -144,19 +129,17 @@ export class MGOneDocumentScrutinyService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
   public async MedicalGroupLOIIssuedReport(LoginUserID: number, RoleID: number) {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     };
-    return await this.http.get(this.APIUrl + "/MedicalGroupLOIIssuedReport/" + LoginUserID + "/" + RoleID )
+    return await this.http.get(this.APIUrl + "/MedicalGroupLOIIssuedReport/" + LoginUserID + "/" + RoleID)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
   public async PdfEsign(LOIID: number, CreatedBy: number) {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -169,7 +152,6 @@ export class MGOneDocumentScrutinyService {
       ).toPromise();
   }
   public async GetRNCCheckListByTypeDepartment(Type: string, DepartmentID: number, ApplyNOCID: number, CreatedBy: number, RoleID: number) {
-
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
@@ -188,14 +170,13 @@ export class MGOneDocumentScrutinyService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-  public async GetRNCCheckListByRole(Type: string,  ApplyNOCID: number, RoleID: number) {
-
+  public async GetRNCCheckListByRole(Type: string, ApplyNOCID: number, RoleID: number) {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     };
-    return await this.http.get(this.APIUrl + "/GetRNCCheckListByRole/" + Type + "/"  + ApplyNOCID + "/" + RoleID)
+    return await this.http.get(this.APIUrl + "/GetRNCCheckListByRole/" + Type + "/" + ApplyNOCID + "/" + RoleID)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();
@@ -207,18 +188,15 @@ export class MGOneDocumentScrutinyService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
   public async GetRevertApllicationRemark(DepartmentID: number, ApplicationID: number) {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     };
-    return await this.http.get(this.APIUrl + "/GetRevertApllicationRemark/" + DepartmentID + "/" + ApplicationID )
+    return await this.http.get(this.APIUrl + "/GetRevertApllicationRemark/" + DepartmentID + "/" + ApplicationID)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
-
 }

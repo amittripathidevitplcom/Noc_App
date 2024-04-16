@@ -1,25 +1,20 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse, HttpHeaders, HttpResponse, HttpParams } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
-import { LandDetailDataModel } from '../../Models/LandDetailDataModel';
-
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { throwError } from 'rxjs';
+import { catchError, } from 'rxjs/operators';
 import { GlobalConstants } from '../../Common/GlobalConstants';
 import { SearchFilterDataModel } from '../../Models/TabDetailDataModel';
-import { DCENOCReportSearchFilterDataModel, GrievanceReportSearchFilter } from '../../Models/SearchFilterDataModel';
+import { DCENOCReportSearchFilterDataModel } from '../../Models/SearchFilterDataModel';
 @Injectable({
   providedIn: 'root'
 })
 export class DCEDocumentScrutinyService {
-
   readonly APIUrl = GlobalConstants.apiURL + "DepartmentOfCollegeDocumentScrutiny";
   constructor(private http: HttpClient) { }
-
   extractData(res: Response) {
     return res;
   }
   handleErrorObservable(error: Response | any) {
-    // return Observable.throw(error);
     return throwError(error);
   }
   //Get 
@@ -45,7 +40,6 @@ export class DCEDocumentScrutinyService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
   public async DocumentScrutiny_OtherInformation(CollageID: number, RoleID: number, ApplyNOCID: number) {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -68,7 +62,6 @@ export class DCEDocumentScrutinyService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
   public async DocumentScrutiny_HospitalDetail(CollageID: number, RoleID: number, ApplyNOCID: number) {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -102,7 +95,6 @@ export class DCEDocumentScrutinyService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
   public async DocumentScrutiny_LegalEntity(CollegeID: number, RoleID: number, ApplyNOCID: number) {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -185,10 +177,7 @@ export class DCEDocumentScrutinyService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
-
   //Get 
-
   public async CheckDocumentScrutinyTabsData(ApplyNOCID: number, RoleID: number, CollegeID: number) {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -200,7 +189,6 @@ export class DCEDocumentScrutinyService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
   public async DocumentScrutiny_ParamedicalHospitalDetail(CollageID: number, RoleID: number, ApplyNOCID: number) {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -212,7 +200,6 @@ export class DCEDocumentScrutinyService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
   public async DocumentScrutiny_VeterinaryHospital(CollageID: number, RoleID: number, ApplyNOCID: number) {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -235,7 +222,6 @@ export class DCEDocumentScrutinyService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
   //Nodal Officer Applicaiton List 
   public async GetNodalOfficerApplyNOCApplicationList(RoleId: number, UserID: number, Status: string, ActionName: string) {
     const httpOptions = {
@@ -248,7 +234,6 @@ export class DCEDocumentScrutinyService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
   public async GetPhysicalVerificationAppliationList(SSOID: string, Status: any) {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -261,7 +246,6 @@ export class DCEDocumentScrutinyService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
   public async FinalSubmitInspectionCommittee(ApplyNOCID: number, CreatedBy: number) {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -284,8 +268,6 @@ export class DCEDocumentScrutinyService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
-
   public async DocumentScrutiny_SubjectWiseStudentDetail(CollageID: number, RoleID: number, ApplyNOCID: number) {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -297,8 +279,6 @@ export class DCEDocumentScrutinyService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
-
   //PV APPLICATION LIST
   public async GetApplicationPvDetails(ApplyNocApplicationID: number) {
     const httpOptions = {
@@ -322,7 +302,6 @@ export class DCEDocumentScrutinyService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
   public async GetRevertedTabData(ApplyNOCID: number, CollegeID: number) {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -334,7 +313,6 @@ export class DCEDocumentScrutinyService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
   public async DCEPdfEsign(ApplyNOCID: number, ParameterID: number, CreatedBy: number) {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -367,9 +345,7 @@ export class DCEDocumentScrutinyService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
   public async GetGrievanceReport(FromDate: any, ToDate: any) {
-
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
@@ -380,13 +356,4 @@ export class DCEDocumentScrutinyService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-  //public async GetGrievanceReport(FromDate: any, ToDate: any) {
-  //  const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
-
-  //  return await this.http.get(this.APIUrl + "/GetGrievanceReport/" + DepatmentID)
-  //  return await this.http.post(this.APIUrl + '/GetGrievanceReport/', httpOptions)
-  //    .pipe(
-  //      catchError(this.handleErrorObservable)
-  //    ).toPromise();
-  //}
 }

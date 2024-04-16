@@ -5,9 +5,7 @@ export class BasicDetailsDataModel {
   public CollegeID: number = 0;
   public SelectedCollegeEntryTypeName: string = "University";
   public FYearID: number = 0;
-
- 
-  
+   
   public AisheCode: string = "";
   public Nameofinstitution: string = "";
   public YearofEstablishment: string = "";
@@ -33,10 +31,7 @@ export class BasicDetailsDataModel {
   public CollegeUnderUniversityDetails: BasicDetails_CollegeUnderUniversityDetailsDataModel[] = [];
   public InstituteHeadDetails: BasicDetails_InstituteHeadDetailsDataModel = new BasicDetails_InstituteHeadDetailsDataModel();
   public NodalOfficerDetails: BasicDetails_NodalOfficerDetailsDataModel = new BasicDetails_NodalOfficerDetailsDataModel();
-  public AffiliationDetails: BasicDetails_AffiliationDetailsDataModel = new BasicDetails_AffiliationDetailsDataModel();
-
-
-
+  public AffiliationDetails: BasicDetails_AffiliationDetailsDataModel = new BasicDetails_AffiliationDetailsDataModel(); 
   public ManagementOfTheInstitution: string = "";
   public IsEveningCollege: string = "";
   public AutonomousInstitute: string = "";
