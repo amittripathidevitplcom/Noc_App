@@ -1,5 +1,5 @@
-import { Component, OnInit, Input, Injectable } from '@angular/core';
-import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators, FormArray } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
 import { WorkFlowMasterDataModel } from '../../../../Models/WorkFlowMasterDataModel';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
@@ -30,9 +30,8 @@ export class WorkFlowMasterComponent implements OnInit {
   public RoleData: any = [];
   public ActionHeadData: any = [];
   public WorkFlowMasterID: any = 0;
-
   constructor(private toastr: ToastrService, private loaderService: LoaderService,
-    private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private _fb: FormBuilder, private workFlowMasterService: WorkFlowMasterService) {
+    private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private workFlowMasterService: WorkFlowMasterService) {
     this.WorkFlowMasterForm = this.formBuilder.group(
       {
         ddlDepartmentId: ['', [DropdownValidators]],
@@ -55,7 +54,6 @@ export class WorkFlowMasterComponent implements OnInit {
   }
   ngOnInit(): void {
     this.GetDepartmentList();
-    //this.GetModuleList();
     this.GetLevelList();
     this.GetActionHeadList();
     this.request.WorkFlowMasterDetailList = []
@@ -81,26 +79,23 @@ export class WorkFlowMasterComponent implements OnInit {
         NextRoleName: '',
         OfficeGroupName: '',
         RoleName: '',
-        DepartmentID:0,
+        DepartmentID: 0,
       });
     if (this.router.snapshot.paramMap.get('id') != null) {
       this.WorkFlowMasterID = this.router.snapshot.paramMap.get('id');
       this.GetWorkFlowMasterList(this.WorkFlowMasterID);
     }
-
   }
   get form() { return this.WorkFlowMasterForm.controls; }
   get array() {
     return this.WorkFlowMasterForm.get('WorkFlowMasterDetailList') as FormArray;
   }
-
   async GetDepartmentList() {
-
     try {
       this.loaderService.requestStarted();
       await this.commonMasterService.GetDepartmentList()
         .then((data: any) => {
-          
+
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
@@ -117,7 +112,6 @@ export class WorkFlowMasterComponent implements OnInit {
       }, 200);
     }
   }
-  
   async GetLevelList() {
     try {
       this.loaderService.requestStarted();
@@ -141,7 +135,6 @@ export class WorkFlowMasterComponent implements OnInit {
   }
   async GetRoleListByLevelID(LevelID: number, i: number) {
     try {
-
       this.loaderService.requestStarted();
       await this.commonMasterService.GetRoleListByLevelID(LevelID)
         .then((data: any) => {
@@ -193,7 +186,7 @@ export class WorkFlowMasterComponent implements OnInit {
           NextRoleName: '',
           OfficeGroupName: '',
           RoleName: '',
-          DepartmentID:0,
+          DepartmentID: 0,
         });
       }
     }
@@ -206,7 +199,6 @@ export class WorkFlowMasterComponent implements OnInit {
       }, 200);
     }
   }
-
   async DeleteWorkFlowDetail(i: number) {
     this.isSubmitted = false;
     try {
@@ -271,7 +263,6 @@ export class WorkFlowMasterComponent implements OnInit {
       }, 200);
     }
   }
-
   async SaveData() {
     debugger;
     this.isSubmitted = true;
@@ -279,10 +270,8 @@ export class WorkFlowMasterComponent implements OnInit {
       return
     }
 
-
     try {
       if (this.ValidateAddNewRoleMap(false)) {
-        //Show Loading
         this.loaderService.requestStarted();
         await this.workFlowMasterService.SaveData(this.request)
           .then((data: any) => {
@@ -295,12 +284,10 @@ export class WorkFlowMasterComponent implements OnInit {
             }
             else {
               this.toastr.error(this.ErrorMessage);
-              //this.ResetControl();
             }
           })
       }
     }
-
     catch (ex) { console.log(ex) }
     finally {
       setTimeout(() => {
@@ -308,7 +295,6 @@ export class WorkFlowMasterComponent implements OnInit {
       }, 200);
     }
   }
-
   ResetControl() {
     this.routers.navigate(['/workflowmaster']);
     this.request = new WorkFlowMasterDataModel();
@@ -334,7 +320,7 @@ export class WorkFlowMasterComponent implements OnInit {
       NextRoleName: '',
       OfficeGroupName: '',
       RoleName: '',
-      DepartmentID:0,
+      DepartmentID: 0,
     });
   }
   ValidateAddNewRoleMap(IsAddNew: boolean) {
@@ -381,8 +367,6 @@ export class WorkFlowMasterComponent implements OnInit {
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
           this.request = data['Data'][0];
-          //this.GetSchemeListByDepartment(this.request.DepartmentID);
-          //this.GetSubmoduleListByModule(this.request.ModuleID);
           this.GetRoleListByLevelID(this.request.RoleLevelID, -1);
           for (var i = 0; i < this.request.WorkFlowMasterDetailList.length; i++) {
             this.GetActionListByActionHead(this.request.WorkFlowMasterDetailList[i].ActionHeadID, i);
@@ -399,9 +383,6 @@ export class WorkFlowMasterComponent implements OnInit {
       }, 200);
     }
   }
-
-
-
   public WorkflowNOCTypelst: any = [];
   async GetWorkflowNOCType(DepartmentID: number) {
     debugger;

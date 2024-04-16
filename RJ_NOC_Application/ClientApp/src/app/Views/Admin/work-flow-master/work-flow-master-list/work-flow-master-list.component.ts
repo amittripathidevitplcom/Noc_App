@@ -1,10 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { LoaderService } from '../../../../Services/Loader/loader.service';
 import { WorkFlowMasterService } from '../../../../Services/Admin/WorkFlowMaster/work-flow-master.service';
-import { ActivatedRoute, Router } from '@angular/router';
-import { WorkFlowMasterDataModel } from '../../../../Models/WorkFlowMasterDataModel';
-
-
+import { WorkFlowMasterDataModel } from '../../../../Models/WorkFlowMasterDataModel'; 
 @Component({
   selector: 'app-work-flow-master-list',
   templateUrl: './work-flow-master-list.component.html',
@@ -17,13 +14,10 @@ export class WorkFlowMasterListComponent implements OnInit {
   public WorkFlowMasterList: any = [];
   request = new WorkFlowMasterDataModel();
   searchText: string = '';
-  constructor(private loaderService: LoaderService,
-    private workFlowMasterService: WorkFlowMasterService, private routers: Router) { }
-
+  constructor(private loaderService: LoaderService,private workFlowMasterService: WorkFlowMasterService) { } 
   ngOnInit(): void {
     this.GetWorkFlowMasterList(0);
-  }
-
+  } 
   async GetWorkFlowMasterList(WorkFlowMasterID: number) {
     try {
       this.loaderService.requestStarted();
@@ -44,11 +38,8 @@ export class WorkFlowMasterListComponent implements OnInit {
         this.loaderService.requestEnded();
       }, 200);
     }
-  }
-
-
+  } 
   async OpenWorkFlowMasterDetailsModel(WorkFlowMasterID: number) {
-    debugger;
     try {
       this.loaderService.requestStarted();
       await this.workFlowMasterService.GetWorkFlowMasterList(WorkFlowMasterID)

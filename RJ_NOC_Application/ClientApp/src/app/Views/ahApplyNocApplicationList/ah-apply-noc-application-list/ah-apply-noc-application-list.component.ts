@@ -1,9 +1,6 @@
-import { Component, OnInit, Input, Injectable, ViewChild, ElementRef } from '@angular/core';
-import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators, FormArray } from '@angular/forms';
-import { ApplyNOCApplicationService } from '../../../Services/ApplyNOCApplicationList/apply-nocapplication.service';
+import { Component } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { LoaderService } from '../../../Services/Loader/loader.service';
-import { ActivatedRoute, Router } from '@angular/router';
-import { ApplyNOCApplicationDataModel } from '../../../Models/ApplyNOCApplicationDataModel';
 import { ToastrService } from 'ngx-toastr';
 import { SSOLoginDataModel } from '../../../Models/SSOLoginDataModel';
 import { CommonMasterService } from '../../../Services/CommonMaster/common-master.service';
@@ -14,8 +11,8 @@ import { AadharServiceDetails } from '../../../Services/AadharServiceDetails/aad
 import { AadharServiceDataModel } from '../../../Models/AadharServiceDataModel';
 import { ApplicationCommitteeMemberdataModel, PostApplicationCommitteeMemberdataModel } from '../../../Models/ApplicationCommitteeMemberdataModel';
 import { AnimalDocumentScrutinyService } from '../../../Services/AnimalDocumentScrutiny/animal-document-scrutiny.service';
-import { fail } from 'assert';
 import { EnumCommitteType } from '../../../Common/enum-noc';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-ah-apply-noc-application-list',
   templateUrl: './ah-apply-noc-application-list.component.html',
@@ -55,13 +52,13 @@ export class AhApplyNocApplicationListComponent {
   public CommitteType: string = '';
   public IsCommitteType: boolean = false;
   public ApplicationTrailList: any = [];
-
-  constructor(private animalDocumentScrutinyService: AnimalDocumentScrutinyService, private sSOLoginService: SSOLoginService, private aadharServiceDetails: AadharServiceDetails, private committeeMasterService: CommitteeMasterService, private modalService: NgbModal, private loaderService: LoaderService, private toastr: ToastrService, private applyNOCApplicationService: ApplyNOCApplicationService,
-    private router: ActivatedRoute, private routers: Router, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService) { }
-
+  constructor(private animalDocumentScrutinyService: AnimalDocumentScrutinyService, private sSOLoginService: SSOLoginService,
+    private aadharServiceDetails: AadharServiceDetails, private committeeMasterService: CommitteeMasterService,
+    private modalService: NgbModal, private loaderService: LoaderService, private toastr: ToastrService, private routers: Router,
+    private formBuilder: FormBuilder,
+    private commonMasterService: CommonMasterService) { }
   async ngOnInit() {
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
-    //this.RoleID = this.sSOLoginDataModel.RoleID;
     if (this.sSOLoginDataModel.RoleID == 12) {
       this.CommitteType = EnumCommitteType.Pre;
       this.IsCommitteType = true;
@@ -70,15 +67,10 @@ export class AhApplyNocApplicationListComponent {
       this.CommitteType = EnumCommitteType.Post;
       this.IsCommitteType = true;
     }
-    //else if (this.sSOLoginDataModel.RoleID == 25) {
-    //  this.CommitteType = EnumCommitteType.Final;//'FinalVerification';
-    //  this.IsCommitteType = true;
-    //}
     else {
       this.CommitteType = 'All';
       this.IsCommitteType = false;
     }
-
     this.CommitteeMemberDetails = this.formBuilder.group(
       {
         txtCMNameOfPerson: ['', Validators.required],
@@ -87,9 +79,7 @@ export class AhApplyNocApplicationListComponent {
       })
     await this.GetApplyNOCApplicationListByRole(this.sSOLoginDataModel.RoleID, this.sSOLoginDataModel.UserID);
   }
-
   get form_CommitteeMember() { return this.CommitteeMemberDetails.controls; }
-
   async GetApplyNOCApplicationListByRole(RoleId: number, UserID: number) {
     try {
       this.loaderService.requestStarted();
@@ -111,7 +101,6 @@ export class AhApplyNocApplicationListComponent {
       }, 200);
     }
   }
-
   async OpenAsignCommitteePopUP(content: any, ApplyNOCID: number, DepartmentID: number, CollegeID: number, ApplicationNo: string) {
     this.ApplicationNo = ApplicationNo;
     this.SelectedCollageID = CollegeID;
@@ -122,10 +111,8 @@ export class AhApplyNocApplicationListComponent {
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
     });
-
     this.GetApplicationCommitteeList(ApplyNOCID)
   }
-
   private getDismissReason(reason: any): string {
     this.SelectedCollageID = 0;
     this.SelectedDepartmentID = 0;
@@ -138,9 +125,7 @@ export class AhApplyNocApplicationListComponent {
       return `with: ${reason}`;
     }
   }
-
   async GetApplicationCommitteeList(ApplyNocApplicationID: number) {
-
     try {
       this.loaderService.requestStarted();
       await this.committeeMasterService.GetApplicationCommitteeList_AH(ApplyNocApplicationID, this.CommitteType)
@@ -161,13 +146,11 @@ export class AhApplyNocApplicationListComponent {
       }, 200);
     }
   }
-
   async AddMemberDetail() {
     this.isSubmitted_MemberDetails = true;
     if (this.CommitteeMemberDetails.invalid) {
       return
     }
-    //rest
     try {
       this.loaderService.requestStarted();
       this.AadhaarNo = '';
@@ -196,7 +179,6 @@ export class AhApplyNocApplicationListComponent {
       else {
         this.toastr.warning('This User Alaready Exists')
       }
-      // reset
       this.request_CommitteeMemberDataModel.NameOfPerson = '';
       this.request_CommitteeMemberDataModel.MobileNumber = '';
       this.request_CommitteeMemberDataModel.SSOID = '';
@@ -212,7 +194,6 @@ export class AhApplyNocApplicationListComponent {
       }, 200);
     }
   }
-
   DelMemberDetail(item: any, index: any) {
     let chkIsPrimary = this.request_MemberList.ApplicationCommitteeList[index].IsPrimaryMember;
     this.isSubmitted = false;
@@ -234,7 +215,6 @@ export class AhApplyNocApplicationListComponent {
       }, 200);
     }
   }
-
   async VerifySSOID(SSOID: any) {
     await this.CheckMappingSSOID(SSOID);
     if (this.sSOVerifyDataModel != null && SSOID.toLowerCase() == this.sSOVerifyDataModel.SSOID.toLowerCase()) {
@@ -249,7 +229,6 @@ export class AhApplyNocApplicationListComponent {
       this.SsoValidationMessage = 'SSO Id Invalid !';
     }
   }
-
   async GetAadharByVID(data: any) {
     await this.aadharServiceDetails.GetAadharByVID(data)
       .then((data: any) => {
@@ -262,7 +241,6 @@ export class AhApplyNocApplicationListComponent {
         }
       }, error => console.error(error));
   }
-
   async CheckMappingSSOID(ssoid: any) {
     try {
       this.loaderService.requestStarted();
@@ -274,7 +252,6 @@ export class AhApplyNocApplicationListComponent {
           this.ErrorMessage = data['ErrorMessage'];
           // data
           this.sSOVerifyDataModel = data['Data'];
-          //console.log(this.sSOVerifyDataModel);
         }, (error: any) => console.error(error));
     }
     catch (Ex) {
@@ -286,10 +263,8 @@ export class AhApplyNocApplicationListComponent {
       }, 100);
     }
   }
-
   async SaveData() {
     this.isSubmitted = true;
-
     let isValid = true;
     if (this.form_CommitteeMember.invalid) {
       isValid = false;
@@ -299,20 +274,16 @@ export class AhApplyNocApplicationListComponent {
       this.toastr.error("Please add Member Details");
       isValid = false;
     }
-
     let ifPrimaryExits = this.request_MemberList.ApplicationCommitteeList.find(f => f.IsPrimaryMember == true);
     if (ifPrimaryExits?.IsPrimaryMember == undefined) {
       this.toastr.error("Atleast one primary member required");
       isValid = false;
     }
-
     if (!isValid) {
       return;
     }
     this.request_MemberList.ApplyNocApplicationID = this.SelectedApplyNOCID;
     this.request_MemberList.UserID = this.sSOLoginDataModel.UserID;
-    console.log(this.request_MemberList);
-    //Show Loading
     this.loaderService.requestStarted();
     this.isLoading = true;
     try {
@@ -341,28 +312,23 @@ export class AhApplyNocApplicationListComponent {
       }, 200);
     }
   }
-
   MaxLengthValidation_KeyPress(event: any, length: number): boolean {
     if (event.target.value.length == length) {
       return false;
     }
     return true;
   }
-
   SetPrimaryMember(item: any, index: any) {
     let oldArr = this.request_MemberList.ApplicationCommitteeList;
     let newArr = oldArr.map(obj => ({ ...obj, ['IsPrimaryMember']: false }));
     newArr[index].IsPrimaryMember = true;
     this.request_MemberList.ApplicationCommitteeList = newArr;
   }
-
   async ApplicationPreview_OnClick(DepartmentID: number, CollegeID: number, ApplyNOCID: number, ApplicationNo: string, Status: string) {
     if (DepartmentID = 2) {
-      //this.routers.navigate(['/animalhusbandryappnocpreview' + "/" + encodeURI(this.commonMasterService.Encrypt(DepartmentID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(CollegeID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(ApplyNOCID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(ApplicationNo.toString()))]);
       this.routers.navigate(['/animalhusbandryappnocviewByNodal' + "/" + encodeURI(this.commonMasterService.Encrypt(DepartmentID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(CollegeID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(ApplyNOCID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(ApplicationNo.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(Status.toString()))]);
     }
   }
-
   async GetApplicationTrail(content: any, ApplyNOCID: number) {
     this.ApplicationTrailList = [];
     this.modalService.open(content, { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' }).result.then((result) => {
