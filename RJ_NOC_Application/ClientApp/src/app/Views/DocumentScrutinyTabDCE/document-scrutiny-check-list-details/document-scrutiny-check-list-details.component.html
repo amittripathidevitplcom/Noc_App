@@ -2024,7 +2024,7 @@
     </div>
   </div>
 </div>
-<div class="row  m-2" [hidden]="sSOLoginDataModel.RoleID!=16 || QueryStringStatus!='Pending'">
+<div class="row  m-2" [hidden]="sSOLoginDataModel.RoleID==16 || QueryStringStatus!='Pending'">
   <div class="col-lg-12 col-md-12 col-sm-12 col-12 mb-3">
     <label>Remarks  <span style="color:red;">*</span></label>
     <textarea id="CheckFinalRemark" class="form-control" [(ngModel)]="CheckFinalRemark"></textarea>
@@ -2034,7 +2034,7 @@
   </div>
 
 </div>
-<div class="row  m-2" [hidden]="sSOLoginDataModel.RoleID!=16 || QueryStringStatus!='Pending'">
+<div class="row  m-2" [hidden]="sSOLoginDataModel.RoleID==16 || QueryStringStatus!='Pending'">
   <div class="col-md-12">
     <button type="button" class="btn btn-primary" (click)="DocumentScrutiny()" title="Submit">Submit</button>
   </div>
