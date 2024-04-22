@@ -278,6 +278,8 @@ export class MasterPageComponent implements OnInit {
     sessionStorage.removeItem('LoginID');
     sessionStorage.clear();
     localStorage.clear();
+    this.cookieService.set('LoginStatus', "");
+    this.cookieService.deleteAll();
     try {
       await this.loaderService.requestStarted();
       await this.menuService.SSOLogout(GlobalConstants.BacktoSSOURL_Logout?.toString());

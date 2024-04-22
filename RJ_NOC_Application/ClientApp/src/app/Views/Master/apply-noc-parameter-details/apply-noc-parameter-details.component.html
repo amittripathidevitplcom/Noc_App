@@ -95,7 +95,7 @@
                   <a class="dropdown-item list-group-item list-group-item-action list-group-item-danger" href="javascript:void(0)" *ngIf="item.IsMakePayment==false" title="Payment" (click)="PaymentApplyNocApplication_click(mymodalpayment,item.ApplyNocApplicationID)">
                     Payment
                   </a><!--*ngIf="item.IsMakePayment==true"-->
-                  <a class="dropdown-item list-group-item list-group-item-action list-group-item-danger" href="javascript:void(0)" title="Payment History" (click)="PaymentHistoryApplyNocApplication_click(mymodalpaymenthistory,item.ApplyNocApplicationID)">
+                  <a class="dropdown-item list-group-item list-group-item-action list-group-item-danger" *ngIf="item.IsMakePayment==true" href="javascript:void(0)" title="Payment History" (click)="PaymentHistoryApplyNocApplication_click(mymodalpaymenthistory,item.ApplyNocApplicationID)">
                     Payment History
                   </a>
                 </li>
@@ -114,11 +114,15 @@
                     Final Submit
                   </a>
                 </li>
+
+
                 <li>
-                  <a *ngIf="item.IsMakePayment==true && item.IsMakePayment_ApplicationFee==true && item.IsFinalSubmit==true && item.DepartmentID!=4 && item.DepartmentID!=5" class="dropdown-item list-group-item list-group-item-action list-group-item-danger" href="javascript:void(0)" title="Add Offline Payment Details" (click)="OpenOfflinePaymentActionPopUP(mymodalAddOfflinePayment,item)">
+                  <a *ngIf="item.IsMakePayment==true && item.IsMakePayment_ApplicationFee==true && item.IsFinalSubmit==true && item.DepartmentID!=4 && item.DepartmentID!=5 && item.DepartmentID!=3" class="dropdown-item list-group-item list-group-item-action list-group-item-danger" href="javascript:void(0)" title="Add Offline Payment Details" (click)="OpenOfflinePaymentActionPopUP(mymodalAddOfflinePayment,item)">
                     Add Offline Payment Details
                   </a>
                 </li>
+
+
 
                 <li>
                   <a style="display:none" class="dropdown-item list-group-item list-group-item-action list-group-item-danger" href="javascript:void(0)" title="Egrass Payment" (click)="MakeGrassPayment_click(item)">

@@ -90,6 +90,9 @@ export class LoginComponent implements OnInit {
   get form() { return this.LoginForm.controls; }
 
   async Login() {
+
+    //alert(this.cookieService.get('LoginStatus'));
+
     let count = 0;
     this.isSubmitted = true;
     if (this.LoginForm.invalid) {
