@@ -851,7 +851,7 @@ export class CheckListForCommissionerComponent implements OnInit {
       if (!this.isFormvalid) {
         return;
       }
-      if (this.sSOLoginDataModel.RoleID == 11 && this.NextRoleID == 1 && this.ActionID == 3) {
+      if ((this.sSOLoginDataModel.RoleID == 11 || this.sSOLoginDataModel.RoleID == 23) && this.NextRoleID == 1 && this.ActionID == 3) {
         if (this.TotalRevertCount >= 1) {
           this.toastr.warning('you already revert application. you can not revert 2nd time');
           return;
@@ -899,7 +899,7 @@ export class CheckListForCommissionerComponent implements OnInit {
             this.UserRoleList = data['Data'];
 
             if (this.UserRoleList.length > 0) {
-              if (this.sSOLoginDataModel.RoleID != 11) {
+              if (this.sSOLoginDataModel.RoleID != 11 && this.sSOLoginDataModel.RoleID != 23) {
                 this.UserRoleList = this.UserRoleList.filter((x: { RoleID: number; }) => x.RoleID != 1);
               }
               this.NextRoleID = this.UserRoleList[0]['RoleID'];
