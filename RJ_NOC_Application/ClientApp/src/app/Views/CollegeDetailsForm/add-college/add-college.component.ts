@@ -40,7 +40,7 @@ export class AddCollegeComponent implements OnInit {
   public isSubmitted: boolean = false;
   public isSubmitted_ContactDetails: boolean = false;
   public isSubmitted_NearestGovernmentHospitals: boolean = false;
-  public file: File = null;
+  public file!: File;
   public DepartmentList: any = [];
   public CollegeStatusList: any = [];
   public CollegeLevelList: any = [];
@@ -1181,6 +1181,18 @@ export class AddCollegeComponent implements OnInit {
     }
     this.CollegeDetailsForm.get('ddlTypeofCollege')?.updateValueAndValidity();
     this.CollegeDetailsForm.get('CollegeNAACAccredited')?.updateValueAndValidity();
+
+
+
+    if (this.request.DepartmentID == 3) {
+      this.CollegeDetailsForm.get('txtWebsiteLink')?.setValidators([Validators.required, Validators.pattern("(https?://)?([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/?")]);
+    }
+    else {
+      this.CollegeDetailsForm.get('txtWebsiteLink')?.clearValidators();
+    }
+    this.CollegeDetailsForm.get('txtWebsiteLink')?.updateValueAndValidity();
+
+
 
 
     this.isValidCollegeLogo = false;

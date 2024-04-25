@@ -436,6 +436,13 @@
           <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
             <label for="txtWebsiteLink" class="form-label">Website Link </label>
             <input type="text" class="form-control" maxlength="100" id="txtWebsiteLink" name="txtWebsiteLink" [(ngModel)]="request.WebsiteLink" formControlName="txtWebsiteLink">
+
+            <div *ngIf="isSubmitted&&form.txtWebsiteLink.errors" class="text-danger">
+              <p *ngIf="form.txtWebsiteLink.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+              <p *ngIf="form.txtWebsiteLink.errors.pattern"><i aria-hidden="true"></i> College Website Link is not valid .!</p>
+            </div>
+
+
           </div>
 
           <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">

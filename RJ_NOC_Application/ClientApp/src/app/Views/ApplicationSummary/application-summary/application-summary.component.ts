@@ -112,6 +112,7 @@ export class ApplicationSummaryComponent implements OnInit {
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     await this.GetCollageDetails();
     await this.GetDownloadPdfDetails();
+    await this.GetApplicationDeficiency();
     await this.ViewlegalEntityDataByID(this.UserSSOID);
     this.loaderService.requestEnded();
   }
@@ -1240,6 +1241,67 @@ export class ApplicationSummaryComponent implements OnInit {
       }, 200);
     }
   }
+  //Application Deficiency DO3
+  public DCPendingPoint: string = '';
+  async GetApplicationDeficiency() {
+    try {
+      let Femalepre = 0;
+      this.loaderService.requestStarted();
+      await this.commonMasterService.Check30Female(this.SelectedCollageID)
+        .then((data: any) => {
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
 
+          data = JSON.parse(JSON.stringify(data));
+
+          if (!this.State) {
+            if (data['Data'][0]['data'][0]['TotalMember'] < 15) {
+              this.DCPendingPoint += "Add Minimum 15 College Management Committee Members." + "</br>";
+            }
+            if (data['Data'][0]['data'][0]['Educationist'] < 2) {
+              this.DCPendingPoint += "Add Minimum 2 Educationist College Management Committee Members." + "</br>";
+            }
+            Femalepre = data['Data'][0]['data'][0]['FemalePercentage'];
+            if (Femalepre < 30) {
+              this.DCPendingPoint += "Member list must have atleast 30% of Woman" + "</br>";
+            }
+            if (data['Data'][0]['data'][0]['PendingFacilities'] > 0) {
+              this.DCPendingPoint += "Enter All Facilities Details." + "</br>";
+            }
+            if (data['Data'][0]['data'][0]['PendingOtherInformation'] > 0) {
+              this.DCPendingPoint += "Enter All Other Information Details." + "</br>";
+            }
+
+            if (data['Data'][0]['data'][0]['PendingClassRoomDetails'] > 0) {
+              this.DCPendingPoint += "Enter All Class Room Details." + "</br>";
+            }
+
+            if (data['Data'][0]['data'][0]['PendingClassWiseNoofRoomRoomDetails'] > 0) {
+              this.DCPendingPoint += "Enter All Class Wise No of Room Details." + "</br>";
+            }
+            if (data['Data'][0]['data'][0]['PendingMinLandArea'] > 0) {
+              this.DCPendingPoint += "Please Enter Min Land Area : " + data['Data'][0]['data'][0]['Dis_MinLandArea'] + " Sq. Feet" + "</br>";
+            }
+            if (this.CollegeType_IsExisting == true) {
+              if (data['Data'][0]['data'][0]['PendingSubjectStaff'] > 0) {
+                this.DCPendingPoint += "In the case of teaching, it is Mandatory to have teachers of all the subjects." + "</br>";
+              }
+            }
+          }
+          else {
+            this.toastr.error(this.ErrorMessage)
+          }
+        })
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
 
 }

@@ -180,7 +180,7 @@
                 <th>Stream</th>
                 <th style="width:250px !important">Subject</th>
 
-                <th *ngIf="this.request.DepartmentID !=3">Seat</th>
+                <th *ngIf="this.request.DepartmentID !=3">Seat</th> 
                 <th *ngIf="this.request.DepartmentID ==3">No Of Enrolled Students</th>
                 <th>Action</th>
               </tr>
@@ -193,8 +193,6 @@
                 <td>{{row.CourseName}}</td>
                 <td>{{row.StreamName}}</td>
                 <td style="width:250px !important">{{row.SubjectDetails}}</td>
-
-
                 <td *ngIf="this.request.DepartmentID !=3">{{row.Dis_Sits}}</td>
                 <td *ngIf="this.request.DepartmentID ==3">{{row.NoOfEnrolledStudents}}</td>
                 <td>
