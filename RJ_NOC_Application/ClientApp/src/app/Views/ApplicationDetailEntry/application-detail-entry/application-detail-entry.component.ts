@@ -368,13 +368,12 @@ export class ApplicationDetailEntryComponent implements OnInit {
           if (confirm(DCPendingPoint + "\nAre you sure you want to save draft application ?")) {
             this.isCheck30Female = false;
             if (this.isCheck30Female == false) {
-              await this.commonMasterService.DraftFinalSubmit(this.SelectedCollageID.toString(), IsDraftSubmited)
+              await this.commonMasterService.DraftFinalSubmit(this.SelectedCollageID, IsDraftSubmited, DCPendingPoint.toString())
                 .then((data: any) => {
 
                   this.State = data['State'];
                   this.SuccessMessage = data['SuccessMessage'];
                   this.ErrorMessage = data['ErrorMessage'];
-                  console.log(this.State);
                   if (!this.State) {
                     this.toastr.success(this.SuccessMessage)
 
@@ -417,7 +416,7 @@ export class ApplicationDetailEntryComponent implements OnInit {
                 }
               })
             if (this.isCheck30Female == false) {
-              await this.commonMasterService.DraftFinalSubmit(this.SelectedCollageID.toString(), IsDraftSubmited)
+              await this.commonMasterService.DraftFinalSubmit(this.SelectedCollageID, IsDraftSubmited)
                 .then((data: any) => {
 
                   this.State = data['State'];
@@ -443,7 +442,7 @@ export class ApplicationDetailEntryComponent implements OnInit {
         else {
 
           if (this.isCheck30Female == false) {
-            await this.commonMasterService.DraftFinalSubmit(this.SelectedCollageID.toString(), IsDraftSubmited)
+            await this.commonMasterService.DraftFinalSubmit(this.SelectedCollageID, IsDraftSubmited)
               .then((data: any) => {
 
                 this.State = data['State'];

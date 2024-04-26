@@ -859,9 +859,10 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-  public async DraftFinalSubmit(CollegeID: string, IsDraftSubmited: number) {
+  public async DraftFinalSubmit(CollegeID: number, IsDraftSubmited: number, Deficiency?:string) {
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
-    return await this.http.post(this.APIUrl_CommonMaster + '/DraftFinalSubmit/' + CollegeID + "/" + IsDraftSubmited, httpOptions)
+    const request = { CollegeID: CollegeID, IsDraftSubmited: IsDraftSubmited, Deficiency: Deficiency }
+    return await this.http.post(this.APIUrl_CommonMaster +"/DraftFinalSubmit", request, httpOptions)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();
@@ -1344,6 +1345,18 @@ export class CommonMasterService {
       })
     };
     return await this.http.get(this.APIUrl_CommonMaster + "/GetCourseByCollegeProgrammeDTE/" + CollegeID + "/" + ProgrammeID + "/" + CourseLevelID + "/" + GetType)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+
+  public async GetCollegeDeficiency(CollegeID: number) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl_CommonMaster + "/GetCollegeDeficiency/" + CollegeID)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();

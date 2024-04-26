@@ -259,6 +259,7 @@ export class ApplyNocParameterComponent implements OnInit {
       await this.GetDTE_CourseLevelList();
       await this.GetDTE_StreamMasterDataList();
       await this.GetDTE_CourseLevelMasterList();
+      await this.GetCollegeDeficiency();
     }
     else {
       this.routers.navigate(['/applynocapplicationdetail']);
@@ -1157,6 +1158,11 @@ export class ApplyNocParameterComponent implements OnInit {
 
         else if (this.ApplyNocParameterMasterList_PNOCOfSubject?.ApplyNocParameterCourseList != null) {
           let SelectedCourselist = this.ApplyNocParameterMasterList_PNOCOfSubject?.ApplyNocParameterCourseList;
+          
+          if (this.IsCollegeDeficiency) {
+            alert('College Deficiency\n' + this.CollegeDeficiencys);
+            return;
+          }
           if (SelectedCourselist.length == 0) {
             this.toastr.error("Choose any subject from 'PNOC For New Subject'");
             return;
@@ -4166,6 +4172,36 @@ export class ApplyNocParameterComponent implements OnInit {
           this.request.DTE_CoursesforWorkingProfessionals_List.splice(index, 1)
         }
       }
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+  public IsCollegeDeficiency: boolean = false;
+  public CollegeDeficiencys: string = '';
+  async GetCollegeDeficiency() {
+    try {
+      this.loaderService.requestStarted();
+      await this.commonMasterService.GetCollegeDeficiency(this.request.CollegeID)
+        .then((data: any) => {
+          debugger;
+          data = JSON.parse(JSON.stringify(data));
+          if (data['Data'].length > 0) {
+            if (data['Data'][0]['data'].length > 0) {
+              if (data['Data'][0]['data'][0]['Deficiency'] != '') {
+                this.IsCollegeDeficiency = true;
+                this.CollegeDeficiencys=data['Data'][0]['data'][0]['Deficiency'];
+              }
+            }
+          }
+          console.log(data);
+        }, (error: any) => console.error(error));
     }
     catch (Ex) {
       console.log(Ex);
