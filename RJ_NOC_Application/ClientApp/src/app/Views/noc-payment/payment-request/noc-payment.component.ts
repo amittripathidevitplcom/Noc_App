@@ -44,7 +44,15 @@ export class NocPaymentComponent implements OnInit {
         txtCMMobileNumber: ['', [Validators.required, Validators.pattern(this.MobileNoRegex)]],
         txtAMOUNT: ['', Validators.required],
         txtPURPOSE: ['', Validators.required],
+        txtDepartmentID: ['', Validators.required],
 
+        txtApplyNocApplicationID: ['', Validators.required],
+        txtRemitterName: ['', Validators.required],
+        txtREGTINNO: ['', Validators.required],
+        txtDistrictCode: ['', Validators.required],
+        txtAdrees: ['', Validators.required],
+        txtPincode: ['', Validators.required],
+         
       })
   }
 
@@ -293,9 +301,9 @@ export class NocPaymentComponent implements OnInit {
   RedirectEgrassPaymentRequest(pMERCHANTCODE: any, pENCDATA: any, pServiceURL: any, pAUIN:any)
   {
 
-    //pServiceURL = "http://10.68.69.46:62778/api/Payment/GRAS_PaymentRequest";
-    pServiceURL = "http://164.100.153.105/egras105/samplemerchantprelogin2.aspx";
-    debugger;
+    ////pServiceURL = "http://10.68.69.46:62778/api/Payment/GRAS_PaymentRequest";
+    //pServiceURL = "http://164.100.153.105/egras105/samplemerchantprelogin2.aspx";
+    //debugger;
     var form = document.createElement("form");
     form.setAttribute("method", "post");
     form.setAttribute("action", pServiceURL);

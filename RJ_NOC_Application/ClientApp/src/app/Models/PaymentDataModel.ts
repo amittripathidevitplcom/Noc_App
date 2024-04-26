@@ -53,6 +53,14 @@ export class RequestDetails {
   public DepartmentID: number = 0;
   public CreatedBy: number = 0;
   public SSOID: string = '';
+
+
+  public RemitterName: string = '';
+  public REGTINNO: string = '';
+  public DistrictCode: string = '';
+  public Adrees: string = '';
+  public City: string = '';
+  public Pincode: string = '';
 }
 
 //Emitra Request

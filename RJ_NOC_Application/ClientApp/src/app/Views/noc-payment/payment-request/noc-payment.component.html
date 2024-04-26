@@ -18,6 +18,58 @@
       </div>
       <div class="card-body">
         <div class="row">
+
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+            <label for="txtApplyNocApplicationID" class="form-label">ApplyNocApplicationID<span style="color:red;">*</span></label>
+            <input type="text" class="form-control" id="txtApplyNocApplicationID" name="txtApplyNocApplicationID"
+                   [(ngModel)]="request.ApplyNocApplicationID" formControlName="txtApplyNocApplicationID">
+          </div>
+
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+            <label for="txtDepartmentID" class="form-label">DepartmentID<span style="color:red;">*</span></label>
+            <input type="text" class="form-control" id="txtDepartmentID" name="txtDepartmentID"
+                   [(ngModel)]="request.DepartmentID" formControlName="txtDepartmentID">
+          </div>
+
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+            <label for="txtRemitterName" class="form-label">RemitterName<span style="color:red;">*</span></label>
+            <input type="text" class="form-control" id="txtRemitterName" name="txtRemitterName"
+                   [(ngModel)]="request.RemitterName" formControlName="txtRemitterName">
+          </div>
+
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+            <label for="txtREGTINNO" class="form-label">REGTINNO<span style="color:red;">*</span></label>
+            <input type="text" class="form-control" id="txtREGTINNO" name="txtREGTINNO"
+                   [(ngModel)]="request.REGTINNO" formControlName="txtREGTINNO">
+          </div>
+
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+            <label for="txtDistrictCode" class="form-label">DistrictCode<span style="color:red;">*</span></label>
+            <input type="text" class="form-control" id="txtDistrictCode" name="txtDistrictCode"
+                   [(ngModel)]="request.DistrictCode" formControlName="txtDistrictCode">
+          </div>
+
+
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+            <label for="txtAdrees" class="form-label">Adrees<span style="color:red;">*</span></label>
+            <input type="text" class="form-control" id="txtAdrees" name="txtAdrees"
+                   [(ngModel)]="request.Adrees" formControlName="txtAdrees">
+          </div>
+
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+            <label for="txtCity" class="form-label">City<span style="color:red;">*</span></label>
+            <input type="text" class="form-control" id="txtCity" name="txtCity"
+                   [(ngModel)]="request.City" formControlName="txtCity">
+          </div>
+
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+            <label for="txtCity" class="form-label">Pincode<span style="color:red;">*</span></label>
+            <input type="text" class="form-control" id="txtPincode" name="txtPincode"
+                   [(ngModel)]="request.Pincode" formControlName="txtPincode">
+          </div>
+
+
+
           <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
             <label for="txtCMNameOfPerson" class="form-label">Name Of Person <span style="color:red;">*</span></label>
             <input type="text" class="form-control" id="txtUSERNAME" name="txtUSERNAME" [(ngModel)]="request.USERNAME" formControlName="txtUSERNAME">
@@ -48,6 +100,10 @@
 
           <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3 text-end">
             <button type="button" class="btn btn-primary" (click)="PaymentRequest()"><i class="fa fa-inr"></i> Pay</button>
+          </div>
+
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3 text-end">
+            <button type="button" class="btn btn-primary" (click)="EgrassPaymentRequest()"><i class="fa fa-inr"></i>e-Grass Pay</button>
           </div>
         </div>
 
