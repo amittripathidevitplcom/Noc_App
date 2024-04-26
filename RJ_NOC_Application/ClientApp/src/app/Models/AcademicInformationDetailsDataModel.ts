@@ -16,4 +16,8 @@ export class AcademicInformationDetailsDataModel extends DocumentScrutiny_Action
   public Percentage: number = 0;
   public UserID: number = 0;
   public FinancialYearName: string = '';
+
+  //New
+  public CourseType: string = 'Yearly';
+  public SemesterNo: string = '1';
 }

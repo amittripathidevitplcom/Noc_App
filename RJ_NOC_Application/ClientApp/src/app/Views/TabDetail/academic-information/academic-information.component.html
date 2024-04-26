@@ -33,16 +33,37 @@
                 <p *ngIf="!form.ddlCourseId.errors.DropdownValidators"> This field is required .!</p>
               </div>
             </div>
+
+
+            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="SelectedDepartmentID==3">
+              <label>Course Type</label>
+              <select class="form-select" id="ddlCourseId" name="ddlCourseType" formControlName="ddlCourseType"
+                      [(ngModel)]="request.CourseType">
+                <option value="Yearly">Yearly</option>
+                <option value="Semester">Semester</option>
+              </select>
+            </div>
+
+
+            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3"  *ngIf="SelectedDepartmentID==3 && request.CourseType=='Semester'">
+              <label>Semester</label>
+              <input type="text" id="txtSemesterNo" class="form-control" [(ngModel)]="request.SemesterNo"
+                     formControlName="txtSemesterNo" (keypress)="numberOnly($event)" maxlength="50" />
+            </div>
+
+
+
+
             <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
               <label>Total  Admitted Student<span style="color:red;"> *</span></label>
-              <input type="text" id="txtTotalAdmittedStudent"  class="form-control" [(ngModel)]="request.AdmittedStudent" formControlName="txtTotalAdmittedStudent" (keypress)="numberOnly($event)" maxlength="10"/>
+              <input type="text" id="txtTotalAdmittedStudent" class="form-control" [(ngModel)]="request.AdmittedStudent" formControlName="txtTotalAdmittedStudent" (keypress)="numberOnly($event)" maxlength="10" />
               <div *ngIf="isSubmitted&&form.txtTotalAdmittedStudent.errors" class="text-danger">
                 <p *ngIf="form.txtTotalAdmittedStudent.errors.required"> Total  Admitted Student is required .!</p>
               </div>
             </div>
             <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
               <label>Number Of Appeared Student<span style="color:red;"> *</span></label>
-              <input type="text" id="txtAppearedStudent" maxlength="10"  class="form-control" [(ngModel)]="request.AppearedStudent" formControlName="txtAppearedStudent" (keypress)="numberOnly($event)" />
+              <input type="text" id="txtAppearedStudent" maxlength="10" class="form-control" [(ngModel)]="request.AppearedStudent" formControlName="txtAppearedStudent" (keypress)="numberOnly($event)" />
               <div *ngIf="isSubmitted&&form.txtAppearedStudent.errors" class="text-danger">
                 <p *ngIf="form.txtAppearedStudent.errors.required">  Number Of Appeared Student is required .!</p>
               </div>
@@ -62,7 +83,7 @@
             </div>
             <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
               <label>Number of Passed Student<span style="color:red;"> *</span></label>
-              <input [attr.disabled]="isselectresult ? true : null" maxlength="10" type="text" id="txtPassedStudent"  class="form-control" [(ngModel)]="request.PassedStudent" formControlName="txtPassedStudent" (keypress)="numberOnly($event)" />
+              <input [attr.disabled]="isselectresult ? true : null" maxlength="10" type="text" id="txtPassedStudent" class="form-control" [(ngModel)]="request.PassedStudent" formControlName="txtPassedStudent" (keypress)="numberOnly($event)" />
               <div *ngIf="isPassStudent" class="text-danger">
                 <p *ngIf="isPassStudent">  Number Of Students Passed is required .!</p>
               </div>
@@ -81,8 +102,8 @@
                 <p *ngIf="isOtherStudent">  Number Of Other (Withheld Result / Supplimentry) is required .!</p>
               </div>
               <!--<div *ngIf="request.OtherStudent == null" class="text-danger">
-                <p *ngIf="request.OtherStudent == null">  Number Of Other (Withheld Result / Supplimentry) is required .!</p>
-              </div>-->
+      <p *ngIf="request.OtherStudent == null">  Number Of Other (Withheld Result / Supplimentry) is required .!</p>
+    </div>-->
             </div>
           </div>
         </div>
@@ -121,12 +142,18 @@
                       <th>Sr. No.</th>
                       <th>Financial Year</th>
                       <th>Course Name</th>
+
+
+                      <th *ngIf="SelectedDepartmentID==3">Course Type</th>
+                      <th *ngIf="SelectedDepartmentID==3">Semester No.</th>
+
                       <th>Result</th>
                       <th>Admitted Student</th>
                       <th>Appeared Student</th>
                       <th>Passed Student</th>
                       <th>Failed Student</th>
                       <th>Other Student</th>
+
                       <th>Action</th>
                     </tr>
                   </thead>
@@ -135,6 +162,10 @@
                       <td>{{idx+1}}</td>
                       <td>{{row.FinancialYearName}}</td>
                       <td>{{row.CourseName}}</td>
+
+                      <td>{{row.CourseType}}</td>
+                      <td>{{row.SemesterNo}}</td>
+
                       <td>{{row.ResultName}}</td>
                       <td>{{row.AdmittedStudent}}</td>
                       <td>{{row.AppearedStudent}}</td>

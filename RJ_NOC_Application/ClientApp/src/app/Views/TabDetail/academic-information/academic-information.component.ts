@@ -92,6 +92,9 @@ export class AcademicInformationComponent implements OnInit {
         txtFailedStudent: [''],
         txtOtherStudent: [''],
         txtsearchText: [''],
+
+        ddlCourseType: [''],
+        txtSemesterNo: [''],
       });
 
     const ddlYearId = document.getElementById('ddlYearId')
@@ -278,6 +281,18 @@ export class AcademicInformationComponent implements OnInit {
       return
     }
 
+    if (this.request.CourseType == "Yearly") {
+      this.request.SemesterNo = '';
+    }
+    else {
+      if (this.SelectedDepartmentID == 3) {
+        if (this.request.SemesterNo == null || this.request.SemesterNo == undefined || this.request.SemesterNo == '') {
+          this.toastr.warning('Enter Semester No..!');
+          return;
+        }
+      }
+    }
+
     //Show Loading
     this.loaderService.requestStarted();
     this.request.CollegeID = this.SelectedCollageID;
@@ -331,6 +346,11 @@ export class AcademicInformationComponent implements OnInit {
       this.request.PassedStudent = null;
       this.request.FailedStudent = null;
       this.request.OtherStudent = null;
+
+      this.request.CourseType = 'Yearly';
+      this.request.SemesterNo = '1';
+
+
       this.request.UserID = 0;
       this.isDisabledGrid = false;
       this.isselectresult = false;
@@ -356,7 +376,7 @@ export class AcademicInformationComponent implements OnInit {
   async GetAcademicInformationDetailAllList() {
     try {
       this.loaderService.requestStarted();
-      await this.academicInformationDetailsService.GetAcademicInformationDetailAllList(this.UserID, this.SelectedCollageID, this.SelectedApplyNOCID > 0 ? this.SelectedApplyNOCID:0)
+      await this.academicInformationDetailsService.GetAcademicInformationDetailAllList(this.UserID, this.SelectedCollageID, this.SelectedApplyNOCID > 0 ? this.SelectedApplyNOCID : 0)
         .then((data: any) => {
 
           data = JSON.parse(JSON.stringify(data));
