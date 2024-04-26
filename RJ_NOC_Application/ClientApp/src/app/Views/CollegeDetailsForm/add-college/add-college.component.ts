@@ -164,7 +164,6 @@ export class AddCollegeComponent implements OnInit {
         txtTGC_Longitude: [''],
         fCollegeLogo: [''],
         NAACAccreditedCertificate: [''],
-        AffiliationDocument: [''],
         txtNACCValidityDate: [''],
         ddlCityID: ['', [DropdownValidators]],
         txtUniversity: ['']
@@ -461,7 +460,6 @@ export class AddCollegeComponent implements OnInit {
         this.request.NAACAccreditedCertificate_Dis_FileName = dis_Name;
       }
       else if (type == 'AffiliationDocument') {
-        debugger;
         this.showAffiliationDocument = isShowFile;
         this.AffiliationDocumentValidationMessage = msg;
         this.request.AffiliationDocument = name;
@@ -1200,23 +1198,14 @@ export class AddCollegeComponent implements OnInit {
 
     if (this.request.DepartmentID == 3) {
       this.CollegeDetailsForm.get('CollegeAffiliationDocument')?.setValidators([Validators.required]);
-    }
-    else {
-      this.CollegeDetailsForm.get('CollegeAffiliationDocument')?.clearValidators();
-    }
-    this.CollegeDetailsForm.get('CollegeAffiliationDocument')?.updateValueAndValidity(); 
-
-
-
-    if (this.request.DepartmentID == 3) {
       this.CollegeDetailsForm.get('txtWebsiteLink')?.setValidators([Validators.required, Validators.pattern("(https?://)?([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/?")]);
     }
     else {
+      this.CollegeDetailsForm.get('CollegeAffiliationDocument')?.clearValidators();
       this.CollegeDetailsForm.get('txtWebsiteLink')?.clearValidators();
     }
+    this.CollegeDetailsForm.get('CollegeAffiliationDocument')?.updateValueAndValidity(); 
     this.CollegeDetailsForm.get('txtWebsiteLink')?.updateValueAndValidity();
-
-
 
 
     this.isValidCollegeLogo = false;
@@ -1272,9 +1261,9 @@ export class AddCollegeComponent implements OnInit {
         isValid = false;
         this.AffiliationDocumentValidationMessage = 'This field is required .!';
       }
-      if (this.request.NACCValidityDate == null || this.request.NACCValidityDate == '' || this.request.NACCValidityDate == undefined) {
-        isValid = false;
-      }
+      //if (this.request.NACCValidityDate == null || this.request.NACCValidityDate == '' || this.request.NACCValidityDate == undefined) {
+      //  isValid = false;
+      //}
     }
     if (this.request.DepartmentID == 4) {
       if (this.SelectedCollegeLevel.length > 0) {
@@ -1433,7 +1422,7 @@ export class AddCollegeComponent implements OnInit {
           await this.ResetFileAndValidation('CollegeLogo', '', this.request.CollegeLogo, this.request.CollegeLogoPath, this.request.CollegeLogo_Dis_FileName, true);
           await this.ResetFileAndValidation('NAACAccreditedCertificate', '', this.request.NAACAccreditedCertificate, this.request.AffiliationDocumentPath, this.request.NAACAccreditedCertificate_Dis_FileName, true);
 
-          await this.ResetFileAndValidation('AffiliationDocumentCertificate', '', this.request.AffiliationDocument, this.request.AffiliationDocumentPath, this.request.AffiliationDocument_Dis_FileName, true);
+          await this.ResetFileAndValidation('AffiliationDocument', '', this.request.AffiliationDocument, this.request.AffiliationDocumentPath, this.request.AffiliationDocument_Dis_FileName, this.request.DepartmentID == 3 ? true : false);
           // college status
           await this.ddlCollegeStatus_TextChange(null, this.request.CollegeStatusID.toString())
           this.request.PresentCollegeStatusID = data['Data']['PresentCollegeStatusID'];
@@ -1450,7 +1439,7 @@ export class AddCollegeComponent implements OnInit {
           this.request.CollegeNAACAccredited = data['Data']['CollegeNAACAccredited'];
           await this.IsCollegeNAACAccreditedOrNot(this.request.CollegeNAACAccredited == 1 ? true : false)
 
-          this.request.AffiliationDocument = data['Data']['AffiliationDocument'];
+          //this.request.AffiliationDocument = data['Data']['AffiliationDocument'];
 
           this.request.TypeofCollege = data['Data']['TypeofCollege'];
 
