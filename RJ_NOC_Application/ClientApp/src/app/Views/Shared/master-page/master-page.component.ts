@@ -48,9 +48,9 @@ export class MasterPageComponent implements OnInit {
   }
   async ngOnInit() {
 
-    if (this.cookieService.get('LoginStatus') != 'OK') {
-      await this.Logout();
-    }
+    //if (this.cookieService.get('LoginStatus') != 'OK') {
+    //  await this.Logout();
+    //}
 
     //Added By rishi kapoor >> Manage Session
     this.idle.setIdle(2);
