@@ -77,3 +77,16 @@ export class GrievanceReportSearchFilter {
   public ToDate: string = '';
   public searchText = '';
 }
+
+
+export class SSOUpdateDataModelSearchFilter {
+  public DepartmentID: number = 0
+  public UniversityID: number = 0
+  public DivisionID: number = 0
+  public DistrictID: number = 0
+  public CollegeName: string = ''
+  public UserID: number = 0
+  public CollegeID: number = 0
+  public SSOID: number =0
+
+}

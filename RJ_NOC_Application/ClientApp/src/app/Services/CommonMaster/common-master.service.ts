@@ -1348,4 +1348,45 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
+
+  //public async SSOUpdateSubmit(CollegeID: number, SSOID: string) {
+  //  const headers = { 'content-type': 'application/json' }
+  //  return await this.http.post(this.APIUrl + "/SSOUpdateSubmit/" + CollegeID + "/" + SSOID { 'headers': headers })
+  //    .pipe(
+  //      catchError(this.handleErrorObservable)
+  //    ).toPromise();
+  //}
+
+  //public async SSOUpdateSubmit(CollegeID: number, SSOID: string) {
+  //  const httpOptions = {
+  //    headers: new HttpHeaders({
+  //      'Content-Type': 'application/json'
+  //    })
+  //  };
+  //  return await this.http.get(this.APIUrl_CommonMaster + "/SSOUpdateSubmit/" + CollegeID + "/" + SSOID)
+  //    .pipe(
+  //      catchError(this.handleErrorObservable)
+  //    ).toPromise();
+  //}
+
+  public async SSOUpdateSubmit(CollegeID: number, SSOID: string ) {
+    const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
+    return await this.http.post(this.APIUrl_CommonMaster + '/SSOUpdateSubmit/' + CollegeID + "/" + SSOID, httpOptions)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+
+  public async GetSSOByCollegeIDWise(CollegeID: number, UserID: number) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl + "/" + CollegeID + "/" + UserID)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+
 }

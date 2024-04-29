@@ -1,0 +1,186 @@
+<div class="container-fluid breadcrumbBox py-2">
+  <div class="row align-items-center">
+    <div class="col-md-6">
+      <h3>Total College</h3>
+    </div>
+    <div class="col-md-6 d-flex justify-content-end">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+          <li class="breadcrumb-item active" aria-current="page">Total College</li>
+        </ol>
+      </nav>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card mb-0">
+        <div class="card-header">
+          <b>
+            <i class="bi bi-table"></i> Search Fields
+          </b>
+          
+        </div>
+
+        <div class="card-body">
+          <div class="row">
+            <!--<div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <label for="ddlUniversityID" class="form-label">
+                <span> University</span>
+              </label>
+              <select class="form-select" id="ddlUniversityID" name="ddlUniversityID">
+                <option value="0">All</option>-->
+                <!--<option *ngFor="let item of UniversityList" value="{{item.UniversityID}}">{{item.UniversityName}}</option>-->
+              <!--</select>
+            </div>-->
+            <!--<div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <label for="ddlDivisionID" class="form-label">Division:</label>
+              <select class="form-select" id="ddlDivisionID" name="ddlDivisionID">
+                si
+                <option value="0">All</option>-->
+                <!--<option *ngFor="let item of DivisionList" value="{{item.DivisionID}}">{{item.DivisionName}}</option>-->
+              <!--</select>
+            </div>-->
+            <!--<div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <label for="ddlDistrictID" class="form-label">District:</label>
+              <select class="form-select" id="ddlDistrictID" name="ddlDistrictID">
+                <option value="0">All</option>-->
+                <!--<option *ngFor="let item of DistrictList" value="{{item.DistrictID}}">{{item.DistrictName}}</option>-->
+              <!--</select>
+            </div>-->
+
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <label for="ddlDistrictID" class="form-label">College Name</label>
+              <input type="text" class="form-control" id="txtCollegeName" name="txtCollegeName" [(ngModel)]="request.CollegeName">
+            </div>
+          </div>
+        </div>
+
+        <div class="card-footer text-end">
+          <button type="submit" (click)="GetTotalCollegeList()" class="btn btn-primary"><i class="fa fa-search"></i>&nbsp;Search</button>
+          <button type="submit" (click)="ResetControl()" class="btn btn-danger"><i class="bi bi-bootstrap-reboot"></i>&nbsp;Reset</button>
+          <button type="submit" (click)="btnExportTable_Click()" class="btn btn-success"><i class="fa fa-file-excel-o"></i> &nbsp;Export Record</button>
+        </div>
+      </div>
+
+
+
+
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="card mb-0">
+      <div class="card-header d-xxl-flex d-xl-flex d-md-flex d-sm-block justify-content-between align-items-center">
+        <b><i class="bi bi-table"></i> Total College List </b>
+        <div class="d-flex align-items-center table-filter mr-15">
+          <i class="fa fa-search"></i>
+          <input type="text" class="form-control" placeholder="Search Here" [(ngModel)]="searchText" />
+        </div>
+      </div>
+      <div class="table-responsive" style="height: calc(100vh - 350px) !important;">
+        <table class="table table-hover table-striped-columns" id="tabellist">
+          <thead>
+            <tr>
+              <th>Action</th>
+              <th>Sr. No.</th>
+              <th>Legal Entity SSOID</th>
+              <th>College SSOID</th>
+
+              <th>Society Name</th>
+              <th>College Application No.</th>
+              <th>College Code</th>
+              <th>College Name</th>
+              <th>District</th>
+              <th>Department Name</th>
+              <th>College Status</th>
+              <th>College Type</th>
+              <th>College Medium</th>
+              <th>University Name</th>
+              <th>College Mobile No.</th>
+              <th>College Landline No.</th>
+              <th>College Email</th>
+              <th>Full Address</th>
+              <th>Creation Date</th>
+              <th>Geo Tagging</th>
+
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let row of TotalCollegeList  | tableSearchFilter:searchText; let idx=index;">
+              <td>
+                <a href="javascript:void(0)" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#SSOIDMapping" (click)="OpenSSOIDMaping(row)"><i class="fa fa-refresh"></i></a>
+              </td>
+              <td style="text-align:center;">{{idx+1}}</td>
+              <td>{{row.ParentSSOID}}</td>
+              <td>{{row.MappingSSOID}}</td>
+              <td>{{row.SocietyName}}</td>
+              <td>{{row.CollegeRegistrationNo}}</td>
+              <td>{{row.CollegeCode}}</td>
+              <td>{{row.CollegeName}}</td>
+              <td>{{row.DistrictName}}</td>
+              <td>{{row.DepartmentName}}</td>
+              <td>{{row.CollegeStatus}}</td>
+              <td>{{row.CollegeType}}</td>
+              <td>{{row.CollegeMedium}}</td>
+              <td>{{row.UniversityName}}</td>
+              <td>{{row.CollegeMobileNumber}}</td>
+              <td>{{row.CollegeLandlineNumber}}</td>
+              <td>{{row.CollegeEmail}}</td>
+              <td>{{row.FullAddress}}</td>
+              <td>{{row.CreateDate}}</td>
+              <td>{{row.GeoTagging}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+
+</div>
+<form>
+
+  <div class="modal fade" id="SSOIDMapping" tabindex="-1" aria-labelledby="SSOIDMapping" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">SSOID Mapping</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="SSOIDMapping_Close"></button>
+        </div>
+        <div class="modal-body py-4">
+          <div class="row">
+
+            <div class="col-md-12 pb-3">
+              <label>Current SSOID</label>
+
+              <input type="text" class="form-control" disabled id="txtCurrentSSOID" name="txtCurrentSSOID" [(ngModel)]="CurrentSSOID" />
+              
+            </div>
+
+            <div class="col-md-12 pb-3">
+              <label>New SSOID</label>
+              <input type="text" class="form-control" [disabled]="SsoSuccessMessage!=''" placeholder="Enter SSOID" id="txtSsoId" name="txtSsoId" [(ngModel)]="NewSSOID" />
+              <div *ngIf="SsoValidationMessage!=''" class="text-danger">
+                <p><i aria-hidden="true"></i>{{SsoValidationMessage}}</p>
+              </div>
+              <div *ngIf="SsoSuccessMessage!=''" class="text-success">
+                <p><i aria-hidden="true"></i>{{SsoSuccessMessage}}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button type="button" *ngIf="SsoSuccessMessage==''" class="btn btn-sm btn-primary" (click)="VerifySSOID()">Verify</button>
+          <button type="button" *ngIf="SsoSuccessMessage!=''" class="btn btn-sm btn-success" (click)="SSOUpdateSubmit()">Update</button>
+          <button type="button" class="btn btn-sm btn-danger" (click)="ResetSSOIDVerify()"> Reset</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</form>

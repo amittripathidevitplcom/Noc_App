@@ -224,6 +224,7 @@ import { FinalCheckListDTEComponent } from './Views/DocumentScrutinyTab_DTE/fina
 import { RevertCheckListDTEComponent } from './Views/DocumentScrutinyTab_DTE/revert-check-list-dte/revert-check-list-dte.component';
 import { PreviewDTEStatisticsComponent } from './Views/DTEStatistics/preview-dtestatistics/preview-dtestatistics.component';
 import { WorkFlowFormat3Component } from './Views/Admin/work-flow-master/work-flow-format3/work-flow-format3/work-flow-format3.component';
+import { UpdateCollegeSSOComponent } from './Views/UpdateCollegeSSO/update-college-sso/update-college-sso.component';
 
 
 const routes: Routes = [
@@ -920,8 +921,11 @@ const routes: Routes = [
       //},
       {
         path: 'workflowformat3', component: WorkFlowFormat3Component
+      },
+      
+      {
+        path: 'updatecollegeSSO', component: UpdateCollegeSSOComponent
       }
-
 
     ]
     // ,canActivate: [SkipLocationChangeGuard],

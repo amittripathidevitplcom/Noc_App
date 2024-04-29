@@ -384,6 +384,7 @@ import { PreviewDTEStatisticsComponent } from './Views/DTEStatistics/preview-dte
 import { DistanceOtherMinorityBreakupComponent } from './Views/DTEStatistics/distance-other-minority-breakup/distance-other-minority-breakup.component';
 import { OtherMinorityDataComponent } from './Views/DTEStatistics/OtherMinorityData/other-minority-data/other-minority-data.component';
 import { WorkFlowFormat3Component } from './Views/Admin/work-flow-master/work-flow-format3/work-flow-format3/work-flow-format3.component';
+import { UpdateCollegeSSOComponent } from './Views/UpdateCollegeSSO/update-college-sso/update-college-sso.component';
 
 
 
@@ -768,6 +769,8 @@ import { WorkFlowFormat3Component } from './Views/Admin/work-flow-master/work-fl
     OtherMinorityDataComponent,
     DistanceOtherMinorityBreakupComponent,
     WorkFlowFormat3Component,
+   
+    UpdateCollegeSSOComponent,
 
   ],
   imports: [
