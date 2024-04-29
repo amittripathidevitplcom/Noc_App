@@ -722,7 +722,7 @@ export class StaffDetailsComponent implements OnInit {
       if (this.request.Salary == '') {
         this.request.Salary = "0";
       }
-      if ((this.TotalStaffDetail > 10) && (Number(this.request.Salary) < 21000)) {
+      if ((this.TotalStaffDetail > 10) && ((Number(this.request.Salary)/12) < 21000)) {
         if (this.request.ESINumber == '') {
           this.ESIStaffShowHide = true;
           this.IsESIDetails = true;
