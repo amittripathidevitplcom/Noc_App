@@ -48,9 +48,9 @@ export class MasterPageComponent implements OnInit {
   }
   async ngOnInit() {
 
-    if (this.cookieService.get('LoginStatus') != 'OK') {
-      await this.Logout();
-    }
+    //if (this.cookieService.get('LoginStatus') != 'OK') {
+    //  await this.Logout();
+    //}
 
     //Added By rishi kapoor >> Manage Session
     this.idle.setIdle(2);
@@ -278,6 +278,8 @@ export class MasterPageComponent implements OnInit {
     sessionStorage.removeItem('LoginID');
     sessionStorage.clear();
     localStorage.clear();
+    this.cookieService.set('LoginStatus', "");
+    this.cookieService.deleteAll();
     try {
       await this.loaderService.requestStarted();
       await this.menuService.SSOLogout(GlobalConstants.BacktoSSOURL_Logout?.toString());

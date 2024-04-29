@@ -64,10 +64,9 @@
                         style="background-color: #132649;">
                   Action
                 </button>
-                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1"> 
                   <li> <a href="javascript:void(0)" class="dropdown-item list-group-item list-group-item-action list-group-item-danger" data-bs-toggle="modal" data-bs-target="#ViewTotalCollege" (click)="ViewTotalCollegeDataByID(row.CollegeID)">View</a></li>
-                  <li *ngIf="row.TotalNOCCount<=0 && IsOpenNOCApplication==true"> <a href="javascript:void(0)" class="dropdown-item list-group-item list-group-item-action list-group-item-danger" (click)="EditCollegeData(row.CollegeID)">Edit</a></li>
+                  <li *ngIf="row.TotalNOCCount<=0 && row.IsOpenNOCApplication==true"> <a href="javascript:void(0)" class="dropdown-item list-group-item list-group-item-action list-group-item-danger" (click)="EditCollegeData(row.CollegeID)">Edit</a></li>
                   <li *ngIf="row.IsOpenNOCApplication==true"><a href="javascript:void(0)" class="dropdown-item list-group-item list-group-item-action list-group-item-danger" (click)="DeleteData(row)">Delete</a></li>
                   <li *ngIf="row.IsOpenNOCApplication==true"> <a href="javascript:void(0)" class="dropdown-item list-group-item list-group-item-action list-group-item-danger" data-bs-toggle="modal" data-bs-target="#SSOIDMapping" (click)="OpenSSOIDMaping(row)">SSO ID Mapping</a></li>
                 </ul>
@@ -270,6 +269,12 @@
                     <input class="form-control disabled mt-1" disabled value="{{collegeListData.MobileNumber}}" />
                   </div>
 
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="collegeListData.DepartmentID ==3">
+                    <label><b>Affiliation Document :</b></label>
+                    <div class="clearfix"></div>
+                    <a class="bi bi-file-earmark-pdf-fill" *ngIf="collegeListData.AffiliationDocumentPath.includes('.pdf')" data-fancybox="gallery" href="{{collegeListData.AffiliationDocumentPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                  </div>
+
                   <div class="card">
                     <div class="card-header d-flex justify-content-between align-items-center">
                       <b>Address & Contact Detail <span style="color:red;">*</span></b>
@@ -355,73 +360,73 @@
                   </div>
 
                   <!--<div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                    <label>Email :</label>
-                    <input class="form-control disabled mt-1" disabled value="{{collegeListData.Email}}" />
-                  </div>
-                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                    <label>Division :</label>
-                    <input class="form-control disabled mt-1" disabled value="{{collegeListData.Division_English}}" />
-                  </div>
-                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                    <label>District :</label>
-                    <input class="form-control disabled mt-1" disabled value="{{collegeListData.District_Eng}}" />
-                  </div>
-                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                    <label>Subdivision :</label>
-                    <input class="form-control disabled mt-1" disabled value="{{collegeListData.SubdivisionName}}" />
-                  </div>
-                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                    <label>Tehsil :</label>
-                    <input class="form-control disabled mt-1" disabled value="{{collegeListData.TehsilName}}" />
-                  </div>
-                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                    <label>Area :</label>
-                    <input class="form-control disabled mt-1" disabled value="{{collegeListData.RuralUrbanArea}}" />
-                  </div>
-                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="collegeListData.RuralUrbanArea=='Urban'">
-                    <label>City :</label>
-                    <input class="form-control disabled mt-1" disabled value="{{collegeListData.CityName}}" />
-                  </div>
-                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="collegeListData.RuralUrbanArea=='Rural'">
-                    <label>Panchayat Samiti :</label>
-                    <input class="form-control disabled mt-1" disabled value="{{collegeListData.PanchyatSamitiName}}" />
-                  </div>
-                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                    <label>Parliament Area :</label>
-                    <input class="form-control disabled mt-1" disabled value="{{collegeListData.ParliamentAreaName}}" />
-                  </div>
-                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                    <label>Assembly Area :</label>
-                    <input class="form-control disabled mt-1" disabled value="{{collegeListData.AssemblyAreaName}}" />
-                  </div>
-                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                    <label>City/Town/Village :</label>
-                    <input class="form-control disabled mt-1" disabled value="{{collegeListData.CityTownVillage}}" />
-                  </div>
-                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                    <label>Pincode :</label>
-                    <input class="form-control disabled mt-1" disabled value="{{collegeListData.Pincode}}" />
-                  </div>
-                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                    <label>Address Line 1 :</label>
-                    <input class="form-control disabled mt-1" disabled value="{{collegeListData.AddressLine1}}" />
-                  </div>
-                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                    <label>Address Line 2 :</label>
-                    <input class="form-control disabled mt-1" disabled value="{{collegeListData.AddressLine2}}" />
-                  </div>
-                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="collegeListData.RuralUrbanArea=='Rural'">
-                    <label>Distance from City(km) :</label>
-                    <input class="form-control disabled mt-1" disabled value="{{collegeListData.DistanceFromCity}}" />
-                  </div>
-                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                    <label>Year of Establishment :</label>
-                    <input class="form-control disabled mt-1" disabled value="{{collegeListData.FinancialYearName}}" />
-                  </div>
-                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                    <label>Website Link :</label>
-                    <input class="form-control disabled mt-1" disabled value="{{collegeListData.WebsiteLink}}" />
-                  </div>-->
+    <label>Email :</label>
+    <input class="form-control disabled mt-1" disabled value="{{collegeListData.Email}}" />
+  </div>
+  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+    <label>Division :</label>
+    <input class="form-control disabled mt-1" disabled value="{{collegeListData.Division_English}}" />
+  </div>
+  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+    <label>District :</label>
+    <input class="form-control disabled mt-1" disabled value="{{collegeListData.District_Eng}}" />
+  </div>
+  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+    <label>Subdivision :</label>
+    <input class="form-control disabled mt-1" disabled value="{{collegeListData.SubdivisionName}}" />
+  </div>
+  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+    <label>Tehsil :</label>
+    <input class="form-control disabled mt-1" disabled value="{{collegeListData.TehsilName}}" />
+  </div>
+  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+    <label>Area :</label>
+    <input class="form-control disabled mt-1" disabled value="{{collegeListData.RuralUrbanArea}}" />
+  </div>
+  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="collegeListData.RuralUrbanArea=='Urban'">
+    <label>City :</label>
+    <input class="form-control disabled mt-1" disabled value="{{collegeListData.CityName}}" />
+  </div>
+  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="collegeListData.RuralUrbanArea=='Rural'">
+    <label>Panchayat Samiti :</label>
+    <input class="form-control disabled mt-1" disabled value="{{collegeListData.PanchyatSamitiName}}" />
+  </div>
+  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+    <label>Parliament Area :</label>
+    <input class="form-control disabled mt-1" disabled value="{{collegeListData.ParliamentAreaName}}" />
+  </div>
+  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+    <label>Assembly Area :</label>
+    <input class="form-control disabled mt-1" disabled value="{{collegeListData.AssemblyAreaName}}" />
+  </div>
+  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+    <label>City/Town/Village :</label>
+    <input class="form-control disabled mt-1" disabled value="{{collegeListData.CityTownVillage}}" />
+  </div>
+  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+    <label>Pincode :</label>
+    <input class="form-control disabled mt-1" disabled value="{{collegeListData.Pincode}}" />
+  </div>
+  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+    <label>Address Line 1 :</label>
+    <input class="form-control disabled mt-1" disabled value="{{collegeListData.AddressLine1}}" />
+  </div>
+  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+    <label>Address Line 2 :</label>
+    <input class="form-control disabled mt-1" disabled value="{{collegeListData.AddressLine2}}" />
+  </div>
+  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="collegeListData.RuralUrbanArea=='Rural'">
+    <label>Distance from City(km) :</label>
+    <input class="form-control disabled mt-1" disabled value="{{collegeListData.DistanceFromCity}}" />
+  </div>
+  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+    <label>Year of Establishment :</label>
+    <input class="form-control disabled mt-1" disabled value="{{collegeListData.FinancialYearName}}" />
+  </div>
+  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+    <label>Website Link :</label>
+    <input class="form-control disabled mt-1" disabled value="{{collegeListData.WebsiteLink}}" />
+  </div>-->
                 </div>
               </div>
             </div>

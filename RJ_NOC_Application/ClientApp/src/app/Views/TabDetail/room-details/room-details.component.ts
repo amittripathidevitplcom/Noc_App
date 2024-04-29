@@ -178,6 +178,8 @@ export class RoomDetailsComponent implements OnInit {
 
 
   async ddlCourse_change($event: any, SeletedCourseID: any) {
+    debugger;
+    const CourseType = this.courseDataList.find((x: { CourseID: number; }) => x.CourseID == SeletedCourseID)?.CourseOldNew;
     this.request.CourseID = SeletedCourseID;
     this.request.Width = 0;
     this.request.Length = 0;
@@ -201,6 +203,14 @@ export class RoomDetailsComponent implements OnInit {
               this.WidthMin_Dis = this.RoomSizeDataList[0]['WidthMin'];
               this.LengthMin = this.RoomSizeDataList[0]['LengthMin'];
               this.LengthMin_Dis = this.RoomSizeDataList[0]['LengthMin'];
+            }
+            else {
+              if (CourseType == 'New') {
+                this.WidthMin = this.RoomSizeDataList[0]['WidthMin'];
+                this.WidthMin_Dis = this.RoomSizeDataList[0]['WidthMin'];
+                this.LengthMin = this.RoomSizeDataList[0]['LengthMin'];
+                this.LengthMin_Dis = this.RoomSizeDataList[0]['LengthMin'];
+              }
             }
           }
           else {

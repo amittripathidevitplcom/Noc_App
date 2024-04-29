@@ -1478,3 +1478,26 @@ b, strong, label.form-label, .fw-bold, .mat-tab-label span, .table th, .form-hor
 .form-control.width100px {
     width:100px;
 }
+
+
+.alertBlink {
+  animation: mymove 5s infinite 2s;
+}
+
+@keyframes mymove {
+  0% {
+    color:#000;
+  }
+
+  25% {
+    color: #ff0000;
+  }
+
+  75% {
+    color:#fe9800;
+  }
+
+  100% {
+    color: #000;
+  }
+}

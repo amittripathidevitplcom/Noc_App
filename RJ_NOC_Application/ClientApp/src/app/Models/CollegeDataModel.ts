@@ -44,9 +44,13 @@ export class CollegeDataModel {
   public ParentSSOID: string = '';
   public MappingSSOID: string = '';
   public CollegeNAACAccredited: number = null;
+  //public AffiliationDocument: number = null;
   public NAACAccreditedCertificate: string = '';
+  public AffiliationDocument: string = '';
   public NAACAccreditedCertificatePath: string = '';
+  public AffiliationDocumentPath: string = '';
   public NAACAccreditedCertificate_Dis_FileName: string = '';
+  public AffiliationDocument_Dis_FileName: string = '';
   public NACCValidityDate: string = '';
   public CityID: number = 0;
   public ManagementTypeID: number = 0;

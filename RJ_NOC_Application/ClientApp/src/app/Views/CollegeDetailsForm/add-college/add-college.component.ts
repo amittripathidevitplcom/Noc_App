@@ -40,7 +40,7 @@ export class AddCollegeComponent implements OnInit {
   public isSubmitted: boolean = false;
   public isSubmitted_ContactDetails: boolean = false;
   public isSubmitted_NearestGovernmentHospitals: boolean = false;
-  public file: File = null;
+  public file!: File;
   public DepartmentList: any = [];
   public CollegeStatusList: any = [];
   public CollegeLevelList: any = [];
@@ -60,6 +60,7 @@ export class AddCollegeComponent implements OnInit {
   public IsRural: boolean = true;
   public IsAISHECodeStatus: boolean = false;
   public IsCollegeNAACAccredited: boolean = false;
+  public IsCollegeAffiliationDocument: boolean = false;
   public IsExisting: boolean = false;
   public PresentCollegeStatusList_FilterData: any = []
   public CollegeLevelList_FilterData: any = []
@@ -67,6 +68,7 @@ export class AddCollegeComponent implements OnInit {
   public ImageValidationMessage: string = '';
   public isValidCollegeLogo: boolean = false;
   public isValidNAACAccreditedCertificate: boolean = false;
+  public isValidAffiliationDocument: boolean = false;
   public IsRural_Nearest: boolean = true;
   public DistrictList_Nearest: any = [];
   public TehsilList_Nearest: any = [];
@@ -75,11 +77,13 @@ export class AddCollegeComponent implements OnInit {
   public showCollegeLogo: boolean = false;
   public IsEdit: boolean = false;
   public showNAACAccreditedCertificate: boolean = false;
+  public showAffiliationDocument: boolean = false;
   public showHospitalDocument: boolean = false;
   public isValidHospitalDocument: boolean = false;
   public ProfileLogoValidationMessage: string = '';
   public AISHECodeValidationMessage: string = '';
   public NAACAccreditedCertificateValidationMessage: string = '';
+  public AffiliationDocumentValidationMessage: string = '';
   public FundingSourcesValidationMessage: string = '';
   public NACCValidityDateValidationMessage: string = '';
   public HospitalDocumentValidationMessage: string = '';
@@ -125,6 +129,7 @@ export class AddCollegeComponent implements OnInit {
         txtCollegeNameHi: ['', Validators.required],
         AISHECodeStatus: ['', Validators.required],
         CollegeNAACAccredited: ['', Validators.required],
+        CollegeAffiliationDocument: ['', Validators.required],
         txtAISHECode: [''],
         ddlCollegeMedium: ['', [DropdownValidators]],
         ddlUniversityID: ['', [DropdownValidators]],
@@ -387,6 +392,7 @@ export class AddCollegeComponent implements OnInit {
     }
     finally {
       setTimeout(() => {
+        event.target.value = null;
         this.loaderService.requestEnded();
       }, 200);
     }
@@ -452,6 +458,13 @@ export class AddCollegeComponent implements OnInit {
         this.request.NAACAccreditedCertificate = name;
         this.request.NAACAccreditedCertificatePath = path;
         this.request.NAACAccreditedCertificate_Dis_FileName = dis_Name;
+      }
+      else if (type == 'AffiliationDocument') {
+        this.showAffiliationDocument = isShowFile;
+        this.AffiliationDocumentValidationMessage = msg;
+        this.request.AffiliationDocument = name;
+        this.request.AffiliationDocumentPath = path;
+        this.request.AffiliationDocument_Dis_FileName = dis_Name;
       }
       else if (type == 'FundingSources') {
         this.FundingSourcesValidationMessage = msg;
@@ -1183,8 +1196,21 @@ export class AddCollegeComponent implements OnInit {
     this.CollegeDetailsForm.get('CollegeNAACAccredited')?.updateValueAndValidity();
 
 
+    if (this.request.DepartmentID == 3) {
+      this.CollegeDetailsForm.get('CollegeAffiliationDocument')?.setValidators([Validators.required]);
+      this.CollegeDetailsForm.get('txtWebsiteLink')?.setValidators([Validators.required, Validators.pattern("(https?://)?([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/?")]);
+    }
+    else {
+      this.CollegeDetailsForm.get('CollegeAffiliationDocument')?.clearValidators();
+      this.CollegeDetailsForm.get('txtWebsiteLink')?.clearValidators();
+    }
+    this.CollegeDetailsForm.get('CollegeAffiliationDocument')?.updateValueAndValidity(); 
+    this.CollegeDetailsForm.get('txtWebsiteLink')?.updateValueAndValidity();
+
+
     this.isValidCollegeLogo = false;
     this.isValidNAACAccreditedCertificate = false;
+    this.isValidAffiliationDocument = false;
     this.isSubmitted = true;
 
     let isValid = true;
@@ -1228,6 +1254,16 @@ export class AddCollegeComponent implements OnInit {
       if (this.request.NACCValidityDate == null || this.request.NACCValidityDate == '' || this.request.NACCValidityDate == undefined) {
         isValid = false;
       }
+    }
+
+    if (this.request.DepartmentID == 3) {
+      if (this.request.AffiliationDocument == null || this.request.AffiliationDocument == '') {
+        isValid = false;
+        this.AffiliationDocumentValidationMessage = 'This field is required .!';
+      }
+      //if (this.request.NACCValidityDate == null || this.request.NACCValidityDate == '' || this.request.NACCValidityDate == undefined) {
+      //  isValid = false;
+      //}
     }
     if (this.request.DepartmentID == 4) {
       if (this.SelectedCollegeLevel.length > 0) {
@@ -1384,7 +1420,9 @@ export class AddCollegeComponent implements OnInit {
           await this.FillDepartmentRelatedDDL(null, this.request.DepartmentID.toString());
           // college logo
           await this.ResetFileAndValidation('CollegeLogo', '', this.request.CollegeLogo, this.request.CollegeLogoPath, this.request.CollegeLogo_Dis_FileName, true);
-          await this.ResetFileAndValidation('NAACAccreditedCertificate', '', this.request.NAACAccreditedCertificate, this.request.NAACAccreditedCertificatePath, this.request.NAACAccreditedCertificate_Dis_FileName, true);
+          await this.ResetFileAndValidation('NAACAccreditedCertificate', '', this.request.NAACAccreditedCertificate, this.request.AffiliationDocumentPath, this.request.NAACAccreditedCertificate_Dis_FileName, true);
+
+          await this.ResetFileAndValidation('AffiliationDocument', '', this.request.AffiliationDocument, this.request.AffiliationDocumentPath, this.request.AffiliationDocument_Dis_FileName, this.request.DepartmentID == 3 ? true : false);
           // college status
           await this.ddlCollegeStatus_TextChange(null, this.request.CollegeStatusID.toString())
           this.request.PresentCollegeStatusID = data['Data']['PresentCollegeStatusID'];
@@ -1400,6 +1438,9 @@ export class AddCollegeComponent implements OnInit {
 
           this.request.CollegeNAACAccredited = data['Data']['CollegeNAACAccredited'];
           await this.IsCollegeNAACAccreditedOrNot(this.request.CollegeNAACAccredited == 1 ? true : false)
+
+          //this.request.AffiliationDocument = data['Data']['AffiliationDocument'];
+
           this.request.TypeofCollege = data['Data']['TypeofCollege'];
 
           //if (!this.State) {
