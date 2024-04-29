@@ -1036,7 +1036,6 @@ export class ApplyNocParameterComponent implements OnInit {
   }
   public isSave: boolean = true;
   async SaveApplyNoc_click() {
-
     if (confirm("Are you satisfied with the data that are showing in the View Application? Apply NOC After Not  Edit Your Application Profile.")) {
 
       //this.isSave = false; 
@@ -1161,6 +1160,7 @@ export class ApplyNocParameterComponent implements OnInit {
           
           if (this.IsCollegeDeficiency) {
             alert('College Deficiency\n' + this.CollegeDeficiencys);
+            this.toastr.error('With College Deficiency not apply Permanent NOC')
             return;
           }
           if (SelectedCourselist.length == 0) {
@@ -1265,7 +1265,7 @@ export class ApplyNocParameterComponent implements OnInit {
             return;
           }
         }
-
+       
         if (!this.IsTermsChecked) {
           this.toastr.warning('Please accept terms and condition');
           isValid = false;

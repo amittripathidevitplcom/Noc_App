@@ -266,7 +266,7 @@ export class ApplicationDetailEntryComponent implements OnInit {
                 else {
                   if (data['Data'][0]['data'][0]['PendingMinLandArea'] > 0) {
                     this.toastr.error('Please Enter Min Land Area : ' + data['Data'][0]['data'][0]['Dis_MinLandArea'] + ' Sq. Feet')
-                    DCPendingPoint += "Please Enter Min Land Area : ' + data['Data'][0]['data'][0]['Dis_MinLandArea'] + ' Sq. Feet" + "\n";
+                    DCPendingPoint += "Please Enter Min Land Area : " + data['Data'][0]['data'][0]['Dis_MinLandArea'] + " Sq. Feet" + "\n";
                     this.isCheck30Female = true;
                     if (this.SelectedDepartmentID != 3) {
                       return;
