@@ -97,7 +97,7 @@
             </div>
 
 
-            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" [hidden]="request.DepartmentID==2">
+            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3 multipleSelectsOverflow" [hidden]="request.DepartmentID==2">
               <label for="ddlSubject" class="form-label">Subject <span style="color:red">*</span></label>
               <ng-multiselect-dropdown [placeholder]="'--Select--'" formControlName="ddlSubject" id="ddlSubject"
                                        [settings]="dropdownSettings"

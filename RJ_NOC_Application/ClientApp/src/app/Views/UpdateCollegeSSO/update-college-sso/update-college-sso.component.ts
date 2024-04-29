@@ -41,6 +41,8 @@ export class UpdateCollegeSSOComponent implements OnInit{
   public CurrentSSOID: string = '';
   public NewSSOID: string = '';
 
+
+
   constructor(private collegeservice: CollegeService, private sSOLoginService: SSOLoginService, private draftApplicationListService: DraftApplicationListService, private routers: Router, private router: ActivatedRoute,  private toastr: ToastrService, private loaderService: LoaderService, private commonMasterService: CommonMasterService) {
   }
 
@@ -106,23 +108,18 @@ export class UpdateCollegeSSOComponent implements OnInit{
     }
   }
 
+  public IsSubmit: boolean = false;
   async VerifySSOID() {
+    this.IsSubmit = true;
     //Show Loading
     this.isLoading = true;
-
-    let isValid = true;
-    if (!await this.CustomValidate()) {
-      isValid = false;
-    }
-
-    // check
-    if (!isValid) {
+    if (this.NewSSOID == null || this.NewSSOID == undefined || this.NewSSOID == '') {
       return;
     }
     // verify ssoid
     await this.CheckMappingSSOID();
 
-    if (this.sSOVerifyDataModel != null && this.CurrentSSOID.toLowerCase() == this.sSOVerifyDataModel.SSOID.toLowerCase()) {
+    if (this.sSOVerifyDataModel != null && this.NewSSOID.toLowerCase() == this.sSOVerifyDataModel.SSOID.toLowerCase()) {
       this.SsoValidationMessage = '';
       this.SsoSuccessMessage = 'SSO Id Verified Successfully';
     }
@@ -151,28 +148,11 @@ export class UpdateCollegeSSOComponent implements OnInit{
   //}
 
 
-  async CustomValidate() {
-    let isValid = true;
-    if (this.NewSSOID == null || this.NewSSOID == undefined || this.NewSSOID == '') {
-      isValid = false;
-      this.SsoValidationMessage = 'This field is required .!';
-    }
-    else {
-      this.SsoValidationMessage = '';
-    }
-    if (this.SsoValidationMessage != '') {
-      isValid = false;
-    }
-
-    return isValid;
-  }
-
-
 
   async CheckMappingSSOID() {
     try {
       this.loaderService.requestStarted();
-      await this.sSOLoginService.CheckMappingSSOID(this.CurrentSSOID)
+      await this.sSOLoginService.CheckMappingSSOID(this.NewSSOID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
@@ -196,23 +176,22 @@ export class UpdateCollegeSSOComponent implements OnInit{
   async ResetSSOIDVerify() {
     this.SsoValidationMessage = '';
     this.SsoSuccessMessage = '';
-    this.CurrentSSOID = '';
+    //this.CurrentSSOID = '';
+    this.IsSubmit = false;
     this.NewSSOID = '';
     this.sSOVerifyDataModel = new SSOLoginDataModel();
+    this.SsoSuccessMessage = '';
+    this.SsoValidationMessage = '';
   }
 
   async OpenSSOIDMaping(row: any) {
-    debugger;
     this.CollegeID = row.CollegeID;
     this.CurrentSSOID = row.MappingSSOID;
-
-
+    this.ResetSSOIDVerify();
   }
 
 
   async SSOUpdateSubmit(item: any) {
-    debugger;
-    //Show Loading
     this.loaderService.requestStarted();
     this.isLoading = true;
 
@@ -248,38 +227,5 @@ export class UpdateCollegeSSOComponent implements OnInit{
     }
   }
 
-  //async GetCollegeDetailsByCollege(CollegeID: any) {
-  //  try {
-  //    this.loaderService.requestStarted();
-  //    await this.draftApplicationListService.ViewTotalCollegeDataByID(CollegeID, this.sSOLoginDataModel.UserID)
-  //      .then((data: any) => {
-
-  //        data = JSON.parse(JSON.stringify(data));
-  //        this.State = data['State'];
-  //        this.SuccessMessage = data['SuccessMessage'];
-  //        this.ErrorMessage = data['ErrorMessage'];
-  //        // data
-  //        this.collegeListData = data['Data'][0]['data']['Table'][0];
-  //        this.collegeContactDetailsList = data['Data'][0]['data']['Table1'];
-  //        this.collegeNearestGovernmentHospitalsList = data['Data'][0]['data']['Table2'];
-  //        this.DTECollegeLevel = data['Data'][0]['data']['Table4'];
-
-  //        //console.log(this.draftApplicatoinListData);
-  //      }, (error: any) => console.error(error));
-  //  }
-  //  catch (Ex) {
-  //    console.log(Ex);
-  //  }
-  //  finally {
-  //    setTimeout(() => {
-  //      this.loaderService.requestEnded();
-  //    }, 200);
-  //  }
-  //}
-
-
-   
-
-
-
+  
 }

@@ -1,3 +1,5 @@
+
+<app-loader></app-loader>
 <div class="container-fluid breadcrumbBox py-2">
   <div class="row align-items-center">
     <div class="col-md-6">
@@ -153,22 +155,25 @@
         </div>
         <div class="modal-body py-4">
           <div class="row">
-
+            <app-loader></app-loader>
             <div class="col-md-12 pb-3">
               <label>Current SSOID</label>
 
               <input type="text" class="form-control" disabled id="txtCurrentSSOID" name="txtCurrentSSOID" [(ngModel)]="CurrentSSOID" />
-              
+
             </div>
 
             <div class="col-md-12 pb-3">
               <label>New SSOID</label>
               <input type="text" class="form-control" [disabled]="SsoSuccessMessage!=''" placeholder="Enter SSOID" id="txtSsoId" name="txtSsoId" [(ngModel)]="NewSSOID" />
-              <div *ngIf="SsoValidationMessage!=''" class="text-danger">
-                <p><i aria-hidden="true"></i>{{SsoValidationMessage}}</p>
+              <div *ngIf="IsSubmit && (NewSSOID==null || NewSSOID=='')" class="text-danger">
+                <p><i aria-hidden="true"></i>This field is required .!</p>
               </div>
               <div *ngIf="SsoSuccessMessage!=''" class="text-success">
                 <p><i aria-hidden="true"></i>{{SsoSuccessMessage}}</p>
+              </div>
+              <div *ngIf="SsoValidationMessage!=''" class="text-danger">
+                <p><i aria-hidden="true"></i>{{SsoValidationMessage}}</p>
               </div>
             </div>
           </div>

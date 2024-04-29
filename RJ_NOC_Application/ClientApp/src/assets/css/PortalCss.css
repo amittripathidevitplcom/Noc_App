@@ -1501,3 +1501,25 @@ b, strong, label.form-label, .fw-bold, .mat-tab-label span, .table th, .form-hor
     color: #000;
   }
 }
+
+.flexSameSize {
+    width:calc(100% / 5) !important;
+}
+@media(max-width:1266px) {
+  .flexSameSize {
+    width: calc(100% / 3) !important;
+  }
+}
+@media(max-width:768px) {
+  .flexSameSize {
+    width: calc(100% / 2) !important;
+  }
+}
+@media(max-width:640px) {
+  .flexSameSize {
+    width: calc(100% / 1) !important;
+  }
+}
+.multipleSelectsOverflow .dropdown-list {
+  position: relative !important;
+}
