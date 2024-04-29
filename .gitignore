@@ -379,3 +379,6 @@ FodyWeavers.xsd
 /RJ_NOC_Application/RJ_NOC_Application.csproj
 /.gitignore
 /.gitignore
+/RJ_NOC_Application/ClientApp/src/app/Models/ClassOverviewMasterDataModel.ts
+/RJ_NOC_Application/ClientApp/src/app/Services/Master/ClassOverViewMaster
+/RJ_NOC_Application/ClientApp/src/app/Views/Master/CollegeOverviewMaster/college-overview-master
