@@ -1401,5 +1401,16 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
+  public async HomePage_IncreaseDate() {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl_CommonMaster + "/HomePage_IncreaseDate")
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
 
 }

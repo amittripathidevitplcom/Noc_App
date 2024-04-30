@@ -43,4 +43,5 @@ export class UserManualDocumentService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
+
 }

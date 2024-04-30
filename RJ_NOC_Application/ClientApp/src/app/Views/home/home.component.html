@@ -203,38 +203,20 @@
                    alt="icon">
               <h5 class="position-relative ms-2 mt-3">Department of<br /> College Education</h5>
             </div>
-            <p class="mb-4">
-              सत्र 2023-24 में महाविद्यालय में अध्यनरत विद्यार्थियों की सांख्यिकी (Students
-              Statistics) सूचना भरने हेतु NOC पोर्टल पर Registered निजी महाविद्यालयों (जिन्होंने सत्र 2023-24
-              में
-              एप्लीकेशन सबमिट की थी) के लिए NOC पोर्टल दिनांक 19.12.2023 से 31.12.2023 तक खोला जा रहा है।
+            <p class="mb-4" *ngFor="let row of DCE_HomePage_IncreaseDateData_Top ;let idx=index;">
+              {{row.Content}}
             </p>
 
             <div class="buttons mt-2 mb-4">
               <a href="https://sso.rajasthan.gov.in/signin?ru=UNOC" target="_blank" class="btncomn">Login to SSO</a>
-              <a href="../../../assets/PDF/Government of Rajasthan-NOC manual.pdf" target="_blank" class="btncomn">View User Manual</a>
+              <a href="../../../assets/PDF/Government of Rajasthan-NOC Manual 2024-2025.pdf" target="_blank" class="btncomn">View User Manual</a>
             </div>
 
             <ul>
-              <li>
-                सत्र 2023-24 के लिए सांखियकी सुचना भरने हेतु NOC पोर्टल दिनांक 31.12.2023 से
-                07.01.2024 तक बढ़ायी जाती है।
+              <li *ngFor="let row of DCE_HomePage_IncreaseDateData_Bottom ;let idx=index;">
+                {{row.Content}}
               </li>
-
-              <li>
-                सत्र 2023-24 के लिए सांख्यिकी सुचना भरने का अंतिम अवसर देने हेतु NOC पोर्टल दिनांक
-                07.01.2024 से 14.01.2024 तक बढ़ायी जाती है।
-              </li>
-
-              <li>
-                सत्र 2023-24 के लिए सांख्यिकी सुचना भरने का अंतिम अवसर देने हेतु NOC पोर्टल दिनांक
-                14.01.2024 से 16.01.2024 तक बढ़ायी जाती है।
-              </li>
-
-              <li>
-                सत्र 2023-24 के लिए सांख्यिकी सुचना भरने का अंतिम अवसर देने हेतु NOC पोर्टल दिनांक
-                16.01.2024 से 19.01.2024 तक बढ़ायी जाती है।
-              </li>
+               
             </ul>
 
 
