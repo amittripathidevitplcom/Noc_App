@@ -86,19 +86,19 @@
                   </a>
                 </li>
 
-                <li>
-                  <a *ngIf="item.DepartmentID==4 && item.IsFinalSubmit==false && item.ManagementType!='Government'&& item.IsOpenNOCApplication==true" class="dropdown-item list-group-item list-group-item-action list-group-item-danger" href="javascript:void(0)" title="Add Offline Payment Details" (click)="OpenOfflinePaymentActionPopUP(mymodalAddOfflinePayment,item)">
+                <!--<li>
+                  <a *ngIf="(item.DepartmentID==4 || item.DepartmentID==3) && item.IsFinalSubmit==false && item.ManagementType!='Government'&& item.IsOpenNOCApplication==true" class="dropdown-item list-group-item list-group-item-action list-group-item-danger" href="javascript:void(0)" title="Add Offline Payment Details" (click)="OpenOfflinePaymentActionPopUP(mymodalAddOfflinePayment,item)">
                     Add Offline Payment Details
                   </a>
-                </li>
-                <li *ngIf="item.DepartmentID !=4 && item.IsOpenNOCApplication==true">
+                </li>-->
+                <!--<li *ngIf="item.DepartmentID !=4 && item.DepartmentID!=3 && item.IsOpenNOCApplication==true">
                   <a class="dropdown-item list-group-item list-group-item-action list-group-item-danger" href="javascript:void(0)" *ngIf="item.IsMakePayment==false" title="Payment" (click)="PaymentApplyNocApplication_click(mymodalpayment,item.ApplyNocApplicationID)">
                     Payment
-                  </a><!--*ngIf="item.IsMakePayment==true"-->
-                  <a class="dropdown-item list-group-item list-group-item-action list-group-item-danger" *ngIf="item.IsMakePayment==true" href="javascript:void(0)" title="Payment History" (click)="PaymentHistoryApplyNocApplication_click(mymodalpaymenthistory,item.ApplyNocApplicationID)">
+                  </a>--><!--*ngIf="item.IsMakePayment==true"-->
+                  <!--<a class="dropdown-item list-group-item list-group-item-action list-group-item-danger" *ngIf="item.IsMakePayment==true" href="javascript:void(0)" title="Payment History" (click)="PaymentHistoryApplyNocApplication_click(mymodalpaymenthistory,item.ApplyNocApplicationID)">
                     Payment History
                   </a>
-                </li>
+                </li>-->
                 <li *ngIf="(item.DepartmentID==6 || item.DepartmentID==9) && item.IsOpenNOCApplication==true">
                   <a class="dropdown-item list-group-item list-group-item-action list-group-item-danger" href="javascript:void(0)" title="Payment" *ngIf="item.IsMakePayment_ApplicationFee==false"
                      (click)="EmitraPaymentApplyNocApplication_click(mymodalemitrapayment,item.ApplyNocApplicationID)">
@@ -1513,7 +1513,7 @@
     <div class="row">
 
       <form class="form-horizontal">
-        <div class="card" [hidden]="this.request.DepartmentID==4 && ApplicationFinalSubmit==true">
+        <div class="card" [hidden]="(this.request.DepartmentID==4 ||this.request.DepartmentID==3)  && ApplicationFinalSubmit==true">
           <div class="card-header d-flex justify-content-between align-items-center">
             <b><i class="fa fa-plus"></i>&nbsp;Add Offline Payment <span style="color:red;">*</span></b>
           </div>
@@ -1551,13 +1551,13 @@
                 </div>
               </div>
               <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                <label for="txtDateofIssuance" class="form-label">{{request.DepartmentID==4?'Date':'Date of Issuance'}}<span style="color:red;">*</span></label>
+                <label for="txtDateofIssuance" class="form-label">{{(request.DepartmentID==4 ||request.DepartmentID==3)?'Date':'Date of Issuance'}}<span style="color:red;">*</span></label>
                 <input type="date" class="form-control" id="txtDateofIssuance" name="txtDateofIssuance" [(ngModel)]="request.DateofIssuance">
                 <div *ngIf="isSubmitted" class="text-danger">
                   <p *ngIf="request.DateofIssuance=='' ||request.DateofIssuance==null"><i aria-hidden="true"></i> This field is required .!</p>
                 </div>
               </div>
-              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" [hidden]="request.DepartmentID==4">
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" [hidden]="(request.DepartmentID==4||request.DepartmentID==3)">
                 <label for="txtDateofExpiry" class="form-label">Date of Expiry <span style="color:red;">*</span></label>
                 <input type="date" class="form-control" id="txtDateofExpiry" name="txtDateofExpiry" [(ngModel)]="request.DateofExpiry">
                 <div *ngIf="isSubmitted" class="text-danger">
@@ -1565,7 +1565,7 @@
                 </div>
               </div>
               <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                <label> {{request.DepartmentID==4?'Upload DD':'Upload DD/BC Transaction Recept'}}  <span style="color:red;">*</span></label>
+                <label> {{(request.DepartmentID==4||request.DepartmentID==3)?'Upload DD':'Upload DD/BC Transaction Recept'}}  <span style="color:red;">*</span></label>
                 <div class="d-flex">
                   <input type="file" [(ngModel)]="request.TransactionReceptDocument" [ngModelOptions]="{standalone: true}" id="fileTransactionReceptDocument" (input)="onFilechangeItem($event)" class="form-control d-none" />
                   <label class="btn upload" for="fileTransactionReceptDocument">
@@ -1588,7 +1588,7 @@
 
       </form>
     </div>
-    <div class="row  m-2" [hidden]="this.request.DepartmentID==4 && ApplicationFinalSubmit==true">
+    <div class="row  m-2" [hidden]="(this.request.DepartmentID==4||this.request.DepartmentID==3) && ApplicationFinalSubmit==true">
       <div class="col-md-12">
         <button type="button" class="btn btn-primary" (click)="AddOfflineFeeData()" title="Add">{{AddUpdatetext}}</button>&nbsp;
         <button type="button" class="btn btn-danger" (click)="ResetOfflinepaymentdetails()" title="Add">Reset</button>
@@ -1612,10 +1612,10 @@
                   <th>Bank Name</th>
                   <th>Payment Mode</th>
                   <th>Amount</th>
-                  <th>{{request.DepartmentID==4?'Date':'Date of Issuance'}}</th>
-                  <th [hidden]="request.DepartmentID==4">Date of Expiry</th>
+                  <th>{{(request.DepartmentID==4 ||request.DepartmentID==3)?'Date':'Date of Issuance'}}</th>
+                  <th [hidden]="(request.DepartmentID==4 || request.DepartmentID==3)">Date of Expiry</th>
                   <th>Transaction Recept</th>
-                  <th [hidden]="this.request.DepartmentID==4 && ApplicationFinalSubmit==true">Action</th>
+                  <th [hidden]="(this.request.DepartmentID==4 ||this.request.DepartmentID==3) && ApplicationFinalSubmit==true">Action</th>
                 </tr>
               </thead>
               <tbody>
@@ -1627,9 +1627,9 @@
                   <td>{{item.PaymenyModeName}}</td>
                   <td>{{item.Amount}}</td>
                   <td>{{item.DateofIssuance | date:'dd-MM-yyyy'}}</td>
-                  <td [hidden]="request.DepartmentID==4">{{item.DateofExpiry | date:'dd-MM-yyyy'}}</td>
+                  <td [hidden]="(request.DepartmentID==4 ||request.DepartmentID==3)">{{item.DateofExpiry | date:'dd-MM-yyyy'}}</td>
                   <td><a class="btn btn-sm btn-primary" target="_blank" title="View Transaction Recept" href="{{item.FilePath}}"><i class="fa fa-eye"></i></a></td>
-                  <td [hidden]="this.request.DepartmentID==4 && ApplicationFinalSubmit==true">
+                  <td [hidden]="(this.request.DepartmentID==4 ||this.request.DepartmentID==3) && ApplicationFinalSubmit==true">
                     <button type="button" class="btn btn-sm btn-primary" title="Edit" (click)="EditOffLinePaymentDetails(item)"><i class="fa fa-edit"></i></button>
                     &nbsp; <button type="button" class="btn btn-sm btn-danger" title="Delete Transaction" (click)="DeleteOffLinePaymentDetails(item.ApplyNOCID,item.PaymentOfflineID)"><i class="fa fa-trash-o"></i></button>
                   </td>

@@ -785,7 +785,7 @@ export class ApplyNocParameterDetailsComponent implements OnInit {
     this.request.CollegeID = item.CollegeID;
     this.request.DepartmentID = item.DepartmentID;
     this.ApplicationFinalSubmit = item.IsFinalSubmit;
-    if (this.request.DepartmentID == 4) {
+    if (this.request.DepartmentID == 4 || this.request.DepartmentID == 3) {
       await this.GetPaymentMode();
       this.lstPaymentMode = this.lstPaymentMode.filter((x: { Name: string; }) => x.Name == 'Demand Draft');
     }
@@ -812,7 +812,7 @@ export class ApplyNocParameterDetailsComponent implements OnInit {
     if ((this.request.DateofIssuance == '') || (this.request.DateofIssuance == null)) {
       isValid = false;
     }
-    if (this.request.DepartmentID != 4) {
+    if (this.request.DepartmentID != 4 && this.request.DepartmentID != 3) {
       if ((this.request.DateofExpiry == '') || (this.request.DateofExpiry == null)) {
         isValid = false;
       }
