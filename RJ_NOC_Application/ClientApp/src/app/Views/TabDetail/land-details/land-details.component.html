@@ -258,7 +258,7 @@
             </div>
 
           </div>
-          <p class="text-primay" *ngIf="item.DocumentName =='Land Document'">( Upload first and last page of land registered document )</p>
+          <!--<p class="text-primay" *ngIf="item.DocumentName =='Land Document'">( Upload first and last page of land registered document )</p>-->
           <a class="text-primay" *ngIf="item.SampleDocument !=''&&item.DocumentName=='Land Title Certificate'" target="_blank" href="{{item.SampleDocument}}">(Download Annexure-13)</a>
           <a class="text-primay" *ngIf="item.SampleDocument !='' &&item.DocumentName=='Affidavit document for conversion'" target="_blank" href="{{item.SampleDocument}}">(Download Annexure-7)</a>
           <div *ngIf="isSubmitted&&item.IsMandatory==true&&item.FileName == ''" class="text-danger">
