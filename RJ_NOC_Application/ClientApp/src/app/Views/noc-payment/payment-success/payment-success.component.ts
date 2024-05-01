@@ -27,11 +27,11 @@ export class PaymentSuccessComponent implements OnInit {
   ngOnInit(): void
   {
     this.PRNNo = this.router.snapshot.paramMap.get('TransID')?.toString();
-    this.GetUnitOfLandArea(this.PRNNo);
+    this.GetPaymentListIDWise(this.PRNNo);
 
   }
 
-  async GetUnitOfLandArea(Type: string) {
+  async GetPaymentListIDWise(Type: string) {
     try {
       this.loaderService.requestStarted();
       await this.nocpaymentService.GetPaymentListIDWise(Type)

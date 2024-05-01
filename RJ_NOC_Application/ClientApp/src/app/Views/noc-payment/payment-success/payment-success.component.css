@@ -1,18 +1,23 @@
-
-.divSuccess {
-  color: #88B04B;
+.statusCardsss h1 {
   font-family: "Nunito Sans", "Helvetica Neue", sans-serif;
   font-weight: 900;
   font-size: 40px;
   margin-bottom: 10px;
 }
 
+
+.divSuccess {
+  color: #88B04B;
+}
+
 .divFail {
-  color: #ff0000;
-  font-family: "Nunito Sans", "Helvetica Neue", sans-serif;
-  font-weight: 900;
-  font-size: 40px;
-  margin-bottom: 10px;
+  color: #cc5959;
+}
+.divAbsent {
+  color: #e2be46;
+}
+.divPending {
+  color: #f56435;
 }
 
 
@@ -23,17 +28,21 @@ p {
   font-size: 20px;
   margin: 0;
 }
+.circleIcon {
+  border-radius: 100%;
+  height: 200px;
+  width: 200px;
+  background: #F8FAF5;
+}
+
 
 i {
-  color: #9ABC66;
   font-size: 100px;
-  line-height: 200px;
-  margin-left: -15px;
 }
 
 .card {
   background: white;
-  padding: 60px;
+  padding:20px 60px;
   border-radius: 4px;
   box-shadow: 0 2px 3px #C8D0D8;
   display: inline-block;
@@ -42,4 +51,20 @@ i {
 
 label {
     font-weight:bold;
+}
+
+.checkmark {
+  color: #88B04B !important
+}
+
+.statusAbsent {
+  color: #e2be46 !important
+}
+
+.statusPendings {
+    color:#f56435 !important
+}
+
+.checkmarkFail {
+  color: #cc5959 !important
 }
