@@ -385,6 +385,8 @@ import { DistanceOtherMinorityBreakupComponent } from './Views/DTEStatistics/dis
 import { OtherMinorityDataComponent } from './Views/DTEStatistics/OtherMinorityData/other-minority-data/other-minority-data.component';
 import { WorkFlowFormat3Component } from './Views/Admin/work-flow-master/work-flow-format3/work-flow-format3/work-flow-format3.component';
 import { UpdateCollegeSSOComponent } from './Views/UpdateCollegeSSO/update-college-sso/update-college-sso.component';
+import { CollegePaymentReportComponent } from './Views/Admin/college-payment-report/college-payment-report.component';
+import { TotalDraftEntryCollegeComponent } from './Views/Admin/total-draft-entry-college/total-draft-entry-college.component';
 
 
 
@@ -771,6 +773,8 @@ import { UpdateCollegeSSOComponent } from './Views/UpdateCollegeSSO/update-colle
     WorkFlowFormat3Component,
    
     UpdateCollegeSSOComponent,
+         CollegePaymentReportComponent,
+         TotalDraftEntryCollegeComponent,
 
   ],
   imports: [

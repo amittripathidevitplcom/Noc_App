@@ -1,0 +1,118 @@
+<app-loader></app-loader>
+<div class="container-fluid breadcrumbBox py-2">
+  <div class="row align-items-center">
+    <div class="col-md-6">
+      <h3>Online Payment Details</h3>
+    </div>
+    <div class="col-md-6 d-flex justify-content-end">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item active" aria-current="page">Online Payment Details</li>
+        </ol>
+      </nav>
+    </div>
+  </div>
+</div>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card mb-0">
+        <div class="card-header">
+          <b>
+            <i class="bi bi-table"></i> Search Fields
+          </b>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <label for="txtFromDate" class="form-label">From Date:</label>
+              <input type="date" id="txtFromDate" name="txtFromDate" class="form-control" [(ngModel)]="request.FromDate" max="{{MaxDate | date:'yyyy-MM-dd'}}" onkeypress="return false;" />
+            </div>
+
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <label for="txtToDate" class="form-label">To Date:</label>
+              <input type="date" id="txtToDate" name="txtToDate" class="form-control" [(ngModel)]="request.ToDate" max="{{MaxDate | date:'yyyy-MM-dd'}}" onkeypress="return false;" />
+            </div>
+
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <label for="ddlPaymentStatus" class="form-label">Payment Status:</label>
+              <select class="form-select" id="ddlPaymentStatus" name="ddlPaymentStatus" [(ngModel)]="request.PaymentStatus">
+                <option value="All">All</option>
+                <option value="A">Absent</option>
+                <option value="F">Failure</option>
+                <option value="P">Pending</option>
+                <option value="S">Success</option>
+              </select>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <label for="txtSearchBy" class="form-label">
+                <span> Search By</span>
+              </label>
+              <input type="text" class="form-control" id="txtSearchBy" name="txtSearchBy" [(ngModel)]="request.SearchBy">
+            </div>
+          </div>
+        </div>
+        <div class="card-footer text-end">
+          <button type="submit" (click)="GetOnlinePaymentDetailsByDepartment()" class="btn btn-primary"><i class="fa fa-search"></i>&nbsp;Search</button>
+          <button type="submit" (click)="ResetControl()" class="btn btn-danger"><i class="bi bi-bootstrap-reboot"></i>&nbsp;Reset</button>
+          <button type="submit" (click)="btnExportTable_Click()" class="btn btn-success"><i class="fa fa-file-excel-o"></i> &nbsp;Export Record</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <div class="row">
+    <div class="card mb-0">
+      <div class="card-header d-xxl-flex d-xl-flex d-md-flex d-sm-block justify-content-between align-items-center">
+        <b><i class="bi bi-table"></i> Online Payment List </b>
+        <div class="d-flex align-items-center table-filter mr-15">
+          <i class="fa fa-search"></i>
+          <input type="text" class="form-control" placeholder="Search Here" [(ngModel)]="searchText" />
+        </div>
+      </div>
+      <div class="table-responsive" style="height: calc(100vh - 350px) !important;">
+        <table class="table table-hover table-striped-columns" id="tabellist">
+          <thead>
+            <tr>
+              <th>Sr. No.</th>
+              <th>College SSOID</th>
+              <th>College Name</th>
+              <th>MobileNo.</th>
+              <th>Email</th>
+              <th>Application ID</th>
+              <th>Transaction ID</th>
+              <th>Bank Reference No</th>
+              <th>Bank Code</th>
+              <th>GRN No</th>
+              <th>Amount</th>
+              <th>Payment Status</th>
+
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let row of PaymentList  | tableSearchFilter:searchText; let idx=index;">
+              <td style="text-align:center;">{{idx+1}}</td>
+              <td>{{row.SSOID}}</td>
+              <td>{{row.CollegeName}}</td>
+              <td>{{row.CollegeMobileNumber}}</td>
+              <td>{{row.CollegeEmail}}</td>
+              <td>{{row.ApplicationID}}</td>
+              <td>{{row.TransactionID}}</td>
+              <td>{{row.BankReferenceNo}}</td>
+              <td>{{row.BankCode}}</td>
+              <td>{{row.GRNNo}}</td>
+              <td>{{row.Amount}}</td>
+              <td>{{row.PaymentStatus}}</td>
+            </tr>
+            <tr *ngIf="PaymentList.length<=0">
+              <td colspan="20" class="text-center text-danger">
+                No Record Found.!
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+

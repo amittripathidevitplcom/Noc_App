@@ -350,13 +350,14 @@ export class TotalCollegeComponent implements OnInit {
 
       await this.commonMasterService.GetCollegeBasicDetails(this.CollegeID.toString())
         .then(async (data: any) => {
+          debugger;
           data = JSON.parse(JSON.stringify(data));
           this.CollegeName = data['Data'][0]['data'][0]['CollegeNameEn'];
           this.request_Payment.ApplyNocApplicationID = this.CollegeID;
           this.request_Payment.AMOUNT = Number(this.TotalLOIFees);
-          this.request_Payment.USEREMAIL = data['Data'][0]['data'][0].Email;
+          this.request_Payment.USEREMAIL = data['Data'][0]['data'][0].CollegeEmail;
           this.request_Payment.USERNAME = this.CollegeName.substring(0, 49).replace(/[^a-zA-Z ]/g, "");
-          this.request_Payment.USERMOBILE = data['Data'][0]['data'][0].MobileNumber;
+          this.request_Payment.USERMOBILE = data['Data'][0]['data'][0].CollegeMobileNumber;
           this.request_Payment.PURPOSE = "LOI Payment";
           this.request_Payment.DepartmentID = data['Data'][0]['data'][0].DepartmentID;
           this.request_Payment.CreatedBy = this.sSOLoginDataModel.UserID;

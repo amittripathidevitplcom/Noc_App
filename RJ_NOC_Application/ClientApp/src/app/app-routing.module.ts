@@ -225,6 +225,8 @@ import { RevertCheckListDTEComponent } from './Views/DocumentScrutinyTab_DTE/rev
 import { PreviewDTEStatisticsComponent } from './Views/DTEStatistics/preview-dtestatistics/preview-dtestatistics.component';
 import { WorkFlowFormat3Component } from './Views/Admin/work-flow-master/work-flow-format3/work-flow-format3/work-flow-format3.component';
 import { UpdateCollegeSSOComponent } from './Views/UpdateCollegeSSO/update-college-sso/update-college-sso.component';
+import { CollegePaymentReportComponent } from './Views/Admin/college-payment-report/college-payment-report.component';
+import { TotalDraftEntryCollegeComponent } from './Views/Admin/total-draft-entry-college/total-draft-entry-college.component';
 
 
 const routes: Routes = [
@@ -925,6 +927,14 @@ const routes: Routes = [
       
       {
         path: 'updatecollegeSSO', component: UpdateCollegeSSOComponent
+      },
+      
+      {
+        path: 'onlinepaymentreport', component: CollegePaymentReportComponent
+      },
+      
+      {
+        path: 'totaldraftentrycollege', component: TotalDraftEntryCollegeComponent
       }
 
     ]

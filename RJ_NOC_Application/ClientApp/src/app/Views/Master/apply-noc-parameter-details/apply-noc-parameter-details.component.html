@@ -86,19 +86,19 @@
                   </a>
                 </li>
 
-                <!--<li>
+                <li>
                   <a *ngIf="(item.DepartmentID==4 || item.DepartmentID==3) && item.IsFinalSubmit==false && item.ManagementType!='Government'&& item.IsOpenNOCApplication==true" class="dropdown-item list-group-item list-group-item-action list-group-item-danger" href="javascript:void(0)" title="Add Offline Payment Details" (click)="OpenOfflinePaymentActionPopUP(mymodalAddOfflinePayment,item)">
                     Add Offline Payment Details
                   </a>
-                </li>-->
-                <!--<li *ngIf="item.DepartmentID !=4 && item.DepartmentID!=3 && item.IsOpenNOCApplication==true">
+                </li>
+                <li *ngIf="item.DepartmentID !=4 && item.DepartmentID!=3 && item.IsOpenNOCApplication==true">
                   <a class="dropdown-item list-group-item list-group-item-action list-group-item-danger" href="javascript:void(0)" *ngIf="item.IsMakePayment==false" title="Payment" (click)="PaymentApplyNocApplication_click(mymodalpayment,item.ApplyNocApplicationID)">
                     Payment
-                  </a>--><!--*ngIf="item.IsMakePayment==true"-->
-                  <!--<a class="dropdown-item list-group-item list-group-item-action list-group-item-danger" *ngIf="item.IsMakePayment==true" href="javascript:void(0)" title="Payment History" (click)="PaymentHistoryApplyNocApplication_click(mymodalpaymenthistory,item.ApplyNocApplicationID)">
+                  </a><!--*ngIf="item.IsMakePayment==true"-->
+                  <a class="dropdown-item list-group-item list-group-item-action list-group-item-danger" *ngIf="item.IsMakePayment==true" href="javascript:void(0)" title="Payment History" (click)="PaymentHistoryApplyNocApplication_click(mymodalpaymenthistory,item.ApplyNocApplicationID)">
                     Payment History
                   </a>
-                </li>-->
+                </li>
                 <li *ngIf="(item.DepartmentID==6 || item.DepartmentID==9) && item.IsOpenNOCApplication==true">
                   <a class="dropdown-item list-group-item list-group-item-action list-group-item-danger" href="javascript:void(0)" title="Payment" *ngIf="item.IsMakePayment_ApplicationFee==false"
                      (click)="EmitraPaymentApplyNocApplication_click(mymodalemitrapayment,item.ApplyNocApplicationID)">

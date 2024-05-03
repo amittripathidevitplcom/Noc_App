@@ -3,7 +3,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { GlobalConstants } from '../../Common/GlobalConstants';
-import { CommonDataModel_TotalApplicationSearchFilter } from '../../Models/CommonMasterDataModel';
+import { CommonDataModel_TotalApplicationSearchFilter, CommonDataModel_TotalDraftEntrySearchFilter } from '../../Models/CommonMasterDataModel';
+import { PaymentDetailsDataModel_Filter } from '../../Models/PaymentReportModel';
 @Injectable({
   providedIn: 'root'
 })
@@ -859,10 +860,10 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-  public async DraftFinalSubmit(CollegeID: number, IsDraftSubmited: number, Deficiency?:string) {
+  public async DraftFinalSubmit(CollegeID: number, IsDraftSubmited: number, Deficiency?: string) {
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
     const request = { CollegeID: CollegeID, IsDraftSubmited: IsDraftSubmited, Deficiency: Deficiency }
-    return await this.http.post(this.APIUrl_CommonMaster +"/DraftFinalSubmit", request, httpOptions)
+    return await this.http.post(this.APIUrl_CommonMaster + "/DraftFinalSubmit", request, httpOptions)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();
@@ -1382,7 +1383,7 @@ export class CommonMasterService {
   //    ).toPromise();
   //}
 
-  public async SSOUpdateSubmit(CollegeID: number, SSOID: string ) {
+  public async SSOUpdateSubmit(CollegeID: number, SSOID: string) {
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
     return await this.http.post(this.APIUrl_CommonMaster + '/SSOUpdateSubmit/' + CollegeID + "/" + SSOID, httpOptions)
       .pipe(
@@ -1412,5 +1413,20 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
+  public async GetOnlinePaymentDetailsByDepartment(request: PaymentDetailsDataModel_Filter) {
+    const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
+    return await this.http.post(this.APIUrl_CommonMaster + "/GetOnlinePaymentDetailsByDepartment", request, httpOptions)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+  /////
+  public async GetTotalDraftentryCollege(request: CommonDataModel_TotalDraftEntrySearchFilter) {
+    const headers = { 'content-type': 'application/json' }
+    const body = JSON.stringify(request);
+    return await this.http.post(this.APIUrl_CommonMaster + "/GetTotalDraftentryCollege", body, { 'headers': headers })
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
 }
