@@ -78,6 +78,7 @@ export class TotalDraftEntryCollegeComponent implements OnInit {
     try {
       this.loaderService.requestStarted();
       this.request.DepartmentID = this.sSOLoginDataModel.DepartmentID;
+      this.request.Type = 'Summary';
       await this.commonMasterService.GetTotalDraftentryCollege(this.request)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
@@ -141,7 +142,7 @@ export class TotalDraftEntryCollegeComponent implements OnInit {
   async PreviewDraftEntry_click(content: any, CollegeID: number) {
     try {
       this.request.CollegeID = CollegeID;
-      this.request.Type = 'Summary';
+      this.request.Type = '';
       await this.GetPreviewDraftEntry();
       // model popup
       this.modalService.open(content, { size: 'xl', ariaLabelledBy: 'modal-applynocpayment-title', backdrop: 'static' }).result.then((result) => {
@@ -150,7 +151,7 @@ export class TotalDraftEntryCollegeComponent implements OnInit {
         this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
       });
       this.request.CollegeID = 0;
-      this.request.Type = '';
+      this.request.Type = 'Summary';
     }
     catch (Ex) {
       console.log(Ex);
