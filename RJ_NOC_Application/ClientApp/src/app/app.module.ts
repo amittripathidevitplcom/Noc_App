@@ -387,6 +387,7 @@ import { WorkFlowFormat3Component } from './Views/Admin/work-flow-master/work-fl
 import { UpdateCollegeSSOComponent } from './Views/UpdateCollegeSSO/update-college-sso/update-college-sso.component';
 import { CollegePaymentReportComponent } from './Views/Admin/college-payment-report/college-payment-report.component';
 import { TotalDraftEntryCollegeComponent } from './Views/Admin/total-draft-entry-college/total-draft-entry-college.component';
+import { NewgrievancereportComponent } from './Views/DCE/newgrievancereport/newgrievancereport/newgrievancereport.component';
 
 
 
@@ -774,7 +775,8 @@ import { TotalDraftEntryCollegeComponent } from './Views/Admin/total-draft-entry
    
     UpdateCollegeSSOComponent,
          CollegePaymentReportComponent,
-         TotalDraftEntryCollegeComponent,
+    TotalDraftEntryCollegeComponent,
+    NewgrievancereportComponent,
 
   ],
   imports: [

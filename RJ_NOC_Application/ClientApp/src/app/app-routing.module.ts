@@ -227,6 +227,7 @@ import { WorkFlowFormat3Component } from './Views/Admin/work-flow-master/work-fl
 import { UpdateCollegeSSOComponent } from './Views/UpdateCollegeSSO/update-college-sso/update-college-sso.component';
 import { CollegePaymentReportComponent } from './Views/Admin/college-payment-report/college-payment-report.component';
 import { TotalDraftEntryCollegeComponent } from './Views/Admin/total-draft-entry-college/total-draft-entry-college.component';
+import { NewgrievancereportComponent } from './Views/DCE/newgrievancereport/newgrievancereport/newgrievancereport.component';
 
 
 const routes: Routes = [
@@ -918,9 +919,9 @@ const routes: Routes = [
       {
         path: 'applynocmgone/:DepartmentID/:CollegeID', component: ApplyNOCMGOneComponent
       },
-      //{
-      //  path: 'newgrievancereport', component: NewgrievancereportComponent
-      //},
+      {
+        path: 'newgrievancereport', component: NewgrievancereportComponent
+      },
       {
         path: 'workflowformat3', component: WorkFlowFormat3Component
       },
