@@ -67,7 +67,7 @@
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1"> 
                   <li> <a href="javascript:void(0)" class="dropdown-item list-group-item list-group-item-action list-group-item-danger" data-bs-toggle="modal" data-bs-target="#ViewTotalCollege" (click)="ViewTotalCollegeDataByID(row.CollegeID)">View</a></li>
                   <li *ngIf="row.TotalNOCCount<=0 && row.IsOpenNOCApplication==true"> <a href="javascript:void(0)" class="dropdown-item list-group-item list-group-item-action list-group-item-danger" (click)="EditCollegeData(row.CollegeID)">Edit</a></li>
-                  <li *ngIf="row.IsOpenNOCApplication==true"><a href="javascript:void(0)" class="dropdown-item list-group-item list-group-item-action list-group-item-danger" (click)="DeleteData(row)">Delete</a></li>
+                  <!--<li *ngIf="row.IsOpenNOCApplication==true"><a href="javascript:void(0)" class="dropdown-item list-group-item list-group-item-action list-group-item-danger" (click)="DeleteData(row)">Delete</a></li>-->
                   <li *ngIf="row.IsOpenNOCApplication==true"> <a href="javascript:void(0)" class="dropdown-item list-group-item list-group-item-action list-group-item-danger" data-bs-toggle="modal" data-bs-target="#SSOIDMapping" (click)="OpenSSOIDMaping(row)">SSO ID Mapping</a></li>
                 </ul>
               </div>

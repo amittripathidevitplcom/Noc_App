@@ -24,6 +24,16 @@ export class NocpaymentService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
+
+  public async PaymentRequest_Egrass(request: RequestDetails) {
+    const headers = { 'content-type': 'application/json' }
+    const body = JSON.stringify(request);
+    return await this.http.post(this.APIUrl + "/GRAS_PaymentRequest", body, { 'headers': headers })
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+
   public async GetTransactionStatus(request: TransactionStatusDataModel) {
     const headers = { 'content-type': 'application/json' }
     const body = JSON.stringify(request);

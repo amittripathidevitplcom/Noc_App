@@ -130,7 +130,7 @@
                   </a><!--*ngIf="item.IsMakePayment==true"-->
                 </li>
                 <li *ngIf="item.DepartmentID==4 && item.GenerateReceipt_DTE!=''">
-                  <a  href="{{item.GenerateReceiptPath_DTE}}" target="_blank" class="dropdown-item list-group-item list-group-item-action list-group-item-danger" title="Receipt">
+                  <a href="{{item.GenerateReceiptPath_DTE}}" target="_blank" class="dropdown-item list-group-item list-group-item-action list-group-item-danger" title="Receipt">
                     Receipt
                   </a><!--*ngIf="item.IsMakePayment==true"-->
                 </li>
@@ -162,7 +162,7 @@
             <td>
 
               <span *ngFor="let items of item.NOCPdfFileDataModel let idxx =index">
-                <br />  <a  class="btn btn-sm btn-primary bi bi-file-earmark-pdf-fill m-1" href="{{items.NOCFilePath}}" title="{{items.ApplyNocFor}}" target="_blank">{{items.ApplyNocFor}}</a>
+                <br />  <a class="btn btn-sm btn-primary bi bi-file-earmark-pdf-fill m-1" href="{{items.NOCFilePath}}" title="{{items.ApplyNocFor}}" target="_blank">{{items.ApplyNocFor}}</a>
               </span>
               <!--<a *ngIf="item.IsNOCIssued==true && item.NOCFilePath !=''" class="btn btn-primary" title="View NOC PDF" target="_blank" href="{{item.NOCFilePath}}"><i class="fa fa-eye"></i></a>-->
               <span *ngIf="item.NOCPdfFileDataModel==null || item.NOCPdfFileDataModel.length<=0"><b>Under Process..</b> </span>
@@ -1231,7 +1231,8 @@
     <!--end-->
   </div>
   <div class="modal-footer text-end">
-    <button type="button" class="btn btn-primary" (click)="MakePayment_click(ApplyNocApplicationDetail)">Make Payment</button>
+    <!--<button type="button" class="btn btn-primary" (click)="MakePayment_click(ApplyNocApplicationDetail)">Make Payment</button>-->
+    <button type="button" class="btn btn-primary" (click)="MakePaymentEGrass_click(ApplyNocApplicationDetail)">Make Payment</button>
   </div>
 </ng-template>
 <!--end-->
@@ -1523,7 +1524,7 @@
                 <label>
                   Select Mode of Payment <span style="color:red;">*</span>
                 </label>
-                <select id="ddlPaymentMode" name="ddlPaymentMode" class="form-control" [(ngModel)]="request.PaymentMode" >
+                <select id="ddlPaymentMode" name="ddlPaymentMode" class="form-control" [(ngModel)]="request.PaymentMode">
                   <option value="0" selected disabled>--Select--</option>
                   <option *ngFor="let item of lstPaymentMode"
                           value="{{item.ID}}">

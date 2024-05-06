@@ -152,6 +152,9 @@ export class ApplyNocParameterDetailsComponent implements OnInit {
       await this.applyNocParameterService.GetApplyNocApplicationByApplicationID(applyNocApplicationID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
+          console.log("rsihi")
+          console.log(data)
+
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
@@ -187,6 +190,9 @@ export class ApplyNocParameterDetailsComponent implements OnInit {
       await this.applyNocParameterService.GetApplyNocApplicationByApplicationID(applyNocApplicationID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
+          console.log("rsihi")
+          console.log(data)
+
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
@@ -222,6 +228,45 @@ export class ApplyNocParameterDetailsComponent implements OnInit {
       return 'by clicking on a backdrop';
     } else {
       return `with: ${reason}`;
+    }
+  }
+
+  async MakePaymentEGrass_click(item: any) {
+    try {
+      this.loaderService.requestStarted();
+      debugger;
+      // payment request
+      this.nocPaymentComponent.request.ApplyNocApplicationID = item.ApplyNocApplicationID;
+      this.nocPaymentComponent.request.AMOUNT = item.TotalFeeAmount;
+      this.nocPaymentComponent.request.USEREMAIL = item.CollegeEmail;
+      this.nocPaymentComponent.request.USERNAME = item.CollegeName.substring(0, 49).replace(/[^a-zA-Z ]/g, "");
+      this.nocPaymentComponent.request.USERMOBILE = item.CollegeMobileNo;
+      this.nocPaymentComponent.request.PURPOSE = "Noc Payment";
+      this.nocPaymentComponent.request.DepartmentID = item.DepartmentID;
+      this.nocPaymentComponent.request.CreatedBy = this.sSOLoginDataModel.UserID;
+      this.nocPaymentComponent.request.SSOID = this.sSOLoginDataModel.SSOID;
+      this.nocPaymentComponent.request.City = this.sSOLoginDataModel.SSOID;
+
+
+      this.nocPaymentComponent.request.RemitterName = item.CollegeName;
+      this.nocPaymentComponent.request.REGTINNO = item.CollegeRegistrationNo;
+      this.nocPaymentComponent.request.DistrictCode = item.DistrictCode;
+      this.nocPaymentComponent.request.Adrees = item.FullAddress;
+      this.nocPaymentComponent.request.City = item.City;
+      this.nocPaymentComponent.request.Pincode = item.Pincode;
+
+
+      // post
+      await this.nocPaymentComponent.PaymentRequest_Egrass()
+
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
     }
   }
 

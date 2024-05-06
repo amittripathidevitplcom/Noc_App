@@ -52,11 +52,11 @@ export class NocPaymentComponent implements OnInit {
         txtDistrictCode: ['', Validators.required],
         txtAdrees: ['', Validators.required],
         txtPincode: ['', Validators.required],
-         
+
       })
   }
 
-  RedirectPaymentRequest(pMERCHANTCODE: any, pENCDATA: any,pRequestURl:any) {
+  RedirectPaymentRequest(pMERCHANTCODE: any, pENCDATA: any, pRequestURl: any) {
     var form = document.createElement("form");
     form.setAttribute("method", "post");
     form.setAttribute("action", pRequestURl); //GlobalConstants.RPPRequstURL
@@ -110,8 +110,38 @@ export class NocPaymentComponent implements OnInit {
     }
   }
 
-  async GetTransactionStatus()
-  {
+
+  async PaymentRequest_Egrass() {
+    this.loaderService.requestStarted();
+    try {
+      await this.nocpaymentService.PaymentRequest_Egrass(this.request)
+        .then(async (data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          console.log(data);
+          console.log(this.State);
+          if (!this.State) {
+            await this.RedirectEgrassPaymentRequest(data.Data.MERCHANTCODE, data.Data.ENCDATA, data.Data.PaymentRequestURL, data.Data.AUIN)
+          }
+          else {
+            this.toastr.error(this.ErrorMessage)
+          }
+        })
+    }
+    catch (ex) { console.log(ex) }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+
+
+
+  async GetTransactionStatus() {
     this.loaderService.requestStarted();
     try {
       await this.nocpaymentService.GetTransactionStatus(this.transactionStatusRequest)
@@ -122,12 +152,10 @@ export class NocPaymentComponent implements OnInit {
           this.ErrorMessage = data['ErrorMessage'];
           console.log(data.Data.MERCHANTCODE);
           console.log(this.State);
-          if (!this.State)
-          {
+          if (!this.State) {
             this.toastr.success(this.SuccessMessage)
           }
-          else
-          {
+          else {
             this.toastr.error(this.ErrorMessage)
           }
         })
@@ -194,31 +222,28 @@ export class NocPaymentComponent implements OnInit {
     }
   }
 
-  async EmitraPaymentRequest()
-  {
+  async EmitraPaymentRequest() {
     //this.request.AMOUNT = 1000;
     //this.request.USEREMAIL = "r.rajsingh04@gmail.com"
     //this.request.USERNAME = "Rav Raj";
     //this.request.USERMOBILE = "7737348604";
     //this.request.PURPOSE = "Test";
     //this.request.ApplyNocApplicationID = 1;
-   
+
 
     //debugger
     this.loaderService.requestStarted();
     try {
       await this.nocpaymentService.EmitraPayment(this.emitraRequest)
-        .then((data: any) => {
+        .then(async (data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
-          if (!this.State)
-          {
-            this.RedirectEmitraPaymentRequest(data.Data.MERCHANTCODE, data.Data.ENCDATA, data.Data.PaymentRequestURL)
+          if (!this.State) {
+            await this.RedirectEmitraPaymentRequest(data.Data.MERCHANTCODE, data.Data.ENCDATA, data.Data.PaymentRequestURL)
           }
-          else
-          {
+          else {
             this.toastr.error(this.ErrorMessage)
           }
         })
@@ -230,12 +255,11 @@ export class NocPaymentComponent implements OnInit {
       }, 200);
     }
   }
-  RedirectEmitraPaymentRequest(pMERCHANTCODE: any, pENCDATA: any, pServiceURL: any)
-  {
+  RedirectEmitraPaymentRequest(pMERCHANTCODE: any, pENCDATA: any, pServiceURL: any) {
 
     var form = document.createElement("form");
     form.setAttribute("method", "post");
-    form.setAttribute("action",pServiceURL);
+    form.setAttribute("action", pServiceURL);
 
     var hiddenField = document.createElement("input");
     hiddenField.setAttribute("type", "hidden");
@@ -268,24 +292,22 @@ export class NocPaymentComponent implements OnInit {
 
 
 
-  async EgrassPaymentRequest()
-  {
-    //debugger
+  async EgrassPaymentRequest() {
+    debugger;
     this.loaderService.requestStarted();
     try {
+      console.log(this.request);
       await this.nocpaymentService.GRAS_PaymentRequest(this.request)
-        .then((data: any) =>
-        {
+        .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
-          if (!this.State)
-          {
-           this.RedirectEgrassPaymentRequest(data.Data.MERCHANTCODE, data.Data.ENCDATA, data.Data.PaymentRequestURL, data.Data.AUIN)
+          debugger;
+          if (!this.State) {
+            this.RedirectEgrassPaymentRequest(data.Data.MERCHANTCODE, data.Data.ENCDATA, data.Data.PaymentRequestURL, data.Data.AUIN)
           }
-          else
-          {
+          else {
             this.toastr.error(this.ErrorMessage)
           }
         })
@@ -298,12 +320,17 @@ export class NocPaymentComponent implements OnInit {
     }
   }
 
-  RedirectEgrassPaymentRequest(pMERCHANTCODE: any, pENCDATA: any, pServiceURL: any, pAUIN:any)
-  {
+  RedirectEgrassPaymentRequest(pMERCHANTCODE: any, pENCDATA: any, pServiceURL: any, pAUIN: any) {
 
     ////pServiceURL = "http://10.68.69.46:62778/api/Payment/GRAS_PaymentRequest";
     //pServiceURL = "http://164.100.153.105/egras105/samplemerchantprelogin2.aspx";
-    //debugger;
+    debugger;
+    console.log("rishi 111");
+    console.log(pMERCHANTCODE);
+    console.log(pENCDATA);
+    console.log(pServiceURL);
+    console.log(pAUIN);
+
     var form = document.createElement("form");
     form.setAttribute("method", "post");
     form.setAttribute("action", pServiceURL);
@@ -320,17 +347,19 @@ export class NocPaymentComponent implements OnInit {
     MERCHANTCODE.setAttribute("value", pMERCHANTCODE);
     form.appendChild(MERCHANTCODE);
 
-
+    debugger;
     var AUIN = document.createElement("input");
     AUIN.setAttribute("type", "hidden");
     AUIN.setAttribute("name", "AUIN");
     AUIN.setAttribute("value", pAUIN);
     form.appendChild(AUIN);
 
+    console.log(form.outerHTML);
 
     document.body.appendChild(form);
     form.submit();
     document.body.removeChild(form);
+
 
   }
 }
