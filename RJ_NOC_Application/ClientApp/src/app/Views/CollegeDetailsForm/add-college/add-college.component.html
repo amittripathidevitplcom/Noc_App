@@ -289,14 +289,14 @@
 
           <!--AffiliationDocumentCertificate-->
           <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="request.DepartmentID ==3">
-            <label class="form-label">Affiliation Document <span style="color:red;">*</span></label>
+            <label class="form-label">Affiliation Document  <span style="color:red;">*</span></label>
             <div class="d-flex">
               <input type="file" style="display:none;" class="form-control" id="CollegeAffiliationDocument" name="CollegeAffiliationDocument" (change)="onFilechange($event,'AffiliationDocument')" formControlName="CollegeAffiliationDocument">
               <label class="btn upload" for="CollegeAffiliationDocument">
                 <span class="filename">Choose file</span>
                 {{request.AffiliationDocument === '' ? 'No File Choosen' : request.AffiliationDocument_Dis_FileName}}
               </label>
-              <div class="btn-group" *ngIf="showAffiliationDocument">
+              <div class="btn-group" *ngIf="showAffiliationDocument  && (request.AffiliationDocument !='')">
                 <a class="btn btn-outline-primary" target="_blank" href="{{request.AffiliationDocumentPath}}"><i class="fa fa-eye"></i></a>
                 <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('AffiliationDocument',request.AffiliationDocument)"><i class="fa fa-trash-o"></i></button>
               </div>
@@ -444,8 +444,8 @@
             <label for="txtAddressLine2" class="form-label">Address Line 2 </label>
             <input type="text" class="form-control" maxlength="200" id="txtAddressLine2" name="txtAddressLine2" [(ngModel)]="request.AddressLine2" formControlName="txtAddressLine2">
             <!--<div *ngIf="isSubmitted&&form.txtAddressLine2.errors" class="text-danger">
-              <p *ngIf="form.txtAddressLine2.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-            </div>-->
+      <p *ngIf="form.txtAddressLine2.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+    </div>-->
           </div>
 
           <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" [hidden]="!IsRural">
@@ -497,6 +497,28 @@
               <p *ngIf="form.txtEmail.errors.pattern">Invalid Email .!</p>
             </div>
           </div>
+
+
+          <!--WebsiteImageCertificate-->
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="request.DepartmentID ==3">
+            <label class="form-label">Website Image <span style="color:red;">*</span></label>
+            <div class="d-flex">
+              <input type="file" style="display:none;" class="form-control" id="CollegeWebsiteImage" name="CollegeWebsiteImage" (change)="onFilechange($event,'WebsiteImage')" formControlName="CollegeWebsiteImage">
+              <label class="btn upload" for="CollegeWebsiteImage">
+                <span class="filename">Choose file</span>
+                {{request.WebsiteImage === '' ? 'No File Choosen' : request.WebsiteImage_Dis_FileName}}
+              </label>
+              <div class="btn-group" *ngIf="showWebsiteImage && (request.WebsiteImage !='')">
+                <a class="btn btn-outline-primary" target="_blank" href="{{request.WebsiteImagePath}}"><i class="fa fa-eye"></i></a>
+                <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('WebsiteImage',request.WebsiteImage)"><i class="fa fa-trash-o"></i></button>
+              </div>
+            </div>
+            <div *ngIf="WebsiteImageValidationMessage!=''" class="text-danger">
+              <p><i aria-hidden="true"></i>{{WebsiteImageValidationMessage}}</p>
+            </div>
+          </div>
+          <!---->
+
         </div>
       </div>
 

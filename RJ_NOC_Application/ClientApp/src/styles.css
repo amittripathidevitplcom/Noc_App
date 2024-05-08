@@ -401,7 +401,7 @@ header {
   text-align: center;
 }
 
-marquee {
+.OrderCircularBox marquee {
   height: 475px;
   background: #ffffff;
   border-radius: 15px;
@@ -467,7 +467,7 @@ marquee {
     }
 
 @media(max-width:1440px) {
-  marquee {
+  .OrderCircularBox marquee {
     height: 290px !important;
   }
 
@@ -529,4 +529,41 @@ marquee {
 .tab-pane > p {
   font-size: 1.5rem;
   line-height: 2.8rem;
+}
+
+.contactMarquee ul {
+    list-style:none;
+    margin:0px;
+    padding:0px;
+}
+.contactMarquee ul li {
+    margin-left:25px;
+    font-size:22px;
+    font-weight:600;
+}
+  .contactMarquee ul li i {
+    color: #e3225f;
+    margin-right: 7px;
+    animation: mymove 1s infinite;
+  }
+.blinkText {
+  animation: mymove 1s infinite;
+}
+
+@keyframes mymove {
+  0% {
+    color: #ff0505;
+  }
+
+  25% {
+    color: #234197;
+  }
+
+  75% {
+    color: #ff0505;
+  }
+
+  100% {
+    color: #234197;
+  }
 }

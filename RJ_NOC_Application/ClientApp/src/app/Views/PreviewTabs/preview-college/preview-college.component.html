@@ -1,4 +1,4 @@
-  <div class="row">
+<div class="row">
   <div class="col-md-12">
     <div class="card mb-0">
       <div class="card-header">
@@ -174,7 +174,14 @@
                 </div>
                 <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
                   <label>Website Link :</label>
-                  <input class="form-control disabled mt-1" disabled value="{{collegeListData.WebsiteLink}}" />
+                  <a class="form-control" style="border: none !important; margin: 0px !important; padding-left: 0px !important;"
+                     target="_blank" href="http://{{collegeListData.WebsiteLink}}">{{collegeListData.WebsiteLink}}</a>
+
+                  <a *ngIf="collegeListData.DepartmentID==3" data-fancybox="gallery" href="{{collegeListData.WebsiteImagePath}}" data-caption="Image 10" title="click here to zoom">
+                    <img src="{{collegeListData.WebsiteImagePath}}" alt="Website Image"
+                         style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                  </a>
+
                 </div>
                 <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
                   <label>Mobile Number :</label>

@@ -38,32 +38,6 @@
       </div>
     </div>
 
-
-    <!--<div class="card-body" *ngIf="SelectedDepartmentID==3">
-      <div class="row">
-        <div class="table-responsive">
-          <table class="table table-hover table-striped-columns text-left" id="ApplicationDeficiency" #content>
-            <thead>
-              <tr>
-                <td colspan="3" style="font-weight: 800;font-size: 18px;">
-                  <b><i class="bi bi-table"></i>&nbsp;Application Deficiency</b>
-                </td>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>
-                  <span [innerHTML]="DCPendingPoint"></span>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>-->
-
-
-
     <div class="col-md-12" *ngIf="IsManagmentType">
       <div class="card mb-0">
         <div class="card-header">
@@ -88,18 +62,7 @@
         </div>
       </div>
     </div>
-    <div class="col-md-12">
-      <div class="card mb-0">
-        <div class="card-header">
-          <b><i class="bi bi-table"></i> Course Detail </b>
-        </div>
-        <div class="card-body">
-          <div class="col-md-12">
-            <app-preview-course-detail></app-preview-course-detail>
-          </div>
-        </div>
-      </div>
-    </div>
+
     <div class="col-md-12" *ngIf="IsManagmentType==true">
       <div class="card mb-0">
         <div class="card-header">
@@ -112,6 +75,33 @@
         </div>
       </div>
     </div>
+
+    <div class="col-md-12">
+      <div class="card mb-0">
+        <div class="card-header">
+          <b><i class="bi bi-table"></i> Course Detail </b>
+        </div>
+        <div class="card-body">
+          <div class="col-md-12">
+            <app-preview-course-detail></app-preview-course-detail>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-12" *ngIf="CollegeType_IsExisting">
+      <div class="card mb-0">
+        <div class="card-header">
+          <b><i class="bi bi-table"></i>OLD NOC Details</b>
+        </div>
+        <div class="card-body">
+          <div class="col-md-12">
+            <app-preview-old-nocdetail></app-preview-old-nocdetail>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div class="col-md-12">
       <div class="card mb-0">
         <div class="card-header">
@@ -124,6 +114,49 @@
         </div>
       </div>
     </div>
+
+    <div class="col-md-12">
+      <div class="card mb-0">
+        <div class="card-header">
+          <b><i class="bi bi-table"></i>  Building Documents </b>
+        </div>
+        <div class="card-body">
+          <div class="col-md-12">
+            <app-preview-building-detail></app-preview-building-detail>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-12">
+      <div class="card mb-0">
+        <div class="card-header">
+          <b><i class="bi bi-table"></i> Class Room Details </b>
+        </div>
+        <div class="card-body">
+          <div class="col-md-12">
+            <app-preview-room-detail></app-preview-room-detail>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-12">
+      <div class="card mb-0">
+        <div class="card-header" *ngIf="SelectedDepartmentID==6">
+          <b><i class="bi bi-table"></i>  Clinical Details </b>
+        </div>
+        <div class="card-header" *ngIf="SelectedDepartmentID!=6">
+          <b><i class="bi bi-table"></i>  Other Infrastucture </b>
+        </div>
+        <div class="card-body">
+          <div class="col-md-12">
+            <app-preview-other-information></app-preview-other-information>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div class="col-md-12">
       <div class="card mb-0">
         <div class="card-header">
@@ -163,94 +196,64 @@
         </div>
       </div>
     </div>
+
     <div class="col-md-12">
       <div class="card mb-0">
         <div class="card-header">
-          <b><i class="bi bi-table"></i> Class Room Details </b>
+          <b><i class="bi bi-table"></i>Other Document</b>
         </div>
         <div class="card-body">
           <div class="col-md-12">
-            <app-preview-room-detail></app-preview-room-detail>
+            <app-preview-other-document></app-preview-other-document>
           </div>
         </div>
       </div>
     </div>
-    <div class="col-md-12">
-      <div class="card mb-0">
-        <div class="card-header" *ngIf="SelectedDepartmentID==6">
-          <b><i class="bi bi-table"></i>  Clinical Details </b>
-        </div>
-        <div class="card-header" *ngIf="SelectedDepartmentID!=6">
-          <b><i class="bi bi-table"></i>  Other Infrastucture </b>
-        </div>
-        <div class="card-body">
-          <div class="col-md-12">
-            <app-preview-other-information></app-preview-other-information>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-12">
+
+    <div class="col-md-12" *ngIf="CollegeType_IsExisting">
       <div class="card mb-0">
         <div class="card-header">
-          <b><i class="bi bi-table"></i>  Building Documents </b>
+          <b><i class="bi bi-table"></i>  Staff Details </b>
         </div>
         <div class="card-body">
           <div class="col-md-12">
-            <app-preview-building-detail></app-preview-building-detail>
+            <app-preview-staff-detail></app-preview-staff-detail>
           </div>
         </div>
       </div>
     </div>
-  </div>
-  <div class="col-md-12" *ngIf="CollegeType_IsExisting">
-    <div class="card mb-0">
-      <div class="card-header">
-        <b><i class="bi bi-table"></i>  Staff Details </b>
-      </div>
-      <div class="card-body">
-        <div class="col-md-12">
-          <app-preview-staff-detail></app-preview-staff-detail>
+    <div class="col-md-12" *ngIf="CollegeType_IsExisting">
+      <div class="card mb-0">
+        <div class="card-header">
+          <b><i class="bi bi-table"></i>Academic Information</b>
+        </div>
+        <div class="card-body">
+          <div class="col-md-12">
+            <app-preview-academic-information></app-preview-academic-information>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-  <div class="col-md-12" *ngIf="CollegeType_IsExisting">
-    <div class="card mb-0">
-      <div class="card-header">
-        <b><i class="bi bi-table"></i>OLD NOC Details</b>
-      </div>
-      <div class="card-body">
-        <div class="col-md-12">
-          <app-preview-old-nocdetail></app-preview-old-nocdetail>
+
+
+    <div class="col-md-12" *ngIf="SelectedDepartmentID==6 || SelectedDepartmentID==3 || SelectedDepartmentID==4">
+      <div class="card mb-0">
+        <div class="card-header">
+          <b><i class="bi bi-table"></i>Hostel Details</b>
+        </div>
+        <div class="card-body">
+          <div class="col-md-12">
+            <app-preview-hostel-details></app-preview-hostel-details>
+          </div>
         </div>
       </div>
     </div>
+
   </div>
-  <div class="col-md-12" *ngIf="CollegeType_IsExisting">
-    <div class="card mb-0">
-      <div class="card-header">
-        <b><i class="bi bi-table"></i>Academic Information</b>
-      </div>
-      <div class="card-body">
-        <div class="col-md-12">
-          <app-preview-academic-information></app-preview-academic-information>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="col-md-12">
-    <div class="card mb-0">
-      <div class="card-header">
-        <b><i class="bi bi-table"></i>Other Document</b>
-      </div>
-      <div class="card-body">
-        <div class="col-md-12">
-          <app-preview-other-document></app-preview-other-document>
-        </div>
-      </div>
-    </div>
-  </div>
+  
+ 
+  
+ 
 
   <div class="col-md-12" *ngIf="SelectedDepartmentID==6">
     <div class="card mb-0">
@@ -276,18 +279,7 @@
       </div>
     </div>
   </div>
-  <div class="col-md-12" *ngIf="SelectedDepartmentID==6 || SelectedDepartmentID==3 || SelectedDepartmentID==4">
-    <div class="card mb-0">
-      <div class="card-header">
-        <b><i class="bi bi-table"></i>Hostel Details</b>
-      </div>
-      <div class="card-body">
-        <div class="col-md-12">
-          <app-preview-hostel-details></app-preview-hostel-details>
-        </div>
-      </div>
-    </div>
-  </div>
+ 
   <div class="col-md-12" *ngIf="SelectedDepartmentID==3">
     <div class="card mb-0">
       <div class="card-header">

@@ -4,6 +4,24 @@
       <div class="col-lg-3 col-md-4 col-sm-6 col-12">
         <img src="../../../assets/images/logo.png" class="img-fluid" />
       </div>
+      <div class="col-lg-9 col-md-8 col-sm-6 col-12 contactMarquee">
+        <marquee direction="left" onmouseover="this.stop();" onmouseout="this.start();" scrollamount="5">
+          <!--Without maarquee use this class in bottom UL - w-100 justify-content-end-->
+          <ul class="d-flex align-items-center flex-wrap">
+            <li>
+              <span class="blinkText">Helpdesk : </span>
+            </li>
+            <li>
+              <i class="bi bi-phone"></i>
+              <span>+91-90015 47555</span>
+            </li>
+            <li>
+              <i class="bi bi-envelope"></i>
+              <span>support.rajnoc@rajasthan.gov.in</span>
+            </li>
+          </ul>
+        </marquee>
+      </div>
       <!--<div class="col-lg-9 col-md-8 col-sm-6 col-12 CMBox">
         <div class="d-flex align-items-center flex-end w-100" style="justify-content:flex-end">
           <img src="../../../assets/images/cm1.png" style="width:75px;" />
@@ -22,7 +40,7 @@
 
     <div class="row">
       <div class="col-lg-9 tabPanels">
-        <div  class="nav nav-pills mt-0 mb-5 dptNavPills" id="v-pills-tab" role="tablist">
+        <div class="nav nav-pills mt-0 mb-5 dptNavPills" id="v-pills-tab" role="tablist">
           <button (click)="GetUserManualDocumentMasterList(2)" class=" service-item style-3 nav-link" id="v-pills-d1-tab" data-bs-toggle="pill" data-bs-target="#v-pills-d1" type="button" role="tab" aria-controls="v-pills-d1" aria-selected="false">
             <div class="service-icon">
               <img src="../../../assets/images/1.png" />
@@ -112,13 +130,13 @@
 
         </div>
         <div class="tab-content" id="v-pills-tabContent">
-          <div class="tab-pane fade show active" id="v-pills-d" role="tabpanel" aria-labelledby="v-pills-d-tab" tabindex="0"> 
+          <div class="tab-pane fade show active" id="v-pills-d" role="tabpanel" aria-labelledby="v-pills-d-tab" tabindex="0">
 
             <h5 class="text-center defulttext">
               ऑनलाइन पोर्टल का उद्देश्य निजी महाविद्यालयों को अनापत्ति प्रमाण पत्र प्रदान करना एवं सम्पूर्ण प्रक्रिया की पारदर्शिता सुनिश्चित करना है।
               उपरोक्त पोर्टल में विभिन्न क्षेत्र के महाविद्यालों जैसे की कृषि, पशुपालन, नर्सिंग , मेडिकल शिक्षा , कॉलेज शिक्षा, तकनीकी शिक्षा इत्यादि को एनओसी ऑनलाइन ही जारी की जा सकेगी।
 
-            </h5> 
+            </h5>
 
           </div>
           <div class="tab-pane fade" id="v-pills-d1" role="tabpanel" aria-labelledby="v-pills-d1-tab" tabindex="0">
@@ -164,12 +182,12 @@
             <p class="mb-4"> ऑनलाइन एनओसी आवेदन पत्र की अंतिम तिथि 15 फरवरी 2024 से 22 फरवरी 2024 तक बढ़ा दी गई है। </p>
             <p class="mb-4"> ऑनलाइन एनओसी आवेदन पत्र की अंतिम तिथि 22 फरवरी 2024 से 29 फरवरी 2024 तक बढ़ा दी गई है। </p>
 
-              <div class="buttons mt-2 mb-4">
-                <a href="https://sso.rajasthan.gov.in/signin?ru=UNOC" target="_blank" class="btncomn">Login to SSO</a>
-                <a href="../../../assets/images/doc/UserManualforNewInstitute.pdf" target="_blank" class="btncomn">View User Manual For New Institute</a>
-                <a href="../../../assets/images/doc/UserManualforExistingInstitute.pdf" target="_blank" class="btncomn">View User Manual For Existing Institute</a>
-              </div>
-</div>
+            <div class="buttons mt-2 mb-4">
+              <a href="https://sso.rajasthan.gov.in/signin?ru=UNOC" target="_blank" class="btncomn">Login to SSO</a>
+              <a href="../../../assets/images/doc/UserManualforNewInstitute.pdf" target="_blank" class="btncomn">View User Manual For New Institute</a>
+              <a href="../../../assets/images/doc/UserManualforExistingInstitute.pdf" target="_blank" class="btncomn">View User Manual For Existing Institute</a>
+            </div>
+          </div>
           <div class="tab-pane fade" id="v-pills-d4" role="tabpanel" aria-labelledby="v-pills-d4-tab" tabindex="0">
             <div class="d-flex justify-content-start mb-3">
               <img src="../../../assets/images/4.png" height="80" width="80"
@@ -217,11 +235,11 @@
               <li *ngFor="let row of DCE_HomePage_IncreaseDateData_Bottom ;let idx=index;">
                 {{row.Content}}
               </li>
-               
+
             </ul>
 
 
-            
+
           </div>
           <div class="tab-pane fade" id="v-pills-d7" role="tabpanel" aria-labelledby="v-pills-d7-tab" tabindex="0">
             <div class="d-flex justify-content-start mb-3">
@@ -242,21 +260,21 @@
         </div>
 
       </div>
-      <div class="col-lg-3">
+      <div class="col-lg-3 OrderCircularBox">
         <h3 class="heading">Order & Circular</h3>
         <marquee direction="up" onmouseover="this.stop();" onmouseout="this.start();" scrollamount="5">
           <ul class="newsMarquee">
-             
 
-          <li *ngFor="let row of UserManualDocumentlList ;let idx=index;">
-            <a href="{{row.DocumentPath}}" target="_blank">
-              <p><i class="fa fa-file-pdf-o"></i> {{row.TitleEnglish}} </p>
-              <span><i class="fa fa-calendar"></i> {{row.Date}}</span>
-            </a>
-          </li>
-          </ul> 
+
+            <li *ngFor="let row of UserManualDocumentlList ;let idx=index;">
+              <a href="{{row.DocumentPath}}" target="_blank">
+                <p><i class="fa fa-file-pdf-o"></i> {{row.TitleEnglish}} </p>
+                <span><i class="fa fa-calendar"></i> {{row.Date}}</span>
+              </a>
+            </li>
+          </ul>
         </marquee>
-      </div> 
+      </div>
     </div>
 
 
@@ -271,7 +289,7 @@
         <h5>Quick Links : </h5>
         <ul class="navbarfooter ps-0">
 
-          <li><a target="_blank"  href="#"><i class="fa fa-angle-double-right"></i>&nbsp;Site Portal Rajasthan</a></li>
+          <li><a target="_blank" href="#"><i class="fa fa-angle-double-right"></i>&nbsp;Site Portal Rajasthan</a></li>
           <li><a target="_blank" href="https://sampark.rajasthan.gov.in/"><i class="fa fa-angle-double-right"></i>&nbsp;Rajasthan Sampark</a></li>
           <li><a target="_blank" href="https://dop.rajasthan.gov.in/"><i class="fa fa-angle-double-right"></i>&nbsp;DOP</a></li>
           <li><a target="_blank" href="https://hte.rajasthan.gov.in/"><i class="fa fa-angle-double-right"></i>&nbsp;HTE link</a></li>
@@ -293,7 +311,7 @@
         <h5>Contact Us </h5>
         <p class="mb-0">
 
-          +91-91099 69448 <br />
+          +91-90015 47555 <br />
           support.rajnoc@rajasthan.gov.in
         </p>
         <p class="mb-0 mt-0">Website Visiter :<strong> 0584582</strong> <br />Last Update : <strong>10-01-2024 </strong></p>
@@ -307,4 +325,4 @@
       </div>
     </div>
   </div>
-</section> 
+</section>

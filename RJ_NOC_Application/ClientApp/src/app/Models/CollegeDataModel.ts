@@ -59,7 +59,9 @@ export class CollegeDataModel {
   public NearestGovernmentHospitalsList: NearestGovernmentHospitalsDataModel[] = [];
   public CollegeLevelDetails: CollegeLevelDetailsDataModel[] = [];
 
-
+  public WebsiteImage: string = '';
+  public WebsiteImagePath: string = '';
+  public WebsiteImage_Dis_FileName: string = '';
 
   // Medical Group 1
   public AnnualIntakeStudents: number = null;
@@ -103,7 +105,12 @@ export class NearestGovernmentHospitalsDataModel {
   public CityTownVillage: string = '';
   public Pincode: number = null;
   public CityID: number = 0;
-  public CityName: string  = '';
+  public CityName: string = '';
+
+
+ 
+
+
 }
 export class CollegeLevelDetailsDataModel {
   public AID: number = 0;
