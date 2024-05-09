@@ -1475,6 +1475,9 @@ export class AddCollegeComponent implements OnInit {
 
           this.request.TypeofCollege = data['Data']['TypeofCollege'];
 
+          
+          await this.ddlCollegeType_TextChange(this.request.CollegeTypeID.toString())
+          
           //if (!this.State) {
           //  //this.toastr.success(this.SuccessMessage)
           //}

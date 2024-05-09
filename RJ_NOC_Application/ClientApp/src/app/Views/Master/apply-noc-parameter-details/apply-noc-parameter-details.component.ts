@@ -60,6 +60,7 @@ export class ApplyNocParameterDetailsComponent implements OnInit {
   public lstOfflinePaymentDetails: any = [];
   public file: any = '';
   public AddUpdatetext: string = 'Add';
+  public ApplicationFee: string = '0';
 
 
   constructor(private fileUploadService: FileUploadService, private applyNocParameterService: ApplyNocParameterService, private toastr: ToastrService, private loaderService: LoaderService, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private modalService: NgbModal, private nocPaymentComponent: NocPaymentComponent) {
@@ -830,6 +831,7 @@ export class ApplyNocParameterDetailsComponent implements OnInit {
     this.request.CollegeID = item.CollegeID;
     this.request.DepartmentID = item.DepartmentID;
     this.ApplicationFinalSubmit = item.IsFinalSubmit;
+    this.ApplicationFee = item.TotalFeeAmount;
     await this.GetPaymentMode();
     //if (this.request.DepartmentID == 4 || this.request.DepartmentID == 3) {
     //  await this.GetPaymentMode();
