@@ -830,13 +830,14 @@ export class ApplyNocParameterDetailsComponent implements OnInit {
     this.request.CollegeID = item.CollegeID;
     this.request.DepartmentID = item.DepartmentID;
     this.ApplicationFinalSubmit = item.IsFinalSubmit;
-    if (this.request.DepartmentID == 4 || this.request.DepartmentID == 3) {
-      await this.GetPaymentMode();
-      this.lstPaymentMode = this.lstPaymentMode.filter((x: { Name: string; }) => x.Name == 'Demand Draft');
-    }
-    else {
-      await this.GetPaymentMode();
-    }
+    await this.GetPaymentMode();
+    //if (this.request.DepartmentID == 4 || this.request.DepartmentID == 3) {
+    //  await this.GetPaymentMode();
+    //  this.lstPaymentMode = this.lstPaymentMode.filter((x: { Name: string; }) => x.Name == 'Demand Draft');
+    //}
+    //else {
+    //  await this.GetPaymentMode();
+    //}
     this.GetOfflinePaymentDetails(this.request.ApplyNOCID, 0, 'GetOfflinePaymentDetails');
 
   }

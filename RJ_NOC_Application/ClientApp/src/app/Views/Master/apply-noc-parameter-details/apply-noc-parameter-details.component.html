@@ -86,7 +86,7 @@
                   </a>
                 </li>
 
-                <!--<li>
+                <li>
                   <a *ngIf="(item.DepartmentID==4 || item.DepartmentID==3) && item.IsFinalSubmit==false && item.ManagementType!='Government'&& item.IsOpenNOCApplication==true" class="dropdown-item list-group-item list-group-item-action list-group-item-danger" href="javascript:void(0)" title="Add Offline Payment Details" (click)="OpenOfflinePaymentActionPopUP(mymodalAddOfflinePayment,item)">
                     Add Offline Payment Details
                   </a>
@@ -107,7 +107,7 @@
                   <a class="dropdown-item list-group-item list-group-item-action list-group-item-danger" href="javascript:void(0)" title="Payment History" *ngIf="item.IsMakePayment_ApplicationFee==true" (click)="PaymentHistoryNocApplication_click(mymodalemitrapaymenthistory,item.ApplyNocApplicationID)">
                     Application Payment History
                   </a>
-                </li>-->
+                </li>
                 <li>
                   <a class="dropdown-item list-group-item list-group-item-action list-group-item-danger" href="javascript:void(0)"
                      *ngIf="item.IsMakePayment==true && item.IsMakePayment_ApplicationFee==true && item.IsFinalSubmit==false && item.IsOpenNOCApplication==true" title="Final Submit Application" (click)="FinalSubmitApplyNocApplication_click(item)">
@@ -124,11 +124,11 @@
 
 
 
-                <li>
+                <!--<li>
                   <a style="display:none" class="dropdown-item list-group-item list-group-item-action list-group-item-danger" href="javascript:void(0)" title="Egrass Payment" (click)="MakeGrassPayment_click(item)">
                     Egrass Payment
-                  </a><!--*ngIf="item.IsMakePayment==true"-->
-                </li>
+                  </a>--><!--*ngIf="item.IsMakePayment==true"-->
+                <!--</li>-->
                 <li *ngIf="item.DepartmentID==4 && item.GenerateReceipt_DTE!=''">
                   <a href="{{item.GenerateReceiptPath_DTE}}" target="_blank" class="dropdown-item list-group-item list-group-item-action list-group-item-danger" title="Receipt">
                     Receipt
@@ -1566,7 +1566,7 @@
                 </div>
               </div>
               <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                <label> {{(request.DepartmentID==4||request.DepartmentID==3)?'Upload DD':'Upload DD/BC Transaction Recept'}}  <span style="color:red;">*</span></label>
+                <label> {{(request.DepartmentID==4)?'Upload DD':request.DepartmentID==3?'Upload Receipt Document':'Upload DD/BC Transaction Recept'}}  <span style="color:red;">*</span></label>
                 <div class="d-flex">
                   <input type="file" [(ngModel)]="request.TransactionReceptDocument" [ngModelOptions]="{standalone: true}" id="fileTransactionReceptDocument" (input)="onFilechangeItem($event)" class="form-control d-none" />
                   <label class="btn upload" for="fileTransactionReceptDocument">
