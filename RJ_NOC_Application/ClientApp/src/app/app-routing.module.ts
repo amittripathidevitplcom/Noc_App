@@ -228,6 +228,7 @@ import { UpdateCollegeSSOComponent } from './Views/UpdateCollegeSSO/update-colle
 import { CollegePaymentReportComponent } from './Views/Admin/college-payment-report/college-payment-report.component';
 import { TotalDraftEntryCollegeComponent } from './Views/Admin/total-draft-entry-college/total-draft-entry-college.component';
 import { NewgrievancereportComponent } from './Views/DCE/newgrievancereport/newgrievancereport/newgrievancereport.component';
+import { BEDApplicationEntryComponent } from './Views/Bed/BEDApplicationEntry/bedapplication-entry/bedapplication-entry.component';
 
 
 const routes: Routes = [
@@ -395,6 +396,7 @@ const routes: Routes = [
         //  externalUrl: "http://localhost:4200/applicationdetailentry/3/1"
         //}
       },
+      { path: 'bedapplicationentry/:DepartmentID/:CollegeID', component: BEDApplicationEntryComponent, pathMatch: 'full' },
       {
         path: 'applicationdetailentry/:DepartmentID/:CollegeID/:ApplyNOCID/:Status', component: RevertApplicationDetailEntryComponent,
         pathMatch: 'full'
@@ -925,15 +927,15 @@ const routes: Routes = [
       {
         path: 'workflowformat3', component: WorkFlowFormat3Component
       },
-      
+
       {
         path: 'updatecollegeSSO', component: UpdateCollegeSSOComponent
       },
-      
+
       {
         path: 'onlinepaymentreport', component: CollegePaymentReportComponent
       },
-      
+
       {
         path: 'totaldraftentrycollege', component: TotalDraftEntryCollegeComponent
       }

@@ -1033,16 +1033,16 @@ font-size: 18px;">
                   </tr>
                 </thead>
 
-              
-                  <tr>
-                    <th>Sr. No.</th>
-                    <th>Activity Name</th>
 
-                    <th>Remark</th>
-                    <th>Is Available(Y/N)</th>
-                   
-                  </tr>
-               
+                <tr>
+                  <th>Sr. No.</th>
+                  <th>Activity Name</th>
+
+                  <th>Remark</th>
+                  <th>Is Available(Y/N)</th>
+
+                </tr>
+
                 <tbody>
                   <tr *ngFor="let item of ActivityDataAllList ; let indexOfelement=index;">
                     <td> {{indexOfelement+1}}</td>
@@ -1050,7 +1050,7 @@ font-size: 18px;">
 
                     <td>{{item.Remark}}</td>
                     <td>{{item.IsAvailable}}</td>
-                    
+
                   </tr>
                   <tr *ngIf="ActivityDataAllList.length<=0">
                     <td colspan="10" style="color:red">No Data Found.!</td>
@@ -2497,10 +2497,17 @@ font-size: 18px;">
                       <b><i class="bi bi-table"></i>&nbsp;Apply NOC Details</b>
                     </td>
                   </tr>
-
                 </thead>
-                <tbody *ngFor="let parameterDetail of ApplyNocApplicationDetail.ApplyNocApplicationParameterList;let idx=index;">
-                  <tr *ngIf="idx==0">
+                <tbody>
+                  <tr>
+                    <td colspan="4">
+                      <b>
+                        Apply NOC Application No.:
+                      </b>
+                      {{ApplyNocApplicationDetail.ApplicationNo}}
+                    </td>
+                  </tr>
+                  <tr>
                     <td>
                       <b>
                         College :
@@ -2526,6 +2533,8 @@ font-size: 18px;">
                       {{ApplyNocApplicationDetail['ApplicationTypeName']}}
                     </td>
                   </tr>
+                </tbody>
+                <tbody *ngFor="let parameterDetail of ApplyNocApplicationDetail.ApplyNocApplicationParameterList;let idx=index;">
                   <tr>
                     <td colspan="4">
                       <b>{{parameterDetail.ApplyNocFor}} : {{parameterDetail.FeeAmount}}</b>

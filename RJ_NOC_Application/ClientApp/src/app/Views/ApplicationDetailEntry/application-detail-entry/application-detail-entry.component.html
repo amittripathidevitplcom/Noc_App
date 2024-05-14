@@ -61,7 +61,8 @@
                 <i class="fa fa-address-card-o icon" aria-hidden="true"></i>
                 <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['OLDNOCDetails']>0"></i>
                 <span class="badge pulse" *ngIf="CheckTabsEntryData['OLDNOCDetails']==0"></span>
-                <span>OLD NOC Details</span>
+                <span *ngIf="SelectedDepartmentID !=11">OLD NOC Details</span>
+                <span *ngIf="SelectedDepartmentID ==11">First State NOC</span>
               </ng-template>
               <app-old-nocdetails></app-old-nocdetails>
             </mat-tab>
@@ -195,7 +196,7 @@
 
 
             <!--Academic Information Only for New-->
-            <mat-tab *ngIf="CollegeType_IsExisting && SelectedDepartmentID!=5 && IsAHDegreeCollege==false">
+            <mat-tab *ngIf="CollegeType_IsExisting && (SelectedDepartmentID!=5 && SelectedDepartmentID!=11) && IsAHDegreeCollege==false">
               <ng-template mat-tab-label>
                 <i class="fa fa-graduation-cap icon" aria-hidden="true"></i>
                 <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['AcademicInformation']>0"></i>
@@ -270,8 +271,7 @@
                 <span>Staff Details</span>
               </ng-template>
               <app-staff-details></app-staff-details>
-            </mat-tab>
-
+            </mat-tab> 
 
             <mat-tab *ngIf="SelectedDepartmentID==5  && CollegeLevel_MGOne !='PG'">
               <ng-template mat-tab-label>

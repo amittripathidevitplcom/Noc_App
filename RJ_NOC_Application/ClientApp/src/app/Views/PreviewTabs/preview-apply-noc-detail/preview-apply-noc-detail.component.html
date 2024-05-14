@@ -11,6 +11,7 @@
               <tr>
                 <th>Action</th>
                 <th>Sr. No.</th>
+                <th>Apply NOC Application No.</th>
                 <th>Society Name</th>
                 <th>College Application No.</th>
                 <th>College Name</th>
@@ -36,6 +37,7 @@
                   <button type="button" class="btn btn-sm btn-info" title="View" (click)="ViewApplyNocApplication_click(mymodalview,item.ApplyNocApplicationID)"><i class="fa fa-eye"></i></button>
                 </td>
                 <td>{{idx+1}}</td>
+                <td>{{item.ApplicationNo}}</td>
                 <td>{{item.SocietyName}}</td>
                 <td>{{item.CollegeRegistrationNo}}</td>
                 <td>{{item.CollegeName}}</td>
