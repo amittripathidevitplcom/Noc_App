@@ -519,8 +519,8 @@ export class LandDetailsComponent implements OnInit {
       if (this.file) {
         if (this.file.type === 'application/pdf') {
           //size validation
-          if (this.file.size > 2000000) {
-            this.toastr.error('Select less then 2MB File')
+          if (this.file.size > 5000000) {
+            this.toastr.error('Select less then 5MB File')
             return
           }
           if (this.file.size < 100000) {
@@ -1167,8 +1167,8 @@ export class LandDetailsComponent implements OnInit {
       if (this.file) {
         if (this.file.type === 'application/pdf') {
           //size validation
-          if (this.file.size > 2000000) {
-            this.toastr.error('Select less then 2MB File')
+          if (this.file.size > 5000000) {
+            this.toastr.error('Select less then 5MB File')
             return
           }
           if (this.file.size < 100000) {
@@ -1221,8 +1221,8 @@ export class LandDetailsComponent implements OnInit {
       if (this.file) {
         if (this.file.type === 'application/pdf') {
           //size validation
-          if (this.file.size > 2000000) {
-            this.toastr.error('Select less then 2MB File')
+          if (this.file.size > 5000000) {
+            this.toastr.error('Select less then 5MB File')
             return
           }
           if (this.file.size < 100000) {

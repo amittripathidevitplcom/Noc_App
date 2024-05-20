@@ -13,10 +13,10 @@
     </div>
   </div>
 </div>
-
+<div class="container-fluid mainContents">
   <div class="row">
     <div class="col-md-12">
-      <div class="card mb-0">
+      <div class="card">
         <div class="card-header">
           <b><i class="bi bi-table"></i> Search Colleges</b>
         </div>
@@ -150,61 +150,68 @@
         </div>
       </div>
 
+
+      <div class="card mb-0">
+
+        <div class="card-header d-xxl-flex d-xl-flex d-md-flex d-sm-block justify-content-between align-items-center">
+          <b><i class="bi bi-table"></i> View Reports</b>
+          <div class="d-flex align-items-center table-filter mr-15">
+            <i class="fa fa-search"></i>
+            <input type="text" class="form-control" placeholder="Search Here" [(ngModel)]="searchText" />
+          </div>
+        </div>
+        <div class="card-body p-0">
+          <div class="table-responsive maxheight600px">
+            <table class="table table-bordered tableHeaderTH tableHeaderFixed tableHeaderTHMiddel  tableForm100 tableAlternate mb-0" id="tabellist" #content>
+              <thead>
+                <tr>
+                  <th>Sr. No</th>
+                  <th>SSO ID</th>
+                  <th>Application Id</th>
+                  <th>College</th>
+                  <th>District Name</th>
+                  <th>Tehsil Name</th>
+                  <th>Nodal College Name</th>
+                  <th>Nodal Name</th>
+                  <th>Nodal Mobile No.</th>
+                  <th>Nodel SSOID</th>
+                  <th>NOC Status</th>
+                  <th>Status</th>
+                  <th></th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr *ngFor="let row of ApplicationList | tableSearchFilter:searchText; let idx=index;">
+                  <td>{{idx+1}}</td>
+                  <td>{{row.SSOID}}</td>
+                  <td>{{row.ApplicationId}}</td>
+                  <td>{{row.CollegeName}}</td>
+                  <td>{{row.DistrictName}}</td>
+                  <td>{{row.TehsilName}}</td>
+                  <td>{{row.NodelOfficer}}</td>
+                  <td>{{row.NodelName}}</td>
+                  <td>{{row.NodelMobileNo}}</td>
+                  <td>{{row.NodelSSOID}}</td>
+                  <td>{{row.NOCStatus}}</td>
+                  <td>{{row.Status}}</td>
+                  <td>
+                    <a href="javascript:void(0)" (click)="ApplicationSummary_OnClick(row.DepartmentID,row.CollegeID)" class="btn btn-sm btn-secondary">
+                      <i class="fa fa-eye"></i>
+                    </a>
+                  </td>
+
+                </tr>
+                <tr *ngIf="ApplicationList.length<=0">
+                  <td colspan="10" style="color:red;text-align:center">No Data Found.!</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+        </div>
+
+      </div>
     </div>
-  </div>
-
-
-
-
-
-
-<div class="card-header d-xxl-flex d-xl-flex d-md-flex d-sm-block justify-content-between align-items-center">
-  <b></b>
-  <div class="d-flex align-items-center table-filter mr-15">
-    <i class="fa fa-search"></i>
-    <input type="text" class="form-control" placeholder="Search Here" [(ngModel)]="searchText" />
-  </div>
-</div>
-
-
-<div class="card-body">
-  <div class="row">
-    <table class="table table-hover   table-bordered" #content id="tabellist">
-      <thead>
-        <tr>
-          <th>Sr. No</th>
-          <th>SSO ID</th>
-          <th>Application Id</th>
-          <th>College</th>
-          <th>District Name</th>
-          <th>Nodal Officer</th>
-          <th>NOC Status</th>
-          <th>Status</th>
-          <th></th>
-        </tr>
-      </thead>
-
-      <tbody>
-        <tr *ngFor="let row of ApplicationList | tableSearchFilter:searchText; let idx=index;">
-          <td>{{idx+1}}</td>
-          <td>{{row.SSOID}}</td>
-          <td>{{row.ApplicationId}}</td>
-          <td>{{row.CollegeName}}</td>
-          <td>{{row.DistrictName}}</td>
-          <td>{{row.NodelOfficer}}</td>
-          <td>{{row.NOCStatus}}</td>
-          <td>{{row.Status}}</td>
-          <td>
-            <a href="javascript:void(0)" (click)="ApplicationSummary_OnClick(row.DepartmentID,row.CollegeID)" class="btn btn-sm btn-secondary">
-              <i class="fa fa-eye"></i>
-            </a>
-          </td>
-          
-        </tr>
-        <tr *ngIf="ApplicationList.length<=0">
-          <td colspan="10" style="color:red;text-align:center">No Data Found.!</td>
-        </tr>
-      </tbody>
-    </table>
   </div>
 </div>

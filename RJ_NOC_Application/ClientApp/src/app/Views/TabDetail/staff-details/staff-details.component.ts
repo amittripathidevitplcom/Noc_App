@@ -14,6 +14,7 @@ import * as XLSX from 'xlsx';
 import * as moment from 'moment'
 import { Pipe, PipeTransform } from '@angular/core';
 import { DatePipe } from '@angular/common';
+import { resolveAny } from 'dns';
 type AOA = any[][];
 
 @Injectable({
@@ -178,7 +179,7 @@ export class StaffDetailsComponent implements OnInit {
 
     await this.GetCourseLevelByCollegeIDAndDepartmentID();
     await this.GetCollegeWiseSubjectList(this.SelectedCollageID);
-    //await this.GetQualificationList_DepartmentAndTypeWise();
+    await this.GetQualificationList_DepartmentAndTypeWise();
     await this.GetStaffDetailList_DepartmentCollegeWise(this.SelectedDepartmentID, this.SelectedCollageID, 0);
     this.loaderService.requestEnded();
   }
@@ -397,6 +398,7 @@ export class StaffDetailsComponent implements OnInit {
 
   async GetCollegeWiseSubjectList(CollegeID: number) {
     try {
+     
       this.loaderService.requestStarted();
       await this.commonMasterService.GetCollegeWise_SubjectList_StaffDetails(this.SelectedCollageID, 'SubjectList', 0)//4=existing
         .then((data: any) => {
@@ -980,22 +982,28 @@ export class StaffDetailsComponent implements OnInit {
       this.isDisabled = false;
       this.loaderService.requestStarted();
       await this.staffDetailService.GetStaffDetailList_DepartmentCollegeWise(this.SelectedDepartmentID, this.SelectedCollageID, StaffDetailID)
-        .then(async (data: any) => {
+        .then(async (data_Staff: any) => {
 
-          data = JSON.parse(JSON.stringify(data));
-          console.log(data);
-          this.State = data['State'];
-          this.SuccessMessage = data['SuccessMessage'];
-          this.ErrorMessage = data['ErrorMessage'];
-          this.request = data['Data'][0];
+          data_Staff = JSON.parse(JSON.stringify(data_Staff)); 
+          console.log(data_Staff);
+          this.State = data_Staff['State'];
+          this.SuccessMessage = data_Staff['SuccessMessage'];
+          this.ErrorMessage = data_Staff['ErrorMessage'];
+          this.request = data_Staff['Data'][0];
           //this.request.SubjectID = 1588;
           this.request.ProfessionalQualificationID = 0;
           this.request.PassingYearID = 0;
           this.request.Marks = '';
-          await this.GetCollegeWiseSubjectList(this.SelectedCollageID);
+         // console.log(data_Staff['Data'][0]);
+          //await this.GetCollegeWiseSubjectList(this.SelectedCollageID);
           await this.GetStaffDesignation(this.request.TeachingType == 'Teaching' ? 1 : 0);
           await this.GetHighestQualificationList_DepartmentAndTypeWise(this.SelectedDepartmentID, this.request.TeachingType == 'Teaching' ? 1 : 0);
-
+          
+         
+          console.log(aaa);
+          console.log(this.request);
+          console.log(data_Staff['Data'][0]);
+          console.log(data_Staff['Data'][0]['SubjectID']);
           this.OnChangeHighestQualification();
           //this.SetDateofAppointment();
           this.showPANCard = true;
@@ -1020,6 +1028,13 @@ export class StaffDetailsComponent implements OnInit {
             this.ESIStaffShowHide = true;
             //this.IsESIDetails = true;
           }
+
+          var aaa = data_Staff['Data'][0]['SubjectID'];
+          this.request.SubjectID = 0;
+          this.request.SubjectID = aaa;
+          //setTimeout(() => {
+          //  this.request.SubjectID = data_Staff['Data'][0]['SubjectID'];
+          //}, 5000);
 
           this.isDisabled = true;
           this.SetDateofAppointment();

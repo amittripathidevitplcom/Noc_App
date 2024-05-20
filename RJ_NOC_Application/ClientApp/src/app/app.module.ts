@@ -389,8 +389,11 @@ import { CollegePaymentReportComponent } from './Views/Admin/college-payment-rep
 import { TotalDraftEntryCollegeComponent } from './Views/Admin/total-draft-entry-college/total-draft-entry-college.component';
 import { NewgrievancereportComponent } from './Views/DCE/newgrievancereport/newgrievancereport/newgrievancereport.component';
 import { BEDApplicationEntryComponent } from './Views/Bed/BEDApplicationEntry/bedapplication-entry/bedapplication-entry.component';
-
-
+import { StaffReportsComponent } from './Views/DCEReports/staff-reports/staff-reports.component';
+import { DuplicateAadharReportComponent } from './Views/DCEReports/duplicate-aadhar-report/duplicate-aadhar-report.component';
+import { BedRoomDetailComponent } from './Views/TabDetail/bed-room-detail/bed-room-detail.component';
+import { PreviewBedCourseRoomDetailComponent } from './Views/TabDetail/preview-bed-course-room-detail/preview-bed-course-room-detail.component';
+ 
 
 @NgModule({
   declarations: [
@@ -773,12 +776,16 @@ import { BEDApplicationEntryComponent } from './Views/Bed/BEDApplicationEntry/be
     OtherMinorityDataComponent,
     DistanceOtherMinorityBreakupComponent,
     WorkFlowFormat3Component,
-   
+
     UpdateCollegeSSOComponent,
-         CollegePaymentReportComponent,
+    CollegePaymentReportComponent,
     TotalDraftEntryCollegeComponent,
     NewgrievancereportComponent,
     BEDApplicationEntryComponent,
+    StaffReportsComponent,
+    DuplicateAadharReportComponent,
+    BedRoomDetailComponent,
+    PreviewBedCourseRoomDetailComponent,
 
   ],
   imports: [

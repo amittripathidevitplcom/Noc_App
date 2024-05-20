@@ -42,7 +42,7 @@
             <option *ngFor="let item of SubjectData"
                     value="{{item.SubjectID}}">
               {{item.SubjectName}}
-            </option>-->
+            </option>
           </select>
           <p *ngIf="isSubmitted&&request.TeachingType=='Teaching'&&request.SubjectID<=0  && SelectedDepartmentID !=4" class="text-danger"> This field is required .!</p>
         </div>
@@ -260,9 +260,16 @@
         <div class="col-md-4 mb-3" *ngIf="ESIStaffShowHide">
           <label>ESI Number <span style="color:red;">*</span></label>
           <input type="text" id="txtESIDetails" name="txtESINumber" class="form-control" formControlName="txtESINumber" [(ngModel)]="request.ESINumber" (keypress)="alphaNumricOnly($event)" />
-          <div *ngIf="isSubmitted&&TotalStaffDetail > 10&&(request.ESINumber=='' ||request.ESINumber==null)" class="text-danger">
-            <p *ngIf="isSubmitted&&TotalStaffDetail > 10&&(request.ESINumber=='' ||request.ESINumber==null)"> This field is required .!</p>
+
+          <div *ngIf="isSubmitted&&IsESIDetails" class="text-danger">
+            <p *ngIf="isSubmitted&&IsESIDetails"> This field is required .!</p>
           </div>
+
+
+          <!--<div *ngIf="isSubmitted&&TotalStaffDetail > 10&&(request.ESINumber=='' ||request.ESINumber==null)" class="text-danger">
+            <p *ngIf="isSubmitted&&TotalStaffDetail > 10&&(request.ESINumber=='' ||request.ESINumber==null)"> This field is required .!</p>
+          </div>-->
+
         </div>
         <div class="col-md-4 mb-3">
           <label>Annual Salary <span style="color:red;">*</span></label>

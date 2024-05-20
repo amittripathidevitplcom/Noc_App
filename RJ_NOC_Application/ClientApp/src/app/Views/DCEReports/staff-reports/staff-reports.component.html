@@ -1,0 +1,410 @@
+<app-loader></app-loader>
+<div class="container-fluid breadcrumbBox py-2">
+  <div class="row align-items-center">
+    <div class="col-md-6">
+      <h3>Staff Report</h3>
+    </div>
+    <div class="col-md-6 d-flex justify-content-end">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+          <li class="breadcrumb-item active" aria-current="page">Staff Report</li>
+        </ol>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+<div class="container-fluid  mainContents">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <b>
+            <i class="bi bi-table"></i> Search Fields
+          </b>
+
+        </div>
+
+        <div class="card-body">
+
+          <div class="row">
+
+
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <label for="txtFaculityName" class="form-label">Faculity Name</label>
+              <input type="text" class="form-control" id="txtFaculityName" name="txtFaculityName" [(ngModel)]="request.FaculityName" autocomplete="off">
+            </div>
+
+
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <label for="ddlGender" class="form-label">Gender</label>
+              <select class="form-select" id="ddlGender" name="ddlGender" [(ngModel)]="request.Gender">
+                <option value="" disabled>All</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Transgender">Transgender</option>
+              </select>
+            </div>
+
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <label for="txtFaculityMobile" class="form-label">Faculity Mobile</label>
+              <input type="text" class="form-control" id="txtFaculityMobile" name="txtFaculityMobile" [(ngModel)]="request.MobileNo">
+            </div>
+
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <label for="ddlDesignationID" class="form-label">Designation</label>
+              <select class="form-select" id="ddlDesignationID" name="ddlDesignationID" [(ngModel)]="request.DesignationID">
+                <option value="0">--Select Designation--</option>
+                <option *ngFor="let item of DesignationList" value="{{item.DesignationID}}">{{item.DesignationName}}</option>
+              </select>
+
+            </div>
+
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <label for="ddlTempPermanent" class="form-label">Temp/Permanent</label>
+              <select class="form-select" id="ddlTempPermanent" name="ddlTempPermanent" [(ngModel)]="request.TempPermanentID">
+                <option value="" disabled>All</option>
+                <option value="Temporary">Temporary</option>
+                <option value="Permanent">Permanent</option>
+              </select>
+            </div>
+
+
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <label for="ddlIsReserachGuide" class="form-label">Is Reserach Guide</label>
+              <select class="form-select" id="ddlIsReserachGuide" name="ddlIsReserachGuide" [(ngModel)]="request.IsReserachGuideID">
+                <option value="" disabled>All</option>
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+              </select>
+            </div>
+
+
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <label for="txtAdharNumber" class="form-label">Adhar Number</label>
+              <input type="text" class="form-control" id="txtAdharNumber" name="txtAdharNumber" [(ngModel)]="request.AadhaarNo" (keypress)="numberOnly($event)" maxlength="12">
+            </div>
+
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <label>Date Of Appointment </label>
+              <input type="date" id="dtDateOfAppointment" name="dtDateOfAppointment" class="form-control" [(ngModel)]="request.DateOfAppointment" onkeypress="return false;" />
+
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <label>Date Of Joining</label>
+              <input type="date" id="dtDateOfJoining" name="dtDateOfJoining" class="form-control" [(ngModel)]="request.DateOfJoining" (change)="CheckAppointmentDate()" min="{{JoiningMinDate | date:'yyyy-MM-dd'}}" onkeypress="return false;" />
+
+            </div>
+
+
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <label for="txtMonthlySalary" class="form-label">Monthly Salary</label>
+              <input type="text" class="form-control" id="txtMonthlySalary" name="txtMonthlySalary" [(ngModel)]="request.MonthlySalary">
+            </div>
+
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <label for="ddlPFDeduction" class="form-label">PF Deduction</label>
+              <select class="form-select" id="ddlPFDeduction" name="ddlPFDeduction" [(ngModel)]="request.PFDeductionID">
+                <option value="" disabled>All</option>
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+              </select>
+            </div>
+
+
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <label for="ddlDuplicateAdhar" class="form-label">Duplicate Adhar</label>
+              <select class="form-select" id="ddlDuplicateAdhar" name="ddlDuplicateAdhar" [(ngModel)]="request.DuplicateAdharID">
+                <option value="0">All</option>
+                <option *ngFor="let item of StaffDuplicateAdharlistList" value="{{item.AadhaarNo}}">{{item.AadhaarNo}}</option>
+              </select>
+            </div>
+
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <label for="ddlSearchbyNocStatus" class="form-label">Noc Status:</label>
+              <select class="form-select" id="ddlCollegeStatus" name="ddlCollegeStatus" [(ngModel)]="request.NOCStatus">
+                <option value="0">All</option>
+                <option *ngFor="let item of NOCStatusList" value="{{item.ID}}">{{item.Name}}</option>
+              </select>
+            </div>
+
+
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <label for="ddlPresentCollegeStatus" class="form-label"> Status of College </label>
+              <select [attr.disabled]="true" class="form-select" id="ddlPresentCollegeStatus" name="ddlPresentCollegeStatus"
+                      [(ngModel)]="request.PresentCollegeStatusID" #SelectedPresentCollegeStatusID>
+                <option value="0">All</option>
+                <option *ngFor="let item of CollegeStatusList" value="{{item.ID}}">{{item.Name}}</option>
+              </select>
+
+            </div>
+
+
+
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <label for="ddlInstitution" class="form-label">Institution</label>
+              <select class="form-select" id="ddlInstitution" name="ddlInstitution" [(ngModel)]="request.CollegeID">
+                <option value="0">--Select College--</option>
+                <option *ngFor="let item of InstitutionList" value="{{item.CollegeID}}">{{item.CollegeNameEn}}</option>
+              </select>
+            </div>
+
+
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <label for="ddlSubject" class="form-label">Subject</label>
+
+              <select class="form-select" id="ddlSubject" name="ddlSubject" [(ngModel)]="request.SubjectID">
+                <option value="0">--Select Subject--</option>
+                <option *ngFor="let item of SubjectList" value="{{item.SubjectID}}">{{item.SubjectName}}</option>
+
+              </select>
+            </div>
+
+
+          </div>
+
+          <div class="card mb-0">
+            <div class="card-header">
+              <b>
+                <i class="bi bi-table"></i> Field to display in report
+              </b>
+            </div>
+            <div class="card-body">
+              <div class="row">
+
+
+                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                  <div class="form-check form-check-inline">
+                    <label class="form-check-label" for="ckIsShow1">
+                      <input class="form-check-input" type="checkbox" id="chkTeachingFacuiltyId" name="chkTeachingFacuiltyId"
+                            [(ngModel)]="requestlst.TeachingFacultyID">&nbsp;Teaching Facuilty Id
+                    </label>
+                  </div>
+                </div>
+
+
+                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                  <div class="form-check form-check-inline">
+                    <label class="form-check-label" for="ckIsShow">
+                      <input class="form-check-input" type="checkbox" id="chkFaculityName" name="chkFaculityName"
+                             [(ngModel)]="requestlst.FaculityName" >&nbsp;Faculity Name
+                    </label>
+                    <!--{{requestlst.FaculityName}}-->
+                  </div>
+                </div>
+
+
+
+
+                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                  <div class="form-check form-check-inline">
+                    <label class="form-check-label" for="ckIsShow">
+                      <input class="form-check-input" type="checkbox" id="chkGender" name="chkGender"
+                             [(ngModel)]="requestlst.Gender">&nbsp;Gender
+                    </label>
+
+                    <!--{{requestlst.Gender}}-->
+                  </div>
+                </div>
+
+
+                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                  <div class="form-check form-check-inline">
+                    <label class="form-check-label" for="ckIsShow"><input class="form-check-input" type="checkbox"
+                     id="chkFaculityMobile" name="chkFaculityMobile"
+                      [(ngModel)]="requestlst.MobileNo">&nbsp;Faculity Mobile</label>
+
+                  </div>
+                </div>
+
+
+                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                  <div class="form-check form-check-inline">
+                    <label class="form-check-label" for="ckIsShow"><input class="form-check-input" type="checkbox"
+                     id="chkDesignation" name="chkDesignation"
+                        [(ngModel)]="requestlst.DesignationID" >&nbsp;Designation</label>
+
+                  </div>
+                </div>
+
+                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                  <div class="form-check form-check-inline">
+                    <label class="form-check-label" for="ckIsShow"><input class="form-check-input" type="checkbox" id="chkTempPermanent"
+                     name="chkTempPermanent"
+                         [(ngModel)]="requestlst.TempPermanentID" >&nbsp;Temp/Permanent</label>
+
+                  </div>
+                </div>
+
+                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                  <div class="form-check form-check-inline">
+                    <label class="form-check-label" for="ckIsShow"><input class="form-check-input" type="checkbox"
+                     id="chkIsResearchGuide" name="chkIsResearchGuide"
+                            [(ngModel)]="requestlst.IsReserachGuideID" >&nbsp;Is Research Guide</label>
+
+                  </div>
+                </div>
+
+
+                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                  <div class="form-check form-check-inline">
+                    <label class="form-check-label" for="ckIsShow"><input class="form-check-input" type="checkbox" id="chkAdharNo"
+                    name="chkAdharNo"
+                           [(ngModel)]="requestlst.AadhaarNo" >&nbsp;Adhar No.</label>
+
+                  </div>
+                </div>
+
+
+                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                  <div class="form-check form-check-inline">
+                    <label class="form-check-label" for="ckIsShow"><input class="form-check-input" type="checkbox" id="chkDateofAppoinment"
+                   name="chkDateofAppoinment"
+                      [(ngModel)]="requestlst.DateOfAppointment"   >&nbsp;Date of Appoinment.</label>
+
+                  </div>
+                </div>
+
+
+                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                  <div class="form-check form-check-inline">
+                    <label class="form-check-label" for="ckIsShow"><input class="form-check-input" type="checkbox" id="chkchkDateofJoining"
+                    name="chkchkDateofJoining"
+                      [(ngModel)]="requestlst.DateOfJoining" >&nbsp;Date of Joining</label>
+
+                  </div>
+                </div>
+
+                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                  <div class="form-check form-check-inline">
+                    <label class="form-check-label" for="ckIsShow"><input class="form-check-input" type="checkbox" id="chkMonthlySalary"
+                     name="chkMonthlySalary"
+                          [(ngModel)]="requestlst.MonthlySalary" >&nbsp;Monthly Salary</label>
+
+                  </div>
+                </div>
+
+                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                  <div class="form-check form-check-inline">
+                    <label class="form-check-label" for="ckIsShow"><input class="form-check-input" type="checkbox" id="chkPFDeduction"
+                       name="chkPFDeduction"
+                         [(ngModel)]="requestlst.PFDeductionID">&nbsp;PF Deduction</label>
+
+                  </div>
+                </div>
+
+
+
+
+
+                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                  <div class="form-check form-check-inline">
+                    <label class="form-check-label" for="ckIsShow"><input class="form-check-input" type="checkbox" id="chkInstitution"
+                          name="chkInstitution"
+                        [(ngModel)]="requestlst.CollegeID">&nbsp;Institution</label>
+
+                  </div>
+                </div>
+
+                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                  <div class="form-check form-check-inline">
+                    <label class="form-check-label" for="ckIsShow"><input class="form-check-input" type="checkbox" id="chkSubject"
+                        name="chkSubject"
+                         [(ngModel)]="requestlst.SubjectID" >&nbsp;Subject</label>
+
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-footer text-end">
+          <button type="button" class="btn btn-primary" (click)="DCEStaffDetailsList()"><i class="fa fa-search"></i> Serach</button>&nbsp;
+          <button type="button" class="btn btn-danger" (click)="ResetControl()"><i class="bi bi-bootstrap-reboot"></i> Reset</button>
+
+        </div>
+
+
+      </div>
+    </div>
+  </div>
+
+
+
+  <div class="card mb-0">
+    <div class="card-header d-xxl-flex d-xl-flex d-md-flex d-sm-block justify-content-between align-items-center">
+      <b><i class="fa fa-plus"></i>&nbsp;Staff Report Details</b>
+      <div class="d-flex align-items-center">
+        <button type="button" class="btn btn-outline-primary" title="Excel" id="btnExportTable" (click)="btnExportTable_Click()"><i class="fa fa-file-excel-o"></i></button>
+        <!--<div class="btn-group mr-15" role="group" aria-label="Basic outlined example">
+    <button type="button" class="btn btn-outline-primary" title="Copy" id="btnCopyTable" (click)="btnCopyTable_Click()"><i class="fa fa-copy"></i></button>
+
+    <button type="button" class="btn btn-outline-primary" title="PDF" id="btnSavePDF" (click)="btnSavePDF_Click()"><i class="fa fa-file-pdf-o"></i></button>
+  </div>-->
+        <div class="d-flex align-items-center table-filter mr-15">
+          <i class="fa fa-search"></i>
+          <input type="text" class="form-control" placeholder="Search Here" [(ngModel)]="searchText" name="txtsearchText" />
+        </div>
+      </div>
+    </div>
+    <div class="card-body p-0">
+      <div class="table-responsive maxheight600px">
+        <table class="table table-bordered tableHeaderTH tableHeaderFixed tableHeaderTHMiddel  tableForm100 tableAlternate mb-0" id="tabellist" #content>
+          <thead>
+            <tr>
+              <th>Sr. No</th>
+              <th *ngIf="requestlst.TeachingFacultyID">Teaching Facuilty Id</th>
+              <th *ngIf="requestlst.FaculityName">Faculity Name</th>
+              <th *ngIf="requestlst.Gender">Gender</th>
+              <th *ngIf="requestlst.MobileNo">Faculity Mobile</th>
+              <th *ngIf="requestlst.DesignationID">Designation</th>
+              <th *ngIf="requestlst.TempPermanentID">Staff Status</th>
+              <th *ngIf="requestlst.IsReserachGuideID">Is Reserach Guide</th>
+              <th *ngIf="requestlst.AadhaarNo">Adhar Number</th>
+              <th *ngIf="requestlst.DateOfAppointment">Date of Appoinmenrt</th>
+              <th *ngIf="requestlst.DateOfJoining">Date Of Joining</th>
+              <th *ngIf="requestlst.MonthlySalary"> Monthly Salary</th>
+              <th *ngIf="requestlst.PFDeductionID"> PF Deduction</th>
+              <th *ngIf="requestlst.CollegeID">Institutionn</th>
+              <th *ngIf="requestlst.SubjectID">Subject</th>
+              <th>Noc Status</th>
+              <th>College Status</th>
+
+
+
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let row of StaffReportData | tableSearchFilter:searchText;let idx=index;">
+
+              <td>{{idx+1}}</td>
+              <td *ngIf="requestlst.TeachingFacultyID">{{row.TeachingFacultyID}}</td>
+              <td *ngIf="requestlst.FaculityName">{{row.FaculityName}}</td>
+              <td *ngIf="requestlst.Gender">{{row.Gender}}</td>
+              <td *ngIf="requestlst.MobileNo">{{row.MobileNo}}</td>
+              <td *ngIf="requestlst.DesignationID">{{row.DesignationName}}</td>
+              <td *ngIf="requestlst.TempPermanentID">{{row.TempPermanentID}}</td>
+              <td *ngIf="requestlst.IsReserachGuideID">{{row.IsReserachGuideID}}</td>
+              <td *ngIf="requestlst.AadhaarNo">{{row.AadhaarNo}}</td>
+              <td *ngIf="requestlst.DateOfAppointment">{{row.DateOfAppointment}}</td>
+              <td *ngIf="requestlst.DateOfJoining">{{row.DateOfJoining}}</td>
+              <td *ngIf="requestlst.MonthlySalary">{{row.MonthlySalary}}</td>
+              <td *ngIf="requestlst.PFDeductionID">{{row.PFDeductionID}}</td>
+              <td *ngIf="requestlst.CollegeID">{{row.CollegeName}}</td>
+              <td *ngIf="requestlst.SubjectID">{{row.SubjectID}}</td>
+              <td>{{row.NOCStatus}}</td>
+              <td>{{row.PresentCollegeStatusID}}</td>
+
+
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+

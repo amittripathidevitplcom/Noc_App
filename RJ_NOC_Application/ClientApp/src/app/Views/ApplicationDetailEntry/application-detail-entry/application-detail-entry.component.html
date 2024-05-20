@@ -102,7 +102,7 @@
             </mat-tab>
 
 
-            <mat-tab *ngIf="this.SelectedDepartmentID!= 5 && IsAHDegreeCollege==false">
+            <mat-tab *ngIf="(this.SelectedDepartmentID!= 5 && this.SelectedDepartmentID!= 11 && IsAHDegreeCollege==false)">
               <ng-template mat-tab-label>
                 <i class="fa fa-home icon" aria-hidden="true"></i>
                 <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['RoomDetails']>0"></i>
@@ -110,6 +110,16 @@
                 <span>Class Room Details</span>
               </ng-template>
               <app-room-details></app-room-details>
+            </mat-tab>
+            
+            <mat-tab *ngIf="SelectedDepartmentID==11">
+              <ng-template mat-tab-label>
+                <i class="fa fa-home icon" aria-hidden="true"></i>
+                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['RoomDetails']>0"></i>
+                <span class="badge pulse" *ngIf="CheckTabsEntryData['RoomDetails']==0"></span>
+                <span>Class Room Details</span>
+              </ng-template>
+              <app-bed-room-detail></app-bed-room-detail>
             </mat-tab>
 
             <!--Other Information-->
@@ -271,7 +281,7 @@
                 <span>Staff Details</span>
               </ng-template>
               <app-staff-details></app-staff-details>
-            </mat-tab> 
+            </mat-tab>
 
             <mat-tab *ngIf="SelectedDepartmentID==5  && CollegeLevel_MGOne !='PG'">
               <ng-template mat-tab-label>

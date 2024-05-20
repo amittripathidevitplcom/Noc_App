@@ -378,7 +378,7 @@ export class OldNOCDetailsComponent implements OnInit {
 
 
    // if (this.SelectedDepartmentID != 4) {
-    if (this.SubjectDataModel.length == 0 && (this.SelectedDepartmentID != 2 && this.SelectedDepartmentID != 4)) {
+    if (this.SubjectDataModel.length == 0 && (this.SelectedDepartmentID != 2 && this.SelectedDepartmentID != 4 && this.SelectedDepartmentID != 11)) {
       this.oldNOCForm.get('ddlSubject')?.setValidators([DropdownValidators]);
     }
     else {
@@ -391,7 +391,7 @@ export class OldNOCDetailsComponent implements OnInit {
       this.IsFormValid = false;
     }
 
-    if (this.SubjectDataModel.length == 0 && (this.SelectedDepartmentID != 2 && this.SelectedDepartmentID != 4)) {
+    if (this.SubjectDataModel.length == 0 && (this.SelectedDepartmentID != 2 && this.SelectedDepartmentID != 4 && this.SelectedDepartmentID != 11)) {
       this.IsFormValid = false;
       this.SubjectRequried = true;
     }

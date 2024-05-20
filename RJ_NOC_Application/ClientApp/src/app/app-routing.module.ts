@@ -229,6 +229,8 @@ import { CollegePaymentReportComponent } from './Views/Admin/college-payment-rep
 import { TotalDraftEntryCollegeComponent } from './Views/Admin/total-draft-entry-college/total-draft-entry-college.component';
 import { NewgrievancereportComponent } from './Views/DCE/newgrievancereport/newgrievancereport/newgrievancereport.component';
 import { BEDApplicationEntryComponent } from './Views/Bed/BEDApplicationEntry/bedapplication-entry/bedapplication-entry.component';
+import { StaffReportsComponent } from './Views/DCEReports/staff-reports/staff-reports.component';
+import { DuplicateAadharReportComponent } from './Views/DCEReports/duplicate-aadhar-report/duplicate-aadhar-report.component';
 
 
 const routes: Routes = [
@@ -938,7 +940,13 @@ const routes: Routes = [
 
       {
         path: 'totaldraftentrycollege', component: TotalDraftEntryCollegeComponent
-      }
+      },
+      {
+        path: 'staffReports', component: StaffReportsComponent
+      },
+      {
+        path: 'duplicateaadharreport', component: DuplicateAadharReportComponent
+      },
 
     ]
     // ,canActivate: [SkipLocationChangeGuard],

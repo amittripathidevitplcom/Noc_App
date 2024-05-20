@@ -125,6 +125,8 @@ export class DCENOCReportComponent implements OnInit {
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
           this.ApplicationList = data['Data'][0]['data'];
+
+          console.log(this.ApplicationList);
         }, error => console.error(error));
       
     }

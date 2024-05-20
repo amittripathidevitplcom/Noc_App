@@ -332,16 +332,21 @@ export class AddCoursesComponent implements OnInit {
     //  this.CourseMasterForm.get('ddlStreamID')?.updateValueAndValidity();
     //  this.CourseMasterForm.get('txtNoOfEnrolledStudents')?.updateValueAndValidity();
     //}
+    if (this.request.DepartmentID == 11) {
+      this.CourseMasterForm.get('ddlSubject')?.clearValidators();
+      this.CourseMasterForm.get('ddlSubject')?.updateValueAndValidity();
+    } 
     if (this.CourseMasterForm.invalid) {
       this.isFormValid = false;
       return
     }
-    if (this.request.DepartmentID != EnumDepartment.CollegeEducation && this.CollegeStatus != 'New') {
-      if (this.request.Seats <= 0) {
-        this.isFormValid = false;
+    if (this.request.DepartmentID != 11) {
+      if (this.request.DepartmentID != EnumDepartment.CollegeEducation && this.CollegeStatus != 'New') {
+        if (this.request.Seats <= 0) {
+          this.isFormValid = false;
+        }
       }
     }
-
 
     if (this.request.DepartmentID == EnumDepartment.CollegeEducation) {
       if (this.request.NoOfEnrolledStudents == null || this.request.NoOfEnrolledStudents.toString() == '')
@@ -475,7 +480,7 @@ export class AddCoursesComponent implements OnInit {
 
           this.request.CourseLevelID = data['Data'][0]["CourseLevelID"];
           if (this.request.DepartmentID == EnumDepartment.CollegeEducation || this.request.DepartmentID == EnumDepartment.Animal_Husbandry
-            || this.request.DepartmentID == EnumDepartment.MedicalGroup3 || this.request.DepartmentID == EnumDepartment.ParaMedical) {
+            || this.request.DepartmentID == EnumDepartment.MedicalGroup3 || this.request.DepartmentID == EnumDepartment.Bed_CollegeEducation || this.request.DepartmentID == EnumDepartment.ParaMedical) {
             await this.ddlCourseLevel_change(this.request.CourseLevelID);
           }
 

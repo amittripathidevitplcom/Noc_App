@@ -81,7 +81,6 @@
             </div>
 
             <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-
               <label for="txtCourse" class="form-label">Course <span style="color:red">*</span></label>
               <select [attr.disabled]="isDisabledGrid ? true : null" formControlName="ddlCourse" id="ddlCourse" [(ngModel)]="request.CourseID" class="form-select"
                       #SeletedCourseID (change)="ddlCourse_change($event, SeletedCourseID.value)">
@@ -97,7 +96,7 @@
             </div>
 
 
-            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3 multipleSelectsOverflow" [hidden]="request.DepartmentID==2">
+            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3 multipleSelectsOverflow" [hidden]="(request.DepartmentID==2 || request.DepartmentID==11)">
               <label for="ddlSubject" class="form-label">Subject <span style="color:red">*</span></label>
               <ng-multiselect-dropdown [placeholder]="'--Select--'" formControlName="ddlSubject" id="ddlSubject"
                                        [settings]="dropdownSettings"
@@ -109,7 +108,7 @@
               </div>
             </div>
 
-            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="this.request.DepartmentID !=3 && CollegeStatus != 'New'">
+            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="(this.request.DepartmentID !=3 && this.request.DepartmentID !=11) && CollegeStatus != 'New'">
               <label for="ddlSeatInformation" class="form-label">Seat Information  <span style="color:red">*</span></label>
               <select formControlName="ddlSeatInformation" id="ddlSeatInformation" [(ngModel)]="request.Seats" class="form-control">
                 <option value="0">--Select Seat--</option>
@@ -118,7 +117,7 @@
                   {{item.Value}}
                 </option>
               </select>
-              <div *ngIf="isSubmitted&&this.request.DepartmentID !=3" class="text-danger">
+              <div *ngIf="isSubmitted&&(this.request.DepartmentID !=3 && this.request.DepartmentID !=11)" class="text-danger">
                 <p *ngIf="isSubmitted&&this.request.DepartmentID !=3 && request.Seats==0">This field is required .!</p>
               </div>
             </div>

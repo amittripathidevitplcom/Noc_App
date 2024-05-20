@@ -9,6 +9,7 @@ export enum EnumDepartment {
   Nursing2,
   ParaMedical,
   PolyTechnic,
+  Bed_CollegeEducation,
 }
 
 export enum EnumCommitteActionType {

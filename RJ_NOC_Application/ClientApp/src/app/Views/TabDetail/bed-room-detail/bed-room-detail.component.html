@@ -1,0 +1,31 @@
+<!--<app-loader></app-loader>-->
+<div class="card-body">
+  <div class="card">
+    <div class="card-header">
+      <b>
+        <i class="bi bi-building-add"></i>&nbsp;B.Ed Room Detail
+      </b>
+    </div>
+    <form [formGroup]="BEdRoomDetailForm" class="form-horizontal">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+            <label>Number Of Classes<span style="color:red;">*</span></label>
+            <input type="text" class="form-control" id="txtNoOfClasses" name="txtNoOfClasses" [(ngModel)]="request.NoOfClasses" formControlName="txtNoOfClasses" min="1" maxlength="7"
+                   (keypress)="numberOnly($event)">
+            <div *ngIf="isSubmitted&&form.txtNoOfClasses.errors" class="text-danger">
+              <p *ngIf="form.txtNoOfClasses.errors.required">This field is required .!</p>
+              <p *ngIf="form.txtNoOfClasses.errors.min">Classes will be greater than zero .!</p>
+            </div>
+          </div>
+
+          <div class="col-lg-12 col-md-12 col-sm-6 col-12 mt-3 text-end">
+            <button type="submit" class="btn btn-primary" id="btnSave" name="btnSave" (click)="SaveData()"><i class="fa fa-plus"></i> Save </button>
+            
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
