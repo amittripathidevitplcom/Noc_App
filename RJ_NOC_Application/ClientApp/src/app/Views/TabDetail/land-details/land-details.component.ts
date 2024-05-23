@@ -118,6 +118,9 @@ export class LandDetailsComponent implements OnInit {
     this.SelectedDepartmentID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DepartmentID')?.toString()));
     //this.SelectedCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
 
+    if (this.SelectedDepartmentID == 11) {
+      this.GetLandSqureMeterMappingDetails(this.request.LandAreaID);
+    }
 
 
     this.SearchRecordID = this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString());
@@ -603,7 +606,16 @@ export class LandDetailsComponent implements OnInit {
     this.IstxtBuildingHostel = false;
     this.isSubmitted = true;
     var message = '';
-    console.log(this.request)
+     
+    if (this.SelectedDepartmentID == 11) {
+      this.LandDetailForm.get('ddlLandAreaId')?.clearValidators();
+    }
+    else {
+      this.LandDetailForm.get('ddlLandAreaId')?.setValidators([DropdownValidators]);
+    }
+    this.LandDetailForm.get('ddlLandAreaId')?.updateValueAndValidity();
+
+
 
     if (this.LandDetailForm.invalid) {
       return
@@ -698,7 +710,7 @@ export class LandDetailsComponent implements OnInit {
       this.loaderService.requestStarted();
     this.isLoading = true;
     try {
-      debugger;
+
       this.request.CollegeLandTypeDetails = this.request.CollegeLandTypeDetails;
 
       await this.landDetailsService.SaveData(this.request)

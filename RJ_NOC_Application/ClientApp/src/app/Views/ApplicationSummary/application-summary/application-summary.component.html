@@ -92,7 +92,8 @@
     <div class="col-md-12" *ngIf="CollegeType_IsExisting">
       <div class="card mb-0">
         <div class="card-header">
-          <b><i class="bi bi-table"></i>OLD NOC Details</b>
+          <b *ngIf="SelectedDepartmentID !=11"><i class="bi bi-table"></i>OLD NOC Details</b>
+          <b *ngIf="SelectedDepartmentID ==11"><i class="bi bi-table"></i>First State NOC</b> 
         </div>
         <div class="card-body">
           <div class="col-md-12">
@@ -101,6 +102,7 @@
         </div>
       </div>
     </div>
+
 
     <div class="col-md-12">
       <div class="card mb-0">
@@ -128,7 +130,7 @@
       </div>
     </div>
 
-    <div class="col-md-12">
+    <div class="col-md-12" *ngIf="SelectedDepartmentID!=11">
       <div class="card mb-0">
         <div class="card-header">
           <b><i class="bi bi-table"></i> Class Room Details </b>
@@ -140,6 +142,20 @@
         </div>
       </div>
     </div>
+
+    <div class="col-md-12" *ngIf="SelectedDepartmentID==11">
+      <div class="card mb-0">
+        <div class="card-header">
+          <b><i class="bi bi-table"></i> Class Room Details </b>
+        </div>
+        <div class="card-body">
+          <div class="col-md-12">
+            <app-preview-bed-course-room-detail></app-preview-bed-course-room-detail>
+          </div>
+        </div>
+      </div>
+    </div>
+
 
     <div class="col-md-12">
       <div class="card mb-0">
@@ -236,7 +252,7 @@
     </div>
 
 
-    <div class="col-md-12" *ngIf="SelectedDepartmentID==6 || SelectedDepartmentID==3 || SelectedDepartmentID==4">
+    <div class="col-md-12" *ngIf="SelectedDepartmentID==6 || SelectedDepartmentID==3 || SelectedDepartmentID==4 || SelectedDepartmentID==11">
       <div class="card mb-0">
         <div class="card-header">
           <b><i class="bi bi-table"></i>Hostel Details</b>
@@ -328,7 +344,7 @@
       </div>
     </div>
   </div>
-  <div class="col-md-12">
+  <div class="col-md-12" *ngIf="SelectedDepartmentID !=11">
     <div class="card mb-0">
       <div class="card-header">
         <b><i class="bi bi-table"></i>Apply Noc Details</b>
@@ -340,7 +356,7 @@
       </div>
     </div>
   </div>
-  <div class="col-md-12" *ngIf="SelectedDepartmentID !=2">
+  <div class="col-md-12" *ngIf="SelectedDepartmentID !=2 &&  SelectedDepartmentID !=11">
     <div class="card mb-0">
       <div class="card-header">
         <b><i class="bi bi-table"></i>FDR Details</b>
@@ -352,7 +368,7 @@
       </div>
     </div>
   </div>
-  <div class="col-md-12" *ngIf="IsManagmentType">
+  <div class="col-md-12" *ngIf="IsManagmentType &&  SelectedDepartmentID !=11">
     <div class="card mb-0">
       <div class="card-header">
         <b><i class="bi bi-table"></i>Payment Details</b>

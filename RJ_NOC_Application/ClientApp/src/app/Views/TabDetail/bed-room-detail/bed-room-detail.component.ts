@@ -22,10 +22,6 @@ import { async } from '@angular/core/testing';
   templateUrl: './bed-room-detail.component.html',
   styleUrls: ['./bed-room-detail.component.css']
 })
-//export class BedRoomDetailComponent {
-
-//}
-
 export class BedRoomDetailComponent implements OnInit {
   BEdRoomDetailForm !: FormGroup;
   public State: number = -1;
@@ -33,8 +29,6 @@ export class BedRoomDetailComponent implements OnInit {
   public ErrorMessage: any = [];
   /*Save Data Model*/
   request = new BEdRoomdetailDataModel();
-  // BEDClassRoomDetails = new BEdRoomdetailDataModel_Details();
-
   public isLoading: boolean = false;
   isSubmitted: boolean = false;
   public EditID: any;
@@ -44,8 +38,6 @@ export class BedRoomDetailComponent implements OnInit {
   public isDeleteButton: boolean = true;
 
   public UserID: number = 0;
-  // public BEDClassRoomDetails: any = [];
-
   searchText: string = '';
   public LoginSSOID: string = '';
   sSOLoginDataModel = new SSOLoginDataModel();
@@ -68,6 +60,7 @@ export class BedRoomDetailComponent implements OnInit {
         txtNoOfClasses: ['', [Validators.required, Validators.min(1)]],
       })
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
+    
 
     this.SelectedDepartmentID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DepartmentID')?.toString()));
     this.SelectedCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
@@ -86,14 +79,11 @@ export class BedRoomDetailComponent implements OnInit {
     else {
       this.routers.navigate(['/draftapplicationlist']);
     }
+
+    this.GetBEdClassRoomDetail();
     const txtNoOfClasses = document.getElementById('txtNoOfClasses')
     if (txtNoOfClasses) txtNoOfClasses.focus();
     this.UserID = 1;
-
-    this.GetBEdClassRoomDetail();
-
-
-
   }
 
   //    this.LoadMaster(0);
@@ -102,6 +92,7 @@ export class BedRoomDetailComponent implements OnInit {
 
   public isformvalid: boolean = true;
   async SaveData() {
+    debugger;
 
     this.isformvalid = true;
     this.isSubmitted = true;
@@ -119,19 +110,20 @@ export class BedRoomDetailComponent implements OnInit {
     }
     //Show Loading
     this.loaderService.requestStarted();
+    this.request.DepartmentID = this.SelectedDepartmentID;
+    this.request.CollegeID = this.SelectedCollageID;
     this.isLoading = true;
     try {
       await this.bEdroomdetailService.SaveData(this.request)
         .then((data: any) => {
+          debugger;
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
-          console.log(this.State);
           if (!this.State) {
+            debugger
             this.toastr.success(this.SuccessMessage)
             this.GetBEdClassRoomDetail();
-            // get saved society
-
           }
           else {
             this.toastr.error(this.ErrorMessage)
@@ -149,10 +141,9 @@ export class BedRoomDetailComponent implements OnInit {
   }
 
   async GetBEdClassRoomDetail() {
-
+    debugger;
     try {
       this.loaderService.requestStarted();
-      // for testing only not in staging
       await this.bEdroomdetailService.GetBEdRoomDetailList(this.SelectedDepartmentID, this.SelectedCollageID).then((data: any) => {
 
         data = JSON.parse(JSON.stringify(data));
@@ -160,11 +151,7 @@ export class BedRoomDetailComponent implements OnInit {
         this.SuccessMessage = data['SuccessMessage'];
         this.ErrorMessage = data['ErrorMessage'];
         this.request.NoOfClasses = data['Data'][0]['data'][0]['NoOfClasses'];
-        this.request.BEdRoomDetailID = data['Data'][0]['data'][0]['B.EdRoomDetailID']
-
-        console.log(this.request.BEdRoomDetailID);
-        console.log(this.request.NoOfClasses);
-
+        this.request.BEdRoomDetailID = data['Data'][0]['data'][0]['BEdRoomDetailID']
       }, error => console.error(error));
     }
     catch (Ex) {
@@ -216,4 +203,3 @@ export class BedRoomDetailComponent implements OnInit {
     }
   }
 }
-

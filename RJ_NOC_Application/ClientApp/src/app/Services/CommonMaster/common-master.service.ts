@@ -915,13 +915,13 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-  public async GetUserDetailsByRoleID(RoleID: number, DepartmentID: number) {
+  public async GetUserDetailsByRoleID(RoleID: number, DepartmentID: number, ApplyNOCID: number=0) {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     };
-    return await this.http.get(this.APIUrl_CommonMaster + "/GetUserDetailsByRoleID/" + RoleID + "/" + DepartmentID)
+    return await this.http.get(this.APIUrl_CommonMaster + "/GetUserDetailsByRoleID/" + RoleID + "/" + DepartmentID + "/" + ApplyNOCID)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();
@@ -1425,6 +1425,17 @@ export class CommonMasterService {
     const headers = { 'content-type': 'application/json' }
     const body = JSON.stringify(request);
     return await this.http.post(this.APIUrl_CommonMaster + "/GetTotalDraftentryCollege", body, { 'headers': headers })
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+  public async GetDeficiencyAction(ApplyNOCID: number, RoleID: number) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl_CommonMaster + "/GetDeficiencyAction/" + ApplyNOCID + "/" + RoleID)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();

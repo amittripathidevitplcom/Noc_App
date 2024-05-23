@@ -5,7 +5,7 @@
       <h3 class="me-2">Application Details</h3>( <span style="color:forestgreen;font-size:12px;font-weight:600">{{CollegeName}}</span> )
     </div>
     <div class="col-md-5 d-flex justify-content-end align-items-center">
-      <div *ngIf="SelectedDepartmentID !=5">
+      <div *ngIf="SelectedDepartmentID !=5 && SelectedDepartmentID !=11">
         <button [attr.disabled]="IsShowDraftFinalSubmit ? true : null" class="btn btn-success btn-sm me-3" style="padding-top:2px !important" type="button" (click)="DraftFinalSubmit(1)">
           {{DraftbuttonName}}
         </button>
@@ -240,7 +240,7 @@
               <app-paramedical-hospital-detail></app-paramedical-hospital-detail>
             </mat-tab>
 
-            <mat-tab *ngIf="SelectedDepartmentID==6 || SelectedDepartmentID==3 || SelectedDepartmentID==4">
+            <mat-tab *ngIf="SelectedDepartmentID==6 || SelectedDepartmentID==3 || SelectedDepartmentID==4 || SelectedDepartmentID==11">
               <ng-template mat-tab-label>
                 <i class="fa fa-bed icon" aria-hidden="true"></i>
                 <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['HostelDetails']>0"></i>

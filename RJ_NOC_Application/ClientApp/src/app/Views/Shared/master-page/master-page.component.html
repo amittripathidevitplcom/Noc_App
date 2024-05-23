@@ -22,12 +22,31 @@
           </button>
         </div>
         <div class="clearfix"></div>
-        <div class="col-xxl-7 col-xl-7 col-lg-6 col-md-7 col-sm-7 col-7 d-none d-lg-block">
+        <div class="col-xxl-1 col-xl-1 col-lg-1 col-md-1 col-sm-1 col-1 d-none d-lg-block">
           <button class="sidebarToggle d-none d-lg-block" onclick="togglesidebar();"><i class="fa fa-bars" aria-hidden="true"></i></button>
           <!--<div class="searchBox d-flex justify-content-between align-items-center">
-    <input type="text" class="form-control borderRadius0" placeholder="Sreach Here....">
-    <button class="btn btn-soft-primary borderRadius0"><i class="fa fa-search"></i></button>
-  </div>-->
+            <input type="text" class="form-control borderRadius0" placeholder="Sreach Here....">
+            <button class="btn btn-soft-primary borderRadius0"><i class="fa fa-search"></i></button>
+          </div>-->
+        </div>
+        <div class="col-xxl-6 col-xl-6 col-lg-5 col-md-6 col-sm-6 col-6 d-none d-lg-block contactMarquee">
+          <!--<marquee direction="left" onmouseover="this.stop();" onmouseout="this.start();" scrollamount="5">-->
+          <!--Without maarquee use this class in bottom UL - w-100 justify-content-end-->
+          <ul class="d-flex align-items-center flex-wrap w-100 justify-content-center">
+            <li>
+              <span class="blinkText">Helpdesk : </span>
+            </li>
+            <li>
+              <i class="bi bi-phone"></i>
+              <span>+91-90015 47555</span>
+            </li>
+            <li>
+              <i class="bi bi-envelope"></i>
+              <span>support.rajnoc@rajasthan.gov.in</span>
+            </li>
+          </ul>
+          <!--</marquee>-->
+
         </div>
 
         <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-7 col-sm-6 col-6 d-flex justify-content-between align-items-center">
@@ -35,10 +54,10 @@
           <label for="DepartmentName" class="me-2">Role</label>
           <select id="ddlRole" name="ddlRoleID" class="form-select" [(ngModel)]="RoleID"
                   #SeletedRole (change)="loadMenuByRoleID(SeletedRole.value)">
-                <option *ngFor="let item of lstUserRole"
-                        value="{{item.UserID}}">
-                  {{item.RoleName}}
-                </option>
+            <option *ngFor="let item of lstUserRole"
+                    value="{{item.UserID}}">
+              {{item.RoleName}}
+            </option>
           </select>
         </div>
 
@@ -48,14 +67,14 @@
 
           <!--<ul class="topBarRight"><li>
 
-    <a href="javascript:void(0)" class="language HiLanguage" title="Choose Language"></a>
-  </li>-->
+            <a href="javascript:void(0)" class="language HiLanguage" title="Choose Language"></a>
+          </li>-->
           <!--<li class="dropdown">
-    <a href="javascript:void(0)" class="dropdown-toggle" title="Notification" id="notificationBox" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-bell"></i></a>
-    <div class="TopslideBox notificationBox dropdown-menu" aria-labelledby="notificationBox">
-      <h3><i class="bi bi-bell"></i> Notification</h3>
-    </div>
-  </li></ul>-->
+            <a href="javascript:void(0)" class="dropdown-toggle" title="Notification" id="notificationBox" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-bell"></i></a>
+            <div class="TopslideBox notificationBox dropdown-menu" aria-labelledby="notificationBox">
+              <h3><i class="bi bi-bell"></i> Notification</h3>
+            </div>
+          </li></ul>-->
 
           <ul class="UserDropDown">
             <li class="dropdown userDropBox">
@@ -70,8 +89,8 @@
               </a>
               <div class="UserBox dropdown-menu dropdown-menu-right pb-0" aria-labelledby="notificationBox">
                 <!--<a href="javascript:void(0)" class="dropdown-item"><i class="bi bi-people"></i>&nbsp;Profile</a>
-        <a href="javascript:void(0)" class="dropdown-item"><i class="bi bi-gear"></i>&nbsp;Setting</a>
-        <a href="javascript:void(0)" class="dropdown-item"><i class="bi bi-envelope"></i>&nbsp;Messege</a>-->
+                <a href="javascript:void(0)" class="dropdown-item"><i class="bi bi-gear"></i>&nbsp;Setting</a>
+                <a href="javascript:void(0)" class="dropdown-item"><i class="bi bi-envelope"></i>&nbsp;Messege</a>-->
 
                 <h5 class="dropdown-item">{{sSOLoginDataModel.FirstName}} {{sSOLoginDataModel.LastName}} <br /><span class="designation">{{sSOLoginDataModel.RoleName}}</span></h5>
 
@@ -87,18 +106,18 @@
           </ul>
         </div>
       </div>
-      </div>
+    </div>
 
     <div class="contant">
-       <p style="display:none"><strong>{{idleState}}</strong></p> 
+      <p style="display:none"><strong>{{idleState}}</strong></p>
       <!--<button (click)="reset()" *ngIf="timedOut">Restart</button>-->
       <router-outlet></router-outlet>
       <ng-template #mymodalSessionExpired let-modal>
         <div class="modal-header">
           <h4 class="modal-title" id="modal-basic-title" style="font-size: 17px; font-weight: 600 !important;">Session Expired</h4>
         </div>
-        <div class="modal-body"> 
-          User session invalid. Please try login after some time. 
+        <div class="modal-body">
+          User session invalid. Please try login after some time.
         </div>
         <div class="modal-footer">
           <div class="row  m-2">
@@ -116,13 +135,13 @@
           <p>Copyrights &copy; 2023-24 All Rights Resereved.</p>
         </div>
         <!--<div class="col-md-6 text-right">
-        <p>Designed & Developed Powered By Dev Information Technologies Ltd.</p>
-      </div>-->
+          <p>Designed & Developed Powered By Dev Information Technologies Ltd.</p>
+        </div>-->
       </div>
     </div>
 
 
-   
+
 
 
   </div>

@@ -10,16 +10,12 @@
             <thead>
               <tr>
                 <th>Sr.No.</th>
-                <th>Department</th>
-                <th>College Name</th>
                 <th>Number Of Classes</th>
               </tr>
             </thead>
             <tbody>
               <tr *ngFor="let row of BEdCourseClassRoomDetailList| tableSearchFilter:searchText; let idx=index;">
                 <td style="width:40px !important"> {{idx+1}}</td>
-                <td>{{row.DepartmentName_English}}</td>
-                <td>{{row.CollegeNameEn}}</td>
                 <td>{{row.NoOfClasses}}</td>
               </tr>
             </tbody>

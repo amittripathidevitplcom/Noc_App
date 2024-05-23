@@ -53,6 +53,12 @@
             <th>Application No.</th>
             <th>Application Type</th>
             <th>Total Fee Amount</th>
+
+            <th>Nodal College Name</th>
+            <th>Nodal Name</th>
+            <th>Nodal Mobile No.</th>
+
+
             <th>View NOC PDF</th>
             <th>Trails</th>
 
@@ -157,9 +163,11 @@
             <td>
               {{item.ApplicationTypeName}}
             </td>
-            <td>
-              {{item.TotalFeeAmount}}
-            </td>
+            <td>{{item.TotalFeeAmount}}</td>
+
+            <td>{{item.NodelCollegeName}}</td>
+            <td>{{item.NodelName}}</td>
+            <td>{{item.NodelMobileNo}}</td>
             <td>
 
               <span *ngFor="let items of item.NOCPdfFileDataModel let idxx =index">

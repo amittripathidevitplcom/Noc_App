@@ -15,11 +15,11 @@
               <label>Type of College :</label>
               <input class="form-control disabled mt-1" disabled value="{{collegeListData.TypeofCollege}}" />
             </div>
-            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3"[hidden]="collegeListData.DepartmentID == 11">
               <label>College Status :</label>
               <input class="form-control disabled mt-1" disabled value="{{collegeListData.CollegeStatus}}" />
             </div>
-            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3"[hidden]="collegeListData.DepartmentID == 11">
               <label><b>College Logo :</b></label>
               <div class="clearfix"></div>
               <a *ngIf="!collegeListData.CollegeLogoPath.includes('.pdf')" data-fancybox="gallery" href="{{collegeListData.CollegeLogoPath}}" data-caption="Image 10" title="click here to zoom">
@@ -40,12 +40,12 @@
               <label>Management Type :</label>
               <input class="form-control disabled mt-1" disabled value="{{collegeListData.ManagementTypeName}}" />
             </div>
-            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="collegeListData.DepartmentID!=4">
+            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="collegeListData.DepartmentID!=4"[hidden]="collegeListData.DepartmentID == 11">
               <label>College Level :</label>
               <input class="form-control disabled mt-1" disabled value="{{collegeListData.CollegeLevel}}" />
             </div>
 
-            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="collegeListData.DepartmentID==4">
+            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="collegeListData.DepartmentID==4"[hidden]="collegeListData.DepartmentID == 11">
               <label>College Level :</label>
               <div class="form-control disabled mt-1" style="background-color: #e9ecef ">
                 <span *ngFor="let item of DTECollegeLevel let idx=index">
@@ -55,7 +55,7 @@
 
             </div>
 
-            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3"[hidden]="collegeListData.DepartmentID == 11">
               <label>College Code :</label>
               <input class="form-control disabled mt-1" disabled value="{{collegeListData.CollegeCode}}" />
             </div>
@@ -81,11 +81,11 @@
               <input class="form-control disabled mt-1" disabled value="{{collegeListData.NACCValidityDate | date:'dd-MM-yyyy'}}" />
             </div>
 
-            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="collegeListData.DepartmentID==3">
+            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="collegeListData.DepartmentID==3 ||collegeListData.DepartmentID == 11">
               <label>AISHE Code Status :</label>
               <input class="form-control disabled mt-1" disabled value="{{collegeListData.AISHECodeStatus}}" />
             </div>
-            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="collegeListData.AISHECodeStatus =='Yes' && collegeListData.DepartmentID==3">
+            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="collegeListData.AISHECodeStatus =='Yes' && (collegeListData.DepartmentID === 3 || collegeListData.DepartmentID === 11)">
               <label>AISHE Code :</label>
               <input class="form-control disabled mt-1" disabled value="{{collegeListData.AISHECode}}" />
             </div>

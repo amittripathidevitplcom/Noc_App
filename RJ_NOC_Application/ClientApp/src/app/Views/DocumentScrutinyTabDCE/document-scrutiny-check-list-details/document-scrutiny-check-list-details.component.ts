@@ -39,6 +39,8 @@ export class DocumentScrutinyCheckListDetailsComponentDce implements OnInit {
   public State: number = -1;
   public SuccessMessage: any = [];
   public ErrorMessage: any = [];
+  public DCPendingPoint: string = "";
+  public Femalepre: number = 0;
   //public dropdownSettings: IDropdownSettings = {};
 
   //@ViewChild('tabs') tabGroup!: MatTabGroup;
@@ -161,6 +163,7 @@ export class DocumentScrutinyCheckListDetailsComponentDce implements OnInit {
   public UserListRoleWise: any[] = [];
   public WorkFlowActionList: any[] = [];
   public NextWorkFlowActionList: any[] = [];
+  public GetDeficiencyActionData: any[] = [];
 
 
   public NextRoleID: number = 0;
@@ -251,6 +254,7 @@ export class DocumentScrutinyCheckListDetailsComponentDce implements OnInit {
     //this.CheckDocumentScrutinyTabsData();
     this.CheckTabsEntry();
     this.GetPVStageStatusOfApplication(this.SelectedApplyNOCID);
+
   }
 
 
@@ -276,6 +280,10 @@ export class DocumentScrutinyCheckListDetailsComponentDce implements OnInit {
       }, 200);
     }
   }
+
+  //test
+
+
 
   // End Land Details
 
@@ -848,6 +856,7 @@ export class DocumentScrutinyCheckListDetailsComponentDce implements OnInit {
         }
       }
 
+
       if (this.SelectedDepartmentID == 3) {
         if (this.CollegeType_IsExisting) {
           if (this.CheckTabsEntryData['LegalEntity'] <= 0 || this.CheckTabsEntryData['CollegeDetail'] <= 0 || this.CheckTabsEntryData['CollegeManagementSociety'] <= 0 || this.CheckTabsEntryData['LandInformation'] <= 0
@@ -862,7 +871,7 @@ export class DocumentScrutinyCheckListDetailsComponentDce implements OnInit {
           if (this.CheckTabsEntryData['LegalEntity'] <= 0 || this.CheckTabsEntryData['CollegeDetail'] <= 0 || this.CheckTabsEntryData['CollegeManagementSociety'] <= 0 || this.CheckTabsEntryData['LandInformation'] <= 0
             || this.CheckTabsEntryData['Facility'] <= 0 || this.CheckTabsEntryData['RequiredDocument'] <= 0 || this.CheckTabsEntryData['RoomDetails'] <= 0 || this.CheckTabsEntryData['OtherInformation'] <= 0
             || this.CheckTabsEntryData['BuildingDocuments'] <= 0 || this.CheckTabsEntryData['OtherDocument'] <= 0
-            || this.CheckTabsEntryData['HostelDetails'] <= 0 ) {
+            || this.CheckTabsEntryData['HostelDetails'] <= 0) {
             this.isFormvalid = false;
             this.toastr.warning('Please do document scrutiny all tabs');
           }
@@ -872,35 +881,137 @@ export class DocumentScrutinyCheckListDetailsComponentDce implements OnInit {
       if (!this.isFormvalid) {
         return;
       }
-      if (this.sSOLoginDataModel.RoleID == 17 && this.NextRoleID == 1 && this.ActionID==3) {
+      if (this.sSOLoginDataModel.RoleID == 17 && this.NextRoleID == 1 && this.ActionID == 3) {
         if (this.TotalRevertCount >= 2) {
           this.toastr.warning('you already revert application two times. you can not revert 3rd time');
           return;
         }
       }
 
+      if (this.ActionID == 3 && this.NextRoleID == 1) {
+        this.GetDeficiencyActionData = [];
+        await this.commonMasterService.GetDeficiencyAction(this.SelectedApplyNOCID, this.sSOLoginDataModel.RoleID)
+          .then((data: any) => {
+            data = JSON.parse(JSON.stringify(data));
+            this.GetDeficiencyActionData = data['Data'][0];
+          }, error => console.error(error));
+
+
+        this.DCPendingPoint = "";
+        await this.commonMasterService.Check30Female(this.SelectedCollageID)
+          .then((data: any) => {
+            this.State = data['State'];
+            this.SuccessMessage = data['SuccessMessage'];
+            this.ErrorMessage = data['ErrorMessage'];
+            data = JSON.parse(JSON.stringify(data));
+            if (!this.State) {
+              if (data['Data'][0]['data'][0]['TotalMember'] < 15) {
+                let SelectedActionID = this.GetDeficiencyActionData.find((x: { TabName: string; }) => x.TabName == 'College Management Society').ActionID;
+                if (SelectedActionID == 1) {
+                  this.DCPendingPoint += "Revert College Management Society : (Minimum 15 College Management Committee Members.)" + "</br>";
+                }
+              }
+              if (data['Data'][0]['data'][0]['Educationist'] < 2) {
+                let SelectedActionID = this.GetDeficiencyActionData.find((x: { TabName: string; }) => x.TabName == 'College Management Society').ActionID;
+                if (SelectedActionID == 1) {
+                  this.DCPendingPoint += "Revert College Management Society : (Add Minimum 2 Educationist College Management Committee Members.)" + "</br>";
+                }
+              }
+              this.Femalepre = data['Data'][0]['data'][0]['FemalePercentage'];
+              if (this.Femalepre < 30) {
+                let SelectedActionID = this.GetDeficiencyActionData.find((x: { TabName: string; }) => x.TabName == 'College Management Society').ActionID;
+                if (SelectedActionID == 1) {
+                  this.DCPendingPoint += "Revert College Management Society : (Member list must have atleast 30% of Woman.)" + "</br>";
+                }
+              }
+              if (data['Data'][0]['data'][0]['PendingFacilities'] > 0) {
+                let SelectedActionID = this.GetDeficiencyActionData.find((x: { TabName: string; }) => x.TabName == 'Facility').ActionID;
+                if (SelectedActionID == 1) {
+                  this.DCPendingPoint += "Revert Facility : (Enter All Facilities Details.)" + "</br>";
+                }
+              }
+              if (data['Data'][0]['data'][0]['PendingOtherInformation'] > 0) {
+                let SelectedActionID = this.GetDeficiencyActionData.find((x: { TabName: string; }) => x.TabName ==
+                  'Other Information').ActionID;
+                if (SelectedActionID == 1) {
+                  this.DCPendingPoint += "Revert Other Information : (Enter All Other Information Details.)" + "</br>";
+                }
+              }
+
+              if (data['Data'][0]['data'][0]['PendingClassRoomDetails'] > 0) {
+                let SelectedActionID = this.GetDeficiencyActionData.find((x: { TabName: string; }) => x.TabName == 'Room Details').ActionID;
+                if (SelectedActionID == 1) {
+                  this.DCPendingPoint += "Revert Room Details : (Enter All Class Room Details.)" + "</br>";
+                }
+              }
+
+              if (data['Data'][0]['data'][0]['PendingClassWiseNoofRoomRoomDetails'] > 0) {
+                let SelectedActionID = this.GetDeficiencyActionData.find((x: { TabName: string; }) => x.TabName == 'Room Details').ActionID;
+                if (SelectedActionID == 1) {
+                  this.DCPendingPoint += "Revert Room Details : (Enter All Class Wise No of Room Details.)" + "</br>";
+                }
+              }
+              if (data['Data'][0]['data'][0]['PendingMinLandArea'] > 0) {
+                let SelectedActionID = this.GetDeficiencyActionData.find((x: { TabName: string; }) => x.TabName == 'Land Information').ActionID;
+                if (SelectedActionID == 1) {
+                  this.DCPendingPoint += "Revert Land Information : (Please Enter Min Land Area : " + data['Data'][0]['data'][0]['Dis_MinLandArea'] + " Sq. Feet" + ")</br>";
+                }
+
+              }
+              if (this.CollegeType_IsExisting == true) {
+                if (data['Data'][0]['data'][0]['PendingSubjectStaff'] > 0) {
+                  let SelectedActionID = this.GetDeficiencyActionData.find((x: { TabName: string; }) => x.TabName == 'Staff Details').ActionID;
+                  if (SelectedActionID == 1) {
+                    this.DCPendingPoint += "Revert Staff Details : (In the case of teaching, it is Mandatory to have teachers of all the subjects.)</br>";
+                  }
+                }
+              }
+            }
+            else {
+              this.toastr.error(this.ErrorMessage)
+            }
+          })
+
+        if (this.DCPendingPoint != "") {
+          this.toastr.error(this.DCPendingPoint)
+          return;
+        }
+      }
+
+
+
+      this.GetDeficiencyActionData = [];
+      await this.commonMasterService.GetDeficiencyAction(this.request.ApplyNOCID, this.request.RoleID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.GetDeficiencyActionData = data['Data'];
+          console.log(data)
+          console.log(this.GetDeficiencyActionData)
+        }, error => console.error(error));
+
+
       this.loaderService.requestStarted();
       //if (this.sSOLoginDataModel.RoleID == 16) {
       //  this.routers.navigate(['/inspectioncommitteephysicalverification/Pending']);
       //}
       //else {
-        await this.applyNOCApplicationService.DocumentScrutiny(this.sSOLoginDataModel.RoleID, this.sSOLoginDataModel.UserID, this.ActionID, this.SelectedApplyNOCID, this.SelectedDepartmentID, this.CheckFinalRemark, this.NextRoleID, this.NextUserID, this.NextActionID)
-          .then((data: any) => {
-            data = JSON.parse(JSON.stringify(data));
-            this.State = data['State'];
-            this.SuccessMessage = data['SuccessMessage'];
-            this.ErrorMessage = data['ErrorMessage'];
-            if (this.State == 0) {
-              this.toastr.success(this.SuccessMessage);
-              this.routers.navigate(['/dceapplicationlist/Pending']);
-            }
-            else if (this.State == 2) {
-              this.toastr.warning(this.ErrorMessage)
-            }
-            else {
-              this.toastr.error(this.ErrorMessage)
-            }
-          }, error => console.error(error));
+      await this.applyNOCApplicationService.DocumentScrutiny(this.sSOLoginDataModel.RoleID, this.sSOLoginDataModel.UserID, this.ActionID, this.SelectedApplyNOCID, this.SelectedDepartmentID, this.CheckFinalRemark, this.NextRoleID, this.NextUserID, this.NextActionID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          if (this.State == 0) {
+            this.toastr.success(this.SuccessMessage);
+            this.routers.navigate(['/dceapplicationlist/Pending']);
+          }
+          else if (this.State == 2) {
+            this.toastr.warning(this.ErrorMessage)
+          }
+          else {
+            this.toastr.error(this.ErrorMessage)
+          }
+        }, error => console.error(error));
       //}
     }
     catch (Ex) {
@@ -912,6 +1023,9 @@ export class DocumentScrutinyCheckListDetailsComponentDce implements OnInit {
       }, 200);
     }
   }
+
+
+
   async GetRoleListForApporval() {
     this.UserRoleList = [];
     this.loaderService.requestStarted();
@@ -950,7 +1064,7 @@ export class DocumentScrutinyCheckListDetailsComponentDce implements OnInit {
       }
       else {
         this.ShowHideNextUser = true;
-        await this.commonMasterService.GetUserDetailsByRoleID(this.NextRoleID, this.sSOLoginDataModel.DepartmentID)
+        await this.commonMasterService.GetUserDetailsByRoleID(this.NextRoleID, this.sSOLoginDataModel.DepartmentID, this.SelectedApplyNOCID)
           .then(async (data: any) => {
             this.State = data['State'];
             this.SuccessMessage = data['SuccessMessage'];
@@ -1083,7 +1197,7 @@ export class DocumentScrutinyCheckListDetailsComponentDce implements OnInit {
       this.ShowHideNextRole = true;
       //this.ShowHideNextAction = false;
     }
-    debugger; 
+    debugger;
     if (this.sSOLoginDataModel.RoleID == 17 && this.ActionID == 3) {
       this.UserRoleList = this.UserRoleList.filter((x: { RoleID: number }) => x.RoleID == 1);
       this.ShowHideNextUser = false;

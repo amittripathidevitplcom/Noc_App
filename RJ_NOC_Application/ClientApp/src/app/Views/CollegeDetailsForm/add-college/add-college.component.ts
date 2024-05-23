@@ -452,9 +452,9 @@ export class AddCollegeComponent implements OnInit {
         this.request.WebsiteImage = name;
         this.request.WebsiteImagePath = path;
         this.request.WebsiteImage_Dis_FileName = dis_Name;
-         
-          this.showWebsiteImage = isShowFile;
-        
+
+        this.showWebsiteImage = isShowFile;
+
         this.WebsiteImageValidationMessage = msg;
         this.files = document.getElementById('CollegeWebsiteImage');
         this.files.value = '';
@@ -476,9 +476,9 @@ export class AddCollegeComponent implements OnInit {
         this.request.NAACAccreditedCertificate_Dis_FileName = dis_Name;
       }
       else if (type == 'AffiliationDocument') {
-        
-          this.showAffiliationDocument = isShowFile;
-        
+
+        this.showAffiliationDocument = isShowFile;
+
 
         //this.showAffiliationDocument = isShowFile;
         this.AffiliationDocumentValidationMessage = msg;
@@ -798,6 +798,11 @@ export class AddCollegeComponent implements OnInit {
           this.CollegeLevelList = data['Data'];
         }, error => console.error(error));
       // Present Status of College
+
+      if (this.request.DepartmentID == 11) {
+        this.IsExisting = true;
+
+      }
       await this.commonMasterService.GetCommonMasterList_DepartmentAndTypeWise(departmentId, "PresentCollegeStatus")
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
@@ -805,6 +810,9 @@ export class AddCollegeComponent implements OnInit {
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
           this.PresentCollegeStatusList = data['Data'];
+          if (this.request.DepartmentID == 11) {
+            this.PresentCollegeStatusList_FilterData = data['Data'];
+          }
         }, error => console.error(error));
       // College Type
       await this.commonMasterService.GetCommonMasterList_DepartmentAndTypeWise(departmentId, "CollegeType")
@@ -1191,7 +1199,7 @@ export class AddCollegeComponent implements OnInit {
     this.CollegeDetailsForm.get('ddlCityID')?.updateValueAndValidity();
 
 
-    if (this.request.DepartmentID == 3) {
+    if (this.request.DepartmentID == 3 || this.request.DepartmentID == 11) {
       this.CollegeDetailsForm.get('AISHECodeStatus')?.setValidators([Validators.required]);
     }
     else {
@@ -1215,20 +1223,55 @@ export class AddCollegeComponent implements OnInit {
     this.CollegeDetailsForm.get('ddlTypeofCollege')?.updateValueAndValidity();
     this.CollegeDetailsForm.get('CollegeNAACAccredited')?.updateValueAndValidity();
 
+    if (this.request.DepartmentID == 11) {
+      this.CollegeDetailsForm.get('ddlCollegeStatus')?.clearValidators();
+    }
+    else {
+      this.CollegeDetailsForm.get('ddlCollegeStatus')?.setValidators([DropdownValidators]);
+    }
+    this.CollegeDetailsForm.get('ddlCollegeStatus')?.updateValueAndValidity();
+
+    if (this.request.DepartmentID == 4) {
+      this.CollegeDetailsForm.get('ddlCollegeLevelID')?.clearValidators();
+      this.CollegeDetailsForm.get('ddlDTECollegeLevelID')?.setValidators([DropdownValidators]);
+
+    }
+    else {
+      this.CollegeDetailsForm.get('ddlCollegeLevelID')?.setValidators([DropdownValidators]);
+      this.CollegeDetailsForm.get('ddlDTECollegeLevelID')?.clearValidators();
+    }
+    this.CollegeDetailsForm.get('ddlCollegeLevelID')?.updateValueAndValidity();
+    this.CollegeDetailsForm.get('ddlDTECollegeLevelID')?.updateValueAndValidity();
+
+
+    if (this.request.DepartmentID == 11) {
+      this.CollegeDetailsForm.get('ddlCollegeLevelID')?.clearValidators();
+      this.CollegeDetailsForm.get('ddlDTECollegeLevelID')?.clearValidators();
+      this.CollegeDetailsForm.get('ddlCollegeLevelID')?.updateValueAndValidity();
+      this.CollegeDetailsForm.get('ddlDTECollegeLevelID')?.updateValueAndValidity();
+
+    }
+
+
+    if (this.request.DepartmentID == 11) {
+      this.CollegeDetailsForm.get('txtCollegeCode')?.clearValidators();
+      this.CollegeDetailsForm.get('txtCollegeCode')?.updateValueAndValidity();
+    }
+
 
     if (this.request.DepartmentID == 3) {
       //this.CollegeDetailsForm.get('CollegeAffiliationDocument')?.setValidators([Validators.required]);
       //this.CollegeDetailsForm.get('CollegeWebsiteImage')?.setValidators([Validators.required]);
       this.CollegeDetailsForm.get('txtWebsiteLink')?.setValidators([Validators.required, Validators.pattern("(https?://)?([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/?")]);
-       
+
     }
     else {
-     // this.CollegeDetailsForm.get('CollegeAffiliationDocument')?.clearValidators();
-     // this.CollegeDetailsForm.get('CollegeWebsiteImage')?.clearValidators();
+      // this.CollegeDetailsForm.get('CollegeAffiliationDocument')?.clearValidators();
+      // this.CollegeDetailsForm.get('CollegeWebsiteImage')?.clearValidators();
       this.CollegeDetailsForm.get('txtWebsiteLink')?.clearValidators();
     }
-   // this.CollegeDetailsForm.get('CollegeAffiliationDocument')?.updateValueAndValidity(); 
-   // this.CollegeDetailsForm.get('CollegeWebsiteImage')?.updateValueAndValidity(); 
+    // this.CollegeDetailsForm.get('CollegeAffiliationDocument')?.updateValueAndValidity(); 
+    // this.CollegeDetailsForm.get('CollegeWebsiteImage')?.updateValueAndValidity(); 
     this.CollegeDetailsForm.get('txtWebsiteLink')?.updateValueAndValidity();
 
 
@@ -1311,11 +1354,6 @@ export class AddCollegeComponent implements OnInit {
         isValid = false;
       }
       if (this.request.ManagementTypeID <= 0) {
-        isValid = false;
-      }
-    }
-    else {
-      if (this.request.CollegeLevelID <= 0) {
         isValid = false;
       }
     }
@@ -1475,9 +1513,9 @@ export class AddCollegeComponent implements OnInit {
 
           this.request.TypeofCollege = data['Data']['TypeofCollege'];
 
-          
+
           await this.ddlCollegeType_TextChange(this.request.CollegeTypeID.toString())
-          
+
           //if (!this.State) {
           //  //this.toastr.success(this.SuccessMessage)
           //}

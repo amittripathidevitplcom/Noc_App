@@ -642,7 +642,7 @@ export class StaffDetailsComponent implements OnInit {
         }
       }
       if (this.request.TeachingType == 'Teaching' && this.IsCourseLevel == 'Yes') {
-        if (this.SelectedDepartmentID != 4) {
+        if (this.SelectedDepartmentID != 4 && this.SelectedDepartmentID != 11) {
           if (this.request.SubjectID == 0) {
             this.isSubject = true;
             this.FormValid = false;
@@ -653,6 +653,7 @@ export class StaffDetailsComponent implements OnInit {
             this.FormValid = false;
           }
         }
+        
       }
 
       if (this.request.TeachingType == 'Teaching') {

@@ -35,7 +35,7 @@
             <p *ngIf="form.rdTeachingType.errors.required"> This field is required .!</p>
           </div>
         </div>
-        <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="request.TeachingType=='Teaching' && IsCourseLevel=='Yes' && SelectedDepartmentID !=4">
+        <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="request.TeachingType=='Teaching' && IsCourseLevel=='Yes' && (SelectedDepartmentID !=4 && SelectedDepartmentID !=11)">
           <label>Subject <span style="color:red;">*</span></label>
           <select id="ddlSubjectId" name="ddlSubjectId" class="form-control" formControlName="ddlSubjectId" [(ngModel)]="request.SubjectID">
             <option value="0" disabled>--Select--</option>
@@ -44,7 +44,7 @@
               {{item.SubjectName}}
             </option>
           </select>
-          <p *ngIf="isSubmitted&&request.TeachingType=='Teaching'&&request.SubjectID<=0  && SelectedDepartmentID !=4" class="text-danger"> This field is required .!</p>
+          <p *ngIf="isSubmitted&&request.TeachingType=='Teaching'&&request.SubjectID<=0  && (SelectedDepartmentID !=4 && SelectedDepartmentID !=11)" class="text-danger"> This field is required .!</p>
         </div>
       </div>
       <div class="row">
@@ -236,7 +236,7 @@
             <p *ngIf="isExperianceCertificate"> This field is required .!</p>
           </div>
         </div>
-        <div class="col-md-4 mb-3" *ngIf="request.TeachingType=='Teaching' && IsCourseLevel=='Yes'  && SelectedDepartmentID !=4">
+        <div class="col-md-4 mb-3" *ngIf="request.TeachingType=='Teaching' && IsCourseLevel=='Yes'  && SelectedDepartmentID !=4 && SelectedDepartmentID !=11">
           <label>Specialization Subject <span style="color:red;">*</span></label>
           <select id="txtSpecializationSubject" name="txtSpecializationSubject" class="form-control" formControlName="txtSpecializationSubject" [(ngModel)]="request.SpecializationSubject">
             <option value="" disabled>--Select--</option>

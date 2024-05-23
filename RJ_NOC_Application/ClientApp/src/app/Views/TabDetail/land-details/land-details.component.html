@@ -19,7 +19,7 @@
           </select>
         </div>
 
-        <div class="col-lg-3 col-md-3 col-sm-6 col-12 ">
+        <div class="col-lg-3 col-md-3 col-sm-6 col-12 " *ngIf="SelectedDepartmentID !=11">
           <label *ngIf="SelectedDepartmentID!=1">Land Area Situated In <span style="color:red;">*</span></label>
           <label *ngIf="SelectedDepartmentID==1">College Situated In <span style="color:red;">*</span></label>
           <select id="ddlLandAreaId" name="ddlLandAreaId" class="form-control" [(ngModel)]="request.LandAreaID" formControlName="ddlLandAreaId" (change)="GetLandSqureMeterMappingDetails(request.LandAreaID)">

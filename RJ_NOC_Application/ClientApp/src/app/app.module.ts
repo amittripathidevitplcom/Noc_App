@@ -816,7 +816,8 @@ import { PreviewBedCourseRoomDetailComponent } from './Views/TabDetail/preview-b
     ToastrModule.forRoot({
       timeOut: 3000,
       positionClass: 'toast-top-right',
-      preventDuplicates: true
+      preventDuplicates: true,
+      enableHtml: true
     }),
     NewGrievanceModule,
     NgbModule
