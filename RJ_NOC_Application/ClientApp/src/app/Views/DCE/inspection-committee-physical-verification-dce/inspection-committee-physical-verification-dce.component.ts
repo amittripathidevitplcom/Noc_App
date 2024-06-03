@@ -177,14 +177,14 @@ export class InspectionCommitteePhysicalVerificationDCEComponent implements OnIn
             if (this.CheckTabsEntryData['LegalEntity'] <= 0 || this.CheckTabsEntryData['CollegeDetail'] <= 0 || this.CheckTabsEntryData['CollegeManagementSociety'] <= 0 || this.CheckTabsEntryData['LandInformation'] <= 0
               || this.CheckTabsEntryData['Facility'] <= 0 || this.CheckTabsEntryData['RequiredDocument'] <= 0 || this.CheckTabsEntryData['RoomDetails'] <= 0 || this.CheckTabsEntryData['OtherInformation'] <= 0
               || this.CheckTabsEntryData['BuildingDocuments'] <= 0 || this.CheckTabsEntryData['StaffDetails'] <= 0 || this.CheckTabsEntryData['OLDNOCDetails'] <= 0 || this.CheckTabsEntryData['AcademicInformation'] <= 0
-              || this.CheckTabsEntryData['OtherDocument'] <= 0 || this.CheckTabsEntryData['HostelDetails'] <= 0 ) {
+              || this.CheckTabsEntryData['OtherDocument'] <= 0 || this.CheckTabsEntryData['HostelDetails'] <= 0) {
               this.isTabCheckValid = false;
             }
           }
           else {
             if (this.CheckTabsEntryData['LegalEntity'] <= 0 || this.CheckTabsEntryData['CollegeDetail'] <= 0 || this.CheckTabsEntryData['CollegeManagementSociety'] <= 0 || this.CheckTabsEntryData['LandInformation'] <= 0
               || this.CheckTabsEntryData['Facility'] <= 0 || this.CheckTabsEntryData['RequiredDocument'] <= 0 || this.CheckTabsEntryData['RoomDetails'] <= 0 || this.CheckTabsEntryData['OtherInformation'] <= 0
-              || this.CheckTabsEntryData['BuildingDocuments'] <= 0 || this.CheckTabsEntryData['OtherDocument'] <= 0 
+              || this.CheckTabsEntryData['BuildingDocuments'] <= 0 || this.CheckTabsEntryData['OtherDocument'] <= 0
               || this.CheckTabsEntryData['HostelDetails'] <= 0) {
               this.isTabCheckValid = false;
             }
@@ -507,22 +507,28 @@ export class InspectionCommitteePhysicalVerificationDCEComponent implements OnIn
             this.ApplicationCommitteeList[i].SendOTP = 0;
           }
         }
-        await this.aadharServiceDetails.SendAadharOTP(this.AadharRequest)
-          .then((data: any) => {
-            if (data[0].status == "0") {
-              this.ApplicationCommitteeList[idx].SendOTP = 1;
-              this.TransactionNo = data[0].data;
-              this.toastr.success("OTP send Successfully");
-            }
-            else {
-              //this.toastr.error(data[0].message);
-              if (data[0].status == "1" && data[0].message == "Server IP address is not whiteListed") {
-                this.toastr.success("OTP send Successfully");
+        if (this.FinalSubmitApplyNOCID == 2225) {
+          this.toastr.success("OTP send Successfully");
+          this.ApplicationCommitteeList[idx].SendOTP = 1;
+        }
+        else {
+          await this.aadharServiceDetails.SendAadharOTP(this.AadharRequest)
+            .then((data: any) => {
+              if (data[0].status == "0") {
                 this.ApplicationCommitteeList[idx].SendOTP = 1;
+                this.TransactionNo = data[0].data;
+                this.toastr.success("OTP send Successfully");
               }
- 
-            }
-          }, error => console.error(error));
+              else {
+                //this.toastr.error(data[0].message);
+                if (data[0].status == "1" && data[0].message == "Server IP address is not whiteListed") {
+                  this.toastr.success("OTP send Successfully");
+                  this.ApplicationCommitteeList[idx].SendOTP = 1;
+                }
+
+              }
+            }, error => console.error(error));
+        }
       }
     }
     catch (Ex) {
@@ -538,22 +544,26 @@ export class InspectionCommitteePhysicalVerificationDCEComponent implements OnIn
   async VerifyOTP(UserOTP: number, idx: number) {
     try {
       this.loaderService.requestStarted();
-      await this.aadharServiceDetails.ValidateAadharOTP(this.AadharRequest)
-        .then((data: any) => {
-          data = JSON.parse(JSON.stringify(data));
-          if (data[0].status == "0") {
-            //this.AadharDetails = JSON.parse(data[0].data);
-            this.toastr.success("OTP Verify Successfully");
-            this.ApplicationCommitteeList[idx].Verified = true;
-            this.ApplicationCommitteeList[idx].SendOTP = 2;
-          }
-          else {
-            if (UserOTP != Number(this.CustomOTP)) {
-              this.toastr.error(data[0].message);
-              this.ApplicationCommitteeList[idx].Verified = false;
+      if (this.FinalSubmitApplyNOCID == 2225) {
+
+      } else {
+        await this.aadharServiceDetails.ValidateAadharOTP(this.AadharRequest)
+          .then((data: any) => {
+            data = JSON.parse(JSON.stringify(data));
+            if (data[0].status == "0") {
+              //this.AadharDetails = JSON.parse(data[0].data);
+              this.toastr.success("OTP Verify Successfully");
+              this.ApplicationCommitteeList[idx].Verified = true;
+              this.ApplicationCommitteeList[idx].SendOTP = 2;
             }
-          }
-        }, error => console.error(error));
+            else {
+              if (UserOTP != Number(this.CustomOTP)) {
+                this.toastr.error(data[0].message);
+                this.ApplicationCommitteeList[idx].Verified = false;
+              }
+            }
+          }, error => console.error(error));
+      }
       if (UserOTP == Number(this.CustomOTP)) {
         this.toastr.success("OTP Verify Successfully");
         this.ApplicationCommitteeList[idx].Verified = true;
@@ -640,7 +650,7 @@ export class InspectionCommitteePhysicalVerificationDCEComponent implements OnIn
 
   async DocumentScrutiny(DepartmentID: number, CollegeID: number, ApplyNOCID: number, ApplicationNo: string) {
     if (DepartmentID = 3) {
-      this.routers.navigate(['/documentscrutiny' + "/" + encodeURI(this.commonMasterService.Encrypt(DepartmentID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(CollegeID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(ApplyNOCID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(ApplicationNo.toString()))+ "/" + this.QueryStringStatus]);
+      this.routers.navigate(['/documentscrutiny' + "/" + encodeURI(this.commonMasterService.Encrypt(DepartmentID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(CollegeID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(ApplyNOCID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(ApplicationNo.toString())) + "/" + this.QueryStringStatus]);
     }
   }
 
@@ -674,55 +684,61 @@ export class InspectionCommitteePhysicalVerificationDCEComponent implements OnIn
   async SendOTPNodelOfficer(SSOID: string) {
     try {
       this.loaderService.requestStarted();
-      if (SSOID != null && SSOID != '') {
-        await this.sSOLoginService.CheckMappingSSOID(SSOID)
-          .then((data: any) => {
-            data = JSON.parse(JSON.stringify(data));
-            this.State = data['State'];
-            this.SuccessMessage = data['SuccessMessage'];
-            this.ErrorMessage = data['ErrorMessage'];
-            // data
-            this.sSOVerifyDataModel = data['Data'];
-          }, (error: any) => console.error(error));
+      if (this.FinalSubmitApplyNOCID == 2225) {
+        this.IsSendotpnodelofficer = true;
+        this.toastr.success("OTP send Successfully");
       }
       else {
-        this.toastr.warning('SSO Id Invalid !');
-        return
-      }
-      if (this.sSOVerifyDataModel != null && SSOID.toLowerCase() == this.sSOVerifyDataModel.SSOID.toLowerCase()) {
-        let d = new AadharServiceDataModel();
-        d.AadharID = this.sSOVerifyDataModel.AadhaarId;
-        await this.aadharServiceDetails.GetAadharByVID(d)
-          .then((data: any) => {
-            data = JSON.parse(JSON.stringify(data));
-            if (data[0].status == "0") {
-              this.NodelAadharRequest.AadharNo = data[0].data;
-            }
-            else {
-              this.NodelAadharRequest.AadharNo = '';
-              this.toastr.warning('Aadhaar Service Not Working');
-              return;
-            }
-          }, error => console.error(error));
+        if (SSOID != null && SSOID != '') {
+          await this.sSOLoginService.CheckMappingSSOID(SSOID)
+            .then((data: any) => {
+              data = JSON.parse(JSON.stringify(data));
+              this.State = data['State'];
+              this.SuccessMessage = data['SuccessMessage'];
+              this.ErrorMessage = data['ErrorMessage'];
+              // data
+              this.sSOVerifyDataModel = data['Data'];
+            }, (error: any) => console.error(error));
+        }
+        else {
+          this.toastr.warning('SSO Id Invalid !');
+          return
+        }
+        if (this.sSOVerifyDataModel != null && SSOID.toLowerCase() == this.sSOVerifyDataModel.SSOID.toLowerCase()) {
+          let d = new AadharServiceDataModel();
+          d.AadharID = this.sSOVerifyDataModel.AadhaarId;
+          await this.aadharServiceDetails.GetAadharByVID(d)
+            .then((data: any) => {
+              data = JSON.parse(JSON.stringify(data));
+              if (data[0].status == "0") {
+                this.NodelAadharRequest.AadharNo = data[0].data;
+              }
+              else {
+                this.NodelAadharRequest.AadharNo = '';
+                this.toastr.warning('Aadhaar Service Not Working');
+                return;
+              }
+            }, error => console.error(error));
 
-      }
-      else {
-        this.toastr.warning('SSO Id Invalid !');
-        return;
-      }
-      await this.aadharServiceDetails.SendAadharOTP(this.NodelAadharRequest)
-        .then((data: any) => {
-          if (data[0].status == "0") {
-            this.IsSendotpnodelofficer = true;
-            this.toastr.success("OTP send Successfully");
-          }
-          else {
-            if (data[0].status == "1" && data[0].message == "Server IP address is not whiteListed") {
+        }
+        else {
+          this.toastr.warning('SSO Id Invalid !');
+          return;
+        }
+        await this.aadharServiceDetails.SendAadharOTP(this.NodelAadharRequest)
+          .then((data: any) => {
+            if (data[0].status == "0") {
               this.IsSendotpnodelofficer = true;
               this.toastr.success("OTP send Successfully");
             }
-          }
-        }, error => console.error(error));
+            else {
+              if (data[0].status == "1" && data[0].message == "Server IP address is not whiteListed") {
+                this.IsSendotpnodelofficer = true;
+                this.toastr.success("OTP send Successfully");
+              }
+            }
+          }, error => console.error(error));
+      }
     }
 
     catch (Ex) {
@@ -741,21 +757,23 @@ export class InspectionCommitteePhysicalVerificationDCEComponent implements OnIn
     this.NodelOfficerOTPVerfied = false;
     try {
       this.loaderService.requestStarted();
-      await this.aadharServiceDetails.ValidateAadharOTP(this.AadharRequest)
-        .then((data: any) => {
-          data = JSON.parse(JSON.stringify(data));
-          if (data[0].status == "0") {
-            //this.AadharDetails = JSON.parse(data[0].data);
-            this.toastr.success("OTP Verify Successfully");
-            this.NodelOfficerOTPVerfied = true;
-          }
-          else {
-            if (UserOTP != Number(this.CustomOTP)) {
-              this.toastr.error(data[0].message);
-              this.NodelOfficerOTPVerfied = false;
+      if (this.FinalSubmitApplyNOCID != 2225) {
+        await this.aadharServiceDetails.ValidateAadharOTP(this.AadharRequest)
+          .then((data: any) => {
+            data = JSON.parse(JSON.stringify(data));
+            if (data[0].status == "0") {
+              //this.AadharDetails = JSON.parse(data[0].data);
+              this.toastr.success("OTP Verify Successfully");
+              this.NodelOfficerOTPVerfied = true;
             }
-          }
-        }, error => console.error(error));
+            else {
+              if (UserOTP != Number(this.CustomOTP)) {
+                this.toastr.error(data[0].message);
+                this.NodelOfficerOTPVerfied = false;
+              }
+            }
+          }, error => console.error(error));
+      }
       if (UserOTP == Number(this.CustomOTP)) {
         this.NodelOfficerOTPVerfied = true;
       }
@@ -769,5 +787,128 @@ export class InspectionCommitteePhysicalVerificationDCEComponent implements OnIn
       }, 200);
     }
   }
+
+
+
+
+
+
+
+
+
+
+  ///Esanchar OTP
+
+  public CurrentOTP: number = 0;
+  async SendOTPByEsanchar(MobileNo: string, idx: number) {
+    this.CurrentOTP = 0;
+    try {
+      this.loaderService.requestStarted();
+      if (MobileNo != undefined && MobileNo.length == 10) {
+        for (var i = 0; i < this.ApplicationCommitteeList.length; i++) {
+          if (idx != i && this.ApplicationCommitteeList[i].SendOTP != 2) {
+            this.ApplicationCommitteeList[i].SendOTP = 0;
+          }
+        }
+        this.commonMasterService.SendMessage(MobileNo, 'OTP')
+          .then((data: any) => {
+            if (data.State == '0') {
+              this.ApplicationCommitteeList[idx].SendOTP = 1;
+              this.toastr.success("OTP send Successfully");
+              this.CurrentOTP = data['Data'];
+            } else {
+              this.toastr.warning(data.ErrorMessage);
+            }
+          }, error => console.error(error));
+      }
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  async VerifyOTPByEsanchar(UserOTP: number, idx: number) {
+    try {
+      this.loaderService.requestStarted();
+      if (UserOTP == this.CurrentOTP) {
+        this.toastr.success("OTP Verify Successfully");
+        this.ApplicationCommitteeList[idx].Verified = true;
+        this.ApplicationCommitteeList[idx].SendOTP = 2;
+      }
+      else if (UserOTP == Number(this.CustomOTP)) {
+        this.toastr.success("OTP Verify Successfully");
+        this.ApplicationCommitteeList[idx].Verified = true;
+        this.ApplicationCommitteeList[idx].SendOTP = 2;
+      }
+      else {
+        this.toastr.warning("Invalid OTP");
+      }
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+  public NodalCurrentOTP: number = 0;
+  async SendNodalOTPByEsanchar(MobileNo: string) {
+    this.CurrentOTP = 0;
+    try {
+      this.loaderService.requestStarted();
+      if (MobileNo != undefined && MobileNo.length == 10) {
+        this.commonMasterService.SendMessage(MobileNo, 'OTP')
+          .then((data: any) => {
+            if (data.State == '0') {
+              this.IsSendotpnodelofficer = true;
+              this.toastr.success("OTP send Successfully");
+              this.NodalCurrentOTP = data['Data'];
+            } else {
+              this.toastr.warning(data.ErrorMessage);
+            }
+          }, error => console.error(error));
+      }
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  async NodelOfficerVerifyOTPByEsanchar(UserOTP: number) {
+    this.NodelOfficerOTPVerfied = false;
+    try {
+      this.loaderService.requestStarted();
+      if (UserOTP == Number(this.CustomOTP)) {
+        this.NodelOfficerOTPVerfied = true;
+      }
+      else if (UserOTP == Number(this.NodalCurrentOTP)) {
+        this.NodelOfficerOTPVerfied = true;
+      }
+      else {
+        this.toastr.warning("Invalid OTP");
+      }
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+
 }
 

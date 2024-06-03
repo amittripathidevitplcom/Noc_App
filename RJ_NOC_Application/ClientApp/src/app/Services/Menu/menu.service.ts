@@ -62,13 +62,13 @@ export class MenuService {
         catchError(this.handleErrorObservable)
       ).toPromise()
   }
-  public GetUserRoleList(SSOID: string) {
+  public GetUserRoleList(SSOID: string, IsWeb: boolean = true) {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     };
-    return this.http.get(this.SSOAPIUrl + "/GetUserRoleList/" + SSOID)
+    return this.http.get(this.SSOAPIUrl + "/GetUserRoleList/" + SSOID + "/" + IsWeb)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise()

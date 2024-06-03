@@ -25,6 +25,7 @@ import { TrusteeGeneralInfoService } from '../../../Services/TrusteeGeneralInfo/
 import { LegalEntityDataModel } from '../../../Models/TrusteeGeneralInfoDataModel';
 import { ApplyNocParameterService } from '../../../Services/Master/apply-noc-parameter.service';
 import { DocumentScrutinyComponent } from '../../DCE/document-scrutiny/document-scrutiny.component';
+import { FileUploadService } from '../../../Services/FileUpload/file-upload.service';
 
 
 @Injectable({
@@ -216,10 +217,15 @@ export class CheckListForCommissionerComponent implements OnInit {
 
 
 
+  UploadDocument_Dis_FileName: string = ''
+  UploadDocument: string = ''
+  UploadDocumentPath: string = ''
+
+
   constructor(private applyNocParameterService: ApplyNocParameterService, private toastr: ToastrService, private loaderService: LoaderService, private applyNOCApplicationService: ApplyNOCApplicationService,
     private dcedocumentScrutinyService: DCEDocumentScrutinyService,
     private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private modalService: NgbModal, private collegeService: CollegeService,
-    private dcedocumentscrutiny: DocumentScrutinyComponent) { }
+    private dcedocumentscrutiny: DocumentScrutinyComponent, private fileUploadService: FileUploadService) { }
 
 
 
@@ -859,7 +865,7 @@ export class CheckListForCommissionerComponent implements OnInit {
       }
       this.loaderService.requestStarted();
 
-      await this.applyNOCApplicationService.DocumentScrutiny(this.sSOLoginDataModel.RoleID, this.sSOLoginDataModel.UserID, this.ActionID, this.SelectedApplyNOCID, this.SelectedDepartmentID, this.CheckFinalRemark, this.NextRoleID, this.NextUserID, this.NextActionID)
+      await this.applyNOCApplicationService.DocumentScrutiny(this.sSOLoginDataModel.RoleID, this.sSOLoginDataModel.UserID, this.ActionID, this.SelectedApplyNOCID, this.SelectedDepartmentID, this.CheckFinalRemark, this.NextRoleID, this.NextUserID, this.NextActionID, this.UploadDocument)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
@@ -927,7 +933,7 @@ export class CheckListForCommissionerComponent implements OnInit {
       }
       else {
         this.ShowHideNextUser = true;
-        await this.commonMasterService.GetUserDetailsByRoleID(this.NextRoleID, this.sSOLoginDataModel.DepartmentID)
+        await this.commonMasterService.GetUserDetailsByRoleID(this.NextRoleID, this.sSOLoginDataModel.DepartmentID, this.SelectedApplyNOCID)
           .then(async (data: any) => {
             this.State = data['State'];
             this.SuccessMessage = data['SuccessMessage'];
@@ -1151,4 +1157,102 @@ export class CheckListForCommissionerComponent implements OnInit {
       }, 200);
     }
   }
+
+
+
+
+
+
+
+
+  public file: any = '';
+  async ValidateDocumentImage(event: any) {
+
+    if (event.target.files && event.target.files[0]) {
+      if (event.target.files[0].type === 'application/pdf') {
+        if (event.target.files[0].size > 2000000) {
+          event.target.value = '';
+          this.toastr.warning('Select less then 2MB File');
+          return
+        }
+        if (event.target.files[0].size < 100000) {
+          event.target.value = '';
+          this.toastr.warning('Select more then 100kb File');
+          return
+        }
+      }
+      else {
+        event.target.value = '';
+        this.toastr.warning('Select Only pdf');
+        return
+      }
+      // upload
+      this.file = event.target.files[0];
+      try {
+        this.loaderService.requestStarted();
+        await this.fileUploadService.UploadDocument(this.file).then((data: any) => {
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          if (this.State == 0) {
+
+            this.UploadDocument = data['Data'][0]["FileName"];
+            this.UploadDocumentPath = data['Data'][0]["FilePath"];
+            this.UploadDocument_Dis_FileName = data['Data'][0]["Dis_FileName"];
+          }
+          if (this.State == 1) {
+            this.toastr.error(this.ErrorMessage)
+          }
+          else if (this.State == 2) {
+            this.toastr.warning(this.ErrorMessage)
+          }
+        });
+      }
+      catch (ex) { }
+      finally {
+        setTimeout(() => {
+          this.loaderService.requestEnded();
+        }, 200);
+      }
+
+    }
+    else {
+      this.UploadDocument = '';
+      this.UploadDocumentPath = '';
+      this.UploadDocument_Dis_FileName ='';
+    }
+  }
+
+
+  async DeleteImage(file: string) {
+    try {
+      // delete from server folder
+      this.loaderService.requestEnded();
+      await this.fileUploadService.DeleteDocument(file).then((data: any) => {
+        this.State = data['State'];
+        this.SuccessMessage = data['SuccessMessage'];
+        this.ErrorMessage = data['ErrorMessage'];
+        if (this.State == 0) {
+          this.UploadDocument = '';
+          this.UploadDocumentPath = '';
+          this.UploadDocument_Dis_FileName = '';
+        }
+        if (this.State == 1) {
+          this.toastr.error(this.ErrorMessage)
+        }
+        else if (this.State == 2) {
+          this.toastr.warning(this.ErrorMessage)
+        }
+      });
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
 }

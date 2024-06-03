@@ -35,7 +35,7 @@
                       <th>Department Name</th>
                       <th>College Name</th>
                       <th>Application No.</th>
-                      <th >Action</th>
+                      <th>Action</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -49,6 +49,7 @@
                         &nbsp;<button type="button" class="btn btn-sm btn-primary" *ngIf="item.PVStage=='0' && this.sSOLoginDataModel.RoleID==17" title="Assign Commitee" (click)="OpenAsignCommitteePopUP(mymodalAsignCommittee,item.ApplyNOCID,item.DepartmentID,item.CollegeID,item.ApplicationNo)"><i class="fa fa-users"></i></button>
                         &nbsp;<button type="button" class="btn btn-sm btn-primary" *ngIf="item.PVStage!='0' " title="Post Verification Details" (click)="ViewApplicationPvDetails(mymodalViewPVDetails,item.ApplyNOCID,item.DepartmentID,item.CollegeID,item.ApplicationNo)"><i class="fa fa-list"></i></button>
                         &nbsp;<button type="button" class="btn btn-sm btn-info" title="View Application trail" (click)="GetApplicationTrail(mymodal,item.ApplyNOCID)"><i class="fa fa-list"></i></button>
+                              <a *ngIf="item.L2UploadDocument!=''" class="btn btn-sm btn-primary m-1" href="{{item.L2UploadDocumentPath}}" title="Level L2 Document" target="_blank"><i class="fa fa-eye"></i></a>
                       </td>
                     </tr>
                     <tr>
@@ -345,8 +346,8 @@
                           </td>
                         </tr>
                         <!--<tr *ngIf="WorkFlowRemarks.length<=0">
-                  <td colspan="5" style="color:red">No Record Found!</td>
-                </tr>-->
+                          <td colspan="5" style="color:red">No Record Found!</td>
+                        </tr>-->
                       </tbody>
                     </table>
                   </div>

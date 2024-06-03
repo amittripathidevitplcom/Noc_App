@@ -483,6 +483,11 @@ export class ApplyNocParameterDetailsComponent implements OnInit {
               this.CloseOTPModel();
               // get list
               await this.GetApplyNocApplicationList();
+              await this.commonMasterService.SendMessage(this.SelectedMobileNo, 'AppFinalSubmit', this.SelectedApplyNocApplicationID)
+                .then((data: any) => {
+
+                }, error => console.error(error));
+
             }
             else {
               this.toastr.error(this.ErrorMessage);

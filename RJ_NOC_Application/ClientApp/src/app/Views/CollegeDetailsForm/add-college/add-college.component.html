@@ -396,24 +396,24 @@
             </div>
           </div>
           <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-            <label for="ddlParliamentAreaID" class="form-label">Parliament Area <span style="color:red;">*</span></label>
+            <label for="ddlParliamentAreaID" class="form-label">Parliament Area <!--<span style="color:red;">*</span>--></label>
             <select class="form-select" id="ddlParliamentAreaID" name="ddlParliamentAreaID" [(ngModel)]="request.ParliamentAreaID" formControlName="ddlParliamentAreaID">
               <option value="0">--Select--</option>
               <option *ngFor="let item of ParliamentAreaList" value="{{item.ParliamentAreaID}}">{{item.ParliamentAreaName}}</option>
             </select>
-            <div *ngIf="isSubmitted&&form.ddlParliamentAreaID.errors" class="text-danger">
+            <!--<div *ngIf="isSubmitted&&form.ddlParliamentAreaID.errors" class="text-danger">
               <p *ngIf="!form.ddlParliamentAreaID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
-            </div>
+            </div>-->
           </div>
           <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-            <label for="ddlAssemblyAreaID" class="form-label">Assembly Area <span style="color:red;">*</span></label>
+            <label for="ddlAssemblyAreaID" class="form-label">Assembly Area <!--<span style="color:red;">*</span>--></label>
             <select class="form-select" id="ddlAssemblyAreaID" name="ddlAssemblyAreaID" [(ngModel)]="request.AssemblyAreaID" formControlName="ddlAssemblyAreaID">
               <option value="0">--Select--</option>
               <option *ngFor="let item of AssembelyAreaList" value="{{item.AssemblyAreaID}}">{{item.AssemblyAreaName}}</option>
             </select>
-            <div *ngIf="isSubmitted&&form.ddlAssemblyAreaID.errors" class="text-danger">
+            <!--<div *ngIf="isSubmitted&&form.ddlAssemblyAreaID.errors" class="text-danger">
               <p *ngIf="!form.ddlAssemblyAreaID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
-            </div>
+            </div>-->
           </div>
           <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
             <label for="txtCityTownVillage" class="form-label">City/Town/Village <span style="color:red;">*</span></label>

@@ -233,22 +233,25 @@
                                 SSOID
                               </th>
                               <th>Name</th>
+                              <th>Mobile</th>
                               <th></th>
                             </tr>
                           </thead>
                           <tbody>
+                            
                             <tr *ngFor="let item of ApplicationCommitteeList let idx =index">
                               <td>{{idx+1}}</td>
                               <td>{{item.SSOID}}</td>
                               <td>{{item.NameOfPerson}}</td>
+                              <td>{{item.MobileNumber}}</td>
                               <td>
-                                <button *ngIf="(item.SendOTP==undefined || item.SendOTP==0)&& IsBtnShowHide" type="button" class="btn btn-sm btn-primary" title="Verify" (click)="SendOTP(item.AadhaarNo,idx)">Send OTP</button>
+                                <button *ngIf="(item.SendOTP==undefined || item.SendOTP==0)&& IsBtnShowHide" type="button" class="btn btn-sm btn-primary" title="Verify" (click)="SendOTPByEsanchar(item.MobileNumber,idx)">Send OTP</button> <!--SendOTP(item.AadhaarNo,idx)-->
                                 <div class="row" *ngIf="IsBtnShowHide">
                                   <div class="col-sm-9 col-md-9">
                                     <input *ngIf="item.SendOTP==1" type="text" id="txtUserOTP{{idx}}" placeholder="OTP*" name="txtUserOTP{{idx}}" class="form-control" [(ngModel)]="item.UserOTP" (keypress)="numbersOnly($event)" maxlength="6" />
                                   </div>
                                   <div class="col-sm-3 col-md-3">
-                                    <button *ngIf="item.SendOTP==1" type="button" class="btn btn-sm btn-primary" title="Verify" (click)="VerifyOTP(item.UserOTP,idx)">Verify</button>
+                                    <button *ngIf="item.SendOTP==1" type="button" class="btn btn-sm btn-primary" title="Verify" (click)="VerifyOTPByEsanchar(item.UserOTP,idx)">Verify</button>
                                   </div>
                                 </div>
                                 <span *ngIf="item.SendOTP==2 || IsDisabled"><i class="fa fa-check text-success"></i></span>
@@ -277,6 +280,7 @@
                                 SSOID
                               </th>
                               <th>Nodel Officer Name</th>
+                              <th>Mobile No</th>
                               <th></th>
                             </tr>
                           </thead>
@@ -285,14 +289,15 @@
                               <td>1</td>
                               <td>{{NodelOffierDetails.SSOID}}</td>
                               <td>{{NodelOffierDetails.Name}}</td>
+                              <td>{{NodelOffierDetails.MobileNo}}</td>
                               <td>
-                                <button type="button" *ngIf="!IsSendotpnodelofficer&& !IsDisabled" class="btn btn-sm btn-primary" title="Send OTP" (click)="SendOTPNodelOfficer(NodelOffierDetails.SSOID)">Send OTP to Nodel Officer</button>
+                                <button type="button" *ngIf="!IsSendotpnodelofficer&& !IsDisabled" class="btn btn-sm btn-primary" title="Send OTP" (click)="SendNodalOTPByEsanchar(NodelOffierDetails.MobileNo)">Send OTP to Nodel Officer</button> <!--SendOTPNodelOfficer(NodelOffierDetails.SSOID)-->
                                 <div class="row" *ngIf="IsSendotpnodelofficer && !NodelOfficerOTPVerfied">
                                   <div class="col-sm-9 col-md-9">
                                     <input type="text" id="txtNodelOfficerOTP" placeholder="OTP*" name="txtNodelOfficerOTP" class="form-control" [(ngModel)]="NodelOfficerOTP" (keypress)="numbersOnly($event)" maxlength="6" />
                                   </div>
                                   <div class="col-sm-3 col-md-3">
-                                    <button type="button" class="btn btn-sm btn-primary" title="Verify" (click)="NodelOfficerVerifyOTP(NodelOfficerOTP)">Verify</button>
+                                    <button type="button" class="btn btn-sm btn-primary" title="Verify" (click)="NodelOfficerVerifyOTPByEsanchar(NodelOfficerOTP)">Verify</button>   <!--NodelOfficerVerifyOTP(NodelOfficerOTP)-->
                                   </div>
                                 </div>
                                 <span *ngIf="NodelOfficerOTPVerfied || IsDisabled"><i class="fa fa-check text-success"></i></span>

@@ -56,6 +56,7 @@
                         </span>
                         <a *ngIf="(QueryStringStatus=='Pending' || QueryStringStatus=='Forward') && (this.sSOLoginDataModel.RoleID==7|| this.sSOLoginDataModel.RoleID==24) && item.MinisterFile==''" href="javascript:void(0)" title="Upload Minister File" (click)="MinisterOfflineFilePopUp(UploadMinisterFileModel,item.ApplyNOCID,item.ApplicationNo)" class="btn btn-sm btn-info"><i class="bi bi-upload"></i></a>
                         <a *ngIf="item.MinisterFile!=''" class="btn btn-sm btn-primary m-1" href="{{item.MinisterFilePath}}" title="Minister Offline File" target="_blank"><i class="fa fa-eye"></i></a>
+                        <a *ngIf="item.L2UploadDocument!=''" class="btn btn-sm btn-primary m-1" href="{{item.L2UploadDocumentPath}}" title="Level L2 Document" target="_blank"><i class="fa fa-eye"></i></a>
                       </td>
                     </tr>
                     <tr>

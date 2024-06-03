@@ -170,7 +170,7 @@ export class ApplyNOCFDRDetailsComponent implements OnInit {
     //if ((this.request.FDRNumber <= 0) || (this.request.PeriodOfFDR == '0') || (this.request.FDRDocument == '') || (this.request.FDRAmount <= 0)) {
     //  isValid = false;
     //}
-    if (this.request.FDRNumber ='') {
+    if (this.request.FDRNumber =='') {
       isValid = false;
     }
    if (this.request.FDRAmount != Number(this.FDRDetailsData[0]['Amount']))

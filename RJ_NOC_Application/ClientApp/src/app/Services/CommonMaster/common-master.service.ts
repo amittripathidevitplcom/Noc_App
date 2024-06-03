@@ -609,13 +609,13 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-  public async SendMessage(MobileNo: string, MessageType: string) {
+  public async SendMessage(MobileNo: string, MessageType: string, ID: number=0) {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     };
-    return await this.http.get(GlobalConstants.apiURL + "SMSMail/SendMessage/" + MobileNo + "/" + MessageType)
+    return await this.http.get(GlobalConstants.apiURL + "SMSMail/SendMessage/" + MobileNo + "/" + MessageType+"/"+ID)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();

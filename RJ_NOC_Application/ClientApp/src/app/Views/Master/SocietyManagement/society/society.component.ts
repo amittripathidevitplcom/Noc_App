@@ -119,7 +119,7 @@ export class SocietyComponent implements OnInit {
         txtAadhaarNo: ['', [Validators.required, Validators.pattern("^[2-9]{1}[0-9]{3}[0-9]{4}[0-9]{4}$"), Validators.minLength(12), Validators.maxLength(12)]],
         fAadhaarCard: [''],
         fSignatureDoc: [''],
-        txtPANNo: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(10), Validators.pattern("^[A-Za-z]{5}[0-9]{4}[A-Za-z]$")]],
+        txtPANNo: ['', [Validators.minLength(10), Validators.maxLength(10), Validators.pattern("^[A-Za-z]{5}[0-9]{4}[A-Za-z]$")]],//Validators.required,
         fPANCard: [''],
         ckIsPrimary: [''],
         ckIsAuthorized: [''],
@@ -386,7 +386,7 @@ export class SocietyComponent implements OnInit {
         this.toastr.warning(this.request.AadhaarNo + " Aadhaar No is already exist");
         return
       }
-      if (this.GetPANNo == this.request.PANNo) {
+      if (this.GetPANNo == this.request.PANNo && this.request.PANNo!='') {
         this.toastr.warning(this.request.PANNo + " PAN No is already exist");
         return
       }
@@ -410,7 +410,7 @@ export class SocietyComponent implements OnInit {
         this.toastr.warning(this.request.AadhaarNo + " Aadhaar No is already exist");
         return
       }
-      if (this.GetPANNo == this.request.PANNo) {
+      if (this.GetPANNo == this.request.PANNo && this.request.PANNo != '') {
         this.toastr.warning(this.request.PANNo + " PAN No is already exist");
         return
       }

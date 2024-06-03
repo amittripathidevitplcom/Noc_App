@@ -259,6 +259,7 @@ export class LegalEntityRevertComponent implements OnInit {
       this.AnnexureDocumentPath = GlobalConstants.ImagePathURL + 'DCECMCAnn6.pdf';
       this.AnnexureName = 'Download Annexure-6';
       await this.GetDepartmentList();
+
     }
     catch (Ex) {
       console.log(Ex);
@@ -2168,6 +2169,7 @@ export class LegalEntityRevertComponent implements OnInit {
           data = JSON.parse(JSON.stringify(data));
           if (data != null) {
             debugger;
+            this.QueryStringLegalEntityID = Number(data['Data']['LegalEntityID']);
             await this.GetApplicationList(Number(data['Data']['LegalEntityID']));
           }
 

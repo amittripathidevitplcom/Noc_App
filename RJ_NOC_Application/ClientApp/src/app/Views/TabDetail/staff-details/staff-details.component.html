@@ -163,16 +163,16 @@
           </div>
         </div>
         <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-          <label for="txtPANNo" class="form-label">PAN Number <span style="color:red;" *ngIf="request.TeachingType=='Teaching'">*</span></label>
+          <label for="txtPANNo" class="form-label">PAN Number <!--<span style="color:red;" *ngIf="request.TeachingType=='Teaching'">*</span>--></label>
           <input type="text" class="form-control" id="txtPANNo" name="txtPANNo" [(ngModel)]="request.PANNo" formControlName="txtPANNo" maxlength="10" (ngModelChange)="request.PANNo = $event.toUpperCase()">
           <div *ngIf="isSubmitted&&form.txtPANNo.errors" class="text-danger">
             <p *ngIf="form.txtPANNo.errors.pattern || form.txtPANNo.errors.maxlength"> Invalid PAN No.</p>
           </div>
-          <p class="text-danger" *ngIf="isSubmitted&&request.TeachingType=='Teaching'&&(request.PANNo=='' || request.PANNo==null)"> This field is required .!</p>
+          <!--<p class="text-danger" *ngIf="isSubmitted&&request.TeachingType=='Teaching'&&(request.PANNo=='' || request.PANNo==null)"> This field is required .!</p>-->
         </div>
         <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
           <label>
-            PAN Card <span style="color:red;" *ngIf="request.TeachingType=='Teaching'">*</span>
+            PAN Card <!--<span style="color:red;" *ngIf="request.TeachingType=='Teaching'">*</span>-->
           </label>
           <div class="d-flex">
             <input type="file" style="display:none" name="PANCard" id="PANCard" class="form-control" formControlName="PANCard" (change)="ValidateDocumentImage($event,'PANCard')" />
@@ -185,7 +185,7 @@
               <button type="button" class="btn btn-outline-danger" (click)="DeleteImage(request.PANCard,'PANCard')"><i class="fa fa-trash-o"></i></button>
             </div>
           </div>
-          <p class="text-danger" *ngIf="isSubmitted&&request.TeachingType=='Teaching'&&(request.PANCard==''||request.PANCard==null||request.PANCard==undefined)"> This field is required .!</p>
+          <!--<p class="text-danger" *ngIf="isSubmitted&&request.TeachingType=='Teaching'&&(request.PANCard==''||request.PANCard==null||request.PANCard==undefined)"> This field is required .!</p>-->
         </div>
 
         <div class="col-md-4 mb-3">

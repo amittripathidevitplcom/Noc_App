@@ -660,13 +660,13 @@ export class StaffDetailsComponent implements OnInit {
         if (this.request.Email == '' || this.request.Email == null) {
           this.FormValid = false;
         }
-        if (this.request.PANCard == '') {
-          this.isPANCard = true;
-          this.FormValid = false;
-        }
-        if (this.request.PANNo == '') {
-          this.FormValid = false;
-        }
+        //if (this.request.PANCard == '') {
+        //  this.isPANCard = true;
+        //  this.FormValid = false;
+        //}
+        //if (this.request.PANNo == '') {
+        //  this.FormValid = false;
+        //}
         if (this.request.ResearchGuide == '' || this.request.ResearchGuide == null) {
           this.FormValid = false;
         }

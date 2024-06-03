@@ -42,7 +42,7 @@ export class ApplicationDetailEntryComponent implements OnInit {
   public IsShowDraftFinalSubmit: boolean = true;
   @ViewChild(StaffDetailsComponent)
   private staffDetailsComponent!: StaffDetailsComponent;
-    @ViewChild(AcademicInformationComponent)
+  @ViewChild(AcademicInformationComponent)
   private academicInformationComponent!: AcademicInformationComponent;
   @ViewChild(OldNOCDetailsComponent)
   private oldNOCDetailsComponent!: OldNOCDetailsComponent;
@@ -176,6 +176,8 @@ export class ApplicationDetailEntryComponent implements OnInit {
   async DraftFinalSubmit(IsDraftSubmited: any) {
     if (confirm("Are you satisfied with the data that are showing in the View Application?")) {
       let Femalepre = 0;
+      let TotalDuplicateAadhaar = 0;
+      let TotalDuplicateAadhaarNo = '';
       this.isSubmitted = true;
       this.loaderService.requestStarted();
       this.isLoading = true;
@@ -191,6 +193,9 @@ export class ApplicationDetailEntryComponent implements OnInit {
               this.ErrorMessage = data['ErrorMessage'];
               data = JSON.parse(JSON.stringify(data));
               if (!this.State) {
+                TotalDuplicateAadhaar = data['Data'][0]['data'][0]['TotalDuplicateAadhar'];
+                TotalDuplicateAadhaarNo = data['Data'][0]['data'][0]['DuplicateAadhars'];
+
                 if (this.SelectedDepartmentID != 2 && this.SelectedDepartmentID != 4) {
                   if (data['Data'][0]['data'][0]['TotalMember'] < 15) {
                     this.toastr.error("Add Minimum 15 College Management Committee Members.")
@@ -365,29 +370,38 @@ export class ApplicationDetailEntryComponent implements OnInit {
         }
 
         if (this.SelectedDepartmentID == 3) {
+
+
           if (confirm(DCPendingPoint + "\nAre you sure you want to save draft application ?")) {
-            this.isCheck30Female = false;
-            if (this.isCheck30Female == false) {
-              await this.commonMasterService.DraftFinalSubmit(this.SelectedCollageID, IsDraftSubmited, DCPendingPoint.toString())
-                .then((data: any) => {
+            if (TotalDuplicateAadhaar <= 0) {
+              this.isCheck30Female = false;
+              if (this.isCheck30Female == false) {
+                await this.commonMasterService.DraftFinalSubmit(this.SelectedCollageID, IsDraftSubmited, DCPendingPoint.toString())
+                  .then((data: any) => {
 
-                  this.State = data['State'];
-                  this.SuccessMessage = data['SuccessMessage'];
-                  this.ErrorMessage = data['ErrorMessage'];
-                  if (!this.State) {
-                    this.toastr.success(this.SuccessMessage)
+                    this.State = data['State'];
+                    this.SuccessMessage = data['SuccessMessage'];
+                    this.ErrorMessage = data['ErrorMessage'];
+                    if (!this.State) {
+                      this.toastr.success(this.SuccessMessage)
 
-                    setTimeout(() => {
-                      this.routers.navigate(['/draftapplicationlist']);
-                    }, 500);
+                      setTimeout(() => {
+                        this.routers.navigate(['/draftapplicationlist']);
+                      }, 500);
 
-                  }
-                  else {
-                    this.toastr.error(this.ErrorMessage)
-                  }
-                })
+                    }
+                    else {
+                      this.toastr.error(this.ErrorMessage)
+                    }
+                  })
+              }
+            }
+            else {
+              this.toastr.error(TotalDuplicateAadhaarNo + ' These staff aadhaar number are mapped with other colleges.');
+              return;
             }
           }
+
         }
         else if (this.SelectedDepartmentID == 5) {
           if (confirm("Are you sure you want to Apply LOI?")) {
