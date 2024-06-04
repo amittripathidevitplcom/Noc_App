@@ -102,6 +102,7 @@
               <select class="form-select" id="ddlApplicationType" name="ddlApplicationType" [(ngModel)]="request.ApplicationTypeID">
                 <option value="0">All</option>
                 <option *ngFor="let item of ApplicationTypeList" value="{{item.ApplyNocID}}">{{item.ApplyNocFor}}</option>
+                <option value="-1">Inspection</option>
               </select>
             </div>
 
@@ -169,6 +170,7 @@
                   <th>SSO ID</th>
                   <th>Application Id</th>
                   <th>College</th>
+                  <th>Application Type</th>
                   <th>District Name</th>
                   <th>Tehsil Name</th>
                   <th>Nodal College Name</th>
@@ -187,8 +189,10 @@
                   <td>{{row.SSOID}}</td>
                   <td>{{row.ApplicationId}}</td>
                   <td>{{row.CollegeName}}</td>
+                  <td>{{row.ApplicationType}}</td>
                   <td>{{row.DistrictName}}</td>
                   <td>{{row.TehsilName}}</td>
+
                   <td>{{row.NodelOfficer}}</td>
                   <td>{{row.NodelName}}</td>
                   <td>{{row.NodelMobileNo}}</td>

@@ -5,7 +5,11 @@ import { ToastrService } from 'ngx-toastr';
 import { CommonMasterService } from '../../../Services/CommonMaster/common-master.service';
 import { LoaderService } from '../../../Services/Loader/loader.service';
 import { ApplyNocParameterService } from '../../../Services/Master/apply-noc-parameter.service';
-import { ApplyNocParameterCourseDataModel, ApplyNocParameterDataModel, ApplyNocParameterMasterListDataModel, ApplyNocParameterMasterList_AdditionofIntegratedDualDegree, ApplyNocParameterMasterList_BankDetails, ApplyNocParameterMasterList_ChangeInCoedtoGirls, ApplyNocParameterMasterList_ChangeInCollegeManagement, ApplyNocParameterMasterList_ChangeInGirlstoCoed, ApplyNocParameterMasterList_ChangeInNameOfCollege, ApplyNocParameterMasterList_ChangeInNameOfCourse, ApplyNocParameterMasterList_ChangeInNameofInstitution, ApplyNocParameterMasterList_ChangeInPlaceOfCollege, ApplyNocParameterMasterList_ChangeinNameofSociety, ApplyNocParameterMasterList_ChangeofSite_Location, ApplyNocParameterMasterList_ClosureOfCourses, ApplyNocParameterMasterList_ClosureOfProgram, ApplyNocParameterMasterList_CoursesforWorkingProfessionals, ApplyNocParameterMasterList_IncreaseInIntake_AdditionofCourse, ApplyNocParameterMasterList_IncreaseinIntakeAdditionofCourse, ApplyNocParameterMasterList_IntroductionOffCampus, ApplyNocParameterMasterList_MergerCollege, ApplyNocParameterMasterList_MergerOfTheCourse, ApplyNocParameterMasterList_MergerofInstitutions, ApplyNocParameterMasterList_ReductionInIntake, ApplyNocParameterMasterList_TostartNewProgramme, ApplyNocParameterMaster_AdditionOfNewSeats60DataModel, ApplyNocParameterMaster_TNOCExtensionDataModel } from '../../../Models/ApplyNocParameterDataModel';
+import {
+  ApplyNocParameterCourseDataModel, ApplyNocParameterDataModel, ApplyNocParameterMasterListDataModel, ApplyNocParameterMasterList_AdditionofIntegratedDualDegree, ApplyNocParameterMasterList_BankDetails, ApplyNocParameterMasterList_ChangeInCoedtoGirls, ApplyNocParameterMasterList_ChangeInCollegeManagement, ApplyNocParameterMasterList_ChangeInGirlstoCoed, ApplyNocParameterMasterList_ChangeInNameOfCollege,
+  ApplyNocParameterMasterList_ChangeInInspectionFee
+, ApplyNocParameterMasterList_ChangeInNameOfCourse, ApplyNocParameterMasterList_ChangeInNameofInstitution, ApplyNocParameterMasterList_ChangeInPlaceOfCollege, ApplyNocParameterMasterList_ChangeinNameofSociety, ApplyNocParameterMasterList_ChangeofSite_Location, ApplyNocParameterMasterList_ClosureOfCourses, ApplyNocParameterMasterList_ClosureOfProgram, ApplyNocParameterMasterList_CoursesforWorkingProfessionals, ApplyNocParameterMasterList_IncreaseInIntake_AdditionofCourse, ApplyNocParameterMasterList_IncreaseinIntakeAdditionofCourse, ApplyNocParameterMasterList_IntroductionOffCampus, ApplyNocParameterMasterList_MergerCollege, ApplyNocParameterMasterList_MergerOfTheCourse, ApplyNocParameterMasterList_MergerofInstitutions, ApplyNocParameterMasterList_ReductionInIntake, ApplyNocParameterMasterList_TostartNewProgramme, ApplyNocParameterMaster_AdditionOfNewSeats60DataModel, ApplyNocParameterMaster_TNOCExtensionDataModel
+} from '../../../Models/ApplyNocParameterDataModel';
 import { SSOLoginDataModel } from '../../../Models/SSOLoginDataModel';
 import { DropdownValidators } from '../../../Services/CustomValidators/custom-validators.service';
 import { ApplyNOCApplicationService } from '../../../Services/ApplyNOCApplicationList/apply-nocapplication.service';
@@ -70,6 +74,7 @@ export class ApplyNocParameterComponent implements OnInit {
   public ApplyNocParameterMasterList_TNOCExtension: ApplyNocParameterMaster_TNOCExtensionDataModel = null;
   public ApplyNocParameterMasterList_AdditionOfNewSeats60: ApplyNocParameterMaster_AdditionOfNewSeats60DataModel = null;
   public ApplyNocParameterMasterList_ChangeInNameOfCollege: ApplyNocParameterMasterList_ChangeInNameOfCollege = null;
+  public ApplyNocParameterMasterList_ChangeInInspectionFee: ApplyNocParameterMasterList_ChangeInInspectionFee = null;
   public ApplyNocParameterMasterList_ChangeInPlaceOfCollege: ApplyNocParameterMasterList_ChangeInPlaceOfCollege = null;
   public ApplyNocParameterMasterList_ChangeInCoedtoGirls: ApplyNocParameterMasterList_ChangeInCoedtoGirls = null;
   public ApplyNocParameterMasterList_ChangeInGirlstoCoed: ApplyNocParameterMasterList_ChangeInGirlstoCoed = null;
@@ -366,6 +371,7 @@ export class ApplyNocParameterComponent implements OnInit {
       this.ApplyNocParameterMasterList_TNOCExtension = null;
       this.ApplyNocParameterMasterList_AdditionOfNewSeats60 = null;
       this.ApplyNocParameterMasterList_ChangeInNameOfCollege = null;
+      this.ApplyNocParameterMasterList_ChangeInInspectionFee = null;
       this.ApplyNocParameterMasterList_ChangeInPlaceOfCollege = null;
       this.ApplyNocParameterMasterList_ChangeInGirlstoCoed = null;
       this.ApplyNocParameterMasterList_ChangeInCollegeManagement = null;
@@ -438,13 +444,24 @@ export class ApplyNocParameterComponent implements OnInit {
   async GetApplyNocParameterMaster() {
 
     await this.applyNocParameterService.GetApplyNocParameterMaster(this.request.CollegeID)
-      .then((data: any) => {
+      .then(async (data: any) => {
         data = JSON.parse(JSON.stringify(data));
         this.State = data['State'];
         this.SuccessMessage = data['SuccessMessage'];
         this.ErrorMessage = data['ErrorMessage'];
         //
         this.ApplyNocParameterMasterList_ddl = data['Data'];
+
+        if (this.SelectedDepartmentID == 3) {
+          await this.ApplyNocParameterMasterList_ddl.forEach(rowitem => {
+            if (rowitem.ApplyNocCode == 'DCEInspectionFee') {
+              rowitem.IsChecked = true;
+              this.ApplyNocFor_cbChange(null, rowitem.ApplyNocID, rowitem, 0);
+            } 
+          });
+        }
+
+
         console.log(this.ApplyNocParameterMasterList_ddl);
       }, error => console.error(error));
   }
@@ -824,6 +841,11 @@ export class ApplyNocParameterComponent implements OnInit {
         this.ApplyNocParameterMasterList_ChangeInNameOfCollege.FeeAmount = item.FeeAmount;
         setTimeout(function () { (window as any).LoadData(); }, 200)
       }
+      if (this.request.ApplyNocCode == 'DCEInspectionFee') {
+        this.ApplyNocParameterMasterList_ChangeInInspectionFee = new ApplyNocParameterMasterList_ChangeInInspectionFee();
+        this.ApplyNocParameterMasterList_ChangeInInspectionFee.ApplyNocID = Number(SelectedApplyNocForID);
+        this.ApplyNocParameterMasterList_ChangeInInspectionFee.FeeAmount = item.FeeAmount; 
+      }
       if (this.request.ApplyNocCode == 'DEC_ChangePlace') {
         this.ApplyNocParameterMasterList_ChangeInPlaceOfCollege = new ApplyNocParameterMasterList_ChangeInPlaceOfCollege();
         this.ApplyNocParameterMasterList_ChangeInPlaceOfCollege.ApplyNocID = Number(SelectedApplyNocForID);
@@ -877,42 +899,43 @@ export class ApplyNocParameterComponent implements OnInit {
 
 
       //unchecked
-      if (!event.target.checked) {
-        if (this.request.ApplyNocCode == 'DEC_ChangeName') {
-          this.ApplyNocParameterMasterList_ChangeInNameOfCollege = null;
-        }
-        else if (this.request.ApplyNocCode == 'DEC_ChangePlace') {
-          this.ApplyNocParameterMasterList_ChangeInPlaceOfCollege = null;
-        }
-        else if (this.request.ApplyNocCode == 'DEC_CoedToGirls') {
-          this.ApplyNocParameterMasterList_ChangeInCoedtoGirls = null;
-        }
-        else if (this.request.ApplyNocCode == 'DEC_GilsToCoed') {
-          this.ApplyNocParameterMasterList_ChangeInGirlstoCoed = null;
-        }
-        else if (this.request.ApplyNocCode == 'DEC_ChangeManagement') {
-          this.ApplyNocParameterMasterList_ChangeInCollegeManagement = null;
-        }
-        else if (this.request.ApplyNocCode == 'DEC_Merger') {
-          this.ApplyNocParameterMasterList_MergerCollege = null;
-        }
+      if (event != null) {
+        if (!event.target.checked) {
+          if (this.request.ApplyNocCode == 'DEC_ChangeName') {
+            this.ApplyNocParameterMasterList_ChangeInNameOfCollege = null;
+          }
+          else if (this.request.ApplyNocCode == 'DEC_ChangePlace') {
+            this.ApplyNocParameterMasterList_ChangeInPlaceOfCollege = null;
+          }
+          else if (this.request.ApplyNocCode == 'DEC_CoedToGirls') {
+            this.ApplyNocParameterMasterList_ChangeInCoedtoGirls = null;
+          }
+          else if (this.request.ApplyNocCode == 'DEC_GilsToCoed') {
+            this.ApplyNocParameterMasterList_ChangeInGirlstoCoed = null;
+          }
+          else if (this.request.ApplyNocCode == 'DEC_ChangeManagement') {
+            this.ApplyNocParameterMasterList_ChangeInCollegeManagement = null;
+          }
+          else if (this.request.ApplyNocCode == 'DEC_Merger') {
+            this.ApplyNocParameterMasterList_MergerCollege = null;
+          }
 
-        else if (this.request.ApplyNocCode == 'DEC_NewCourse') {
-          this.ApplyNocParameterMasterList_NewCourse = null;
-        }
-        else if (this.request.ApplyNocCode == 'DEC_NewSubject') {
-          this.ApplyNocParameterMasterList_NewCourseSubject = null;
-        }
+          else if (this.request.ApplyNocCode == 'DEC_NewCourse') {
+            this.ApplyNocParameterMasterList_NewCourse = null;
+          }
+          else if (this.request.ApplyNocCode == 'DEC_NewSubject') {
+            this.ApplyNocParameterMasterList_NewCourseSubject = null;
+          }
 
-        else if (this.request.ApplyNocCode == 'DEC_TNOCExtOfSubject') {
-          this.ApplyNocParameterMasterList_TNOCExtOfSubject = null;
-          this.TNOCParameterFees = 0;
-        }
+          else if (this.request.ApplyNocCode == 'DEC_TNOCExtOfSubject') {
+            this.ApplyNocParameterMasterList_TNOCExtOfSubject = null;
+            this.TNOCParameterFees = 0;
+          }
 
-        else if (this.request.ApplyNocCode == 'DEC_PNOCSubject') {
-          this.ApplyNocParameterMasterList_PNOCOfSubject = null;
+          else if (this.request.ApplyNocCode == 'DEC_PNOCSubject') {
+            this.ApplyNocParameterMasterList_PNOCOfSubject = null;
+          }
         }
-
 
         if (this.ApplyNocParameterMasterList_ddl.filter(f => f.IsChecked).length == 0) {
           this.isShowPriceDetails = false;
@@ -2612,7 +2635,7 @@ export class ApplyNocParameterComponent implements OnInit {
     if (item.Code == 'InspectionFee') {
       this.isInspectionFee = true;
       this.GetCollegeInspectionFee();
-      this.request.ApplyNocLateFeeDetailList = [];
+      this.request.ApplyNocLateFeeDetailList = []; 
       this.isShowPriceDetails = false;
 
     }
@@ -2626,6 +2649,7 @@ export class ApplyNocParameterComponent implements OnInit {
     this.ApplyNocParameterMasterList_AdditionOfNewSeats60 = null;
     //parameters details
     this.ApplyNocParameterMasterList_ChangeInNameOfCollege = null;
+    this.ApplyNocParameterMasterList_ChangeInInspectionFee = null;
     this.ApplyNocParameterMasterList_ChangeInPlaceOfCollege = null;
     this.ApplyNocParameterMasterList_ChangeInGirlstoCoed = null;
     this.ApplyNocParameterMasterList_ChangeInCollegeManagement = null;

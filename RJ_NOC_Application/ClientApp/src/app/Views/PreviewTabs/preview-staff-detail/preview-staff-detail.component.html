@@ -34,7 +34,9 @@
                     <th>Name Of Person</th>
                     <th>Mobile No.</th>
                     <th>Highest Qualification</th>
-                    <th>Date of Birth</th>
+                    <th>Subject</th>
+                    <th>Designation</th>
+                    <!--<th>Date of Birth</th>-->
                     <th>Action</th>
                   </tr>
                 </thead>
@@ -45,7 +47,9 @@
                     <td>{{item.PersonName}}</td>
                     <td>{{item.MobileNo}}</td>
                     <td>{{item.HighestQualificationName}}</td>
-                    <td>{{item.DateOfBirth}}</td>
+                    <td>{{item.SubjectName}}</td>
+                    <td>{{item.RoleName}}</td>
+                    <!--<td>{{item.DateOfBirth}}</td>-->
                     <td>
                       <button type="button" class="btn btn-sm btn-info" title="View" (click)="ViewStaffDetail(mymodal,item.StaffDetailID)"><i class="fa fa-eye"></i></button>
                     </td>

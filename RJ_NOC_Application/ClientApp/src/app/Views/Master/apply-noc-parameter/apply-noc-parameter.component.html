@@ -147,18 +147,33 @@
 
               <div class="col-lg-4 col-md-4 col-sm-4 col-4" *ngFor="let item of ApplyNocParameterMasterList_ddl ;let idx=index;">
 
-                <label class="form-check-label" for="cbNocFor_{{item.ApplyNocID}}">
-                  <input class="form-check-input" [attr.disabled]="isApplicationApplyFor ? true : null" type="checkbox" name="cbNocFor_{{item.ApplyNocID}}" id="cbNocFor_{{item.ApplyNocID}}" value="{{item.ApplyNocID}}" #SelectedApplyNocForID (change)="ApplyNocFor_cbChange($event,SelectedApplyNocForID.value,item,idx)" [(ngModel)]="item.IsChecked"
+                <label class="form-check-label" *ngIf="item.applyNocCode!='DCEInspectionFee'" for="cbNocFor_{{item.ApplyNocID}}">
+                  <input class="form-check-input" [attr.disabled]="isApplicationApplyFor ? true : null" type="checkbox"
+                         name="cbNocFor_{{item.ApplyNocID}}" id="cbNocFor_{{item.ApplyNocID}}"
+                         value="{{item.ApplyNocID}}" #SelectedApplyNocForID
+                         (change)="ApplyNocFor_cbChange($event,SelectedApplyNocForID.value,item,idx)"
+                         [(ngModel)]="item.IsChecked"
                          [ngModelOptions]="{standalone: true}"> {{item.ApplyNocFor}}
                 </label>
+
+                {{item.ApplyNocCode}}
+                <label class="form-check-label" *ngIf="item.applyNocCode=='DCEInspectionFee'" disabled for="cbNocFor_{{item.ApplyNocID}}">
+                  <input class="form-check-input" disabled type="checkbox"
+                         name="cbNocFor_{{item.ApplyNocID}}" id="cbNocFor_{{item.ApplyNocID}}"
+                         value="{{item.ApplyNocID}}" #SelectedApplyNocForID
+                         (change)="ApplyNocFor_cbChange($event,SelectedApplyNocForID.value,item,idx)"
+                         [(ngModel)]="item.IsChecked"
+                         [ngModelOptions]="{standalone: true}"> {{item.ApplyNocFor}}
+                </label>
+
                 <!--</div>-->
               </div>
 
             </div>
 
             <!--<div *ngIf="isSubmitted&&form.cbNocFor.errors" class="text-danger">
-              <p *ngIf="form.cbNocFor.errors.required"><i aria-hidden="true"></i>This field is required .!</p>
-            </div>-->
+            <p *ngIf="form.cbNocFor.errors.required"><i aria-hidden="true"></i>This field is required .!</p>
+          </div>-->
           </div>
         </div>
       </form>
@@ -272,6 +287,13 @@
           </div>
         </div>
       </div>
+    </div>
+    <!--end-->
+    <!--change in Inspection Fee-->
+    <div *ngIf="ApplyNocParameterMasterList_ChangeInInspectionFee != null">
+      <div class="card-header border-top">
+        <b>Inspection Fee :₹ {{ApplyNocParameterMasterList_ChangeInInspectionFee.FeeAmount}}</b>
+      </div> 
     </div>
     <!--end-->
     <!--change in place-->
@@ -955,8 +977,8 @@
             </div>
             <div class="row">
               <div class="col-lg-2"><b>Total Application Fees</b></div>
-              <div class="col-lg-6"  *ngIf="SelectedDepartmentID !=4">:₹ <b>{{request.TotalFeeAmount}}</b></div>
-              <div class="col-lg-6"  *ngIf="SelectedDepartmentID ==4"><b> (As per state NOC policy)</b></div>
+              <div class="col-lg-6" *ngIf="SelectedDepartmentID !=4">:₹ <b>{{request.TotalFeeAmount}}</b></div>
+              <div class="col-lg-6" *ngIf="SelectedDepartmentID ==4"><b> (As per state NOC policy)</b></div>
             </div>
           </div>
         </div>
@@ -1085,8 +1107,10 @@
     <!--Merger of Institutions under the same Trust/ Society/ Company-->
     <div *ngIf="request.DTE_MergerofInstitutions_View==true">
       <div class="card-header border-top">
-        <b>Merger of Institutions under the same/different Trust/ Society/ Company operating in the same campus or same city
-          <span style="display:none"> :₹ {{this.request.DTE_MergerofInstitutions.FeeAmount}}</span> (As per state NOC policy)</b>
+        <b>
+          Merger of Institutions under the same/different Trust/ Society/ Company operating in the same campus or same city
+          <span style="display:none"> :₹ {{this.request.DTE_MergerofInstitutions.FeeAmount}}</span> (As per state NOC policy)
+        </b>
       </div>
       <div class="card-body">
         <div class="row">
@@ -1121,33 +1145,33 @@
           </div>
         </div>
         <!--<div class="row">
-          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-            <label for="ddlInstitute1" class="form-label">Institute 1 <span style="color:red;">*</span></label>
-            <select class="form-select" id="ddlInstitute1" name="ddlInstitute1" disabled [(ngModel)]="request.DTE_MergerofInstitutions.InstituteID1">
-              <option *ngFor="let item of CollegeList" value="{{item.CollegeID}}">{{item.CollegeName}}</option>
-            </select>
+        <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+          <label for="ddlInstitute1" class="form-label">Institute 1 <span style="color:red;">*</span></label>
+          <select class="form-select" id="ddlInstitute1" name="ddlInstitute1" disabled [(ngModel)]="request.DTE_MergerofInstitutions.InstituteID1">
+            <option *ngFor="let item of CollegeList" value="{{item.CollegeID}}">{{item.CollegeName}}</option>
+          </select>
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+          <label for="ddlInstitute2" class="form-label">Institute 2 <span style="color:red;">*</span></label>
+          <select class="form-select" id="ddlInstitute2" name="ddlInstitute2" [(ngModel)]="request.DTE_MergerofInstitutions.InstituteID2">
+            <option value="0">--Select--</option>
+            <option *ngFor="let item of CollegeList" value="{{item.CollegeID}}">{{item.CollegeName}}</option>
+          </select>
+          <div *ngIf="this.request.DTE_MergerofInstitutions.InstituteID2 == 0 && isValidDTE_InstituteID2" class="text-danger">
+            <p *ngIf="this.request.DTE_MergerofInstitutions.InstituteID2 == 0 && isValidDTE_InstituteID2"> This field is required .!</p>
           </div>
-          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-            <label for="ddlInstitute2" class="form-label">Institute 2 <span style="color:red;">*</span></label>
-            <select class="form-select" id="ddlInstitute2" name="ddlInstitute2" [(ngModel)]="request.DTE_MergerofInstitutions.InstituteID2">
-              <option value="0">--Select--</option>
-              <option *ngFor="let item of CollegeList" value="{{item.CollegeID}}">{{item.CollegeName}}</option>
-            </select>
-            <div *ngIf="this.request.DTE_MergerofInstitutions.InstituteID2 == 0 && isValidDTE_InstituteID2" class="text-danger">
-              <p *ngIf="this.request.DTE_MergerofInstitutions.InstituteID2 == 0 && isValidDTE_InstituteID2"> This field is required .!</p>
-            </div>
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+          <label for="ddlMergeInstituteID" class="form-label">Merge to institute<span style="color:red;">*</span></label>
+          <select class="form-select" id="ddlMergeInstituteID" name="ddlMergeInstituteID" [(ngModel)]="request.DTE_MergerofInstitutions.MergeInstituteID">
+            <option value="0">--Select--</option>
+            <option *ngFor="let item of CollegeList" value="{{item.CollegeID}}">{{item.CollegeName}}</option>
+          </select>
+          <div *ngIf="this.request.DTE_MergerofInstitutions.MergeInstituteID == 0 && isValidDTE_MergeInstituteID" class="text-danger">
+            <p *ngIf="this.request.DTE_MergerofInstitutions.MergeInstituteID == 0 && isValidDTE_MergeInstituteID"> This field is required .!</p>
           </div>
-          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-            <label for="ddlMergeInstituteID" class="form-label">Merge to institute<span style="color:red;">*</span></label>
-            <select class="form-select" id="ddlMergeInstituteID" name="ddlMergeInstituteID" [(ngModel)]="request.DTE_MergerofInstitutions.MergeInstituteID">
-              <option value="0">--Select--</option>
-              <option *ngFor="let item of CollegeList" value="{{item.CollegeID}}">{{item.CollegeName}}</option>
-            </select>
-            <div *ngIf="this.request.DTE_MergerofInstitutions.MergeInstituteID == 0 && isValidDTE_MergeInstituteID" class="text-danger">
-              <p *ngIf="this.request.DTE_MergerofInstitutions.MergeInstituteID == 0 && isValidDTE_MergeInstituteID"> This field is required .!</p>
-            </div>
-          </div>
-        </div>-->
+        </div>
+      </div>-->
       </div>
     </div>
     <!--Merger of Institutions under the same Trust/ Society/ Company end-->
@@ -1190,12 +1214,12 @@
         <div class="row" *ngIf="request.DTE_ChangeinNameofSociety.ChangeType=='AddressChange' || request.DTE_ChangeinNameofSociety.ChangeType=='BothChange'">
           <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
             <label>Old Address<span style="color:red;"> *</span> </label>
-            <input name="txtCurrentAddress" id="txtCurrentAddress" class="form-control mt-1" maxlength="200" 
+            <input name="txtCurrentAddress" id="txtCurrentAddress" class="form-control mt-1" maxlength="200"
                    [(ngModel)]="request.DTE_ChangeinNameofSociety.OldAddress" disabled />
           </div>
           <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
             <label>New Address<span style="color:red;"> *</span> </label>
-            <input name="txtNewAddress" id="txtNewAddress" class="form-control mt-1"  maxlength="200" placeholder="Address with state , District and pincode"
+            <input name="txtNewAddress" id="txtNewAddress" class="form-control mt-1" maxlength="200" placeholder="Address with state , District and pincode"
                    [(ngModel)]="request.DTE_ChangeinNameofSociety.NewAddress" />
             <div *ngIf="request.DTE_ChangeinNameofSociety.NewAddress == '' && isValidDTE_SocietyNewAddress && (request.DTE_ChangeinNameofSociety.ChangeType=='AddressChange' || request.DTE_ChangeinNameofSociety.ChangeType=='BothChange')" class="text-danger">
               <p *ngIf="request.DTE_ChangeinNameofSociety.NewAddress == '' && isValidDTE_SocietyNewAddress && (request.DTE_ChangeinNameofSociety.ChangeType=='AddressChange' || request.DTE_ChangeinNameofSociety.ChangeType=='BothChange')"> This field is required .!</p>
