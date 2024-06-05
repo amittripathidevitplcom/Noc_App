@@ -1,0 +1,29 @@
+<app-loader></app-loader>
+<div class="row">
+  <div class="card">
+    <div class="card-header d-flex justify-content-between align-items-center">
+      <h4><b>College Penalty</b></h4>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-lg-5 col-md-5 col-sm-6 col-12">
+          <label for="txtRemark" class="form-label">Penalty for(Narration)<span style="color:red;">*</span></label>
+          <textarea id="txtRemark" class="form-control" [(ngModel)]="request.Penaltyfor"></textarea>
+          <p *ngIf="FormSubmit&&request.Penaltyfor==''" class="text-danger"><i aria-hidden="true"></i> This field is required .!</p>
+        </div>
+        <div class="col-lg-5 col-md-5 col-sm-6 col-12">
+          <label for="txtPenaltyamount" class="form-label">Penalty Amount<span style="color:red;">*</span></label>
+          <input autocomplete="off" type="text" maxlength="10" [(ngModel)]="request.PenaltyAmount" class="form-control" id="txtPenaltyamount" name="txtPenaltyamount" (keypress)="numberOnly($event)">
+          <p *ngIf="FormSubmit&& request.PenaltyAmount.toString()==''" class="text-danger"><i aria-hidden="true"></i> This field is required .!</p>
+          <p *ngIf="FormSubmit&& request.PenaltyAmount==0" class="text-danger"><i aria-hidden="true"></i> Penalty Amount grater then zero .!</p>
+        </div>
+        <div class="col-lg-2 col-md-5 col-sm-6 col-12 mt-4" *ngIf="request.IsPayment==false">
+          <button type="submit" (click)="SaveData()" class="btn btn-success"><i class="fa fa-save"></i> Save</button>
+        </div>
+      </div>
+    </div>
+    <!--<div class="card-footer text-end">
+      <button type="submit" class="btn btn-success"><i class="fa fa-save"></i> Save</button>
+    </div>-->
+  </div>
+</div>

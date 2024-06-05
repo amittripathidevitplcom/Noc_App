@@ -558,37 +558,37 @@
     </div>
 
     <!--<div class="col-lg-3 col-md-4 col-sm-6 col-12">
-      <div class="card staticsCards staticsCards4">
-        <div class="card-body">
-          <div class="d-flex align-items-center justify-content-between">
-            <div class="dashCardIcon">
-              <i class="fa fa-bank"></i>
-            </div>
-            <div class="dashCardContent">
-              <h4>NOC Issued</h4>
-              <h2>{{dashboardDataModel.NOCIssued}}</h2>
-            </div>
+    <div class="card staticsCards staticsCards4">
+      <div class="card-body">
+        <div class="d-flex align-items-center justify-content-between">
+          <div class="dashCardIcon">
+            <i class="fa fa-bank"></i>
+          </div>
+          <div class="dashCardContent">
+            <h4>NOC Issued</h4>
+            <h2>{{dashboardDataModel.NOCIssued}}</h2>
           </div>
         </div>
-        <a routerLink="/nocissued">View more <i class="fa fa-chevron-circle-right"></i></a>
       </div>
-    </div>-->
+      <a routerLink="/nocissued">View more <i class="fa fa-chevron-circle-right"></i></a>
+    </div>
+  </div>-->
     <!--<div class="col-lg-3 col-md-4 col-sm-6 col-12">
-      <div class="card staticsCards staticsCards12">
-        <div class="card-body">
-          <div class="d-flex align-items-center justify-content-between">
-            <div class="dashCardIcon">
-              <i class="fa fa-bank"></i>
-            </div>
-            <div class="dashCardContent">
-              <h4>Pending NOC</h4>
-              <h2>{{dashboardDataModel.PendingNOC}}</h2>
-            </div>
+    <div class="card staticsCards staticsCards12">
+      <div class="card-body">
+        <div class="d-flex align-items-center justify-content-between">
+          <div class="dashCardIcon">
+            <i class="fa fa-bank"></i>
+          </div>
+          <div class="dashCardContent">
+            <h4>Pending NOC</h4>
+            <h2>{{dashboardDataModel.PendingNOC}}</h2>
           </div>
         </div>
-        <a routerLink="/deficiencymarked">View more <i class="fa fa-chevron-circle-right"></i></a>
       </div>
-    </div>-->
+      <a routerLink="/deficiencymarked">View more <i class="fa fa-chevron-circle-right"></i></a>
+    </div>
+  </div>-->
     <div class="col-lg-2 col-md-4 col-sm-6 col-12" *ngIf="this.sSOLoginDataModel.RoleID==0">
       <div class="card staticsCards">
         <div class="card-body">
@@ -638,7 +638,22 @@
         <a href="/revertedapplicationlist">View more <i class="fa fa-chevron-circle-right"></i></a>
       </div>
     </div>
-
+    <div class="col-lg-2 col-md-4 col-sm-6 col-12">
+      <div class="card staticsCards">
+        <div class="card-body">
+          <div class="">
+            <div class="dashCardIcon">
+              <i class="fa fa-bank"></i>
+            </div>
+            <div class="dashCardContent">
+              <h4>Penalty Application</h4>
+              <h2>{{dashboardDataModel.TotalApplyNocApplicationPenalty}}</h2>
+            </div>
+          </div>
+        </div>
+        <a href="/penaltyapplicationlist">View more <i class="fa fa-chevron-circle-right"></i></a>
+      </div>
+    </div>
   </div>
 
   <div class="row" *ngIf="(this.sSOLoginDataModel.DepartmentID==6 || this.sSOLoginDataModel.DepartmentID==9) &&this.sSOLoginDataModel.RoleID==2">

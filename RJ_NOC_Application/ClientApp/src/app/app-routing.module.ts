@@ -231,6 +231,7 @@ import { NewgrievancereportComponent } from './Views/DCE/newgrievancereport/newg
 import { BEDApplicationEntryComponent } from './Views/Bed/BEDApplicationEntry/bedapplication-entry/bedapplication-entry.component';
 import { StaffReportsComponent } from './Views/DCEReports/staff-reports/staff-reports.component';
 import { DuplicateAadharReportComponent } from './Views/DCEReports/duplicate-aadhar-report/duplicate-aadhar-report.component';
+import { PenaltyApplicationListDCEComponent } from './Views/DCE/penalty-application-list-dce/penalty-application-list-dce.component';
 
 
 const routes: Routes = [
@@ -946,6 +947,9 @@ const routes: Routes = [
       },
       {
         path: 'duplicateaadharreport', component: DuplicateAadharReportComponent
+      },
+      {
+        path: 'penaltyapplicationlist', component: PenaltyApplicationListDCEComponent
       },
 
     ]

@@ -393,6 +393,8 @@ import { StaffReportsComponent } from './Views/DCEReports/staff-reports/staff-re
 import { DuplicateAadharReportComponent } from './Views/DCEReports/duplicate-aadhar-report/duplicate-aadhar-report.component';
 import { BedRoomDetailComponent } from './Views/TabDetail/bed-room-detail/bed-room-detail.component';
 import { PreviewBedCourseRoomDetailComponent } from './Views/TabDetail/preview-bed-course-room-detail/preview-bed-course-room-detail.component';
+import { AddApplicationPenaltyDCEComponent } from './Views/DCE/add-application-penalty-dce/add-application-penalty-dce.component';
+import { PenaltyApplicationListDCEComponent } from './Views/DCE/penalty-application-list-dce/penalty-application-list-dce.component';
  
 
 @NgModule({
@@ -786,6 +788,8 @@ import { PreviewBedCourseRoomDetailComponent } from './Views/TabDetail/preview-b
     DuplicateAadharReportComponent,
     BedRoomDetailComponent,
     PreviewBedCourseRoomDetailComponent,
+    AddApplicationPenaltyDCEComponent,
+    PenaltyApplicationListDCEComponent,
 
   ],
   imports: [

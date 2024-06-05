@@ -331,6 +331,7 @@ export class ApplyNocOfflinePaymentModal {
   public Dis_FileName: string = '';
   public FilePath: string = '';
   public ActionName: string = '';
+  public PaymentType: string = 'Application';
 }
 export class ApplyNocParameterMasterList_BankDetails {
   public BankDetailID: number = 0;

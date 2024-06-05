@@ -1665,8 +1665,8 @@
                   <td [hidden]="(request.DepartmentID==4 ||request.DepartmentID==3)">{{item.DateofExpiry | date:'dd-MM-yyyy'}}</td>
                   <td><a class="btn btn-sm btn-primary" target="_blank" title="View Transaction Recept" href="{{item.FilePath}}"><i class="fa fa-eye"></i></a></td>
                   <td [hidden]="(this.request.DepartmentID==4 ||this.request.DepartmentID==3) && ApplicationFinalSubmit==true">
-                    <button type="button" class="btn btn-sm btn-primary" title="Edit" (click)="EditOffLinePaymentDetails(item)"><i class="fa fa-edit"></i></button>
-                    &nbsp; <button type="button" class="btn btn-sm btn-danger" title="Delete Transaction" (click)="DeleteOffLinePaymentDetails(item.ApplyNOCID,item.PaymentOfflineID)"><i class="fa fa-trash-o"></i></button>
+                    <button *ngIf="item.PaymentType=='Application'" type="button" class="btn btn-sm btn-primary" title="Edit" (click)="EditOffLinePaymentDetails(item)"><i class="fa fa-edit"></i></button>
+                    &nbsp; <button type="button" *ngIf="item.PaymentType=='Application'" class="btn btn-sm btn-danger" title="Delete Transaction" (click)="DeleteOffLinePaymentDetails(item.ApplyNOCID,item.PaymentOfflineID)"><i class="fa fa-trash-o"></i></button>
                   </td>
                 </tr>
               </tbody>

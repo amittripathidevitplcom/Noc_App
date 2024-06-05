@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { throwError } from 'rxjs';
 import { catchError, } from 'rxjs/operators';
-import { CommiteeInspection_RNCCheckList_DataModel, NOCIssuedRequestDataModel, ParameterFeeMaster } from '../../Models/ApplyNOCApplicationDataModel';
+import { ApplicationPenaltyDataModel, CommiteeInspection_RNCCheckList_DataModel, NOCIssuedRequestDataModel, ParameterFeeMaster } from '../../Models/ApplyNOCApplicationDataModel';
 import { DocumentScrutinyDataModel } from '../../Models/DocumentScrutinyDataModel';
 import { GlobalConstants } from '../../Common/GlobalConstants';
 @Injectable({
@@ -36,6 +36,15 @@ export class ApplyNOCApplicationService {
     };
     const body = JSON.stringify(request);
     return await this.http.post(this.APIUrl + '/DocumentScrutiny/', body, { 'headers': headers })
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+
+  public async SaveApplicationPenalty(request:ApplicationPenaltyDataModel) {
+    const headers = { 'content-type': 'application/json' }
+    const body = JSON.stringify(request);
+    return await this.http.post(this.APIUrl + '/SaveApplicationPenalty/', body, { 'headers': headers })
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();
@@ -246,6 +255,28 @@ export class ApplyNOCApplicationService {
       })
     };
     return await this.http.get(this.APIUrl + "/CountTotalRevertDCE/" + ApplyNOCID + "/" + RoleID + "/" + UserID)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+  public async GetApplicationPenalty(ApplyNOCID: number) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl + "/GetApplicationPenalty/" + ApplyNOCID )
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+  public async GetApplicationPenaltyList(SSOID: string) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl + "/GetApplicationPenaltyList/" + SSOID)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();

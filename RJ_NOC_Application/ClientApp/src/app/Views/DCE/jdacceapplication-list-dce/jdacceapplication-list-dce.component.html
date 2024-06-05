@@ -48,6 +48,7 @@
                         <a *ngIf="QueryStringStatus=='Pending'" href="javascript:void(0)" title="Application Scrutiny" (click)="ApplicationScrutiny_OnClick(item.DepartmentID,item.CollegeID,item.ApplyNOCID,item.ApplicationNo)" class="btn btn-sm btn-info"><i class="fa fa-eye"></i></a>
                         &nbsp;<button type="button" class="btn btn-sm btn-primary" *ngIf="item.PVStage!='0' " title="Post Verification Details" (click)="ViewApplicationPvDetails(mymodalViewPVDetails,item.ApplyNOCID,item.DepartmentID,item.CollegeID,item.ApplicationNo)"><i class="fa fa-list"></i></button>
                         &nbsp;<button type="button" class="btn btn-sm btn-info" title="View Application trail" (click)="GetApplicationTrail(mymodal,item.ApplyNOCID)"><i class="fa fa-list"></i></button>
+                        <a *ngIf="item.L1UploadDocument!=''" class="btn btn-sm btn-primary m-1" href="{{item.L1UploadDocumentPath}}" title="Level L1 Document" target="_blank"><i class="fa fa-eye"></i></a>
                         <a *ngIf="item.L2UploadDocument!=''" class="btn btn-sm btn-primary m-1" href="{{item.L2UploadDocumentPath}}" title="Level L2 Document" target="_blank"><i class="fa fa-eye"></i></a>
                       </td>
                     </tr>

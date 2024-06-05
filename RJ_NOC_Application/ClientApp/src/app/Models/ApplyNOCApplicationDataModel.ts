@@ -49,7 +49,7 @@ export class NOCIssuedDataModel {
   public CollegeID: number = 0;
   public FromDate: string = '';
   public ToDate: string = '';
-  
+
 }
 export class NOCIssuedForDataModel {
   public ApplyNOCID: number = 0;
@@ -60,4 +60,16 @@ export class NOCIssuedForDataModel {
 export class NOCIssuedRequestDataModel {
   public NOCDetails: GenerateNOC_DataModel[] = [];
   public AppliedNOCFor: NOCIssuedForDataModel[] = [];
+}
+export class ApplicationPenaltyDataModel {
+
+  public PenaltyID: number = 0;
+  public DepartmentID: number = 0;
+  public CollegeID: number = 0;
+  public ApplyNOCID: number = 0;
+  public Penaltyfor: string = '';
+  public PenaltyAmount: number = 0;
+  public IsPayment: boolean = false;
+  public CreatedBy: number = 0;
+
 }
