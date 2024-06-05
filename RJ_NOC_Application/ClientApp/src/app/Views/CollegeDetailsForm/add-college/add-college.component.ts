@@ -839,15 +839,15 @@ export class AddCollegeComponent implements OnInit {
           this.ErrorMessage = data['ErrorMessage'];
           this.CollegeMediumList = data['Data'];
         }, error => console.error(error));
-      // university 
-      //await this.commonMasterService.GetUniversityByDepartmentId(departmentId)
-      //  .then((data: any) => {
-      //    data = JSON.parse(JSON.stringify(data));
-      //    this.State = data['State'];
-      //    this.SuccessMessage = data['SuccessMessage'];
-      //    this.ErrorMessage = data['ErrorMessage'];
-      //    this.UniversityList = data['Data'];
-      //  }, error => console.error(error));
+       //university 
+      await this.commonMasterService.GetUniversityByDepartmentId(departmentId)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.UniversityList = data['Data'];
+        }, error => console.error(error));
 
       //Management Type
       await this.commonMasterService.GetCommonMasterList_DTEManagementType(departmentId, "DTEManagementType", this.request.ParentSSOID)
@@ -1514,7 +1514,7 @@ export class AddCollegeComponent implements OnInit {
           this.request.TypeofCollege = data['Data']['TypeofCollege'];
 
 
-          await this.ddlCollegeType_TextChange(this.request.CollegeTypeID.toString())
+          //await this.ddlCollegeType_TextChange(this.request.CollegeTypeID.toString())
           this.request.UniversityID = data['Data']['UniversityID'];
           //if (!this.State) {
           //  //this.toastr.success(this.SuccessMessage)

@@ -207,6 +207,7 @@ export class OldNocDetailsDataModel {
   public UploadNOCDocPath: string = '';
   public Dis_FileName: string = '';
   public Remark: string = '';
+  public IssuedYearName: string = '';
   public SubjectData: OldNocDetails_SubjectDataModel[] = [];
 
   public Action: string = '';
