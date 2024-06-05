@@ -1,7 +1,11 @@
+/*::first-letter {
+  text-transform: capitalize !important;
+}*/
 body, html {
   font-family: 'Outfit', system-ui;
   font-size: 14px;
   background: #f4f4f4 !important;
+   
 }
 /* width */
 ::-webkit-scrollbar {

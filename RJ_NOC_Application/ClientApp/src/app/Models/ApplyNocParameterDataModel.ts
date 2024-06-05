@@ -223,7 +223,11 @@ export class ApplyNocParameterMasterList_ChangeInNameOfCollege {
   public Dis_DocumentName: string = '';
   public DocumentName: string = '';
   public DocumentPath: string = '';
-} 
+}
+export class ApplyNocParameterMasterList_ChangeInInspectionFee {
+  public ApplyNocID: number = 0;
+  public FeeAmount: number = 0;
+}
 export class ApplyNocParameterMasterList_ChangeInPlaceOfCollege {
   public ApplyNocID: number = 0;
   public FeeAmount: number = 0;

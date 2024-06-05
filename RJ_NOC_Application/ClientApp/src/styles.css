@@ -1,4 +1,12 @@
- 
+/*::first-letter {
+  text-transform: capitalize
+}
+body::first-letter {
+  text-transform: capitalize
+}
+body  {
+  text-transform: capitalize !important;
+}*/
 ::-webkit-scrollbar {
   width: 10px !important;
   height: 5px;
