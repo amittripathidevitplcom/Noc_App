@@ -831,12 +831,13 @@ export class ApplyNocParameterDetailsComponent implements OnInit {
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
     });
+ 
     this.ApplicationFinalSubmit = false;
     this.request.ApplyNOCID = item.ApplyNocApplicationID;
     this.request.CollegeID = item.CollegeID;
     this.request.DepartmentID = item.DepartmentID;
     this.ApplicationFinalSubmit = item.IsFinalSubmit;
-    this.ApplicationFee = item.TotalFeeAmount;
+    this.ApplicationFee = (Number(item.TotalFeeAmount) - Number(item.CurrentYearPaymentAmount)).toString();
     await this.GetPaymentMode();
     //if (this.request.DepartmentID == 4 || this.request.DepartmentID == 3) {
     //  await this.GetPaymentMode();
