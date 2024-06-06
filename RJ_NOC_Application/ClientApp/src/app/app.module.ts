@@ -395,6 +395,7 @@ import { BedRoomDetailComponent } from './Views/TabDetail/bed-room-detail/bed-ro
 import { PreviewBedCourseRoomDetailComponent } from './Views/TabDetail/preview-bed-course-room-detail/preview-bed-course-room-detail.component';
 import { AddApplicationPenaltyDCEComponent } from './Views/DCE/add-application-penalty-dce/add-application-penalty-dce.component';
 import { PenaltyApplicationListDCEComponent } from './Views/DCE/penalty-application-list-dce/penalty-application-list-dce.component';
+import { DefaulterCollegeRequestComponent } from './Views/DefaulterCollege/defaulter-college-request/defaulter-college-request.component';
  
 
 @NgModule({
@@ -790,6 +791,7 @@ import { PenaltyApplicationListDCEComponent } from './Views/DCE/penalty-applicat
     PreviewBedCourseRoomDetailComponent,
     AddApplicationPenaltyDCEComponent,
     PenaltyApplicationListDCEComponent,
+    DefaulterCollegeRequestComponent,
 
   ],
   imports: [

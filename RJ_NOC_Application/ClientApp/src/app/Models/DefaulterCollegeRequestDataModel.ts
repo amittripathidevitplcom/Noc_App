@@ -1,0 +1,46 @@
+export class DefaulterCollegeRequestDataModel {
+  public DepartmentID: number = 0;
+  public SSOID: string = '';
+  public RequestID: number = 0;
+  public EverAppliedNOC: string = '0';
+  public IsPNOC: string = '0';
+  public FirstNOCDoc: string = '';
+  public FirstNOCDocPath: string = '';
+  public FirstNOCDoc_DisName: string = '';
+  public LastNOCDoc: string = '';
+  public LastNOCDocPath: string = '';
+  public LastNOCDoc_DisName: string = '';
+  public LatestAffiliationDoc: string = '';
+  public LatestAffiliationDocPath: string = '';
+  public LatestAffiliationDoc_DisName: string = '';
+  public ResultLastSessionDoc: string = '';
+  public ResultLastSessionDocPath: string = '';
+  public ResultLastSessionDoc_DisName: string = '';
+  public LastSessionProofOfExaminationDoc: string = '';
+  public LastSessionProofOfExaminationDocPath: string = '';
+  public LastSessionProofOfExaminationDoc_DisName: string = '';
+  public LastApplicationNo: string = '';
+  public LastApplicationSubmittedDate: string = '';
+  public CollegeName: string = '';
+  public CollegeNameHi: string = '';
+  public CollegeEmail: string = '';
+  public CollegeMobileNo: string = '';
+  public DivisionID: number = 0;
+  public DivisionName: string = '';
+  public DistrictID: number = 0;
+  public DistrictName: string = '';
+  public UniversityID: number = 0;
+  public UniversityName: string = '';
+  public CollegeTypeID: number = 0;
+  public CollegeType: string = '';
+  public CollegeLevelID: number = 0;
+  public CollegeLevel: string = '';
+  public EstablishmentYearID: number = 0;
+  public EstablishmentYear: string = '';
+  public CollegePresentStatusID: number = 0;
+  public CollegePresentStatus: string = '';
+  public CaseOperatedTNOCLevel: string = '';
+  public LastSessionOfTNOCID: number = 0;
+  public LastSessionOfTNOC: string = '';
+
+}

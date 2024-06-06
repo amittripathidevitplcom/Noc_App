@@ -1,0 +1,85 @@
+<app-loader></app-loader>
+<div class="container-fluid breadcrumbBox py-2">
+  <div class="row align-items-center">
+    <div class="col-md-6">
+      <h3>Defaulter College Request</h3>
+    </div>
+    <div class="col-md-6 d-flex justify-content-end">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="#">Home</a></li>
+          <li class="breadcrumb-item active" aria-current="page">Defaulter College Request</li>
+        </ol>
+      </nav>
+    </div>
+  </div>
+</div>
+<div class="container-fluid mainContents">
+  <div class="clearfix"></div>
+  <form [formGroup]="DefaulterCollegeForm" class="form-horizontal">
+    <div class="card">
+      <div class="card-header d-flex justify-content-between align-items-center">
+        <b>Personal Detail</b>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <!--<div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+    <label for="ddlDepartmentID" class="form-label">Select Department <span style="color:red;">*</span></label>
+    <select [attr.disabled]="IsEdit ? true : null" class="form-select" id="ddlDepartmentID" name="ddlDepartmentID" [(ngModel)]="request.DepartmentID" formControlName="ddlDepartmentID" #SeletedDepartmentID (change)="FillDepartmentRelatedDDL($event,SeletedDepartmentID.value)">
+      <option value="0">--Select--</option>
+      <option *ngFor="let item of DepartmentList" value="{{item.DepartmentID}}">{{item.DepartmentName}}</option>
+    </select>
+    <div *ngIf="isSubmitted&&form.ddlDepartmentID.errors" class="text-danger">
+      <p *ngIf="!form.ddlDepartmentID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
+    </div>
+  </div>-->
+          <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-3">
+            <label for="ddlEverAppliedNOC" class="form-label">Have you ever applied on NOC portal/क्या आपने कभी NOC पोर्टल पर आवेदन किया है? <span style="color:red;">*</span></label>
+            <select class="form-select" id="ddlEverAppliedNOC" name="ddlEverAppliedNOC" [(ngModel)]="request.EverAppliedNOC" formControlName="ddlEverAppliedNOC">
+              <option value="0">--Select--</option>
+              <option value="Yes">Yes</option>
+              <option value="No">No</option>
+            </select>
+            <div *ngIf="isSubmitted&&form.ddlEverAppliedNOC.errors" class="text-danger">
+              <p *ngIf="!form.ddlEverAppliedNOC.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="request.EverAppliedNOC=='Yes'">
+            <label for="txtLastApplicationNo" class="form-label">Last Application Number <span style="color:red;">*</span></label>
+            <input class="form-control" id="txtLastApplicationNo" name="txtLastApplicationNo" [(ngModel)]="request.LastApplicationNo" formControlName="txtLastApplicationNo" maxlength="50">
+            <div *ngIf="isSubmitted&&form.txtLastApplicationNo.errors" class="text-danger">
+              <p *ngIf="form.txtLastApplicationNo.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="request.EverAppliedNOC=='Yes'">
+            <label for="txtLastApplicationSubmittedDate" class="form-label">Submitted Application Date <span style="color:red;">*</span></label>
+            <input type="date" class="form-control" id="txtLastApplicationSubmittedDate" [(ngModel)]="request.LastApplicationSubmittedDate" min="{{MinDate | date:'yyyy-MM-dd'}}" formControlName="txtLastApplicationSubmittedDate" onkeypress="return false;" />
+            <div *ngIf="isSubmitted&&form.txtLastApplicationSubmittedDate.errors" class="text-danger">
+              <p *ngIf="form.txtLastApplicationSubmittedDate.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-3">
+            <label for="ddlIsPNOC" class="form-label">क्या आप PNOC प्राप्त हैं? <span style="color:red;">*</span></label>
+            <select class="form-select" id="ddlIsPNOC" name="ddlIsPNOC" [(ngModel)]="request.IsPNOC" formControlName="ddlIsPNOC">
+              <option value="0">--Select--</option>
+              <option value="Yes">Yes</option>
+              <option value="No">No</option>
+            </select>
+            <div *ngIf="isSubmitted&&form.ddlIsPNOC.errors" class="text-danger">
+              <p *ngIf="!form.ddlIsPNOC.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
+            </div>
+          </div>
+        </div>
+
+
+
+
+      </div>
+
+    </div>
+
+  </form>
+
+</div>
