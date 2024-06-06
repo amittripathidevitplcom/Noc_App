@@ -181,11 +181,11 @@ export class OtherInformationComponent implements OnInit {
   get form() { return this.OtherInformationForm.controls; }
 
 
-  LoadMaster(OtherInformationID: number) {
+  async LoadMaster(OtherInformationID: number) {
     try {
       this.loaderService.requestStarted();
       this.courseDataList = [];
-      this.commonMasterService.OtherInformationList_DepartmentCollegeAndTypeWise(this.SelectedDepartmentID, this.SelectedCollageID, OtherInformationID, "OtherInformation")
+      await this.commonMasterService.OtherInformationList_DepartmentCollegeAndTypeWise(this.SelectedDepartmentID, this.SelectedCollageID, OtherInformationID, "OtherInformation")
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.courseDataList = data['Data'];
@@ -737,7 +737,7 @@ export class OtherInformationComponent implements OnInit {
           this.request.ImageFileName = data['Data'][0]["ImageFileName"];
           this.request.ImageFilePath = data['Data'][0]["ImageFilePath"];
           this.request.Image_Dis_FileName = data['Data'][0]["Image_Dis_FileName"];
-          if (data['Data'][0]["NoofBooks"] != '' && data['Data'][0]["NoofBooks"] != 0 && data['Data'][0]["BookImageFileName"] != '') {
+          if (data['Data'][0]["NoofBooks"] != '' && data['Data'][0]["NoofBooks"] != 0) {  //&& data['Data'][0]["BookImageFileName"] != ''
             this.ShowHideBook = true;
             this.showBookImageFilePath = true;
             this.request.NoofBooks = data['Data'][0]["NoofBooks"];

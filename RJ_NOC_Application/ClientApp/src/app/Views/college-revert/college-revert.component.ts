@@ -140,8 +140,8 @@ export class CollegeRevertComponent implements OnInit {
         ddlSubdivisionID: ['', [DropdownValidators]],
         ddlTehsilID: ['', [DropdownValidators]],
         ddlPanchayatSamitiID: ['', [DropdownValidators]],
-        ddlParliamentAreaID: ['', [DropdownValidators]],
-        ddlAssemblyAreaID: ['', [DropdownValidators]],
+        ddlParliamentAreaID: [''],//, [DropdownValidators]
+        ddlAssemblyAreaID: [''],//, [DropdownValidators]
         txtCityTownVillage: ['', Validators.required],
         ddlYearofEstablishment: ['', [DropdownValidators]],
         txtPincode: ['', [Validators.required, Validators.pattern(this.PinNoRegex)]],
