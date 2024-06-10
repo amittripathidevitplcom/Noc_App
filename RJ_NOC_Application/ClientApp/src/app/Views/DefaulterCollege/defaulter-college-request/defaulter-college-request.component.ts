@@ -6,13 +6,13 @@ import { CommonMasterService } from '../../../Services/CommonMaster/common-maste
 import { ActivatedRoute, Router } from '@angular/router';
 import { FileUploadService } from '../../../Services/FileUpload/file-upload.service';
 import { DropdownValidators, DropdownValidatorsString } from '../../../Services/CustomValidators/custom-validators.service';
-import { DefaulterCollegeRequestDataModel } from '../../../Models/DefaulterCollegeRequestDataModel';
+import { DefaulterCollegeRequestDataModel, DefaulterCollegeSearchFilterDataModel } from '../../../Models/DefaulterCollegeRequestDataModel';
 import { DefaulterCollegeRequestService } from '../../../Services/DefaulterCollegeRequest/DefaulterCollegeRequest.service';
 import { SSOLoginDataModel } from '../../../Models/SSOLoginDataModel';
 
 @Component({
   selector: 'app-defaulter-college-request',
-  templateUrl:'./defaulter-college-request.component.html',
+  templateUrl: './defaulter-college-request.component.html',
   styleUrls: ['./defaulter-college-request.component.css']
 })
 export class DefaulterCollegeRequestComponent {
@@ -22,6 +22,7 @@ export class DefaulterCollegeRequestComponent {
   public ErrorMessage: any = [];
   public isSubmitted: boolean = false;
   public isLoading: boolean = false;
+  public UserID: number = 0;
 
   public DivisionList: any = [];
   public DistrictList: any = [];
@@ -31,6 +32,7 @@ export class DefaulterCollegeRequestComponent {
   public CollegeLevelList: any = [];
   public CollegeLevelList_FilterData: any = [];
   public EstablishmentYearList: any = [];
+  public DefaulterCollegeList: any = [];
   //Files
   public file!: File;
   public showFirstNOCDoc: boolean = false;
@@ -46,6 +48,7 @@ export class DefaulterCollegeRequestComponent {
 
 
   request = new DefaulterCollegeRequestDataModel();
+  searchrequest = new DefaulterCollegeSearchFilterDataModel();
   sSOLoginDataModel = new SSOLoginDataModel();
   constructor(private DefaulterCollegeRequestService: DefaulterCollegeRequestService, private toastr: ToastrService, private loaderService: LoaderService, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private fileUploadService: FileUploadService) {
   }
@@ -350,7 +353,7 @@ export class DefaulterCollegeRequestComponent {
       this.DefaulterCollegeForm.get('ddlEstablishmentYearID')?.clearValidators();
 
     }
-    else if(SelectedEverAppliedId == 'No') {
+    else if (SelectedEverAppliedId == 'No') {
       //set Validators
       this.DefaulterCollegeForm.get('txtCollegeNameEn')?.setValidators([Validators.required]);
       this.DefaulterCollegeForm.get('ddlDivisionID')?.setValidators([DropdownValidators]);
@@ -557,4 +560,27 @@ export class DefaulterCollegeRequestComponent {
     }
   }
 
+  async GetDefaulterCollegeList() {
+    this.searchrequest.SSOID = this.sSOLoginDataModel.SSOID;
+    this.searchrequest.DepartmentID = this.sSOLoginDataModel.DepartmentID;
+    try {
+      this.loaderService.requestStarted();
+      await this.DefaulterCollegeRequestService.GetDefaulterCollegeRequestData(this.searchrequest)
+        .then(async (data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.DefaulterCollegeList = data['Data'][0]['data'];
+        })
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
 }

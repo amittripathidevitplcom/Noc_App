@@ -43,3 +43,9 @@ export class DefaulterCollegeRequestDataModel {
   public LastSessionOfTNOCID: number = 0;
   public LastSessionOfTNOC: string = '';
 }
+export class DefaulterCollegeSearchFilterDataModel {
+  public UserID: number = 0;
+  public DepartmentID: number = 0;
+  public RequestID: number = 0;
+  public SSOID: string = '';
+}
