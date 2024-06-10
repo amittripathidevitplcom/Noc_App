@@ -13,6 +13,7 @@ import { ApplicationCommitteeMemberdataModel, PostApplicationCommitteeMemberdata
 import { AnimalDocumentScrutinyService } from '../../../Services/AnimalDocumentScrutiny/animal-document-scrutiny.service';
 import { EnumCommitteType } from '../../../Common/enum-noc';
 import { Router } from '@angular/router';
+import { FileUploadService } from '../../../Services/FileUpload/file-upload.service';
 @Component({
   selector: 'app-ah-apply-noc-application-list',
   templateUrl: './ah-apply-noc-application-list.component.html',
@@ -56,7 +57,7 @@ export class AhApplyNocApplicationListComponent {
     private aadharServiceDetails: AadharServiceDetails, private committeeMasterService: CommitteeMasterService,
     private modalService: NgbModal, private loaderService: LoaderService, private toastr: ToastrService, private routers: Router,
     private formBuilder: FormBuilder,
-    private commonMasterService: CommonMasterService) { }
+    private commonMasterService: CommonMasterService, private fileUploadService: FileUploadService) { }
   async ngOnInit() {
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     if (this.sSOLoginDataModel.RoleID == 12) {
@@ -75,7 +76,8 @@ export class AhApplyNocApplicationListComponent {
       {
         txtCMNameOfPerson: ['', Validators.required],
         txtCMMobileNumber: ['', [Validators.required, Validators.pattern(this.MobileNoRegex)]],
-        txtSSOID: ['', Validators.required]
+        txtSSOID: ['', Validators.required],
+        fCommitteeMemberDocument: ['']
       })
     await this.GetApplyNOCApplicationListByRole(this.sSOLoginDataModel.RoleID, this.sSOLoginDataModel.UserID);
   }
@@ -102,6 +104,7 @@ export class AhApplyNocApplicationListComponent {
     }
   }
   async OpenAsignCommitteePopUP(content: any, ApplyNOCID: number, DepartmentID: number, CollegeID: number, ApplicationNo: string) {
+    this.request_MemberList = new PostApplicationCommitteeMemberdataModel();
     this.ApplicationNo = ApplicationNo;
     this.SelectedCollageID = CollegeID;
     this.SelectedDepartmentID = DepartmentID;
@@ -111,7 +114,7 @@ export class AhApplyNocApplicationListComponent {
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
     });
-    this.GetApplicationCommitteeList(ApplyNOCID)
+    await this.GetApplicationCommitteeList(ApplyNOCID)
   }
   private getDismissReason(reason: any): string {
     this.SelectedCollageID = 0;
@@ -135,6 +138,9 @@ export class AhApplyNocApplicationListComponent {
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
           this.request_MemberList.ApplicationCommitteeList = data['Data'];
+          this.request_MemberList.CommitteeDocument = data['Data'][0]['CommitteeDocument'];
+          this.request_MemberList.CommitteeDocumentPath = data['Data'][0]['CommitteeDocumentPath'];
+          this.request_MemberList.CommitteeDocument_DisName = data['Data'][0]['CommitteeDocument_DisName'];
         }, error => console.error(error));
     }
     catch (Ex) {
@@ -279,6 +285,11 @@ export class AhApplyNocApplicationListComponent {
       this.toastr.error("Atleast one primary member required");
       isValid = false;
     }
+    if (this.request_MemberList.CommitteeDocument=='')
+    {
+      this.toastr.error("Please add Committee Member Document");
+      isValid = false;
+    }
     if (!isValid) {
       return;
     }
@@ -346,6 +357,106 @@ export class AhApplyNocApplicationListComponent {
           this.ErrorMessage = data['ErrorMessage'];
           this.ApplicationTrailList = data['Data'];
         }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+
+  public file!: File;
+  async onFilechange(event: any) {
+    try {
+      this.loaderService.requestStarted();
+      this.file = event.target.files[0];
+      if (this.file) {
+        if (this.file.type == 'application/pdf') {
+          //size validation
+          if (this.file.size > 2000000) {
+            this.request_MemberList.CommitteeDocument = '';
+            this.request_MemberList.CommitteeDocumentPath = '';
+            this.request_MemberList.CommitteeDocument_DisName = '';
+            this.toastr.warning('Select less then 2MB File');
+            return
+          }
+          if (this.file.size < 100000) {
+            this.request_MemberList.CommitteeDocument = '';
+            this.request_MemberList.CommitteeDocumentPath = '';
+            this.request_MemberList.CommitteeDocument_DisName = '';
+            this.toastr.warning('Select more then 100kb File');
+            return
+          }
+        }
+        else {// type validation
+          this.request_MemberList.CommitteeDocument = '';
+          this.request_MemberList.CommitteeDocumentPath = '';
+          this.request_MemberList.CommitteeDocument_DisName = '';
+          this.toastr.warning('Select Only pdf file');
+          return
+        }
+        // upload to server folder
+        await this.fileUploadService.UploadDocument(this.file).then((data: any) => {
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          if (this.State == 0) {
+            this.request_MemberList.CommitteeDocument = data['Data'][0]["FileName"];
+            this.request_MemberList.CommitteeDocumentPath = data['Data'][0]["FilePath"];
+            this.request_MemberList.CommitteeDocument_DisName = data['Data'][0]["Dis_FileName"];
+          }
+          if (this.State == 1) {
+            this.toastr.error(this.ErrorMessage)
+          }
+          else if (this.State == 2) {
+            this.toastr.warning(this.ErrorMessage)
+          }
+        });
+      }
+      else {
+        this.request_MemberList.CommitteeDocument = '';
+        this.request_MemberList.CommitteeDocumentPath = '';
+        this.request_MemberList.CommitteeDocument_DisName ='';
+      }
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        event.target.value = null;
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+  async DeleteImage(file: string) {
+    try {
+
+      if (confirm("Are you sure you want to delete this ?")) {
+        this.loaderService.requestStarted();
+        // delete from server folder
+        await this.fileUploadService.DeleteDocument(file).then((data: any) => {
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          if (this.State == 0) {
+            this.request_MemberList.CommitteeDocument = '';
+            this.request_MemberList.CommitteeDocumentPath = '';
+            this.request_MemberList.CommitteeDocument_DisName = '';
+          }
+          if (this.State == 1) {
+            this.toastr.error(this.ErrorMessage)
+          }
+          else if (this.State == 2) {
+            this.toastr.warning(this.ErrorMessage)
+          }
+        });
+      }
     }
     catch (Ex) {
       console.log(Ex);

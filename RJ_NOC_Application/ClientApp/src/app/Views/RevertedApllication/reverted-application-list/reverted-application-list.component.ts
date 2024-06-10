@@ -69,7 +69,6 @@ export class RevertedApplicationListComponent implements OnInit {
   }
 
   async DraftEdit_OnClick(DepartmentID: number, CollegeID: number, ApplyNocApplicationID: number) {
-    debugger;
     if (DepartmentID == 5) {
 
       this.routers.navigate(['/applicationdetailentrymgone' + "/" + encodeURI(this.commonMasterService.Encrypt(DepartmentID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(CollegeID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(ApplyNocApplicationID.toString())) + "/R"]);
@@ -86,7 +85,7 @@ export class RevertedApplicationListComponent implements OnInit {
     this.routers.navigate(['/applicationsummary' + "/" + encodeURI(this.commonMasterService.Encrypt(DepartmentID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(CollegeID.toString()))]);
   }
 
-  async CheckList_OnClick(content: any, DepartmentID: number, CollegeID: number, ApplyNocApplicationID: number, ActionID: number) {
+  async CheckList_OnClick(content: any, DepartmentID: number, CollegeID: number, ApplyNocApplicationID: number, ActionID: number, RevertByRole: number) {
     if (DepartmentID == 5) {
       await this.GetRevertApllicationRemark(DepartmentID, ApplyNocApplicationID);
       this.modalService.open(content, { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' }).result.then((result) => {
@@ -95,10 +94,22 @@ export class RevertedApplicationListComponent implements OnInit {
         this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
       });
     }
-    else if (DepartmentID == 4)
-    {
+    else if (DepartmentID == 4) {
       var VerificationStep = ActionID == 3 ? 'Step1' : ActionID == 60 ? 'Step2' : 'NoStep';
       this.routers.navigate([]).then(result => { window.open('/revertchecklistdte' + "/" + encodeURI(this.commonMasterService.Encrypt(DepartmentID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(CollegeID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(ApplyNocApplicationID.toString())) + "/" + VerificationStep, '_blank'); });
+    }
+    else if (DepartmentID == 3) {
+      if (RevertByRole != 17) {
+        await this.GetRevertApplicationRemarkByDepartment(DepartmentID, ApplyNocApplicationID, RevertByRole);
+        this.modalService.open(content, { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' }).result.then((result) => {
+          this.closeResult = `Closed with: ${result}`;
+        }, (reason) => {
+          this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+        });
+      }
+      else {
+        this.routers.navigate([]).then(result => { window.open('/revertchecklistdce' + "/" + encodeURI(this.commonMasterService.Encrypt(DepartmentID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(CollegeID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(ApplyNocApplicationID.toString())), '_blank'); });
+      }
     }
     else {
       this.routers.navigate([]).then(result => { window.open('/revertchecklistdce' + "/" + encodeURI(this.commonMasterService.Encrypt(DepartmentID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(CollegeID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(ApplyNocApplicationID.toString())), '_blank'); });
@@ -201,6 +212,31 @@ export class RevertedApplicationListComponent implements OnInit {
     try {
       this.loaderService.requestStarted();
       await this.mg1DocumentScrutinyService.GetRevertApllicationRemark(DepartmentID, ApplicationID)
+        .then((data: any) => {
+          debugger;
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          if (data['Data'][0].length > 0) {
+            this.RevertRemarks = data['Data'][0][0]['Remark'];
+          }
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+  async GetRevertApplicationRemarkByDepartment(DepartmentID: number, ApplicationID: number, RoleID: number) {
+    try {
+      this.loaderService.requestStarted();
+      await this.decDocumentScrutinyService.GetRevertApplicationRemarkByDepartment(DepartmentID, ApplicationID, RoleID)
         .then((data: any) => {
           debugger;
           data = JSON.parse(JSON.stringify(data));

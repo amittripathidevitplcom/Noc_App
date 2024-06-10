@@ -14,6 +14,10 @@ export class ApplicationCommitteeMemberdataModel
   public CommitteeType?: string = '';
 
 
+
+
+
+
 }
 
 export class PostApplicationCommitteeMemberdataModel
@@ -22,6 +26,10 @@ export class PostApplicationCommitteeMemberdataModel
   public CollegeID?: number = 0
   public UserID?: number = 0
   public ApplyNocApplicationID?: number = 0;
+  public CommitteeDocument?: string = '';
+  public CommitteeDocumentPath?: string = '';
+  public CommitteeDocument_DisName?: string = '';
+
   public ApplicationCommitteeList: ApplicationCommitteeMemberdataModel[] = [];
 }
 
