@@ -4,6 +4,7 @@ import { throwError } from 'rxjs';
 import { catchError, } from 'rxjs/operators';
 import { DefaulterCollegeRequestDataModel, DefaulterCollegeSearchFilterDataModel } from '../../Models/DefaulterCollegeRequestDataModel';
 import { GlobalConstants } from '../../Common/GlobalConstants';
+import { ApplicationPenaltyDataModel } from '../../Models/ApplyNOCApplicationDataModel';
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +20,7 @@ export class DefaulterCollegeRequestService {
   }
 
   public async SaveData(request: DefaulterCollegeRequestDataModel) {
-    const headers = { 'content-type': 'application/json'}
+    const headers = { 'content-type': 'application/json' }
     const body = JSON.stringify(request);
     return await this.http.post(this.APIUrl + "/SaveData", body, { 'headers': headers })
       .pipe(
@@ -34,10 +35,40 @@ export class DefaulterCollegeRequestService {
       ).toPromise();
   }
 
-  public async Delete(RequestID: number,UserID: number) {
+  public async Delete(RequestID: number, UserID: number) {
     return await this.http.get(this.APIUrl + "/Delete/" + RequestID + '/' + UserID)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
+
+  public async SaveDefaulterCollegePenalty(request: ApplicationPenaltyDataModel) {
+    const headers = { 'content-type': 'application/json' }
+    const body = JSON.stringify(request);
+    return await this.http.post(this.APIUrl + '/SaveDefaulterCollegePenalty/', body, { 'headers': headers })
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+  public async GetDefaulterCollegePenalty(RequestID: number = 0, PenaltyID: number = 0) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl + "/GetDefaulterCollegePenalty/" + RequestID + "/" + PenaltyID)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+
+
+  public async DeleteDefaulterCollegePenalty(PenaltyID: number) {
+    const headers = { 'content-type': 'application/json' }
+    return await this.http.post(this.APIUrl + '/DeleteDefaulterCollegePenalty/' + PenaltyID, { 'headers': headers })
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+
 }

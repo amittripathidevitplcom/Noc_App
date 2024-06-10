@@ -233,6 +233,7 @@ import { StaffReportsComponent } from './Views/DCEReports/staff-reports/staff-re
 import { DuplicateAadharReportComponent } from './Views/DCEReports/duplicate-aadhar-report/duplicate-aadhar-report.component';
 import { PenaltyApplicationListDCEComponent } from './Views/DCE/penalty-application-list-dce/penalty-application-list-dce.component';
 import { DefaulterCollegeRequestComponent } from './Views/DefaulterCollege/defaulter-college-request/defaulter-college-request.component';
+import { AdminDefaulterCollegeListComponent } from './Views/Admin/admin-defaulter-college-list/admin-defaulter-college-list.component';
 
 
 const routes: Routes = [
@@ -954,6 +955,9 @@ const routes: Routes = [
       },
       {
         path: 'defaultercollegerequest', component: DefaulterCollegeRequestComponent
+      },
+      {
+        path: 'admindefaultercollegelist', component: AdminDefaulterCollegeListComponent
       },
 
     ]
