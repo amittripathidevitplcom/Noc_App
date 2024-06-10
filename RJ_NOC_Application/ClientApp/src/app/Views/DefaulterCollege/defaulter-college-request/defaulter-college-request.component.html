@@ -23,20 +23,11 @@
       </div>
       <div class="card-body">
         <div class="row">
-          <!--<div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-    <label for="ddlDepartmentID" class="form-label">Select Department <span style="color:red;">*</span></label>
-    <select [attr.disabled]="IsEdit ? true : null" class="form-select" id="ddlDepartmentID" name="ddlDepartmentID" [(ngModel)]="request.DepartmentID" formControlName="ddlDepartmentID" #SeletedDepartmentID (change)="FillDepartmentRelatedDDL($event,SeletedDepartmentID.value)">
-      <option value="0">--Select--</option>
-      <option *ngFor="let item of DepartmentList" value="{{item.DepartmentID}}">{{item.DepartmentName}}</option>
-    </select>
-    <div *ngIf="isSubmitted&&form.ddlDepartmentID.errors" class="text-danger">
-      <p *ngIf="!form.ddlDepartmentID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
-    </div>
-  </div>-->
           <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-3">
             <label for="ddlEverAppliedNOC" class="form-label">Have you ever applied on NOC portal/क्या आपने कभी NOC पोर्टल पर आवेदन किया है? <span style="color:red;">*</span></label>
-            <select class="form-select" id="ddlEverAppliedNOC" name="ddlEverAppliedNOC" [(ngModel)]="request.EverAppliedNOC" formControlName="ddlEverAppliedNOC">
-              <option value="0">--Select--</option>
+            <select class="form-select" id="ddlEverAppliedNOC" name="ddlEverAppliedNOC" [(ngModel)]="request.EverAppliedNOC" formControlName="ddlEverAppliedNOC" #SelectedEverAppliedNOCID
+                    (change)="ddlEverAppliedNOCStatus_TextChange($event,SelectedEverAppliedNOCID.value)">
+              <option value="0">Have you ever applied on NOC portal/क्या आपने कभी NOC पोर्टल पर आवेदन किया है?</option>
               <option value="Yes">Yes</option>
               <option value="No">No</option>
             </select>
@@ -46,7 +37,7 @@
           </div>
           <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="request.EverAppliedNOC=='Yes'">
             <label for="txtLastApplicationNo" class="form-label">Last Application Number <span style="color:red;">*</span></label>
-            <input class="form-control" id="txtLastApplicationNo" name="txtLastApplicationNo" [(ngModel)]="request.LastApplicationNo" formControlName="txtLastApplicationNo" maxlength="50">
+            <input class="form-control" id="txtLastApplicationNo" placeholder="Enter Last Application Number" name="txtLastApplicationNo" [(ngModel)]="request.LastApplicationNo" formControlName="txtLastApplicationNo" maxlength="50">
             <div *ngIf="isSubmitted&&form.txtLastApplicationNo.errors" class="text-danger">
               <p *ngIf="form.txtLastApplicationNo.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
             </div>
@@ -62,8 +53,9 @@
         <div class="row">
           <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-3">
             <label for="ddlIsPNOC" class="form-label">क्या आप PNOC प्राप्त हैं? <span style="color:red;">*</span></label>
-            <select class="form-select" id="ddlIsPNOC" name="ddlIsPNOC" [(ngModel)]="request.IsPNOC" formControlName="ddlIsPNOC">
-              <option value="0">--Select--</option>
+            <select class="form-select" id="ddlIsPNOC" name="ddlIsPNOC" [(ngModel)]="request.IsPNOC" formControlName="ddlIsPNOC" #SelectedIsPNOC
+                    (change)="ddlIsPNOCStatus_TextChange($event,SelectedIsPNOC.value)">
+              <option value="0">क्या आप PNOC प्राप्त हैं?</option>
               <option value="Yes">Yes</option>
               <option value="No">No</option>
             </select>
@@ -71,15 +63,253 @@
               <p *ngIf="!form.ddlIsPNOC.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
             </div>
           </div>
+
+          <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-3" *ngIf="request.IsPNOC=='Yes'">
+            <label for="ddlCaseOperatedTNOCLevel" class="form-label">क्या आपका कोई प्रकरण TNOC स्तर में संचालित है? <span style="color:red;">*</span></label>
+            <select class="form-select" id="ddlCaseOperatedTNOCLevel" name="ddlCaseOperatedTNOCLevel" [(ngModel)]="request.CaseOperatedTNOCLevel" formControlName="ddlCaseOperatedTNOCLevel">
+              <option value="0">---Select---</option>
+              <option value="Yes">Yes</option>
+              <option value="No">No</option>
+            </select>
+            <div *ngIf="isSubmitted&&form.ddlCaseOperatedTNOCLevel.errors" class="text-danger">
+              <p *ngIf="!form.ddlCaseOperatedTNOCLevel.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
+            </div>
+          </div>
+          <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-3" *ngIf="request.IsPNOC=='Yes'||request.IsPNOC=='No'">
+            <label for="ddlLastSessionOfTNOCID" class="form-label">अनापत्ति प्राप्त संचालित विषयों की TNOC का अन्तिम सत्र क्या है? <span style="color:red;">*</span></label>
+            <select class="form-select" id="ddlLastSessionOfTNOCID" name="ddlLastSessionOfTNOCID" [(ngModel)]="request.LastSessionOfTNOCID" formControlName="ddlLastSessionOfTNOCID">
+              <option value="0">--Select--</option>
+              <option *ngFor="let item of EstablishmentYearList" value="{{item.FinancialYearID}}">{{item.FinancialYearName}}</option>
+            </select>
+            <div *ngIf="isSubmitted&&form.ddlLastSessionOfTNOCID.errors" class="text-danger">
+              <p *ngIf="!form.ddlLastSessionOfTNOCID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
+            </div>
+          </div>
+
         </div>
 
+        <div class="row" *ngIf="request.EverAppliedNOC=='No'">
+          <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-3">
+            <label for="txtCollegeNameEn" maxlength="200" class="form-label">College Name<span style="color:red;">*</span></label>
+            <input [attr.disabled]="IsEdit ? true : null" type="text" class="form-control" id="txtCollegeNameEn" name="txtCollegeNameEn" [(ngModel)]="request.CollegeName" formControlName="txtCollegeNameEn" (keypress)="alphaOnly($event)">
+            <div *ngIf="isSubmitted&&form.txtCollegeNameEn.errors" class="text-danger">
+              <p *ngIf="form.txtCollegeNameEn.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+            </div>
+          </div>
+          <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-3">
+            <label for="ddlDivisionID" class="form-label">Division <span style="color:red;">*</span></label>
+            <select class="form-select" id="ddlDivisionID" name="ddlDivisionID" [(ngModel)]="request.DivisionID" formControlName="ddlDivisionID" #SelectedDivisionID (change)="FillDivisionRelatedDDL($event,SelectedDivisionID.value,null)">
+              <option value="0">--Select--</option>
+              <option *ngFor="let item of DivisionList" value="{{item.DivisionID}}">{{item.DivisionName}}</option>
+            </select>
+            <div *ngIf="isSubmitted&&form.ddlDivisionID.errors" class="text-danger">
+              <p *ngIf="!form.ddlDivisionID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
+            </div>
+          </div>
 
 
+          <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-3">
+            <label for="txtCollegeNameHi" maxlength="200" class="form-label">College Name in Hindi <span style="color:red;">*</span></label>
+            <input [attr.disabled]="IsEdit ? true : null" type="text" class="form-control" id="txtCollegeNameHi" name="txtCollegeNameHi" [(ngModel)]="request.CollegeNameHi" formControlName="txtCollegeNameHi">
+            <div *ngIf="isSubmitted&&form.txtCollegeNameHi.errors" class="text-danger">
+              <p *ngIf="form.txtCollegeNameHi.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+            </div>
+          </div>
+          <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-3">
+            <label for="ddlDistrictID" class="form-label">District <span style="color:red;">*</span></label>
+            <select class="form-select" id="ddlDistrictID" name="ddlDistrictID" [(ngModel)]="request.DistrictID" formControlName="ddlDistrictID">
+              <option value="0">--Select--</option>
+              <option *ngFor="let item of DistrictList" value="{{item.DistrictID}}">{{item.DistrictName}}</option>
+            </select>
+            <div *ngIf="isSubmitted&&form.ddlDistrictID.errors" class="text-danger">
+              <p *ngIf="!form.ddlDistrictID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
+            </div>
+          </div>
+          <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-3">
+            <label for="txtEmail" class="form-label">College Email Address <span style="color:red;">*</span></label>
+            <input type="email" class="form-control" id="txtEmail" name="txtEmail" maxlength="50" [(ngModel)]="request.CollegeEmail" formControlName="txtEmail">
+            <div *ngIf="isSubmitted&&form.txtEmail.errors" class="text-danger">
+              <p *ngIf="form.txtEmail.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+              <!--<p *ngIf="form.txtEmail.errors.email"><i aria-hidden="true"></i> Invalid Email .!</p>-->
+              <p *ngIf="form.txtEmail.errors.pattern">Invalid Email .!</p>
+            </div>
+          </div>
+          <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-3">
+            <label for="txtMobileNumber" class="form-label">College Mobile Number <span style="color:red;">*</span></label>
+            <input class="form-control" id="txtMobileNumber" name="txtMobileNumber" [(ngModel)]="request.CollegeMobileNo" formControlName="txtMobileNumber" maxlength="10" (keypress)="numberOnly($event)">
+            <div *ngIf="isSubmitted&&form.txtMobileNumber.errors" class="text-danger">
+              <p *ngIf="form.txtMobileNumber.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+              <p *ngIf="form.txtMobileNumber.errors.pattern"><i aria-hidden="true"></i> College Mobile number is not valid .!</p>
+            </div>
+          </div>
+
+          <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-3">
+            <label for="ddlCollegeTypeID" class="form-label">Select College Type <span style="color:red;">*</span></label>
+            <select [attr.disabled]="IsEdit ? true : null" class="form-select" id="ddlCollegeTypeID" name="ddlCollegeTypeID" [(ngModel)]="request.CollegeTypeID" formControlName="ddlCollegeTypeID"
+                    #SelectedCollegeTypeID (change)="ddlCollegeType_TextChange(SelectedCollegeTypeID.value)">
+              <option value="0">--Select--</option>
+              <option *ngFor="let item of CollegeTypeList" value="{{item.ID}}">{{item.Name}}</option>
+            </select>
+            <div *ngIf="isSubmitted&&form.ddlCollegeTypeID.errors" class="text-danger">
+              <p *ngIf="!form.ddlCollegeTypeID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
+            </div>
+          </div>
+
+          <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-3">
+            <label for="ddlUniversityID" class="form-label">
+              <span *ngIf="request.DepartmentID==6"> University / RMC </span>
+              <span *ngIf="request.DepartmentID==1"> Affiliated University </span>
+              <span *ngIf="request.DepartmentID !=6 && request.DepartmentID !=1"> University Name</span>
+              <span style="color:red;">*</span>
+            </label>
+
+
+            <select class="form-select" id="ddlUniversityID" name="ddlUniversityID" [(ngModel)]="request.UniversityID" formControlName="ddlUniversityID">
+              <option value="0">--Select--</option>
+              <option *ngFor="let item of UniversityList" value="{{item.UniversityID}}">{{item.UniversityName}}</option>
+            </select>
+            <div *ngIf="isSubmitted&&form.ddlUniversityID.errors" class="text-danger">
+              <p *ngIf="!form.ddlUniversityID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
+            </div>
+          </div>
+          <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-3">
+            <label for="ddlPresentCollegeStatus" class="form-label">Present Status of College <span style="color:red;">*</span></label>
+            <select class="form-select" id="ddlPresentCollegeStatus" name="ddlPresentCollegeStatus"
+                    [(ngModel)]="request.CollegePresentStatusID" formControlName="ddlPresentCollegeStatus" #SelectedPresentCollegeStatusID
+                    (change)="ddlPresentCollegeStatus_TextChange($event,SelectedPresentCollegeStatusID.value)">
+              <option value="0">--Select--</option>
+              <option *ngFor="let item of PresentCollegeStatusList" value="{{item.ID}}">{{item.Name}}</option>
+            </select>
+            <div *ngIf="isSubmitted&&form.ddlPresentCollegeStatus.errors" class="text-danger">
+              <p *ngIf="!form.ddlPresentCollegeStatus.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
+            </div>
+          </div>
+
+          <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-3">
+            <label for="ddlCollegeLevelID" class="form-label">College Level <span style="color:red;">*</span></label>
+            <select [attr.disabled]="IsEdit ? true : null" class="form-select" id="ddlCollegeLevelID" name="ddlCollegeLevelID" [(ngModel)]="request.CollegeLevelID" formControlName="ddlCollegeLevelID">
+              <option value="0">--Select--</option>
+              <option *ngFor="let item of CollegeLevelList_FilterData" value="{{item.ID}}">{{item.Name}}</option>
+            </select>
+            <p *ngIf="isSubmitted&&request.DepartmentID!=4&&request.CollegeLevelID<=0" class="text-danger"><i aria-hidden="true"></i>This field is required .!</p>
+          </div>
+
+          <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-3">
+            <label for="ddlEstablishmentYearID" class="form-label">Establishment Year<span style="color:red;">*</span></label>
+            <select [attr.disabled]="IsEdit ? true : null" class="form-select" id="ddlEstablishmentYearID" name="ddlEstablishmentYearID" [(ngModel)]="request.EstablishmentYearID" formControlName="ddlEstablishmentYearID">
+              <option value="0">--Select--</option>
+              <option *ngFor="let item of EstablishmentYearList" value="{{item.FinancialYearID}}">{{item.FinancialYearName}}</option>
+            </select>
+            <p *ngIf="isSubmitted&&request.DepartmentID!=4&&request.EstablishmentYearID<=0" class="text-danger"><i aria-hidden="true"></i>This field is required .!</p>
+          </div>
+
+        </div>
+
+        <div class="row">
+          <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-3">
+            <label class="form-label">First Noc(Only pdf/image file.)(Min.Size 500KB)(Max.Size 2MB):<span style="color:red;">*</span></label>
+            <div class="d-flex">
+              <input type="file" style="display:none;" class="form-control" id="FirstNOCDoc" name="FirstNOCDoc" (change)="onFilechange($event,'FirstNOCDoc')" formControlName="FirstNOCDoc">
+              <label class="btn upload" for="FirstNOCDoc">
+                <span class="filename">Choose file</span>
+                {{request.FirstNOCDoc === '' ? 'No File Choosen' : request.FirstNOCDoc_DisName}}
+              </label>
+              <div class="btn-group" *ngIf="showFirstNOCDoc">
+                <a class="btn btn-outline-primary" target="_blank" href="{{request.FirstNOCDocPath}}"><i class="fa fa-eye"></i></a>
+                <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('FirstNOCDoc',request.FirstNOCDoc)"><i class="fa fa-trash-o"></i></button>
+              </div>
+            </div>
+            <div *ngIf="FirstNOCDocValidationMessage!=''" class="text-danger">
+              <p><i aria-hidden="true"></i>{{FirstNOCDocValidationMessage}}</p>
+            </div>
+          </div>
+
+          <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-3">
+            <label class="form-label">Last Noc(Only pdf/image file.)(Min.Size 500KB)(Max.Size 2MB):<span style="color:red;">*</span></label>
+            <div class="d-flex">
+              <input type="file" style="display:none;" class="form-control" id="LastNOCDoc" name="LastNOCDoc" (change)="onFilechange($event,'LastNOCDoc')" formControlName="LastNOCDoc">
+              <label class="btn upload" for="LastNOCDoc">
+                <span class="filename">Choose file</span>
+                {{request.LastNOCDoc === '' ? 'No File Choosen' : request.LastNOCDoc_DisName}}
+              </label>
+              <div class="btn-group" *ngIf="showLastNOCDoc">
+                <a class="btn btn-outline-primary" target="_blank" href="{{request.LastNOCDocPath}}"><i class="fa fa-eye"></i></a>
+                <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('LastNOCDoc',request.LastNOCDoc)"><i class="fa fa-trash-o"></i></button>
+              </div>
+            </div>
+            <div *ngIf="LastNOCDocValidationMessage!=''" class="text-danger">
+              <p><i aria-hidden="true"></i>{{LastNOCDocValidationMessage}}</p>
+            </div>
+          </div>
+
+          <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-3">
+            <label class="form-label">Latest Affiliation of University/Proof of Latest Affiliation(Only pdf/image file.)(Min.Size 500KB)(Max.Size 2MB):<span style="color:red;">*</span></label>
+            <div class="d-flex">
+              <input type="file" style="display:none;" class="form-control" id="LatestAffiliationDoc" name="LatestAffiliationDoc" (change)="onFilechange($event,'LatestAffiliationDoc')" formControlName="LatestAffiliationDoc">
+              <label class="btn upload" for="LatestAffiliationDoc">
+                <span class="filename">Choose file</span>
+                {{request.LatestAffiliationDoc === '' ? 'No File Choosen' : request.LatestAffiliationDoc_DisName}}
+              </label>
+              <div class="btn-group" *ngIf="showLatestAffiliationDoc">
+                <a class="btn btn-outline-primary" target="_blank" href="{{request.LatestAffiliationDocPath}}"><i class="fa fa-eye"></i></a>
+                <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('LatestAffiliationDoc',request.LatestAffiliationDoc)"><i class="fa fa-trash-o"></i></button>
+              </div>
+            </div>
+            <div *ngIf="LatestAffiliationDocValidationMessage!=''" class="text-danger">
+              <p><i aria-hidden="true"></i>{{LatestAffiliationDocValidationMessage}}</p>
+            </div>
+          </div>
+
+          <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-3">
+            <label class="form-label">Result of session 2022-23(copy of TR of first year university result of each course running in college)(Only pdf/image file.)(Min.Size 500KB)(Max.Size 2MB):<span style="color:red;">*</span></label>
+            <div class="d-flex">
+              <input type="file" style="display:none;" class="form-control" id="ResultLastSessionDoc" name="ResultLastSessionDoc" (change)="onFilechange($event,'ResultLastSessionDoc')" formControlName="ResultLastSessionDoc">
+              <label class="btn upload" for="ResultLastSessionDoc">
+                <span class="filename">Choose file</span>
+                {{request.ResultLastSessionDoc === '' ? 'No File Choosen' : request.ResultLastSessionDoc_DisName}}
+              </label>
+              <div class="btn-group" *ngIf="showResultLastSessionDoc">
+                <a class="btn btn-outline-primary" target="_blank" href="{{request.ResultLastSessionDocPath}}"><i class="fa fa-eye"></i></a>
+                <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('ResultLastSessionDoc',request.ResultLastSessionDoc)"><i class="fa fa-trash-o"></i></button>
+              </div>
+            </div>
+            <div *ngIf="ResultLastSessionDocValidationMessage!=''" class="text-danger">
+              <p><i aria-hidden="true"></i>{{ResultLastSessionDocValidationMessage}}</p>
+            </div>
+          </div>
+
+          <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-3">
+            <label class="form-label">Proof of Examinations form filled by students for session 2023-24(Only pdf/image file.)(Min.Size 500KB)(Max.Size 2MB):<span style="color:red;">*</span></label>
+            <div class="d-flex">
+              <input type="file" style="display:none;" class="form-control" id="LastSessionProofOfExaminationDoc" name="LastSessionProofOfExaminationDoc" (change)="onFilechange($event,'LastSessionProofOfExaminationDoc')" formControlName="LastSessionProofOfExaminationDoc">
+              <label class="btn upload" for="LastSessionProofOfExaminationDoc">
+                <span class="filename">Choose file</span>
+                {{request.LastSessionProofOfExaminationDoc === '' ? 'No File Choosen' : request.LastSessionProofOfExaminationDoc_DisName}}
+              </label>
+              <div class="btn-group" *ngIf="showLastSessionProofOfExaminationDoc">
+                <a class="btn btn-outline-primary" target="_blank" href="{{request.ResultLastSessionDocPath}}"><i class="fa fa-eye"></i></a>
+                <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('LastSessionProofOfExaminationDoc',request.LastSessionProofOfExaminationDoc)"><i class="fa fa-trash-o"></i></button>
+              </div>
+            </div>
+            <div *ngIf="LastSessionProofOfExaminationDocValidationMessage!=''" class="text-danger">
+              <p><i aria-hidden="true"></i>{{LastSessionProofOfExaminationDocValidationMessage}}</p>
+            </div>
+          </div>
+
+        </div>
+        <div class="card-footer">
+          <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-12 col-12 text-first">
+              <button type="submit" class="btn btn-success" (click)="SaveData()"><i class="fa fa-save"></i> Register</button>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12 col-12 text-end">
+              <button type="reset" class="btn btn-secondary">Cancel</button>
+            </div>
+          </div>
+        </div>
 
       </div>
-
     </div>
-
   </form>
 
 </div>

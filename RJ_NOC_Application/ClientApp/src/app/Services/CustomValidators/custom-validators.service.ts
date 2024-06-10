@@ -5,6 +5,12 @@ export function DropdownValidators(control: AbstractControl): { [key: string]: b
   }
   return null;
 }
+export function DropdownValidatorsString(control: AbstractControl): { [key: string]: boolean } | null {
+  if (control.value !== undefined && (control.value=='' || control.value == 0)) {
+    return { 'dropdown': true };
+  }
+  return null;
+}
 export function createPasswordStrengthValidator(control: AbstractControl): ValidatorFn {
   return (control: AbstractControl): { [key: string]: boolean } | null => {
     const value = control.value;

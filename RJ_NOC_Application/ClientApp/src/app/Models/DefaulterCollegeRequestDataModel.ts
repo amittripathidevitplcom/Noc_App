@@ -1,5 +1,5 @@
 export class DefaulterCollegeRequestDataModel {
-  public DepartmentID: number = 0;
+  public DepartmentID: number = 3;
   public SSOID: string = '';
   public RequestID: number = 0;
   public EverAppliedNOC: string = '0';
@@ -42,5 +42,4 @@ export class DefaulterCollegeRequestDataModel {
   public CaseOperatedTNOCLevel: string = '';
   public LastSessionOfTNOCID: number = 0;
   public LastSessionOfTNOC: string = '';
-
 }
