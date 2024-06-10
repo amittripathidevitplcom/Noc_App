@@ -35,7 +35,7 @@ export class DefaulterCollegeRequestService {
   }
 
   public async Delete(RequestID: number,UserID: number) {
-    return await this.http.get(this.APIUrl + "/Delete/" + RequestID + '/' + UserID)
+    return await this.http.post(this.APIUrl + "/Delete/" + RequestID + '/' + UserID, null)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();
