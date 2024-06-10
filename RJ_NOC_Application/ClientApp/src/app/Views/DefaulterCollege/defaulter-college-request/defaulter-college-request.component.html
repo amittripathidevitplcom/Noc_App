@@ -26,7 +26,7 @@
           <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-3">
             <label for="ddlEverAppliedNOC" class="form-label">Have you ever applied on NOC portal/क्या आपने कभी NOC पोर्टल पर आवेदन किया है? <span style="color:red;">*</span></label>
             <select class="form-select" id="ddlEverAppliedNOC" name="ddlEverAppliedNOC" [(ngModel)]="request.EverAppliedNOC" formControlName="ddlEverAppliedNOC" #SelectedEverAppliedNOCID
-                    (change)="ddlEverAppliedNOCStatus_TextChange($event,SelectedEverAppliedNOCID.value)">
+                    (change)="ddlEverAppliedNOCStatus_TextChange(SelectedEverAppliedNOCID.value)">
               <option value="0">Have you ever applied on NOC portal/क्या आपने कभी NOC पोर्टल पर आवेदन किया है?</option>
               <option value="Yes">Yes</option>
               <option value="No">No</option>
@@ -54,7 +54,7 @@
           <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-3">
             <label for="ddlIsPNOC" class="form-label">क्या आप PNOC प्राप्त हैं? <span style="color:red;">*</span></label>
             <select class="form-select" id="ddlIsPNOC" name="ddlIsPNOC" [(ngModel)]="request.IsPNOC" formControlName="ddlIsPNOC" #SelectedIsPNOC
-                    (change)="ddlIsPNOCStatus_TextChange($event,SelectedIsPNOC.value)">
+                    (change)="ddlIsPNOCStatus_TextChange(SelectedIsPNOC.value)">
               <option value="0">क्या आप PNOC प्राप्त हैं?</option>
               <option value="Yes">Yes</option>
               <option value="No">No</option>
@@ -98,7 +98,7 @@
           </div>
           <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-3">
             <label for="ddlDivisionID" class="form-label">Division <span style="color:red;">*</span></label>
-            <select class="form-select" id="ddlDivisionID" name="ddlDivisionID" [(ngModel)]="request.DivisionID" formControlName="ddlDivisionID" #SelectedDivisionID (change)="FillDivisionRelatedDDL($event,SelectedDivisionID.value,null)">
+            <select class="form-select" id="ddlDivisionID" name="ddlDivisionID" [(ngModel)]="request.DivisionID" formControlName="ddlDivisionID" #SelectedDivisionID (change)="FillDivisionRelatedDDL(SelectedDivisionID.value,null)">
               <option value="0">--Select--</option>
               <option *ngFor="let item of DivisionList" value="{{item.DivisionID}}">{{item.DivisionName}}</option>
             </select>
@@ -176,7 +176,7 @@
             <label for="ddlPresentCollegeStatus" class="form-label">Present Status of College <span style="color:red;">*</span></label>
             <select class="form-select" id="ddlPresentCollegeStatus" name="ddlPresentCollegeStatus"
                     [(ngModel)]="request.CollegePresentStatusID" formControlName="ddlPresentCollegeStatus" #SelectedPresentCollegeStatusID
-                    (change)="ddlPresentCollegeStatus_TextChange($event,SelectedPresentCollegeStatusID.value)">
+                    (change)="ddlPresentCollegeStatus_TextChange(SelectedPresentCollegeStatusID.value)">
               <option value="0">--Select--</option>
               <option *ngFor="let item of PresentCollegeStatusList" value="{{item.ID}}">{{item.Name}}</option>
             </select>
@@ -300,15 +300,58 @@
         <div class="card-footer">
           <div class="row">
             <div class="col-lg-6 col-md-6 col-sm-12 col-12 text-first">
-              <button type="submit" class="btn btn-success" (click)="SaveData()"><i class="fa fa-save"></i> Register</button>
+              <button type="submit" class="btn btn-success" (click)="SaveData()" id="btnSave"><i class="fa fa-save"></i> Register</button>
             </div>
             <div class="col-lg-6 col-md-6 col-sm-12 col-12 text-end">
-              <button type="reset" class="btn btn-secondary">Cancel</button>
+              <button type="reset" class="btn btn-secondary" (click)="ClearForm()">Cancel</button>
             </div>
           </div>
         </div>
 
       </div>
+    </div>
+    <div class="card mb-0" *ngIf="DefaulterCollegeList.length>0">
+      <div class="card-header d-xxl-flex d-xl-flex d-md-flex d-sm-block justify-content-between align-items-center">
+        <b>Defaulter College Requests</b>
+        
+      </div>
+
+      <div class="table-responsive">
+        <table class="table table-hover table-striped-columns mb-0" id="tabellist" #content>
+          <thead>
+            <tr>
+              <th>SNo</th>
+              <th>EverApplied NOC</th>
+              <th>IsPNOC</th>
+              <th>FirstNOC Doc</th>
+              <th>LastNOC Doc</th>
+              <th>LastApplication No</th>
+              <th>College</th>
+              <th>University</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let row of DefaulterCollegeList | tableSearchFilter:searchText;let idx=index;">
+              <td>{{idx+1}}</td>
+              <td>{{row.EverAppliedNOC}}</td>
+              <td>{{row.IsPNOC}}</td>
+              <td><a target="_blank" href="{{row.FirstNOCDocPath}}"><i class="fa fa-eye"></i></a></td>
+              <td><a target="_blank" href="{{row.LastNOCDocPath}}"><i class="fa fa-eye"></i></a></td>
+              <td>{{row.LastApplicationNo}}</td>
+              <td>{{row.CollegeName}}</td>
+              <td>{{row.UniversityName}}</td>
+              <td>
+                <div class="d-flex">
+                  <button type="button" (click)="Edit_OnClick(row.RequestID)" title="Edit" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></button>
+                  <button type="button" class="btn btn-sm btn-danger" title="Delete" (click)="Delete_OnClick(row.RequestID)"><i class="fa fa-trash"></i></button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
     </div>
   </form>
 

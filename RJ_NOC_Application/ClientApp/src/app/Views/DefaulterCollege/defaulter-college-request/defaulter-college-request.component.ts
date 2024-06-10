@@ -82,6 +82,7 @@ export class DefaulterCollegeRequestComponent {
       });
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     await this.GetDDLList();
+    await this.GetDefaulterCollegeList();
   }
 
 
@@ -152,7 +153,7 @@ export class DefaulterCollegeRequestComponent {
     }
   }
 
-  async FillDivisionRelatedDDL(event: any, SelectedDivisionID: string,) {
+  async FillDivisionRelatedDDL(SelectedDivisionID: string,) {
     try {
       this.loaderService.requestStarted();
       const divisionId = Number(SelectedDivisionID);
@@ -222,7 +223,7 @@ export class DefaulterCollegeRequestComponent {
 
   }
 
-  async ddlPresentCollegeStatus_TextChange(event: any, SelectedPresentCollegeStatusID: string) {
+  async ddlPresentCollegeStatus_TextChange(SelectedPresentCollegeStatusID: string) {
     if (3 == 3) {
       try {
         this.loaderService.requestStarted();
@@ -289,18 +290,14 @@ export class DefaulterCollegeRequestComponent {
 
     try {
       await this.DefaulterCollegeRequestService.SaveData(this.request)
-        .then((data: any) => {
+        .then(async (data: any) => {
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
           if (this.State == 0) {
             this.toastr.success(this.SuccessMessage)
-            this.DefaulterCollegeForm.reset();
-            this.request.FirstNOCDoc = '';
-            this.request.LastNOCDoc = '';
-            this.request.LatestAffiliationDoc = '';
-            this.request.ResultLastSessionDoc = '';
-            this.request.LastSessionProofOfExaminationDoc = '';
+            await this.ClearForm();
+            await this.GetDefaulterCollegeList();
           }
           else if (this.State == 2) {
             this.toastr.warning(this.ErrorMessage)
@@ -322,7 +319,7 @@ export class DefaulterCollegeRequestComponent {
 
   }
 
-  async ddlEverAppliedNOCStatus_TextChange(event: any, SelectedEverAppliedId: string) {
+  async ddlEverAppliedNOCStatus_TextChange(SelectedEverAppliedId: string) {
     if (SelectedEverAppliedId == 'Yes') {
       //set Validators
       this.DefaulterCollegeForm.get('txtLastApplicationNo')?.setValidators([Validators.required]);
@@ -390,7 +387,7 @@ export class DefaulterCollegeRequestComponent {
     this.DefaulterCollegeForm.get('ddlEstablishmentYearID')?.updateValueAndValidity();
   }
 
-  async ddlIsPNOCStatus_TextChange(event: any, SelectedIsPNOCId: string) {
+  async ddlIsPNOCStatus_TextChange(SelectedIsPNOCId: string) {
     if (SelectedIsPNOCId == 'Yes') {
       this.DefaulterCollegeForm.get('ddlCaseOperatedTNOCLevel')?.setValidators([DropdownValidatorsString]);
     }
@@ -572,6 +569,7 @@ export class DefaulterCollegeRequestComponent {
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
           this.DefaulterCollegeList = data['Data'][0]['data'];
+          console.log(JSON.parse(JSON.stringify(this.DefaulterCollegeList)));
         })
     }
     catch (Ex) {
@@ -582,5 +580,76 @@ export class DefaulterCollegeRequestComponent {
         this.loaderService.requestEnded();
       }, 200);
     }
+  }
+  async Edit_OnClick(RequestID: number) {
+    this.isSubmitted = false;
+    try {
+      this.loaderService.requestStarted();
+      this.searchrequest.RequestID = RequestID;
+      this.searchrequest.UserID = this.UserID;
+
+      await this.DefaulterCollegeRequestService.GetDefaulterCollegeRequestData(this.searchrequest)
+        .then(async (data: any) => {
+
+          data = JSON.parse(JSON.stringify(data));
+          this.request = data['Data'][0]['data'][0];
+          if (this.request.EverAppliedNOC == 'No') {
+            await this.FillDivisionRelatedDDL(this.request.DivisionID.toString());
+            await this.ddlCollegeType_TextChange(this.request.CollegeTypeID.toString());
+            await this.ddlPresentCollegeStatus_TextChange(this.request.CollegePresentStatusID.toString());
+          }
+          await this.ddlEverAppliedNOCStatus_TextChange(this.request.EverAppliedNOC);
+          await this.ddlIsPNOCStatus_TextChange(this.request.IsPNOC);
+
+          const btnSave = document.getElementById('btnSave')
+          if (btnSave) btnSave.innerHTML = "Update";
+
+        }, error => console.error(error));
+    }
+    catch (ex) { console.log(ex) }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+
+  }
+
+  async Delete_OnClick(RequestID: number) {
+    this.isSubmitted = false;
+    try {
+      if (confirm("Are you sure you want to delete this ?")) {
+        this.loaderService.requestStarted();
+        await this.DefaulterCollegeRequestService.Delete(RequestID, this.UserID)
+          .then((data: any) => {
+            this.State = data['State'];
+            this.SuccessMessage = data['SuccessMessage'];
+            this.ErrorMessage = data['ErrorMessage'];
+            if (this.State == 0) {
+              this.toastr.success(this.SuccessMessage)
+              this.GetDefaulterCollegeList();
+            }
+            else {
+              this.toastr.error(this.ErrorMessage)
+            }
+          })
+      }
+    }
+    catch (ex) { }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  async ClearForm() {
+    this.DefaulterCollegeForm.reset();
+    this.request.FirstNOCDoc = '';
+    this.request.LastNOCDoc = '';
+    this.request.LatestAffiliationDoc = '';
+    this.request.ResultLastSessionDoc = '';
+    this.request.LastSessionProofOfExaminationDoc = '';
+    const btnSave = document.getElementById('btnSave')
+    if (btnSave) btnSave.innerHTML = `<i class="fa fa-save"></i> Register`;
   }
 }
