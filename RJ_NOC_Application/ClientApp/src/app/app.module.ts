@@ -794,7 +794,7 @@ import { AdminDefaulterCollegeListComponent } from './Views/Admin/admin-defaulte
     AddApplicationPenaltyDCEComponent,
     PenaltyApplicationListDCEComponent,
     DefaulterCollegeRequestComponent,
-    CourseReportsComponent
+    CourseReportsComponent,
     AdminDefaulterCollegeListComponent,
 
   ],
