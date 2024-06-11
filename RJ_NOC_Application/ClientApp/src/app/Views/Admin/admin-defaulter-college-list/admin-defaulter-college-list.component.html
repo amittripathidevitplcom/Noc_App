@@ -246,8 +246,7 @@
             <th>Action</th>
           </tr>
         </thead>
-        <tbody *ngIf="DefaulterCollegePenaltyList !=null && DefaulterCollegePenaltyList.length>0">
-
+        <tbody>
           <tr *ngFor="let row of DefaulterCollegePenaltyList; let idx=index;">
             <td style="text-align:center;">{{idx+1}}</td>
             <td>{{row.Penaltyfor}}</td>
@@ -256,6 +255,9 @@
               <button type="submit" (click)="EditDefaulterCollegePenalty(row.PenaltyID)" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></button>
               <button type="submit" (click)="DeleteDefaulterCollegePenalty(row.PenaltyID)" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></button>
             </td>
+          </tr>
+          <tr *ngIf="DefaulterCollegePenaltyList.length==0">
+            <td colspan="10" class="text-center text-danger">No Data Found!</td>
           </tr>
         </tbody>
       </table>
