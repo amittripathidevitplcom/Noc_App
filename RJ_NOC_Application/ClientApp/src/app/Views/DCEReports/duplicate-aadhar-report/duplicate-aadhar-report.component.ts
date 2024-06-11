@@ -42,10 +42,11 @@ export class DuplicateAadharReportComponent implements OnInit {
 
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     await this.GetAllDesignation();
-    await this.GetDepartmentList(3);
+    await this.GetColleges_DepartmentWise(3);
     await this.GetDuplicateAadhaarReport();
 
   }
+
   async GetAllDesignation() {
     //Show Loading
     this.loaderService.requestStarted();
@@ -71,8 +72,7 @@ export class DuplicateAadharReportComponent implements OnInit {
     }
   }
 
-  async GetDepartmentList(CollegeTypeID: number) {
-    debugger;
+  async GetColleges_DepartmentWise(CollegeTypeID: number) {
     try {
       this.loaderService.requestStarted();
       await this.collegeservice.GetCollegesByDepartmentID(3)
@@ -94,13 +94,16 @@ export class DuplicateAadharReportComponent implements OnInit {
     }
   }
   async GetDuplicateAadhaarReport() {
-    debugger;
-    try {
-      this.loaderService.requestStarted();
+         try {
+          this.loaderService.requestStarted();
+          if (this.request.MonthlySalary.toString() == '' || this.request.MonthlySalary.toString() == null || this.request.MonthlySalary.toString() == undefined) {
+            this.request.MonthlySalary = 0;
+          }
       await this.duplicateAadharReportService.GetDuplicateAadhaarReportDatail(this.request)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.GetDuplicateAadhaarDetailList = data['Data'][0]['data'];
+
         }, (error: any) => console.error(error));
     }
     catch (Ex) {
@@ -129,8 +132,21 @@ export class DuplicateAadharReportComponent implements OnInit {
     }
     return true;
   }
+  alphaOnly(event: any): boolean {  // Accept only alpha numerics, not special characters 
+    var regex = new RegExp("^[a-zA-Z ]+$");
+    var str = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+    if (regex.test(str)) {
+      return true;
+    }
+    event.preventDefault();
+    return false;
+  }
   async ResetControl() {
-    this.request = new DuplicateAadharReportDataModel();
+    this.request = new DuplicateAadharReportDataModel()
+    this.requestlst = new DuplicateAadharReportFilter()
+    this.GetDuplicateAadhaarReport();
+    
+    
   }
 
 

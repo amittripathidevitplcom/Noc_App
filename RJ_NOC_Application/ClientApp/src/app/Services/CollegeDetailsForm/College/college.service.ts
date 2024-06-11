@@ -105,4 +105,5 @@ export class CollegeService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
+   
 }

@@ -396,6 +396,7 @@ import { PreviewBedCourseRoomDetailComponent } from './Views/TabDetail/preview-b
 import { AddApplicationPenaltyDCEComponent } from './Views/DCE/add-application-penalty-dce/add-application-penalty-dce.component';
 import { PenaltyApplicationListDCEComponent } from './Views/DCE/penalty-application-list-dce/penalty-application-list-dce.component';
 import { DefaulterCollegeRequestComponent } from './Views/DefaulterCollege/defaulter-college-request/defaulter-college-request.component';
+import { CourseReportsComponent } from './Views/DCEReports/course-reports/course-reports.component';
 import { AdminDefaulterCollegeListComponent } from './Views/Admin/admin-defaulter-college-list/admin-defaulter-college-list.component';
  
 
@@ -793,6 +794,7 @@ import { AdminDefaulterCollegeListComponent } from './Views/Admin/admin-defaulte
     AddApplicationPenaltyDCEComponent,
     PenaltyApplicationListDCEComponent,
     DefaulterCollegeRequestComponent,
+    CourseReportsComponent
     AdminDefaulterCollegeListComponent,
 
   ],

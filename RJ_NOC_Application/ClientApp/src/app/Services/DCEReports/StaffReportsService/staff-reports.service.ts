@@ -88,6 +88,7 @@ export class StaffReportsService {
 
 
   public async DCEStaffDetailsList(request: StaffReportDataModel) {
+    debugger;
     const headers = { 'content-type': 'application/json' }
     const body = JSON.stringify(request);
     return await this.http.post(this.APIUrl + "/DCEStaffDetailsList", body, { 'headers': headers })

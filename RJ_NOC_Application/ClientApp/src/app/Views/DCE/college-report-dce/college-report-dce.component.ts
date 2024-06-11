@@ -1,10 +1,10 @@
-import { Component, OnInit, Input, Injectable } from '@angular/core';
+import { Component, OnInit, Input, Injectable, ElementRef } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { LoaderService } from '../../../Services/Loader/loader.service';
 import { CommonMasterService } from '../../../Services/CommonMaster/common-master.service';
 import { SSOLoginDataModel } from '../../../Models/SSOLoginDataModel';
 import { __rest } from 'tslib';
-import { DCECollegesReportSearchFilter } from '../../../Models/SearchFilterDataModel';
+import { DCECollegesReportSearchFilter, DCECollegesReportSearchFilterAllData } from '../../../Models/SearchFilterDataModel';
 import { ApplyNocParameterService } from '../../../Services/Master/apply-noc-parameter.service';
 import { DCEDocumentScrutinyService } from '../../../Services/DCEDocumentScrutiny/dcedocument-scrutiny.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -21,6 +21,7 @@ import { CollegeService } from '../../../services/collegedetailsform/College/col
 export class CollegeReportDCEComponent implements OnInit {
   public searchText: string = '';
   request = new DCECollegesReportSearchFilter();
+  requestlst = new DCECollegesReportSearchFilterAllData();
   sSOLoginDataModel = new SSOLoginDataModel();
   public State: number = -1;
   public SuccessMessage: any = [];
@@ -48,19 +49,22 @@ export class CollegeReportDCEComponent implements OnInit {
   public CoursesList: any = [];
   public SubjectList: any = [];
 
+  isCardBodyHidden: boolean = true;
+
 
 
 
   public CollegeList: any = [];
 
 
-  constructor(private collegeservice:CollegeService,private routers: Router, private router: ActivatedRoute, private dceDocumentScrutinyService: DCEDocumentScrutinyService, private toastr: ToastrService, private loaderService: LoaderService, private commonMasterService: CommonMasterService, private applyNocParameterService: ApplyNocParameterService) {
+  constructor(private elementRef: ElementRef,private collegeservice:CollegeService,private routers: Router, private router: ActivatedRoute, private dceDocumentScrutinyService: DCEDocumentScrutinyService, private toastr: ToastrService, private loaderService: LoaderService, private commonMasterService: CommonMasterService, private applyNocParameterService: ApplyNocParameterService) {
   }
 
   async ngOnInit() {
     this.sSOLoginDataModel = JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     await this.LoadMaster();
     await this.GetCollegeReport();
+   // await this.GetCollegeReport();
   }
 
 
@@ -342,4 +346,14 @@ export class CollegeReportDCEComponent implements OnInit {
     this.request = new DCECollegesReportSearchFilter();
     await this.LoadMaster();
   }
+
+
+  
+
+  
+
+
+
+
+
 }

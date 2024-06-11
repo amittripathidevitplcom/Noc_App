@@ -38,11 +38,11 @@
             </div>
             <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
               <label for="txtFaculityName" class="form-label">Faculity Name: </label>
-              <input type="text" class="form-control" id="txtFaculityName" name="txtFaculityName" autocomplete="off" [(ngModel)]="request.FaculityName">
+              <input type="text" class="form-control" id="txtFaculityName" name="txtFaculityName" autocomplete="off" [(ngModel)]="request.FaculityName" (keypress)="alphaOnly($event)">
             </div>
             <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
               <label for="txtFaculityFatherName" class="form-label">Faculity Father Name: </label>
-              <input type="text" class="form-control" id="txtFaculityFatherName" name="txtFaculityFatherName" autocomplete="off" [(ngModel)]="request.FaculityFatherName">
+              <input type="text" class="form-control" id="txtFaculityFatherName" name="txtFaculityFatherName" autocomplete="off" [(ngModel)]="request.FaculityFatherName" (keypress)="alphaOnly($event)">
             </div>
             <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
               <label for="ddlGender" class="form-label">Gender:</label>
@@ -84,12 +84,12 @@
             <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
               <label for="dtDateOfAppointment" class="form-label">Date Of Appointment :</label>
               <input type="date" class="form-control" id="dtDateOfAppointment" name="dtDateOfAppointment" autocomplete="off"
-                     [(ngModel)]="request.DateOfAppointment" max="{{MaxDate | date:'yyyy-MM-dd'}}" onkeypress="return false;" />
+                     [(ngModel)]="request.DateOfAppointment"  onkeypress="return false;" />
             </div>
             <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
               <label for="dtDateOfJoining" class="form-label">Date Of Joining :</label>
               <input type="date" class="form-control" id="dtDateOfJoining" name="dtDateOfJoining" autocomplete="off"
-                     [(ngModel)]="request.DateOfJoining" max="{{MaxDate | date:'yyyy-MM-dd'}}" onkeypress="return false;" />
+                     [(ngModel)]="request.DateOfJoining"  onkeypress="return false;" />
             </div>
             <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
               <label for="txtMonthlySalary" class="form-label">Monthly Salary :</label>

@@ -1,0 +1,333 @@
+<!--<p>course-reports works!</p>-->
+<app-loader></app-loader>
+<div class="container-fluid breadcrumbBox py-2">
+  <div class="row align-items-center">
+    <div class="col-md-6">
+      <h3>Course-Report</h3>
+    </div>
+    <div class="col-md-6 d-flex justify-content-end">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item active" aria-current="page">Course-Report</li>
+        </ol>
+      </nav>
+    </div>
+  </div>
+</div>
+<div class="container-fluid mainContents">
+  <div class="card">
+    <div class="card-header">
+      <b>
+        <i class="bi bi-table"></i> Search Fields
+      </b>
+    </div>
+    <div class="card-body">
+      <div class="row">
+
+
+        <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
+          <label for="ddlCourseTypeID" class="form-label">New/Existing:</label>
+          <select class="form-select" id="ddlCourseTypeID" name="ddlCourseType" [(ngModel)]="request.CourseTypeID">
+            <option value="0">All</option>
+            <option *ngFor="let item of CourseTypeList" value="{{item.ID}}">{{item.Name}}</option>
+          </select>
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
+          <label for="ddlStatusofCollege" class="form-label">Status Of College:</label>
+          <select class="form-select" id="ddlStatusofCollege" name="ddlStatusofCollege" [(ngModel)]="request.StatusOfCollegeID">
+            <option value="0">All</option>
+            <option *ngFor="let item of StatusOfCollegeList" value="{{item.ID}}">{{item.Name}}</option>
+          </select>
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
+          <label for="ddlCollegeID" class="form-label">Institution:</label>
+          <select class="form-select" id="ddlCollegeID" name="ddlCollegeID" [(ngModel)]="request.CollegeID">
+            <option value="0">All</option>
+            <option *ngFor="let item of CollegeList" value="{{item.CollegeID}}">{{item.CollegeNameEn}}</option>
+          </select>
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
+          <label for="ddlUniversities" class="form-label">Universities:</label>
+          <select class="form-select" id="ddlUniversities" name="ddlUniversities" [(ngModel)]="request.UniversityID">
+            <option value="0">All</option>
+            <option *ngFor="let item of UniversityList"
+                    value="{{item.UniversityID}}">
+              {{item.UniversityName}}
+            </option>
+          </select>
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
+          <label for="ddlCourses" class="form-label">Courses:</label>
+          <select class="form-select" id="ddlCourses" name="ddlCourses"
+                  #SelectedCourseID (change)="GetSubjectList(SelectedCourseID.value)" [(ngModel)]="request.CourseID">
+            <option value="0">All</option>
+            <option *ngFor="let item of CoursesList"
+                    value="{{item.CourseID}}">
+              {{item.CourseName}}
+            </option>
+          </select>
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
+          <label for="ddlCourseNOCStatus" class="form-label">Course NOC Status:</label>
+          <select class="form-select" id="ddlCourseNOCStatus" name="ddlCourseNOCStatus" [(ngModel)]="request.CourseNOCStatusID">
+            <option value="0">All</option>
+            <option *ngFor="let item of CourseNOCStatusList" value="{{item.ID}}">{{item.Name}}</option>
+          </select>
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
+          <label for="ddlSubjects" class="form-label">Subjects:</label>
+          <select class="form-select" id="ddlSubjects" name="ddlSubjects" [(ngModel)]="request.SubjectID">
+            <option value="0">All</option>
+            <option *ngFor="let item of SubjectList"
+                    value="{{item.SubjectID}}">
+              {{item.SubjectName}}
+            </option>
+          </select>
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
+          <label for="txtEnrolledStudent" class="form-label">Enrolled Students:</label>
+          <input type="text" class="form-control" id="txtEnrolledStudent" name="txtEnrolledStudent" autocomplete="off" [(ngModel)]="request.EnrolledStudent" maxlength="10" (keypress)="numberOnly($event)" />
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
+          <label for="ddlCollegeLevel" class="form-label">Subject NOC Status:</label>
+          <select class="form-select" id="ddlCollegeLevel" name="ddlCollegeLevel" [(ngModel)]="request.SubjectNOCStatusID">
+            <option value="0">All</option>
+            <option *ngFor="let item of SubjectNOCStatusList" value="{{item.ID}}">{{item.Name}}</option>
+          </select>
+        </div>
+        <!--<div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
+        <label for="ddlStatusofCollege" class="form-label">Subject NOC Status:</label>
+        <select class="form-select" id="ddlStatusofCollege" name="ddlStatusofCollege" [(ngModel)]="request.StatusOfCollegeID">
+          <option value="0">All</option>
+          <option *ngFor="let item of StatusOfCollegeList" value="{{item.ID}}">{{item.Name}}</option>
+        </select>
+      </div>-->
+        <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
+          <label for="txtSubjectNOCOrderNo" class="form-label">Subject NOC Order No:</label>
+          <input type="text" class="form-control" id="txtSubjectNOCOrderNo" name="txtSubjectNOCOrderNo" autocomplete="off" [(ngModel)]="request.SubjectNOCOrderNo" maxlength="10" (keypress)="numberOnly($event)" />
+        </div>
+        <!--<div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
+        <label for="dtfromSubmittedDate" class="form-label">From Submitted Subject NOC Date:</label>
+        <input type="date" id="dtfromSubmittedDate" name="dtfromSubmittedDate" class="form-control" onkeypress="return false;" [(ngModel)]="request.FromSubmittedDate">
+      </div>-->
+        <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
+          <label for="dtFromSubmittedNOCDate" class="form-label">From Submitted Subject NOC Date:</label>
+          <input type="date" class="form-control" id="dtFromSubmittedNOCDate" name="dtFromSubmittedNOCDate" autocomplete="off"
+                 [(ngModel)]="request.FromSubmittedNOCDate" onkeypress="return false;" />
+        </div>
+        <!--<div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
+        <label for="dttoSubmittedDate" class="form-label">To Submitted Subject NOC Date:</label>
+        <input type="date" id="dttoSubmittedDate" name="dttoSubmittedDate" class="form-control" onkeypress="return false;" [(ngModel)]="request.ToSubmittedDate">
+      </div>-->
+        <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
+          <label for="dtToSubmittedNOCDate" class="form-label">To Submitted Subject NOC Date:</label>
+          <input type="date" class="form-control" id="dtToSubmittedNOCDate" name="dtToSubmittedNOCDate" autocomplete="off"
+                 [(ngModel)]="request.ToSubmittedNOCDate"  onkeypress="return false;" />
+        </div>
+      </div>
+
+
+
+
+      <div class="card mb-0">
+        <div class="card-header">
+          <b>
+            <i class="bi bi-table"></i> Fields to display in Report
+          </b>
+        </div>
+        <div class="card-body">
+          <div class="row">
+
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <div class="form-check form-check-inline">
+                <label class="form-check-label" for="ckIsShow1"><input class="form-check-input" type="checkbox" id="chkCourseTypeID" name="chkCourseTypeID" [(ngModel)]="requestlst.CourseType">&nbsp;New/Existing</label>
+
+              </div>
+            </div>
+
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <div class="form-check form-check-inline">
+                <label class="form-check-label" for="ckIsShow1"><input class="form-check-input" type="checkbox" id="chkStatusOfCollegeID" name="chkStatusOfCollegeID" [(ngModel)]="requestlst.StatusOfCollege">&nbsp;Status Of College</label>
+
+              </div>
+            </div>
+
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <div class="form-check form-check-inline">
+                <label class="form-check-label" for="ckIsShow1"><input class="form-check-input" type="checkbox" id="chkCollegeID" name="chkCollegeID" [(ngModel)]="requestlst.Institution">&nbsp;Institution</label>
+
+              </div>
+            </div>
+
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <div class="form-check form-check-inline">
+                <label class="form-check-label" for="ckIsShow1"><input class="form-check-input" type="checkbox" id="chkUniversityID" name="chkUniversityID" [(ngModel)]="requestlst.UniversityName">&nbsp;Universities</label>
+
+              </div>
+            </div>
+
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <div class="form-check form-check-inline">
+                <label class="form-check-label" for="ckIsShow1"><input class="form-check-input" type="checkbox" id="chkCourseID" name="chkCourseID" [(ngModel)]="requestlst.CourseName">&nbsp;Courses</label>
+
+              </div>
+            </div>
+
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <div class="form-check form-check-inline">
+                <label class="form-check-label" for="ckIsShow1"><input class="form-check-input" type="checkbox" id="chkCourseNOCStatusID" name="chkCourseNOCStatusID" [(ngModel)]="requestlst.CourseNOCStatus">&nbsp;Course NOC Status</label>
+
+              </div>
+            </div>
+
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <div class="form-check form-check-inline">
+                <label class="form-check-label" for="ckIsShow1"><input class="form-check-input" type="checkbox" id="chkSubjectID" name="chkSubjectID" [(ngModel)]="requestlst.SubjectName">&nbsp;Subjects</label>
+
+              </div>
+            </div>
+
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <div class="form-check form-check-inline">
+                <label class="form-check-label" for="ckIsShow1"><input class="form-check-input" type="checkbox" id="chkEnrolledStudent" name="chkEnrolledStudent" [(ngModel)]="requestlst.NoOfEnrolledStudents">&nbsp;Enrolled Students</label>
+
+              </div>
+            </div>
+
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <div class="form-check form-check-inline">
+                <label class="form-check-label" for="ckIsShow1"><input class="form-check-input" type="checkbox" id="chkSubjectNOCStatusID" name="chkSubjectNOCStatusID" [(ngModel)]="requestlst.SubjectNOCStatus">&nbsp;Subject NOC Status</label>
+
+              </div>
+            </div>
+
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <div class="form-check form-check-inline">
+                <label class="form-check-label" for="ckIsShow1"><input class="form-check-input" type="checkbox" id="chkSubjectNOCOrderNo" name="chkSubjectNOCOrderNo" [(ngModel)]="requestlst.NOCNumber">&nbsp;Subject NOC Order No</label>
+
+              </div>
+            </div>
+
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <div class="form-check form-check-inline">
+                <label class="form-check-label" for="ckIsShow1"><input class="form-check-input" type="checkbox" id="chkdtFromSubmittedNOCDate" name="chkdtFromSubmittedNOCDate" [(ngModel)]="requestlst.FromSubmittedNOCDate">&nbsp;From Submitted Subject NOC Date</label>
+
+              </div>
+            </div>
+
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <div class="form-check form-check-inline">
+                <label class="form-check-label" for="ckIsShow1"><input class="form-check-input" type="checkbox" id="chkdtToSubmittedNOCDate" name="chkdtToSubmittedNOCDate" [(ngModel)]="requestlst.ToSubmittedNOCDate">&nbsp;To Submitted Subject NOC Date</label>
+
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+
+      </div>
+
+    </div>
+    <div class="card-footer text-end">
+      <button type="submit" (click)="GetCourseReport()" class="btn btn-primary"><i class="fa fa-search"></i>&nbsp;Search</button>
+      <button type="submit" (click)="ResetControl()" class="btn btn-danger"><i class="bi bi-bootstrap-reboot"></i>&nbsp;Reset</button>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-header d-xxl-flex d-xl-flex d-md-flex d-sm-block justify-content-between align-items-center">
+      <h4></h4>
+      <div class="d-flex align-items-center table-filter mr-15">
+        <i class="fa fa-search"></i>
+        <input type="text" class="form-control" placeholder="Search Here" [(ngModel)]="searchText" />
+      </div>
+    </div>
+    <div class="table-responsive mb-5">
+      <table class="table table-bordered mb-0" #content id="tabellist">
+        <thead>
+          <tr>
+            <th>SrNo.</th>
+            <th *ngIf="requestlst.CourseType">New/Existing</th>
+            <th *ngIf="requestlst.StatusOfCollege">Status Of College</th>
+            <th *ngIf="requestlst.Institution">Institution</th>
+            <th *ngIf="requestlst.UniversityName">Universities</th>
+            <th *ngIf="requestlst.CourseName">Courses</th>
+            <th *ngIf="requestlst.CourseNOCStatus">Course NOC Status</th>
+            <th *ngIf="requestlst.SubjectName">Subjects</th>
+            <th *ngIf="requestlst.NoOfEnrolledStudents">Enrolled Students</th>
+            <th *ngIf="requestlst.SubjectNOCStatus">Subject NOC Status</th>
+            <th *ngIf="requestlst.NOCNumber">Subject NOC Order No</th>
+            <th *ngIf="requestlst.FromSubmittedNOCDate">From Submitted Subject NOC Date</th>
+            <th *ngIf="requestlst.ToSubmittedNOCDate">To Submitted Subject NOC Date</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr *ngFor="let row of GetCourseList | tableSearchFilter:searchText; let idx=index;">
+            <td>{{idx+1}}</td>
+            <td *ngIf="requestlst.CourseType">{{row.CourseType}}</td>
+            <td *ngIf="requestlst.StatusOfCollege">{{row.StatusOfCollege}}</td>
+            <td *ngIf="requestlst.Institution">{{row.Institution}}</td>
+            <td *ngIf="requestlst.UniversityName">{{row.UniversityName}}</td>
+            <td *ngIf="requestlst.CourseName">{{row.CourseName}}</td>
+            <td *ngIf="requestlst.CourseNOCStatus">{{row.CourseNOCStatus}}</td>
+            <td *ngIf="requestlst.SubjectName">{{row.SubjectName}}</td>
+            <td *ngIf="requestlst.NoOfEnrolledStudents">{{row.NoOfEnrolledStudents}}</td>
+            <td *ngIf="requestlst.SubjectNOCStatus">{{row.SubjectNOCStatus}}</td>
+            <td *ngIf="requestlst.NOCNumber">{{row.NOCNumber}}</td>
+            <td *ngIf="requestlst.FromSubmittedNOCDate">{{row.FromSubmittedNOCDate}}</td>
+            <td *ngIf="requestlst.ToSubmittedNOCDate">{{row.ToSubmittedNOCDate}}</td>
+          </tr>
+          <tr *ngIf="GetCourseList.length<=0">
+            <td colspan="100" style="color:red;text-align:center">No Data Found.!</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!--<div class="table-responsive maxheight600px">
+    <table class="table table-bordered tableHeaderTH tableHeaderFixed tableHeaderTHMiddel  tableForm100 tableAlternate mb-0" id="tabellist" #content>
+      <thead>
+        <tr>
+          <th>Sr. No</th>
+          <th *ngIf="requestlst.FaculityName">New/Existing</th>
+          <th *ngIf="requestlst.Gender">Status Of College</th>
+          <th *ngIf="requestlst.MobileNo">Institution</th>
+          <th *ngIf="requestlst.DesignationID">Universities</th>
+          <th *ngIf="requestlst.TempPermanentID">Courses</th>
+          <th *ngIf="requestlst.IsReserachGuideID">Course NOC Status</th>
+          <th *ngIf="requestlst.AadhaarNo">Subjects</th>
+          <th *ngIf="requestlst.DateOfAppointment">Enrolled Students</th>
+          <th *ngIf="requestlst.DateOfJoining">Subject NOC Status</th>
+          <th *ngIf="requestlst.MonthlySalary">Subject NOC Order No</th>
+          <th *ngIf="requestlst.PFDeductionID">From Submitted Subject NOC Date</th>
+          <th *ngIf="requestlst.CollegeID">To Submitted Subject NOC Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let row of StaffReportData | tableSearchFilter:searchText;let idx=index;">
+
+          <td>{{idx+1}}</td>
+          <td *ngIf="requestlst.FaculityName">{{row.CourseType}}</td>
+          <td *ngIf="requestlst.Gender">{{row.StatusOfCollege}}</td>
+          <td *ngIf="requestlst.MobileNo">{{row.Institution}}</td>
+          <td *ngIf="requestlst.DesignationID">{{row.UniversityName}}</td>
+          <td *ngIf="requestlst.TempPermanentID">{{row.CourseName}}</td>
+          <td *ngIf="requestlst.IsReserachGuideID">{{row.StatusOfCollege}}</td>
+          <td *ngIf="requestlst.AadhaarNo">{{row.SubjectName}}</td>
+          <td *ngIf="requestlst.DateOfAppointment">{{row.NoOfEnrolledStudents}}</td>
+          <td *ngIf="requestlst.DateOfJoining">{{row.StatusOfCollege}}</td>
+          <td *ngIf="requestlst.MonthlySalary">{{row.NOCNumber}}</td>
+          <td *ngIf="requestlst.PFDeductionID">{{row.FromSubmittedNOCDate}}</td>
+          <td *ngIf="requestlst.CollegeID">{{row.ToSubmittedNOCDate}}</td>
+
+
+        </tr>
+      </tbody>
+    </table>
+  </div>-->
+
+  </div>
+
+
+</div>

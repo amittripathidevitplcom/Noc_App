@@ -13,8 +13,8 @@
     </div>
   </div>
 </div>
-<div class="container-fluid">
-  <div class="card mb-2">
+<div class="container-fluid mainContents">
+  <div class="card">
     <div class="card-header">
       <b>
         <i class="bi bi-table"></i> Search Fields
@@ -23,18 +23,18 @@
     <div class="card-body">
       <div class="row">
 
-        <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
+        <div class="col-xxl-2 col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12 mb-3">
           <label for="txtCollegeName" class="form-label">College Name:</label>
           <input type="text" class="form-control" id="txtCollegeName" name="txtCollegeName" autocomplete="off" [(ngModel)]="request.CollegeName">
         </div>
-        <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
+        <div class="col-xxl-2 col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12 mb-3">
           <label for="ddlNocStatus" class="form-label">Noc Status:</label>
           <select class="form-select" id="ddlNocStatus" name="ddlNocStatus" [(ngModel)]="request.NOCStatusID">
             <option value="0">All</option>
             <option *ngFor="let item of NOCStatusList" value="{{item.ID}}">{{item.Name}}</option>
           </select>
         </div>
-        <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
+        <div class="col-xxl-2 col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12 mb-3">
           <label for="ddlApplicationStatus" class="form-label">Application Status:</label>
           <select class="form-select" id="ddlApplicationStatus" name="ddlApplicationStatus" [(ngModel)]="request.ApplicationStatusID">
             <option value="0">All</option>
@@ -42,151 +42,151 @@
           </select>
         </div>
 
-        <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
+        <div class="col-xxl-2 col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12 mb-3">
           <label for="dtfromSubmittedDate" class="form-label">From Submitted Date:</label>
           <input type="date" id="dtfromSubmittedDate" name="dtfromSubmittedDate" class="form-control" onkeypress="return false;" [(ngModel)]="request.FromSubmittedDate" />
         </div>
-        <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
+        <div class="col-xxl-2 col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12 mb-3">
           <label for="dttoSubmittedDate" class="form-label">To Submitted Date:</label>
           <input type="date" id="dttoSubmittedDate" name="dttoSubmittedDate" class="form-control" onkeypress="return false;" [(ngModel)]="request.ToSubmittedDate" />
         </div>
 
 
-        <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
+        <div class="col-xxl-2 col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12 mb-3">
           <label for="ddlCollegeType" class="form-label">College Type:</label>
           <select class="form-select" id="ddlCollegeType" name="ddlCollegeType" [(ngModel)]="request.CollegeTypeID">
             <option value="0">All</option>
             <option *ngFor="let item of CollegeTypeList" value="{{item.ID}}">{{item.Name}}</option>
           </select>
         </div>
-        <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
+        <div class="col-xxl-2 col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12 mb-3">
           <label for="txtCollegeMobile" class="form-label">College Mobile:</label>
           <input type="text" class="form-control" id="txtCollegeMobile" name="txtCollegeMobile" autocomplete="off" [(ngModel)]="request.CollegeMobileNo">
         </div>
-        <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
+        <div class="col-xxl-2 col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12 mb-3">
           <label for="txtCollegeEmail" class="form-label">College Email:</label>
           <input type="text" class="form-control" id="txtCollegeEmail" name="txtCollegeEmail" autocomplete="off" [(ngModel)]="request.CollegeEmail">
         </div>
-        <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
+        <div class="col-xxl-2 col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12 mb-3">
           <label for="ddlStatusofCollege" class="form-label">Status Of College:</label>
           <select class="form-select" id="ddlStatusofCollege" name="ddlStatusofCollege" [(ngModel)]="request.StatusOfCollegeID">
             <option value="0">All</option>
             <option *ngFor="let item of StatusOfCollegeList" value="{{item.ID}}">{{item.Name}}</option>
           </select>
         </div>
-        <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
+        <div class="col-xxl-2 col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12 mb-3">
           <label for="ddlCollegeLevel" class="form-label">College Level:</label>
           <select class="form-select" id="ddlCollegeLevel" name="ddlCollegeLevel" [(ngModel)]="request.CollegeLevelID">
             <option value="0">All</option>
             <option *ngFor="let item of CollegeLevelList" value="{{item.ID}}">{{item.Name}}</option>
           </select>
         </div>
-        <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
+        <div class="col-xxl-2 col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12 mb-3">
           <label for="ddlDivisionID" class="form-label">Division:</label>
           <select class="form-select" id="ddlDivisionID" name="ddlDivisionID" #SelectedDivisionID (change)="FillDivisionRelatedDDL(SelectedDivisionID.value)" [(ngModel)]="request.DivisionID">
             <option value="0">All</option>
             <option *ngFor="let item of DivisionList" value="{{item.DivisionID}}">{{item.DivisionName}}</option>
           </select>
         </div>
-        <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
+        <div class="col-xxl-2 col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12 mb-3">
           <label for="ddlDistrictID" class="form-label">District:</label>
           <select class="form-select" id="ddlDistrictID" name="ddlDistrictID" #SelectedDistrictID (change)="FillDistrictRelatedDDL(SelectedDistrictID.value)" [(ngModel)]="request.DistrictID">
             <option value="0">All</option>
             <option *ngFor="let item of DistrictList" value="{{item.DistrictID}}">{{item.DistrictName}}</option>
           </select>
         </div>
-        <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
+        <div class="col-xxl-2 col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12 mb-3">
           <label for="ddlSubdivisionID" class="form-label">Sub Division:</label>
           <select class="form-select" id="ddlSubdivisionID" name="ddlSubdivisionID" [(ngModel)]="request.SubDivisionID">
             <option value="0">All</option>
             <option *ngFor="let item of SuvdivisionList" value="{{item.SuvdivisionID}}">{{item.SubdivisionName}}</option>
           </select>
         </div>
-        <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
+        <div class="col-xxl-2 col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12 mb-3">
           <label for="ddlTehsilID" class="form-label">Tehsil :</label>
           <select class="form-select" id="ddlTehsilID" name="ddlTehsilID" [(ngModel)]="request.TehsilID">
             <option value="0">All</option>
             <option *ngFor="let item of TehsilList" value="{{item.TehsilID}}">{{item.TehsilName}}</option>
           </select>
         </div>
-        <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
+        <div class="col-xxl-2 col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12 mb-3">
           <label for="ddlParliamentAreaID" class="form-label">Parliament Area :</label>
           <select class="form-select" id="ddlParliamentAreaID" name="ddlParliamentAreaID" [(ngModel)]="request.ParliamentID">
             <option value="0">All</option>
             <option *ngFor="let item of ParliamentAreaList" value="{{item.ParliamentAreaID}}">{{item.ParliamentAreaName}}</option>
           </select>
         </div>
-        <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
+        <div class="col-xxl-2 col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12 mb-3">
           <label for="ddlAssemblyAreaID" class="form-label">Assembly Area :</label>
           <select class="form-select" id="ddlAssemblyAreaID" name="ddlAssemblyAreaID" [(ngModel)]="request.AssemblyID">
             <option value="0">All</option>
             <option *ngFor="let item of AssembelyAreaList" value="{{item.AssemblyAreaID}}">{{item.AssemblyAreaName}}</option>
           </select>
         </div>
-        <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
+        <div class="col-xxl-2 col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12 mb-3">
           <label for="txtPermanentAddress" class="form-label">Permanent Address:</label>
           <input type="text" class="form-control" id="txtPermanentAddress" name="txtPermanentAddress" autocomplete="off" [(ngModel)]="request.PermanentAddress">
         </div>
-        <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
+        <div class="col-xxl-2 col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12 mb-3">
           <label for="txtCityTownVillage" class="form-label">City/Town/Village:</label>
           <input type="text" class="form-control" id="txtCityTownVillage" name="txtCityTownVillage" autocomplete="off" [(ngModel)]="request.CityTownVillage">
         </div>
-        <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
+        <div class="col-xxl-2 col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12 mb-3">
           <label for="txtPincode" class="form-label">Pincode:</label>
           <input type="text" class="form-control" id="txtPincode" name="txtPincode" autocomplete="off" [(ngModel)]="request.PinCode">
         </div>
-        <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
+        <div class="col-xxl-2 col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12 mb-3">
           <label for="txtLandlineNumber" class="form-label">Landline Number:</label>
           <input type="text" class="form-control" id="txtLandlineNumber" name="txtLandlineNumber" autocomplete="off" [(ngModel)]="request.LandlineNo">
         </div>
-        <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
+        <div class="col-xxl-2 col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12 mb-3">
           <label for="txtAdditionalMobile" class="form-label">Additional Mobile:</label>
           <input type="text" class="form-control" id="txtAdditionalMobile" name="txtAdditionalMobile" autocomplete="off" [(ngModel)]="request.AdditionalMobileNo">
         </div>
-        <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
+        <div class="col-xxl-2 col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12 mb-3">
           <label for="txtFaxNumber" class="form-label">Fax Number:</label>
           <input type="text" class="form-control" id="txtFaxNumber" name="txtFaxNumber" autocomplete="off" [(ngModel)]="request.FaxNo">
         </div>
-        <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
+        <div class="col-xxl-2 col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12 mb-3">
           <label for="txtWebsite" class="form-label">Website:</label>
           <input type="text" class="form-control" id="txtWebsite" name="txtWebsite" autocomplete="off" [(ngModel)]="request.Website">
         </div>
-        <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
+        <div class="col-xxl-2 col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12 mb-3">
           <label for="ddlNodalOfficer" class="form-label">Nodal Officer:</label>
           <select class="form-select" id="ddlNodalOfficer" name="ddlNodalOfficer" [(ngModel)]="request.NodalOfficerID">
             <option value="0">All</option>
             <option *ngFor="let item of NodalOfficerList" value="{{item.UId}}">{{item.Name}} ( {{item.SSOID}} )</option>
           </select>
         </div>
-        <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
+        <div class="col-xxl-2 col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12 mb-3">
           <label for="ddlEstablishmentYear" class="form-label">Establishment Year:</label>
           <select class="form-select" id="ddlEstablishmentYear" name="ddlEstablishmentYear" [(ngModel)]="request.EstablishmentYearID">
             <option value="0">All</option>
             <option *ngFor="let item of FinancialYearList" value="{{item.FinancialYearID}}">{{item.FinancialYearName}}</option>
           </select>
         </div>
-        <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
+        <div class="col-xxl-2 col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12 mb-3">
           <label for="ddlApplicationType" class="form-label">Application Type:</label>
           <select class="form-select" id="ddlApplicationType" name="ddlApplicationType" [(ngModel)]="request.ApplicationTypeID">
             <option value="0">All</option>
             <option *ngFor="let item of ApplicationTypeList" value="{{item.ApplyNocID}}">{{item.ApplyNocFor}}</option>
           </select>
         </div>
-        <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
+        <div class="col-xxl-2 col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12 mb-3">
           <label for="ddlLandAreaSituated" class="form-label">Land Area Situated in:</label>
           <select class="form-select" id="ddlLandAreaSituated" name="ddlLandAreaSituated" [(ngModel)]="request.LandAreaID">
             <option value="0">All</option>
             <option *ngFor="let item of LandAreaList" value="{{item.LandAreaID}}">{{item.LandAreaName}}</option>
           </select>
         </div>
-        <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
+        <div class="col-xxl-2 col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12 mb-3">
           <label for="ddlLandDocumentType" class="form-label">Land Document Type:</label>
           <select class="form-select" id="ddlLandDocumentType" name="ddlLandDocumentType" [(ngModel)]="request.LandDocumentID">
             <option value="0">All</option>
             <option *ngFor="let item of LandDocumentTypeList" value="{{item.LandDocumentTypeID}}">{{item.LandDocumentTypeName}}</option>
           </select>
         </div>
-        <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
+        <div class="col-xxl-2 col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12 mb-3">
           <label for="ddlLandConversion" class="form-label">Land Conversion:</label>
           <select class="form-select" id="ddlLandConversion" name="ddlLandConversion" [(ngModel)]="request.LandConversionID">
             <option value="0">All</option>
@@ -198,51 +198,51 @@
         </div>
 
 
-        <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
+        <div class="col-xxl-2 col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12 mb-3">
           <label for="txtAgricultureLandArea" class="form-label">Agriculture Land Area:</label>
           <input type="text" class="form-control" id="txtAgricultureLandArea" name="txtAgricultureLandArea" autocomplete="off" [(ngModel)]="request.AgricultureLandArea">
         </div>
-        <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
+        <div class="col-xxl-2 col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12 mb-3">
           <label for="txtCommercialLandArea" class="form-label">Commercial Land Area:</label>
           <input type="text" class="form-control" id="txtCommercialLandArea" name="txtCommercialLandArea" autocomplete="off" [(ngModel)]="request.CommercialLandArea">
         </div>
-        <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
+        <div class="col-xxl-2 col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12 mb-3">
           <label for="txtInstitutionalLandArea" class="form-label">Institutional Land Area:</label>
           <input type="text" class="form-control" id="txtInstitutionalLandArea" name="txtInstitutionalLandArea" autocomplete="off" [(ngModel)]="request.InstitutionalLandArea">
         </div>
-        <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
+        <div class="col-xxl-2 col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12 mb-3">
           <label for="txtResidentialLandArea" class="form-label">Residential Land Area:</label>
           <input type="text" class="form-control" id="txtResidentialLandArea" name="txtResidentialLandArea" autocomplete="off" [(ngModel)]="request.ResidentialLandArea">
         </div>
 
-        <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
+        <div class="col-xxl-2 col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12 mb-3">
           <label for="txtAgricultureKhasraNo" class="form-label">Agriculture Khasra No:</label>
           <input type="text" class="form-control" id="txtAgricultureKhasraNo" name="txtAgricultureKhasraNo" autocomplete="off" [(ngModel)]="request.AgricultureKhasraNo">
         </div>
-        <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
+        <div class="col-xxl-2 col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12 mb-3">
           <label for="txtCommercialKhasraNo" class="form-label">Commercial Khasra No:</label>
           <input type="text" class="form-control" id="txtCommercialKhasraNo" name="txtCommercialKhasraNo" autocomplete="off" [(ngModel)]="request.CommercialKhasraNo">
         </div>
-        <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
+        <div class="col-xxl-2 col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12 mb-3">
           <label for="txtInstitutionalKhasraNo" class="form-label">Institutional Khasra No:</label>
           <input type="text" class="form-control" id="txtInstitutionalKhasraNo" name="txtInstitutionalKhasraNo" autocomplete="off" [(ngModel)]="request.InstitutionalKhasraNo">
         </div>
-        <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
+        <div class="col-xxl-2 col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12 mb-3">
           <label for="txtResidentialKhasraNo" class="form-label">Residential Khasra No:</label>
           <input type="text" class="form-control" id="txtResidentialKhasraNo" name="txtResidentialKhasraNo" autocomplete="off" [(ngModel)]="request.ResidentialKhasraNo">
         </div>
 
 
-        <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
+        <div class="col-xxl-2 col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12 mb-3">
           <label for="dtfromAffidavitDate" class="form-label">From Affidavit Date:</label>
           <input type="date" id="dtfromAffidavitDate" name="dtfromAffidavitDate" class="form-control" onkeypress="return false;" [(ngModel)]="request.FromAffidavitDate" />
         </div>
-        <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
+        <div class="col-xxl-2 col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12 mb-3">
           <label for="dttoAffidavitDate" class="form-label">To Affidavit Date:</label>
           <input type="date" id="dttoAffidavitDate" name="dttoAffidavitDate" class="form-control" onkeypress="return false;" [(ngModel)]="request.ToAffidavitDate" />
         </div>
 
-        <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
+        <div class="col-xxl-2 col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12 mb-3">
           <label for="ddlUniversities" class="form-label">Universities:</label>
           <select class="form-select" id="ddlUniversities" name="ddlUniversities" [(ngModel)]="request.UniversityID">
             <option value="0">All</option>
@@ -253,7 +253,7 @@
           </select>
         </div>
 
-        <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
+        <div class="col-xxl-2 col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12 mb-3">
           <label for="ddlCourses" class="form-label">Courses:</label>
           <select class="form-select" id="ddlCourses" name="ddlCourses" #SelectedCourseID (change)="GetSubjectList(SelectedCourseID.value)" [(ngModel)]="request.CourseID">
             <option value="0">All</option>
@@ -263,7 +263,7 @@
             </option>
           </select>
         </div>
-        <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
+        <div class="col-xxl-2 col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12 mb-3">
           <label for="ddlSubjects" class="form-label">Subjects:</label>
           <select class="form-select" id="ddlSubjects" name="ddlSubjects" [(ngModel)]="request.SubjectID">
             <option value="0">All</option>
@@ -273,7 +273,7 @@
             </option>
           </select>
         </div>
-        <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
+        <div class="col-xxl-2 col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12 mb-3">
           <label for="ddlUrbanRural" class="form-label">Urban Rural:</label>
           <select class="form-select" id="ddlUrbanRural" name="ddlUrbanRural" [(ngModel)]="request.UrbanRuralID">
             <option value="0">All</option>
@@ -282,7 +282,7 @@
           </select>
         </div>
 
-        <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
+        <div class="col-xxl-2 col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12 mb-3">
           <label for="ddlCollegeNAAC" class="form-label">College NAAC Accredited:</label>
           <select class="form-select" id="ddlCollegeNAAC" name="ddlCollegeNAAC" [(ngModel)]="request.CollegeNAACID">
             <option value="0">All</option>
@@ -290,16 +290,691 @@
             <option value="2">No</option>
           </select>
         </div>
-        <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
+        <div class="col-xxl-2 col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12 mb-3">
           <label for="txtAISHECode" class="form-label">AISHE Code:</label>
           <input type="text" class="form-control" id="txtAISHECode" name="txtAISHECode" autocomplete="off" [(ngModel)]="request.AISHECode">
         </div>
-        <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
+        <div class="col-xxl-2 col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12 mb-3">
           <label for="txtApplicationId" class="form-label">Last Application Id:</label>
           <input type="text" class="form-control" id="txtApplicationId" name="txtApplicationId" autocomplete="off" [(ngModel)]="request.ApplicationId">
         </div>
 
       </div>
+
+
+
+
+      <div class="card mb-0">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <b>
+            <i class="bi bi-table"></i> Field to display in report
+          </b>
+        </div>
+        
+            <div class="card-body">
+            <div class="row">
+              <div class="col-xxl-2 col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12 mb-3">
+                <div class="form-check form-check-inline">
+                  <label class="form-check-label" for="ckIsShow1">
+                    <input class="form-check-input" type="checkbox" id="chkApplicationId" name="chkApplicationId"
+                           [(ngModel)]="requestlst.CollegeID">&nbsp;Application Id
+                  </label>
+                </div>
+              </div>
+
+              <div class="col-xxl-2 col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12 mb-3">
+                <div class="form-check form-check-inline">
+                  <label class="form-check-label" for="ckIsShow">
+                    <input class="form-check-input" type="checkbox" id="chkCollegeName" name="chkCollegeName"
+                           [(ngModel)]="requestlst.CollegeNameEn">&nbsp;College Name
+                  </label>
+                </div>
+              </div>
+
+
+              <div class="col-xxl-2 col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12 mb-3">
+                <div class="form-check form-check-inline">
+                  <label class="form-check-label" for="ckIsShow">
+                    <input class="form-check-input" type="checkbox" id="chkCollegeNameHindi" name="chkCollegeNameHindi"
+                           [(ngModel)]="requestlst.CollegeNameHi">&nbsp;College Name Hindi
+                  </label>
+
+                </div>
+              </div>
+
+
+
+
+              <div class="col-xxl-2 col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12 mb-3">
+                <div class="form-check form-check-inline">
+                  <label class="form-check-label" for="ckIsShow">
+                    <input class="form-check-input" type="checkbox" id="chkNocStatus" name="chkNocStatus"
+                           [(ngModel)]="requestlst.NOCStatus">&nbsp;Noc Status
+                  </label>
+
+
+                </div>
+              </div>
+
+
+              <div class="col-xxl-2 col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12 mb-3">
+                <div class="form-check form-check-inline">
+                  <label class="form-check-label" for="ckIsShow">
+                    <input class="form-check-input" type="checkbox"
+                           id="chkApplicationStatus" name="chkApplicationStatus"
+                           [(ngModel)]="requestlst.ApplicationStatus">&nbsp;Application Status
+                  </label>
+                </div>
+              </div>
+
+              <div class="col-xxl-2 col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12 mb-3">
+                <div class="form-check form-check-inline">
+                  <label class="form-check-label" for="ckIsShow">
+                    <input class="form-check-input" type="checkbox"
+                           id="chkSubmittedDate" name="chkSubmittedDate"
+                           [(ngModel)]="requestlst.SubmittedDate">&nbsp;Submitted Date
+                  </label>
+                </div>
+              </div>
+
+              <div class="col-xxl-2 col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12 mb-3">
+                <div class="form-check form-check-inline">
+                  <label class="form-check-label" for="ckIsShow">
+                    <input class="form-check-input" type="checkbox"
+                           id="chkCollegeType" name="chkCollegeType"
+                           [(ngModel)]="requestlst.CollegeType">&nbsp;College Type
+                  </label>
+                </div>
+              </div>
+
+              <div class="col-xxl-2 col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12 mb-3">
+                <div class="form-check form-check-inline">
+                  <label class="form-check-label" for="ckIsShow">
+                    <input class="form-check-input" type="checkbox"
+                           id="chkPhone" name="chkPhone"
+                           [(ngModel)]="requestlst.MobileNumber">&nbsp;Phone
+                  </label>
+                </div>
+              </div>
+
+              <div class="col-xxl-2 col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12 mb-3">
+                <div class="form-check form-check-inline">
+                  <label class="form-check-label" for="ckIsShow">
+                    <input class="form-check-input" type="checkbox"
+                           id="chkEmailAddress" name="chkEmailAddress"
+                           [(ngModel)]="requestlst.Email">&nbsp;Email Address
+                  </label>
+                </div>
+              </div>
+
+              <div class="col-xxl-2 col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12 mb-3">
+                <div class="form-check form-check-inline">
+                  <label class="form-check-label" for="ckIsShow">
+                    <input class="form-check-input" type="checkbox"
+                           id="chkStatusOfCollege" name="chkStatusOfCollege"
+                           [(ngModel)]="requestlst.StatusofCollege">&nbsp;Status Of College
+                  </label>
+                </div>
+              </div>
+
+              <div class="col-xxl-2 col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12 mb-3">
+                <div class="form-check form-check-inline">
+                  <label class="form-check-label" for="ckIsShow">
+                    <input class="form-check-input" type="checkbox"
+                           id="chkCollegeLevel" name="chkCollegeLevel"
+                           [(ngModel)]="requestlst.CollegeLevel">&nbsp;College Level
+                  </label>
+                </div>
+              </div>
+
+              <div class="col-xxl-2 col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12 mb-3">
+                <div class="form-check form-check-inline">
+                  <label class="form-check-label" for="ckIsShow">
+                    <input class="form-check-input" type="checkbox"
+                           id="chkDivision" name="chkDivision"
+                           [(ngModel)]="requestlst.Division_English">&nbsp;Division
+                  </label>
+                </div>
+              </div>
+
+              <div class="col-xxl-2 col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12 mb-3">
+                <div class="form-check form-check-inline">
+                  <label class="form-check-label" for="ckIsShow">
+                    <input class="form-check-input" type="checkbox"
+                           id="chkDistrict" name="chkDistrict"
+                           [(ngModel)]="requestlst.District_Eng">&nbsp;District
+                  </label>
+                </div>
+              </div>
+
+              <div class="col-xxl-2 col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12 mb-3">
+                <div class="form-check form-check-inline">
+                  <label class="form-check-label" for="ckIsShow">
+                    <input class="form-check-input" type="checkbox"
+                           id="chkSubDivision" name="chkSubDivision"
+                           [(ngModel)]="requestlst.SubdivisionName">&nbsp;Sub Division
+                  </label>
+                </div>
+              </div>
+
+              <div class="col-xxl-2 col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12 mb-3">
+                <div class="form-check form-check-inline">
+                  <label class="form-check-label" for="ckIsShow">
+                    <input class="form-check-input" type="checkbox"
+                           id="chkTehsil" name="chkTehsil"
+                           [(ngModel)]="requestlst.TehsilName">&nbsp;Tehsil
+                  </label>
+                </div>
+              </div>
+
+              <div class="col-xxl-2 col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12 mb-3">
+                <div class="form-check form-check-inline">
+                  <label class="form-check-label" for="ckIsShow">
+                    <input class="form-check-input" type="checkbox"
+                           id="chkParliamentArea" name="chkParliamentArea"
+                           [(ngModel)]="requestlst.ParliamentAreaName">&nbsp;Parliament Area
+                  </label>
+                </div>
+              </div>
+
+              <div class="col-xxl-2 col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12 mb-3">
+                <div class="form-check form-check-inline">
+                  <label class="form-check-label" for="ckIsShow">
+                    <input class="form-check-input" type="checkbox"
+                           id="chkAssemblyArea" name="chkAssemblyArea"
+                           [(ngModel)]="requestlst.AssembelyAreaName">&nbsp;Assembly Area
+                  </label>
+                </div>
+              </div>
+
+              <div class="col-xxl-2 col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12 mb-3">
+                <div class="form-check form-check-inline">
+                  <label class="form-check-label" for="ckIsShow">
+                    <input class="form-check-input" type="checkbox"
+                           id="chkPermanentAddress" name="chkPermanentAddress"
+                           [(ngModel)]="requestlst.PermanentAddress">&nbsp;Permanent Address
+                  </label>
+                </div>
+              </div>
+
+              <div class="col-xxl-2 col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12 mb-3">
+                <div class="form-check form-check-inline">
+                  <label class="form-check-label" for="ckIsShow">
+                    <input class="form-check-input" type="checkbox"
+                           id="chkCityTownVillage" name="chkCityTownVillage"
+                           [(ngModel)]="requestlst.CityTownVillage">&nbsp;City/Town/Village
+                  </label>
+                </div>
+              </div>
+
+              <div class="col-xxl-2 col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12 mb-3">
+                <div class="form-check form-check-inline">
+                  <label class="form-check-label" for="ckIsShow">
+                    <input class="form-check-input" type="checkbox"
+                           id="chkPincode" name="chkPincode"
+                           [(ngModel)]="requestlst.Pincode">&nbsp;Pincode
+                  </label>
+                </div>
+              </div>
+
+              <div class="col-xxl-2 col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12 mb-3">
+                <div class="form-check form-check-inline">
+                  <label class="form-check-label" for="ckIsShow">
+                    <input class="form-check-input" type="checkbox"
+                           id="chkLandlineNumber" name="chkLandlineNumber"
+                           [(ngModel)]="requestlst.CollegeLandlineNumber">&nbsp;Landline Number
+                  </label>
+                </div>
+              </div>
+
+              <div class="col-xxl-2 col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12 mb-3">
+                <div class="form-check form-check-inline">
+                  <label class="form-check-label" for="ckIsShow">
+                    <input class="form-check-input" type="checkbox"
+                           id="chkAdditionalMobile" name="chkAdditionalMobile">&nbsp;Additional Mobile
+                  </label>
+                </div>
+              </div>
+
+              <div class="col-xxl-2 col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12 mb-3">
+                <div class="form-check form-check-inline">
+                  <label class="form-check-label" for="ckIsShow">
+                    <input class="form-check-input" type="checkbox"
+                           id="chkFaxNumber" name="chkFaxNumber">&nbsp;Fax Number
+                  </label>
+                </div>
+              </div>
+
+              <div class="col-xxl-2 col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12 mb-3">
+                <div class="form-check form-check-inline">
+                  <label class="form-check-label" for="ckIsShow">
+                    <input class="form-check-input" type="checkbox"
+                           id="chkWebsite" name="chkWebsite"
+                           [(ngModel)]="requestlst.WebsiteLink">&nbsp;Website
+                  </label>
+                </div>
+              </div>
+
+              <div class="col-xxl-2 col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12 mb-3">
+                <div class="form-check form-check-inline">
+                  <label class="form-check-label" for="ckIsShow">
+                    <input class="form-check-input" type="checkbox"
+                           id="chkNodalOfficer" name="chkNodalOfficer"
+                           [(ngModel)]="requestlst.NodalOfficer">&nbsp;Nodal Officer
+                  </label>
+                </div>
+              </div>
+
+              <div class="col-xxl-2 col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12 mb-3">
+                <div class="form-check form-check-inline">
+                  <label class="form-check-label" for="ckIsShow">
+                    <input class="form-check-input" type="checkbox"
+                           id="chkEstablishmentYear" name="chkEstablishmentYear"
+                           [(ngModel)]="requestlst.FinancialYearName">&nbsp;Establishment Year
+                  </label>
+                </div>
+              </div>
+
+              <div class="col-xxl-2 col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12 mb-3">
+                <div class="form-check form-check-inline">
+                  <label class="form-check-label" for="ckIsShow">
+                    <input class="form-check-input" type="checkbox"
+                           id="chkApplicationType" name="chkApplicationType"
+                           [(ngModel)]="requestlst.ApplyNocFor">&nbsp;Application Type
+                  </label>
+                </div>
+              </div>
+
+              <div class="col-xxl-2 col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12 mb-3">
+                <div class="form-check form-check-inline">
+                  <label class="form-check-label" for="ckIsShow">
+                    <input class="form-check-input" type="checkbox"
+                           id="chkLandAreaSituatedin" name="chkLandAreaSituatedin"
+                           [(ngModel)]="requestlst.LandAreaName">&nbsp;Land Area Situated in
+                  </label>
+                </div>
+              </div>
+
+              <div class="col-xxl-2 col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12 mb-3">
+                <div class="form-check form-check-inline">
+                  <label class="form-check-label" for="ckIsShow">
+                    <input class="form-check-input" type="checkbox"
+                           id="chkLandDocumentType" name="chkLandDocumentType"
+                           [(ngModel)]="requestlst.LandDocumentTypeName">&nbsp;Land Document Type
+                  </label>
+                </div>
+              </div>
+
+              <div class="col-xxl-2 col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12 mb-3">
+                <div class="form-check form-check-inline">
+                  <label class="form-check-label" for="ckIsShow">
+                    <input class="form-check-input" type="checkbox"
+                           id="chkLandConversion" name="chkLandConversion"
+                           [(ngModel)]="requestlst.LandConverted">&nbsp;Land Conversion
+                  </label>
+                </div>
+              </div>
+
+              <div class="col-xxl-2 col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12 mb-3">
+                <div class="form-check form-check-inline">
+                  <label class="form-check-label" for="ckIsShow">
+                    <input class="form-check-input" type="checkbox"
+                           id="chkAgricultureLandArea" name="chkAgricultureLandArea"
+                           [(ngModel)]="requestlst.Agr_LandArea">&nbsp;Agriculture Land Area
+                  </label>
+                </div>
+              </div>
+
+              <div class="col-xxl-2 col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12 mb-3">
+                <div class="form-check form-check-inline">
+                  <label class="form-check-label" for="ckIsShow">
+                    <input class="form-check-input" type="checkbox"
+                           id="chkCommercialLandArea" name="chkCommercialLandArea"
+                           [(ngModel)]="requestlst.Com_LandArea">&nbsp;Commercial Land Area
+                  </label>
+                </div>
+              </div>
+
+              <div class="col-xxl-2 col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12 mb-3">
+                <div class="form-check form-check-inline">
+                  <label class="form-check-label" for="ckIsShow">
+                    <input class="form-check-input" type="checkbox"
+                           id="chkInstitutionalLandArea" name="chkInstitutionalLandArea"
+                           [(ngModel)]="requestlst.Ins_LandArea">&nbsp;Institutional Land Area
+                  </label>
+                </div>
+              </div>
+
+              <div class="col-xxl-2 col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12 mb-3">
+                <div class="form-check form-check-inline">
+                  <label class="form-check-label" for="ckIsShow">
+                    <input class="form-check-input" type="checkbox"
+                           id="chkResidentialLandArea" name="chkResidentialLandArea"
+                           [(ngModel)]="requestlst.Res_LandArea">&nbsp;Residential Land Area
+                  </label>
+                </div>
+              </div>
+
+              <div class="col-xxl-2 col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12 mb-3">
+                <div class="form-check form-check-inline">
+                  <label class="form-check-label" for="ckIsShow">
+                    <input class="form-check-input" type="checkbox"
+                           id="chkAgricultureKhasraNo" name="chkAgricultureKhasraNo"
+                           [(ngModel)]="requestlst.Agr_KhasraNo">&nbsp;Agriculture Khasra No
+                  </label>
+                </div>
+              </div>
+
+              <div class="col-xxl-2 col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12 mb-3">
+                <div class="form-check form-check-inline">
+                  <label class="form-check-label" for="ckIsShow">
+                    <input class="form-check-input" type="checkbox"
+                           id="chkCommercialKhasraNo" name="chkCommercialKhasraNo"
+                           [(ngModel)]="requestlst.Com_KhasraNo">&nbsp;Commercial Khasra No
+                  </label>
+                </div>
+              </div>
+
+              <div class="col-xxl-2 col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12 mb-3">
+                <div class="form-check form-check-inline">
+                  <label class="form-check-label" for="ckIsShow">
+                    <input class="form-check-input" type="checkbox"
+                           id="chkInstitutionalKhasraNo" name="chkInstitutionalKhasraNo"
+                           [(ngModel)]="requestlst.Ins_KhasraNo">&nbsp;Institutional Khasra No
+                  </label>
+                </div>
+              </div>
+
+              <div class="col-xxl-2 col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12 mb-3">
+                <div class="form-check form-check-inline">
+                  <label class="form-check-label" for="ckIsShow">
+                    <input class="form-check-input" type="checkbox"
+                           id="chkResidentialKhasraNo" name="chkResidentialKhasraNo"
+                           [(ngModel)]="requestlst.Res_KhasraNo">&nbsp;Residential Khasra No
+                  </label>
+                </div>
+              </div>
+
+              <div class="col-xxl-2 col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12 mb-3">
+                <div class="form-check form-check-inline">
+                  <label class="form-check-label" for="ckIsShow">
+                    <input class="form-check-input" type="checkbox"
+                           id="chkLandConversionOrderNoDate" name="chkLandConversionOrderNoDate"
+                           [(ngModel)]="requestlst.LandConversion">&nbsp;Land Conversion Order No. & Date
+                  </label>
+                </div>
+              </div>
+
+              <div class="col-xxl-2 col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12 mb-3">
+                <div class="form-check form-check-inline">
+                  <label class="form-check-label" for="ckIsShow">
+                    <input class="form-check-input" type="checkbox"
+                           id="chkReceiptNumberofConversionFeeDate" name="chkReceiptNumberofConversionFeeDate"
+                           [(ngModel)]="requestlst.LandConversion">&nbsp;Receipt No. of Conversion Fee & Date
+                  </label>
+                </div>
+              </div>
+
+              <div class="col-xxl-2 col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12 mb-3">
+                <div class="form-check form-check-inline">
+                  <label class="form-check-label" for="ckIsShow">
+                    <input class="form-check-input" type="checkbox"
+                           id="chkAffidavitDate" name="chkAffidavitDate"
+                           [(ngModel)]="requestlst.AffidavitDate">&nbsp;Affidavit Date
+                  </label>
+                </div>
+              </div>
+
+              <div class="col-xxl-2 col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12 mb-3">
+                <div class="form-check form-check-inline">
+                  <label class="form-check-label" for="ckIsShow">
+                    <input class="form-check-input" type="checkbox"
+                           id="chkUniversities" name="chkUniversities"
+                           [(ngModel)]="requestlst.UniversityName">&nbsp;Universities
+                  </label>
+                </div>
+              </div>
+
+              <div class="col-xxl-2 col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12 mb-3">
+                <div class="form-check form-check-inline">
+                  <label class="form-check-label" for="ckIsShow">
+                    <input class="form-check-input" type="checkbox"
+                           id="chkCoursesAndSubjectInfo" name="chkCoursesAndSubjectInfo"
+                           [(ngModel)]="requestlst.CoursesAndSubjectInfo">&nbsp;Courses And Subject Info
+                  </label>
+                </div>
+              </div>
+
+              <div class="col-xxl-2 col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12 mb-3">
+                <div class="form-check form-check-inline">
+                  <label class="form-check-label" for="ckIsShow">
+                    <input class="form-check-input" type="checkbox"
+                           id="chkCollegeNAACAccredited" name="chkCollegeNAACAccredited"
+                           [(ngModel)]="requestlst.CollegeNAACAccredited">&nbsp;College NAAC Accredited
+                  </label>
+                </div>
+              </div>
+
+              <div class="col-xxl-2 col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12 mb-3">
+                <div class="form-check form-check-inline">
+                  <label class="form-check-label" for="ckIsShow">
+                    <input class="form-check-input" type="checkbox"
+                           id="chkNameofSociety" name="chkNameofSociety"
+                           [(ngModel)]="requestlst.SocietyName">&nbsp;Name of Society
+                  </label>
+                </div>
+              </div>
+
+              <div class="col-xxl-2 col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12 mb-3">
+                <div class="form-check form-check-inline">
+                  <label class="form-check-label" for="ckIsShow">
+                    <input class="form-check-input" type="checkbox"
+                           id="chkSecretaryName" name="chkSecretaryName"
+                           [(ngModel)]="requestlst.SecretaryName">&nbsp;Secretary Name
+                  </label>
+                </div>
+              </div>
+
+              <div class="col-xxl-2 col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12 mb-3">
+                <div class="form-check form-check-inline">
+                  <label class="form-check-label" for="ckIsShow">
+                    <input class="form-check-input" type="checkbox"
+                           id="chkSecretaryMobileNo" name="chkSecretaryMobileNo"
+                           [(ngModel)]="requestlst.SecretaryMobile">&nbsp;Secretary Mobile No.
+                  </label>
+                </div>
+              </div>
+
+              <div class="col-xxl-2 col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12 mb-3">
+                <div class="form-check form-check-inline">
+                  <label class="form-check-label" for="ckIsShow">
+                    <input class="form-check-input" type="checkbox"
+                           id="chkSecretaryAadhar" name="chkSecretaryAadhar"
+                           [(ngModel)]="requestlst.SecretaryAadhar">&nbsp;Secretary Aadhar
+                  </label>
+                </div>
+              </div>
+
+              <div class="col-xxl-2 col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12 mb-3">
+                <div class="form-check form-check-inline">
+                  <label class="form-check-label" for="ckIsShow">
+                    <input class="form-check-input" type="checkbox"
+                           id="chkSecretaryEmail" name="chkSecretaryEmail"
+                           [(ngModel)]="requestlst.SecretaryEmail">&nbsp;Secretary Email
+                  </label>
+                </div>
+              </div>
+
+              <div class="col-xxl-2 col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12 mb-3">
+                <div class="form-check form-check-inline">
+                  <label class="form-check-label" for="ckIsShow">
+                    <input class="form-check-input" type="checkbox"
+                           id="chkPresidentName" name="chkPresidentName"
+                           [(ngModel)]="requestlst.PresidentName">&nbsp;President Name
+                  </label>
+                </div>
+              </div>
+
+              <div class="col-xxl-2 col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12 mb-3">
+                <div class="form-check form-check-inline">
+                  <label class="form-check-label" for="ckIsShow">
+                    <input class="form-check-input" type="checkbox"
+                           id="chkPresidentMobileNo" name="chkPresidentMobileNo"
+                           [(ngModel)]="requestlst.PresidentMobile">&nbsp;President Mobile No.
+                  </label>
+                </div>
+              </div>
+
+              <div class="col-xxl-2 col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12 mb-3">
+                <div class="form-check form-check-inline">
+                  <label class="form-check-label" for="ckIsShow">
+                    <input class="form-check-input" type="checkbox"
+                           id="chkPresidentAadhar" name="chkPresidentAadhar"
+                           [(ngModel)]="requestlst.PresidentAadhar">&nbsp;President Aadhar
+                  </label>
+                </div>
+              </div>
+
+              <div class="col-xxl-2 col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12 mb-3">
+                <div class="form-check form-check-inline">
+                  <label class="form-check-label" for="ckIsShow">
+                    <input class="form-check-input" type="checkbox"
+                           id="chkPresidentEmail" name="chkPresidentEmail"
+                           [(ngModel)]="requestlst.PresidentEmail">&nbsp;President Email
+                  </label>
+                </div>
+              </div>
+
+              <div class="col-xxl-2 col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12 mb-3">
+                <div class="form-check form-check-inline">
+                  <label class="form-check-label" for="ckIsShow">
+                    <input class="form-check-input" type="checkbox"
+                           id="chkAcademicInfo" name="chkAcademicInfo"
+                           [(ngModel)]="requestlst.AcademicInfo">&nbsp;Academic Info
+                  </label>
+                </div>
+              </div>
+
+              <div class="col-xxl-2 col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12 mb-3">
+                <div class="form-check form-check-inline">
+                  <label class="form-check-label" for="ckIsShow">
+                    <input class="form-check-input" type="checkbox"
+                           id="chkReceivedDate" name="chkReceivedDate">&nbsp;Received Date
+                  </label>
+                </div>
+              </div>
+
+              <div class="col-xxl-2 col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12 mb-3">
+                <div class="form-check form-check-inline">
+                  <label class="form-check-label" for="ckIsShow">
+                    <input class="form-check-input" type="checkbox"
+                           id="chkInspectionDate" name="chkInspectionDate">&nbsp;Inspection Date
+                  </label>
+                </div>
+              </div>
+
+              <div class="col-xxl-2 col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12 mb-3">
+                <div class="form-check form-check-inline">
+                  <label class="form-check-label" for="ckIsShow">
+                    <input class="form-check-input" type="checkbox"
+                           id="chkReportSentDate" name="chkReportSentDate">&nbsp;Report Sent Date
+                  </label>
+                </div>
+              </div>
+
+              <div class="col-xxl-2 col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12 mb-3">
+                <div class="form-check form-check-inline">
+                  <label class="form-check-label" for="ckIsShow">
+                    <input class="form-check-input" type="checkbox"
+                           id="chkFDRNumber" name="chkFDRNumber"
+                           [(ngModel)]="requestlst.FDRNumber">&nbsp;FDR Number
+                  </label>
+                </div>
+              </div>
+
+              <div class="col-xxl-2 col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12 mb-3">
+                <div class="form-check form-check-inline">
+                  <label class="form-check-label" for="ckIsShow">
+                    <input class="form-check-input" type="checkbox"
+                           id="chkFDRAmount" name="chkFDRAmount"
+                           [(ngModel)]="requestlst.FDRAmount">&nbsp;FDR Amount
+                  </label>
+                </div>
+              </div>
+
+              <div class="col-xxl-2 col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12 mb-3">
+                <div class="form-check form-check-inline">
+                  <label class="form-check-label" for="ckIsShow">
+                    <input class="form-check-input" type="checkbox"
+                           id="chkFDRDate" name="chkFDRDate"
+                           [(ngModel)]="requestlst.FDRDate">&nbsp;FDR Date
+                  </label>
+                </div>
+              </div>
+
+              <div class="col-xxl-2 col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12 mb-3">
+                <div class="form-check form-check-inline">
+                  <label class="form-check-label" for="ckIsShow">
+                    <input class="form-check-input" type="checkbox"
+                           id="chkTeachingFaculityDetails" name="chkTeachingFaculityDetails"
+                           [(ngModel)]="requestlst.TeachingFaculityDetails">&nbsp;Teaching Faculity Details
+                  </label>
+                </div>
+              </div>
+
+              <div class="col-xxl-2 col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12 mb-3">
+                <div class="form-check form-check-inline">
+                  <label class="form-check-label" for="ckIsShow">
+                    <input class="form-check-input" type="checkbox"
+                           id="chkNodalOfficerMobile" name="chkNodalOfficerMobile"
+                           [(ngModel)]="requestlst.NodalMobile">&nbsp;Nodal Officer Mobile
+                  </label>
+                </div>
+              </div>
+
+              <div class="col-xxl-2 col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12 mb-3">
+                <div class="form-check form-check-inline">
+                  <label class="form-check-label" for="ckIsShow">
+                    <input class="form-check-input" type="checkbox"
+                           id="chkNodalOfficerEmail" name="chkNodalOfficerEmail"
+                           [(ngModel)]="requestlst.NodalEmail">&nbsp;Nodal Officer Email
+                  </label>
+                </div>
+              </div>
+
+              <div class="col-xxl-2 col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12 mb-3">
+                <div class="form-check form-check-inline">
+                  <label class="form-check-label" for="ckIsShow">
+                    <input class="form-check-input" type="checkbox"
+                           id="chkPrincipalDetail" name="chkPrincipalDetail"
+                           [(ngModel)]="requestlst.PrincipalName">&nbsp;Principal Detail
+                  </label>
+                </div>
+              </div>
+
+              <div class="col-xxl-2 col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12 mb-3">
+                <div class="form-check form-check-inline">
+                  <label class="form-check-label" for="ckIsShow">
+                    <input class="form-check-input" type="checkbox"
+                           id="chkAISHECode" name="chkAISHECode"
+                           [(ngModel)]="requestlst.AISHECode">&nbsp;AISHE Code
+                  </label>
+                </div>
+              </div>
+
+              <div class="col-xxl-2 col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12 mb-3">
+                <div class="form-check form-check-inline">
+                  <label class="form-check-label" for="ckIsShow">
+                    <input class="form-check-input" type="checkbox"
+                           id="chkLastApplicationId" name="chkLastApplicationId"
+                           [(ngModel)]="requestlst.ApplyNocApplicationID">&nbsp;Last Application Id
+                  </label>
+                </div>
+            </div>
+          </div>
+          </div>
+      </div>
+
     </div>
     <div class="card-footer text-end">
       <button type="submit" (click)="GetCollegeReport()" class="btn btn-primary"><i class="fa fa-search"></i>&nbsp;Search</button>
@@ -307,168 +982,170 @@
       <button type="submit" (click)="btnExportTable_Click()" class="btn btn-success"><i class="fa fa-file-excel-o"></i> &nbsp;Export Record</button>
     </div>
   </div>
-  <div class="card">
+  <div class="card mb-0">
     <div class="card-header d-xxl-flex d-xl-flex d-md-flex d-sm-block justify-content-between align-items-center">
-      <h4></h4>
+      <b>College Reports</b>
       <div class="d-flex align-items-center table-filter mr-15">
         <i class="fa fa-search"></i>
         <input type="text" class="form-control" placeholder="Search Here" [(ngModel)]="searchText" />
       </div>
     </div>
-    <div class="table-responsive mb-5">
-      <table class="table table-bordered mb-0" #content id="tabellist">
-        <thead>
-          <tr>
-            <th>SrNo.</th>
-            <th>Application Id</th>
-            <th>College Name</th>
-            <th>College Name Hindi</th>
-            <th>Noc Status</th>
-            <th>Application Status</th>
-            <th>Submitted Date</th>
-            <th>College Type</th>
-            <th>Phone</th>
-            <th>Email Address</th>
-            <th>Status Of College</th>
-            <th>College Level</th>
-            <th>Division</th>
-            <th>District</th>
-            <th>Sub Division</th>
-            <th>Tehsil</th>
-            <th>Parliament Area</th>
-            <th>Assembly Area</th>
-            <th>Permanent Address</th>
-            <th>City/Town/Village</th>
-            <th>Pincode</th>
-            <th>Landline Number</th>
-            <th>Additional Mobile</th>
-            <th>Fax Number</th>
-            <th>Website</th>
-            <th>Nodal Officer</th>
-            <th>Establishment Year</th>
-            <th>Application Type</th>
-            <th>Land Area Situated in</th>
-            <th>Land Document Type</th>
-            <th>Land Conversion</th>
-            <th>Agriculture Land Area</th>
-            <th>Commercial Land Area</th>
-            <th>Institutional Land Area</th>
-            <th>Residential Land Area</th>
-            <th>Agriculture Khasra No</th>
-            <th>Commercial Khasra No</th>
-            <th>Institutional Khasra No</th>
-            <th>Residential Khasra No</th>
-            <th>Land Conversion Order No. & Date</th>
-            <th>Receipt Number of Conversion Fee & Date</th>
-            <th>Affidavit Date</th>
-            <th>Universities</th>
-            <th>Courses And Subject Info</th>
-            <th>College NAAC Accredited</th>
-            <th>Name of Society</th>
-            <th>Secretary Name</th>
-            <th>Secretary Mobile No.</th>
-            <th>Secretary Aadhar</th>
-            <th>Secretary Email</th>
-            <th>President Name</th>
-            <th>President Mobile No.</th>
-            <th>President Aadhar</th>
-            <th>President Email</th>
-            <th>Academic Info</th>
-            <th>Received Date</th>
-            <th>Inspection Date</th>
-            <th>Report Sent Date</th>
-            <th>FDR Number</th>
-            <th>FDR Amount</th>
-            <th>FDR Date</th>
-            <th>Teaching Faculity Details</th>
-            <th>Nodal Officer Mobile</th>
-            <th>Nodal Officer Email</th>
-            <th>Principal Detail</th>
-            <th>AISHE Code</th>
-            <th>Last Application Id</th>
-          </tr>
-        </thead>
 
-        <tbody>
-          <tr *ngFor="let row of CollegeList | tableSearchFilter:searchText; let idx=index;">
-            <td>{{idx+1}}</td>
-            <td>{{row.CollegeID}}</td>
-            <td>{{row.CollegeNameEn}}</td>
-            <td>{{row.CollegeNameHi}}</td>
-            <td>{{row.NOCStatus}}</td>
-            <td>{{row.ApplicationStatus}}</td>
-            <td>{{row.SubmittedDate}}</td>
-            <td>{{row.CollegeType}}</td>
-            <td>{{row.MobileNumber}}</td>
-            <td>{{row.Email}}</td>
-            <td>{{row.StatusofCollege}}</td>
-            <td>{{row.CollegeLevel}}</td>
-            <td>{{row.Division_English}}</td>
-            <td>{{row.District_Eng}}</td>
-            <td>{{row.SubdivisionName}}</td>
-            <td>{{row.TehsilName}}</td>
-            <td>{{row.ParliamentAreaName}}</td>
-            <td>{{row.AssembelyAreaName}}</td>
-            <td>{{row.PermanentAddress}}</td>
-            <td>{{row.CityTownVillage}}</td>
-            <td>{{row.Pincode}}</td>
-            <td>{{row.CollegeLandlineNumber}}</td>
-            <td></td>
-            <td></td>
-            <td>{{row.WebsiteLink}}</td>
-            <td>{{row.NodalOfficer}}</td>
-            <td>{{row.FinancialYearName}}</td>
-            <td>{{row.ApplyNocFor}}</td>
-            <td>{{row.LandAreaName}}</td>
-            <td>{{row.LandDocumentTypeName}}</td>
-            <td>{{row.LandConverted}}</td>
-            <td>{{row.Agr_LandArea}}</td>
-            <td>{{row.Com_LandArea}}</td>
-            <td>{{row.Ins_LandArea}}</td>
-            <td>{{row.Res_LandArea}}</td>
-            <td>{{row.Agr_KhasraNo}}</td>
-            <td>{{row.Com_KhasraNo}}</td>
-            <td>{{row.Ins_KhasraNo}}</td>
-            <td>{{row.Res_KhasraNo}}</td>
-            <td>{{row.LandConversion}}</td>
-            <td></td>
-            <td>{{row.AffidavitDate}}</td>
-            <td>{{row.UniversityName }}</td>
-            <td>{{row.CoursesAndSubjectInfo}}</td>
-            <td>{{row.CollegeNAACAccredited}}</td>
-            <td>{{row.SocietyName}}</td>
-            <td>{{row.SecretaryName}}</td>
-            <td>{{row.SecretaryMobile}}</td>
-            <td>{{row.SecretaryAadhar}}</td>
-            <td>{{row.SecretaryEmail}}</td>
-            <td>{{row.PresidentName}}</td>
-            <td>{{row.PresidentMobile}}</td>
-            <td>{{row.PresidentAadhar}}</td>
-            <td>{{row.PresidentEmail}}</td>
-            <td>{{row.AcademicInfo}}</td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td>{{row.FDRNumber}}</td>
-            <td>{{row.FDRAmount}}</td>
-            <td>{{row.FDRDate}}</td>
-            <td>{{row.TeachingFaculityDetails}}</td>
-            <td>{{row.NodalMobile}}</td>
-            <td>{{row.NodalEmail}}</td>
-            <td>Name:{{row.PrincipalName}},Mobile:{{row.PrincipalMobile}}</td>
-            <td>{{row.AISHECode}}</td>
-            <td>{{row.ApplyNocApplicationID}}</td>
-          </tr>
-          <tr *ngIf="CollegeList.length<=0">
-            <td colspan="100" style="color:red;text-align:center">No Data Found.!</td>
-          </tr>
-        </tbody>
-      </table>
+    <div class="card-body p-0">
+      <div class="table-responsive">
+
+        <table class="table table-bordered mb-0" #content id="tabellist">
+          <thead>
+            <tr>
+              <th>SrNo.</th>
+              <th *ngIf="requestlst.CollegeID">Application Id</th>
+              <th *ngIf="requestlst.CollegeNameEn">College Name</th>
+              <th *ngIf="requestlst.CollegeNameHi">College Name Hindi</th>
+              <th *ngIf="requestlst.NOCStatus">Noc Status</th>
+              <th *ngIf="requestlst.ApplicationStatus">Application Status</th>
+              <th *ngIf="requestlst.SubmittedDate">Submitted Date</th>
+              <th *ngIf="requestlst.CollegeType">College Type</th>
+              <th *ngIf="requestlst.MobileNumber">Phone</th>
+              <th *ngIf="requestlst.Email">Email Address</th>
+              <th *ngIf="requestlst.StatusofCollege">Status Of College</th>
+              <th *ngIf="requestlst.CollegeLevel">College Level</th>
+              <th *ngIf="requestlst.Division_English">Division</th>
+              <th *ngIf="requestlst.District_Eng">District</th>
+              <th *ngIf="requestlst.SubdivisionName">Sub Division</th>
+              <th *ngIf="requestlst.TehsilName">Tehsil</th>
+              <th *ngIf="requestlst.ParliamentAreaName">Parliament Area</th>
+              <th *ngIf="requestlst.AssembelyAreaName">Assembly Area</th>
+              <th *ngIf="requestlst.PermanentAddress">Permanent Address</th>
+              <th *ngIf="requestlst.CityTownVillage">City/Town/Village</th>
+              <th *ngIf="requestlst.Pincode">Pincode</th>
+              <th *ngIf="requestlst.CollegeLandlineNumber">Landline Number</th>
+              <th>Additional Mobile</th>
+              <th>Fax Number</th>
+              <th *ngIf="requestlst.WebsiteLink">Website</th>
+              <th *ngIf="requestlst.NodalOfficer">Nodal Officer</th>
+              <th *ngIf="requestlst.FinancialYearName">Establishment Year</th>
+              <th *ngIf="requestlst.ApplyNocFor">Application Type</th>
+              <th *ngIf="requestlst.LandAreaName">Land Area Situated in</th>
+              <th *ngIf="requestlst.LandDocumentTypeName">Land Document Type</th>
+              <th *ngIf="requestlst.LandConverted">Land Conversion</th>
+              <th *ngIf="requestlst.Agr_LandArea">Agriculture Land Area</th>
+              <th *ngIf="requestlst.Com_LandArea">Commercial Land Area</th>
+              <th *ngIf="requestlst.Ins_LandArea">Institutional Land Area</th>
+              <th *ngIf="requestlst.Res_LandArea">Residential Land Area</th>
+              <th *ngIf="requestlst.Agr_KhasraNo">Agriculture Khasra No</th>
+              <th *ngIf="requestlst.Com_KhasraNo">Commercial Khasra No</th>
+              <th *ngIf="requestlst.Ins_KhasraNo">Institutional Khasra No</th>
+              <th *ngIf="requestlst.Res_KhasraNo">Residential Khasra No</th>
+              <th *ngIf="requestlst.LandConversion">Land Conversion Order No. & Date</th>
+              <th>Receipt Number of Conversion Fee & Date</th>
+              <th *ngIf="requestlst.AffidavitDate">Affidavit Date</th>
+              <th *ngIf="requestlst.UniversityName">Universities</th>
+              <th *ngIf="requestlst.CoursesAndSubjectInfo">Courses And Subject Info</th>
+              <th *ngIf="requestlst.CollegeNAACAccredited">College NAAC Accredited</th>
+              <th *ngIf="requestlst.SocietyName">Name of Society</th>
+              <th *ngIf="requestlst.SecretaryName">Secretary Name</th>
+              <th *ngIf="requestlst.SecretaryMobile">Secretary Mobile No.</th>
+              <th *ngIf="requestlst.SecretaryAadhar">Secretary Aadhar</th>
+              <th *ngIf="requestlst.SecretaryEmail">Secretary Email</th>
+              <th *ngIf="requestlst.PresidentName">President Name</th>
+              <th *ngIf="requestlst.PresidentMobile">President Mobile No.</th>
+              <th *ngIf="requestlst.PresidentAadhar">President Aadhar</th>
+              <th *ngIf="requestlst.PresidentEmail">President Email</th>
+              <th *ngIf="requestlst.AcademicInfo">Academic Info</th>
+              <th>Received Date</th>
+              <th>Inspection Date</th>
+              <th>Report Sent Date</th>
+              <th *ngIf="requestlst.FDRNumber">FDR Number</th>
+              <th *ngIf="requestlst.FDRAmount">FDR Amount</th>
+              <th *ngIf="requestlst.FDRDate">FDR Date</th>
+              <th *ngIf="requestlst.TeachingFaculityDetails">Teaching Faculity Details</th>
+              <th *ngIf="requestlst.NodalMobile">Nodal Officer Mobile</th>
+              <th *ngIf="requestlst.NodalEmail">Nodal Officer Email</th>
+              <th *ngIf="requestlst.PrincipalName">Principal Detail</th>
+              <th *ngIf="requestlst.AISHECode">AISHE Code</th>
+              <th *ngIf="requestlst.ApplyNocApplicationID">Last Application Id</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr *ngFor="let row of CollegeList | tableSearchFilter:searchText; let idx=index;">
+              <td>{{idx+1}}</td>
+              <td *ngIf="requestlst.CollegeID">{{row.CollegeID}}</td>
+              <td *ngIf="requestlst.CollegeNameEn">{{row.CollegeNameEn}}</td>
+              <td *ngIf="requestlst.CollegeNameHi">{{row.CollegeNameHi}}</td>
+              <td *ngIf="requestlst.NOCStatus">{{row.NOCStatus}}</td>
+              <td *ngIf="requestlst.ApplicationStatus">{{row.ApplicationStatus}}</td>
+              <td *ngIf="requestlst.SubmittedDate">{{row.SubmittedDate}}</td>
+              <td *ngIf="requestlst.CollegeType">{{row.CollegeType}}</td>
+              <td *ngIf="requestlst.MobileNumber">{{row.MobileNumber}}</td>
+              <td *ngIf="requestlst.Email">{{row.Email}}</td>
+              <td *ngIf="requestlst.StatusofCollege">{{row.StatusofCollege}}</td>
+              <td *ngIf="requestlst.CollegeLevel">{{row.CollegeLevel}}</td>
+              <td *ngIf="requestlst.Division_English">{{row.Division_English}}</td>
+              <td *ngIf="requestlst.District_Eng">{{row.District_Eng}}</td>
+              <td *ngIf="requestlst.SubdivisionName">{{row.SubdivisionName}}</td>
+              <td *ngIf="requestlst.TehsilName">{{row.TehsilName}}</td>
+              <td *ngIf="requestlst.ParliamentAreaName">{{row.ParliamentAreaName}}</td>
+              <td *ngIf="requestlst.AssembelyAreaName">{{row.AssembelyAreaName}}</td>
+              <td *ngIf="requestlst.PermanentAddress">{{row.PermanentAddress}}</td>
+              <td *ngIf="requestlst.CityTownVillage">{{row.CityTownVillage}}</td>
+              <td *ngIf="requestlst.Pincode">{{row.Pincode}}</td>
+              <td *ngIf="requestlst.CollegeLandlineNumber">{{row.CollegeLandlineNumber}}</td>
+              <td></td>
+              <td></td>
+              <td *ngIf="requestlst.WebsiteLink">{{row.WebsiteLink}}</td>
+              <td *ngIf="requestlst.NodalOfficer">{{row.NodalOfficer}}</td>
+              <td *ngIf="requestlst.FinancialYearName">{{row.FinancialYearName}}</td>
+              <td *ngIf="requestlst.ApplyNocFor">{{row.ApplyNocFor}}</td>
+              <td *ngIf="requestlst.LandAreaName">{{row.LandAreaName}}</td>
+              <td *ngIf="requestlst.LandDocumentTypeName">{{row.LandDocumentTypeName}}</td>
+              <td *ngIf="requestlst.LandConverted">{{row.LandConverted}}</td>
+              <td *ngIf="requestlst.Agr_LandArea">{{row.Agr_LandArea}}</td>
+              <td *ngIf="requestlst.Com_LandArea">{{row.Com_LandArea}}</td>
+              <td *ngIf="requestlst.Ins_LandArea">{{row.Ins_LandArea}}</td>
+              <td *ngIf="requestlst.Res_LandArea">{{row.Res_LandArea}}</td>
+              <td *ngIf="requestlst.Agr_KhasraNo">{{row.Agr_KhasraNo}}</td>
+              <td *ngIf="requestlst.Com_KhasraNo">{{row.Com_KhasraNo}}</td>
+              <td *ngIf="requestlst.Ins_KhasraNo">{{row.Ins_KhasraNo}}</td>
+              <td *ngIf="requestlst.Res_KhasraNo">{{row.Res_KhasraNo}}</td>
+              <td *ngIf="requestlst.LandConversion">{{row.LandConversion}}</td>
+              <td></td>
+              <td *ngIf="requestlst.AffidavitDate">{{row.AffidavitDate}}</td>
+              <td *ngIf="requestlst.UniversityName">{{row.UniversityName }}</td>
+              <td *ngIf="requestlst.CoursesAndSubjectInfo">{{row.CoursesAndSubjectInfo}}</td>
+              <td *ngIf="requestlst.CollegeNAACAccredited">{{row.CollegeNAACAccredited}}</td>
+              <td *ngIf="requestlst.SocietyName">{{row.SocietyName}}</td>
+              <td *ngIf="requestlst.SecretaryName">{{row.SecretaryName}}</td>
+              <td *ngIf="requestlst.SecretaryMobile">{{row.SecretaryMobile}}</td>
+              <td *ngIf="requestlst.SecretaryAadhar">{{row.SecretaryAadhar}}</td>
+              <td *ngIf="requestlst.SecretaryEmail">{{row.SecretaryEmail}}</td>
+              <td *ngIf="requestlst.PresidentName">{{row.PresidentName}}</td>
+              <td *ngIf="requestlst.PresidentMobile">{{row.PresidentMobile}}</td>
+              <td *ngIf="requestlst.PresidentAadhar">{{row.PresidentAadhar}}</td>
+              <td *ngIf="requestlst.PresidentEmail">{{row.PresidentEmail}}</td>
+              <td *ngIf="requestlst.AcademicInfo">{{row.AcademicInfo}}</td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td *ngIf="requestlst.FDRNumber">{{row.FDRNumber}}</td>
+              <td *ngIf="requestlst.FDRAmount">{{row.FDRAmount}}</td>
+              <td *ngIf="requestlst.FDRDate">{{row.FDRDate}}</td>
+              <td *ngIf="requestlst.TeachingFaculityDetails">{{row.TeachingFaculityDetails}}</td>
+              <td *ngIf="requestlst.NodalMobile">{{row.NodalMobile}}</td>
+              <td *ngIf="requestlst.NodalEmail">{{row.NodalEmail}}</td>
+              <td *ngIf="requestlst.PrincipalName">Name:{{row.PrincipalName}},Mobile:{{row.PrincipalMobile}}</td>
+              <td *ngIf="requestlst.AISHECode">{{row.AISHECode}}</td>
+              <td *ngIf="requestlst.ApplyNocApplicationID">{{row.ApplyNocApplicationID}}</td>
+            </tr>
+            <tr *ngIf="CollegeList.length<=0">
+              <td colspan="100" style="color:red;text-align:left">No Data Found.!</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
+
   </div>
 </div>
 
 
-  <div class="col-md-12 col-md-12 col-sm-12 col-12 mb-3">
-    
-  </div>

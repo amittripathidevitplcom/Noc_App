@@ -19,7 +19,6 @@ export class DuplicateAadharReportService {
     return throwError(error);
   }
   public async GetDuplicateAadhaarReportDatail(request: DuplicateAadharReportDataModel) {
-    debugger;
     const headers = { 'content-type': 'application/json' }
     const body = JSON.stringify(request);
     return await this.http.post(this.APIUrl + '/GetDuplicateAadhaarReportDatail/', body, { 'headers': headers })

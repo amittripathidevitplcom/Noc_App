@@ -234,7 +234,7 @@ import { DuplicateAadharReportComponent } from './Views/DCEReports/duplicate-aad
 import { PenaltyApplicationListDCEComponent } from './Views/DCE/penalty-application-list-dce/penalty-application-list-dce.component';
 import { DefaulterCollegeRequestComponent } from './Views/DefaulterCollege/defaulter-college-request/defaulter-college-request.component';
 import { AdminDefaulterCollegeListComponent } from './Views/Admin/admin-defaulter-college-list/admin-defaulter-college-list.component';
-
+import { CourseReportsComponent } from './Views/DCEReports/course-reports/course-reports.component';
 
 const routes: Routes = [
   {
@@ -949,6 +949,9 @@ const routes: Routes = [
       },
       {
         path: 'duplicateaadharreport', component: DuplicateAadharReportComponent
+      },
+      {
+        path: 'coursereport', component: CourseReportsComponent
       },
       {
         path: 'penaltyapplicationlist', component: PenaltyApplicationListDCEComponent

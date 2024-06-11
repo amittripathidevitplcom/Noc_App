@@ -14,7 +14,7 @@
       public MonthlySalary: string = '';
       public NOCStatus: number = 0;
      // public NOCStatus: string = '';
-      public DuplicateAdharID: number = 0;
+      public DuplicateAdharID: string = '';
       public Gender: string = '';
       public TempPermanentID: string = '';
       public IsReserachGuideID: string = '';

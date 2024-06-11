@@ -129,6 +129,13 @@ export class StaffReportsComponent implements OnInit {
     return true;
 
   }
+  numbersOnly(event: any): boolean {
+    const charCode = (event.which) ? event.which : event.keyCode;
+    if (charCode > 31 && (charCode == 47 || charCode < 46 || charCode > 57)) {
+      return false;
+    }
+    return true;
+  }
 
   CheckAppointmentDate() {
     try {
@@ -261,9 +268,13 @@ export class StaffReportsComponent implements OnInit {
 
 
   async DCEStaffDetailsList() {
-
+    debugger;
     try {
       this.loaderService.requestStarted();
+      if (this.request.MonthlySalary.toString() == '' || this.request.MonthlySalary.toString() == null || this.request.MonthlySalary.toString() == undefined)
+      {
+        this.request.MonthlySalary = "0";
+      }
       await this.staffReportsService.DCEStaffDetailsList(this.request)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
@@ -282,7 +293,19 @@ export class StaffReportsComponent implements OnInit {
 
   async ResetControl() {
     this.request = new StaffReportDataModel();
+    this.requestlst = new StaffReportFilter();
+    this.DCEStaffDetailsList();
   }
+  alphaOnly(event: any): boolean {  // Accept only alpha numerics, not special characters 
+    var regex = new RegExp("^[a-zA-Z ]+$");
+    var str = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+    if (regex.test(str)) {
+      return true;
+    }
+    event.preventDefault();
+    return false;
+  }
+
   btnExportTable_Click(): void {
     this.loaderService.requestStarted();
     if (this.StaffReportData.length > 0) {
