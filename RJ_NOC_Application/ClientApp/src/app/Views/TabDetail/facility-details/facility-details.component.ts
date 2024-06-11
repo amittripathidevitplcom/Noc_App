@@ -346,7 +346,13 @@ export class FacilityDetailsComponent implements OnInit {
       this.FacilitiesForm.get('ddlIsAvailable')?.clearValidators();
 
       this.FacilitiesForm.get('txtNoOf')?.setValidators([Validators.required, Validators.min(1)]);
-      this.FacilitiesForm.get('txtMinSize')?.setValidators([Validators.required, Validators.min(0), Validators.max(100000000)]);
+      if (this.request.FacilitiesID == 20 && this.SelectedDepartmentID==2) {
+        this.FacilitiesForm.get('txtMinSize')?.clearValidators();
+      }
+      else {
+        this.FacilitiesForm.get('txtMinSize')?.setValidators([Validators.required, Validators.min(0), Validators.max(100000000)]);
+
+      }
     }
     else {
       this.FacilitiesForm.get('ddlIsAvailable')?.setValidators([Validators.required]);

@@ -15,6 +15,7 @@ import { InputValidationService } from '../../../Services/CustomValidators/input
 import { LegalEntityService } from '../../../Services/LegalEntity/legal-entity.service';
 import { __rest } from 'tslib';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
+import { request } from 'http';
 
 @Injectable()
 
@@ -681,7 +682,6 @@ export class AddCollegeComponent implements OnInit {
 
       const selectedCollegeStatusID = Number(SelectedCollegeStatusID);
       let SelectdCollegeStatusName = this.CollegeStatusList.find((x: { ID: number; }) => x.ID == selectedCollegeStatusID).Name;
-
       if (SelectdCollegeStatusName == "New") {
 
         this.IsExisting = false;
@@ -721,6 +721,8 @@ export class AddCollegeComponent implements OnInit {
         this.PresentCollegeStatusList_FilterData = this.PresentCollegeStatusList;
         this.CollegeLevelList_FilterData = this.CollegeLevelList;
       }
+
+
 
     }
     catch (ex) {
@@ -839,7 +841,7 @@ export class AddCollegeComponent implements OnInit {
           this.ErrorMessage = data['ErrorMessage'];
           this.CollegeMediumList = data['Data'];
         }, error => console.error(error));
-       //university 
+      //university 
       await this.commonMasterService.GetUniversityByDepartmentId(departmentId)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
@@ -1273,6 +1275,15 @@ export class AddCollegeComponent implements OnInit {
     // this.CollegeDetailsForm.get('CollegeAffiliationDocument')?.updateValueAndValidity(); 
     // this.CollegeDetailsForm.get('CollegeWebsiteImage')?.updateValueAndValidity(); 
     this.CollegeDetailsForm.get('txtWebsiteLink')?.updateValueAndValidity();
+
+
+    if (this.IsExisting == true && this.request.DepartmentID == 2) {
+      this.CollegeDetailsForm.get('txtCollegeCode')?.setValidators([Validators.required]);
+      this.CollegeDetailsForm.get('txtCollegeCode')?.updateValueAndValidity();
+    } else {
+      this.CollegeDetailsForm.get('txtCollegeCode')?.clearValidators();
+      this.CollegeDetailsForm.get('txtCollegeCode')?.updateValueAndValidity();
+    }
 
 
     this.isValidCollegeLogo = false;
