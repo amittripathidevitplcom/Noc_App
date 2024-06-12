@@ -139,6 +139,12 @@ export class ApplyNocParameterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
+  public async GetDefaulterCollegePenalty(CollegeID: number, Other1: string, Other2: string) {
+    return await this.http.get(this.APIUrl + "/DefaulterCollegePenalty/" + CollegeID + "/" + Other1 + "/" + Other2)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
   public async GetApplyNocApplicationLists(SelectedCollageID: number, SelectedDepartmentID: number) {
     return await this.http.get(this.APIUrl + "/GetApplyNocApplicationLists" + "/" + SelectedCollageID + "/" + SelectedDepartmentID)
       .pipe(

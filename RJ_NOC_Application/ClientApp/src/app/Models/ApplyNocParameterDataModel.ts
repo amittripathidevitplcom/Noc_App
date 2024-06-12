@@ -35,10 +35,12 @@ export class ApplyNocParameterDataModel {
 
 
 
-  public ApplyNocParameterMasterList_TNOCExtOfSubject: ApplyNocParameterMaster_TNOCExtensionDataModel = null;
-  public ApplyNocParameterMasterList_PNOCOfSubject: ApplyNocParameterMaster_TNOCExtensionDataModel = null;
+  public ApplyNocParameterMasterList_TNOCExtOfSubject?: ApplyNocParameterMaster_TNOCExtensionDataModel = null;
+  public ApplyNocParameterMasterList_PNOCOfSubject?: ApplyNocParameterMaster_TNOCExtensionDataModel = null;
 
-  public ApplyNocLateFeeDetailList: ApplyNocLateFeeDetailDataModal[] = [];
+  public ApplyNocLateFeeDetailList?: ApplyNocLateFeeDetailDataModal[] = [];
+  public DefaulterCollegePenaltyDetailList?: DefaulterCollegePenaltyDataModal[] = [];
+  public TotalDefaulterCollegePenalty?: number = 0;
   //DTE Rishi kapoor 17 01 2024
   public DTE_BankDetails!: ApplyNocParameterMasterList_BankDetails;
   public DTE_BankDetails_View: boolean = false;
@@ -320,6 +322,13 @@ export class ApplyNocLateFeeDetailDataModal {
   public FeesAmount: number = 0;
   public StartDate: string = '';
   public EndDate: string = '';
+}
+export class DefaulterCollegePenaltyDataModal {
+  public DepartmentID: number = 0;
+  public PenaltyID: number = 0;
+  public RequestID: number = 0;
+  public Penaltyfor: number = 0;
+  public PenaltyAmount: number = 0; 
 }
 export class ApplyNocOfflinePaymentModal {
   public ID: number = 0;
