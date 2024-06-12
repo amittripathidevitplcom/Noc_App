@@ -362,6 +362,28 @@ export class ApplicationDetailEntryComponent implements OnInit {
                     }
                   }
                 }
+                if (this.SelectedDepartmentID == 9) {
+                  if (data['Data'][0]['data'][0]['PendingPrincipal'] == 0) {
+                    this.toastr.error('Please Add One Principal in Staff details.')
+                    this.isCheck30Female = true;
+                    return;
+                  }
+                  if (data['Data'][0]['data'][0]['AssistantProfessor'] == 0) {
+                    this.toastr.error('Please Add One Assistant Professor in Staff details.')
+                    this.isCheck30Female = true;
+                    return;
+                  }
+                  if (data['Data'][0]['data'][0]['Lecturer'] == 0) {
+                    this.toastr.error('Please Add One Lecturer in Staff details.')
+                    this.isCheck30Female = true;
+                    return;
+                  }
+                  if (data['Data'][0]['data'][0]['Technician'] == 0) {
+                    this.toastr.error('Please Add One Technician in Staff details.')
+                    this.isCheck30Female = true;
+                    return;
+                  }
+                }
               }
               else {
                 this.toastr.error(this.ErrorMessage)

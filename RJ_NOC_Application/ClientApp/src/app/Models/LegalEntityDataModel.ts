@@ -47,6 +47,10 @@ export class LegalEntityDataModel {
   public ProcessDepartmentID: number = 0;
   public ManagementType: string = 'Private';
 
+  public Dis_ByLawsDocumentName: string = '';
+  public ByLawsDocumentPath: string = '';
+  public ByLawsDocument: string = '';
+
 
 }
 

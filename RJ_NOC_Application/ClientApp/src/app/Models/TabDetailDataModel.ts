@@ -135,6 +135,7 @@ export class StaffDetailDataModel {
   public S_Action: string = '';
   public S_Remark: string = '';
   public Gender: string = '';
+  public DesignationRegistrationNo?: string = '';
 }
 export class EducationalQualificationDetails_StaffDetail {
   public EducationalQualificationID: number = 0;
@@ -215,6 +216,7 @@ export class OldNocDetailsDataModel {
   public S_Action: string = '';
   public C_Remark: string = '';
   public S_Remark: string = '';
+
 }
 export class OldNocDetails_SubjectDataModel {
   public OldNOCSubjectID: number = 0;
@@ -326,6 +328,7 @@ export class BuildingDetailsDataModel {
   public S_Remark: string = '';
   public CityID: number = 0;
   public CityName: string = '';
+  public IsApproved: string = 'No';
 }
 
 export class DocuemntBuildingDetailsDataModel {

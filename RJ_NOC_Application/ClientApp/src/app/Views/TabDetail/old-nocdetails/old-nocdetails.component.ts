@@ -29,6 +29,7 @@ export class OldNOCDetailsComponent implements OnInit {
   isSubmitted: boolean = false;
   public ShowOldNOCType: boolean = false;
   public isDisabled: boolean = false;
+  public isDropdownDisabled: boolean = false;
   public IsUploadDocRequried: boolean = false;
   public State: number = -1;
   public SuccessMessage: any = [];
@@ -78,6 +79,23 @@ export class OldNOCDetailsComponent implements OnInit {
   constructor(private loaderService: LoaderService, private toastr: ToastrService, private fileUploadService: FileUploadService,
     private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private formBuilder: FormBuilder, private oldnocdetailService: OldnocdetailService) {
 
+    //this.oldNOCForm = this.formBuilder.group(
+    //  {
+    //    ddlCollegeID: ['', DropdownValidators],
+    //    ddlCourseID: ['', [DropdownValidators]],
+    //    ddlOldNOCTypeId: ['', [DropdownValidators]],
+    //    ddlSubject: ['', Validators.required],
+    //    ddlSessionYear: ['', [DropdownValidators]],
+    //    ddlIssueYear: ['', [DropdownValidators]],
+    //    txtNOCNumber: ['', Validators.required],
+    //    dtNOCReceivedDate: ['', Validators.required],
+    //    dtNOCExpireDate: [''],
+    //    UploadNOCDoc: [''],
+    //    txtRemark: [''],
+    //  });
+  }
+
+  async ngOnInit() {
     this.oldNOCForm = this.formBuilder.group(
       {
         ddlCollegeID: ['', DropdownValidators],
@@ -86,15 +104,14 @@ export class OldNOCDetailsComponent implements OnInit {
         ddlSubject: ['', Validators.required],
         ddlSessionYear: ['', [DropdownValidators]],
         ddlIssueYear: ['', [DropdownValidators]],
+        //ddlIssueYear: [{ value: '', disabled: true }],
         txtNOCNumber: ['', Validators.required],
         dtNOCReceivedDate: ['', Validators.required],
         dtNOCExpireDate: [''],
         UploadNOCDoc: [''],
         txtRemark: [''],
       });
-  }
-
-  async ngOnInit() {
+    this.oldNOCForm.get('ddlIssueYear')?.enable();
     this.SelectedDepartmentID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DepartmentID')?.toString()));
     //this.SelectedCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
     //this.request.CollegeID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
@@ -147,7 +164,9 @@ export class OldNOCDetailsComponent implements OnInit {
       return element.CollegeID == this.SelectedCollageID;
     });
     await this.GetCourseList();
-
+    setTimeout(() => {
+      this.isToDisable = true;
+    }, 2000);
 
   }
 
@@ -276,6 +295,10 @@ export class OldNOCDetailsComponent implements OnInit {
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
           this.lstSessionYear = data['Data'];
+          if (this.SelectedDepartmentID == 9) {
+            this.request.IssuedYear = 1;
+            this.oldNOCForm.get('ddlIssueYear')?.disable();
+          }
         }, error => console.error(error));
     }
     catch (Ex) {
@@ -687,6 +710,10 @@ export class OldNOCDetailsComponent implements OnInit {
       const btnAddReset = document.getElementById('btnAddReset')
       if (btnAddReset) { btnAddReset.innerHTML = "Reset"; }
       this.GetOldNOCDetailList_DepartmentCollegeWise(this.SelectedDepartmentID, this.SelectedCollageID, 0);
+      if (this.SelectedDepartmentID == 9) {
+        this.request.IssuedYear = 1;
+        this.oldNOCForm.get('ddlIssueYear')?.disable();
+      }
     }
     catch (Ex) {
       console.log(Ex);

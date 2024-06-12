@@ -176,7 +176,8 @@
                 <i class="fa fa-files-o icon" aria-hidden="true"></i>
                 <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['OtherDocument']>0"></i>
                 <span class="badge pulse" *ngIf="CheckTabsEntryData['OtherDocument']==0"></span>
-                <span>Other Document</span>
+                <span *ngIf="SelectedDepartmentID !=9">Other Document</span>
+                <span *ngIf="SelectedDepartmentID ==9">Other Additional Document</span>
               </ng-template>
               <app-other-document></app-other-document>
             </mat-tab>
