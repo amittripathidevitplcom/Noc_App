@@ -51,7 +51,7 @@
               <button type="button" class="btn btn-sm btn-primary" title="View Details" (click)="ViewDetails(mymodaldetails,row.RequestID)"><i class="fa fa-eye"></i></button>
               <button type="button" class="btn btn-sm btn-info" title="Add Penalty" (click)="OpenPenaltyModel(Penaltymodel,row.RequestID)"><i class="fa fa-edit"></i></button>
             </td>
-            <td style="text-align:center;">{{idx+1}}</td>
+            <td>{{idx+1}}</td>
             <td>{{row.EverAppliedNOC}}</td>
             <td>{{row.IsPNOC}}</td>
             <td>{{row.LastApplicationNo}}</td>
@@ -240,7 +240,8 @@
       <table class="table table-hover table-striped-columns">
         <thead>
           <tr>
-            <th>Sr. No.</th>
+            <th style="width:5%">Sr. No.</th>
+            <th >Sr. No.</th>
             <th>Penalty for</th>
             <th>Penalty Amount</th>
             <th>Action</th>
@@ -248,7 +249,7 @@
         </thead>
         <tbody>
           <tr *ngFor="let row of DefaulterCollegePenaltyList; let idx=index;">
-            <td style="text-align:center;">{{idx+1}}</td>
+            <td>{{idx+1}}</td>
             <td>{{row.Penaltyfor}}</td>
             <td>{{row.PenaltyAmount}}</td>
             <td>

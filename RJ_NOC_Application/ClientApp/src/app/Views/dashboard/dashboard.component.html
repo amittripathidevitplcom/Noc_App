@@ -654,6 +654,22 @@
         <a href="/penaltyapplicationlist">View more <i class="fa fa-chevron-circle-right"></i></a>
       </div>
     </div>
+    <div class="col-lg-2 col-md-4 col-sm-6 col-12">
+      <div class="card staticsCards">
+        <div class="card-body">
+          <div class="">
+            <div class="dashCardIcon">
+              <i class="fa fa-bank"></i>
+            </div>
+            <div class="dashCardContent">
+              <h4>Defaulter College Request</h4>
+              <h2>{{dashboardDataModel.TotalDefaulterCollegeRequest}}</h2>
+            </div>
+          </div>
+        </div>
+        <a href="/defaultercollegerequest">View more <i class="fa fa-chevron-circle-right"></i></a>
+      </div>
+    </div>
   </div>
 
   <div class="row" *ngIf="(this.sSOLoginDataModel.DepartmentID==6 || this.sSOLoginDataModel.DepartmentID==9) &&this.sSOLoginDataModel.RoleID==2">

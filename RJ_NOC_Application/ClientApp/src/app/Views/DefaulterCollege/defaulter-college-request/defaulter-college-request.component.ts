@@ -9,6 +9,7 @@ import { DropdownValidators, DropdownValidatorsString } from '../../../Services/
 import { DefaulterCollegeRequestDataModel, DefaulterCollegeSearchFilterDataModel } from '../../../Models/DefaulterCollegeRequestDataModel';
 import { DefaulterCollegeRequestService } from '../../../Services/DefaulterCollegeRequest/DefaulterCollegeRequest.service';
 import { SSOLoginDataModel } from '../../../Models/SSOLoginDataModel';
+import { ModalDismissReasons, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-defaulter-college-request',
@@ -50,7 +51,7 @@ export class DefaulterCollegeRequestComponent {
   request = new DefaulterCollegeRequestDataModel();
   searchrequest = new DefaulterCollegeSearchFilterDataModel();
   sSOLoginDataModel = new SSOLoginDataModel();
-  constructor(private DefaulterCollegeRequestService: DefaulterCollegeRequestService, private toastr: ToastrService, private loaderService: LoaderService, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private fileUploadService: FileUploadService) {
+  constructor(private modalService: NgbModal,private DefaulterCollegeRequestService: DefaulterCollegeRequestService, private toastr: ToastrService, private loaderService: LoaderService, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private fileUploadService: FileUploadService) {
   }
   get form() { return this.DefaulterCollegeForm.controls; }
 
@@ -651,5 +652,44 @@ export class DefaulterCollegeRequestComponent {
     this.request.LastSessionProofOfExaminationDoc = '';
     const btnSave = document.getElementById('btnSave')
     if (btnSave) btnSave.innerHTML = `<i class="fa fa-save"></i> Register`;
+  }
+  modalReference!: NgbModalRef;
+  closeResult!: string;
+  public DefaulterCollegePenaltyList: any = [];
+  async OpenPenaltyModel(content: any, RequestID: number) {
+    this.modalService.open(content, { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' }).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+    await this.GetDefaulterCollegePenaltyData(RequestID);
+  }
+  async GetDefaulterCollegePenaltyData(RequestID: number) {
+    //Show Loading
+    this.loaderService.requestStarted();
+    try {
+      await this.DefaulterCollegeRequestService.GetDefaulterCollegePenalty(RequestID, 0)
+        .then(async (data: any) => {
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.DefaulterCollegePenaltyList = data['Data'][0]['data'];
+        });
+    }
+    catch (ex) { console.log(ex) }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return `with: ${reason}`;
+    }
   }
 }
