@@ -8,7 +8,7 @@ import { ApplyNocParameterService } from '../../../Services/Master/apply-noc-par
 import {
   ApplyNocParameterCourseDataModel, ApplyNocParameterDataModel, ApplyNocParameterMasterListDataModel, ApplyNocParameterMasterList_AdditionofIntegratedDualDegree, ApplyNocParameterMasterList_BankDetails, ApplyNocParameterMasterList_ChangeInCoedtoGirls, ApplyNocParameterMasterList_ChangeInCollegeManagement, ApplyNocParameterMasterList_ChangeInGirlstoCoed, ApplyNocParameterMasterList_ChangeInNameOfCollege,
   ApplyNocParameterMasterList_ChangeInInspectionFee
-, ApplyNocParameterMasterList_ChangeInNameOfCourse, ApplyNocParameterMasterList_ChangeInNameofInstitution, ApplyNocParameterMasterList_ChangeInPlaceOfCollege, ApplyNocParameterMasterList_ChangeinNameofSociety, ApplyNocParameterMasterList_ChangeofSite_Location, ApplyNocParameterMasterList_ClosureOfCourses, ApplyNocParameterMasterList_ClosureOfProgram, ApplyNocParameterMasterList_CoursesforWorkingProfessionals, ApplyNocParameterMasterList_IncreaseInIntake_AdditionofCourse, ApplyNocParameterMasterList_IncreaseinIntakeAdditionofCourse, ApplyNocParameterMasterList_IntroductionOffCampus, ApplyNocParameterMasterList_MergerCollege, ApplyNocParameterMasterList_MergerOfTheCourse, ApplyNocParameterMasterList_MergerofInstitutions, ApplyNocParameterMasterList_ReductionInIntake, ApplyNocParameterMasterList_TostartNewProgramme, ApplyNocParameterMaster_AdditionOfNewSeats60DataModel, ApplyNocParameterMaster_TNOCExtensionDataModel
+  , ApplyNocParameterMasterList_ChangeInNameOfCourse, ApplyNocParameterMasterList_ChangeInNameofInstitution, ApplyNocParameterMasterList_ChangeInPlaceOfCollege, ApplyNocParameterMasterList_ChangeinNameofSociety, ApplyNocParameterMasterList_ChangeofSite_Location, ApplyNocParameterMasterList_ClosureOfCourses, ApplyNocParameterMasterList_ClosureOfProgram, ApplyNocParameterMasterList_CoursesforWorkingProfessionals, ApplyNocParameterMasterList_IncreaseInIntake_AdditionofCourse, ApplyNocParameterMasterList_IncreaseinIntakeAdditionofCourse, ApplyNocParameterMasterList_IntroductionOffCampus, ApplyNocParameterMasterList_MergerCollege, ApplyNocParameterMasterList_MergerOfTheCourse, ApplyNocParameterMasterList_MergerofInstitutions, ApplyNocParameterMasterList_ReductionInIntake, ApplyNocParameterMasterList_TostartNewProgramme, ApplyNocParameterMaster_AdditionOfNewSeats60DataModel, ApplyNocParameterMaster_TNOCExtensionDataModel, DefaulterCollegePenaltyDataModal
 } from '../../../Models/ApplyNocParameterDataModel';
 import { SSOLoginDataModel } from '../../../Models/SSOLoginDataModel';
 import { DropdownValidators } from '../../../Services/CustomValidators/custom-validators.service';
@@ -241,6 +241,8 @@ export class ApplyNocParameterComponent implements OnInit {
     this.request.DTE_CoursesforWorkingProfessionals = new ApplyNocParameterMasterList_CoursesforWorkingProfessionals();
     this.request.DTE_CoursesforWorkingProfessionals_List = [];
 
+    this.request.DefaulterCollegePenaltyDetailList = [];
+
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     await this.GetCollegeList();
     await this.GetApplicationList();
@@ -253,7 +255,7 @@ export class ApplyNocParameterComponent implements OnInit {
     return this.ApplyNocParameterForm.controls;
   }
   async ClickApplyNOC(DepartmentID: number, collegeID: number, FinalSubmit: boolean, PendingNOC: number) {
-    if (FinalSubmit == false && PendingNOC==0) {
+    if (FinalSubmit == false && PendingNOC == 0) {
       this.SelectedCollegeID = collegeID;
       this.SelectedDepartmentID = DepartmentID;
       this.IsShowApplyNocForm = true;
@@ -282,7 +284,7 @@ export class ApplyNocParameterComponent implements OnInit {
   async GetApplicationList() {
     try {
       this.loaderService.requestStarted();
-      await this.draftApplicationListService.CollegeDetails(this.sSOLoginDataModel.SSOID,'NOC')
+      await this.draftApplicationListService.CollegeDetails(this.sSOLoginDataModel.SSOID, 'NOC')
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
@@ -457,7 +459,7 @@ export class ApplyNocParameterComponent implements OnInit {
             if (rowitem.ApplyNocCode == 'DCEInspectionFee') {
               rowitem.IsChecked = true;
               this.ApplyNocFor_cbChange(null, rowitem.ApplyNocID, rowitem, 0);
-            } 
+            }
           });
         }
 
@@ -844,7 +846,7 @@ export class ApplyNocParameterComponent implements OnInit {
       if (this.request.ApplyNocCode == 'DCEInspectionFee') {
         this.ApplyNocParameterMasterList_ChangeInInspectionFee = new ApplyNocParameterMasterList_ChangeInInspectionFee();
         this.ApplyNocParameterMasterList_ChangeInInspectionFee.ApplyNocID = Number(SelectedApplyNocForID);
-        this.ApplyNocParameterMasterList_ChangeInInspectionFee.FeeAmount = item.FeeAmount; 
+        this.ApplyNocParameterMasterList_ChangeInInspectionFee.FeeAmount = item.FeeAmount;
       }
       if (this.request.ApplyNocCode == 'DEC_ChangePlace') {
         this.ApplyNocParameterMasterList_ChangeInPlaceOfCollege = new ApplyNocParameterMasterList_ChangeInPlaceOfCollege();
@@ -947,8 +949,7 @@ export class ApplyNocParameterComponent implements OnInit {
       // get
       await this.GetApplyNocForByParameter();
       this.isShowPriceDetails = true;
-      await this.GetNocLateFees();
-      await this.CalculateAllAmount();
+
     }
     catch (ex) {
       console.log(ex);
@@ -1113,15 +1114,27 @@ export class ApplyNocParameterComponent implements OnInit {
           //this.request.TotalFeeAmount += this.calcuatePNOCSubjectFees();
         }
 
+
+
         this.request.TotalNocFee = this.request.TotalFeeAmount;
         if (this.request.ApplyNocLateFeeDetailList.length > 0) {
           this.request.TotalFeeAmount += this.TotalLateFees;
           this.request.LateFee = this.TotalLateFees;
         }
-
-        if (this.isInspectionFee) {
-          this.request.TotalFeeAmount = this.DepartmentInspectionFee;
+        this.request.TotalDefaulterCollegePenalty = 0;
+        for (let i = 0; i < this.request.DefaulterCollegePenaltyDetailList.length; i++) {
+          this.request.TotalDefaulterCollegePenalty += this.request.DefaulterCollegePenaltyDetailList[i].PenaltyAmount;
         }
+
+        this.request.TotalNocFee += this.DepartmentInspectionFee;
+
+        this.request.TotalFeeAmount += this.DepartmentInspectionFee;
+           this.request.TotalFeeAmount += this.request.TotalDefaulterCollegePenalty;
+        
+
+
+
+
 
         // TNOC Extension      
         this.request.ApplyNocParameterMasterList_TNOCExtension = this.ApplyNocParameterMasterList_TNOCExtension;
@@ -1180,7 +1193,7 @@ export class ApplyNocParameterComponent implements OnInit {
 
         else if (this.ApplyNocParameterMasterList_PNOCOfSubject?.ApplyNocParameterCourseList != null) {
           let SelectedCourselist = this.ApplyNocParameterMasterList_PNOCOfSubject?.ApplyNocParameterCourseList;
-          
+
           if (this.IsCollegeDeficiency) {
             alert('College Deficiency\n' + this.CollegeDeficiencys);
             this.toastr.error('With College Deficiency not apply Permanent NOC')
@@ -1288,7 +1301,7 @@ export class ApplyNocParameterComponent implements OnInit {
             return;
           }
         }
-       
+
         if (!this.IsTermsChecked) {
           this.toastr.warning('Please accept terms and condition');
           isValid = false;
@@ -2631,20 +2644,7 @@ export class ApplyNocParameterComponent implements OnInit {
 
   async ApplyNocFor_rbChange(event: any, selectedvalue: any, item: any) {
 
-    this.IsTermsChecked = false;
-    if (item.Code == 'InspectionFee') {
-      this.isInspectionFee = true;
-      this.GetCollegeInspectionFee();
-      this.request.ApplyNocLateFeeDetailList = []; 
-      this.isShowPriceDetails = false;
-
-    }
-    else {
-      this.GetApplyNocParameterMaster();
-      this.isInspectionFee = false;
-      // this.isShowPriceDetails = true;
-    }
-
+    this.ApplyNocParameterMasterList_ddl = [];
     this.ApplyNocParameterMasterList_TNOCExtension = null;
     this.ApplyNocParameterMasterList_AdditionOfNewSeats60 = null;
     //parameters details
@@ -2660,12 +2660,59 @@ export class ApplyNocParameterComponent implements OnInit {
     this.ApplyNocParameterMasterList_PNOCOfSubject = null;
 
     this.ApplyNocParameterMasterList_ChangeInCoedtoGirls = null
+    this.IsTermsChecked = false;
+    if (item.Code == 'InspectionFee') {
+      this.isInspectionFee = true;
+      await this.GetCollegeInspectionFee();
+      this.request.ApplyNocLateFeeDetailList = [];
+
+      //this.isShowPriceDetails = false;
+
+    }
+    else {
+      await this.GetApplyNocParameterMaster();
+      this.isInspectionFee = false;
+      this.DepartmentInspectionFee = 0;
+      // this.isShowPriceDetails = true;
+    }
 
 
+
+    await this.GetNocLateFees();
+    await this.CalculateAllAmount();
+    await this.GetDefaulterCollegePenalty();
 
   }
 
+  async GetDefaulterCollegePenalty() {
+    try {
+      debugger
+      this.loaderService.requestStarted();
+      await this.applyNocParameterService.GetDefaulterCollegePenalty(this.request.CollegeID, "-1", '-1')
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.request.DefaulterCollegePenaltyDetailList = data['Data'][0]['data'];
 
+          if (this.request.DefaulterCollegePenaltyDetailList != null) {
+            if (this.request.DefaulterCollegePenaltyDetailList.length > 0) {
+              this.request.TotalDefaulterCollegePenalty = this.request.DefaulterCollegePenaltyDetailList.map(t => t.PenaltyAmount).reduce((acc, value) => acc + value, 0);
+            }
+          }
+
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
   async GetCollegeInspectionFee() {
     await this.commonMasterService.GetCollegeInspectionFee(this.request.CollegeID, this.request.DepartmentID)
       .then((data: any) => {
@@ -2715,6 +2762,7 @@ export class ApplyNocParameterComponent implements OnInit {
       let totalFeeList = this.request.ApplyNocParameterMasterListDataModel?.filter((element: any) => { return element.IsChecked == true; });
       // and total fee
       this.request.TotalFeeAmount = 0;
+      this.request.TotalDefaulterCollegePenalty = 0;
       for (let i = 0; i < totalFeeList.length; i++) {
         this.request.TotalFeeAmount += totalFeeList[i].FeeAmount;
       }
@@ -2746,6 +2794,20 @@ export class ApplyNocParameterComponent implements OnInit {
           this.request.LateFee = this.TotalLateFees;
         }
       }
+
+
+      for (let i = 0; i < this.request.DefaulterCollegePenaltyDetailList.length; i++) {
+        this.request.TotalDefaulterCollegePenalty += this.request.DefaulterCollegePenaltyDetailList[i].PenaltyAmount;
+      }
+
+      this.request.TotalNocFee += this.DepartmentInspectionFee;
+
+      this.request.TotalFeeAmount += this.DepartmentInspectionFee;
+      setTimeout(() => {
+        this.request.TotalFeeAmount += this.request.TotalDefaulterCollegePenalty;
+      }, 500);
+
+
     } catch (error) {
 
     }
@@ -3525,8 +3587,7 @@ export class ApplyNocParameterComponent implements OnInit {
       return;
     }
 
-    if ((Number(this.DTE_MergerOfTheCourse.MergerIntake)) > ((Number(this.DTE_MergerOfTheCourse.CourseIntake1) + Number(this.DTE_MergerOfTheCourse.CourseIntake2))))
-    {
+    if ((Number(this.DTE_MergerOfTheCourse.MergerIntake)) > ((Number(this.DTE_MergerOfTheCourse.CourseIntake1) + Number(this.DTE_MergerOfTheCourse.CourseIntake2)))) {
       this.toastr.error("Enter Merger Intake (should be less than or equal (intake 1 + intake 2).!");
       return;
     }
@@ -4220,7 +4281,7 @@ export class ApplyNocParameterComponent implements OnInit {
             if (data['Data'][0]['data'].length > 0) {
               if (data['Data'][0]['data'][0]['Deficiency'] != '') {
                 this.IsCollegeDeficiency = true;
-                this.CollegeDeficiencys=data['Data'][0]['data'][0]['Deficiency'];
+                this.CollegeDeficiencys = data['Data'][0]['data'][0]['Deficiency'];
               }
             }
           }
