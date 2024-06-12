@@ -13,7 +13,7 @@
                     value="{{item.FID}}">
               {{item.FacilitiesName}}
             </option>
-          </select> 
+          </select>
           <div *ngIf="isSubmitted&&form.ddlFacilitiesId.errors" class="text-danger">
             <p *ngIf="!form.ddlFacilitiesId.errors.DropdownValidators" text-danger> This field is required .!</p>
           </div>
@@ -21,19 +21,19 @@
 
 
 
-        <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3"  *ngIf="!isInputOptionType">
+        <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="!isInputOptionType">
           <label>Is Available<span style="color:red;">*</span></label>
           <select class="form-select" id="ddlIsAvailable" name="ddlIsAvailable" formControlName="ddlIsAvailable" [(ngModel)]="request.IsAvailable"
-                   #SeletedIsAvailable (change)="ddlIsAvailable_change(SeletedIsAvailable.value)">
+                  #SeletedIsAvailable (change)="ddlIsAvailable_change(SeletedIsAvailable.value)">
             <option value="">--Select--</option>
             <option value="Yes">Yes</option>
             <option value="No">No</option>
-          </select> 
+          </select>
           <div *ngIf="isSubmitted&&form.ddlIsAvailable.errors" class="text-danger">
             <p *ngIf="!form.ddlIsAvailable.errors.DropdownValidators" text-danger> This field is required .!</p>
           </div>
         </div>
-         
+
 
 
         <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="isInputOptionType">
@@ -44,22 +44,21 @@
             <p *ngIf="form.txtNoOf.errors.min">No of greater than zero .!</p>
           </div>
         </div>
-
-        <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="isInputOptionType">
-          <label>Minimum Size ({{Unit}})<span style="color:red;">*</span></label>
-          <input type="text" class="form-control" id="txtMinSize" name="txtMinSize" maxlength="5" [(ngModel)]="request.MinSize" formControlName="txtMinSize" (keypress)="numberOnly($event)" placeholder="Enter Minimum Size In ({{Unit}})" autocomplete="off" />
-          <p *ngIf="WidthMin>0 && request.FacilitiesID>0" class="{{request.MinSize >= WidthMin ? '' : CssClass_TextDangerWidth}}">Please Enter Min size : {{WidthMin}} {{Unit}}</p>
-          <div *ngIf="isSubmitted&&form.txtMinSize.errors" class="text-danger">
-            <p *ngIf="form.txtMinSize.errors.min">Minimum size must be greater then -1 .!</p>
-            <p *ngIf="form.txtMinSize.errors.max">Minimum size is too big !</p>
-          </div>
+        <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="isInputOptionType &&request.FacilitiesID!=20">          
+            <label>Minimum Size ({{Unit}})<span style="color:red;">*</span></label>
+            <input type="text" class="form-control" id="txtMinSize" name="txtMinSize" maxlength="5" [(ngModel)]="request.MinSize" formControlName="txtMinSize" (keypress)="numberOnly($event)" placeholder="Enter Minimum Size In ({{Unit}})" autocomplete="off" />
+            <p *ngIf="WidthMin>0 && request.FacilitiesID>0" class="{{request.MinSize >= WidthMin ? '' : CssClass_TextDangerWidth}}">Please Enter Min size : {{WidthMin}} {{Unit}}</p>
+            <div *ngIf="isSubmitted&&form.txtMinSize.errors" class="text-danger">
+              <p *ngIf="form.txtMinSize.errors.min">Minimum size must be greater then -1 .!</p>
+              <p *ngIf="form.txtMinSize.errors.max">Minimum size is too big !</p>
+            </div>
         </div>
         <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="request.IsAvailable=='Yes' || isInputOptionType==true">
           <label for="fileUploadImage" class="form-label">Upload {{SelectedDepartmentID==4?'Order/':''}}Facility Image (Only pdf/jpeg/jpg file.)(Min.Size 100KB)(Max.Size 2MB)<span style="color:red;">*</span></label>
           <div class="d-flex">
 
             <input type="file" style="display:none;" class="form-control" id="fileUploadImage" name="fileUploadImage" formControlName="fileUploadImage"
-                   (change)="ValidateUploadImage($event)" #fileUploadImage accept="image/jpg, image/jpeg"/>
+                   (change)="ValidateUploadImage($event)" #fileUploadImage accept="image/jpg, image/jpeg" />
             <label class="btn upload" for="fileUploadImage">
               <span class="filename">Choose file</span>
               {{request.FacilitiesUrl === '' ? 'No File Choosen' : request.FacilitiesUrl_Dis_FileName}}

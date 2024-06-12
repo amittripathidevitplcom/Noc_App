@@ -68,22 +68,22 @@
           </div>
           <!--profile logo-->
           <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" [hidden]="request.DepartmentID == 11">
-              <label class="form-label">College Logo</label>
-              <!--<span style="color:red;">*</span></label>-->
-              <div class="d-flex">
-                  <input type="file" style="display:none;" class="form-control" id="fCollegeLogo" name="fCollegeLogo" (change)="onFilechange($event,'CollegeLogo')" formControlName="fCollegeLogo">
-                  <label class="btn upload" for="fCollegeLogo">
-                      <span class="filename">Choose file</span>
-                      {{request.CollegeLogo === '' ? 'No File Choosen' : request.CollegeLogo_Dis_FileName}}
-                  </label>
-                  <div class="btn-group" *ngIf="showCollegeLogo">
-                      <a class="btn btn-outline-primary" target="_blank" href="{{request.CollegeLogoPath}}"><i class="fa fa-eye"></i></a>
-                      <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('CollegeLogo',request.CollegeLogo)"><i class="fa fa-trash-o"></i></button>
-                  </div>
+            <label class="form-label">College Logo</label>
+            <!--<span style="color:red;">*</span></label>-->
+            <div class="d-flex">
+              <input type="file" style="display:none;" class="form-control" id="fCollegeLogo" name="fCollegeLogo" (change)="onFilechange($event,'CollegeLogo')" formControlName="fCollegeLogo">
+              <label class="btn upload" for="fCollegeLogo">
+                <span class="filename">Choose file</span>
+                {{request.CollegeLogo === '' ? 'No File Choosen' : request.CollegeLogo_Dis_FileName}}
+              </label>
+              <div class="btn-group" *ngIf="showCollegeLogo">
+                <a class="btn btn-outline-primary" target="_blank" href="{{request.CollegeLogoPath}}"><i class="fa fa-eye"></i></a>
+                <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('CollegeLogo',request.CollegeLogo)"><i class="fa fa-trash-o"></i></button>
               </div>
-              <!--<div *ngIf="ProfileLogoValidationMessage!=''" class="text-danger">
-      <p><i aria-hidden="true"></i>{{ProfileLogoValidationMessage}}</p>
-    </div>-->
+            </div>
+            <!--<div *ngIf="ProfileLogoValidationMessage!=''" class="text-danger">
+              <p><i aria-hidden="true"></i>{{ProfileLogoValidationMessage}}</p>
+            </div>-->
           </div>
           <!---->
           <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="IsExisting">
@@ -121,25 +121,25 @@
           </div>
 
           <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" [hidden]="(request.DepartmentID ==4 ||  request.DepartmentID ==11)">
-              <label for="ddlCollegeLevelID" class="form-label">College Level <span style="color:red;">*</span></label>
-              <select [attr.disabled]="IsEdit ? true : null" class="form-select" id="ddlCollegeLevelID" name="ddlCollegeLevelID" [(ngModel)]="request.CollegeLevelID" formControlName="ddlCollegeLevelID">
-                  <option value="0">--Select--</option>
-                  <option *ngFor="let item of CollegeLevelList_FilterData" value="{{item.ID}}">{{item.Name}}</option>
-              </select>
-              <p *ngIf="isSubmitted&&request.DepartmentID!=4&&request.CollegeLevelID<=0" class="text-danger"><i aria-hidden="true"></i>This field is required .!</p>
+            <label for="ddlCollegeLevelID" class="form-label">College Level <span style="color:red;">*</span></label>
+            <select [attr.disabled]="IsEdit ? true : null" class="form-select" id="ddlCollegeLevelID" name="ddlCollegeLevelID" [(ngModel)]="request.CollegeLevelID" formControlName="ddlCollegeLevelID">
+              <option value="0">--Select--</option>
+              <option *ngFor="let item of CollegeLevelList_FilterData" value="{{item.ID}}">{{item.Name}}</option>
+            </select>
+            <p *ngIf="isSubmitted&&request.DepartmentID!=4&&request.CollegeLevelID<=0" class="text-danger"><i aria-hidden="true"></i>This field is required .!</p>
           </div>
 
 
           <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" [hidden]="request.DepartmentID != 4">
-              <label for="ddlDTECollegeLevelID" class="form-label">College Level <span style="color:red;">*</span></label>
+            <label for="ddlDTECollegeLevelID" class="form-label">College Level <span style="color:red;">*</span></label>
 
-              <ng-multiselect-dropdown [placeholder]="'--Select--'" formControlName="ddlDTECollegeLevelID" id="ddlDTECollegeLevelID"
-                                       [settings]="dropdownSettings"
-                                       [data]="CollegeLevelList_FilterData"
-                                       [(ngModel)]="SelectedCollegeLevel">
+            <ng-multiselect-dropdown [placeholder]="'--Select--'" formControlName="ddlDTECollegeLevelID" id="ddlDTECollegeLevelID"
+                                     [settings]="dropdownSettings"
+                                     [data]="CollegeLevelList_FilterData"
+                                     [(ngModel)]="SelectedCollegeLevel">
 
-              </ng-multiselect-dropdown>
-              <p *ngIf="isSubmitted&&request.DepartmentID==4&&SelectedCollegeLevel.length<=0" class="text-danger"><i aria-hidden="true"></i>This field is required .!</p>
+            </ng-multiselect-dropdown>
+            <p *ngIf="isSubmitted&&request.DepartmentID==4&&SelectedCollegeLevel.length<=0" class="text-danger"><i aria-hidden="true"></i>This field is required .!</p>
           </div>
 
           <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" [hidden]="request.DepartmentID == 11 || (request.DepartmentID == 9 && IsExisting==false)">
@@ -217,19 +217,19 @@
 
 
           <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="request.DepartmentID==3 ||request.DepartmentID==11 ">
-              <label class="form-label" style="margin-right:15px">AISHE Code Status : <span style="color:red;">*</span></label>
-              <div class="clearfix"></div>
-              <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="radio" value="1" [value]="1" id="rbAISHECodeStatusYes" name="AISHECodeStatus" [(ngModel)]="request.AISHECodeStatus" formControlName="AISHECodeStatus" (change)="IsAISHECodeStatusOrNot(true)">
-                  <label class="form-check-label" for="rbAISHECodeStatusYes">Yes</label>
-              </div>
-              <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="radio" value="2" [value]="2" id="rbAISHECodeStatusNo" name="AISHECodeStatus" [(ngModel)]="request.AISHECodeStatus" formControlName="AISHECodeStatus" (change)="IsAISHECodeStatusOrNot(false)">
-                  <label class="form-check-label" for="rbAISHECodeStatusNo">No</label>
-              </div>
-              <div *ngIf="isSubmitted&&form.AISHECodeStatus.errors" class="text-danger">
-                  <p *ngIf="form.AISHECodeStatus.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-              </div>
+            <label class="form-label" style="margin-right:15px">AISHE Code Status : <span style="color:red;">*</span></label>
+            <div class="clearfix"></div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" value="1" [value]="1" id="rbAISHECodeStatusYes" name="AISHECodeStatus" [(ngModel)]="request.AISHECodeStatus" formControlName="AISHECodeStatus" (change)="IsAISHECodeStatusOrNot(true)">
+              <label class="form-check-label" for="rbAISHECodeStatusYes">Yes</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" value="2" [value]="2" id="rbAISHECodeStatusNo" name="AISHECodeStatus" [(ngModel)]="request.AISHECodeStatus" formControlName="AISHECodeStatus" (change)="IsAISHECodeStatusOrNot(false)">
+              <label class="form-check-label" for="rbAISHECodeStatusNo">No</label>
+            </div>
+            <div *ngIf="isSubmitted&&form.AISHECodeStatus.errors" class="text-danger">
+              <p *ngIf="form.AISHECodeStatus.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+            </div>
           </div>
 
 
@@ -446,8 +446,8 @@
             <label for="txtAddressLine2" class="form-label">Address Line 2 </label>
             <input type="text" class="form-control" maxlength="200" id="txtAddressLine2" name="txtAddressLine2" [(ngModel)]="request.AddressLine2" formControlName="txtAddressLine2">
             <!--<div *ngIf="isSubmitted&&form.txtAddressLine2.errors" class="text-danger">
-      <p *ngIf="form.txtAddressLine2.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-    </div>-->
+              <p *ngIf="form.txtAddressLine2.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+            </div>-->
           </div>
 
           <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" [hidden]="!IsRural">
