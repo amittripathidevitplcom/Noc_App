@@ -398,6 +398,8 @@ import { PenaltyApplicationListDCEComponent } from './Views/DCE/penalty-applicat
 import { DefaulterCollegeRequestComponent } from './Views/DefaulterCollege/defaulter-college-request/defaulter-college-request.component';
 import { CourseReportsComponent } from './Views/DCEReports/course-reports/course-reports.component';
 import { AdminDefaulterCollegeListComponent } from './Views/Admin/admin-defaulter-college-list/admin-defaulter-college-list.component';
+import { CourtOrderComponent } from './Views/TabDetail/court-order/court-order.component';
+import { PreviewCourtOrderComponent } from './Views/PreviewTabs/preview-court-order/preview-court-order.component';
  
 
 @NgModule({
@@ -796,6 +798,8 @@ import { AdminDefaulterCollegeListComponent } from './Views/Admin/admin-defaulte
     DefaulterCollegeRequestComponent,
     CourseReportsComponent,
     AdminDefaulterCollegeListComponent,
+    CourtOrderComponent,
+    PreviewCourtOrderComponent,
 
   ],
   imports: [

@@ -93,7 +93,7 @@
       <div class="card mb-0">
         <div class="card-header">
           <b *ngIf="SelectedDepartmentID !=11"><i class="bi bi-table"></i>OLD NOC Details</b>
-          <b *ngIf="SelectedDepartmentID ==11"><i class="bi bi-table"></i>First State NOC</b> 
+          <b *ngIf="SelectedDepartmentID ==11"><i class="bi bi-table"></i>First State NOC</b>
         </div>
         <div class="card-body">
           <div class="col-md-12">
@@ -266,10 +266,10 @@
     </div>
 
   </div>
-  
- 
-  
- 
+
+
+
+
 
   <div class="col-md-12" *ngIf="SelectedDepartmentID==6">
     <div class="card mb-0">
@@ -295,7 +295,7 @@
       </div>
     </div>
   </div>
- 
+
   <div class="col-md-12" *ngIf="SelectedDepartmentID==3">
     <div class="card mb-0">
       <div class="card-header">
@@ -381,6 +381,18 @@
     </div>
   </div>
 
+  <div class="col-md-12" *ngIf="SelectedDepartmentID==2">
+    <div class="card mb-0">
+      <div class="card-header">
+        <b><i class="bi bi-table"></i>Court Order Details</b>
+      </div>
+      <div class="card-body">
+        <div class="col-md-12">
+          <app-preview-court-order></app-preview-court-order>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
 <!--// model pdf-->

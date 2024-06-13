@@ -1,0 +1,101 @@
+<!--<app-loader></app-loader>-->
+<div class="card tabCard1 mb-0">
+  <div class="card-header d-flex align-items-center justify-content-between flex-wrap">
+    <b><i class="bi bi-table"></i>&nbsp;Court Order</b>
+
+  </div>
+  <form [formGroup]="courtOrderForm" class="form-horizontal">
+    <div class="card-body">
+      <div class="row">
+        <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+          <label class="form-label">Order Name <span style="color:red;">*</span></label>
+          <input type="text" class="form-control" id="txtOrderName" name="txtOrderName" [(ngModel)]="request.OrderName" formControlName="txtOrderName" />
+          <div *ngIf="isSubmitted&&form.txtOrderName.errors" class="text-danger">
+            <p *ngIf="form.txtOrderName.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-6 col-12 ">
+          <label>
+            Order Date(DD/MM/YYYY) <span style="color:red;">*</span>
+          </label>
+          <input type="date" id="txtOrderDate" name="txtOrderDate" class="form-control" [(ngModel)]="request.OrderDate" formControlName="txtOrderDate" max="{{MaxDate | date:'yyyy-MM-dd'}}" onkeypress="return false;" />
+          <div *ngIf="isSubmitted&&form.txtOrderDate.errors" class="text-danger">
+            <p *ngIf="form.txtOrderDate.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+          <label class="form-label">Upload the Order Document<span style="color:red;">*</span></label>
+          <div class="d-flex">
+            <input type="file" style="display:none;" class="form-control" id="OrderDocumentName" name="OrderDocumentName" (change)="ValidateUploadImage($event,'FileUpload')" formControlName="OrderDocumentName">
+            <label class="btn upload" for="OrderDocumentName">
+              <span class="filename">Choose file</span>
+              {{request.OrderDocumentName === '' ? 'No File Choosen' : request.OrderDocumentName_DisName}}
+            </label>
+            <div class="btn-group" *ngIf="request.OrderDocumentName != ''">
+              <a class="btn btn-outline-primary" target="_blank" href="{{request.OrderDocumentNamePath}}"><i class="fa fa-eye"></i></a>
+              <button type="button" class="btn btn-outline-danger" (click)="DeleteImage(request.OrderDocumentName)"><i class="fa fa-trash-o"></i></button>
+            </div>
+          </div>
+          <div *ngIf="fileValidationMessage!=''" class="text-danger">
+            <p><i aria-hidden="true"></i>{{fileValidationMessage}}</p>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-6 col-12  text-end">
+          <button type="submit" class="btn btn-primary" id="btnSave" name="btnSave" (click)="SaveData()">Save</button>
+          <button type="submit" class="btn btn-danger ms-2" id="btnReset" name="btnReset" (click)="ResetControl()">Reset</button>
+        </div>
+      </div>
+    </div>
+  </form>
+
+  <div class="card mb-0" *ngIf="courtOrderList.length>0">
+    <div class="card-header d-xxl-flex d-xl-flex d-md-flex d-sm-block justify-content-between align-items-center">
+      <b><i class="bi bi-table"></i> Court Order Data List </b>
+      <div class="d-flex align-items-center">
+        <div class="btn-group mr-15" role="group" aria-label="Basic outlined example">
+          <button type="button" class="btn btn-outline-primary" title="Copy" id="btnCopyTable" (click)="btnCopyTable_Click()"><i class="fa fa-copy"></i></button>
+          <button type="button" class="btn btn-outline-primary" title="Excel" id="btnExportTable" (click)="btnExportTable_Click()"><i class="fa fa-file-excel-o"></i></button>
+          <button type="button" class="btn btn-outline-primary" title="PDF" id="btnSavePDF" (click)="btnSavePDF_Click()"><i class="fa fa-file-pdf-o"></i></button>
+        </div>
+        <div class="d-flex align-items-center table-filter mr-15">
+          <i class="fa fa-search"></i>
+          <input type="text" class="form-control" placeholder="Search Here" />
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-hover table-striped-columns" id="tabellist" #content>
+          <thead>
+            <tr>
+              <th>Sr. No</th>
+              <th>Order Name</th>
+              <th>Order Date</th>
+              <th>Upload Document</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of courtOrderList | tableSearchFilter:searchText;let idx=index;">
+              <td>{{idx+1}}</td>
+              <td>{{item.OrderName}}</td>
+              <td>{{item.OrderDate}}</td>
+              <td>
+                <a target="_blank" href="{{item.OrderDocumentNamePath}}" title="View File"><i class="fa fa-eye"></i></a>
+              </td>
+              <td>
+                <div class="d-flex">
+                  <button type="button" (click)="Edit_OnClick(item.CourtOrderID)" title="Edit" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></button>
+                  <button type="button" class="btn btn-sm btn-danger" title="Delete" (click)="Delete_OnClick(item.CourtOrderID)"><i class="fa fa-trash"></i></button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+

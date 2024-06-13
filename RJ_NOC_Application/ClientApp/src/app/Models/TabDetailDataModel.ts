@@ -352,3 +352,21 @@ export class SearchFilterDataModel {
   public ParliamentAreaID: number = 0;
   public CollegeName: string = '';
 }
+export class CourtOrderDataModel {
+
+  public CourtOrderID: number = 0;
+  public DepartmentID: number = 0;
+  public CollegeID: number = 0;
+  public UserID: number = 0;
+  public OrderName: string = '';
+  public OrderDate: string = '';
+  public OrderDocumentName: string = '';
+  public OrderDocumentNamePath: string = '';
+  public OrderDocumentName_DisName: string = '';
+}
+export class CourtOrderSearchFilterDataModel {
+  public UserID: number = 0;
+  public DepartmentID: number = 0;
+  public CollegeID: number = 0;
+  public CourtOrderID: number = 0;
+}

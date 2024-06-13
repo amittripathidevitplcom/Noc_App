@@ -645,6 +645,7 @@ export class DefaulterCollegeRequestComponent {
   }
   async ClearForm() {
     this.DefaulterCollegeForm.reset();
+    this.request.RequestID = 0;
     this.request.FirstNOCDoc = '';
     this.request.LastNOCDoc = '';
     this.request.LatestAffiliationDoc = '';

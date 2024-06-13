@@ -300,7 +300,7 @@
         <div class="card-footer">
           <div class="row">
             <div class="col-lg-6 col-md-6 col-sm-12 col-12 text-first">
-              <button type="submit" class="btn btn-success" (click)="SaveData()" id="btnSave"><i class="fa fa-save"></i> Register</button>
+              <button *ngIf="DefaulterCollegeList.length<=0 || request.RequestID>0" type="submit" class="btn btn-success" (click)="SaveData()" id="btnSave"><i class="fa fa-save"></i> Register</button>
             </div>
             <div class="col-lg-6 col-md-6 col-sm-12 col-12 text-end">
               <button type="reset" class="btn btn-secondary" (click)="ClearForm()">Cancel</button>

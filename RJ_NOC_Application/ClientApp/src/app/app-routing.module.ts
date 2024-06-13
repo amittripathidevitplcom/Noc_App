@@ -235,6 +235,7 @@ import { PenaltyApplicationListDCEComponent } from './Views/DCE/penalty-applicat
 import { DefaulterCollegeRequestComponent } from './Views/DefaulterCollege/defaulter-college-request/defaulter-college-request.component';
 import { AdminDefaulterCollegeListComponent } from './Views/Admin/admin-defaulter-college-list/admin-defaulter-college-list.component';
 import { CourseReportsComponent } from './Views/DCEReports/course-reports/course-reports.component';
+import { CourtOrderComponent } from './Views/TabDetail/court-order/court-order.component';
 
 const routes: Routes = [
   {
