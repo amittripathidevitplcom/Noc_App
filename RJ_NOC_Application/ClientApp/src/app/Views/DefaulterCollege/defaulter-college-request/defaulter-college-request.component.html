@@ -336,14 +336,15 @@
               <td>{{idx+1}}</td>
               <td>{{row.EverAppliedNOC}}</td>
               <td>{{row.IsPNOC}}</td>
-              <td><a target="_blank" href="{{row.FirstNOCDocPath}}"><i class="fa fa-eye"></i></a></td>
-              <td><a target="_blank" href="{{row.LastNOCDocPath}}"><i class="fa fa-eye"></i></a></td>
+              <td><a target="_blank" title="View First NOC Document" class="btn btn-outline-primary btn-sm" href="{{row.FirstNOCDocPath}}"><i class="fa fa-eye"></i></a></td>
+              <td><a target="_blank" title="View Last NOC Document" class="btn btn-outline-primary btn-sm" href="{{row.LastNOCDocPath}}"><i class="fa fa-eye"></i></a></td>
               <td>{{row.LastApplicationNo}}</td>
               <td>{{row.CollegeName}}</td>
               <td>{{row.UniversityName}}</td>
               <td>
                 <div class="d-flex">
                   <button type="button" (click)="Edit_OnClick(row.RequestID)" title="Edit" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></button>
+                  <button type="button" class="btn btn-sm btn-info" title="Penalty Fee" (click)="OpenPenaltyModel(Penaltymodel,row.RequestID)"><i class="fa fa-eye"></i></button>
                   <button type="button" class="btn btn-sm btn-danger" title="Delete" (click)="Delete_OnClick(row.RequestID)"><i class="fa fa-trash"></i></button>
                 </div>
               </td>
@@ -356,3 +357,37 @@
   </form>
 
 </div>
+<ng-template #Penaltymodel let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-applynocpayment-title" style="font-size: 17px; font-weight: 600 !important;">
+       Defaulter College Penalty
+    </h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <i class="fa fa-close"></i>
+    </button>
+  </div>
+  <div class="modal-body">
+    <app-loader></app-loader>
+        <div class="table-responsive">
+      <table class="table table-hover table-striped-columns">
+        <thead>
+          <tr>
+            <th style="width:5%">Sr. No.</th>
+            <th>Penalty for</th>
+            <th>Penalty Amount</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let row of DefaulterCollegePenaltyList; let idx=index;">
+            <td>{{idx+1}}</td>
+            <td>{{row.Penaltyfor}}</td>
+            <td>{{row.PenaltyAmount}}</td>
+          </tr>
+          <tr *ngIf="DefaulterCollegePenaltyList.length==0">
+            <td colspan="10" class="text-center text-danger">No Data Found!</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</ng-template>

@@ -95,6 +95,7 @@ export class StaffDetailsComponent implements OnInit {
   public QueryStringStatus: any = '';
   public SelectedApplyNOCID: number = 0;
   public SearchRecordID: string = '';
+  public DesignationName: string = '';
   constructor(private loaderService: LoaderService, private toastr: ToastrService, private staffDetailService: StaffDetailService, private fileUploadService: FileUploadService
     , private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private formBuilder: FormBuilder, private modalService: NgbModal) {
 
@@ -137,6 +138,7 @@ export class StaffDetailsComponent implements OnInit {
         rdResearchGuide: [''],
         txtESINumber: [''],
         fileData: [''],
+        txtDesignationRegistrationNo: [''],
       });
     this.StaffEducationDetailForm = this.formBuilder.group(
       {
@@ -642,7 +644,7 @@ export class StaffDetailsComponent implements OnInit {
         }
       }
       if (this.request.TeachingType == 'Teaching' && this.IsCourseLevel == 'Yes') {
-        if (this.SelectedDepartmentID != 4 && this.SelectedDepartmentID != 11) {
+        if (this.SelectedDepartmentID != 4 && this.SelectedDepartmentID != 11 && this.SelectedDepartmentID!=9) {
           if (this.request.SubjectID == 0) {
             this.isSubject = true;
             this.FormValid = false;
@@ -669,6 +671,11 @@ export class StaffDetailsComponent implements OnInit {
         //}
         if (this.request.ResearchGuide == '' || this.request.ResearchGuide == null) {
           this.FormValid = false;
+        }
+        if ((this.DesignationName == 'Technician' || this.DesignationName == 'Lecturer' || this.DesignationName == 'Assistant Professor') && this.SelectedDepartmentID==9) {
+          if (this.request.DesignationRegistrationNo == null || this.request.DesignationRegistrationNo == '' || this.request.DesignationRegistrationNo == undefined) {
+            this.FormValid = false;
+          }
         }
       }
       if (this.StaffDetailForm.invalid) {
@@ -798,6 +805,7 @@ export class StaffDetailsComponent implements OnInit {
       this.isDisabled = false;
       this.DeleteResetFiles('All', false, '', '', '');
       this.ShowFileDownload = false;
+      this.DesignationName = '';
     }
     catch (ex) { }
     finally {
@@ -1000,11 +1008,7 @@ export class StaffDetailsComponent implements OnInit {
           await this.GetStaffDesignation(this.request.TeachingType == 'Teaching' ? 1 : 0);
           await this.GetHighestQualificationList_DepartmentAndTypeWise(this.SelectedDepartmentID, this.request.TeachingType == 'Teaching' ? 1 : 0);
           
-         
-          console.log(aaa);
-          console.log(this.request);
-          console.log(data_Staff['Data'][0]);
-          console.log(data_Staff['Data'][0]['SubjectID']);
+        
           this.OnChangeHighestQualification();
           //this.SetDateofAppointment();
           this.showPANCard = true;
@@ -1024,7 +1028,7 @@ export class StaffDetailsComponent implements OnInit {
           this.ResetFiles('ExperienceCertificate', this.showExperienceCertificate, this.request.ExperienceCertificate, this.request.ExperienceCertificatePath, this.request.ExperienceCertificate_Dis_FileName);
           //profile
           //this.ResetFiles('UploadDocument', true, this.request.UploadDocument, this.request.UploadDocumentPath, this.request.UploadDocument_Dis_FileName);
-
+          this.DesignationName = this.RoleData.find((x: { RoleID: number; }) => x.RoleID == this.request.RoleID)?.RoleName;
           if (this.request.ESINumber != '') {
             this.ESIStaffShowHide = true;
             //this.IsESIDetails = true;
@@ -1452,5 +1456,10 @@ export class StaffDetailsComponent implements OnInit {
       }, 200);
     }
   }
-
+  async OnChangeDesignation(DesignationID: number) {
+    if (DesignationID <= 0) {
+      return;
+    }
+    this.DesignationName = this.RoleData.find((x: { RoleID: number; }) => x.RoleID == DesignationID)?.RoleName;
+  }
 }

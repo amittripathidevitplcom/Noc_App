@@ -128,7 +128,7 @@ export class AddCollegeComponent implements OnInit {
         ddlDTECollegeLevelID: [''],
         ddlManagementType: [''],
         //txtCollegeCode: ['', Validators.required],
-        txtCollegeCode: [''],
+        txtCollegeCode: ['', Validators.required],
         txtCollegeNameEn: ['', Validators.required],
         txtCollegeNameHi: ['', Validators.required],
         AISHECodeStatus: ['', Validators.required],
@@ -157,7 +157,7 @@ export class AddCollegeComponent implements OnInit {
         txtCityTownVillage: ['', Validators.required],
         ddlYearofEstablishment: ['', [DropdownValidators]],
         txtPincode: ['', [Validators.required, Validators.pattern(this.PinNoRegex)]],
-        txtWebsiteLink: [''],
+        txtWebsiteLink: ['', Validators.required],
         txtCDNameOfPerson: [''],// handle in sub form
         txtCDDesignation: [''],// handle in sub form
         txtCDMobileNumber: [''],// handle in sub form
@@ -1209,7 +1209,7 @@ export class AddCollegeComponent implements OnInit {
     }
     this.CollegeDetailsForm.get('AISHECodeStatus')?.updateValueAndValidity();
 
-    if (this.request.DepartmentID == 5 || this.request.DepartmentID == 2) {
+    if (this.request.DepartmentID == 5 || this.request.DepartmentID == 2 || this.request.DepartmentID == 9) {
       this.CollegeDetailsForm.get('CollegeNAACAccredited')?.clearValidators();
       if (this.request.DepartmentID == 5) {
         this.CollegeDetailsForm.get('ddlTypeofCollege')?.setValidators([Validators.required]);
@@ -1275,7 +1275,24 @@ export class AddCollegeComponent implements OnInit {
     // this.CollegeDetailsForm.get('CollegeAffiliationDocument')?.updateValueAndValidity(); 
     // this.CollegeDetailsForm.get('CollegeWebsiteImage')?.updateValueAndValidity(); 
     this.CollegeDetailsForm.get('txtWebsiteLink')?.updateValueAndValidity();
+    if (this.request.DepartmentID == 9) {
+      this.CollegeDetailsForm.get('ddlUniversityID')?.clearValidators();
+      this.CollegeDetailsForm.get('ddlUniversityID')?.updateValueAndValidity();
+      this.CollegeDetailsForm.get('CollegeNAACAccredited')?.clearValidators();
+      this.CollegeDetailsForm.get('CollegeNAACAccredited')?.updateValueAndValidity();
 
+      if (this.IsExisting == true) {
+        this.CollegeDetailsForm.get('txtCollegeCode')?.setValidators([Validators.required]);
+        this.CollegeDetailsForm.get('txtWebsiteLink')?.setValidators([Validators.required]);
+      }
+
+      else {
+        this.CollegeDetailsForm.get('txtCollegeCode')?.clearValidators();
+        this.CollegeDetailsForm.get('txtWebsiteLink')?.clearValidators();
+      }
+      this.CollegeDetailsForm.get('txtCollegeCode')?.updateValueAndValidity();
+      this.CollegeDetailsForm.get('txtWebsiteLink')?.updateValueAndValidity();
+    }
 
     if (this.IsExisting == true && this.request.DepartmentID == 2) {
       this.CollegeDetailsForm.get('txtCollegeCode')?.setValidators([Validators.required]);

@@ -142,13 +142,13 @@
             <p *ngIf="isSubmitted&&request.DepartmentID==4&&SelectedCollegeLevel.length<=0" class="text-danger"><i aria-hidden="true"></i>This field is required .!</p>
           </div>
 
-          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" [hidden]="request.DepartmentID == 11">
-            <!--<span style="color:red;">*</span>-->
-            <label for="txtCollegeCode" class="form-label">College Code </label>
-            <input type="text" maxlength="15" class="form-control" id="txtCollegeCode" name="txtCollegeCode" [(ngModel)]="request.CollegeCode" formControlName="txtCollegeCode">
-            <div *ngIf="isSubmitted&&request.DepartmentID==2 &&IsExisting&&( request.CollegeCode==''||form.txtCollegeCode.errors)" class="text-danger">
-              <p *ngIf="isSubmitted&&request.DepartmentID==2 &&IsExisting&& (request.CollegeCode==''||form.txtCollegeCode.errors.required)"><i aria-hidden="true"></i> This field is required .!</p>
-            </div>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" [hidden]="request.DepartmentID == 11 || (request.DepartmentID == 9 && IsExisting==false)">
+              <!--<span style="color:red;">*</span>-->
+              <label for="txtCollegeCode" class="form-label">College Code </label>
+              <input type="text" maxlength="15" class="form-control" id="txtCollegeCode" name="txtCollegeCode" [(ngModel)]="request.CollegeCode" formControlName="txtCollegeCode">
+              <div *ngIf="isSubmitted&&(request.DepartmentID==2 || request.DepartmentID==9) &&IsExisting&& request.CollegeCode==''" class="text-danger">
+                  <p *ngIf="isSubmitted&&(request.DepartmentID==2 || request.DepartmentID==9)&&IsExisting&& request.CollegeCode==''"><i aria-hidden="true"></i> This field is required .!</p>
+              </div>
           </div>
 
 
@@ -168,7 +168,7 @@
           </div>
 
 
-          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" [hidden]="request.DepartmentID==5 || request.DepartmentID==2">
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" [hidden]="request.DepartmentID==5 || request.DepartmentID==2 || request.DepartmentID==9">
             <label class="form-label" style="margin-right:15px" *ngIf="request.DepartmentID !=1">Is Your College NAAC Accredited : <span style="color:red;">*</span></label>
             <label class="form-label" style="margin-right:15px" *ngIf="request.DepartmentID ==1">Is Your College ICAR Accredited : <span style="color:red;">*</span></label>
             <div class="clearfix"></div>
@@ -250,7 +250,7 @@
               <p *ngIf="!form.ddlCollegeMedium.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
             </div>
           </div>
-          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="request.DepartmentID!=9">
 
             <label for="ddlUniversityID" class="form-label">
               <span *ngIf="request.DepartmentID==6"> University / RMC </span>
@@ -459,7 +459,7 @@
           </div>
 
 
-          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" [hidden]="request.DepartmentID == 9 && IsExisting==false">
             <label for="txtWebsiteLink" class="form-label">Website Link </label>
             <input type="text" class="form-control" maxlength="100" id="txtWebsiteLink" name="txtWebsiteLink" [(ngModel)]="request.WebsiteLink" formControlName="txtWebsiteLink">
 

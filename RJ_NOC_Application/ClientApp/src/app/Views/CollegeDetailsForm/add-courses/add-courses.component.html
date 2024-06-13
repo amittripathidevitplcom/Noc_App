@@ -29,18 +29,18 @@
         <div class="card-body">
           <div class="row">
             <!--<div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-              <label for="ddlDepartment" class="form-label">Department <span style="color:red">*</span></label>
-              <select formControlName="ddlDepartment" id="ddlDepartment" [(ngModel)]="request.DepartmentID" class="form-control"
-                      #SeletedDepartmentID (change)="ddlDepartment_change($event, SeletedDepartmentID.value)">
-                <option value="0">--Select--</option>
-                <option [value]="item.DepartmentID" *ngFor="let item of departmentMasterData">
-                  {{item.DepartmentName}}
-                </option>
-              </select>
-              <div *ngIf="isSubmitted&&form.ddlDepartment.errors" class="text-danger">
-                <p *ngIf="!form.ddlDepartment.errors.DropdownValidators">This field is required .!</p>
-              </div>
-            </div>-->
+    <label for="ddlDepartment" class="form-label">Department <span style="color:red">*</span></label>
+    <select formControlName="ddlDepartment" id="ddlDepartment" [(ngModel)]="request.DepartmentID" class="form-control"
+            #SeletedDepartmentID (change)="ddlDepartment_change($event, SeletedDepartmentID.value)">
+      <option value="0">--Select--</option>
+      <option [value]="item.DepartmentID" *ngFor="let item of departmentMasterData">
+        {{item.DepartmentName}}
+      </option>
+    </select>
+    <div *ngIf="isSubmitted&&form.ddlDepartment.errors" class="text-danger">
+      <p *ngIf="!form.ddlDepartment.errors.DropdownValidators">This field is required .!</p>
+    </div>
+  </div>-->
             <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
               <label for="txtCollege" class="form-label">College <span style="color:red">*</span></label>
               <select [attr.disabled]="isDisabledGrid ? true : null" formControlName="ddlCollege" id="ddlCollege" [(ngModel)]="request.CollegeID" class="form-select"
@@ -65,8 +65,8 @@
                 <p *ngIf="isSubmitted&&request.DepartmentID==3&&request.StreamID==0"><i aria-hidden="true"></i>This field is required .!</p>
               </div>
               <!--<div *ngIf="isSubmitted&&form.ddlStreamID.errors" class="text-danger">
-                <p *ngIf="!form.ddlStreamID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
-              </div>-->
+      <p *ngIf="!form.ddlStreamID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
+    </div>-->
             </div>
 
             <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
@@ -96,12 +96,24 @@
             </div>
 
 
+            <!--<div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3 multipleSelectsOverflow" [hidden]="(request.DepartmentID==2 || request.DepartmentID==11)">
+    <label for="ddlSubject" class="form-label">Subject <span *ngIf="this.request.DepartmentID !=9" style="color:red">*</span></label>
+    <ng-multiselect-dropdown [placeholder]="'--Select--'" formControlName="ddlSubject" id="ddlSubject"
+                             [settings]="dropdownSettings"
+                             [data]="subjectDataList"
+                             [(ngModel)]="request.SelectedSubjectDetails">
+    </ng-multiselect-dropdown>
+    <div *ngIf="isSubmitted&&form.ddlSubject.errors" class="text-danger">
+      <p *ngIf="form.ddlSubject.errors.required">This field is required .!</p>
+    </div>
+  </div>-->
             <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3 multipleSelectsOverflow" [hidden]="(request.DepartmentID==2 || request.DepartmentID==11)">
-              <label for="ddlSubject" class="form-label">Subject <span style="color:red">*</span></label>
+              <label for="ddlSubject" class="form-label">Subject <span *ngIf="this.request.DepartmentID !=9" style="color:red">*</span></label>
               <ng-multiselect-dropdown [placeholder]="'--Select--'" formControlName="ddlSubject" id="ddlSubject"
                                        [settings]="dropdownSettings"
                                        [data]="subjectDataList"
-                                       [(ngModel)]="request.SelectedSubjectDetails">
+                                       [(ngModel)]="request.SelectedSubjectDetails"
+                                       [disabled]="request.DepartmentID == 9">
               </ng-multiselect-dropdown>
               <div *ngIf="isSubmitted&&form.ddlSubject.errors" class="text-danger">
                 <p *ngIf="form.ddlSubject.errors.required">This field is required .!</p>
@@ -112,7 +124,7 @@
               <label for="ddlSeatInformation" class="form-label">Seat Information  <span style="color:red">*</span></label>
               <select formControlName="ddlSeatInformation" id="ddlSeatInformation" [(ngModel)]="request.Seats" class="form-control">
                 <option value="0">--Select Seat--</option>
-                <option value="999999">0</option>
+                <option value="999999" *ngIf="this.request.DepartmentID !=9">0</option>
                 <option [value]="item.ID" *ngFor="let item of seatInformationDataList">
                   {{item.Value}}
                 </option>
@@ -130,9 +142,9 @@
                 <!--<p *ngIf="this.request.DepartmentID ==3 && request.NoOfEnrolledStudents==0"><i aria-hidden="true"></i> Enter value greater than zero.!</p>-->
               </div>
               <!--<div *ngIf="isSubmitted&&form.txtNoOfEnrolledStudents.errors" class="text-danger">
-                <p *ngIf="form.txtNoOfEnrolledStudents.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-                <p *ngIf="form.txtNoOfEnrolledStudents.errors.min"><i aria-hidden="true"></i> Enter value greater than zero.!</p>
-              </div>-->
+      <p *ngIf="form.txtNoOfEnrolledStudents.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+      <p *ngIf="form.txtNoOfEnrolledStudents.errors.min"><i aria-hidden="true"></i> Enter value greater than zero.!</p>
+    </div>-->
             </div>
           </div>
         </div>

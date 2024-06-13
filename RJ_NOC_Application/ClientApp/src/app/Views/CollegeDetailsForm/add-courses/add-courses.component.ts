@@ -332,6 +332,10 @@ export class AddCoursesComponent implements OnInit {
     //  this.CourseMasterForm.get('ddlStreamID')?.updateValueAndValidity();
     //  this.CourseMasterForm.get('txtNoOfEnrolledStudents')?.updateValueAndValidity();
     //}
+    if (this.request.DepartmentID == EnumDepartment.ParaMedical) {
+      this.CourseMasterForm.get('ddlSubject')?.clearValidators();
+      this.CourseMasterForm.get('ddlSubject')?.updateValueAndValidity();
+    }
     if (this.request.DepartmentID == 11) {
       this.CourseMasterForm.get('ddlSubject')?.clearValidators();
       this.CourseMasterForm.get('ddlSubject')?.updateValueAndValidity();
