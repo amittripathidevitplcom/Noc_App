@@ -198,6 +198,14 @@ export class ApplyNocApplicationDataModel {
   public GenerateReceipt_DTE: string = '';
   public GenerateReceiptPath_DTE: string = ''; 
   public NOCPdfFileDataModel?: NOCPdfFileDataModel[] = [];
+
+  public DefaulterCollegePenaltyDetailList?: DefaulterCollegePenaltyDataModal[] = [];
+  public ApplyNocLateFeeDetailList?: ApplyNocLateFeeDetailDataModal[] = [];
+
+
+  public NodelName?: string = ''; 
+  public NodelMobileNo?: string = ''; 
+  public NodelCollegeName?: string = '';
 }
 export class ApplyNocApplicationParameterDataModel {
   public ApplyNocParameterDetailID: number = 0;
@@ -322,6 +330,7 @@ export class ApplyNocLateFeeDetailDataModal {
   public FeesAmount: number = 0;
   public StartDate: string = '';
   public EndDate: string = '';
+  public TotalFeesAmount?: number = 0;
 }
 export class DefaulterCollegePenaltyDataModal {
   public DepartmentID: number = 0;
@@ -329,6 +338,7 @@ export class DefaulterCollegePenaltyDataModal {
   public RequestID: number = 0;
   public Penaltyfor: number = 0;
   public PenaltyAmount: number = 0; 
+  public TotalPenaltyAmount?: number = 0; 
 }
 export class ApplyNocOfflinePaymentModal {
   public ID: number = 0;

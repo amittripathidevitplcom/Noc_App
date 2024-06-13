@@ -2533,6 +2533,61 @@ font-size: 18px;">
                       {{ApplyNocApplicationDetail['ApplicationTypeName']}}
                     </td>
                   </tr>
+                  <tr *ngIf="ApplyNocApplicationDetail.NodelName!=''">
+                    <td>
+                      <b>
+                        Nodal Name :
+                      </b>
+                      {{ApplyNocApplicationDetail.NodelName}}
+                    </td>
+                    <td>
+                      <b>
+                        Nodal College Name :
+                      </b>
+                      {{ApplyNocApplicationDetail.NodelCollegeName}}
+                    </td>
+                    <td>
+                      <b>
+                        Nodal Mobile No. :
+                      </b>
+                      {{ApplyNocApplicationDetail.NodelMobileNo}}
+                    </td>
+                    <td>
+                   
+                    </td>
+                  </tr>
+                </tbody>
+                <tbody>
+                  <tr *ngIf="ApplyNocApplicationDetail.ApplyNocLateFeeDetailList.length>0">
+                    <td colspan="4">
+                      <b>Late Fee : {{ApplyNocApplicationDetail.ApplyNocLateFeeDetailList[0].TotalFeesAmount}}</b>
+                    </td>
+                  </tr>
+                  <tr *ngIf="ApplyNocApplicationDetail.ApplyNocLateFeeDetailList.length>0">
+                    <th style="width:5%">Sr. No.</th>
+                    <th>Fees Type</th>
+                    <th>Fees Amount</th>
+                  </tr>
+                  <tr *ngFor="let row of ApplyNocApplicationDetail.ApplyNocLateFeeDetailList;let idx=index;">
+                    <td>{{idx+1}}</td>
+                    <td>{{row.FeesType}}</td>
+                    <td>{{row.FeesAmount}}</td>
+                  </tr>
+                  <tr *ngIf="ApplyNocApplicationDetail.DefaulterCollegePenaltyDetailList.length>0">
+                    <td colspan="4">
+                      <b>Defaulter Fee : {{ApplyNocApplicationDetail.DefaulterCollegePenaltyDetailList[0].TotalPenaltyAmount}}</b>
+                    </td>
+                  </tr>
+                  <tr *ngIf="ApplyNocApplicationDetail.DefaulterCollegePenaltyDetailList.length>0">
+                    <th style="width:5%">Sr. No.</th>
+                    <th>Penalty for</th>
+                    <th>Penalty Amount</th>
+                  </tr>
+                  <tr *ngFor="let row of ApplyNocApplicationDetail.DefaulterCollegePenaltyDetailList;let idx=index;">
+                    <td>{{idx+1}}</td>
+                    <td>{{row.Penaltyfor}}</td>
+                    <td>{{row.PenaltyAmount}}</td>
+                  </tr>
                 </tbody>
                 <tbody *ngFor="let parameterDetail of ApplyNocApplicationDetail.ApplyNocApplicationParameterList;let idx=index;">
                   <tr>
