@@ -17,7 +17,7 @@ import { LegalEntityService } from '../../Services/LegalEntity/legal-entity.serv
 import { TrusteeGeneralInfoService } from '../../Services/TrusteeGeneralInfo/trustee-general-info.service';
 import { DraftApplicationListService } from '../../Services/DraftApplicationList/draft-application-list.service';
 import { SocityService } from '../../Services/Master/SocietyManagement/socity.service';
-import { LandDetailDataModel } from '../../Models/TabDetailDataModel';
+import { CourtOrderSearchFilterDataModel, LandDetailDataModel } from '../../Models/TabDetailDataModel';
 import { LandDetailsService } from '../../Services/Tabs/LandDetails/land-details.service';
 import { BuildingDetailsMasterService } from '../../Services/BuildingDetailsMaster/building-details-master.service';
 import { FacilityDetailsService } from '../../Services/FicilityDetais/facility-details.service';
@@ -35,6 +35,7 @@ import { NocpaymentService } from '../../Services/NocPayment/noc-payment.service
 import { ApplyNocApplicationDataModel } from '../../Models/ApplyNocParameterDataModel';
 import { ApplyNocParameterService } from '../../Services/Master/apply-noc-parameter.service';
 import { ActivityDetailsService } from '../../Services/ActivityDetails/activity-details.service';
+import { CourtOrderService } from '../../Services/Tabs/court-order.service';
 
 
 @Component({
@@ -98,6 +99,8 @@ export class ApplicationPDFComponent implements OnInit {
 
   public CollegeType_IsExisting: boolean = true;
   public collegeDataList: any = [];
+  searchrequest = new CourtOrderSearchFilterDataModel();
+  public courtOrderDataList: any = [];
   sSOLoginDataModel = new SSOLoginDataModel();
 
   public SelectedCollageID: number = 0;
@@ -116,7 +119,7 @@ export class ApplicationPDFComponent implements OnInit {
     private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private _fb: FormBuilder, private oldnocdetailService: OldnocdetailService, private hostelDetailService: HostelDetailService, private hospitalDetailService: HospitalDetailService, private veterinaryHospitalService: VeterinaryHospitalService,
     private otherInformationService: OtherInformationService, private staffDetailService: StaffDetailService, private academicInformationDetailsService: AcademicInformationDetailsService, private farmLandDetailServiceService: FarmLandDetailService, private elRef: ElementRef,
     private nocpaymentService: NocpaymentService, private applyNocParameterService: ApplyNocParameterService,
-    private ActivityDetailsService: ActivityDetailsService,
+    private ActivityDetailsService: ActivityDetailsService, private courtOrderService: CourtOrderService,
   ) { }
 
   async ngOnInit() {
@@ -173,6 +176,7 @@ export class ApplicationPDFComponent implements OnInit {
       await this.GetApplicationDeficiency();
       await this.GetApplyNocApplicationList();
       await this.ViewApplyNocApplicationDetails(this.ApplyNocApplicationID);
+      await this.GetAllCourOrderList();
       
     }
     catch (Ex) {
@@ -231,7 +235,6 @@ export class ApplicationPDFComponent implements OnInit {
   }
   @ViewChild('content') content: ElementRef | any;
   btnSavePDF_Click(): void {
-    debugger;
     this.loaderService.requestStarted();
     let dt = new Date();
     let Imgpath = ''
@@ -359,6 +362,7 @@ export class ApplicationPDFComponent implements OnInit {
       }
       if (this.SelectedDepartmentID == 2) {
         pDFData.push({ "ContentName": "#VetHospitalDetial" })
+        pDFData.push({ "ContentName": "#courtOrder" })
       }
       pDFData.push({ "ContentName": "#OfflinePayment" })
       pDFData.push({ "ContentName": "#OnlinePayment" })
@@ -987,7 +991,6 @@ export class ApplicationPDFComponent implements OnInit {
   }
   public IsManagmentType: boolean = false;
   async ViewlegalEntityDataByID(SSOID: any) {
-    debugger;
     let UserID: number = 0;
     try {
       this.loaderService.requestStarted();
@@ -1440,7 +1443,6 @@ export class ApplicationPDFComponent implements OnInit {
       this.loaderService.requestStarted();
       await this.courseMasterService.GetListDTE(0, SSOID, 0, CollegeID)
         .then((data: any) => {
-          debugger;
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
@@ -1485,7 +1487,6 @@ export class ApplicationPDFComponent implements OnInit {
   }
   async GetOfflinePaymentDetails(SelectedCollageID: number) {
     try {
-      debugger;
       this.loaderService.requestStarted();
       await this.nocpaymentService.GetOfflinePaymentDetails(SelectedCollageID)
         .then((data: any) => {
@@ -1578,7 +1579,7 @@ export class ApplicationPDFComponent implements OnInit {
       await this.applyNocParameterService.GetApplyNocApplicationByApplicationID(applyNocApplicationID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
-
+          this.State = data['State'];
           console.log(data['Data']);
           // data
           if (this.State == 0) {
@@ -1641,6 +1642,32 @@ export class ApplicationPDFComponent implements OnInit {
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.ActivityDataAllList = data['Data'][0]['data'];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  async GetAllCourOrderList() {
+
+    try {
+      this.loaderService.requestStarted();
+      this.searchrequest.DepartmentID = this.SelectedDepartmentID;
+      this.searchrequest.CollegeID = this.SelectedCollageID;
+      this.searchrequest.UserID = this.sSOLoginDataModel.UserID;
+
+      await this.courtOrderService.GetCourtOrderData(this.searchrequest)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.courtOrderDataList = data['Data'][0]['data'];
         }, error => console.error(error));
     }
     catch (Ex) {
