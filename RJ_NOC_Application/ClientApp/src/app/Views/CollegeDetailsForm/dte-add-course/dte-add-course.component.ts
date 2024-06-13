@@ -148,7 +148,7 @@ export class DteAddCourseComponent {
   async GetAllList() {
     try {
       this.loaderService.requestStarted();
-      await this.courseMasterService.GetListDTE(this.UserID, this.sSOLoginDataModel.SSOID, 0, this.request.CollegeID, this.SelectedApplyNOCID)
+      await this.courseMasterService.GetListDTE(this.UserID, this.sSOLoginDataModel.SSOID, 0, this.request.CollegeID, this.SelectedApplyNOCID > 0 ? this.SelectedApplyNOCID : 0)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];

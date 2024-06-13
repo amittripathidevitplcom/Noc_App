@@ -1235,23 +1235,16 @@ export class AddCollegeComponent implements OnInit {
 
     if (this.request.DepartmentID == 4) {
       this.CollegeDetailsForm.get('ddlCollegeLevelID')?.clearValidators();
-      this.CollegeDetailsForm.get('ddlDTECollegeLevelID')?.setValidators([DropdownValidators]);
-
     }
     else {
       this.CollegeDetailsForm.get('ddlCollegeLevelID')?.setValidators([DropdownValidators]);
-      this.CollegeDetailsForm.get('ddlDTECollegeLevelID')?.clearValidators();
     }
     this.CollegeDetailsForm.get('ddlCollegeLevelID')?.updateValueAndValidity();
-    this.CollegeDetailsForm.get('ddlDTECollegeLevelID')?.updateValueAndValidity();
 
 
     if (this.request.DepartmentID == 11) {
       this.CollegeDetailsForm.get('ddlCollegeLevelID')?.clearValidators();
-      this.CollegeDetailsForm.get('ddlDTECollegeLevelID')?.clearValidators();
       this.CollegeDetailsForm.get('ddlCollegeLevelID')?.updateValueAndValidity();
-      this.CollegeDetailsForm.get('ddlDTECollegeLevelID')?.updateValueAndValidity();
-
     }
 
 
