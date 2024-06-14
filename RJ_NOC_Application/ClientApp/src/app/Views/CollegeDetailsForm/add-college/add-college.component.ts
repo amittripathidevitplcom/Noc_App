@@ -1324,12 +1324,12 @@ export class AddCollegeComponent implements OnInit {
     //  isValid = false;
     //}
     if (this.IsExisting == true) {
-      //if (this.request.AISHECodeStatus == 1) {
-      //  if (this.request.AISHECode == null || this.request.AISHECode == '') {
-      //    isValid = false;
-      //    this.AISHECodeValidationMessage = 'This field is required .!';
-      //  }
-      //}
+      if (this.request.AISHECodeStatus == 1) {
+        if (this.request.AISHECode == null || this.request.AISHECode == '') {
+          isValid = false;
+          this.AISHECodeValidationMessage = 'This field is required .!';
+        }
+      }
       if (this.request.DepartmentID == 2 && this.request.CollegeCode == '') {
         isValid = false;
       }

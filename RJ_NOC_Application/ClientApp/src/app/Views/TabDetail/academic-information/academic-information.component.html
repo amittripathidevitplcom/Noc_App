@@ -163,8 +163,8 @@
                       <td>{{row.FinancialYearName}}</td>
                       <td>{{row.CourseName}}</td>
 
-                      <td>{{row.CourseType}}</td>
-                      <td>{{row.SemesterNo}}</td>
+                      <td *ngIf="SelectedDepartmentID==3">{{row.CourseType}}</td>
+                      <td *ngIf="SelectedDepartmentID==3">{{row.SemesterNo}}</td>
 
                       <td>{{row.ResultName}}</td>
                       <td>{{row.AdmittedStudent}}</td>
