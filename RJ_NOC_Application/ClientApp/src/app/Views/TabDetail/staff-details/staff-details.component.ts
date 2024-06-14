@@ -806,6 +806,8 @@ export class StaffDetailsComponent implements OnInit {
       this.DeleteResetFiles('All', false, '', '', '');
       this.ShowFileDownload = false;
       this.DesignationName = '';
+      this.HighestQualificationData = [];
+      this.RoleData = [];
     }
     catch (ex) { }
     finally {
