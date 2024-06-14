@@ -610,7 +610,7 @@
                         <tr>
                           <td colspan="5" style="    font-weight: 800;
     font-size: 18px;">
-                            <b><i class="bi bi-table"></i>&nbsp;Contact Details</b>
+                            <b><i class="bi bi-table"></i>&nbsp;{{SelectedDepartmentID==4?'Contact Details of Nodel Officer':'Contact Details'}}  </b>
                           </td>
                         </tr>
                       </thead>
@@ -647,7 +647,7 @@
                           <tr>
                             <td colspan="3" style="    font-weight: 800;
     font-size: 18px;">
-                              <b><i class="bi bi-table"></i>&nbsp;General Contact Details</b>
+                              <b><i class="bi bi-table"></i>&nbsp;{{SelectedDepartmentID==4?'Additional Contact Details':'General Contact Details'}} </b>
                             </td>
                           </tr>
                         </thead>
@@ -746,13 +746,13 @@
                   </thead>
                   <tbody>
                     <tr>
-                      <th>Sr.No.</th>
+                                          <th>Sr.No.</th>
                       <th>Department</th>
                       <th>College Name</th>
                       <th>Course</th>
-                      <th>Stream</th>
-                      <th style="    width: 250px !important">Subject</th>
-                      <th *ngIf="this.SelectedDepartmentID !=3">Seat</th>
+                      <th *ngIf="this.SelectedDepartmentID !=2">Stream</th>
+                      <th style="width: 250px !important" *ngIf="this.SelectedDepartmentID !=2">Subject</th>
+                      <th *ngIf="this.SelectedDepartmentID !=3 && CollegeType_IsExisting">Seat</th>
                       <th *ngIf="this.SelectedDepartmentID ==3">No Of Enrolled Students</th>
                     </tr>
                     <tr *ngFor="let row of AllCourseList ; let idx=index;">
@@ -760,9 +760,9 @@
                       <td>{{row.DepartmentName}}</td>
                       <td>{{row.CollageName}}</td>
                       <td>{{row.CourseName}}</td>
-                      <td>{{row.StreamName}}</td>
-                      <td style="    width: 250px !important">{{row.SubjectDetails}}</td>
-                      <td *ngIf="this.SelectedDepartmentID !=3">{{row.Dis_Sits}}</td>
+                      <td *ngIf="this.SelectedDepartmentID !=2">{{row.StreamName}}</td>
+                      <td style="    width: 250px !important" *ngIf="this.SelectedDepartmentID !=2">{{row.SubjectDetails}}</td>
+                      <td *ngIf="this.SelectedDepartmentID !=3 && CollegeType_IsExisting">{{row.Dis_Sits}}</td>
                       <td *ngIf="this.SelectedDepartmentID ==3">{{row.NoOfEnrolledStudents}}</td>
                     </tr>
                   </tbody>
@@ -1070,7 +1070,7 @@ font-size: 18px;">
                   <tr>
                     <td colspan="8" style="    font-weight: 800;
     font-size: 18px;">
-                      <b><i class="bi bi-table"></i>&nbsp;Rooms Details</b>
+                      <b><i class="bi bi-table"></i>&nbsp;Class Rooms Details</b>
                     </td>
                   </tr>
                 </thead>
@@ -1183,7 +1183,7 @@ font-size: 18px;">
         <!--Staff Details-->
         <div class="card-body">
           <div class="row">
-            <div class="table-responsive" *ngIf="StaffDetaillst.length>0 && CollegeType_IsExisting">
+            <div class="table-responsive" *ngIf="(StaffDetaillst.length>0 && CollegeType_IsExisting) || SelectedDepartmentID==4">
               <table class="table table-hover table-striped" id="StaffDetails" #content>
                 <thead>
                   <tr>

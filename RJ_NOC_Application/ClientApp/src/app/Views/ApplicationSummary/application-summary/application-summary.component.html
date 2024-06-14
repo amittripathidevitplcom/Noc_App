@@ -117,7 +117,7 @@
       </div>
     </div>
 
-    <div class="col-md-12">
+    <div class="col-md-12" *ngIf="IsAHDegreeCollege==false">
       <div class="card mb-0">
         <div class="card-header">
           <b><i class="bi bi-table"></i>  Building Documents </b>
@@ -130,7 +130,7 @@
       </div>
     </div>
 
-    <div class="col-md-12" *ngIf="SelectedDepartmentID!=11">
+    <div class="col-md-12" *ngIf="(this.SelectedDepartmentID!= 5 && this.SelectedDepartmentID!= 11 && IsAHDegreeCollege==false)">
       <div class="card mb-0">
         <div class="card-header">
           <b><i class="bi bi-table"></i> Class Room Details </b>
@@ -213,7 +213,7 @@
       </div>
     </div>
 
-    <div class="col-md-12">
+    <div class="col-md-12" *ngIf="SelectedDepartmentID!=5 && IsAHDegreeCollege==false">
       <div class="card mb-0">
         <div class="card-header">
           <b><i class="bi bi-table"></i>Other Document</b>
@@ -226,7 +226,7 @@
       </div>
     </div>
 
-    <div class="col-md-12" *ngIf="CollegeType_IsExisting">
+    <div class="col-md-12" *ngIf="(CollegeType_IsExisting && SelectedDepartmentID!=5 && IsAHDegreeCollege==false) || (SelectedDepartmentID==4)">
       <div class="card mb-0">
         <div class="card-header">
           <b><i class="bi bi-table"></i>  Staff Details </b>
@@ -238,7 +238,7 @@
         </div>
       </div>
     </div>
-    <div class="col-md-12" *ngIf="CollegeType_IsExisting">
+    <div class="col-md-12" *ngIf="CollegeType_IsExisting && (SelectedDepartmentID!=5 && SelectedDepartmentID!=11) && IsAHDegreeCollege==false">
       <div class="card mb-0">
         <div class="card-header">
           <b><i class="bi bi-table"></i>Academic Information</b>
@@ -320,7 +320,7 @@
       </div>
     </div>
   </div>
-  <div class="col-md-12" *ngIf="SelectedDepartmentID==2">
+  <div class="col-md-12" *ngIf="SelectedDepartmentID==2 && IsAHDegreeCollege==false">
     <div class="card mb-0">
       <div class="card-header">
         <b><i class="bi bi-table"></i>Veterinary Hospital</b>

@@ -188,10 +188,10 @@
                 <th>Department</th>
                 <th>College Name</th>
                 <th>Course</th>
-                <th>Stream</th>
-                <th style="width:250px !important">Subject</th>
+                <th *ngIf="this.request.DepartmentID !=2">Stream</th>
+                <th style="width:250px !important" *ngIf="this.request.DepartmentID !=2">Subject</th>
 
-                <th *ngIf="this.request.DepartmentID !=3">Seat</th> 
+                <th *ngIf="this.request.DepartmentID !=3 && CollegeStatus != 'New'">Seat</th> 
                 <th *ngIf="this.request.DepartmentID ==3">No Of Enrolled Students</th>
                 <th>Action</th>
               </tr>
@@ -201,10 +201,10 @@
                 <td style="width:40px !important"> {{idx+1}}</td>
                 <td>{{row.DepartmentName}}</td>
                 <td>{{row.CollageName}}</td>
-                <td>{{row.CourseName}}</td>
-                <td>{{row.StreamName}}</td>
-                <td style="width:250px !important">{{row.SubjectDetails}}</td>
-                <td *ngIf="this.request.DepartmentID !=3">{{row.Dis_Sits}}</td>
+                <td >{{row.CourseName}}</td>
+                <td *ngIf="this.request.DepartmentID !=2">{{row.StreamName}}</td>
+                <td style="width:250px !important" *ngIf="this.request.DepartmentID !=2">{{row.SubjectDetails}}</td>
+                <td *ngIf="this.request.DepartmentID !=3 && CollegeStatus != 'New'">{{row.Dis_Sits}}</td>
                 <td *ngIf="this.request.DepartmentID ==3">{{row.NoOfEnrolledStudents}}</td>
                 <td>
                   <div class="d-flex">

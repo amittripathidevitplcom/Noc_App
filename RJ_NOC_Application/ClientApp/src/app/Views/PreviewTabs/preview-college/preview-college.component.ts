@@ -43,10 +43,12 @@ export class PreviewCollegeComponent implements OnInit {
   //
   public SSOID: string = '';
   public SelectedCollageID: number = 0;
+  public SelectedDepartmentID: number = 0;
 
 
   async ngOnInit() {
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
+    this.SelectedDepartmentID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DepartmentID')?.toString()));
     this.SelectedCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
     //
     this.ModifyBy = 1;

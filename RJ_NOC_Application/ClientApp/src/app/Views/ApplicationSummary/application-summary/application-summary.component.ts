@@ -116,9 +116,10 @@ export class ApplicationSummaryComponent implements OnInit {
     await this.ViewlegalEntityDataByID(this.UserSSOID);
     this.loaderService.requestEnded();
   }
-
+  public IsAHDegreeCollege: boolean = false;
   async GetCollageDetails() {
     try {
+      this.IsAHDegreeCollege = false;
       this.loaderService.requestStarted();
       await this.collegeService.GetData(this.SelectedCollageID)
         .then((data: any) => {
@@ -128,6 +129,9 @@ export class ApplicationSummaryComponent implements OnInit {
           if (this.collegeDataList['CollegeStatus'] == 'New') {
             this.CollegeType_IsExisting = false;
             //this.isAcademicInformation = false;
+          }
+          if (this.collegeDataList['CollegeLevelName'] == 'UG' && this.collegeDataList['DepartmentID'] == 2) {
+            this.IsAHDegreeCollege = true;
           }
         }, error => console.error(error));
     }

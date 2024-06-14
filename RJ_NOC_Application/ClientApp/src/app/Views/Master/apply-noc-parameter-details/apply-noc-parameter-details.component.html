@@ -244,12 +244,12 @@
           </b>
         </label>
         <hr />
-        <div class="card">
-          <div class="card-header" *ngIf="ApplyNocApplicationDetail.ApplyNocLateFeeDetailList.length>0">
+        <div class="card" *ngIf="ApplyNocApplicationDetail.ApplyNocLateFeeDetailList.length>0">
+          <div class="card-header" >
             <!--*ngIf="ApplyNocApplicationDetail.LateFee>0"-->
             <b>Late Fee : {{ApplyNocApplicationDetail.ApplyNocLateFeeDetailList[0].TotalFeesAmount}} </b>
           </div>
-          <div class="card-body" *ngIf="ApplyNocApplicationDetail.ApplyNocLateFeeDetailList.length>0">
+          <div class="card-body">
             <div class="row">
               <!--Late Fees and Defaulter Fees-->
               <div class="table-responsive">
@@ -284,12 +284,12 @@
           </div>
         
         </div>
-        <div class="card">
+        <div class="card" *ngIf="ApplyNocApplicationDetail.DefaulterCollegePenaltyDetailList.length>0">
           
-          <div class="card-header" *ngIf="ApplyNocApplicationDetail.DefaulterCollegePenaltyDetailList.length>0">
+          <div class="card-header" >
             <b>Defaulter Fee : {{ApplyNocApplicationDetail.DefaulterCollegePenaltyDetailList[0].TotalPenaltyAmount}}</b>
           </div>
-          <div class="card-body" *ngIf="ApplyNocApplicationDetail.DefaulterCollegePenaltyDetailList.length>0">
+          <div class="card-body" >
             <div class="row">
               <!--Late Fees and Defaulter Fees-->
               <div class="table-responsive">

@@ -5,6 +5,7 @@ import { CourseMasterService } from '../../../Services/Master/AddCourse/course-m
 import { CommonMasterService } from '../../../Services/CommonMaster/common-master.service';
 import { LoaderService } from '../../../Services/Loader/loader.service';
 import { SSOLoginDataModel } from '../../../Models/SSOLoginDataModel';
+import { CollegeService } from '../../../services/collegedetailsform/College/college.service';
 
 
 @Component({
@@ -23,14 +24,16 @@ export class PreviewCourseDetailComponent implements OnInit {
   public SelectedDepartmentID: number = 0;
   public UserID: number = 0;
   public AllCourseList: any = [];
-  constructor(private courseMasterService: CourseMasterService, private loaderService: LoaderService, private commonMasterService: CommonMasterService, private router: ActivatedRoute) { }
+  constructor(private collegeService: CollegeService,private courseMasterService: CourseMasterService, private loaderService: LoaderService, private commonMasterService: CommonMasterService, private router: ActivatedRoute) { }
 
   async ngOnInit() {
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     this.SelectedDepartmentID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DepartmentID')?.toString()));
     this.SelectedCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
     await this.GetCourseByCollegeWise(this.SelectedCollageID, this.UserID);
+    await this.GetCollageDetails();
     await this.GetAllCourseDTEList();
+
   }
 
   async GetCourseByCollegeWise(CollegeID: number, UserID: number) {
@@ -65,6 +68,30 @@ export class PreviewCourseDetailComponent implements OnInit {
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
           this.AllCourseDTEList = data['Data'][0]['data'];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  public collegeDataList: any = [];
+  public CollegeType_IsExisting: boolean = true;
+  async GetCollageDetails() {
+    try {
+
+      this.loaderService.requestStarted();
+      await this.collegeService.GetData(this.SelectedCollageID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.collegeDataList = data['Data'];
+          if (this.collegeDataList['CollegeStatus'] == 'New') {
+            this.CollegeType_IsExisting = false;
+          }
         }, error => console.error(error));
     }
     catch (Ex) {
