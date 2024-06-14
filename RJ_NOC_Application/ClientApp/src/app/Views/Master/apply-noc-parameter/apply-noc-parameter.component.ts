@@ -1048,6 +1048,17 @@ export class ApplyNocParameterComponent implements OnInit {
       }
       HasData = IfSelectedParamenter;
     }
+    else if (this.request.DepartmentID == 1) {
+      let IfSelectedParamenter = false;
+      if (this.isInspectionFee)
+        IfSelectedParamenter = true;
+      for (var i = 0; i < this.ApplyNocParameterMasterList_ddl.length; i++) {
+        if (this.ApplyNocParameterMasterList_ddl[i].IsChecked == true) {
+          IfSelectedParamenter = true;
+        }
+      }
+      HasData = IfSelectedParamenter;
+    }
     else {
       if (this.ApplyNocParameterMasterList_TNOCExtension != null || this.ApplyNocParameterMasterList_AdditionOfNewSeats60 != null || this.ApplyNocParameterMasterList_ChangeInNameOfCollege != null ||
         this.ApplyNocParameterMasterList_ChangeInPlaceOfCollege != null || this.ApplyNocParameterMasterList_ChangeInGirlstoCoed != null || this.ApplyNocParameterMasterList_ChangeInCollegeManagement != null || this.ApplyNocParameterMasterList_MergerCollege != null || this.ApplyNocParameterMasterList_ChangeInCoedtoGirls != null || this.ApplyNocParameterMasterList_NewCourse != null
