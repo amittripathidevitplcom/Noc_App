@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import {  MatTabChangeEvent,MatTabGroup } from '@angular/material/tabs';
 import { FormBuilder } from '@angular/forms'; 
 import { ActivatedRoute, Router } from '@angular/router'; 
 import { ToastrService } from 'ngx-toastr';
@@ -20,7 +21,7 @@ import { HospitalDetailService } from '../../../Services/Tabs/HospitalDetail/hos
 
 
 export class PreviewLOIapplicationdetailEntryComponent implements OnInit {
-
+  @ViewChild('tabs') tabGroup!: MatTabGroup;
   LegalEntityDataModel = new LegalEntityDataModel();
   TrusteeGeneralInfoList: TrusteeGeneralInfoDataModel[] = [];
   closeResult: string | undefined;
@@ -32,6 +33,8 @@ export class PreviewLOIapplicationdetailEntryComponent implements OnInit {
 
 
   sSOLoginDataModel = new SSOLoginDataModel();
+  selectedIndex: number = 0;
+  maxNumberOfTabs: number = 0;
 
   public SelectedCollageID: number = 0;
   public SelectedDepartmentID: number = 0;
@@ -45,11 +48,23 @@ export class PreviewLOIapplicationdetailEntryComponent implements OnInit {
     this.SelectedDepartmentID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DepartmentID')?.toString()));
     this.SelectedCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
+    this.maxNumberOfTabs = this.tabGroup._tabs.length - 1;
     this.loaderService.requestEnded();
 
 
   }
-
-  
+  NextStep() {
+    if (this.selectedIndex != this.maxNumberOfTabs) {
+      this.selectedIndex = this.selectedIndex + 1;
+    }
+  }
+  PreviousStep() {
+    if (this.selectedIndex != 0) {
+      this.selectedIndex = this.selectedIndex - 1;
+    }
+  }
+  onTabChange(event: MatTabChangeEvent) {
+    this.selectedIndex = event.index;
+  }
 }
 

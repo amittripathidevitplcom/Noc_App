@@ -17,60 +17,70 @@
 <div class="container-fluid mainContents" id="LOIApplicationSummary">
   <div class="row">
     <div class="col-md-12">
-      <!--<mat-stepper orientation="vertical">
-        <mat-step state="chat">
-          <ng-template matStepLabel>Legal Entity </ng-template>
-          <ng-template matStepContent>
-            <app-preview-legal-entity></app-preview-legal-entity>
-            <button mat-button matStepperNext>Next</button>
-          </ng-template>
-        </mat-step>
-        <mat-step state="chat">
-          <ng-template matStepLabel>College Detail</ng-template>
-          <ng-template matStepContent>
-            <app-preview-college></app-preview-college>
-            <button mat-button matStepperPrevious>Back</button>
-            <button mat-button matStepperNext>Next</button>
-          </ng-template>
-        </mat-step>
+      <mat-tab-group mat-align-tabs="center" class="tabUl1 d-block w-100" [selectedIndex]="selectedIndex" #tabs (selectedTabChange)="onTabChange($event)">
 
-        <mat-step state="chat">
-          <ng-template matStepLabel>Land Details</ng-template>
+
+
+        <!--Land Information-->
+        <mat-tab>
+          <ng-template mat-tab-label>
+            <i class="fa fa-globe icon"></i>
+            <span>Legal Entity</span>
+          </ng-template>
+          <app-preview-legal-entity></app-preview-legal-entity>
+        </mat-tab>
+        <mat-tab>
+          <ng-template mat-tab-label>
+            <i class="fa fa-globe icon"></i>
+            <span>College Detail</span>
+          </ng-template>
+          <app-preview-college></app-preview-college>
+        </mat-tab>
+        <mat-tab>
+          <ng-template mat-tab-label>
+            <i class="fa fa-globe icon"></i>
+            <span>Land Details</span>
+          </ng-template>
           <app-preview-land-detail></app-preview-land-detail>
-          <button mat-button matStepperPrevious>Back</button>
-          <button mat-button matStepperNext>Next</button>
-        </mat-step>
-
-        <mat-step state="chat">
-          <ng-template matStepLabel>Required Document</ng-template>
+        </mat-tab>
+        <mat-tab>
+          <ng-template mat-tab-label>
+            <i class="fa fa-globe icon"></i>
+            <span>Required Document</span>
+          </ng-template>
           <app-preview-required-document></app-preview-required-document>
-          <button mat-button matStepperPrevious>Back</button>
-          <button mat-button matStepperNext>Next</button>
-        </mat-step>
-
-        <mat-step state="chat">
-          <ng-template matStepLabel>Building Documents</ng-template>
+        </mat-tab>
+        <mat-tab>
+          <ng-template mat-tab-label>
+            <i class="fa fa-globe icon"></i>
+            <span>Building Documents</span>
+          </ng-template>
           <app-preview-building-detail></app-preview-building-detail>
-          <button mat-button matStepperPrevious>Back</button>
-          <button mat-button matStepperNext>Next</button>
-        </mat-step>
-
-        <mat-step state="chat">
-          <ng-template matStepLabel>Hospital Details</ng-template>
+        </mat-tab>
+        <mat-tab>
+          <ng-template mat-tab-label>
+            <i class="fa fa-globe icon"></i>
+            <span>Hospital Details</span>
+          </ng-template>
           <app-preview-hospital-detail></app-preview-hospital-detail>
-          <button mat-button matStepperPrevious>Back</button>
-          <button mat-button matStepperNext>Next</button>
-        </mat-step>
-
-        <mat-step state="chat">
-          <ng-template matStepLabel>Payment Details</ng-template>
+        </mat-tab>
+        <mat-tab>
+          <ng-template mat-tab-label>
+            <i class="fa fa-globe icon"></i>
+            <span>Payment Details</span>
+          </ng-template>
           <app-preview-payment-detail></app-preview-payment-detail>
-          <button mat-button matStepperPrevious>Back</button>
-        </mat-step> 
-        <ng-template matStepperIcon="chat">
-          <mat-icon>forum</mat-icon>
-        </ng-template>
-      </mat-stepper>-->
+        </mat-tab>
+
+
+
+      </mat-tab-group>
+
+    </div>
+    <div class="col-lg-12 col-md-12 col-sm-6 col-12 mt-3 text-end">
+      <button *ngIf="this.selectedIndex != 0" class="btn btn-primary" type="button" (click)="PreviousStep()"><< Previous</button>
+      <button class="btn btn-primary" type="button" (click)="NextStep()" style="margin-left: 20px;">Next >></button>
+      <!--<button *ngIf="this.selectedIndex != maxNumberOfTabs" class="btn btn-primary" type="button" (click)="NextStep()" style="margin-left:20px">Next >></button>-->
     </div>
   </div>
 </div>
