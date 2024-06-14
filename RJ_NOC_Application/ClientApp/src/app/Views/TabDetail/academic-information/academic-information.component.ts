@@ -416,6 +416,7 @@ export class AcademicInformationComponent implements OnInit {
           this.request.PassedStudent = data['Data'][0]["PassedStudent"];
           this.request.FailedStudent = data['Data'][0]["FailedStudent"];
           this.request.OtherStudent = data['Data'][0]["OtherStudent"];
+          this.request.CourseType = data['Data'][0]["CourseType"];
 
           this.isDisabledGrid = true;
 

@@ -174,6 +174,10 @@ export class OtherInformationComponent implements OnInit {
     if (this.SelectedDepartmentID == 2) {
       this.textHeading = 'Type of facility';
     }
+    else if (this.SelectedDepartmentID == 3)
+    {
+      this.textHeading = 'Other';
+    }
     else {
       this.textHeading = 'Course';
     }

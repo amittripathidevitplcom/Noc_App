@@ -1118,6 +1118,8 @@ export class BuildingDetailsComponent implements OnInit {
           item.FileName = '';
           item.FilePath = '';
           item.Dis_FileName = '';
+          this.file = document.getElementById('fileLandDocument_' + item.DID);
+          this.file.value = '';
         }
         if (this.State == 1) {
           this.toastr.error(this.ErrorMessage)
