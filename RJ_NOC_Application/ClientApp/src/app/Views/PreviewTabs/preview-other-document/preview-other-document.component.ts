@@ -44,6 +44,7 @@ export class PreviewOtherDocumentComponent implements OnInit {
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
           this.request.DocumentDetails = data['Data'][0]['data'];
+          debugger;
         }, error => console.error(error));
     }
     catch (Ex) {

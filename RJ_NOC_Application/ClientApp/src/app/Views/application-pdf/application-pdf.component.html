@@ -746,7 +746,7 @@
                   </thead>
                   <tbody>
                     <tr>
-                                          <th>Sr.No.</th>
+                      <th>Sr.No.</th>
                       <th>Department</th>
                       <th>College Name</th>
                       <th>Course</th>
@@ -1011,6 +1011,117 @@ font-size: 18px;">
                                   </a>
                                   <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.FacilitiesUrl.includes('.pdf')" data-fancybox="gallery" href="{{item.FacilitiesUrlPath}}" data-caption="Image 10" title="click here to zoom" style="    font-size: 25px"></a>
                                 </td>-->
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+
+
+        <!--Required Document Details-->
+        <div class="card-body">
+          <div class="row">
+            <div class="table-responsive" *ngIf="RequiredDocumentDetailsDataList.length>0">
+              <table class="table table-bordered table-hover table-striped" id="RequiredDocumentDetails" #content>
+                <thead>
+                  <tr>
+                    <td colspan="8" style="font-weight: 800;font-size: 18px;">
+                      <b><i class="bi bi-table"></i>&nbsp;Required Document Details</b>
+                    </td>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th>Sr. No.</th>
+                    <th>Document Name</th>
+                    <th>File</th>
+                  </tr>
+                  <tr *ngFor="let item of RequiredDocumentDetailsDataList ; let indexOfelement=index;">
+                    <td> {{indexOfelement+1}}</td>
+                    <td>{{item.DocumentName}}</td>
+                    <td *ngIf="item.FilePath.length>0">
+                      Yes
+                    </td>
+                    <td *ngIf="item.FilePath.length==0">
+                      No
+                    </td>
+                  </tr>
+                  <tr *ngIf="RequiredDocumentDetailsDataList.length<=0">
+                    <td colspan="10" style="color:red">No Data Found.!</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+
+        <!--Other Document Details-->
+        <div class="card-body">
+          <div class="row">
+            <div class="table-responsive" *ngIf="OtherDocumentDetailsDataList.length>0">
+              <table class="table table-bordered table-hover table-striped" id="OtherDocumentDetails" #content>
+                <thead>
+                  <tr>
+                    <td colspan="8" style="font-weight: 800;font-size: 18px;">
+                      <b><i class="bi bi-table"></i>&nbsp;Other Document Details</b>
+                    </td>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th>Sr. No.</th>
+                    <th>Document Name</th>
+                    <th>File</th>
+                  </tr>
+                  <tr *ngFor="let item of OtherDocumentDetailsDataList ; let indexOfelement=index;">
+                    <td> {{indexOfelement+1}}</td>
+                    <td>{{item.DocumentName}}</td>
+                    <td *ngIf="item.FilePath.length>0">
+                      Yes
+                    </td>
+                    <td *ngIf="item.FilePath.length==0">
+                      No
+                    </td>
+                  </tr>
+                  <tr *ngIf="OtherDocumentDetailsDataList.length<=0">
+                    <td colspan="10" style="color:red">No Data Found.!</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="row" *ngIf="SelectedDepartmentID==6">
+            <div class="table-responsive" *ngIf="HospitalRealtedDocuments.length>0">
+              <table class="table table-bordered table-hover table-striped" id="OtherHospitalRealtedDocumentDetails" #content>
+                <thead>
+                  <tr>
+                    <td colspan="8" style="font-weight: 800;font-size: 18px;">
+                      <b><i class="bi bi-table"></i>&nbsp;Hospital Related Documents</b>
+                    </td>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th>Sr. No.</th>
+                    <th>Document Name</th>
+                    <th>File</th>
+                  </tr>
+                  <tr *ngFor="let item of HospitalRealtedDocuments ; let indexOfelement=index;">
+                    <td> {{indexOfelement+1}}</td>
+                    <td>{{item.DocumentName}}</td>
+                    <td *ngIf="item.FilePath.length>0">
+                      Yes
+                    </td>
+                    <td *ngIf="item.FilePath.length==0">
+                      No
+                    </td>
+                  </tr>
+                  <tr *ngIf="HospitalRealtedDocuments.length<=0">
+                    <td colspan="10" style="color:red">No Data Found.!</td>
                   </tr>
                 </tbody>
               </table>
@@ -2553,7 +2664,6 @@ font-size: 18px;">
                       {{ApplyNocApplicationDetail.NodelMobileNo}}
                     </td>
                     <td>
-                   
                     </td>
                   </tr>
                 </tbody>

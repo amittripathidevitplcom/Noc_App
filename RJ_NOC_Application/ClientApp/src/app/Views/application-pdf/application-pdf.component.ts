@@ -36,6 +36,7 @@ import { ApplyNocApplicationDataModel } from '../../Models/ApplyNocParameterData
 import { ApplyNocParameterService } from '../../Services/Master/apply-noc-parameter.service';
 import { ActivityDetailsService } from '../../Services/ActivityDetails/activity-details.service';
 import { CourtOrderService } from '../../Services/Tabs/court-order.service';
+import { CollegeDocumentService } from '../../Services/Tabs/CollegeDocument/college-document.service';
 
 
 @Component({
@@ -112,6 +113,9 @@ export class ApplicationPDFComponent implements OnInit {
   public paymentResponseDataModel: any[] = [];
   public OfflinePaymentDataModel: any[] = [];
   public ActivityDataAllList: any[] = [];
+  public RequiredDocumentDetailsDataList: any = [];
+  public OtherDocumentDetailsDataList: any = [];
+  public HospitalRealtedDocuments: any = [];
 
 
   public QueryStringStatus: string='Web'
@@ -119,7 +123,7 @@ export class ApplicationPDFComponent implements OnInit {
     private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private _fb: FormBuilder, private oldnocdetailService: OldnocdetailService, private hostelDetailService: HostelDetailService, private hospitalDetailService: HospitalDetailService, private veterinaryHospitalService: VeterinaryHospitalService,
     private otherInformationService: OtherInformationService, private staffDetailService: StaffDetailService, private academicInformationDetailsService: AcademicInformationDetailsService, private farmLandDetailServiceService: FarmLandDetailService, private elRef: ElementRef,
     private nocpaymentService: NocpaymentService, private applyNocParameterService: ApplyNocParameterService,
-    private ActivityDetailsService: ActivityDetailsService, private courtOrderService: CourtOrderService,
+    private ActivityDetailsService: ActivityDetailsService, private courtOrderService: CourtOrderService, private collegeDocumentService: CollegeDocumentService,
   ) { }
 
   async ngOnInit() {
@@ -177,6 +181,11 @@ export class ApplicationPDFComponent implements OnInit {
       await this.GetApplyNocApplicationList();
       await this.ViewApplyNocApplicationDetails(this.ApplyNocApplicationID);
       await this.GetAllCourOrderList();
+      await this.GetRequiredDocuments();
+      await this.GetOtherDocuments();
+      if (this.SelectedDepartmentID == 6) {
+        await this.GetHospitalRelatedDocuments();
+      }
       
     }
     catch (Ex) {
@@ -333,6 +342,11 @@ export class ApplicationPDFComponent implements OnInit {
       pDFData.push({ "ContentName": "#LandDetails" })
       pDFData.push({ "ContentName": "#BuildingDetails" })
       pDFData.push({ "ContentName": "#FacilityDetails" })
+      pDFData.push({ "ContentName": "#RequiredDocumentDetails" })
+      pDFData.push({ "ContentName": "#OtherDocumentDetails" })
+      if (this.SelectedDepartmentID == 6) {
+        pDFData.push({ "ContentName": "#OtherHospitalRealtedDocumentDetails" })
+      }
 
       if (this.SelectedDepartmentID == 3) {
         pDFData.push({ "ContentName": "#ActivityDetails" })
@@ -1668,6 +1682,70 @@ export class ApplicationPDFComponent implements OnInit {
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
           this.courtOrderDataList = data['Data'][0]['data'];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  async GetRequiredDocuments() {
+    try {
+      this.loaderService.requestStarted();
+      await this.collegeDocumentService.GetList(this.SelectedDepartmentID, this.SelectedCollageID, 'RequiredDocument')
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.RequiredDocumentDetailsDataList = data['Data'][0]['data'];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  async GetOtherDocuments() {
+    try {
+      this.loaderService.requestStarted();
+      await this.collegeDocumentService.GetList(this.SelectedDepartmentID, this.SelectedCollageID, 'OtherDocument')
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.OtherDocumentDetailsDataList = data['Data'][0]['data'];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+  async GetHospitalRelatedDocuments() {
+    try {
+      this.loaderService.requestStarted();
+      await this.collegeDocumentService.GetList(this.SelectedDepartmentID, this.SelectedCollageID, 'HospitalRelatedDocument')
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.HospitalRealtedDocuments = data['Data'][0]['data'];
         }, error => console.error(error));
     }
     catch (Ex) {
