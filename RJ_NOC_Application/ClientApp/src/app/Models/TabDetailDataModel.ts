@@ -136,6 +136,7 @@ export class StaffDetailDataModel {
   public S_Remark: string = '';
   public Gender: string = '';
   public DesignationRegistrationNo?: string = '';
+  public DetailofJob?: string = '';
 }
 export class EducationalQualificationDetails_StaffDetail {
   public EducationalQualificationID: number = 0;

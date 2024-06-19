@@ -383,6 +383,11 @@ export class ApplicationDetailEntryComponent implements OnInit {
                     this.isCheck30Female = true;
                     return;
                   }
+                  if (data['Data'][0]['data'][0]['TotalOwnCollege'] <= 0) {
+                    this.toastr.error('Please Add College Own Hospital.')
+                    this.isCheck30Female = true;
+                    return;
+                  }
                 }
               }
               else {

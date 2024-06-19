@@ -145,6 +145,7 @@ export class PreviewBuildingDetailComponent implements OnInit {
           }
 
           this.buildingdetails.lstBuildingDocDetails = data['Data'][0]['data']['Table1'];
+          this.buildingdetails.IsApproved = data['Data'][0]['data']['Table'][0]["IsApproved"];
         }, error => console.error(error));
     }
     catch (Ex) {

@@ -12,6 +12,7 @@ import { TrusteeGeneralInfoDataModel } from '../../../Models/TrusteeGeneralInfoD
 import { LegalEntityDataModel } from '../../../Models/LegalEntityDataModel';
 
 import { HospitalDetailService } from '../../../Services/Tabs/HospitalDetail/hospital-detail.service';
+import { LOIApplicationPDFComponent } from '../../loiapplication-pdf/loiapplication-pdf.component';
 @Component({
   selector: 'app-preview-loiapplicationdetail-entry',
   templateUrl: './preview-loiapplicationdetail-entry.component.html',
@@ -38,8 +39,8 @@ export class PreviewLOIapplicationdetailEntryComponent implements OnInit {
 
   public SelectedCollageID: number = 0;
   public SelectedDepartmentID: number = 0;
-  constructor(   private modalService: NgbModal, private toastr: ToastrService, private loaderService: LoaderService, private collegeService: CollegeService,
-     private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private _fb: FormBuilder,  private hospitalDetailService: HospitalDetailService,
+  constructor(   private modalService: NgbModal, private loaderService: LoaderService, 
+     private commonMasterService: CommonMasterService, private router: ActivatedRoute,
      ) { }
 
   async ngOnInit() {
@@ -48,7 +49,7 @@ export class PreviewLOIapplicationdetailEntryComponent implements OnInit {
     this.SelectedDepartmentID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DepartmentID')?.toString()));
     this.SelectedCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
-    this.maxNumberOfTabs = this.tabGroup._tabs.length - 1;
+    this.maxNumberOfTabs = 6;
     this.loaderService.requestEnded();
 
 
@@ -65,6 +66,13 @@ export class PreviewLOIapplicationdetailEntryComponent implements OnInit {
   }
   onTabChange(event: MatTabChangeEvent) {
     this.selectedIndex = event.index;
+  }
+
+  async btnViewPDfPreview(content: any) {
+    const modalRef = this.modalService.open(LOIApplicationPDFComponent,
+      { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' });
+    modalRef.componentInstance.CollegeID = this.SelectedCollageID;
+    modalRef.componentInstance.DepartmentID = this.SelectedDepartmentID;
   }
 }
 

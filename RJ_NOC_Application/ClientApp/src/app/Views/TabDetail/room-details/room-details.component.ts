@@ -414,6 +414,12 @@ export class RoomDetailsComponent implements OnInit {
         this.isformvalid = false;
       }
     }
+    if (this.SelectedDepartmentID == 9) {
+      if ((this.request.Length * this.request.Width) < 450) {
+        this.toastr.error('Minimum Room Size Required : 450 Sq.Feet');
+        this.isformvalid = false;
+      }
+    }
     if (this.SelectedDepartmentID != 4) {
       if (this.request.ImageFilePath == '') {
         this.ImageValidate = 'This field is required .!';

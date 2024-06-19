@@ -400,6 +400,7 @@ import { CourseReportsComponent } from './Views/DCEReports/course-reports/course
 import { AdminDefaulterCollegeListComponent } from './Views/Admin/admin-defaulter-college-list/admin-defaulter-college-list.component';
 import { CourtOrderComponent } from './Views/TabDetail/court-order/court-order.component';
 import { PreviewCourtOrderComponent } from './Views/PreviewTabs/preview-court-order/preview-court-order.component';
+import { LOIApplicationPDFComponent } from './Views/loiapplication-pdf/loiapplication-pdf.component';
  
 
 @NgModule({
@@ -800,6 +801,7 @@ import { PreviewCourtOrderComponent } from './Views/PreviewTabs/preview-court-or
     AdminDefaulterCollegeListComponent,
     CourtOrderComponent,
     PreviewCourtOrderComponent,
+    LOIApplicationPDFComponent,
 
   ],
   imports: [

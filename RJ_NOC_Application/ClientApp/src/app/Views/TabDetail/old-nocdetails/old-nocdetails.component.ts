@@ -268,7 +268,7 @@ export class OldNOCDetailsComponent implements OnInit {
               return element.Name == "NOC";
             });
           }
-          else if (this.SelectedDepartmentID != 3) {
+          else if (this.SelectedDepartmentID != 3 && this.SelectedDepartmentID!=9) {
             this.lstNOCType = this.lstNOCType.filter((element: any) => {
               return element.Name == "PNOC";
             });
@@ -423,7 +423,7 @@ export class OldNOCDetailsComponent implements OnInit {
       this.IsFormValid = false;
     }
     var OldNOCtype = this.lstNOCType.find((x: { ID: any; }) => x.ID == this.request.NOCTypeID).Name;
-    if (OldNOCtype != 'PNOC') {
+    if (OldNOCtype != 'PNOC' && OldNOCtype !='Permanent NOC') {
       if (this.SelectedDepartmentID != 4) {
         if (this.request.NOCExpireDate == '') {
           this.NOCExpireDateRequried = true;
@@ -480,7 +480,7 @@ export class OldNOCDetailsComponent implements OnInit {
   }
   OnChangeOldNOCType() {
     var OldNOCtype = this.lstNOCType.find((x: { ID: any; }) => x.ID == this.request.NOCTypeID).Name;
-    if (OldNOCtype == 'PNOC') {
+    if (OldNOCtype == 'PNOC' || OldNOCtype == 'Permanent NOC') {
       this.ShowOldNOCType = false;
       this.request.NOCExpireDate = '';
     }

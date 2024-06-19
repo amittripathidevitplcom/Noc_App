@@ -162,17 +162,17 @@ export class AddCoursesComponent implements OnInit {
       }, 200);
     }
   }
-
+  public CollegeLevel: string = '';
   async ddlCollege_change(SeletedCollegeID: any) {
     this.request.Seats = 0;
     try {
-
       await this.commonMasterService.GetCollegeBasicDetails(SeletedCollegeID)
         .then(async (data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.request.DepartmentID = await data['Data'][0]['data'][0]['DepartmentID'];
           this.CollegeStatus = await data['Data'][0]['data'][0]['CollegeStatus'];
           this.CollegeStatusID = await data['Data'][0]['data'][0]['CollegeStatusID'];
+          this.CollegeLevel = await data['Data'][0]['data'][0]['CollegeLevel'];
           await this.ddlDepartment_change(this.request.DepartmentID);
           await this.CourseLevel();
         }, error => console.error(error));
@@ -687,6 +687,11 @@ export class AddCoursesComponent implements OnInit {
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
           this.CourseLevelList = data['Data'];
+          if (this.SelectedDepartmentID == 9 && this.CollegeLevel=='Diploma') {
+            this.CourseLevelList = this.CourseLevelList.filter((element: any) => {
+              return element.Name == 'Diploma';
+            });
+          }
         }, error => console.error(error));
     }
     catch (Ex) {
