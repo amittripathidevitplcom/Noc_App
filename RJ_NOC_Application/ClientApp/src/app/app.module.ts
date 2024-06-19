@@ -401,7 +401,6 @@ import { AdminDefaulterCollegeListComponent } from './Views/Admin/admin-defaulte
 import { CourtOrderComponent } from './Views/TabDetail/court-order/court-order.component';
 import { PreviewCourtOrderComponent } from './Views/PreviewTabs/preview-court-order/preview-court-order.component';
 import { LOIApplicationPDFComponent } from './Views/loiapplication-pdf/loiapplication-pdf.component';
-import { PreviewCourtOrderComponent } from './Views/PreviewTabs/preview-court-order/preview-court-order.component'; 
 import { NgxPaginationModule } from 'ngx-pagination';
  
 
