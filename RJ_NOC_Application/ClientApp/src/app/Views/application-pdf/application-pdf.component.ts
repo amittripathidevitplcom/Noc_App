@@ -348,7 +348,7 @@ export class ApplicationPDFComponent implements OnInit {
       pDFData.push({ "ContentName": "#BuildingDetails" })
       pDFData.push({ "ContentName": "#FacilityDetails" })
       pDFData.push({ "ContentName": "#RequiredDocumentDetails" })
-      debugger;
+      
       pDFData.push({ "ContentName": "#OtherDocumentDetails" })
       if (this.SelectedDepartmentID == 6) {
         pDFData.push({ "ContentName": "#OtherHospitalRealtedDocumentDetails" })
