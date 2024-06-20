@@ -139,6 +139,7 @@ export class StaffDetailsComponent implements OnInit {
         txtESINumber: [''],
         fileData: [''],
         txtDesignationRegistrationNo: [''],
+        rddetailofjob: ['', Validators.required],
       });
     this.StaffEducationDetailForm = this.formBuilder.group(
       {
@@ -606,7 +607,13 @@ export class StaffDetailsComponent implements OnInit {
       this.QualificationDataValid = false;
       // this.ESIStaffShowHide = false;
       this.IsESIDetails = false;
-
+      if (this.SelectedDepartmentID == 9) {
+        this.StaffDetailForm.get('rddetailofjob')?.setValidators([Validators.required]);
+      }
+      else {
+        this.StaffDetailForm.get('rddetailofjob')?.clearValidators();
+      }
+      this.StaffDetailForm.get('rddetailofjob')?.updateValueAndValidity();
       if (this.SelectedDepartmentID != 4) {
         if (this.request.AadhaarCard == '') {
           this.isAadhaarCard = true;

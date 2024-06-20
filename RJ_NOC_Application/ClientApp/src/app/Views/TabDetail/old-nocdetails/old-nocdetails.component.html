@@ -30,7 +30,7 @@
           </div>
         </div>
 
-        <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" [hidden]="SelectedDepartmentID==2 || SelectedDepartmentID==4 || SelectedDepartmentID==11">
+        <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" [hidden]="SelectedDepartmentID==2 || SelectedDepartmentID==4 || SelectedDepartmentID==11 || SelectedDepartmentID==9">
           <label>Subject <span style="color:red;">*</span></label>
 
           <ng-multiselect-dropdown [disabled]="isToDisable" [placeholder]="'--Select--'" formControlName="ddlSubject" id="ddlSubject"
@@ -203,7 +203,7 @@
         <tr>
           <th>Sr.No.</th>
           <th>Course</th>
-          <th>Subject</th>
+          <th *ngIf="SelectedDepartmentID!=9">Subject</th>
           <th>NOC Type</th>
           <th>NOC Issue on Session Year</th>
           <th>Issued for Year</th>
@@ -219,7 +219,7 @@
         <tr *ngFor="let row of OldNocDetails; let indexOfelement=index;">
           <td> {{indexOfelement+1}}</td>
           <td>{{row.CourseName}}</td>
-          <td>
+          <td *ngIf="SelectedDepartmentID!=9">
             <p *ngFor="let item of row.SubjectData;">
               {{item.SubjectName}}
             </p>

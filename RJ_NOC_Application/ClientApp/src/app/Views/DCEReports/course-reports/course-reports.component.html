@@ -96,33 +96,33 @@
           </select>
         </div>
         <!--<div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
-        <label for="ddlStatusofCollege" class="form-label">Subject NOC Status:</label>
-        <select class="form-select" id="ddlStatusofCollege" name="ddlStatusofCollege" [(ngModel)]="request.StatusOfCollegeID">
-          <option value="0">All</option>
-          <option *ngFor="let item of StatusOfCollegeList" value="{{item.ID}}">{{item.Name}}</option>
-        </select>
-      </div>-->
+          <label for="ddlStatusofCollege" class="form-label">Subject NOC Status:</label>
+          <select class="form-select" id="ddlStatusofCollege" name="ddlStatusofCollege" [(ngModel)]="request.StatusOfCollegeID">
+            <option value="0">All</option>
+            <option *ngFor="let item of StatusOfCollegeList" value="{{item.ID}}">{{item.Name}}</option>
+          </select>
+        </div>-->
         <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
           <label for="txtSubjectNOCOrderNo" class="form-label">Subject NOC Order No:</label>
           <input type="text" class="form-control" id="txtSubjectNOCOrderNo" name="txtSubjectNOCOrderNo" autocomplete="off" [(ngModel)]="request.SubjectNOCOrderNo" maxlength="10" (keypress)="numberOnly($event)" />
         </div>
         <!--<div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
-        <label for="dtfromSubmittedDate" class="form-label">From Submitted Subject NOC Date:</label>
-        <input type="date" id="dtfromSubmittedDate" name="dtfromSubmittedDate" class="form-control" onkeypress="return false;" [(ngModel)]="request.FromSubmittedDate">
-      </div>-->
+          <label for="dtfromSubmittedDate" class="form-label">From Submitted Subject NOC Date:</label>
+          <input type="date" id="dtfromSubmittedDate" name="dtfromSubmittedDate" class="form-control" onkeypress="return false;" [(ngModel)]="request.FromSubmittedDate">
+        </div>-->
         <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
           <label for="dtFromSubmittedNOCDate" class="form-label">From Submitted Subject NOC Date:</label>
           <input type="date" class="form-control" id="dtFromSubmittedNOCDate" name="dtFromSubmittedNOCDate" autocomplete="off"
                  [(ngModel)]="request.FromSubmittedNOCDate" onkeypress="return false;" />
         </div>
         <!--<div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
-        <label for="dttoSubmittedDate" class="form-label">To Submitted Subject NOC Date:</label>
-        <input type="date" id="dttoSubmittedDate" name="dttoSubmittedDate" class="form-control" onkeypress="return false;" [(ngModel)]="request.ToSubmittedDate">
-      </div>-->
+          <label for="dttoSubmittedDate" class="form-label">To Submitted Subject NOC Date:</label>
+          <input type="date" id="dttoSubmittedDate" name="dttoSubmittedDate" class="form-control" onkeypress="return false;" [(ngModel)]="request.ToSubmittedDate">
+        </div>-->
         <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
           <label for="dtToSubmittedNOCDate" class="form-label">To Submitted Subject NOC Date:</label>
           <input type="date" class="form-control" id="dtToSubmittedNOCDate" name="dtToSubmittedNOCDate" autocomplete="off"
-                 [(ngModel)]="request.ToSubmittedNOCDate"  onkeypress="return false;" />
+                 [(ngModel)]="request.ToSubmittedNOCDate" onkeypress="return false;" />
         </div>
       </div>
 
@@ -236,17 +236,26 @@
   </div>
   <div class="card">
     <div class="card-header d-xxl-flex d-xl-flex d-md-flex d-sm-block justify-content-between align-items-center">
-      <h4></h4>
-      <div class="d-flex align-items-center table-filter mr-15">
-        <i class="fa fa-search"></i>
-        <input type="text" class="form-control" placeholder="Search Here" [(ngModel)]="searchText" />
+      <b><i class="fa fa-th-list"></i> Course Report List</b>
+      <div class="d-flex align-items-center justify-content-end">
+          <button type="button" class="btn btn-outline-primary" title="Excel" id="btnExportTable" (click)="btnExportTable_Click()"><i class="fa fa-file-excel-o"></i></button>
+       
+        <div class="d-flex align-items-center table-filter ms-2 me-2">
+          <i class="fa fa-search"></i>
+          <input type="text" class="form-control" placeholder="Search Here" [(ngModel)]="searchText" />
+        </div>
+        <select name="noOfRows" (change)="onTableSizeChange($event)" class="form-select" style="width: 80px !important;">
+          <option *ngFor="let size of tableSize" [ngValue]="size">
+            {{ size }}
+          </option>
+        </select>
       </div>
     </div>
-    <div class="table-responsive mb-5">
-      <table class="table table-bordered mb-0" #content id="tabellist">
+    <div class="table-responsive maxheight400px">
+      <table class="table table-bordered table-striped mb-0 tablefixHeader" #content id="tabellist">
         <thead>
           <tr>
-            <th>SrNo.</th>
+            <th>Sr.No.</th>
             <th *ngIf="requestlst.CourseType">New/Existing</th>
             <th *ngIf="requestlst.StatusOfCollege">Status Of College</th>
             <th *ngIf="requestlst.Institution">Institution</th>
@@ -263,8 +272,8 @@
         </thead>
 
         <tbody>
-          <tr *ngFor="let row of GetCourseList | tableSearchFilter:searchText; let idx=index;">
-            <td>{{idx+1}}</td>
+          <tr *ngFor="let row of GetCourseList | tableSearchFilter:searchText | paginate : pagingConfig; let i = index">
+            <td>{{row.RowNo}}</td>
             <td *ngIf="requestlst.CourseType">{{row.CourseType}}</td>
             <td *ngIf="requestlst.StatusOfCollege">{{row.StatusOfCollege}}</td>
             <td *ngIf="requestlst.Institution">{{row.Institution}}</td>
@@ -285,49 +294,14 @@
       </table>
     </div>
 
-    <!--<div class="table-responsive maxheight600px">
-    <table class="table table-bordered tableHeaderTH tableHeaderFixed tableHeaderTHMiddel  tableForm100 tableAlternate mb-0" id="tabellist" #content>
-      <thead>
-        <tr>
-          <th>Sr. No</th>
-          <th *ngIf="requestlst.FaculityName">New/Existing</th>
-          <th *ngIf="requestlst.Gender">Status Of College</th>
-          <th *ngIf="requestlst.MobileNo">Institution</th>
-          <th *ngIf="requestlst.DesignationID">Universities</th>
-          <th *ngIf="requestlst.TempPermanentID">Courses</th>
-          <th *ngIf="requestlst.IsReserachGuideID">Course NOC Status</th>
-          <th *ngIf="requestlst.AadhaarNo">Subjects</th>
-          <th *ngIf="requestlst.DateOfAppointment">Enrolled Students</th>
-          <th *ngIf="requestlst.DateOfJoining">Subject NOC Status</th>
-          <th *ngIf="requestlst.MonthlySalary">Subject NOC Order No</th>
-          <th *ngIf="requestlst.PFDeductionID">From Submitted Subject NOC Date</th>
-          <th *ngIf="requestlst.CollegeID">To Submitted Subject NOC Date</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let row of StaffReportData | tableSearchFilter:searchText;let idx=index;">
-
-          <td>{{idx+1}}</td>
-          <td *ngIf="requestlst.FaculityName">{{row.CourseType}}</td>
-          <td *ngIf="requestlst.Gender">{{row.StatusOfCollege}}</td>
-          <td *ngIf="requestlst.MobileNo">{{row.Institution}}</td>
-          <td *ngIf="requestlst.DesignationID">{{row.UniversityName}}</td>
-          <td *ngIf="requestlst.TempPermanentID">{{row.CourseName}}</td>
-          <td *ngIf="requestlst.IsReserachGuideID">{{row.StatusOfCollege}}</td>
-          <td *ngIf="requestlst.AadhaarNo">{{row.SubjectName}}</td>
-          <td *ngIf="requestlst.DateOfAppointment">{{row.NoOfEnrolledStudents}}</td>
-          <td *ngIf="requestlst.DateOfJoining">{{row.StatusOfCollege}}</td>
-          <td *ngIf="requestlst.MonthlySalary">{{row.NOCNumber}}</td>
-          <td *ngIf="requestlst.PFDeductionID">{{row.FromSubmittedNOCDate}}</td>
-          <td *ngIf="requestlst.CollegeID">{{row.ToSubmittedNOCDate}}</td>
 
 
-        </tr>
-      </tbody>
-    </table>
-  </div>-->
 
+
+    <div class="d-flex justify-content-end mt-3 customPagination pe-3 ps-3">
+      <pagination-controls previousLabel="Prev"
+                           nextLabel="Next"
+                           (pageChange)="onTableDataChange($event)">
+      </pagination-controls>
+    </div>
   </div>
-
-
-</div>

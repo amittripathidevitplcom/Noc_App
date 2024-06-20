@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BuildingDetailsDataModel, DocuemntBuildingDetailsDataModel } from '../../../Models/TabDetailDataModel';
 import { LoaderService } from '../../../Services/Loader/loader.service';
@@ -48,6 +48,7 @@ export class PreviewBuildingDetailComponent implements OnInit {
           this.ErrorMessage = data['ErrorMessage'];
           this.lstBuildingDetails = data['Data'][0]['data']['Table'];
           this.lstBuildingDetailsDocument = data['Data'][0]['data']['Table1'];
+
         }, error => console.error(error));
     }
     catch (Ex) {
@@ -82,14 +83,12 @@ export class PreviewBuildingDetailComponent implements OnInit {
           this.buildingdetails.Division_English = data['Data'][0]['data']['Table'][0]["Division_English"];
           this.buildingdetails.DistrictID = data['Data'][0]['data']['Table'][0]["DistrictID"];
           this.buildingdetails.District_Eng = data['Data'][0]['data']['Table'][0]["District_Eng"];
-
-          if (this.buildingdetails.RuralUrban == 'Rural') {
-            this.buildingdetails.TehsilID = data['Data'][0]['data']['Table'][0]["TehsilID"];
-            this.buildingdetails.TehsilName = data['Data'][0]['data']['Table'][0]["TehsilName"];
-            this.buildingdetails.PanchayatSamitiID = data['Data'][0]['data']['Table'][0]["PanchayatSamitiID"];
-            this.buildingdetails.PanchyatSamitiName = data['Data'][0]['data']['Table'][0]["PanchyatSamitiName"];
-          }
+          this.buildingdetails.TehsilID = data['Data'][0]['data']['Table'][0]["TehsilID"];
+          this.buildingdetails.TehsilName = data['Data'][0]['data']['Table'][0]["TehsilName"];
+          this.buildingdetails.PanchayatSamitiID = data['Data'][0]['data']['Table'][0]["PanchayatSamitiID"];
+          this.buildingdetails.PanchyatSamitiName = data['Data'][0]['data']['Table'][0]["PanchyatSamitiName"];
           this.buildingdetails.CityTownVillage = data['Data'][0]['data']['Table'][0]["CityTownVillage"];
+          this.buildingdetails.CityName = data['Data'][0]['data']['Table'][0]["CityName"];
           this.buildingdetails.ContactNo = data['Data'][0]['data']['Table'][0]["ContactNo"];
           this.buildingdetails.Pincode = data['Data'][0]['data']['Table'][0]["Pincode"];
           this.buildingdetails.OwnBuildingOrderNo = data['Data'][0]['data']['Table'][0]["OwnBuildingOrderNo"];
@@ -145,6 +144,7 @@ export class PreviewBuildingDetailComponent implements OnInit {
           }
 
           this.buildingdetails.lstBuildingDocDetails = data['Data'][0]['data']['Table1'];
+          this.buildingdetails.IsApproved = data['Data'][0]['data']['Table'][0]["IsApproved"];
         }, error => console.error(error));
     }
     catch (Ex) {

@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Injectable } from '@angular/core';
-import { CourseReportSearchFilter, CourseReportSearchFilterLst } from '../../../Models/SearchFilterDataModel';
+import { CourseReportSearchFilter, CourseReportSearchFilterLst, PagingConfig } from '../../../Models/SearchFilterDataModel';
 import { SSOLoginDataModel } from '../../../Models/SSOLoginDataModel';
 import { CourseReportService } from '../../../Services/DCEReports/CourseReport/course-report.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -10,15 +10,16 @@ import { CommonMasterService } from '../../../Services/CommonMaster/common-maste
 import { ApplyNocParameterService } from '../../../Services/Master/apply-noc-parameter.service';
 import { CollegeService } from '../../../services/collegedetailsform/College/college.service';
 import { SearchFilterDataModel } from '../../../Models/TabDetailDataModel';
-
-
+import * as XLSX from 'xlsx';  
+const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+const EXCEL_EXTENSION = '.xlsx';
 
 @Component({
   selector: 'app-course-reports',
   templateUrl: './course-reports.component.html',
   styleUrls: ['./course-reports.component.css']
 })
-export class CourseReportsComponent implements OnInit {
+export class CourseReportsComponent implements PagingConfig, OnInit {
   searchText: string = '';
   request = new CourseReportSearchFilter();
   sSOLoginDataModel = new SSOLoginDataModel();
@@ -36,6 +37,7 @@ export class CourseReportsComponent implements OnInit {
   public CollegeStatusList: any = [];
   public CourseTypeList: any = [];
   public GetCourseList: any = [];
+  public GetCourseList_Export: any = [];
   public IsExisting: boolean = false;
   public PresentCollegeStatusList_FilterData: any = []
   public PresentCollegeStatusList: any = [];
@@ -43,12 +45,27 @@ export class CourseReportsComponent implements OnInit {
   public MaxDate: Date = new Date();
 
   constructor(private coursereportservice: CourseReportService, private collegeService: CollegeService, private routers: Router, private router: ActivatedRoute, private dceDocumentScrutinyService: DCEDocumentScrutinyService, private toastr: ToastrService, private loaderService: LoaderService, private commonMasterService: CommonMasterService, private applyNocParameterService: ApplyNocParameterService) {
+
   }
+  currentPage: number = 1;
+  itemsPerPage: number = 10;
+  totalItems: number = 0;
+
+  tableSize: number[] = [10, 20, 50, 100, 500, 1000];
+  pagingConfig: PagingConfig = {} as PagingConfig;
+
   async ngOnInit() {
+
+    this.pagingConfig = {
+      itemsPerPage: this.itemsPerPage,
+      currentPage: this.currentPage,
+      totalItems: this.totalItems
+    }
+
     this.sSOLoginDataModel = JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     await this.LoadMaster();
-    await this.GetCourseReport();
     await this.GetDepartmentList(3);
+    await this.GetCourseReport();
   }
   async LoadMaster() {
     try {
@@ -192,6 +209,23 @@ export class CourseReportsComponent implements OnInit {
     }
   }
 
+
+  onTableDataChange(event: any) {
+
+    console.log(event);
+    this.pagingConfig.currentPage = event;
+    this.request.PageNumber = this.pagingConfig.currentPage;
+    this.GetCourseReport();
+  }
+  onTableSizeChange(event: any): void {
+    this.pagingConfig.itemsPerPage = event.target.value;
+    this.pagingConfig.currentPage = 1;
+
+    this.request.PageSize = this.pagingConfig.itemsPerPage;
+    this.request.PageNumber = this.pagingConfig.currentPage;
+
+    this.GetCourseReport();
+  }
   async GetCourseReport() {
     try {
       this.loaderService.requestStarted();
@@ -200,7 +234,16 @@ export class CourseReportsComponent implements OnInit {
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.GetCourseList = data['Data'][0]['data'];
-          console.log(this.GetCourseList);
+          this.request.TotalRecords = data['Data'][0]['data'][0]["TotalRecords"];
+          this.request.TotalRecords = data['Data'][0]['data'][0]["TotalRecords"];
+
+          this.pagingConfig.totalItems = this.request.TotalRecords;
+
+          this.request.PageSize = this.pagingConfig.itemsPerPage;
+          this.request.PageNumber = this.pagingConfig.currentPage;
+
+          //this.request.TotalPages = Number((Number(this.request.TotalRecords) / Number(this.request.PageSize)).toFixed(0));  
+          // this.SetPaginate(1);
         }, error => console.error(error));
     }
     catch (Ex) {
@@ -212,6 +255,8 @@ export class CourseReportsComponent implements OnInit {
       }, 200);
     }
   }
+
+
   async ResetControl() {
     this.request = new CourseReportSearchFilter();
     this.sSOLoginDataModel = new SSOLoginDataModel();
@@ -219,6 +264,76 @@ export class CourseReportsComponent implements OnInit {
     await this.LoadMaster();
     await this.GetCourseReport();
     await this.GetDepartmentList(3);
+  }
+
+  async btnExportTable_Click() {
+    this.loaderService.requestStarted();
+    let PageNumber = this.request.PageNumber;
+    let PageSize = this.request.PageSize;
+
+    this.request.PageNumber = 1;
+    this.request.PageSize = this.request.TotalRecords;
+
+    await this.coursereportservice.CoursesReport(this.request)
+      .then((data: any) => {
+        data = JSON.parse(JSON.stringify(data));
+        this.GetCourseList_Export = data['Data'][0]['data'];
+      }, error => console.error(error));
+
+    if (this.GetCourseList_Export.length > 0) {
+      try {
+
+        const ExportData: any = this.GetCourseList_Export.map((x: {
+          CourseType: any;
+          StatusOfCollege: any;
+          Institution: any;
+          UniversityName: any;
+          CourseName: any;
+          CourseNOCStatus: any;
+          SubjectName: any;
+          NoOfEnrolledStudents: any;
+          SubjectNOCStatus: any;
+          NOCNumber: any;
+          FromSubmittedNOCDate: any;
+          ToSubmittedNOCDate: any;
+        }) => ({
+          CourseType: x.CourseType,
+          StatusOfCollege: x.StatusOfCollege,
+          Institution: x.Institution,
+          UniversityName: x.UniversityName,
+          CourseName: x.CourseName,
+          CourseNOCStatus: x.CourseNOCStatus,
+          SubjectName: x.SubjectName,
+          NoOfEnrolledStudents: x.NoOfEnrolledStudents,
+          SubjectNOCStatus: x.SubjectNOCStatus,
+          NOCNumber: x.NOCNumber,
+          FromSubmittedNOCDate: x.FromSubmittedNOCDate,
+          ToSubmittedNOCDate: x.ToSubmittedNOCDate, 
+        }));
+        var wb = XLSX.utils.book_new();
+        var ws = XLSX.utils.json_to_sheet(ExportData);
+        XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+        XLSX.writeFile(wb, "CourseReports.xlsx"); 
+      }
+      catch (Ex) {
+        console.log(Ex);
+      }
+      finally {
+        setTimeout(() => {
+          this.request.PageNumber = PageNumber;
+          this.request.PageSize = PageSize;
+          this.loaderService.requestEnded();
+        }, 200);
+      }
+    }
+    else {
+      this.toastr.warning("No Record Found.!");
+      setTimeout(() => {
+        this.request.PageNumber = PageNumber;
+        this.request.PageSize = PageSize;
+        this.loaderService.requestEnded();
+      }, 200);
+    }
   }
 }
 

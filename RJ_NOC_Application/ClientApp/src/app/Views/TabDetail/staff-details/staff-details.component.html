@@ -35,7 +35,7 @@
             <p *ngIf="form.rdTeachingType.errors.required"> This field is required .!</p>
           </div>
         </div>
-        <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="request.TeachingType=='Teaching' && IsCourseLevel=='Yes' && (SelectedDepartmentID !=4 && SelectedDepartmentID !=11)">
+        <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="request.TeachingType=='Teaching' && IsCourseLevel=='Yes' && (SelectedDepartmentID !=4 && SelectedDepartmentID !=11 && SelectedDepartmentID !=9)">
           <label>Subject <span style="color:red;" *ngIf="SelectedDepartmentID !=9">*</span></label>
           <select id="ddlSubjectId" name="ddlSubjectId" class="form-control" formControlName="ddlSubjectId" [(ngModel)]="request.SubjectID">
             <option value="0" disabled>--Select--</option>
@@ -241,7 +241,7 @@
             <p *ngIf="isExperianceCertificate"> This field is required .!</p>
           </div>
         </div>
-        <div class="col-md-4 mb-3" *ngIf="request.TeachingType=='Teaching' && IsCourseLevel=='Yes'  && SelectedDepartmentID !=4 && SelectedDepartmentID !=11">
+        <div class="col-md-4 mb-3" *ngIf="request.TeachingType=='Teaching' && IsCourseLevel=='Yes'  && SelectedDepartmentID !=4 && SelectedDepartmentID !=11 && SelectedDepartmentID !=9">
           <label>Specialization Subject <span style="color:red;" *ngIf=" SelectedDepartmentID !=9">*</span></label>
           <select id="txtSpecializationSubject" name="txtSpecializationSubject" class="form-control" formControlName="txtSpecializationSubject" [(ngModel)]="request.SpecializationSubject">
             <option value="" disabled>--Select--</option>
@@ -333,6 +333,24 @@
           </div>
           <p *ngIf="isSubmitted&&request.TeachingType=='Teaching'&&(request.ResearchGuide==null||request.ResearchGuide==''||request.ResearchGuide==undefined)" class="text-danger">  This field is required .!</p>
         </div>
+
+         <!--Only for paramedical department-->
+        <div class="col-md-4 mb-3" *ngIf="SelectedDepartmentID==9">
+          <label class="form-label" style="margin-right:15px">Detail of Job <span style="color:red;">*</span>:</label>
+          <div class="clearfix"></div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="rddetailofjob" id="rddetailofjobfull" value="Full" formControlName="rddetailofjob" [(ngModel)]="request.DetailofJob">
+            <label class="form-check-label" for="rddetailofjobfull">Full Time</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="rddetailofjob" id="rddetailofjobpart" value="Part" formControlName="rddetailofjob" [(ngModel)]="request.DetailofJob">
+            <label class="form-check-label" for="rddetailofjobpart">Part Time</label>
+          </div>
+          <div *ngIf="isSubmitted&&form.rddetailofjob.errors" class="text-danger">
+            <p *ngIf="form.rddetailofjob.errors.required"> This field is required .!</p>
+          </div>
+        </div>
+
       </div>
     </form>
     <div class="clearfix"></div>

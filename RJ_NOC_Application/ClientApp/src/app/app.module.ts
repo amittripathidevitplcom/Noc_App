@@ -402,6 +402,8 @@ import { CourtOrderComponent } from './Views/TabDetail/court-order/court-order.c
 import { PreviewCourtOrderComponent } from './Views/PreviewTabs/preview-court-order/preview-court-order.component';
 import { ClinicalFacilityComponent } from './Views/TabDetail/clinical-facility/clinical-facility.component';
 import { PreviewClinicalFacilityComponent } from './Views/PreviewTabs/preview-clinical-facility/preview-clinical-facility.component';
+import { LOIApplicationPDFComponent } from './Views/loiapplication-pdf/loiapplication-pdf.component';
+import { NgxPaginationModule } from 'ngx-pagination';
  
 
 @NgModule({
@@ -802,8 +804,6 @@ import { PreviewClinicalFacilityComponent } from './Views/PreviewTabs/preview-cl
     AdminDefaulterCollegeListComponent,
     CourtOrderComponent,
     PreviewCourtOrderComponent,
-    ClinicalFacilityComponent,
-    PreviewClinicalFacilityComponent,
 
   ],
   imports: [
@@ -838,7 +838,8 @@ import { PreviewClinicalFacilityComponent } from './Views/PreviewTabs/preview-cl
       enableHtml: true
     }),
     NewGrievanceModule,
-    NgbModule
+    NgbModule,
+    NgxPaginationModule
   ],
   //exports: [TableSearchFilterPipe],
   //exports: [LoaderModule],

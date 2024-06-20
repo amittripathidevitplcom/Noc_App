@@ -214,6 +214,19 @@ export class CourseReportSearchFilter {
 
   public ToSubmittedNOCDate: string = '';
 
+  public PageSize: number = 10;
+  public PageNumber: number = 1; 
+  public TotalRecords: number = 0; 
+  public StartRecord: number = 0; 
+  public EndRecord: number = 0; 
+  public TotalPages: number = 0; 
+  public StartPageNumber: number = 0; 
+  public EndPageNumber: number = 0; 
+}
+export interface PagingConfig {
+  currentPage: number;
+  itemsPerPage: number;
+  totalItems: number;
 }
 export class CourseReportSearchFilterLst {
   public DepartmentID: boolean = true;
