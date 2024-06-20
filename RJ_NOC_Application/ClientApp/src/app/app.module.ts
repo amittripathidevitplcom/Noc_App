@@ -787,7 +787,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
     OtherMinorityDataComponent,
     DistanceOtherMinorityBreakupComponent,
     WorkFlowFormat3Component,
-
+    LOIApplicationPDFComponent,
     UpdateCollegeSSOComponent,
     CollegePaymentReportComponent,
     TotalDraftEntryCollegeComponent,
