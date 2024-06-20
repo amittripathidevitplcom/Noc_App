@@ -3233,6 +3233,38 @@ font-size: 18px;">
             </div>
           </div>
         </div>
+
+        <!--Offline Clinical Facility Details-->
+        <div class="card-body" *ngIf="SelectedDepartmentID==9">
+          <div class="row">
+            <div class="table-responsive" *ngIf="clinicalFacilityList.length>0">
+              <table class="table table-hover table-striped-columns" id="clinicalFacility" #content>
+                <thead>
+                  <tr>
+                    <td colspan="8" style="font-weight: 800;font-size: 18px;">
+                      <b><i class="bi bi-table"></i>&nbsp;Clinical Facility Details</b>
+                    </td>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th>Sr. No</th>
+                    <th>Facility Name</th>
+                    <th>No of Facility</th>
+                    <th>Minimum Size</th>
+                  </tr>
+                  <tr *ngFor="let item of clinicalFacilityList ; let idx=index;">
+                    <td style="width:40px !important"> {{idx+1}}</td>
+                    <td>{{item.FacilityName}}</td>
+                    <td>{{item.FacilityValue}}</td>
+                    <td>{{item.MinSize}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
         <div class="card-footer">
           <input type="button" value="Preview Download PDF" class="btn btn-sm btn-primary" (click)="btnSavePDF_Click()" />
         </div>

@@ -12,6 +12,7 @@ import { OldNOCDetailsComponent } from '../../TabDetail/old-nocdetails/old-nocde
 import { RoomDetailsComponent } from '../../TabDetail/room-details/room-details.component';
 import { StaffDetailsComponent } from '../../TabDetail/staff-details/staff-details.component';
 import { VeterinaryHospitalComponent } from '../../VeterinaryHospital/veterinary-hospital/veterinary-hospital.component';
+import { ClinicalFacilityComponent } from '../../TabDetail/clinical-facility/clinical-facility.component';
 
 @Component({
   selector: 'app-application-detail-entry',
@@ -50,6 +51,8 @@ export class ApplicationDetailEntryComponent implements OnInit {
   private roomDetailsComponent!: RoomDetailsComponent;
   @ViewChild(VeterinaryHospitalComponent)
   private veterinaryHospitalComponent!: VeterinaryHospitalComponent;
+  @ViewChild(ClinicalFacilityComponent)
+  private clinicalFacilityComponent!: ClinicalFacilityComponent;
   public DraftbuttonName: string = 'Save Draft';
   public QueryStringStatus: any = '';
   public SearchRecordID: string = '';
@@ -532,8 +535,11 @@ export class ApplicationDetailEntryComponent implements OnInit {
     try {
       this.veterinaryHospitalComponent.GetSeatInformationByCourse();
     }
+    catch (Ex) { } 
+    try {
+      this.clinicalFacilityComponent.GetAllClinicalFacilityList();
+    }
     catch (Ex) { }
-
     await this.CheckTabsEntry();
     this.IsShowDraftFinalSubmit = true;
     //Medical Group 3

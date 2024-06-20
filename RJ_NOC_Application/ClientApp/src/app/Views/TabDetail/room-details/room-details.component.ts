@@ -157,6 +157,7 @@ export class RoomDetailsComponent implements OnInit {
 
 
   async LoadMaster() {
+   
     try {
       this.loaderService.requestStarted();
       await this.commonMasterService.GetCourseList_CollegeWise(this.SelectedCollageID)

@@ -37,6 +37,7 @@ import { ApplyNocParameterService } from '../../Services/Master/apply-noc-parame
 import { ActivityDetailsService } from '../../Services/ActivityDetails/activity-details.service';
 import { CourtOrderService } from '../../Services/Tabs/court-order.service';
 import { CollegeDocumentService } from '../../Services/Tabs/CollegeDocument/college-document.service';
+import { ClinicalFacilityService } from '../../Services/ClinicalFacility/clinical-facility.service';
 
 
 @Component({
@@ -102,6 +103,7 @@ export class ApplicationPDFComponent implements OnInit {
   public collegeDataList: any = [];
   searchrequest = new CourtOrderSearchFilterDataModel();
   public courtOrderDataList: any = [];
+  public clinicalFacilityList: any = [];
   sSOLoginDataModel = new SSOLoginDataModel();
 
   public SelectedCollageID: number = 0;
@@ -122,9 +124,9 @@ export class ApplicationPDFComponent implements OnInit {
   constructor(public activeModal: NgbActiveModal, private roomDetailsService: RoomDetailsService, private facilityDetailsService: FacilityDetailsService, private buildingDetailsMasterService: BuildingDetailsMasterService, private landDetailsService: LandDetailsService, private socityService: SocityService, private draftApplicationListService: DraftApplicationListService, private TrusteeGeneralInfoService: TrusteeGeneralInfoService, private legalEntityListService: LegalEntityService, private modalService: NgbModal, private courseMasterService: CourseMasterService, private toastr: ToastrService, private loaderService: LoaderService, private collegeService: CollegeService,
     private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private _fb: FormBuilder, private oldnocdetailService: OldnocdetailService, private hostelDetailService: HostelDetailService, private hospitalDetailService: HospitalDetailService, private veterinaryHospitalService: VeterinaryHospitalService,
     private otherInformationService: OtherInformationService, private staffDetailService: StaffDetailService, private academicInformationDetailsService: AcademicInformationDetailsService, private farmLandDetailServiceService: FarmLandDetailService, private elRef: ElementRef,
-    private nocpaymentService: NocpaymentService, private applyNocParameterService: ApplyNocParameterService,
+    private nocpaymentService: NocpaymentService, private applyNocParameterService: ApplyNocParameterService, private clinicalFacilityService: ClinicalFacilityService,
     private ActivityDetailsService: ActivityDetailsService, private courtOrderService: CourtOrderService, private collegeDocumentService: CollegeDocumentService,
-  ) { }
+    ) { }
 
   async ngOnInit() {
 
@@ -185,6 +187,9 @@ export class ApplicationPDFComponent implements OnInit {
       await this.GetOtherDocuments();
       if (this.SelectedDepartmentID == 6) {
         await this.GetHospitalRelatedDocuments();
+      }
+      if (this.SelectedDepartmentID == 9) {
+        await this.GetAllClinicalFacilityList();
       }
       
     }
@@ -343,6 +348,7 @@ export class ApplicationPDFComponent implements OnInit {
       pDFData.push({ "ContentName": "#BuildingDetails" })
       pDFData.push({ "ContentName": "#FacilityDetails" })
       pDFData.push({ "ContentName": "#RequiredDocumentDetails" })
+      debugger;
       pDFData.push({ "ContentName": "#OtherDocumentDetails" })
       if (this.SelectedDepartmentID == 6) {
         pDFData.push({ "ContentName": "#OtherHospitalRealtedDocumentDetails" })
@@ -381,6 +387,9 @@ export class ApplicationPDFComponent implements OnInit {
       pDFData.push({ "ContentName": "#OfflinePayment" })
       pDFData.push({ "ContentName": "#OnlinePayment" })
       pDFData.push({ "ContentName": "#ApplyNOCDetails" })
+      if (this.SelectedDepartmentID == 9) {
+        pDFData.push({ "ContentName": "#clinicalFacility" })
+      }
       for (var i = 0; i < pDFData.length; i++) {
 
         if (pDFData[i].ContentName == '#TrusteeMemberDetails') {
@@ -1746,6 +1755,28 @@ export class ApplicationPDFComponent implements OnInit {
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
           this.HospitalRealtedDocuments = data['Data'][0]['data'];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  async GetAllClinicalFacilityList() {
+    try {
+
+      this.loaderService.requestStarted();
+      await this.clinicalFacilityService.GetCollegeClinicalFacilityList(this.sSOLoginDataModel.UserID, this.SelectedCollageID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.clinicalFacilityList = data['Data'][0]['data'];
         }, error => console.error(error));
     }
     catch (Ex) {

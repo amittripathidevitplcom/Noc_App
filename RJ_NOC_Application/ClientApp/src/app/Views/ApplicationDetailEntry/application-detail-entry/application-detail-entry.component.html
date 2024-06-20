@@ -304,6 +304,16 @@
               <app-court-order></app-court-order>
             </mat-tab>
 
+            <mat-tab *ngIf="SelectedDepartmentID==9">
+              <ng-template mat-tab-label>
+                <i class="fa fa-align-justify icon" aria-hidden="true"></i>
+                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['ClinicalFacility']>0"></i>
+                <span class="badge pulse" *ngIf="CheckTabsEntryData['ClinicalFacility']==0"></span>
+                <span>Clinical Facility</span>
+              </ng-template>
+              <app-clinical-facility></app-clinical-facility>
+            </mat-tab>
+
           </mat-tab-group>
         </div>
         <div class="col-lg-12 col-md-12 col-sm-6 col-12 mt-3 text-end">

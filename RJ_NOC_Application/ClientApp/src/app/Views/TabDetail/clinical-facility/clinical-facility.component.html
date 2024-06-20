@@ -1,0 +1,41 @@
+
+<div class="card">
+  <div class="card-header d-flex justify-content-between align-items-center">
+    <b><i class="fa fa-filter"></i>&nbsp;Clinical Facility</b>
+  </div>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngFor="let item of clinicalFacilityModel.FacilityList">
+        
+        <div *ngIf="item.IsCheckbox==false">
+          <label>
+            <b>{{item.FacilityTitle}} <span style="color:red;" *ngIf="item.IsMandatory==true">*</span></b>
+          </label>
+          <input type="number" class="form-control" id="clinicalFacility_{{item.ClinicFacilityID}}" [(ngModel)]="item.FacilityValue">
+          <div *ngIf="isSubmitted&&item.FacilityValue == ''" class="text-danger">
+            <p>This field is required .!</p>
+          </div>
+          <div *ngIf="isSubmitted&&item.FacilityValue <item.MinSize" class="text-danger">
+            <p>Minimum size {{item.MinSize}}</p>
+          </div>
+        </div>
+
+        <div *ngIf="item.IsCheckbox==true">
+          <b><label for="ddl_{{item.ClinicFacilityID}}" class="form-label">{{item.FacilityTitle}} <span style="color:red;" *ngIf="item.IsMandatory==true">*</span></label></b>
+          <select class="form-select" id="ddl_{{item.ClinicFacilityID}}" name="ddl_{{item.ClinicFacilityID}}" [(ngModel)]="item.FacilityValue">
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+          </select>
+          <div *ngIf="isSubmitted&&item.FacilityValue == ''" class="text-danger">
+            <p>This field is required .!</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="card-footer border-bottom text-end" *ngIf="clinicalFacilityModel.FacilityList.length>0">
+    <button type="submit" class="btn btn-primary" id="btnSave" name="btnSave" (click)="SaveData()">Save</button>
+  </div>
+</div>
