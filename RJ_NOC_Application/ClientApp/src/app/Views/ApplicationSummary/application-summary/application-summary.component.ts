@@ -820,7 +820,7 @@ export class ApplicationSummaryComponent implements OnInit {
           else {
             this.IsManagmentType = false;
           }
-
+          
           this.legalEntityInstituteDetailData = data['Data'][0]['data']['Table1'];
           this.legalEntityMemberDetailData = data['Data'][0]['data']['Table2'];
         }, (error: any) => console.error(error));
