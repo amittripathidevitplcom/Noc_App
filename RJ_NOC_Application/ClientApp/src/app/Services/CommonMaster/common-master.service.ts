@@ -626,7 +626,7 @@ export class CommonMasterService {
         'Content-Type': 'application/json'
       })
     };
-    return await this.http.get("https://rajsahakarapp.rajasthan.gov.in/api/EntireSocietyDetail/GetSocietyDetailsByRegistrationNO?Reg_no=" + RegistrationNo + "&districtId" + districtId)
+    return await this.http.get("https://rajsahakarapp.rajasthan.gov.in/api/EntireSocietyDetail/GetSocietyDetailsByRegistrationNO?Reg_no=" + RegistrationNo + "&districtId=" + districtId)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();
