@@ -47,6 +47,7 @@ export class LegalEntityComponent implements OnInit {
   public isSubmitted_Registration: boolean = false;
   public ImageValidate: string = '';
 
+  public RegistrationMaxDate: Date = new Date('2021-06-23');
   public MaxDate: Date = new Date();
   public MinDate_DOB: Date = new Date();
   //public MinDate_ElectionPresentManagementCommitteeDate: Date = new Date();

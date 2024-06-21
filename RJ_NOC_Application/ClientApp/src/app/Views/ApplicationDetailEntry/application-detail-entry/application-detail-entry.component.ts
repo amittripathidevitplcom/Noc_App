@@ -195,6 +195,7 @@ export class ApplicationDetailEntryComponent implements OnInit {
               this.SuccessMessage = data['SuccessMessage'];
               this.ErrorMessage = data['ErrorMessage'];
               data = JSON.parse(JSON.stringify(data));
+              debugger;
               if (!this.State) {
                 TotalDuplicateAadhaar = data['Data'][0]['data'][0]['TotalDuplicateAadhar'];
                 TotalDuplicateAadhaarNo = data['Data'][0]['data'][0]['DuplicateAadhars'];

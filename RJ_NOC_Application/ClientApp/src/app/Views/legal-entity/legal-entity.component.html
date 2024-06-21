@@ -324,7 +324,7 @@
           </div>
           <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
             <label for=""> Date Of Registration</label>
-            <input class="form-control" type="date" id="txtSocietyRegistrationDate" [(ngModel)]="request.SocietyRegistrationDate" formControlName="txtSocietyRegistrationDate" max="{{MaxDate | date:'yyyy-MM-dd'}}" (change)="SetElectionPresentManagementCommitteeDatemindate()" onkeypress="return false;" />
+              <input class="form-control" type="date" id="txtSocietyRegistrationDate" [(ngModel)]="request.SocietyRegistrationDate" formControlName="txtSocietyRegistrationDate" max="{{RegistrationMaxDate | date:'yyyy-MM-dd'}}" (change)="SetElectionPresentManagementCommitteeDatemindate()" onkeypress="return false;" />            
             <div *ngIf="isSubmitted&&form.txtSocietyRegistrationDate.errors" class="text-danger">
               <p *ngIf="form.txtSocietyRegistrationDate.errors.required">This field is required .!</p>
             </div>
