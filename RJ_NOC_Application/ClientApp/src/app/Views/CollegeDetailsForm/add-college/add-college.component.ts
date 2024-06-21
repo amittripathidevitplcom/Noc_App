@@ -1290,11 +1290,13 @@ export class AddCollegeComponent implements OnInit {
     if (this.IsExisting == true && this.request.DepartmentID == 2) {
       this.CollegeDetailsForm.get('txtCollegeCode')?.setValidators([Validators.required]);
       this.CollegeDetailsForm.get('txtCollegeCode')?.updateValueAndValidity();
-    } else {
+      this.CollegeDetailsForm.get('ddlUniversityID')?.setValidators([DropdownValidators, Validators.required]);
+      this.CollegeDetailsForm.get('ddlUniversityID')?.updateValueAndValidity();
+    }
+    else {
       this.CollegeDetailsForm.get('txtCollegeCode')?.clearValidators();
       this.CollegeDetailsForm.get('txtCollegeCode')?.updateValueAndValidity();
     }
-
 
     this.isValidCollegeLogo = false;
     this.isValidNAACAccreditedCertificate = false;
