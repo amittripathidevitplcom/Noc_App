@@ -1042,6 +1042,9 @@ export class DocumentScrutinyCheckListDetailsComponentDce implements OnInit {
             this.UserRoleList = data['Data'];
 
             if (this.UserRoleList.length > 0) {
+              if (this.sSOLoginDataModel.RoleID == 17 && this.ActionID!=3) {
+                this.UserRoleList = this.UserRoleList.filter((x: { RoleID: number; }) => x.RoleID == 19 );
+              }
               this.NextRoleID = this.UserRoleList[0]['RoleID'];
               await this.NextGetUserDetailsByRoleID();
             }
