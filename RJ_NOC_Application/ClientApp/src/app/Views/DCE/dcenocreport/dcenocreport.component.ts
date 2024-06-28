@@ -34,6 +34,8 @@ export class DCENOCReportComponent implements OnInit {
   public ApplicationList: any = [];
   public QueryStringStatus: string = '';
   public searchText: string = '';
+  public SuvdivisionList: any = [];
+  public DivisionList: any = [];
 
   constructor(private routers: Router,private router: ActivatedRoute,private dceDocumentScrutinyService: DCEDocumentScrutinyService, private toastr: ToastrService, private loaderService: LoaderService, private commonMasterService: CommonMasterService, private applyNocParameterService: ApplyNocParameterService) {
   }
@@ -52,11 +54,11 @@ export class DCENOCReportComponent implements OnInit {
     try {
       this.DistrictList = [];
       this.loaderService.requestStarted();
-      await this.commonMasterService.GetDistrictListByStateID(6)
-        .then((data: any) => {
-          data = JSON.parse(JSON.stringify(data));
-          this.DistrictList = data['Data'];
-        }, error => console.error(error));
+      //await this.commonMasterService.GetDistrictListByStateID(6)
+      //  .then((data: any) => {
+      //    data = JSON.parse(JSON.stringify(data));
+      //    this.DistrictList = data['Data'];
+      //  }, error => console.error(error));
       await this.commonMasterService.GetUniversityByDepartmentId(3)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
@@ -88,6 +90,14 @@ export class DCENOCReportComponent implements OnInit {
           data = JSON.parse(JSON.stringify(data));
           this.ApplicationTypeList = data['Data'][0]['data'];
         }, error => console.error(error));
+      await this.commonMasterService.GetDivisionList()
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.DivisionList = data['Data'];
+        }, error => console.error(error));
     }
     catch (Ex) {
       console.log(Ex);
@@ -107,6 +117,7 @@ export class DCENOCReportComponent implements OnInit {
     }
     return true;
   }
+  
 
 
   async GetDCENOCReportData() {
@@ -182,5 +193,65 @@ export class DCENOCReportComponent implements OnInit {
   }
   async ResetControl() {
     this.request = new DCENOCReportSearchFilterDataModel();
+  }
+
+
+  async FillDivisionRelatedDDL(SelectedDivisionID: string) {
+    this.DistrictList = [];
+    this.request.DistrictID = 0;
+    this.SuvdivisionList = [];
+    this.request.SubDivisionID = 0;
+    try {
+      this.loaderService.requestStarted();
+      const divisionId = Number(SelectedDivisionID);
+      if (divisionId <= 0) {
+        return;
+      }
+      // college status
+      await this.commonMasterService.GetDistrictByDivsionId(divisionId)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+            this.DistrictList = data['Data'];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  async FillDistrictRelatedDDL(SelectedDistrictID: string) {
+    this.SuvdivisionList = [];
+    this.request.SubDivisionID = 0;
+    try {
+      this.loaderService.requestStarted();
+      const districtId = Number(SelectedDistrictID);
+      if (districtId <= 0) {
+        return;
+      }
+      // subdivision list
+      await this.commonMasterService.GetSuvdivisionByDistrictId(districtId)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+            this.SuvdivisionList = data['Data'];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
   }
 }

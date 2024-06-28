@@ -1,5 +1,7 @@
 export class DCENOCReportSearchFilterDataModel {
   public DistrictID: number = 0
+  public DivisionID: number = 0
+  public SubDivisionID: number = 0
   public UniversityID: number = 0
   public CollegeName: string = ''
   public CollegeEmail: string = ''
