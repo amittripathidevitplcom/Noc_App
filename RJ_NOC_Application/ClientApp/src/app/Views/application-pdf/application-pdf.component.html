@@ -731,7 +731,7 @@
 
         </div>
         <!--Course Details-->
-        <div class="card-body" *ngIf="SelectedDepartmentID!=4">
+        <div class="card-body" *ngIf="SelectedDepartmentID!=4 && SelectedDepartmentID!=5">
           <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12 col-12">
               <div class="table-responsive" *ngIf="AllCourseList.length>0">
@@ -978,7 +978,7 @@ font-size: 18px;">
           </div>
         </div>
         <!--Facility Details-->
-        <div class="card-body">
+        <div class="card-body" *ngIf="SelectedDepartmentID!=5">
           <div class="row">
             <div class="table-responsive" *ngIf="FacilitiesDataAllList.length>0">
               <table class="table table-bordered table-hover table-striped" id="FacilityDetails" #content>
@@ -1062,7 +1062,7 @@ font-size: 18px;">
 
 
         <!--Other Document Details-->
-        <div class="card-body">
+        <div class="card-body" *ngIf="SelectedDepartmentID!=5">
           <div class="row">
             <div class="table-responsive" *ngIf="OtherDocumentDetailsDataList.length>0">
               <table class="table table-bordered table-hover table-striped" id="OtherDocumentDetails" #content>
@@ -1567,7 +1567,7 @@ font-size: 18px;">
         </div>
         <!--Hospital Details-->
         <!--Hospital Details-->
-        <div class="card-body" *ngIf="SelectedDepartmentID==6">
+        <div class="card-body" *ngIf="SelectedDepartmentID==6 || SelectedDepartmentID==5">
           <div class="row">
             <div class="table-responsive">
               <div *ngFor="let row of HospitalAllDatalst;let idx=index;">

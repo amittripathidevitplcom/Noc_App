@@ -25,7 +25,7 @@
 
 
 
-    <div class="col-md-12" *ngIf="IsManagmentType && SelectedDepartmentID !=2">
+    <div class="col-md-12" *ngIf="IsManagmentType && SelectedDepartmentID ==3">
       <div class="card mb-0">
         <div class="card-header">
           <b><i class="bi bi-table"></i> Application Deficiency </b>
@@ -76,7 +76,7 @@
       </div>
     </div>
 
-    <div class="col-md-12">
+    <div class="col-md-12" *ngIf="this.SelectedDepartmentID!= 5">
       <div class="card mb-0">
         <div class="card-header">
           <b><i class="bi bi-table"></i> Course Detail </b>
@@ -157,7 +157,7 @@
     </div>
 
 
-    <div class="col-md-12">
+    <div class="col-md-12" *ngIf="SelectedDepartmentID!=5">
       <div class="card mb-0">
         <div class="card-header" *ngIf="SelectedDepartmentID==6">
           <b><i class="bi bi-table"></i>  Clinical Details </b>
@@ -173,7 +173,7 @@
       </div>
     </div>
 
-    <div class="col-md-12">
+    <div class="col-md-12"  *ngIf="SelectedDepartmentID!=5">
       <div class="card mb-0">
         <div class="card-header">
           <b><i class="bi bi-table"></i> Facility </b>
@@ -271,7 +271,7 @@
 
 
 
-  <div class="col-md-12" *ngIf="SelectedDepartmentID==6">
+  <div class="col-md-12" *ngIf="SelectedDepartmentID==6 || SelectedDepartmentID==5">
     <div class="card mb-0">
       <div class="card-header">
         <b><i class="bi bi-table"></i>Hospital Details</b>

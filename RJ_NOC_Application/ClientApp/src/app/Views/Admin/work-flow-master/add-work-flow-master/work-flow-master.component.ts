@@ -361,13 +361,14 @@ export class WorkFlowMasterComponent implements OnInit {
     try {
       this.loaderService.requestStarted();
       await this.workFlowMasterService.GetWorkFlowMasterList(WorkFlowMasterID)
-        .then((data: any) => {
+        .then(async (data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
           this.request = data['Data'][0];
-          this.GetRoleListByLevelID(this.request.RoleLevelID, -1);
+          await this.GetRoleListByLevelID(this.request.RoleLevelID, -1);
+          await this.GetWorkflowNOCType(this.request.DepartmentID);
           for (var i = 0; i < this.request.WorkFlowMasterDetailList.length; i++) {
             this.GetActionListByActionHead(this.request.WorkFlowMasterDetailList[i].ActionHeadID, i);
             this.GetRoleListByLevelID(this.request.WorkFlowMasterDetailList[i].RoleLevelID, i);
@@ -385,14 +386,14 @@ export class WorkFlowMasterComponent implements OnInit {
   }
   public WorkflowNOCTypelst: any = [];
   async GetWorkflowNOCType(DepartmentID: number) {
-    debugger;
+    this.WorkflowNOCTypelst = [];
     try {
       this.loaderService.requestStarted();
       await this.commonMasterService.GetCommonMasterList_DepartmentAndTypeWise(DepartmentID, "WorkflowNOCType")
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.WorkflowNOCTypelst = data['Data'];
-          if (this.WorkflowNOCTypelst.length > 0) {
+          if (this.WorkflowNOCTypelst.length > 0 && this.request.NOCTypeID<=0) {
             this.request.NOCTypeID = this.WorkflowNOCTypelst.find((x: { Name: string; }) => x.Name == "NOC")?.ID;
           }
         }, error => console.error(error));
