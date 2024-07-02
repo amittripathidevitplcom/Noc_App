@@ -10,11 +10,10 @@
             <thead>
               <tr>
                 <th>S.No.</th>
-                <th>PRN</th>
+                <th>Transaction ID</th>
+                <th>AUIN No.</th>
                 <th>Status</th>
                 <th>Transaction Amount</th>
-                <th>RPP Transaction ID</th>
-                <th>Created Date</th>
                 <th>Payment Time Statmp</th>
 
               </tr>
@@ -22,11 +21,10 @@
             <tbody>
               <tr *ngFor="let row of paymentResponseDataModel; let idx=index;">
                 <td>{{idx+1}}</td>
+                <td>{{row.RPPTXNID}}</td>
                 <td>{{row.PRN}}</td>
                 <td>{{row.STATUS}}</td>
                 <td>{{row.AMOUNT}}</td>
-                <td>{{row.RPPTXNID}}</td>
-                <td>{{row.CreatedDate}}</td>
                 <td>{{row.PAYMENTMODETIMESTAMP}}</td>
               </tr>
               <tr *ngIf="paymentResponseDataModel.length<=0">
