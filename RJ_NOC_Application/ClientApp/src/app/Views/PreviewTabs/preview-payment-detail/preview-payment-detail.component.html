@@ -1,6 +1,6 @@
-<div class="card" *ngIf="SelectedDepartmentID!=4 && SelectedDepartmentID!=3 && SelectedDepartmentID!=2">
+<div class="card" *ngIf="paymentResponseDataModel.length>0">
   <div class="card-header">
-    <b>Payment Details</b>
+    <b>Online Payment Details</b>
   </div>
   <div class="card-body">
     <div class="row">
@@ -41,9 +41,9 @@
 </div>
 
 <!--Offline Payment Details-->
-<div class="card" *ngIf="SelectedDepartmentID==2 || SelectedDepartmentID==4 || SelectedDepartmentID==3">
+<div class="card" *ngIf="OfflinePaymentDataModel.length>0">
   <div class="card-header">
-    <b>Payment Details</b>
+    <b>Offline Payment Details</b>
   </div>
   <div class="card-body">
     <div class="row">
