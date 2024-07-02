@@ -2532,15 +2532,15 @@ font-size: 18px;">
           </div>
         </div>
         <!--Offline Payment Details-->
-        <div class="card-body" *ngIf="SelectedDepartmentID==2 || SelectedDepartmentID==4 || SelectedDepartmentID==3">
+        <div class="card-body" *ngIf="OfflinePaymentDataModel.length>0">
           <div class="row">
-            <div class="table-responsive" *ngIf="OfflinePaymentDataModel.length>0">
+            <div class="table-responsive" >
               <table class="table table-hover table-striped-columns" id="OfflinePayment" #content>
                 <thead>
                   <tr>
                     <td colspan="8" style="    font-weight: 800;
     font-size: 18px;">
-                      <b><i class="bi bi-table"></i>&nbsp;Payment Details</b>
+                      <b><i class="bi bi-table"></i>&nbsp;Offline Payment Details</b>
                     </td>
                   </tr>
                 </thead>
@@ -2574,27 +2574,25 @@ font-size: 18px;">
                   <tr>
                     <td colspan="8" style="    font-weight: 800;
 font-size: 18px;">
-                      <b><i class="bi bi-table"></i>&nbsp;Payment Information</b>
+                      <b><i class="bi bi-table"></i>&nbsp;Online Payment Information</b>
                     </td>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
                     <th>S.No.</th>
-                    <th>PRN</th>
+                    <!--<th>Transaction ID</th>-->
+                    <th>AUIN No.</th>
                     <th>Status</th>
                     <th>Transaction Amount</th>
-                    <th>RPP Transaction ID</th>
-                    <th>Created Date</th>
                     <th>Payment Time Statmp</th>
                   </tr>
                   <tr *ngFor="let row of paymentResponseDataModel;let idx=index;">
                     <td>{{idx+1}}</td>
+                    <!--<td>{{row.RPPTXNID}}</td>-->
                     <td>{{row.PRN}}</td>
                     <td>{{row.STATUS}}</td>
                     <td>{{row.AMOUNT}}</td>
-                    <td>{{row.RPPTXNID}}</td>
-                    <td>{{row.CreatedDate}}</td>
                     <td>{{row.PAYMENTMODETIMESTAMP}}</td>
                   </tr>
                 </tbody>
