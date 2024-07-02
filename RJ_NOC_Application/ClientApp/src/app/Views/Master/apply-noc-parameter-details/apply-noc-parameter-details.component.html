@@ -93,14 +93,16 @@
                 </li>
 
                 <li>
-                  <a *ngIf="(item.DepartmentID==4 || item.DepartmentID==3|| item.DepartmentID==2) && item.IsFinalSubmit==false && item.ManagementType!='Government'&& item.IsOpenNOCApplication==true" class="dropdown-item list-group-item list-group-item-action list-group-item-danger" href="javascript:void(0)" title="Add Offline Payment Details" (click)="OpenOfflinePaymentActionPopUP(mymodalAddOfflinePayment,item)">
+                  <!--<a *ngIf="(item.DepartmentID==4 || item.DepartmentID==3|| item.DepartmentID==2) && item.IsFinalSubmit==false && item.ManagementType!='Government'&& item.IsOpenNOCApplication==true" class="dropdown-item list-group-item list-group-item-action list-group-item-danger" href="javascript:void(0)" title="Add Offline Payment Details" (click)="OpenOfflinePaymentActionPopUP(mymodalAddOfflinePayment,item)">-->
+                  <a *ngIf="item.IsOnlineOfflinePayment=='Offline' && item.IsFinalSubmit==false && item.ManagementType!='Government'&& item.IsOpenNOCApplication==true" class="dropdown-item list-group-item list-group-item-action list-group-item-danger" href="javascript:void(0)" title="Add Offline Payment Details" (click)="OpenOfflinePaymentActionPopUP(mymodalAddOfflinePayment,item)">
                     Add Offline Payment Details
                   </a>
                 </li>
-                <li *ngIf="item.DepartmentID !=4 && item.DepartmentID!=3 && item.DepartmentID!=2 && item.IsOpenNOCApplication==true">
+                <!--<li *ngIf="item.DepartmentID !=4 && item.DepartmentID!=3 && item.DepartmentID!=2 && item.IsOpenNOCApplication==true">-->
+                <li *ngIf="item.IsOnlineOfflinePayment=='Online' && item.IsFinalSubmit==false && item.IsOpenNOCApplication==true">
                   <a class="dropdown-item list-group-item list-group-item-action list-group-item-danger" href="javascript:void(0)" *ngIf="item.IsMakePayment==false" title="Payment" (click)="PaymentApplyNocApplication_click(mymodalpayment,item.ApplyNocApplicationID)">
                     Payment
-                  </a>
+                 </a>
                   <a class="dropdown-item list-group-item list-group-item-action list-group-item-danger" *ngIf="item.IsMakePayment==true" href="javascript:void(0)" title="Payment History" (click)="PaymentHistoryApplyNocApplication_click(mymodalpaymenthistory,item.ApplyNocApplicationID)">
                     Payment History
                   </a>
@@ -123,7 +125,8 @@
 
 
                 <li>
-                  <a *ngIf="item.IsMakePayment==true && item.IsMakePayment_ApplicationFee==true && item.IsFinalSubmit==true && item.DepartmentID!=4 && item.DepartmentID!=5 && item.DepartmentID!=3" class="dropdown-item list-group-item list-group-item-action list-group-item-danger" href="javascript:void(0)" title="Add Offline Payment Details" (click)="OpenOfflinePaymentActionPopUP(mymodalAddOfflinePayment,item)">
+                  <!--<a *ngIf="item.IsMakePayment==true && item.IsMakePayment_ApplicationFee==true && item.IsFinalSubmit==true && item.DepartmentID!=4 && item.DepartmentID!=5 && item.DepartmentID!=3" class="dropdown-item list-group-item list-group-item-action list-group-item-danger" href="javascript:void(0)" title="Add Offline Payment Details" (click)="OpenOfflinePaymentActionPopUP(mymodalAddOfflinePayment,item)">-->
+                  <a *ngIf="item.IsMakePayment==true && item.IsMakePayment_ApplicationFee==true && item.IsFinalSubmit==true && item.DepartmentID==2" class="dropdown-item list-group-item list-group-item-action list-group-item-danger" href="javascript:void(0)" title="Add Offline Payment Details" (click)="OpenOfflinePaymentActionPopUP(mymodalAddOfflinePayment,item)">
                     Add Offline Payment Details
                   </a>
                 </li>
@@ -245,7 +248,7 @@
         </label>
         <hr />
         <div class="card" *ngIf="ApplyNocApplicationDetail.ApplyNocLateFeeDetailList.length>0">
-          <div class="card-header" >
+          <div class="card-header">
             <!--*ngIf="ApplyNocApplicationDetail.LateFee>0"-->
             <b>Late Fee : {{ApplyNocApplicationDetail.ApplyNocLateFeeDetailList[0].TotalFeesAmount}} </b>
           </div>
@@ -282,14 +285,14 @@
               <!--Late Fees and Defaulter Fees-->
             </div>
           </div>
-        
+
         </div>
         <div class="card" *ngIf="ApplyNocApplicationDetail.DefaulterCollegePenaltyDetailList.length>0">
-          
-          <div class="card-header" >
+
+          <div class="card-header">
             <b>Defaulter Fee : {{ApplyNocApplicationDetail.DefaulterCollegePenaltyDetailList[0].TotalPenaltyAmount}}</b>
           </div>
-          <div class="card-body" >
+          <div class="card-body">
             <div class="row">
               <!--Late Fees and Defaulter Fees-->
               <div class="table-responsive">
