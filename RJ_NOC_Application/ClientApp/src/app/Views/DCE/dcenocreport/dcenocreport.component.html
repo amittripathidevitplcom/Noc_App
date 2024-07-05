@@ -153,7 +153,7 @@
               <label for="ddlSearchbyApplicationID" class="form-label">Search By Application Id:</label>
               <input type="text" class="form-control" id="ddlSearchbyApplicationID" name="ddlSearchbyApplicationID" [(ngModel)]="request.ApplicationID" autocomplete="off" (keypress)="numberOnly($event)">
             </div>
-            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3"  *ngIf="QueryStringStatus=='Submit'">
               <label for="ddlApplicationCurrentRole" class="form-label">Search By Application Current Role:</label>
               <select class="form-select" id="ddlApplicationCurrentRole" name="ddlApplicationCurrentRole" [(ngModel)]="request.ApplicationCurrentRole">
                 <option value="0">All</option>
