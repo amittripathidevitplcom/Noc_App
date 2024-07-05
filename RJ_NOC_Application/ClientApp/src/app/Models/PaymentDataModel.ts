@@ -95,6 +95,9 @@ export class TransactionStatusDataModel {
   public CreatedBy: number = 0;
   public SSOID: string = '';
 
+  public AID: number = 0;
+  public PaymentType: string = 'Application';
+
 }
 
 

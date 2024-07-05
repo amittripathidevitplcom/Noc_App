@@ -1485,6 +1485,7 @@
 <!--model-->
 
 <ng-template #mymodalpaymenthistory let-modal>
+  <app-loader></app-loader>
   <div class="modal-header">
     <h4 class="modal-title" id="modal-applynocview-title" style="font-size: 17px; font-weight: 600 !important;">
       Apply Noc Payment History for <!--: {{ApplyNocApplicationDetail.ApplyNocApplicationID}}-->
@@ -1502,7 +1503,7 @@
           </div>
           <div class="card-body">
             <div class="row">
-              <div class="table-responsive">
+              <div class="table-responsive maxheight600px">
                 <table class="table table-hover table-striped-columns">
                   <thead>
                     <tr>

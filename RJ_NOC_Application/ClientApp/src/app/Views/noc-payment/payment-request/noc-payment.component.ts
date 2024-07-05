@@ -139,7 +139,31 @@ export class NocPaymentComponent implements OnInit {
   }
 
 
-
+  async GRAS_GetPaymentStatus(EGrassPaymentAID: number, DepartmentID: number, PaymentType: string) {
+    this.loaderService.requestStarted();
+    try {
+      await this.nocpaymentService.GRAS_GetPaymentStatus(EGrassPaymentAID, DepartmentID, PaymentType)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          console.log(data);
+          if (!this.State) {
+            this.toastr.success(this.SuccessMessage)
+          }
+          else {
+            this.toastr.error(this.ErrorMessage)
+          }
+        })
+    }
+    catch (ex) { console.log(ex) }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 500);
+    }
+  }
 
   async GetTransactionStatus() {
     this.loaderService.requestStarted();
