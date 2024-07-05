@@ -56,6 +56,7 @@ export class NOCIssuedForDataModel {
   public ParameterID: number = 0;
   public CreatedBy: number = 0;
   public Remark: string = '';
+  public NoOfIssuedYear: number = 0;
 }
 export class NOCIssuedRequestDataModel {
   public NOCDetails: GenerateNOC_DataModel[] = [];

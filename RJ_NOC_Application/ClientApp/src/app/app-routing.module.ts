@@ -236,6 +236,7 @@ import { DefaulterCollegeRequestComponent } from './Views/DefaulterCollege/defau
 import { AdminDefaulterCollegeListComponent } from './Views/Admin/admin-defaulter-college-list/admin-defaulter-college-list.component';
 import { CourseReportsComponent } from './Views/DCEReports/course-reports/course-reports.component';
 import { CourtOrderComponent } from './Views/TabDetail/court-order/court-order.component';
+import { PaymentReportComponent } from './Views/Admin/Payment_Report/payment-report/payment-report.component';
 
 const routes: Routes = [
   {
@@ -549,6 +550,12 @@ const routes: Routes = [
       {
         path: 'documentscrutinyrevertedreport', component: DocumentScrutinyRevertedReportComponent
       },
+
+      {
+        path: 'paymentReport', component: PaymentReportComponent
+      },
+
+
       {
         path: 'rncchekclistmaster', component: RNCCheckListMasterComponent
       },

@@ -404,6 +404,7 @@ import { ClinicalFacilityComponent } from './Views/TabDetail/clinical-facility/c
 import { PreviewClinicalFacilityComponent } from './Views/PreviewTabs/preview-clinical-facility/preview-clinical-facility.component';
 import { LOIApplicationPDFComponent } from './Views/loiapplication-pdf/loiapplication-pdf.component';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { PaymentReportComponent } from './Views/Admin/Payment_Report/payment-report/payment-report.component';
  
 
 @NgModule({
@@ -804,6 +805,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
     AdminDefaulterCollegeListComponent,
     CourtOrderComponent,
     PreviewCourtOrderComponent,
+    PaymentReportComponent
 
   ],
   imports: [

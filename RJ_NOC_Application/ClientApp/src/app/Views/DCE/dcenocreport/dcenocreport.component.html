@@ -153,7 +153,13 @@
               <label for="ddlSearchbyApplicationID" class="form-label">Search By Application Id:</label>
               <input type="text" class="form-control" id="ddlSearchbyApplicationID" name="ddlSearchbyApplicationID" [(ngModel)]="request.ApplicationID" autocomplete="off" (keypress)="numberOnly($event)">
             </div>
-
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <label for="ddlApplicationCurrentRole" class="form-label">Search By Application Current Role:</label>
+              <select class="form-select" id="ddlApplicationCurrentRole" name="ddlApplicationCurrentRole" [(ngModel)]="request.ApplicationCurrentRole">
+                <option value="0">All</option>
+                <option *ngFor="let item of UserRoleList" value="{{item.RoleID}}">{{item.RoleName}}</option>
+              </select>
+            </div>
 
 
 
@@ -167,7 +173,36 @@
         </div>
       </div>
 
+      <div class="card mb-0" *ngIf="QueryStringStatus=='Submit'">
+        <div class="card-header d-xxl-flex d-xl-flex d-md-flex d-sm-block justify-content-between align-items-center">
+          <b><i class="bi bi-table"></i>Current Stage Application Count</b>
+          <div class="d-flex align-items-center table-filter mr-15">
+          </div>
+        </div>
+        <div class="card-body p-0">
+          <div class="table-responsive maxheight600px">
+            <table class="table table-bordered tableHeaderTH tableHeaderFixed tableHeaderTHMiddel  tableForm100 tableAlternate mb-0" id="tabellistCount" #content>
+              <thead>
+                <tr>
+                  <th>Sr. No</th>
+                  <th>Role</th>
+                  <th>Total Application</th>
+                </tr>
+              </thead>
 
+              <tbody>
+                <tr *ngFor="let row of ApplicationCountList let idx=index;">
+                  <td>{{idx+1}}</td>
+                  <td>{{row.RoleName}}</td>
+                  <td>{{row.TotalApplication}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+        </div>
+
+      </div>
       <div class="card mb-0">
 
         <div class="card-header d-xxl-flex d-xl-flex d-md-flex d-sm-block justify-content-between align-items-center">
@@ -195,6 +230,8 @@
                   <th>Nodel SSOID</th>
                   <th>NOC Status</th>
                   <th>Status</th>
+                  <th *ngIf="QueryStringStatus=='Submit'">Application Level</th>
+                  <th *ngIf="QueryStringStatus=='NOCIssued'">NOC</th>
                   <th></th>
                 </tr>
               </thead>
@@ -203,18 +240,24 @@
                 <tr *ngFor="let row of ApplicationList | tableSearchFilter:searchText; let idx=index;">
                   <td>{{idx+1}}</td>
                   <td>{{row.SSOID}}</td>
-                  <td>{{row.ApplicationId}}</td>
+                  <td>{{row.ApplyNocApplicationID}}</td>
                   <td>{{row.CollegeName}}</td>
-                  <td>{{row.ApplicationType}}</td>
+                  <td>{{row.ApplicationTypeName}}</td>
                   <td>{{row.DistrictName}}</td>
                   <td>{{row.TehsilName}}</td>
 
-                  <td>{{row.NodelOfficer}}</td>
+                  <td>{{row.NodelCollegeName}}</td>
                   <td>{{row.NodelName}}</td>
                   <td>{{row.NodelMobileNo}}</td>
                   <td>{{row.NodelSSOID}}</td>
                   <td>{{row.NOCStatus}}</td>
                   <td>{{row.Status}}</td>
+                  <td *ngIf="QueryStringStatus=='Submit'">{{row.RoleName}}</td>
+                  <td *ngIf="QueryStringStatus=='NOCIssued'">
+                    <span *ngFor="let items of row.NOCPdfFileDataModel let idxx =index">
+                      <a class="btn btn-sm btn-primary bi bi-file-earmark-pdf-fill" style="margin-top:3px !important" href="{{items.NOCFilePath}}" title="{{items.ApplyNocFor}}" target="_blank">{{items.ApplyNocFor}}</a><br />
+                    </span>
+                  </td>
                   <td>
                     <a href="javascript:void(0)" (click)="ApplicationSummary_OnClick(row.DepartmentID,row.CollegeID)" class="btn btn-sm btn-secondary">
                       <i class="fa fa-eye"></i>

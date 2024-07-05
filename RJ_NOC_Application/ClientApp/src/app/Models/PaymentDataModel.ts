@@ -61,6 +61,7 @@ export class RequestDetails {
   public Adrees: string = '';
   public City: string = '';
   public Pincode: string = '';
+  public PaymentType: string = 'Application';
 }
 
 //Emitra Request

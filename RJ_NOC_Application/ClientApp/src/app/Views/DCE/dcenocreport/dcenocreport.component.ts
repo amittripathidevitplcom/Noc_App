@@ -32,6 +32,7 @@ export class DCENOCReportComponent implements OnInit {
   public CollegeTypeList: any = [];
   public ApplicationTypeList: any = [];
   public ApplicationList: any = [];
+  public ApplicationCountList: any = [];
   public QueryStringStatus: string = '';
   public searchText: string = '';
   public SuvdivisionList: any = [];
@@ -47,6 +48,8 @@ export class DCENOCReportComponent implements OnInit {
     this.request.ReportStatus = this.QueryStringStatus;
     await this.LoadMaster();
     await this.GetDCENOCReportData();
+    await this.GetApplicationCountRoleWise();
+    await this.GetRoleListForApporval();
   }
 
 
@@ -135,9 +138,34 @@ export class DCENOCReportComponent implements OnInit {
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
-          this.ApplicationList = data['Data'][0]['data'];
+          this.ApplicationList = data['Data'];
 
-          console.log(this.ApplicationList);
+          console.log(data);
+        }, error => console.error(error));
+      
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  async GetApplicationCountRoleWise() {
+    try {
+      this.ApplicationCountList = [];
+      this.loaderService.requestStarted();
+      await this.commonMasterService.GetApplicationCountRoleWise(this.sSOLoginDataModel.DepartmentID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.ApplicationCountList = data['Data'][0];
+
+          console.log(data);
         }, error => console.error(error));
       
     }
@@ -248,6 +276,30 @@ export class DCENOCReportComponent implements OnInit {
     catch (Ex) {
       console.log(Ex);
     }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+
+  public UserRoleList: any = [];
+  async GetRoleListForApporval() {
+    this.UserRoleList = [];
+    this.loaderService.requestStarted();
+    try {
+      await this.commonMasterService.GetRoleListForApporval(this.sSOLoginDataModel.RoleID, this.sSOLoginDataModel.DepartmentID)
+        .then(async (data: any) => {
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          if (data['Data'].length > 0) {
+            this.UserRoleList = data['Data'];
+          }
+        })
+    }
+    catch (ex) { console.log(ex) }
     finally {
       setTimeout(() => {
         this.loaderService.requestEnded();

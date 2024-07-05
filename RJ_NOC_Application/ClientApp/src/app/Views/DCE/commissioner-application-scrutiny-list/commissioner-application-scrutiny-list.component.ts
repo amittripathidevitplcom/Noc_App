@@ -857,6 +857,7 @@ export class CommissionerApplicationScrutinyListComponent implements OnInit {
   public requestnoc = new NOCIssuedRequestDataModel();
   public isSubmitNOC: boolean = false;
   public NOCIssuedRemark: string = '';
+  public IssuedYear: number = 0;
   async GeneratePDF_OnClick() {
     try {
       this.requestnoc = new NOCIssuedRequestDataModel();
@@ -865,6 +866,7 @@ export class CommissionerApplicationScrutinyListComponent implements OnInit {
       if (this.NOCIssuedRemark == '') {
         this.isFormvalid = false;
       }
+
       var CheckedCount = 0;
       await this.ApplyNocParameterMasterList.forEach((i: { IsChecked: boolean, ApplyNocParameterID: number, ApplyNocApplicationID: number }) => {
         if (i.IsChecked) {
@@ -873,7 +875,8 @@ export class CommissionerApplicationScrutinyListComponent implements OnInit {
             ApplyNOCID: i.ApplyNocApplicationID,
             ParameterID: i.ApplyNocParameterID,
             CreatedBy: this.sSOLoginDataModel.UserID,
-            Remark: this.NOCIssuedRemark
+            Remark: this.NOCIssuedRemark,
+            NoOfIssuedYear: this.IssuedYear
           });
         }
       });
@@ -933,6 +936,11 @@ export class CommissionerApplicationScrutinyListComponent implements OnInit {
         if (TNOCExtCount <= 0) {
           this.isFormvalid = false;
           this.toastr.warning('Please select atleast one Subject in TNOC Extension Of Subject');
+          return;
+        }
+        if (this.IssuedYear <= 0) {
+          this.isFormvalid = false;
+          this.toastr.warning('Please select No Of Issued Year in TNOC Extension Of Subject');
           return;
         }
       }

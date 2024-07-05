@@ -1,0 +1,136 @@
+<app-loader></app-loader>
+<div class="container-fluid breadcrumbBox py-2">
+  <div class="row align-items-center">
+    <div class="col-md-6">
+      <h3>Payment Report</h3>
+    </div>
+    <div class="col-md-6 d-flex justify-content-end">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item active" aria-current="page">Payment Report</li>
+        </ol>
+      </nav>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid mainContents">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card mb-0">
+        <div class="card-header">
+          <b><i class="bi bi-table"></i> Search Payment</b>
+        </div>
+        <div class="card-body">
+
+          <div class="row">
+
+
+
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <label for="ddlDepartmentID" class="form-label">
+                <span> Select Department</span>
+              </label>
+              <select class="form-select" id="ddlDepartmentID" name="ddlDepartmentID" [(ngModel)]="request.DepartmentID">
+
+                <option value="0">--Select--</option>
+                <option *ngFor="let item of DepartmentList" value="{{item.DepartmentID}}">{{item.DepartmentName}}</option>
+              </select>
+
+            </div>
+
+
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <label for="dtfromSubmittedDate" class="form-label">From Date:</label>
+              <input type="date" id="dtfromSubmittedDate" name="dtfromSubmittedDate" [(ngModel)]="request.FromDate" class="form-control" onkeypress="return false;" />
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <label for="dttoSubmittedDate" class="form-label">To Date:</label>
+              <input type="date" id="dttoSubmittedDate" name="dttoSubmittedDate" class="form-control" [(ngModel)]="request.ToDate" onkeypress="return false;" />
+            </div>
+
+
+          </div>
+        </div>
+        <div class="card-footer text-end">
+          <button type="submit" (click)="GetPaymentReportList(request.FromDate,request.ToDate,request.DepartmentID)" class="btn btn-primary"><i class="fa fa-search"></i>&nbsp;Search</button>
+          <button type="submit" (click)="ResetControl()" class="btn btn-danger"><i class="bi bi-bootstrap-reboot"></i>&nbsp;Reset</button>
+          <button type="submit" (click)="btnExportTable_Click()" class="btn btn-success"><i class="fa fa-file-excel-o"></i> &nbsp;Export Record</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="d-flex align-items-center table-filter mr-15">
+    <i class="fa fa-search"></i>
+    <input type="text" class="form-control" placeholder="Search Here" [(ngModel)]="searchText" />
+  </div>
+
+
+  <div class="card-body">
+    <div class="row">
+      <table class="table table-hover   table-bordered" id="tabellist" #content>
+        <thead>
+          <tr>
+            <th>Sr. No</th>
+            <th>Department</th>
+            <th>College Name</th>
+            <th>PRN No.</th>
+            <th>Transaction Date</th>
+            <th>Payment Status</th>
+            <th>Is Refunded</th>
+            <th>Amount</th>
+            <th>Message</th>
+
+          </tr>
+        </thead>
+
+        <tbody>
+
+          <tr *ngFor="let paymentreportdetails of PaymentReportData | tableSearchFilter:searchText;let idx=index;">
+            <td>{{idx+1}}</td>
+            <td>{{paymentreportdetails.DepartmentName_English}}</td>
+            <td>{{paymentreportdetails.CollegeNameEn}}</td>
+            <td>{{paymentreportdetails.PRNNO}}</td>
+            <td>{{paymentreportdetails.TransactionDate}}</td>
+            <td>{{paymentreportdetails.PaymentStatus}}</td>
+            <td>{{paymentreportdetails.strRefund}}</td>
+            <td>{{paymentreportdetails.Amount}}</td>
+            <td>{{paymentreportdetails.ResponseMessage}}</td>
+
+
+
+
+
+
+
+            <!--<td>
+              <label>{{paymentreportdetails.TransactionNo}}</label>
+            </td>
+            <td>
+              <label>{{paymentreportdetails.TransactionDate}}</label>
+            </td>
+            <td>
+              <label>{{paymentreportdetails.PaymentStatus}} </label>
+            </td>
+            <td>
+              <label>{{paymentreportdetails.strRefund}}</label>
+            </td>
+            <td>
+              <label>{{paymentreportdetails.Amount}}</label>
+            </td>
+            <td>
+              <label>{{paymentreportdetails.TransctionMSG}}</label>
+            </td>-->
+
+          </tr>
+
+
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  </div>
+
+
