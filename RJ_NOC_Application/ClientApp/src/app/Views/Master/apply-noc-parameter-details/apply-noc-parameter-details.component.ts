@@ -379,7 +379,8 @@ export class ApplyNocParameterDetailsComponent implements OnInit {
       this.nocPaymentComponent.request.CreatedBy = this.sSOLoginDataModel.UserID;
       this.nocPaymentComponent.request.SSOID = this.sSOLoginDataModel.SSOID;
       // post
-      await this.nocPaymentComponent.GetTransactionStatus();
+      //await this.nocPaymentComponent.GetTransactionStatus();
+      await this.nocPaymentComponent.GRAS_GetPaymentStatus(item.AID, item.DepartmentID, item.PaymentType);
       this.GetRPPPaymentHistory(item.ApplyNocApplicationID);
     }
     catch (Ex) {
@@ -454,7 +455,7 @@ export class ApplyNocParameterDetailsComponent implements OnInit {
   }
 
   async FinalSubmitApplyNocApplication_click(item: any) {
-    
+
     this.SelectedApplyNocApplicationID = item.ApplyNocApplicationID;
     this.SelectedMobileNo = item.CollegeMobileNo;
     await this.OpenOTPModel();
@@ -900,7 +901,7 @@ export class ApplyNocParameterDetailsComponent implements OnInit {
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
     });
- 
+
     this.ApplicationFinalSubmit = false;
     this.request.ApplyNOCID = item.ApplyNocApplicationID;
     this.request.CollegeID = item.CollegeID;

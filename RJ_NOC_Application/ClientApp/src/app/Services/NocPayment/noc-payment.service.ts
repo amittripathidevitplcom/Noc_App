@@ -58,6 +58,19 @@ export class NocpaymentService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
+
+  public async GRAS_GetPaymentStatus(EGrassPaymentAID: number, DepartmentID: number, PaymentType: string) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl + "/GRAS_GetPaymentStatus/" + EGrassPaymentAID + "/" + DepartmentID + "/" + PaymentType, httpOptions)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+
   public async GetPaymentListIDWise(PRnNO: string) {
     const httpOptions = {
       headers: new HttpHeaders({
