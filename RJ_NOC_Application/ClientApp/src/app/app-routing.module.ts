@@ -237,6 +237,7 @@ import { AdminDefaulterCollegeListComponent } from './Views/Admin/admin-defaulte
 import { CourseReportsComponent } from './Views/DCEReports/course-reports/course-reports.component';
 import { CourtOrderComponent } from './Views/TabDetail/court-order/court-order.component';
 import { PaymentReportComponent } from './Views/Admin/Payment_Report/payment-report/payment-report.component';
+import { LegalEntityDepartmentWiseComponent } from './Views/Admin/legal-entity-department-wise/legal-entity-department-wise.component';
 
 const routes: Routes = [
   {
@@ -969,6 +970,9 @@ const routes: Routes = [
       },
       {
         path: 'admindefaultercollegelist', component: AdminDefaulterCollegeListComponent
+      },
+      {
+        path: 'legalentitydepartmentwise', component: LegalEntityDepartmentWiseComponent
       },
 
     ]

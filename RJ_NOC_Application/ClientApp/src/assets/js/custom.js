@@ -317,6 +317,7 @@ function js_FilterCollapse(elem) {
   $(elem).parents('.card').find('.cardBodyCollape').slideToggle();
   $(elem).find('i.fa').toggleClass('fa-minus fa-plus');
 }
+
 function js_Tabs(elem) {
   var panel = $(elem).attr('data-target');
   $('.tabCard').addClass('d-none');

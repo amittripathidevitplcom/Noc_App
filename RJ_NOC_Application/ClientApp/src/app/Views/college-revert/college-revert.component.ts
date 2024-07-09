@@ -10,10 +10,10 @@ import { CollegeDataModel, ContactDetailsDataModel, NearestGovernmentHospitalsDa
 import { CollegeService } from '../../services/collegedetailsform/College/college.service';
 import { FileUploadService } from '../../Services/FileUpload/file-upload.service';
 import { SSOLoginDataModel } from '../../Models/SSOLoginDataModel';
-import { max } from 'rxjs';
 import { LegalEntityService } from '../../Services/LegalEntity/legal-entity.service';
 import { __rest } from 'tslib';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
+import { request } from 'http';
 
 @Injectable()
 
@@ -39,7 +39,7 @@ export class CollegeRevertComponent implements OnInit {
   public isSubmitted: boolean = false;
   public isSubmitted_ContactDetails: boolean = false;
   public isSubmitted_NearestGovernmentHospitals: boolean = false;
-  public file: File = null;
+  public file!: File;
   public DepartmentList: any = [];
   public CollegeStatusList: any = [];
   public CollegeLevelList: any = [];
@@ -59,6 +59,8 @@ export class CollegeRevertComponent implements OnInit {
   public IsRural: boolean = true;
   public IsAISHECodeStatus: boolean = false;
   public IsCollegeNAACAccredited: boolean = false;
+  public IsCollegeAffiliationDocument: boolean = false;
+  public IsCollegeWebsiteImage: boolean = false;
   public IsExisting: boolean = false;
   public PresentCollegeStatusList_FilterData: any = []
   public CollegeLevelList_FilterData: any = []
@@ -66,19 +68,24 @@ export class CollegeRevertComponent implements OnInit {
   public ImageValidationMessage: string = '';
   public isValidCollegeLogo: boolean = false;
   public isValidNAACAccreditedCertificate: boolean = false;
+  public isValidAffiliationDocument: boolean = false;
   public IsRural_Nearest: boolean = true;
   public DistrictList_Nearest: any = [];
   public TehsilList_Nearest: any = [];
   public PanchyatSamitiList_Nearest: any = [];
 
   public showCollegeLogo: boolean = false;
+  public showWebsiteImage: boolean = false;
   public IsEdit: boolean = false;
   public showNAACAccreditedCertificate: boolean = false;
+  public showAffiliationDocument: boolean = false;
   public showHospitalDocument: boolean = false;
   public isValidHospitalDocument: boolean = false;
   public ProfileLogoValidationMessage: string = '';
+  public WebsiteImageValidationMessage: string = '';
   public AISHECodeValidationMessage: string = '';
   public NAACAccreditedCertificateValidationMessage: string = '';
+  public AffiliationDocumentValidationMessage: string = '';
   public FundingSourcesValidationMessage: string = '';
   public NACCValidityDateValidationMessage: string = '';
   public HospitalDocumentValidationMessage: string = '';
@@ -86,6 +93,8 @@ export class CollegeRevertComponent implements OnInit {
   public MinDate: Date = new Date;
   public DistancefromCity: string = "Distance from City(km)";
 
+
+  public LegalEntityManagementType: string = "Private";
   // login model
   sSOLoginDataModel = new SSOLoginDataModel();
 
@@ -105,6 +114,7 @@ export class CollegeRevertComponent implements OnInit {
   constructor(private legalEntityListService: LegalEntityService, private collegeService: CollegeService, private toastr: ToastrService, private loaderService: LoaderService, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private _fb: FormBuilder, private fileUploadService: FileUploadService) {
   }
 
+
   async ngOnInit() {
 
     this.CollegeDetailsForm = this.formBuilder.group(
@@ -118,11 +128,13 @@ export class CollegeRevertComponent implements OnInit {
         ddlDTECollegeLevelID: [''],
         ddlManagementType: [''],
         //txtCollegeCode: ['', Validators.required],
-        txtCollegeCode: [''],
+        txtCollegeCode: ['', Validators.required],
         txtCollegeNameEn: ['', Validators.required],
         txtCollegeNameHi: ['', Validators.required],
         AISHECodeStatus: ['', Validators.required],
         CollegeNAACAccredited: ['', Validators.required],
+        CollegeAffiliationDocument: [''],
+        CollegeWebsiteImage: [''],
         txtAISHECode: [''],
         ddlCollegeMedium: ['', [DropdownValidators]],
         ddlUniversityID: ['', [DropdownValidators]],
@@ -140,12 +152,12 @@ export class CollegeRevertComponent implements OnInit {
         ddlSubdivisionID: ['', [DropdownValidators]],
         ddlTehsilID: ['', [DropdownValidators]],
         ddlPanchayatSamitiID: ['', [DropdownValidators]],
-        ddlParliamentAreaID: [''],//, [DropdownValidators]
-        ddlAssemblyAreaID: [''],//, [DropdownValidators]
+        ddlParliamentAreaID: [''],   //, [DropdownValidators]
+        ddlAssemblyAreaID: [''],  //, [DropdownValidators]
         txtCityTownVillage: ['', Validators.required],
         ddlYearofEstablishment: ['', [DropdownValidators]],
         txtPincode: ['', [Validators.required, Validators.pattern(this.PinNoRegex)]],
-        txtWebsiteLink: [''],
+        txtWebsiteLink: ['', Validators.required],
         txtCDNameOfPerson: [''],// handle in sub form
         txtCDDesignation: [''],// handle in sub form
         txtCDMobileNumber: [''],// handle in sub form
@@ -318,6 +330,7 @@ export class CollegeRevertComponent implements OnInit {
   //  this.inputValidationService.keyPressNumbersWithDecimal(event);
   //}
 
+
   get form() { return this.CollegeDetailsForm.controls; }
   get form_ContactDetails() { return this.CollegeDetailsForm_ContactDetails.controls; }
   get form_NearestGovernmentHospitals() { return this.CollegeDetailsForm_NearestGovernmentHospitals.controls; }
@@ -328,15 +341,17 @@ export class CollegeRevertComponent implements OnInit {
       this.loaderService.requestStarted();
       this.file = event.target.files[0];
       if (this.file) {
-        if (Type == 'CollegeLogo') {
+        if (Type == 'CollegeLogo' || Type == 'WebsiteImage') {
           if (this.file.type == 'image/jpeg' || this.file.type == 'image/jpg') {
             //size validation
             if (this.file.size > 2000000) {
               this.ResetFileAndValidation(Type, 'Select less then 2MB File', '', '', '', false);
+              this.toastr.error('Select more then 100kb File')
               return
             }
             if (this.file.size < 100000) {
               this.ResetFileAndValidation(Type, 'Select more then 100kb File', '', '', '', false);
+              this.toastr.error('Select more then 100kb File')
               return
             }
           }
@@ -387,6 +402,7 @@ export class CollegeRevertComponent implements OnInit {
     }
     finally {
       setTimeout(() => {
+        event.target.value = null;
         this.loaderService.requestEnded();
       }, 200);
     }
@@ -434,6 +450,20 @@ export class CollegeRevertComponent implements OnInit {
         this.request.CollegeLogo = name;
         this.request.CollegeLogoPath = path;
         this.request.CollegeLogo_Dis_FileName = dis_Name;
+        this.files = document.getElementById('fCollegeLogo');
+        this.files.value = '';
+      }
+      else if (type == 'WebsiteImage') {
+
+        this.request.WebsiteImage = name;
+        this.request.WebsiteImagePath = path;
+        this.request.WebsiteImage_Dis_FileName = dis_Name;
+
+        this.showWebsiteImage = isShowFile;
+
+        this.WebsiteImageValidationMessage = msg;
+        this.files = document.getElementById('CollegeWebsiteImage');
+        this.files.value = '';
       }
       else if (type == 'HospitalDocument') {
         this.showHospitalDocument = isShowFile;
@@ -450,6 +480,17 @@ export class CollegeRevertComponent implements OnInit {
         this.request.NAACAccreditedCertificate = name;
         this.request.NAACAccreditedCertificatePath = path;
         this.request.NAACAccreditedCertificate_Dis_FileName = dis_Name;
+      }
+      else if (type == 'AffiliationDocument') {
+
+        this.showAffiliationDocument = isShowFile;
+
+
+        //this.showAffiliationDocument = isShowFile;
+        this.AffiliationDocumentValidationMessage = msg;
+        this.request.AffiliationDocument = name;
+        this.request.AffiliationDocumentPath = path;
+        this.request.AffiliationDocument_Dis_FileName = dis_Name;
       }
       else if (type == 'FundingSources') {
         this.FundingSourcesValidationMessage = msg;
@@ -552,7 +593,7 @@ export class CollegeRevertComponent implements OnInit {
   async GetDepartmentList() {
     try {
       this.loaderService.requestStarted();
-      await this.commonMasterService.GetDepartmentList()
+      await this.commonMasterService.GetDepartmentList_IsOpenNOCApplication()
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
@@ -641,13 +682,11 @@ export class CollegeRevertComponent implements OnInit {
   }
 
   async ddlCollegeStatus_TextChange(event: any, SelectedCollegeStatusID: string) {
-
     try {
       this.loaderService.requestStarted();
 
       const selectedCollegeStatusID = Number(SelectedCollegeStatusID);
       let SelectdCollegeStatusName = this.CollegeStatusList.find((x: { ID: number; }) => x.ID == selectedCollegeStatusID).Name;
-
       if (SelectdCollegeStatusName == "New") {
 
         this.IsExisting = false;
@@ -667,6 +706,9 @@ export class CollegeRevertComponent implements OnInit {
             return element.Name != "PG";
           });
         }
+        else if (this.request.DepartmentID == 4) {
+          this.CollegeLevelList_FilterData = this.CollegeLevelList;
+        }
         else {
           this.CollegeLevelList_FilterData = this.CollegeLevelList.filter((element: any) => {
             return element.Name == "UG";
@@ -684,6 +726,8 @@ export class CollegeRevertComponent implements OnInit {
         this.PresentCollegeStatusList_FilterData = this.PresentCollegeStatusList;
         this.CollegeLevelList_FilterData = this.CollegeLevelList;
       }
+
+
 
     }
     catch (ex) {
@@ -761,6 +805,11 @@ export class CollegeRevertComponent implements OnInit {
           this.CollegeLevelList = data['Data'];
         }, error => console.error(error));
       // Present Status of College
+
+      if (this.request.DepartmentID == 11) {
+        this.IsExisting = true;
+
+      }
       await this.commonMasterService.GetCommonMasterList_DepartmentAndTypeWise(departmentId, "PresentCollegeStatus")
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
@@ -768,6 +817,9 @@ export class CollegeRevertComponent implements OnInit {
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
           this.PresentCollegeStatusList = data['Data'];
+          if (this.request.DepartmentID == 11) {
+            this.PresentCollegeStatusList_FilterData = data['Data'];
+          }
         }, error => console.error(error));
       // College Type
       await this.commonMasterService.GetCommonMasterList_DepartmentAndTypeWise(departmentId, "CollegeType")
@@ -794,7 +846,7 @@ export class CollegeRevertComponent implements OnInit {
           this.ErrorMessage = data['ErrorMessage'];
           this.CollegeMediumList = data['Data'];
         }, error => console.error(error));
-      // university 
+      //university 
       await this.commonMasterService.GetUniversityByDepartmentId(departmentId)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
@@ -994,6 +1046,16 @@ export class CollegeRevertComponent implements OnInit {
       }
       this.isSubmitted_NearestGovernmentHospitals = true;
       let isValid = true;
+      if (this.request_NearestGovernmentHospitals.RuralUrban == 1) {
+        this.CollegeDetailsForm_NearestGovernmentHospitals.get('ddlCityID_Nearest')?.clearValidators();
+        this.CollegeDetailsForm_NearestGovernmentHospitals.get('ddlPanchayatSamitiID_Nearest')?.setValidators([DropdownValidators]);
+      }
+      else {
+        this.CollegeDetailsForm_NearestGovernmentHospitals.get('ddlCityID_Nearest')?.setValidators([DropdownValidators]);
+        this.CollegeDetailsForm_NearestGovernmentHospitals.get('ddlPanchayatSamitiID_Nearest')?.clearValidators();
+      }
+      this.CollegeDetailsForm_NearestGovernmentHospitals.get('ddlCityID_Nearest')?.updateValueAndValidity();
+      this.CollegeDetailsForm_NearestGovernmentHospitals.get('ddlPanchayatSamitiID_Nearest')?.updateValueAndValidity();
       if (this.CollegeDetailsForm_NearestGovernmentHospitals.invalid) {
         isValid = false;
       }
@@ -1131,7 +1193,6 @@ export class CollegeRevertComponent implements OnInit {
     //this.CollegeDetailsForm.get('AISHECodeStatus')?.updateValueAndValidity();
     this.CollegeDetailsForm.get('ddlPresentCollegeStatus')?.updateValueAndValidity();
 
-    console.log(this.request.RuralUrban);
     if (this.request.RuralUrban == 1) {
       this.CollegeDetailsForm.get('ddlPanchayatSamitiID')?.setValidators([DropdownValidators]);
       this.CollegeDetailsForm.get('ddlCityID')?.clearValidators();
@@ -1145,7 +1206,7 @@ export class CollegeRevertComponent implements OnInit {
     this.CollegeDetailsForm.get('ddlCityID')?.updateValueAndValidity();
 
 
-    if (this.request.DepartmentID == 3) {
+    if (this.request.DepartmentID == 3 || this.request.DepartmentID == 11) {
       this.CollegeDetailsForm.get('AISHECodeStatus')?.setValidators([Validators.required]);
     }
     else {
@@ -1153,9 +1214,14 @@ export class CollegeRevertComponent implements OnInit {
     }
     this.CollegeDetailsForm.get('AISHECodeStatus')?.updateValueAndValidity();
 
-    if (this.request.DepartmentID == 5) {
-      this.CollegeDetailsForm.get('ddlTypeofCollege')?.setValidators([Validators.required]);
+    if (this.request.DepartmentID == 5 || this.request.DepartmentID == 2 || this.request.DepartmentID == 9) {
       this.CollegeDetailsForm.get('CollegeNAACAccredited')?.clearValidators();
+      if (this.request.DepartmentID == 5) {
+        this.CollegeDetailsForm.get('ddlTypeofCollege')?.setValidators([Validators.required]);
+      }
+      else {
+        this.CollegeDetailsForm.get('ddlTypeofCollege')?.clearValidators();
+      }
     }
     else {
       this.CollegeDetailsForm.get('ddlTypeofCollege')?.clearValidators();
@@ -1164,15 +1230,84 @@ export class CollegeRevertComponent implements OnInit {
     this.CollegeDetailsForm.get('ddlTypeofCollege')?.updateValueAndValidity();
     this.CollegeDetailsForm.get('CollegeNAACAccredited')?.updateValueAndValidity();
 
+    if (this.request.DepartmentID == 11) {
+      this.CollegeDetailsForm.get('ddlCollegeStatus')?.clearValidators();
+    }
+    else {
+      this.CollegeDetailsForm.get('ddlCollegeStatus')?.setValidators([DropdownValidators]);
+    }
+    this.CollegeDetailsForm.get('ddlCollegeStatus')?.updateValueAndValidity();
 
+    if (this.request.DepartmentID == 4) {
+      this.CollegeDetailsForm.get('ddlCollegeLevelID')?.clearValidators();
+    }
+    else {
+      this.CollegeDetailsForm.get('ddlCollegeLevelID')?.setValidators([DropdownValidators]);
+    }
+    this.CollegeDetailsForm.get('ddlCollegeLevelID')?.updateValueAndValidity();
+
+
+    if (this.request.DepartmentID == 11) {
+      this.CollegeDetailsForm.get('ddlCollegeLevelID')?.clearValidators();
+      this.CollegeDetailsForm.get('ddlCollegeLevelID')?.updateValueAndValidity();
+    }
+
+
+    if (this.request.DepartmentID == 11) {
+      this.CollegeDetailsForm.get('txtCollegeCode')?.clearValidators();
+      this.CollegeDetailsForm.get('txtCollegeCode')?.updateValueAndValidity();
+    }
+
+
+    if (this.request.DepartmentID == 3) {
+      //this.CollegeDetailsForm.get('CollegeAffiliationDocument')?.setValidators([Validators.required]);
+      //this.CollegeDetailsForm.get('CollegeWebsiteImage')?.setValidators([Validators.required]);
+      this.CollegeDetailsForm.get('txtWebsiteLink')?.setValidators([Validators.required, Validators.pattern("(https?://)?([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/?")]);
+
+    }
+    else {
+      // this.CollegeDetailsForm.get('CollegeAffiliationDocument')?.clearValidators();
+      // this.CollegeDetailsForm.get('CollegeWebsiteImage')?.clearValidators();
+      this.CollegeDetailsForm.get('txtWebsiteLink')?.clearValidators();
+    }
+    // this.CollegeDetailsForm.get('CollegeAffiliationDocument')?.updateValueAndValidity(); 
+    // this.CollegeDetailsForm.get('CollegeWebsiteImage')?.updateValueAndValidity(); 
+    this.CollegeDetailsForm.get('txtWebsiteLink')?.updateValueAndValidity();
+    if (this.request.DepartmentID == 9) {
+      this.CollegeDetailsForm.get('ddlUniversityID')?.clearValidators();
+      this.CollegeDetailsForm.get('ddlUniversityID')?.updateValueAndValidity();
+      this.CollegeDetailsForm.get('CollegeNAACAccredited')?.clearValidators();
+      this.CollegeDetailsForm.get('CollegeNAACAccredited')?.updateValueAndValidity();
+
+      if (this.IsExisting == true) {
+        this.CollegeDetailsForm.get('txtCollegeCode')?.setValidators([Validators.required]);
+        this.CollegeDetailsForm.get('txtWebsiteLink')?.setValidators([Validators.required]);
+      }
+
+      else {
+        this.CollegeDetailsForm.get('txtCollegeCode')?.clearValidators();
+        this.CollegeDetailsForm.get('txtWebsiteLink')?.clearValidators();
+      }
+      this.CollegeDetailsForm.get('txtCollegeCode')?.updateValueAndValidity();
+      this.CollegeDetailsForm.get('txtWebsiteLink')?.updateValueAndValidity();
+    }
+
+    if (this.IsExisting == true && this.request.DepartmentID == 2) {
+      this.CollegeDetailsForm.get('txtCollegeCode')?.setValidators([Validators.required]);
+      this.CollegeDetailsForm.get('txtCollegeCode')?.updateValueAndValidity();
+      this.CollegeDetailsForm.get('ddlUniversityID')?.setValidators([DropdownValidators, Validators.required]);
+      this.CollegeDetailsForm.get('ddlUniversityID')?.updateValueAndValidity();
+    }
+    else {
+      this.CollegeDetailsForm.get('txtCollegeCode')?.clearValidators();
+      this.CollegeDetailsForm.get('txtCollegeCode')?.updateValueAndValidity();
+    }
 
     this.isValidCollegeLogo = false;
     this.isValidNAACAccreditedCertificate = false;
+    this.isValidAffiliationDocument = false;
     this.isSubmitted = true;
 
-    console.log(this.request.NACCValidityDate);
-
-    console.log(this.CollegeDetailsForm);
     let isValid = true;
 
     if (this.request.DepartmentID == 5) {
@@ -1184,6 +1319,7 @@ export class CollegeRevertComponent implements OnInit {
         isValid = false;
       }
     }
+    console.log(this.CollegeDetailsForm);
     if (this.CollegeDetailsForm.invalid) {
       isValid = false;
     }
@@ -1194,14 +1330,17 @@ export class CollegeRevertComponent implements OnInit {
     //if (this.ProfileLogoValidationMessage != '') {
     //  isValid = false;
     //}
-    //if (this.IsExisting == true) {
-    //  if (this.request.AISHECodeStatus == 1) {
-    //    if (this.request.AISHECode == null || this.request.AISHECode == '') {
-    //      isValid = false;
-    //      this.AISHECodeValidationMessage = 'This field is required .!';
-    //    }
-    //  }
-    //}
+    if (this.IsExisting == true) {
+      if (this.request.AISHECodeStatus == 1) {
+        if (this.request.AISHECode == null || this.request.AISHECode == '') {
+          isValid = false;
+          this.AISHECodeValidationMessage = 'This field is required .!';
+        }
+      }
+      if (this.request.DepartmentID == 2 && this.request.CollegeCode == '') {
+        isValid = false;
+      }
+    }
     if (this.request.CollegeNAACAccredited == 1) {
       if (this.request.NAACAccreditedCertificate == null || this.request.NAACAccreditedCertificate == '') {
         isValid = false;
@@ -1210,6 +1349,20 @@ export class CollegeRevertComponent implements OnInit {
       if (this.request.NACCValidityDate == null || this.request.NACCValidityDate == '' || this.request.NACCValidityDate == undefined) {
         isValid = false;
       }
+    }
+
+    if (this.request.DepartmentID == 3) {
+      if (this.request.AffiliationDocument == null || this.request.AffiliationDocument == '') {
+        isValid = false;
+        this.AffiliationDocumentValidationMessage = 'This field is required .!';
+      }
+      if (this.request.WebsiteImage == null || this.request.WebsiteImage == '') {
+        isValid = false;
+        this.WebsiteImageValidationMessage = 'This field is required .!';
+      }
+      //if (this.request.NACCValidityDate == null || this.request.NACCValidityDate == '' || this.request.NACCValidityDate == undefined) {
+      //  isValid = false;
+      //}
     }
     if (this.request.DepartmentID == 4) {
       if (this.SelectedCollegeLevel.length > 0) {
@@ -1229,11 +1382,6 @@ export class CollegeRevertComponent implements OnInit {
         isValid = false;
       }
       if (this.request.ManagementTypeID <= 0) {
-        isValid = false;
-      }
-    }
-    else {
-      if (this.request.CollegeLevelID <= 0) {
         isValid = false;
       }
     }
@@ -1348,7 +1496,12 @@ export class CollegeRevertComponent implements OnInit {
           await this.FillDepartmentRelatedDDL(null, this.request.DepartmentID.toString());
           // college logo
           await this.ResetFileAndValidation('CollegeLogo', '', this.request.CollegeLogo, this.request.CollegeLogoPath, this.request.CollegeLogo_Dis_FileName, true);
-          await this.ResetFileAndValidation('NAACAccreditedCertificate', '', this.request.NAACAccreditedCertificate, this.request.NAACAccreditedCertificatePath, this.request.NAACAccreditedCertificate_Dis_FileName, true);
+          await this.ResetFileAndValidation('NAACAccreditedCertificate', '', this.request.NAACAccreditedCertificate, this.request.AffiliationDocumentPath, this.request.NAACAccreditedCertificate_Dis_FileName, true);
+
+          await this.ResetFileAndValidation('AffiliationDocument', '', this.request.AffiliationDocument, this.request.AffiliationDocumentPath, this.request.AffiliationDocument_Dis_FileName, this.request.DepartmentID == 3 ? true : false);
+
+          await this.ResetFileAndValidation('WebsiteImage', '', this.request.WebsiteImage, this.request.WebsiteImagePath, this.request.WebsiteImage_Dis_FileName, this.request.DepartmentID == 3 ? true : false);
+
           // college status
           await this.ddlCollegeStatus_TextChange(null, this.request.CollegeStatusID.toString())
           this.request.PresentCollegeStatusID = data['Data']['PresentCollegeStatusID'];
@@ -1364,8 +1517,15 @@ export class CollegeRevertComponent implements OnInit {
 
           this.request.CollegeNAACAccredited = data['Data']['CollegeNAACAccredited'];
           await this.IsCollegeNAACAccreditedOrNot(this.request.CollegeNAACAccredited == 1 ? true : false)
+          //alert(this.request.AffiliationDocument);
+          this.request.AffiliationDocument = data['Data']['AffiliationDocument'];
+          this.request.WebsiteImage = data['Data']['WebsiteImage'];
+
           this.request.TypeofCollege = data['Data']['TypeofCollege'];
 
+
+          //await this.ddlCollegeType_TextChange(this.request.CollegeTypeID.toString())
+          this.request.UniversityID = data['Data']['UniversityID'];
           //if (!this.State) {
           //  //this.toastr.success(this.SuccessMessage)
           //}
