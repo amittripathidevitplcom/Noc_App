@@ -46,13 +46,17 @@
                       <td>{{item.ApplicationNo}}</td>
                       <td>
                         <a href="javascript:void(0)" [hidden]="this.QueryStringStatus!='Pending' && this.sSOLoginDataModel.RoleID==20" title="Document Scrutiny" (click)="DocumentScrutiny_OnClick(item.DepartmentID,item.CollegeID,item.ApplyNOCID,item.ApplicationNo)" class="btn btn-sm btn-info"><i class="fa fa-eye"></i></a>
-                        &nbsp;<button type="button" class="btn btn-sm btn-primary"  title="Assign Commitee" (click)="OpenAsignCommitteePopUP(mymodalAsignCommittee,item.ApplyNOCID,item.DepartmentID,item.CollegeID,item.ApplicationNo)"><i class="fa fa-users"></i></button>
+                        &nbsp;<button type="button" class="btn btn-sm btn-primary" *ngIf="this.sSOLoginDataModel.RoleID==17" title="Assign Commitee" (click)="OpenAsignCommitteePopUP(mymodalAsignCommittee,item.ApplyNOCID,item.DepartmentID,item.CollegeID,item.ApplicationNo)"><i class="fa fa-users"></i></button>
                         &nbsp;<button type="button" class="btn btn-sm btn-primary" *ngIf="item.PVStage!='0' " title="Post Verification Details" (click)="ViewApplicationPvDetails(mymodalViewPVDetails,item.ApplyNOCID,item.DepartmentID,item.CollegeID,item.ApplicationNo)"><i class="fa fa-list"></i></button>
                         &nbsp;<button type="button" class="btn btn-sm btn-info" title="View Application trail" (click)="GetApplicationTrail(mymodal,item.ApplyNOCID)"><i class="fa fa-list"></i></button>
                         <a *ngIf="item.L1UploadDocument!=''" class="btn btn-sm btn-primary m-1" href="{{item.L1UploadDocumentPath}}" title="Level L1 Document" target="_blank"><i class="fa fa-eye"></i></a>
                         <a *ngIf="item.L2UploadDocument!=''" class="btn btn-sm btn-primary m-1" href="{{item.L2UploadDocumentPath}}" title="Level L2 Document" target="_blank"><i class="fa fa-eye"></i></a>
                         <span *ngIf="item.Penalty=='Penalty Pending' && this.sSOLoginDataModel.RoleID==20" class="btn btn-sm btn-danger">{{item.Penalty}}</span>
                         <span *ngIf="item.Penalty=='Penalty Payed'&& this.sSOLoginDataModel.RoleID==20" class="btn btn-sm btn-success">{{item.Penalty}}</span>
+
+                        <a href="javascript:void(0)" title="Application Preview" (click)="ApplicationPreview_OnClick(item.DepartmentID,item.CollegeID)" class="btn btn-sm btn-secondary">
+                          <i class="fa fa-eye"></i>
+                        </a>
                       </td>
                     </tr>
                     <tr>
@@ -180,7 +184,7 @@
               </div>
               <div class="row  m-2">
                 <div class="col-md-12">
-                  <button type="button" class="btn btn-primary" (click)="SaveData()" title="Submit">Submit</button>
+                  <button type="button" *ngIf="this.QueryStringStatus=='Pending'" class="btn btn-primary" (click)="SaveData()" title="Submit">Submit</button>
                 </div>
               </div>
             </div>
