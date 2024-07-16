@@ -118,14 +118,14 @@
               <label for="ddlAction" class="form-label">Action On Application <span style="color:red;">*</span></label>
               <select class="form-select" [disabled]="IsPreDisabled" #SeletedRole (change)="OnChangeCurrentAction(SeletedRole.value)" [(ngModel)]="ActionID">
                 <option value="0" disabled selected>--Select Action--</option>
-                <option value="1">Pre Verification Approved</option>
-                <option value="2">Pre Verification Rejected</option>
+                <option value="1">Forward for Approval</option>
+                <option value="2">Forward for Rejection</option>
               </select>
               <div *ngIf="isActionTypeValid" class="text-danger">
                 <p *ngIf="isActionTypeValid"> This field is required .!</p>
               </div>
             </div>
-            <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-6" *ngIf="IsRemarksReject">
+            <div class="col-lg-9 col-md-9 col-sm-12 col-12 mb-6" >
               <div class="col-lg-12 col-md-12 col-sm-12 col-12 mb-3">
                 <label>Remarks  <span style="color:red;">*</span></label>
                 <textarea id="CheckFinalRemark" [disabled]="IsPreDisabled" class="form-control" [(ngModel)]="CheckFinalRemark"></textarea>

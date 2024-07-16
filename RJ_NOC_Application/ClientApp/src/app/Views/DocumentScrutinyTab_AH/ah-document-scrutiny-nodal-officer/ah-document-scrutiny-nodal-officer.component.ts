@@ -1007,6 +1007,16 @@ export class AhDocumentScrutinyNodalOfficerComponent {
           if (data['Data'].length > 0) {
             this.WorkFlowActionList = data['Data'];
             if (this.WorkFlowActionList.length > 0) {
+              if (this.sSOLoginDataModel.RoleID == 13) {
+                for (var i = 0; i < this.WorkFlowActionList.length; i++) {
+                  if (this.WorkFlowActionList[i].ActionName == 'Forward') {
+                    this.WorkFlowActionList[i].ActionName = 'Recommended for Inspection';
+                  }
+                  if (this.WorkFlowActionList[i].ActionName == 'Reject') {
+                    this.WorkFlowActionList[i].ActionName = 'Application Rejected';
+                  }
+                }
+              }
               this.ActionID = this.WorkFlowActionList[0]['ActionID'];
               var IsNextAction = this.WorkFlowActionList.find((x: { ActionID: number; }) => x.ActionID == this.ActionID)?.IsNextAction;
               if (IsNextAction == true) {
