@@ -15,6 +15,16 @@ export class CommonDataModel_TotalApplicationSearchFilter {
   public DistrictID: number = 0;
   public Status: string = 'ALL';
   public CollegeName: string = '';
+  public SubDivisionID: number = 0
+  public CollegeEmail: string = ''
+  public NOCStatusID: number = 0;
+  public WorkFlowActionID: number = 0
+  public CollegeTypeID: number = 0
+  public FromSubmitDate: string = ''
+  public ToSubmitDate: string = ''
+  public ApplicationID: number = null
+  public ApplicationStatusID: number = 0
+  public ApplicationCurrentRole: number = 0
 }
 
 export class CommonDataModel_TotalDraftEntrySearchFilter {

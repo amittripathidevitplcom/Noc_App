@@ -13,6 +13,7 @@ import { CollegeService } from '../../../services/collegedetailsform/College/col
 import { CommonDataModel_TotalApplicationSearchFilter } from '../../../Models/CommonMasterDataModel';
 import { ModalDismissReasons, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { DTEDocumentScrutinyService } from '../../../Services/DTEDocumentScrutiny/dtedocument-scrutiny.service';
+import { DCENOCReportSearchFilterDataModel } from '../../../Models/SearchFilterDataModel';
 
 @Injectable()
 
@@ -35,7 +36,16 @@ export class TotalApplicationListByDepartmentComponent implements OnInit {
   public DistrictList: any = [];
   public TotalApplicationList: any = [];
 
+  public CollegeStatusList: any = [];
+  public WorkFlowActionList: any = [];
+  public NodalOfficerList: any = [];
+  public CollegeTypeList: any = [];
+  public ApplicationTypeList: any = [];
+  public ApplicationList: any = [];
+  public ApplicationCountList: any = [];
+  public SuvdivisionList: any = [];
   public QueryStringStatus: any = 'ALL';
+  //request = new DCENOCReportSearchFilterDataModel();
 
 
 
@@ -48,26 +58,117 @@ export class TotalApplicationListByDepartmentComponent implements OnInit {
     this.QueryStringStatus = this.router.snapshot.paramMap.get('Status')?.toString();
     this.request.Status = this.QueryStringStatus;
     await this.LoadMaster();
+    await this.GetRoleListForApporval();
+    await this.GetApplicationCountRoleWise();
     await this.GetTotalApplicationList();
   }
 
+  async GetApplicationCountRoleWise() {
+    try {
+      this.ApplicationCountList = [];
+      this.loaderService.requestStarted();
+      await this.commonMasterService.GetApplicationCountRoleWise(this.sSOLoginDataModel.DepartmentID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.ApplicationCountList = data['Data'][0];
 
+          console.log(data);
+        }, error => console.error(error));
+
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
   async LoadMaster() {
     try {
+      this.DistrictList = [];
       this.loaderService.requestStarted();
+      //await this.commonMasterService.GetDistrictListByStateID(6)
+      //  .then((data: any) => {
+      //    data = JSON.parse(JSON.stringify(data));
+      //    this.DistrictList = data['Data'];
+      //  }, error => console.error(error));
       await this.commonMasterService.GetUniversityByDepartmentId(this.sSOLoginDataModel.DepartmentID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.UniversityList = data['Data'];
         }, error => console.error(error));
+      await this.commonMasterService.GetCommonMasterList_DepartmentAndTypeWise(this.sSOLoginDataModel.DepartmentID, "CourseType")
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.CollegeStatusList = data['Data'];
+        }, error => console.error(error));
+      await this.commonMasterService.GetWorkFlowStatusbyDepartment(this.sSOLoginDataModel.DepartmentID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.WorkFlowActionList = data['Data'][0]['data'];
+        }, error => console.error(error));
+      await this.commonMasterService.GetCommonMasterList_DepartmentAndTypeWise(this.sSOLoginDataModel.DepartmentID, "CollegeType")
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.CollegeTypeList = data['Data'];
+        }, error => console.error(error));
+
+      await this.commonMasterService.GetApplyNOCParameterbyDepartment(this.sSOLoginDataModel.DepartmentID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.ApplicationTypeList = data['Data'][0]['data'];
+        }, error => console.error(error));
       await this.commonMasterService.GetDivisionList()
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
           this.DivisionList = data['Data'];
         }, error => console.error(error));
-      await this.commonMasterService.GetDistrictListByStateID(6)
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+
+
+  numberOnly(event: any): boolean {
+    const charCode = (event.which) ? event.which : event.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+      return false;
+    }
+    return true;
+  }
+  async FillDivisionRelatedDDL(SelectedDivisionID: string) {
+    this.DistrictList = [];
+    this.request.DistrictID = 0;
+    this.SuvdivisionList = [];
+    this.request.SubDivisionID = 0;
+    try {
+      this.loaderService.requestStarted();
+      const divisionId = Number(SelectedDivisionID);
+      if (divisionId <= 0) {
+        return;
+      }
+      // college status
+      await this.commonMasterService.GetDistrictByDivsionId(divisionId)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
           this.DistrictList = data['Data'];
         }, error => console.error(error));
     }
@@ -80,28 +181,24 @@ export class TotalApplicationListByDepartmentComponent implements OnInit {
       }, 200);
     }
   }
-  async FillDivisionRelatedDDL(SelectedDivisionID: string) {
+  async FillDistrictRelatedDDL(SelectedDistrictID: string) {
+    this.SuvdivisionList = [];
+    this.request.SubDivisionID = 0;
     try {
       this.loaderService.requestStarted();
-      const divisionId = Number(SelectedDivisionID);
-      //this.request.DistrictID = 0;
-      if (divisionId < 0) {
+      const districtId = Number(SelectedDistrictID);
+      if (districtId <= 0) {
         return;
       }
-      if (divisionId == 0) {
-        await this.commonMasterService.GetDistrictListByStateID(6)
-          .then((data: any) => {
-            data = JSON.parse(JSON.stringify(data));
-            this.DistrictList = data['Data'];
-          }, error => console.error(error));
-      }
-      else {
-        await this.commonMasterService.GetDistrictByDivsionId(divisionId)
-          .then((data: any) => {
-            data = JSON.parse(JSON.stringify(data));
-            this.DistrictList = data['Data'];
-          }, error => console.error(error));
-      }
+      // subdivision list
+      await this.commonMasterService.GetSuvdivisionByDistrictId(districtId)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.SuvdivisionList = data['Data'];
+        }, error => console.error(error));
     }
     catch (Ex) {
       console.log(Ex);
@@ -115,6 +212,7 @@ export class TotalApplicationListByDepartmentComponent implements OnInit {
 
   async GetTotalApplicationList() {
     try {
+      this.request.ApplicationID = this.request.ApplicationID == null || this.request.ApplicationID.toString() == '' || this.request.ApplicationID == undefined ? 0 : this.request.ApplicationID;
       this.loaderService.requestStarted();
       this.request.DepartmentID = this.sSOLoginDataModel.DepartmentID;
       await this.commonMasterService.GetTotalApplicationListByDepartment(this.request)
@@ -241,6 +339,29 @@ export class TotalApplicationListByDepartmentComponent implements OnInit {
     catch (Ex) {
       console.log(Ex);
     }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+  public UserRoleList: any = [];
+  async GetRoleListForApporval() {
+    this.UserRoleList = [];
+    this.loaderService.requestStarted();
+    try {
+      await this.commonMasterService.GetRoleListForApporval(this.sSOLoginDataModel.RoleID, this.sSOLoginDataModel.DepartmentID)
+        .then(async (data: any) => {
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          if (data['Data'].length > 0) {
+            this.UserRoleList = data['Data'];
+          }
+        })
+    }
+    catch (ex) { console.log(ex) }
     finally {
       setTimeout(() => {
         this.loaderService.requestEnded();

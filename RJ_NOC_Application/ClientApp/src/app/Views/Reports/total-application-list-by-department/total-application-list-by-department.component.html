@@ -16,49 +16,188 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col-md-12">
-      <div class="card mb-0">
-        <div class="card-header">
-          <b>
-            <i class="bi bi-table"></i> Search Fields
-          </b>
+      <div class="card" *ngIf="QueryStringStatus=='Submit' && sSOLoginDataModel.DepartmentID==2">
+        <div class="card-header d-xxl-flex d-xl-flex d-md-flex d-sm-block justify-content-between align-items-center">
+          <b><i class="bi bi-table"></i>Current Stage Application Count</b>
+          <div class="d-flex align-items-center table-filter mr-15">
+          </div>
         </div>
         <div class="card-body">
           <div class="row">
-            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-              <label for="ddlUniversityID" class="form-label">
-                <span> University</span>
-              </label>
-              <select class="form-select" id="ddlUniversityID" name="ddlUniversityID" [(ngModel)]="request.UniversityID">
-                <option value="0">All</option>
-                <option *ngFor="let item of UniversityList" value="{{item.UniversityID}}">{{item.UniversityName}}</option>
-              </select>
-            </div>
-            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-              <label for="ddlDivisionID" class="form-label">Division:</label>
-              <select class="form-select" id="ddlDivisionID" name="ddlDivisionID" [(ngModel)]="request.DivisionID" #SelectedDivisionID (change)="FillDivisionRelatedDDL(SelectedDivisionID.value)">
-                <option value="0">All</option>
-                <option *ngFor="let item of DivisionList" value="{{item.DivisionID}}">{{item.DivisionName}}</option>
-              </select>
-            </div>
-            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-              <label for="ddlDistrictID" class="form-label">District:</label>
-              <select class="form-select" id="ddlDistrictID" name="ddlDistrictID" [(ngModel)]="request.DistrictID">
-                <option value="0">All</option>
-                <option *ngFor="let item of DistrictList" value="{{item.DistrictID}}">{{item.DistrictName}}</option>
-              </select>
-            </div>
-            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-              <label for="txtCollegeName" class="form-label">College Name:</label>
-              <input type="text" id="txtCollegeName" maxlength="100" class="form-control" [(ngModel)]="request.CollegeName">
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-2" *ngFor="let row of ApplicationCountList let idx=index;">
+              <b>{{row.RoleName}} : - </b>{{row.TotalApplication}}
             </div>
           </div>
         </div>
-        <div class="card-footer text-end">
-          <button type="submit" (click)="GetTotalApplicationList()" class="btn btn-primary"><i class="fa fa-search"></i>&nbsp;Search</button>
-          <button type="submit" (click)="ResetControl()" class="btn btn-danger"><i class="bi bi-bootstrap-reboot"></i>&nbsp;Reset</button>
-          <button type="submit" (click)="btnExportTable_Click()" class="btn btn-success"><i class="fa fa-file-excel-o"></i> &nbsp;Export Record</button>
+
+      </div>
+      <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <b><i class="bi bi-table"></i> Search Colleges</b>
+          <div class="d-flex d-flex justify-content-end align-items-center">
+            <button class="btn btn-outline-dark btn-sm ms-3" type="button" onclick="js_FilterCollapse(this)"><i class="fa fa-plus"></i></button>
+          </div>
+        </div>
+        <div class="cardBodyCollape" style="display:none">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label for="ddlUniversityID" class="form-label">
+                  <span> University</span>
+                </label>
+                <select class="form-select" id="ddlUniversityID" name="ddlUniversityID" [(ngModel)]="request.UniversityID">
+                  <option value="0">All</option>
+                  <option *ngFor="let item of UniversityList" value="{{item.UniversityID}}">{{item.UniversityName}}</option>
+                </select>
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label for="ddlDivisionID" class="form-label">
+                  <span>Division</span>
+                </label>
+                <select class="form-select" id="ddlDivisionID" name="ddlDivisionID" [(ngModel)]="request.DivisionID" #SelectedDivisionID (change)="FillDivisionRelatedDDL(SelectedDivisionID.value)">
+                  <option value="0">All</option>
+                  <option *ngFor="let item of DivisionList" value="{{item.DivisionID}}">{{item.DivisionName}}</option>
+                </select>
+              </div>
+
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label for="ddlDistrictID" class="form-label">
+                  <span>District</span>
+                </label>
+                <select class="form-select" id="ddlDistrictlist" name="ddlRegistrationDistrict" [(ngModel)]="request.DistrictID" #SelectedDistrictID (change)="FillDistrictRelatedDDL(SelectedDistrictID.value)">
+                  <option value="0">All</option>
+                  <option *ngFor="let item of DistrictList" value="{{item.DistrictID}}">{{item.DistrictName}}</option>
+                </select>
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label for="ddlSubDivisionID" class="form-label">
+                  <span>Sub Division</span>
+                </label>
+                <select class="form-select" id="ddlSubDivisionID" name="ddlSubDivisionID" [(ngModel)]="request.SubDivisionID">
+                  <option value="0">All</option>
+                  <option *ngFor="let item of SuvdivisionList" value="{{item.SuvdivisionID}}">{{item.SubdivisionName}}</option>
+                </select>
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label for="txtCollegeName" class="form-label">Search By College Name:</label>
+                <input type="text" class="form-control" id="txtCollegeName" name="txtCollegeName" [(ngModel)]="request.CollegeName" autocomplete="off">
+              </div>
+
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label for="txtCollegeEmail" class="form-label">Search By College Email:</label>
+                <input type="text" class="form-control" id="txtCollegeEmail" name="txtCollegeEmail" [(ngModel)]="request.CollegeEmail" autocomplete="off">
+              </div>
+
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label for="ddlSearchbyNocStatus" class="form-label">Search By Noc Status:</label>
+                <select class="form-select" id="ddlCollegeStatus" name="ddlCollegeStatus" [(ngModel)]="request.NOCStatusID">
+                  <option value="0">All</option>
+                  <option *ngFor="let item of CollegeStatusList" value="{{item.ID}}">{{item.Name}}</option>
+                </select>
+              </div>
+
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label for="ddlSearchbyStatus" class="form-label">Search By Status:</label>
+                <select class="form-select" id="ddlWorkFlowStatus" name="ddlWorkFlowStatus" [(ngModel)]="request.WorkFlowActionID">
+                  <option value="0">All</option>
+                  <option *ngFor="let item of WorkFlowActionList" value="{{item.ActionID}}">{{item.ActionName}}</option>
+                </select>
+              </div>
+
+
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label for="ddlSearchbyCollegeType" class="form-label">Search By College Type:</label>
+                <select class="form-select" id="ddlSearchbyCollegeType" name="ddlSearchbyCollegeType" [(ngModel)]="request.CollegeTypeID">
+                  <option value="0">All</option>
+                  <option *ngFor="let item of CollegeTypeList" value="{{item.ID}}">{{item.Name}}</option>
+                </select>
+              </div>
+
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label for="dtfromSubmittedDate" class="form-label">From Submitted Date:</label>
+                <input type="date" id="dtfromSubmittedDate" name="dtfromSubmittedDate" class="form-control" [(ngModel)]="request.FromSubmitDate" onkeypress="return false;" />
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label for="dttoSubmittedDate" class="form-label">To Submitted Date:</label>
+                <input type="date" id="dttoSubmittedDate" name="dttoSubmittedDate" class="form-control" [(ngModel)]="request.ToSubmitDate" onkeypress="return false;" />
+              </div>
+
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label for="ddlSearchbyApplicationStatus" class="form-label">Search By Application Status:</label>
+                <select class="form-select" id="ddlSearchbyApplicationStatus" name="ddlSearchbyApplicationStatus" [(ngModel)]="request.ApplicationStatusID">
+                  <option value="0">All</option>
+                  <option value="1">Existing Defaulter</option>
+                  <option value="2">Fresh Defaulter</option>
+                </select>
+              </div>
+
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label for="ddlSearchbyApplicationID" class="form-label">Search By Application Id:</label>
+                <input type="text" class="form-control" id="ddlSearchbyApplicationID" name="ddlSearchbyApplicationID" [(ngModel)]="request.ApplicationID" autocomplete="off" (keypress)="numberOnly($event)">
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="QueryStringStatus=='Submit'">
+                <label for="ddlApplicationCurrentRole" class="form-label">Search By Application Current Role:</label>
+                <select class="form-select" id="ddlApplicationCurrentRole" name="ddlApplicationCurrentRole" [(ngModel)]="request.ApplicationCurrentRole">
+                  <option value="0">All</option>
+                  <option *ngFor="let item of UserRoleList" value="{{item.RoleID}}">{{item.RoleName}}</option>
+                </select>
+              </div>
+
+
+
+
+            </div>
+          </div>
+          <div class="card-footer text-end">
+            <button type="submit" (click)="GetTotalApplicationList()" class="btn btn-primary"><i class="fa fa-search"></i>&nbsp;Search</button>
+            <button type="submit" (click)="ResetControl()" class="btn btn-danger"><i class="bi bi-bootstrap-reboot"></i>&nbsp;Reset</button>
+            <button type="submit" (click)="btnExportTable_Click()" class="btn btn-success"><i class="fa fa-file-excel-o"></i> &nbsp;Export Record</button>
+          </div>
         </div>
       </div>
+      <!--<div class="card mb-0">
+    <div class="card-header">
+      <b>
+        <i class="bi bi-table"></i> Search Fields
+      </b>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+          <label for="ddlUniversityID" class="form-label">
+            <span> University</span>
+          </label>
+          <select class="form-select" id="ddlUniversityID" name="ddlUniversityID" [(ngModel)]="request.UniversityID">
+            <option value="0">All</option>
+            <option *ngFor="let item of UniversityList" value="{{item.UniversityID}}">{{item.UniversityName}}</option>
+          </select>
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+          <label for="ddlDivisionID" class="form-label">Division:</label>
+          <select class="form-select" id="ddlDivisionID" name="ddlDivisionID" [(ngModel)]="request.DivisionID" #SelectedDivisionID (change)="FillDivisionRelatedDDL(SelectedDivisionID.value)">
+            <option value="0">All</option>
+            <option *ngFor="let item of DivisionList" value="{{item.DivisionID}}">{{item.DivisionName}}</option>
+          </select>
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+          <label for="ddlDistrictID" class="form-label">District:</label>
+          <select class="form-select" id="ddlDistrictID" name="ddlDistrictID" [(ngModel)]="request.DistrictID">
+            <option value="0">All</option>
+            <option *ngFor="let item of DistrictList" value="{{item.DistrictID}}">{{item.DistrictName}}</option>
+          </select>
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+          <label for="txtCollegeName" class="form-label">College Name:</label>
+          <input type="text" id="txtCollegeName" maxlength="100" class="form-control" [(ngModel)]="request.CollegeName">
+        </div>
+      </div>
+    </div>
+    <div class="card-footer text-end">
+      <button type="submit" (click)="GetTotalApplicationList()" class="btn btn-primary"><i class="fa fa-search"></i>&nbsp;Search</button>
+      <button type="submit" (click)="ResetControl()" class="btn btn-danger"><i class="bi bi-bootstrap-reboot"></i>&nbsp;Reset</button>
+      <button type="submit" (click)="btnExportTable_Click()" class="btn btn-success"><i class="fa fa-file-excel-o"></i> &nbsp;Export Record</button>
+    </div>
+  </div>-->
 
     </div>
   </div>
@@ -81,7 +220,7 @@
               <th>ApplicationNo</th>
               <th>University Name</th>
               <th>College Name</th>
-              <th>Distict Name</th>
+              <th>District Name</th>
               <th>College Email</th>
               <th>College Mobile Number</th>
               <th>Full Address</th>
