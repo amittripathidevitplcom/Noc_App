@@ -103,20 +103,26 @@
                   <a class="dropdown-item list-group-item list-group-item-action list-group-item-danger" href="javascript:void(0)" *ngIf="item.IsMakePayment==false" title="Payment" (click)="PaymentApplyNocApplication_click(mymodalpayment,item.ApplyNocApplicationID)">
                     Payment
                   </a>
-                  <a class="dropdown-item list-group-item list-group-item-action list-group-item-danger" *ngIf="item.IsMakePayment==true" href="javascript:void(0)" title="Payment History" (click)="PaymentHistoryApplyNocApplication_click(mymodalpaymenthistory,item.ApplyNocApplicationID)">
+                  <!--<a class="dropdown-item list-group-item list-group-item-action list-group-item-danger" href="javascript:void(0)" title="Payment History" (click)="PaymentHistoryApplyNocApplication_click(mymodalpaymenthistory,item.ApplyNocApplicationID)">
+                    Payment History
+                  </a>-->
+                </li>
+
+                <li *ngIf="item.IsOnlineOfflinePayment=='Online' && item.IsOpenNOCApplication==true">
+                  <a class="dropdown-item list-group-item list-group-item-action list-group-item-danger" href="javascript:void(0)" title="Payment History" (click)="PaymentHistoryApplyNocApplication_click(mymodalpaymenthistory,item.ApplyNocApplicationID)">
                     Payment History
                   </a>
                 </li>
                 <!--<li *ngIf="item.DepartmentID==2 && item.IsOpenNOCApplication==true && item.IsFinalSubmit==true && item.IsMakeInspectionPayment==false">
-                  <a class="dropdown-item list-group-item list-group-item-action list-group-item-danger" href="javascript:void(0)" title="Payment" (click)="InspectionPaymentApplyNocApplication_click(mymodalinspectionpayment,item.ApplyNocApplicationID)">
-                    Inspection Payment
-                  </a>
-                </li>
-                <li *ngIf="item.DepartmentID==2 && item.IsOpenNOCApplication==true && item.IsSaveFDR==false">
-                  <a class="dropdown-item list-group-item list-group-item-action list-group-item-danger" href="javascript:void(0)" title="Payment" (click)="FDRPaymentApplyNocApplication_click(mymodalfdrpayment,item.ApplyNocApplicationID)">
-                    FDR Payment
-                  </a>
-                </li>-->
+    <a class="dropdown-item list-group-item list-group-item-action list-group-item-danger" href="javascript:void(0)" title="Payment" (click)="InspectionPaymentApplyNocApplication_click(mymodalinspectionpayment,item.ApplyNocApplicationID)">
+      Inspection Payment
+    </a>
+  </li>
+  <li *ngIf="item.DepartmentID==2 && item.IsOpenNOCApplication==true && item.IsSaveFDR==false">
+    <a class="dropdown-item list-group-item list-group-item-action list-group-item-danger" href="javascript:void(0)" title="Payment" (click)="FDRPaymentApplyNocApplication_click(mymodalfdrpayment,item.ApplyNocApplicationID)">
+      FDR Payment
+    </a>
+  </li>-->
                 <li *ngIf="(item.DepartmentID==6 || item.DepartmentID==9) && item.IsOpenNOCApplication==true">
                   <a class="dropdown-item list-group-item list-group-item-action list-group-item-danger" href="javascript:void(0)" title="Payment" *ngIf="item.IsMakePayment_ApplicationFee==false"
                      (click)="EmitraPaymentApplyNocApplication_click(mymodalemitrapayment,item.ApplyNocApplicationID)">
@@ -144,9 +150,9 @@
 
 
                 <!--<li>
-                  <a style="display:none" class="dropdown-item list-group-item list-group-item-action list-group-item-danger" href="javascript:void(0)" title="Egrass Payment" (click)="MakeGrassPayment_click(item)">
-                    Egrass Payment
-                  </a>-->
+    <a style="display:none" class="dropdown-item list-group-item list-group-item-action list-group-item-danger" href="javascript:void(0)" title="Egrass Payment" (click)="MakeGrassPayment_click(item)">
+      Egrass Payment
+    </a>-->
                 <!--*ngIf="item.IsMakePayment==true"-->
                 <!--</li>-->
                 <li *ngIf="item.DepartmentID==4 && item.GenerateReceipt_DTE!=''">
