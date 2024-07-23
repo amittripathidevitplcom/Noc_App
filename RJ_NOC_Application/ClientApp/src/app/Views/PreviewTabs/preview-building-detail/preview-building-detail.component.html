@@ -122,7 +122,7 @@
                 <input class="form-control disabled" disabled value="{{buildingdetails.Pincode}}" />
               </div>
               <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                <label class="form-label"><b>Total Constructed Building Area (in Sq. Ft) :</b></label>
+                <label class="form-label"><b>Total Constructed Building Area ({{SelectedDepartmentID ==2 || SelectedDepartmentID == 4?'in Sq. Meter':'in Sq. Ft'}}) :</b></label>
                 <input class="form-control disabled" disabled value="{{buildingdetails.BuildingHostelQuartersRoadArea}}" />
               </div>
 

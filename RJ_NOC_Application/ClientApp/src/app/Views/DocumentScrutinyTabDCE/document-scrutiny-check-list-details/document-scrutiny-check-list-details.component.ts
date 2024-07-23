@@ -885,6 +885,10 @@ export class DocumentScrutinyCheckListDetailsComponentDce implements OnInit {
         return;
       }
       if (this.sSOLoginDataModel.RoleID == 17 && this.NextRoleID == 1 && this.ActionID == 3) {
+        if (this.TotalRevertCount == 1 && this.IsPVStageDone != 1) {
+          this.toastr.warning('Physical Verification not done yet. you can not revert 2nd time');
+          return;
+        }
         if (this.TotalRevertCount >= 2) {
           this.toastr.warning('you already revert application two times. you can not revert 3rd time');
           return;

@@ -54,6 +54,9 @@
                         <a href="javascript:void(0)" title="Application Preview" (click)="ApplicationPreview_OnClick(item.DepartmentID,item.CollegeID)" class="btn btn-sm btn-secondary">
                           <i class="fa fa-eye"></i>
                         </a>
+                        <span *ngFor="let items of item.NOCPdfFileDataModel let idxx =index">
+                          <br />  <a class="btn btn-sm btn-primary bi bi-file-earmark-pdf-fill m-1" href="{{items.NOCFilePath}}" title="{{items.ApplyNocFor}}" target="_blank">{{items.ApplyNocFor}}</a>
+                        </span>
                       </td>
                     </tr>
                     <tr>

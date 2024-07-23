@@ -207,12 +207,14 @@
               <thead>
                 <tr>
                   <th>Sr. No</th>
-                  <th>SSO ID</th>
+
                   <th>Application Id</th>
                   <th>College</th>
                   <th>College Mobile</th>
                   <th>College Email</th>
                   <th>Application Type</th>
+                  <th>Status</th>
+                  <th *ngIf="QueryStringStatus=='Submit'">Application Level</th>
                   <th>District Name</th>
                   <th>Tehsil Name</th>
                   <th>Nodal College Name</th>
@@ -220,9 +222,9 @@
                   <th>Nodal Mobile No.</th>
                   <th>Nodel SSOID</th>
                   <th>NOC Status</th>
-                  <th>Status</th>
-                  <th *ngIf="QueryStringStatus=='Submit'">Application Level</th>
+
                   <th *ngIf="QueryStringStatus=='NOCIssued'">NOC</th>
+                  <th>SSO ID</th>
                   <th></th>
                 </tr>
               </thead>
@@ -230,12 +232,14 @@
               <tbody>
                 <tr *ngFor="let row of ApplicationList | tableSearchFilter:searchText; let idx=index;">
                   <td>{{idx+1}}</td>
-                  <td>{{row.SSOID}}</td>
+
                   <td>{{row.ApplyNocApplicationID}}</td>
                   <td>{{row.CollegeName}}</td>
                   <td>{{row.MobileNumber}}</td>
                   <td>{{row.Email}}</td>
                   <td>{{row.ApplicationTypeName}}</td>
+                  <td>{{row.Status}}</td>
+                  <td *ngIf="QueryStringStatus=='Submit'">{{row.RoleName}}</td>
                   <td>{{row.DistrictName}}</td>
                   <td>{{row.TehsilName}}</td>
 
@@ -244,13 +248,13 @@
                   <td>{{row.NodelMobileNo}}</td>
                   <td>{{row.NodelSSOID}}</td>
                   <td>{{row.NOCStatus}}</td>
-                  <td>{{row.Status}}</td>
-                  <td *ngIf="QueryStringStatus=='Submit'">{{row.RoleName}}</td>
+
                   <td *ngIf="QueryStringStatus=='NOCIssued'">
                     <span *ngFor="let items of row.NOCPdfFileDataModel let idxx =index">
                       <a class="btn btn-sm btn-primary bi bi-file-earmark-pdf-fill" style="margin-top:3px !important" href="{{items.NOCFilePath}}" title="{{items.ApplyNocFor}}" target="_blank">{{items.ApplyNocFor}}</a><br />
                     </span>
                   </td>
+                  <td>{{row.SSOID}}</td>
                   <td>
                     <a href="javascript:void(0)" (click)="ApplicationSummary_OnClick(row.DepartmentID,row.CollegeID)" class="btn btn-sm btn-secondary">
                       <i class="fa fa-eye"></i>

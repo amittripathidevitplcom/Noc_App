@@ -125,6 +125,7 @@ export class JDACCEApplicationListDCEComponent implements OnInit {
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
           this.ApplyNocDetails = data['Data'];
+          console.log(this.ApplyNocDetails);
         }, error => console.error(error));
     }
     catch (Ex) {
