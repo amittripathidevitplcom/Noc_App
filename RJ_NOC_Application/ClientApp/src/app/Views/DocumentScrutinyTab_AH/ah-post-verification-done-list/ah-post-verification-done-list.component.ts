@@ -141,6 +141,7 @@ export class AhPostVerificationDoneListComponent {
           this.ErrorMessage = data['ErrorMessage'];
           this.CheckListData = data['Data'];
           this.FinalRemark = this.CheckListData[0].FinalRemark;
+          this.CheckFinalRemark = this.CheckListData[0].CheckFinalRemark;
         }, error => console.error(error));
     }
     catch (Ex) {
@@ -172,17 +173,18 @@ export class AhPostVerificationDoneListComponent {
         this.isActionTypeValid = true;
         return;
       }
+      if (this.CheckFinalRemark == '' || this.CheckFinalRemark == null) {
+        this.isRemarkValid = true;
+        return;
+      }
       else {
         if (this.ActionID == 2) {
           this.ActionName = EnumOfficerActionType.PostVeriRejected;
-          if (this.CheckFinalRemark == '' || this.CheckFinalRemark == null) {
-            this.isRemarkValid = true;
-            return;
-          }
+          
         }
         else {
           this.ActionName = EnumOfficerActionType.PostVeriApproved;
-          this.CheckFinalRemark = "Post Verification Approved"
+          //this.CheckFinalRemark = "Post Verification Approved"
         }
       }
       if (this.ActionName != '') {
