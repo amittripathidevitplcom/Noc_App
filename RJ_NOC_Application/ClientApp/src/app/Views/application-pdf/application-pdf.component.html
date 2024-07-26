@@ -564,6 +564,7 @@
                       <tbody>
                         <tr>
                           <th>Sr.No.</th>
+                          <th>Geo Tagging Type</th>
                           <th>Geo Tagging Status</th>
                           <th>Latitude</th>
                           <th>Longitude</th>
@@ -572,6 +573,7 @@
                         </tr>
                         <tr *ngFor="let row of CollegeGeoTaggingList; let indexOfelement=index;">
                           <td> {{indexOfelement+1}}</td>
+                          <td>{{row.Type}}</td>
                           <td>{{row.IsGeoTagging}}</td>
                           <td>{{row.TGC_Latitude}}</td>
                           <td>{{row.TGC_Longitude}}</td>

@@ -25,6 +25,9 @@ import { TrusteeGeneralInfoService } from '../../../Services/TrusteeGeneralInfo/
 import { LegalEntityDataModel } from '../../../Models/TrusteeGeneralInfoDataModel';
 import { ApplyNocParameterService } from '../../../Services/Master/apply-noc-parameter.service';
 import { DocumentScrutinyComponent } from '../../DCE/document-scrutiny/document-scrutiny.component';
+import { BuildingDetailsMasterService } from '../../../Services/BuildingDetailsMaster/building-details-master.service';
+import { OldnocdetailService } from '../../../Services/OldNOCDetail/oldnocdetail.service';
+import { HostelDetailService } from '../../../Services/Tabs/hostel-details.service';
 
 
 @Injectable({
@@ -216,7 +219,7 @@ export class CheckListSecretaryDCEComponent implements OnInit {
 
 
 
-  constructor(private applyNocParameterService: ApplyNocParameterService, private toastr: ToastrService, private loaderService: LoaderService, private applyNOCApplicationService: ApplyNOCApplicationService,
+  constructor(private landDetailsService: LandDetailsService,private hostelDetailService: HostelDetailService, private oldnocdetailService: OldnocdetailService, private staffDetailService: StaffDetailService, private buildingDetailsMasterService: BuildingDetailsMasterService,private applyNocParameterService: ApplyNocParameterService, private toastr: ToastrService, private loaderService: LoaderService, private applyNOCApplicationService: ApplyNOCApplicationService,
     private dcedocumentScrutinyService: DCEDocumentScrutinyService,
     private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private modalService: NgbModal, private collegeService: CollegeService,
     private dcedocumentscrutiny: DocumentScrutinyComponent) { }
@@ -1110,6 +1113,243 @@ export class CheckListSecretaryDCEComponent implements OnInit {
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.lstTarils = data['Data'][0]['data'];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+
+  ///Preview
+  requestland = new LandDetailDataModel();
+  public LandDetailsDocumentListByID: any = [];
+  public DetailoftheLand: any = [];
+  async ViewLandDetail(content: any, LandDetailID: number) {
+    debugger;
+    this.requestland = new LandDetailDataModel();
+    this.modalService.open(content, { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' }).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+    try {
+      this.LandDetailsDocumentListByID = [];
+      this.loaderService.requestStarted();
+      await this.landDetailsService.GetLandDetailsIDWise(LandDetailID, this.SelectedCollageID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.requestland = data['Data'][0];
+          //this.DetailoftheLand = data['Data'][0]["CollegeLandTypeDetails"];
+          this.LandDetailsDocumentListByID = data['Data'][0]["LandDetailDocument"];
+          this.DetailoftheLand = data['Data'][0]["CollegeLandTypeDetails"];
+          //this.CollegeLandConverstion = data['Data'][0]["CollegeLandConversionDetails"];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+  buildingdetails: any = {};
+  async ViewBuildingDetails(content: any, BuildingDetailID: number) {
+    this.buildingdetails = {};
+    this.modalService.open(content, { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' }).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+    try {
+      this.loaderService.requestStarted();
+      await this.buildingDetailsMasterService.GetByID(BuildingDetailID, 0)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.buildingdetails.SchoolBuildingDetailsID = data['Data'][0]['data']['Table'][0]["SchoolBuildingDetailsID"];
+          this.buildingdetails.BuildingTypeID = data['Data'][0]['data']['Table'][0]["BuildingTypeID"];
+          this.buildingdetails.BuildingTypeName = data['Data'][0]['data']['Table'][0]["BuildingTypeName"];
+          this.buildingdetails.OwnerName = data['Data'][0]['data']['Table'][0]["OwnerName"];
+          this.buildingdetails.AddressLine1 = data['Data'][0]['data']['Table'][0]["AddressLine1"];
+          this.buildingdetails.AddressLine2 = data['Data'][0]['data']['Table'][0]["AddressLine2"];
+          this.buildingdetails.RuralUrban = data['Data'][0]['data']['Table'][0]["RuralUrban"];
+          this.buildingdetails.DivisionID = data['Data'][0]['data']['Table'][0]["DivisionID"];
+          this.buildingdetails.Division_English = data['Data'][0]['data']['Table'][0]["Division_English"];
+          this.buildingdetails.DistrictID = data['Data'][0]['data']['Table'][0]["DistrictID"];
+          this.buildingdetails.District_Eng = data['Data'][0]['data']['Table'][0]["District_Eng"];
+          this.buildingdetails.TehsilID = data['Data'][0]['data']['Table'][0]["TehsilID"];
+          this.buildingdetails.TehsilName = data['Data'][0]['data']['Table'][0]["TehsilName"];
+          this.buildingdetails.PanchayatSamitiID = data['Data'][0]['data']['Table'][0]["PanchayatSamitiID"];
+          this.buildingdetails.PanchyatSamitiName = data['Data'][0]['data']['Table'][0]["PanchyatSamitiName"];
+          this.buildingdetails.CityTownVillage = data['Data'][0]['data']['Table'][0]["CityTownVillage"];
+          this.buildingdetails.CityName = data['Data'][0]['data']['Table'][0]["CityName"];
+          this.buildingdetails.ContactNo = data['Data'][0]['data']['Table'][0]["ContactNo"];
+          this.buildingdetails.Pincode = data['Data'][0]['data']['Table'][0]["Pincode"];
+          this.buildingdetails.OwnBuildingOrderNo = data['Data'][0]['data']['Table'][0]["OwnBuildingOrderNo"];
+          this.buildingdetails.OwnBuildingOrderDate = data['Data'][0]['data']['Table'][0]["OwnBuildingOrderDate"];
+          this.buildingdetails.OwnBuildingFileUpload = data['Data'][0]['data']['Table'][0]["OwnBuildingFileUpload"];
+          this.buildingdetails.Dis_OwnBuildingFileUpload = data['Data'][0]['data']['Table'][0]["Dis_OwnBuildingFileUpload"];
+          this.buildingdetails.OwnBuildingFileUploadPath = data['Data'][0]['data']['Table'][0]["OwnBuildingFileUploadPath"];
+          this.buildingdetails.FromDate = data['Data'][0]['data']['Table'][0]["FromDate"];
+          this.buildingdetails.ToDate = data['Data'][0]['data']['Table'][0]["ToDate"];
+          this.buildingdetails.FireNOCFileUpload = data['Data'][0]['data']['Table'][0]["FireNOCFileUpload"];
+          this.buildingdetails.Dis_FireNOCFileUpload = data['Data'][0]['data']['Table'][0]["Dis_FireNOCFileUpload"];
+          this.buildingdetails.FireNOCFileUploadPath = data['Data'][0]['data']['Table'][0]["FireNOCFileUploadPath"];
+          this.buildingdetails.OrderNo = data['Data'][0]['data']['Table'][0]["OrderNo"];
+          this.buildingdetails.OrderDate = data['Data'][0]['data']['Table'][0]["OrderDate"];
+          this.buildingdetails.ExpiringOn = data['Data'][0]['data']['Table'][0]["ExpiringOn"];
+          this.buildingdetails.PWDNOCFileUpload = data['Data'][0]['data']['Table'][0]["PWDNOCFileUpload"];
+          this.buildingdetails.Dis_PWDNOCFileUpload = data['Data'][0]['data']['Table'][0]["Dis_PWDNOCFileUpload"];
+          this.buildingdetails.PWDNOCFileUploadPath = data['Data'][0]['data']['Table'][0]["PWDNOCFileUploadPath"];
+
+          this.buildingdetails.TotalProjectCost = data['Data'][0]['data']['Table'][0]["TotalProjectCost"];
+          this.buildingdetails.SourceCostAmount = data['Data'][0]['data']['Table'][0]["SourceCostAmount"];
+          this.buildingdetails.AmountDeposited = data['Data'][0]['data']['Table'][0]["AmountDeposited"];
+          this.buildingdetails.OtherFixedAssetsAndSecurities = data['Data'][0]['data']['Table'][0]["OtherFixedAssetsAndSecurities"];
+          this.buildingdetails.GATEYearBalanceSecret = data['Data'][0]['data']['Table'][0]["GATEYearBalanceSecret"];
+          this.buildingdetails.OtherFinancialResources = data['Data'][0]['data']['Table'][0]["OtherFinancialResources"];
+          this.buildingdetails.TotalProjectCostFileUpload = data['Data'][0]['data']['Table'][0]["TotalProjectCostFileUpload"];
+          this.buildingdetails.TotalProjectCostFileUploadPath = data['Data'][0]['data']['Table'][0]["TotalProjectCostFileUploadPath"];
+          this.buildingdetails.Dis_TotalProjectCostFileUpload = data['Data'][0]['data']['Table'][0]["Dis_TotalProjectCostFileUpload"];
+          this.buildingdetails.SourceCostAmountFileUpload = data['Data'][0]['data']['Table'][0]["SourceCostAmountFileUpload"];
+          this.buildingdetails.SourceCostAmountFileUploadPath = data['Data'][0]['data']['Table'][0]["SourceCostAmountFileUploadPath"];
+          this.buildingdetails.Dis_SourceCostAmountFileUpload = data['Data'][0]['data']['Table'][0]["Dis_SourceCostAmountFileUpload"];
+          this.buildingdetails.AmountDepositedFileUpload = data['Data'][0]['data']['Table'][0]["AmountDepositedFileUpload"];
+          this.buildingdetails.AmountDepositedFileUploadPath = data['Data'][0]['data']['Table'][0]["AmountDepositedFileUploadPath"];
+          this.buildingdetails.Dis_AmountDepositedFileUpload = data['Data'][0]['data']['Table'][0]["Dis_AmountDepositedFileUpload"];
+          this.buildingdetails.OtherFixedAssetsAndSecuritiesFileUpload = data['Data'][0]['data']['Table'][0]["OtherFixedAssetsAndSecuritiesFileUpload"];
+          this.buildingdetails.OtherFixedAssetsAndSecuritiesFileUploadPath = data['Data'][0]['data']['Table'][0]["OtherFixedAssetsAndSecuritiesFileUploadPath"];
+          this.buildingdetails.Dis_OtherFixedAssetsAndSecuritiesFileUpload = data['Data'][0]['data']['Table'][0]["Dis_OtherFixedAssetsAndSecuritiesFileUpload"];
+          this.buildingdetails.GATEYearBalanceSecretFileUpload = data['Data'][0]['data']['Table'][0]["GATEYearBalanceSecretFileUpload"];
+          this.buildingdetails.GATEYearBalanceSecretFileUploadPath = data['Data'][0]['data']['Table'][0]["GATEYearBalanceSecretFileUploadPath"];
+          this.buildingdetails.Dis_GATEYearBalanceSecretFileUpload = data['Data'][0]['data']['Table'][0]["Dis_GATEYearBalanceSecretFileUpload"];
+          this.buildingdetails.OtherFinancialResourcesFileUpload = data['Data'][0]['data']['Table'][0]["OtherFinancialResourcesFileUpload"];
+          this.buildingdetails.OtherFinancialResourcesFileUploadPath = data['Data'][0]['data']['Table'][0]["OtherFinancialResourcesFileUploadPath"];
+          this.buildingdetails.Dis_OtherFinancialResourcesFileUpload = data['Data'][0]['data']['Table'][0]["Dis_OtherFinancialResourcesFileUpload"];
+          this.buildingdetails.BuildingHostelQuartersRoadArea = data['Data'][0]['data']['Table'][0]["BuildingHostelQuartersRoadArea"];
+          this.buildingdetails.FireNOCOrderNumber = data['Data'][0]['data']['Table'][0]["FireNOCOrderNumber"];
+
+          if (this.buildingdetails.BuildingTypeName != 'Owned') {
+            this.buildingdetails.Dis_RentAgreementFileUpload = data['Data'][0]['data']['Table'][0]["Dis_RentAgreementFileUpload"];
+            this.buildingdetails.RentAgreementFileUpload = data['Data'][0]['data']['Table'][0]["RentAgreementFileUpload"];
+            this.buildingdetails.RentAgreementFileUploadPath = data['Data'][0]['data']['Table'][0]["RentAgreementFileUploadPath"];
+
+            this.buildingdetails.Rentvaliditydate = data['Data'][0]['data']['Table'][0]["Rentvaliditydate"];
+          }
+
+          this.buildingdetails.lstBuildingDocDetails = data['Data'][0]['data']['Table1'];
+          this.buildingdetails.IsApproved = data['Data'][0]['data']['Table'][0]["IsApproved"];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+  requeststaff = new StaffDetailDataModel();
+  async ViewStaffDetail(content: any, StaffDetailID: number) {
+    this.requeststaff = new StaffDetailDataModel();
+    this.modalService.open(content, { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' }).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+    try {
+      this.loaderService.requestStarted();
+      await this.staffDetailService.GetStaffDetailList_DepartmentCollegeWise(this.SelectedDepartmentID, this.SelectedCollageID, StaffDetailID)
+        .then((data: any) => {
+
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.requeststaff = data['Data'][0];
+          if (this.requeststaff.AadhaarNo.length > 0) {
+            const visibleDigits = 4;
+            let maskedSection = this.requeststaff.AadhaarNo.slice(0, -visibleDigits);
+            let visibleSection = this.requeststaff.AadhaarNo.slice(-visibleDigits);
+            this.requeststaff.MaskedAadhaarNo = maskedSection.replace(/./g, 'X') + visibleSection;
+          }
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+  requestoldnoc = new OldNocDetailsDataModel();
+  async ViewOldNOCDetail(content: any, OldNocID: number) {
+    this.requestoldnoc = new OldNocDetailsDataModel();
+    this.modalService.open(content, { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' }).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+    try {
+      this.loaderService.requestStarted();
+      await this.oldnocdetailService.GetOldNOCDetailList_DepartmentCollegeWise(this.SelectedDepartmentID, this.SelectedCollageID, OldNocID)
+        .then((data: any) => {
+          const display = document.getElementById('ModalViewOldNOCDetail');
+          if (display) display.style.display = 'block';
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.requestoldnoc = data['Data'][0];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+  requesthostel = new HostelDataModel();
+  public showRentDocument: boolean = false;
+
+  async ViewItem(content: any, HostelDetailID: number) {
+    this.requesthostel = new HostelDataModel();
+    this.modalService.open(content, { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' }).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+    try {
+      this.loaderService.requestStarted();
+      await this.hostelDetailService.GetHostelDetailList_DepartmentCollegeWise(this.SelectedDepartmentID, this.SelectedCollageID, HostelDetailID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.requesthostel = data['Data'][0];
+          if (this.requesthostel.HostelType == 'Rent') {
+            this.showRentDocument = true;
+          }
+          //this.requesthostel.RentDocumentPath = this.imageUrlPath + this.requesthostel.RentDocument;
+
         }, error => console.error(error));
     }
     catch (Ex) {

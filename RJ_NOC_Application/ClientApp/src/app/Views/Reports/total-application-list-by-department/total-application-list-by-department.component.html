@@ -253,6 +253,9 @@
               <td>{{row.ApplicationStatus}}</td>
               <td>{{row.NextUserName}}-{{row.NextRole}}</td>
             </tr>
+            <tr *ngIf="TotalApplicationList.length==0">
+              <td colspan="20" class="text-center text-danger">No Data Found!</td>
+            </tr>
           </tbody>
         </table>
       </div>
