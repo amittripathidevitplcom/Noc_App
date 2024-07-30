@@ -178,6 +178,13 @@ export class ApplyNOCApplicationService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
+  public async GenerateDraftNOCForDCE(request: NOCIssuedRequestDataModel) {
+    const headers = { 'content-type': 'application/json' }
+    return await this.http.post(this.APIUrl + '/GenerateDraftNOCForDCE/', request, { 'headers': headers })
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
 
   public async CheckAppliedNOCCollegeWise(CollegeID: number) {
     const httpOptions = {

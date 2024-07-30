@@ -299,5 +299,305 @@ export class JDACCEApplicationListDCEComponent implements OnInit {
       }, 200);
     }
   }
+
+
+
+
+
+  async OpenGeneratePDFPopUP(content: any, ApplyNOCID: number, DepartmentID: number) {
+    this.NOCIssuedRemark = '';
+    this.SelectedDepartmentID = DepartmentID;
+    this.SelectedApplyNOCID = ApplyNOCID;
+    this.ApplyNocParameterMasterList_NewCourse = [];
+    this.ApplyNocParameterMasterList_TNOCExtOfSubject = [];
+    this.ApplyNocParameterMasterList_NewCourseSubject = [];
+    this.ApplyNocParameterMasterList_ChangeInCollegeManagement = null;
+    this.ApplyNocParameterMasterList_ChangeInNameOfCollege = null;
+    this.ApplyNocParameterMasterList_ChangeInPlaceOfCollege = null;
+    await this.GetAppliedParameterNOCForByApplyNOCID(ApplyNOCID);
+    this.modalService.open(content, { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' }).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+
+  }
+  public requestnoc = new NOCIssuedRequestDataModel();
+  public isSubmitNOC: boolean = false;
+  public NOCIssuedRemark: string = '';
+  public IssuedYear: number = 0;
+  async GeneratePDF_OnClick() {
+    try {
+      this.requestnoc = new NOCIssuedRequestDataModel();
+      this.isFormvalid = true;
+      this.isSubmitNOC = true;
+      if (this.NOCIssuedRemark == '') {
+        this.isFormvalid = false;
+      }
+
+      var CheckedCount = 0;
+      await this.ApplyNocParameterMasterList.forEach((i: { IsChecked: boolean, ApplyNocParameterID: number, ApplyNocApplicationID: number }) => {
+        if (i.IsChecked) {
+          CheckedCount++;
+          this.requestnoc.AppliedNOCFor.push({
+            ApplyNOCID: i.ApplyNocApplicationID,
+            ParameterID: i.ApplyNocParameterID,
+            CreatedBy: this.sSOLoginDataModel.UserID,
+            Remark: this.NOCIssuedRemark,
+            NoOfIssuedYear: this.IssuedYear
+          });
+        }
+      });
+      if (CheckedCount <= 0) {
+        this.isFormvalid = false;
+        this.toastr.warning('Please select atleast one noc realse for');
+        return;
+      }
+      var NewSubjects = this.ApplyNocParameterMasterList.find((x: { IsChecked: boolean; ParameterCode: string }) => x.IsChecked == true && x.ParameterCode == 'DEC_NewSubject')?.IsChecked;
+      var NewSubjectsCount = 0;
+      if (NewSubjects == true) {
+        for (var i = 0; i < this.ApplyNocParameterMasterList_NewCourseSubject.length; i++) {
+          for (var j = 0; j < this.ApplyNocParameterMasterList_NewCourseSubject[i].SubjectList.length; j++) {
+            if (this.ApplyNocParameterMasterList_NewCourseSubject[i].SubjectList[j].IsSubjectChecked == true) {
+              NewSubjectsCount++;
+              this.requestnoc.NOCDetails.push({
+                ApplyNOCID: this.ApplyNocParameterMasterList_NewCourseSubject[i].ApplyNocApplicationID,
+                DepartmentID: this.SelectedDepartmentID,
+                RoleID: this.sSOLoginDataModel.RoleID,
+                UserID: this.sSOLoginDataModel.UserID,
+                CourseID: this.ApplyNocParameterMasterList_NewCourseSubject[i].CourseID,
+                CourseName: this.ApplyNocParameterMasterList_NewCourseSubject[i].CourseName,
+                SubjectID: this.ApplyNocParameterMasterList_NewCourseSubject[i].SubjectList[j].SubjectID,
+                SubjectName: this.ApplyNocParameterMasterList_NewCourseSubject[i].SubjectList[j].SubjectName,
+                ApplyNocParameterID: this.ApplyNocParameterMasterList_NewCourseSubject[i].SubjectList[j].ApplyNocParameterID,
+              });
+            }
+          }
+        }
+        if (NewSubjectsCount <= 0) {
+          this.isFormvalid = false;
+          this.toastr.warning('Please select atleast one Subject in New Subjects');
+          return;
+        }
+      }
+      var TNOCExt = this.ApplyNocParameterMasterList.find((x: { IsChecked: boolean; ParameterCode: string }) => x.IsChecked == true && x.ParameterCode == 'DEC_TNOCExtOfSubject')?.IsChecked;
+      var TNOCExtCount = 0;
+      if (TNOCExt == true) {
+        for (var i = 0; i < this.ApplyNocParameterMasterList_TNOCExtOfSubject.length; i++) {
+          for (var j = 0; j < this.ApplyNocParameterMasterList_TNOCExtOfSubject[i].SubjectList.length; j++) {
+            if (this.ApplyNocParameterMasterList_TNOCExtOfSubject[i].SubjectList[j].IsSubjectChecked == true) {
+              TNOCExtCount++;
+              this.requestnoc.NOCDetails.push({
+                ApplyNOCID: this.ApplyNocParameterMasterList_TNOCExtOfSubject[i].ApplyNocApplicationID,
+                DepartmentID: this.SelectedDepartmentID,
+                RoleID: this.sSOLoginDataModel.RoleID,
+                UserID: this.sSOLoginDataModel.UserID,
+                CourseID: this.ApplyNocParameterMasterList_TNOCExtOfSubject[i].CourseID,
+                CourseName: this.ApplyNocParameterMasterList_TNOCExtOfSubject[i].CourseName,
+                SubjectID: this.ApplyNocParameterMasterList_TNOCExtOfSubject[i].SubjectList[j].SubjectID,
+                SubjectName: this.ApplyNocParameterMasterList_TNOCExtOfSubject[i].SubjectList[j].SubjectName,
+                ApplyNocParameterID: this.ApplyNocParameterMasterList_TNOCExtOfSubject[i].SubjectList[j].ApplyNocParameterID,
+              });
+            }
+          }
+        }
+        if (TNOCExtCount <= 0) {
+          this.isFormvalid = false;
+          this.toastr.warning('Please select atleast one Subject in TNOC Extension Of Subject');
+          return;
+        }
+        if (this.IssuedYear <= 0) {
+          this.isFormvalid = false;
+          this.toastr.warning('Please select No Of Issued Year in TNOC Extension Of Subject');
+          return;
+        }
+      }
+
+      var NewCourse = this.ApplyNocParameterMasterList.find((x: { IsChecked: boolean; ParameterCode: string }) => x.IsChecked == true && x.ParameterCode == 'DEC_NewCourse')?.IsChecked;
+      var NewCourseCount = 0;
+      if (NewCourse == true) {
+        for (var i = 0; i < this.ApplyNocParameterMasterList_NewCourse.length; i++) {
+          for (var j = 0; j < this.ApplyNocParameterMasterList_NewCourse[i].SubjectList.length; j++) {
+            if (this.ApplyNocParameterMasterList_NewCourse[i].SubjectList[j].IsSubjectChecked == true) {
+              NewCourseCount++;
+              this.requestnoc.NOCDetails.push({
+                ApplyNOCID: this.ApplyNocParameterMasterList_NewCourse[i].ApplyNocApplicationID,
+                DepartmentID: this.SelectedDepartmentID,
+                RoleID: this.sSOLoginDataModel.RoleID,
+                UserID: this.sSOLoginDataModel.UserID,
+                CourseID: this.ApplyNocParameterMasterList_NewCourse[i].CourseID,
+                CourseName: this.ApplyNocParameterMasterList_NewCourse[i].CourseName,
+                SubjectID: this.ApplyNocParameterMasterList_NewCourse[i].SubjectList[j].SubjectID,
+                SubjectName: this.ApplyNocParameterMasterList_NewCourse[i].SubjectList[j].SubjectName,
+                ApplyNocParameterID: this.ApplyNocParameterMasterList_NewCourse[i].SubjectList[j].ApplyNocParameterID,
+              });
+            }
+          }
+        }
+        if (NewCourseCount <= 0) {
+          this.isFormvalid = false;
+          this.toastr.warning('Please select atleast one Subject in New Course');
+          return;
+        }
+      }
+      if (!this.isFormvalid) {
+        return;
+      }
+
+      this.loaderService.requestStarted();
+      await this.applyNOCApplicationService.GenerateDraftNOCForDCE(this.requestnoc)
+        .then((data: any) => {
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          if (!this.State) {
+            this.toastr.success(this.SuccessMessage);
+            this.modalService.dismissAll('After Success');
+            window.location.reload();
+          }
+          else {
+            this.toastr.error(this.ErrorMessage)
+          }
+        })
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+  async GetAppliedParameterNOCForByApplyNOCID(ApplyNOCID: number) {
+    try {
+      this.loaderService.requestStarted();
+      await this.applyNOCApplicationService.GetAppliedParameterNOCForByApplyNOCID(ApplyNOCID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          //
+          this.ApplyNocParameterMasterList = data['Data'][0]['data'];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+  async GetApplyNOCCourseandSubject(applyNocApplicationID: number, ParameterID: number, ParameterCode: string) {
+    try {
+      this.loaderService.requestStarted();
+      // get
+      await this.applyNocParameterService.GetCourseSubjectByApplyNOCID(applyNocApplicationID, ParameterID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          if (this.State == 0) {
+            if (ParameterCode == 'DEC_NewCourse') {
+              this.ApplyNocParameterMasterList_NewCourse = data['Data'];
+            }
+            else if (ParameterCode == 'DEC_TNOCExtOfSubject') {
+              this.ApplyNocParameterMasterList_TNOCExtOfSubject = data['Data'];
+            }
+            else if (ParameterCode == 'DEC_NewSubject') {
+              this.ApplyNocParameterMasterList_NewCourseSubject = data['Data'];
+            }
+          }
+          else {
+            this.toastr.error(this.ErrorMessage);
+          }
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  async ApplyNocFor_cbChange(ApplyNOCID: number, ParameterID: number, IsChecked: boolean, ParameterCode: string) {
+    try {
+      this.loaderService.requestStarted();
+      // get
+      if (IsChecked) {
+        if (ParameterCode == 'DEC_NewCourse' || ParameterCode == 'DEC_TNOCExtOfSubject' || ParameterCode == 'DEC_NewSubject') {
+          await this.GetApplyNOCCourseandSubject(ApplyNOCID, ParameterID, ParameterCode);
+        }
+        else {
+          await this.applyNocParameterService.GetApplyNocApplicationByApplicationID(ApplyNOCID)
+            .then((data: any) => {
+              data = JSON.parse(JSON.stringify(data));
+              this.State = data['State'];
+              this.SuccessMessage = data['SuccessMessage'];
+              this.ErrorMessage = data['ErrorMessage'];
+              if (this.State == 0) {
+                if (ParameterCode == 'DEC_ChangeManagement') {
+                  this.ApplyNocParameterMasterList_ChangeInCollegeManagement = data['Data']['ChangeInCollegeManagementList'][0];
+                }
+                else if (ParameterCode == 'DEC_ChangeName') {
+                  this.ApplyNocParameterMasterList_ChangeInNameOfCollege = data['Data']['ChangeInNameOfCollegeList'][0];
+                }
+                else if (ParameterCode == 'DEC_ChangePlace') {
+                  this.ApplyNocParameterMasterList_ChangeInPlaceOfCollege = data['Data']['ChangeInPlaceOfCollegeList'][0];
+                }
+              }
+              else {
+                if (ParameterCode == 'DEC_ChangeManagement') {
+                  this.ApplyNocParameterMasterList_ChangeInCollegeManagement = null;
+                }
+                else if (ParameterCode == 'DEC_ChangeName') {
+                  this.ApplyNocParameterMasterList_ChangeInNameOfCollege = null;
+                }
+                else if (ParameterCode == 'DEC_ChangePlace') {
+                  this.ApplyNocParameterMasterList_ChangeInPlaceOfCollege = null;
+                }
+              }
+            }, error => console.error(error));
+        }
+      }
+      else {
+        if (ParameterCode == 'DEC_NewCourse') {
+          this.ApplyNocParameterMasterList_NewCourse = [];
+        }
+        else if (ParameterCode == 'DEC_TNOCExtOfSubject') {
+          this.ApplyNocParameterMasterList_TNOCExtOfSubject = [];
+        }
+        else if (ParameterCode == 'DEC_NewSubject') {
+          this.ApplyNocParameterMasterList_NewCourseSubject = [];
+        }
+        else if (ParameterCode == 'DEC_ChangeManagement') {
+          this.ApplyNocParameterMasterList_ChangeInCollegeManagement = null;
+        }
+        else if (ParameterCode == 'DEC_ChangeName') {
+          this.ApplyNocParameterMasterList_ChangeInNameOfCollege = null;
+        }
+        else if (ParameterCode == 'DEC_ChangePlace') {
+          this.ApplyNocParameterMasterList_ChangeInPlaceOfCollege = null;
+        }
+      }
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
 }
 

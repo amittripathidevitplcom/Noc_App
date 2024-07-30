@@ -54,8 +54,10 @@
                         <a href="javascript:void(0)" title="Application Preview" (click)="ApplicationPreview_OnClick(item.DepartmentID,item.CollegeID)" class="btn btn-sm btn-secondary">
                           <i class="fa fa-eye"></i>
                         </a>
-                        <span *ngFor="let items of item.NOCPdfFileDataModel let idxx =index">
-                          <br />  <a class="btn btn-sm btn-primary bi bi-file-earmark-pdf-fill m-1" href="{{items.NOCFilePath}}" title="{{items.ApplyNocFor}}" target="_blank">{{items.ApplyNocFor}}</a>
+
+                        &nbsp;<a *ngIf="QueryStringStatus=='Pending'&& this.sSOLoginDataModel.RoleID==11" href="javascript:void(0)" class="btn btn-sm btn-info" title="Action" (click)="OpenGeneratePDFPopUP(ViewOpenGeneratePDFPopUP,item.ApplyNOCID,item.DepartmentID)">Generate NOC Draft</a>
+                        <span *ngIf="QueryStringStatus=='Pending' && this.sSOLoginDataModel.RoleID==11">
+                         <br /> <a style="margin-top:5px !important" *ngFor="let items of item.DraftNOCPdfFileDataModel let idxx =index" class="btn btn-sm btn-primary bi bi-file-earmark-pdf-fill" href="{{items.NOCFilePath}}" title="{{items.ApplyNocFor}}" target="_blank">{{items.ApplyNocFor}}</a>
                         </span>
                       </td>
                     </tr>
@@ -243,7 +245,7 @@
           </div>
         </ng-template>
         <!--END MODAL-->
-        
+
         <ng-template #mymodal let-modal>
           <div class="modal-header">
             <h4 class="modal-title" id="modal-basic-title" style="font-size: 17px; font-weight: 600 !important;">Application Trail</h4>
@@ -287,9 +289,239 @@
             </div>
           </div>
         </ng-template>
+        <ng-template #ViewOpenGeneratePDFPopUP let-modal>
+
+          <div class="modal-header">
+            <h5 class="modal-title">NOC Issue</h5>
+            <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')"><i class="fa fa-close"></i></button>
+          </div>
+          <div class="modal-body py-4">
+            <app-loader></app-loader>
+            <div class="card">
+              <div class="card-header">
+                <b>&nbsp;NOC Released For</b>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-lg-12 col-md-12 col-sm-12 col-12" *ngFor="let item of ApplyNocParameterMasterList;let idx=index;">
+                    <label class="form-check-label" for="cbNocFor_{{item.ApplyNocParameterID}}">
+                      <input class="form-check-input" type="checkbox" name="cbNocFor_{{item.ApplyNocParameterID}}" id="cbNocFor_{{item.ApplyNocParameterID}}" value="{{item.ApplyNocParameterID}}" #SelectedApplyNocForID (change)="ApplyNocFor_cbChange(item.ApplyNocApplicationID,item.ApplyNocParameterID,item.IsChecked,item.ParameterCode)" [(ngModel)]="item.IsChecked"
+                             [ngModelOptions]="{standalone: true}"> {{item.ApplyNocFor}}
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="card" *ngIf="ApplyNocParameterMasterList_ChangeInCollegeManagement!=null">
+              <div class="card-header">
+                <b>&nbsp;Change in College Management</b>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                    <table class="table table-responsive table-bordered">
+                      <thead>
+                        <tr>
+                          <th>Sr.No.</th>
+                          <th>Name of New Society</th>
+
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>1</td>
+                          <td>{{ApplyNocParameterMasterList_ChangeInCollegeManagement.NewSocietyName}}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="card" *ngIf="ApplyNocParameterMasterList_ChangeInNameOfCollege!=null">
+              <div class="card-header">
+                <b>&nbsp;Change in Name of College</b>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                    <table class="table table-responsive table-bordered">
+                      <thead>
+                        <tr>
+                          <th>Sr.No.</th>
+                          <th>New Name in English</th>
+                          <th>New Name in Hindi</th>
+
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>1</td>
+                          <td>{{ApplyNocParameterMasterList_ChangeInNameOfCollege.NewNameEnglish}}</td>
+                          <td>{{ApplyNocParameterMasterList_ChangeInNameOfCollege.NewNameHindi}}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="card" *ngIf="ApplyNocParameterMasterList_ChangeInPlaceOfCollege!=null">
+              <div class="card-header">
+                <b>&nbsp;College Place Change</b>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                    <table class="table table-responsive table-bordered">
+                      <thead>
+                        <tr>
+                          <th>Sr.No.</th>
+                          <th>New Place Name and Address</th>
+
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>1</td>
+                          <td>{{ApplyNocParameterMasterList_ChangeInPlaceOfCollege.PlaceName}}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="card" *ngIf="ApplyNocParameterMasterList_NewCourse.length>0">
+              <div class="card-header">
+                <b>&nbsp;New Course</b>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                    <table class="table table-responsive table-bordered">
+                      <thead>
+                        <tr>
+                          <th>Sr.No.</th>
+                          <th>Course</th>
+                          <th>Subject</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let item of ApplyNocParameterMasterList_NewCourse; let idx=index ">
+                          <td>{{idx+1}}</td>
+                          <td>{{item.CourseName}}</td>
+                          <td>
+                            <p *ngFor="let row of item.SubjectList; let sidx=index ">
+                              <input type="checkbox" class="checkboxSize" [(ngModel)]="row.IsSubjectChecked" id="chkSubject{{row.SubjectID}}{{sidx+1}}" name="chkCourse{{row.SubjectID}}{{sidx+1}}">
+                              &nbsp;<label for="chkSubject{{row.SubjectID}}{{sidx+1}}"> {{row.SubjectName}}</label>
+                            </p>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="card" *ngIf="ApplyNocParameterMasterList_NewCourseSubject.length>0">
+              <div class="card-header">
+                <b>&nbsp;New Subjects</b>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                    <table class="table table-responsive table-bordered">
+                      <thead>
+                        <tr>
+                          <th>Sr.No.</th>
+                          <th>Course</th>
+                          <th>Subject</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let item of ApplyNocParameterMasterList_NewCourseSubject; let idx=index ">
+                          <td>{{idx+1}}</td>
+                          <td>{{item.CourseName}}</td>
+                          <td>
+                            <p *ngFor="let row of item.SubjectList; let sidx=index ">
+                              <input type="checkbox" class="checkboxSize" [(ngModel)]="row.IsSubjectChecked" id="chkSubject{{row.SubjectID}}{{sidx+1}}" name="chkCourse{{row.SubjectID}}{{sidx+1}}">
+                              &nbsp;<label for="chkSubject{{row.SubjectID}}{{sidx+1}}"> {{row.SubjectName}}</label>
+                            </p>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="card" *ngIf="ApplyNocParameterMasterList_TNOCExtOfSubject.length>0">
+              <div class="card-header">
+                <b>&nbsp;TNOC Extension Of Subject</b>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                    <table class="table table-responsive table-bordered">
+                      <thead>
+                        <tr>
+                          <th>Sr.No.</th>
+                          <th>Course</th>
+                          <th>Subject</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let item of ApplyNocParameterMasterList_TNOCExtOfSubject; let idx=index ">
+                          <td>{{idx+1}}</td>
+                          <td>{{item.CourseName}}</td>
+                          <td>
+                            <p *ngFor="let row of item.SubjectList; let sidx=index ">
+                              <input type="checkbox" class="checkboxSize" [(ngModel)]="row.IsSubjectChecked" id="chkSubject{{row.SubjectID}}{{sidx+1}}" name="chkCourse{{row.SubjectID}}{{sidx+1}}">
+                              &nbsp;<label for="chkSubject{{row.SubjectID}}{{sidx+1}}"> {{row.SubjectName}}</label>
+                            </p>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="card" *ngIf="ApplyNocParameterMasterList_TNOCExtOfSubject.length>0">
+              <div class="card-header">
+                <b>&nbsp;TNOC Extension </b>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                    <label class="form-label" style="margin-right:15px">No. of Issued Year : </label>
+                    <select class="form-select" id="ddlIssueYear" name="ddlIssueYear" [(ngModel)]="IssuedYear">
+                      <option value='0'>--Select--</option>
+                      <option value='1'>One</option>
+                      <option value='2'>Two</option>
+
+                    </select>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+              <label>NOC Issued Remark</label>
+              <textarea id="NOCIssuedRemark" class="form-control" [(ngModel)]="NOCIssuedRemark"></textarea>
+              <p *ngIf="isSubmitNOC&&NOCIssuedRemark==''" class="text-danger"> This field is required .!</p>
+            </div>
+
+          </div>
+          <div class="modal-footer">
+            <button type="button" (click)="GeneratePDF_OnClick()" title="Generate PDF" class="btn btn-primary">Submit</button>
+            <button type="button" class="btn btn-danger" aria-label="Close" (click)="modal.dismiss('Cross click')">Cancel</button>
+          </div>
+        </ng-template>
 
 
-        
       </div>
     </div>
   </div>
