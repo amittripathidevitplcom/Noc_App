@@ -1107,7 +1107,9 @@ export class ApplyNocParameterComponent implements OnInit {
         //for Dec New Subject
         if (this.ApplyNocParameterMasterList_NewCourse?.ApplyNocParameterCourseList != null) {
           //for Dec New Subject
-          this.request.TotalFeeAmount += this.ApplyNocParameterMasterList_NewCourse.ApplyNocParameterCourseList.map(t => t.CourseFeesAmount).reduce((acc, value) => acc + value, 0)
+          if (this.SelectedDepartmentID != 1) {
+            this.request.TotalFeeAmount += this.ApplyNocParameterMasterList_NewCourse.ApplyNocParameterCourseList.map(t => t.CourseFeesAmount).reduce((acc, value) => acc + value, 0)
+          }
         }
         //for Dec New Subject
         if (this.ApplyNocParameterMasterList_NewCourseSubject?.ApplyNocParameterCourseList != null) {
@@ -1140,8 +1142,8 @@ export class ApplyNocParameterComponent implements OnInit {
         this.request.TotalNocFee += this.DepartmentInspectionFee;
 
         this.request.TotalFeeAmount += this.DepartmentInspectionFee;
-           this.request.TotalFeeAmount += this.request.TotalDefaulterCollegePenalty;
-        
+        this.request.TotalFeeAmount += this.request.TotalDefaulterCollegePenalty;
+
 
 
 
@@ -1175,6 +1177,8 @@ export class ApplyNocParameterComponent implements OnInit {
           if (SelectedCourselist.length == 0) {
             if (this.CollegeDepartmentID == EnumDepartment.Animal_Husbandry)
               this.toastr.error("Choose any Course from 'NOC For New Course'");
+            else if (this.CollegeDepartmentID == EnumDepartment.Agriculture)
+              this.toastr.error("Choose any Course from 'TNOC Extension'");
             else
               this.toastr.error("Choose any subject from 'NOC For New Course'");
             return;
@@ -2264,8 +2268,9 @@ export class ApplyNocParameterComponent implements OnInit {
     data.ApplyNocParameterSubjectList = this.SubjectDetails.filter(f => f.IsChecked == true);
     this.ApplyNocParameterMasterList_NewCourse.ApplyNocParameterCourseList.push(data);
 
-    this.ApplyNocParameterMasterList_NewCourse.FeeAmount = this.ApplyNocParameterMasterList_NewCourse.ApplyNocParameterCourseList.map(t => t.CourseFeesAmount).reduce((acc, value) => acc + value, 0)
-
+    if (this.SelectedDepartmentID != 1) {
+      this.ApplyNocParameterMasterList_NewCourse.FeeAmount = this.ApplyNocParameterMasterList_NewCourse.ApplyNocParameterCourseList.map(t => t.CourseFeesAmount).reduce((acc, value) => acc + value, 0)
+    }
     //calc
     this.CalculateAllAmount();
 
@@ -2780,7 +2785,9 @@ export class ApplyNocParameterComponent implements OnInit {
       //for Dec New Subject
       if (this.ApplyNocParameterMasterList_NewCourse?.ApplyNocParameterCourseList != null) {
         //for Dec New Subject
-        this.request.TotalFeeAmount += this.ApplyNocParameterMasterList_NewCourse.ApplyNocParameterCourseList.map(t => t.CourseFeesAmount).reduce((acc, value) => acc + value, 0)
+        if (this.SelectedDepartmentID != 1) {
+          this.request.TotalFeeAmount += this.ApplyNocParameterMasterList_NewCourse.ApplyNocParameterCourseList.map(t => t.CourseFeesAmount).reduce((acc, value) => acc + value, 0)
+        }
       }
       //for Dec New Subject
       if (this.ApplyNocParameterMasterList_NewCourseSubject?.ApplyNocParameterCourseList != null) {

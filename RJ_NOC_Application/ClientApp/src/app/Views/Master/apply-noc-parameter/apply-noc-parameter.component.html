@@ -749,7 +749,7 @@
     <!--New Course-->
     <div *ngIf="ApplyNocParameterMasterList_NewCourse != null">
       <div class="card-header border-top">
-        <b>Add New Course :₹ {{ApplyNocParameterMasterList_NewCourse.FeeAmount}}</b>
+        <b>{{SelectedDepartmentID ==1?'Add Course':'Add New Course'}}  :₹ {{ApplyNocParameterMasterList_NewCourse.FeeAmount}}</b>
         <button class="btn btn-sm btn-primary pull-right" id="btn" (click)="AddCourse_click(mymodalAddCourse)">Add Course</button>
       </div>
       <div class="table-responsive">

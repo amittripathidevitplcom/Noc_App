@@ -704,6 +704,9 @@ export class AddCollegeComponent implements OnInit {
         else if (this.request.DepartmentID == 4) {
           this.CollegeLevelList_FilterData = this.CollegeLevelList;
         }
+        else if (this.request.DepartmentID == 9) {
+          this.CollegeLevelList_FilterData = this.CollegeLevelList;
+        }
         else {
           this.CollegeLevelList_FilterData = this.CollegeLevelList.filter((element: any) => {
             return element.Name == "UG";

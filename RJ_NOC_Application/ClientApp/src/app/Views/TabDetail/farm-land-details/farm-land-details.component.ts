@@ -109,6 +109,7 @@ export class FarmLandDetailsComponent implements OnInit {
     }
     this.SelectedApplyNOCID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplyNOCID')?.toString()));
     this.QueryStringStatus = this.router.snapshot.paramMap.get('Status')?.toString();
+    debugger;
     this.GetAllFarmLandDetalsList(this.QueryStringCollegeID);
   }
   get form() { return this.farmlanddetailform.controls; }
@@ -458,9 +459,9 @@ export class FarmLandDetailsComponent implements OnInit {
     
     try {
       this.loaderService.requestStarted();
-      await this.farmLandDetailServiceService.GetAllFarmLandDetalsListByCollegeID(CollegeID,this.SelectedApplyNOCID)
+      await this.farmLandDetailServiceService.GetAllFarmLandDetalsListByCollegeID(CollegeID, this.SelectedApplyNOCID > 0 ? this.SelectedApplyNOCID:0)
         .then((data: any) => {
-
+          debugger;
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
