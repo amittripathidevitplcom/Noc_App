@@ -164,6 +164,7 @@ export class AddCoursesComponent implements OnInit {
   }
   public CollegeLevel: string = '';
   async ddlCollege_change(SeletedCollegeID: any) {
+    this.CourseLevelList = [];
     this.request.Seats = 0;
     try {
       await this.commonMasterService.GetCollegeBasicDetails(SeletedCollegeID)
@@ -464,6 +465,7 @@ export class AddCoursesComponent implements OnInit {
 
   }
   async Edit_OnClick(CollegeWiseCourseID: number) {
+    debugger;
     this.isSubmitted = false;
     try {
       this.loaderService.requestStarted();
@@ -483,8 +485,9 @@ export class AddCoursesComponent implements OnInit {
           }
 
           this.request.CourseLevelID = data['Data'][0]["CourseLevelID"];
+          console.log(this.request.CourseLevelID);
           if (this.request.DepartmentID == EnumDepartment.CollegeEducation || this.request.DepartmentID == EnumDepartment.Animal_Husbandry
-            || this.request.DepartmentID == EnumDepartment.MedicalGroup3 || this.request.DepartmentID == EnumDepartment.Bed_CollegeEducation || this.request.DepartmentID == EnumDepartment.ParaMedical) {
+            || this.request.DepartmentID == EnumDepartment.MedicalGroup3 || this.request.DepartmentID == EnumDepartment.Bed_CollegeEducation || this.request.DepartmentID == EnumDepartment.ParaMedical || this.request.DepartmentID == EnumDepartment.Agriculture) {
             await this.ddlCourseLevel_change(this.request.CourseLevelID);
           }
 

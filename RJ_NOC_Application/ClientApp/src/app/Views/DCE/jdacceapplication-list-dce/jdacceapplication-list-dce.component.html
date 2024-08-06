@@ -489,6 +489,38 @@
                 </div>
               </div>
             </div>
+            <div class="card" *ngIf="ApplyNocParameterMasterList_PNOCOfSubject.length>0">
+              <div class="card-header">
+                <b>&nbsp;Permanent Noc For Subjects</b>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                    <table class="table table-responsive table-bordered">
+                      <thead>
+                        <tr>
+                          <th>Sr.No.</th>
+                          <th>Course</th>
+                          <th>Subject</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let item of ApplyNocParameterMasterList_PNOCOfSubject; let idx=index ">
+                          <td>{{idx+1}}</td>
+                          <td>{{item.CourseName}}</td>
+                          <td>
+                            <p *ngFor="let row of item.SubjectList; let sidx=index ">
+                              <input type="checkbox" class="checkboxSize" [(ngModel)]="row.IsSubjectChecked" id="chkSubject{{row.SubjectID}}{{sidx+1}}" name="chkCourse{{row.SubjectID}}{{sidx+1}}">
+                              &nbsp;<label for="chkSubject{{row.SubjectID}}{{sidx+1}}"> {{row.SubjectName}}</label>
+                            </p>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
             <div class="card" *ngIf="ApplyNocParameterMasterList_TNOCExtOfSubject.length>0">
               <div class="card-header">
                 <b>&nbsp;TNOC Extension </b>

@@ -98,6 +98,7 @@ export class JDACCEApplicationListDCEComponent implements OnInit {
   public ApplyNocParameterMasterList_ChangeInCollegeManagement: any = null;
   public ApplyNocParameterMasterList_ChangeInNameOfCollege: any = null;
   public ApplyNocParameterMasterList_ChangeInPlaceOfCollege: any = null;
+  public ApplyNocParameterMasterList_PNOCOfSubject: any = null;
   constructor(private applyNocParameterService: ApplyNocParameterService, private medicalDocumentScrutinyService: MedicalDocumentScrutinyService, private modalService: NgbModal, private loaderService: LoaderService, private toastr: ToastrService, private applyNOCApplicationService: ApplyNOCApplicationService,
     private router: ActivatedRoute, private routers: Router, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService,
     private fileUploadService: FileUploadService, private committeeMasterService: CommitteeMasterService, private decDocumentScrutinyService: DCEDocumentScrutinyService, private sSOLoginService: SSOLoginService, private aadharServiceDetails: AadharServiceDetails
@@ -310,6 +311,7 @@ export class JDACCEApplicationListDCEComponent implements OnInit {
     this.SelectedApplyNOCID = ApplyNOCID;
     this.ApplyNocParameterMasterList_NewCourse = [];
     this.ApplyNocParameterMasterList_TNOCExtOfSubject = [];
+    this.ApplyNocParameterMasterList_PNOCOfSubject = [];
     this.ApplyNocParameterMasterList_NewCourseSubject = [];
     this.ApplyNocParameterMasterList_ChangeInCollegeManagement = null;
     this.ApplyNocParameterMasterList_ChangeInNameOfCollege = null;
@@ -440,9 +442,40 @@ export class JDACCEApplicationListDCEComponent implements OnInit {
           return;
         }
       }
+
+      var PNOC = this.ApplyNocParameterMasterList.find((x: { IsChecked: boolean; ParameterCode: string }) => x.IsChecked == true && x.ParameterCode == 'DEC_PNOCSubject')?.IsChecked;
+      var PNOCCount = 0;
+      if (PNOC == true) {
+        for (var i = 0; i < this.ApplyNocParameterMasterList_PNOCOfSubject.length; i++) {
+          for (var j = 0; j < this.ApplyNocParameterMasterList_PNOCOfSubject[i].SubjectList.length; j++) {
+            if (this.ApplyNocParameterMasterList_PNOCOfSubject[i].SubjectList[j].IsSubjectChecked == true) {
+              PNOCCount++;
+              this.requestnoc.NOCDetails.push({
+                ApplyNOCID: this.ApplyNocParameterMasterList_PNOCOfSubject[i].ApplyNocApplicationID,
+                DepartmentID: this.SelectedDepartmentID,
+                RoleID: this.sSOLoginDataModel.RoleID,
+                UserID: this.sSOLoginDataModel.UserID,
+                CourseID: this.ApplyNocParameterMasterList_PNOCOfSubject[i].CourseID,
+                CourseName: this.ApplyNocParameterMasterList_PNOCOfSubject[i].CourseName,
+                SubjectID: this.ApplyNocParameterMasterList_PNOCOfSubject[i].SubjectList[j].SubjectID,
+                SubjectName: this.ApplyNocParameterMasterList_PNOCOfSubject[i].SubjectList[j].SubjectName,
+                ApplyNocParameterID: this.ApplyNocParameterMasterList_PNOCOfSubject[i].SubjectList[j].ApplyNocParameterID,
+              });
+            }
+          }
+        }
+      }
+      if (PNOCCount <= 0) {
+        this.isFormvalid = false;
+        this.toastr.warning('Please select atleast one Subject in PNOC for Subject');
+        return;
+      }
+
       if (!this.isFormvalid) {
         return;
       }
+
+
 
       this.loaderService.requestStarted();
       await this.applyNOCApplicationService.GenerateDraftNOCForDCE(this.requestnoc)
@@ -513,6 +546,10 @@ export class JDACCEApplicationListDCEComponent implements OnInit {
             else if (ParameterCode == 'DEC_NewSubject') {
               this.ApplyNocParameterMasterList_NewCourseSubject = data['Data'];
             }
+            else if (ParameterCode == 'DEC_PNOCSubject') {
+              
+              this.ApplyNocParameterMasterList_PNOCOfSubject = data['Data'];
+            }
           }
           else {
             this.toastr.error(this.ErrorMessage);
@@ -533,7 +570,7 @@ export class JDACCEApplicationListDCEComponent implements OnInit {
       this.loaderService.requestStarted();
       // get
       if (IsChecked) {
-        if (ParameterCode == 'DEC_NewCourse' || ParameterCode == 'DEC_TNOCExtOfSubject' || ParameterCode == 'DEC_NewSubject') {
+        if (ParameterCode == 'DEC_NewCourse' || ParameterCode == 'DEC_TNOCExtOfSubject' || ParameterCode == 'DEC_NewSubject' || ParameterCode =='DEC_PNOCSubject') {
           await this.GetApplyNOCCourseandSubject(ApplyNOCID, ParameterID, ParameterCode);
         }
         else {
@@ -563,6 +600,9 @@ export class JDACCEApplicationListDCEComponent implements OnInit {
                 }
                 else if (ParameterCode == 'DEC_ChangePlace') {
                   this.ApplyNocParameterMasterList_ChangeInPlaceOfCollege = null;
+                }
+                else if (ParameterCode == 'DEC_PNOCSubject') {
+                  this.ApplyNocParameterMasterList_PNOCOfSubject = [];
                 }
               }
             }, error => console.error(error));

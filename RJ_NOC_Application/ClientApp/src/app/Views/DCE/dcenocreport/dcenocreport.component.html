@@ -215,6 +215,7 @@
                   <th>Application Type</th>
                   <th>Status</th>
                   <th *ngIf="QueryStringStatus=='Submit'">Application Level</th>
+                  <th *ngIf="QueryStringStatus=='Submit'">Next User Name</th>
                   <th>District Name</th>
                   <th>Tehsil Name</th>
                   <th>Nodal College Name</th>
@@ -240,6 +241,7 @@
                   <td>{{row.ApplicationTypeName}}</td>
                   <td>{{row.Status}}</td>
                   <td *ngIf="QueryStringStatus=='Submit'">{{row.RoleName}}</td>
+                  <th *ngIf="QueryStringStatus=='Submit'">{{row.NextUser}}</th>
                   <td>{{row.DistrictName}}</td>
                   <td>{{row.TehsilName}}</td>
 
