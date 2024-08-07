@@ -509,9 +509,9 @@
                           <td>{{idx+1}}</td>
                           <td>{{item.CourseName}}</td>
                           <td>
-                            <p *ngFor="let row of item.SubjectList; let sidx=index ">
-                              <input type="checkbox" class="checkboxSize" [(ngModel)]="row.IsSubjectChecked" id="chkSubject{{row.SubjectID}}{{sidx+1}}" name="chkCourse{{row.SubjectID}}{{sidx+1}}">
-                              &nbsp;<label for="chkSubject{{row.SubjectID}}{{sidx+1}}"> {{row.SubjectName}}</label>
+                            <p *ngFor="let row of item.SubjectList; let sidxx=index ">
+                              <input type="checkbox" class="checkboxSize" [(ngModel)]="row.IsSubjectChecked" id="chkSubject_{{row.SubjectID}}{{sidxx+1}}" name="chkSubject_{{row.SubjectID}}{{sidxx+1}}">
+                              &nbsp;<label for="chkSubject_{{row.SubjectID}}{{sidxx+1}}"> {{row.SubjectName}}</label>
                             </p>
                           </td>
                         </tr>
