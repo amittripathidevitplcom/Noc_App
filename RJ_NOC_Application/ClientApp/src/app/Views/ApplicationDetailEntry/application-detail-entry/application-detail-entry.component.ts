@@ -283,6 +283,18 @@ export class ApplicationDetailEntryComponent implements OnInit {
                   }
                 }
 
+                if (this.SelectedDepartmentID == 1) {
+                  if (data['Data'][0]['data'][0]['TotalBuildingConstructArea'] < 7) {
+                    this.toastr.error('Please Enter Total Constructed Building Area grater then 7 hectare')
+                    this.isCheck30Female = true;
+                    return
+                  }
+                  if (data['Data'][0]['data'][0]['TotalFarmLandArea'] < 20) {
+                    this.toastr.error('Please enter Total Farm Land Area grater then 20 hectare')
+                    this.isCheck30Female = true;
+                    return;
+                  }
+                }
                 //
                 if (this.SelectedDepartmentID == 2 && this.CollegeType_IsExisting == true && this.IsAHDegreeCollege == false) {
                   this.SeatValue = Number(data['Data'][0]['data'][0]['SeatsValue'])

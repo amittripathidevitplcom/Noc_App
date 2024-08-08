@@ -107,6 +107,7 @@
                         <th>Trust Logo</th>
                         <th>Trustee Member Proof</th>
                         <th>Pan Proof</th>
+                        <th>Registration Document</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -128,6 +129,12 @@
                             <img src="{{CheckList_legalEntityListData1.SocietyPanProofDocPath}}" alt="Society Pan Proof" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
                           </a>
                           <a class="bi bi-file-earmark-pdf-fill" *ngIf="CheckList_legalEntityListData1.SocietyPanProofDocPath.includes('.pdf')" data-fancybox="gallery" href="{{CheckList_legalEntityListData1.SocietyPanProofDocPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                        </td>
+                        <td>
+                          <a *ngIf="!CheckList_legalEntityListData1.RegistrationDocPath.includes('.pdf')" data-fancybox="gallery" href="{{CheckList_legalEntityListData1.RegistrationDocPath}}" data-caption="Image 10" title="click here to zoom">
+                            <img src="{{CheckList_legalEntityListData1.RegistrationDocPath}}" alt="Registration Doc" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                          </a>
+                          <a class="bi bi-file-earmark-pdf-fill" *ngIf="CheckList_legalEntityListData1.RegistrationDocPath.includes('.pdf')" data-fancybox="gallery" href="{{CheckList_legalEntityListData1.RegistrationDocPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
                         </td>
                       </tr>
                     </tbody>

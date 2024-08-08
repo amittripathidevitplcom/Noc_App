@@ -228,6 +228,10 @@ export class BuildingDetailsComponent implements OnInit {
       this.RangeType = 'in Sq. Meter';
       this.Owin_RentDocTitle = '';
     }
+    else if (this.SelectedDepartmentID == 1) {
+      this.SampleDocument = '';
+      this.RangeType = 'in hectare';
+    }
     else {
       this.SampleDocument = '';
       this.RangeType = 'in Sq. Ft'
