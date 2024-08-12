@@ -93,22 +93,6 @@
               <div class="card-body">
                 <div class="">
                   <div class="dashCardIcon">
-                    <i class="fa fa-lock"></i>
-                  </div>
-                  <div class="dashCardContent">
-                    <h4>Total Submitted Application</h4>
-                    <h2>{{dashboardDataModel.TotalSubmittedApplication}}</h2>
-                  </div>
-                </div>
-              </div>
-              <a routerLink="/totalapplicationlist/Submit">View more <i class="fa fa-chevron-circle-right"></i></a>
-            </div>
-          </div>
-          <div class="col-lg-2 col-md-4 col-sm-6 col-12">
-            <div class="card staticsCards ">
-              <div class="card-body">
-                <div class="">
-                  <div class="dashCardIcon">
                     <i class="fa fa-hourglass-end"></i>
                   </div>
                   <div class="dashCardContent">
@@ -120,6 +104,23 @@
               <a routerLink="/totalapplicationlist/PendingSubmit">View more <i class="fa fa-chevron-circle-right"></i></a>
             </div>
           </div>
+          <div class="col-lg-2 col-md-4 col-sm-6 col-12">
+            <div class="card staticsCards ">
+              <div class="card-body">
+                <div class="">
+                  <div class="dashCardIcon">
+                    <i class="fa fa-lock"></i>
+                  </div>
+                  <div class="dashCardContent">
+                    <h4>Total Submitted Application</h4>
+                    <h2>{{dashboardDataModel.TotalSubmittedApplication}}</h2>
+                  </div>
+                </div>
+              </div>
+              <a routerLink="/totalapplicationlist/Submit">View more <i class="fa fa-chevron-circle-right"></i></a>
+            </div>
+          </div>
+
           <div class="col-lg-2 col-md-4 col-sm-6 col-12" *ngIf="this.sSOLoginDataModel.DepartmentID==2">
             <div class="card staticsCards ">
               <div class="card-body">

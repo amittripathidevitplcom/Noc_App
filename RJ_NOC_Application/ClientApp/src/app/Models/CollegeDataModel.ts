@@ -71,6 +71,14 @@ export class CollegeDataModel {
   public FundingSources: string = '';
   public FundingSourcesPath: string = '';
   public FundingSources_Dis_FileName: string = '';
+
+  //Agriculture
+  public AppliedICAR: string = '';
+  public ApprovedICAR: string = '';
+  public ICARDocument: string = '';
+  public ICARDocumentPath: string = '';
+  public ICARDocument_Dis_FileName: string = '';
+
 }
 export class ContactDetailsDataModel {
   public ContactID: number = 0;

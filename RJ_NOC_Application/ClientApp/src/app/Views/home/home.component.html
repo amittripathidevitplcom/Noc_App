@@ -4,7 +4,8 @@
       <div class="col-lg-3 col-md-4 col-sm-6 col-12">
         <img src="../../../assets/images/logo.png" class="img-fluid" />
       </div>
-      <div class="col-lg-9 col-md-8 col-sm-6 col-12 contactMarquee">
+
+      <div class="col-lg-6 col-md-6 col-sm-6 col-12 contactMarquee">
         <marquee direction="left" onmouseover="this.stop();" onmouseout="this.start();" scrollamount="5">
           <!--Without maarquee use this class in bottom UL - w-100 justify-content-end-->
           <ul class="d-flex align-items-center flex-wrap">
@@ -22,16 +23,19 @@
           </ul>
         </marquee>
       </div>
+      <div class="col-lg-3 col-md-4 col-sm-6 col-12">
+        <img src="../../../assets/images/Tirngabanner.jpeg"  width="350" class="img-fluid" />
+      </div>
       <!--<div class="col-lg-9 col-md-8 col-sm-6 col-12 CMBox">
-        <div class="d-flex align-items-center flex-end w-100" style="justify-content:flex-end">
-          <img src="../../../assets/images/cm1.png" style="width:75px;" />
-          <div class="me-3">
-            <h5 class="m-0 f-600">Shri Bhajanlal Sharma</h5>
-            <h6 class="m-0">Hon'ble Chief Minister</h6>
-          </div>
-        </div>
+    <div class="d-flex align-items-center flex-end w-100" style="justify-content:flex-end">
+      <img src="../../../assets/images/cm1.png" style="width:75px;" />
+      <div class="me-3">
+        <h5 class="m-0 f-600">Shri Bhajanlal Sharma</h5>
+        <h6 class="m-0">Hon'ble Chief Minister</h6>
+      </div>
+    </div>
 
-      </div>-->
+  </div>-->
     </div>
   </div>
 </header>
@@ -54,15 +58,15 @@
           </button>
 
           <!--<button (click)="GetUserManualDocumentMasterList(9)"  class=" service-item style-3 nav-link" id="v-pills-d2-tab" data-bs-toggle="pill" data-bs-target="#v-pills-d2" type="button" role="tab" aria-controls="v-pills-d2" aria-selected="false">
-            <div class="service-icon">
-              <img src="../../../assets/images/2.jpg" />
+          <div class="service-icon">
+            <img src="../../../assets/images/2.jpg" />
+          </div>
+          <div class="service-desc">
+            <div class="service-title">
+              <h4>Rajasthan PARA-Medical Council</h4>
             </div>
-            <div class="service-desc">
-              <div class="service-title">
-                <h4>Rajasthan PARA-Medical Council</h4>
-              </div>
-            </div>
-          </button>-->
+          </div>
+        </button>-->
 
 
           <button (click)="GetUserManualDocumentMasterList(4)" class=" service-item style-3 nav-link" id="v-pills-d3-tab" data-bs-toggle="pill" data-bs-target="#v-pills-d3" type="button" role="tab" aria-controls="v-pills-d3" aria-selected="false">
@@ -183,7 +187,7 @@
             </div>
             <p class="mb-4">राज्य में संचालित तकनीकी संस्थानों के लिये राज्य सरकार द्वारा जारी किये जाने वाले अनापत्ति प्रमाण-पत्र (NOC) / राज्य सरकार का अभिमत प्राप्त करने के लिये सत्र 2024-25 हेतु तकनीकी पाठ्यक्रमों के साथ-साथ <b>BCA/BBA/BMS</b> के नये पाठ्यकम प्रारम्भ करने/संचालित करने एवं <b>Working Professionals</b> पाठ्यक्रमों को प्रारम्भ करने वाले तकनीकी संस्थान/ट्रस्ट/ सोसायटी से ऑनलाईन आवेदन पत्र <a href="https://sso.rajasthan.gov.in/signin?ru=UNOC" target="_blank">https://rajnoc.rajasthan.gov.in/</a> पर दिनांक <b>08-06-2024</b> से <b>14.06.2024</b> तक किये जा सकेंगे।</p>
             <!--<p class="mb-4"> ऑनलाइन एनओसी आवेदन पत्र की अंतिम तिथि 15 फरवरी 2024 से 22 फरवरी 2024 तक बढ़ा दी गई है। </p>
-            <p class="mb-4"> ऑनलाइन एनओसी आवेदन पत्र की अंतिम तिथि 22 फरवरी 2024 से 29 फरवरी 2024 तक बढ़ा दी गई है। </p>-->
+          <p class="mb-4"> ऑनलाइन एनओसी आवेदन पत्र की अंतिम तिथि 22 फरवरी 2024 से 29 फरवरी 2024 तक बढ़ा दी गई है। </p>-->
 
             <div class="buttons mt-2 mb-4">
               <a href="https://sso.rajasthan.gov.in/signin?ru=UNOC" target="_blank" class="btncomn">Login to SSO</a>
@@ -217,7 +221,7 @@
 
             <div class="buttons mt-2 mb-4">
               <a href="https://sso.rajasthan.gov.in/signin?ru=UNOC" target="_blank" class="btncomn">Login to SSO</a>
-              <a href="#" target="_blank" class="btncomn">View User Manual</a>
+              <a href="https://nocapi.rajasthan.gov.in/api/ImageFile/08Aug2024033432378553Agriculture%20User%20Manual%20PDF.pdf" target="_blank" class="btncomn">View User Manual</a>
             </div>
 
           </div>
@@ -266,6 +270,8 @@
         </div>
 
       </div>
+
+
       <div class="col-lg-3 OrderCircularBox">
         <h3 class="heading">Order & Circular</h3>
         <marquee direction="up" onmouseover="this.stop();" onmouseout="this.start();" scrollamount="5">
@@ -285,6 +291,7 @@
 
 
   </div>
+
   <div class="round-shape-animation"></div>
 
 </section>
@@ -303,13 +310,13 @@
         </ul>
 
       </div>
-      <div class="col-md-3 text-white">
+      <div class="col-md-2 text-white">
         <h5>RAJ NOC Mobile App </h5>
         <a href="../../../assets/MobileApp/RajNocMobileApp.rar" download>
           <img src="../../../assets/images/play-store-logo.png" alt="Play Store" class="img-fluid mt-3">
         </a>
       </div>
-      <div class="col-md-3 text-center">
+      <div class="col-md-2 text-center">
         <a href="https://home.rajasthan.gov.in/acb/" target="_blank">
           <img src="../../../assets/images/ACP.jpg" alt="logo" width="250" class="img-fluid mt-3">
         </a>
@@ -318,6 +325,9 @@
             <p class="mb-0 mt-0">All Rights Reserved to DoIT&C/RISL</p>
           </div>
         </div>
+      </div>
+      <div class="col-md-2 text-center">
+          <img src="../../../assets/images/TirangaLogo.jpeg" alt="logo" width="250" class="img-fluid mt-3">
       </div>
       <div class="col-md-3 text-end text-white ">
         <h5>Contact Us </h5>
@@ -329,9 +339,9 @@
         <p class="mb-0 mt-0">Website Visiter :<strong> 0584582</strong> <br />Last Update : <strong>10-01-2024 </strong></p>
       </div>
       <!--<div class="col-md-3 text-white text-end">
-        <h5>Get App</h5>
-        <a href="#" target="_blank"><img src="../../../assets/images/play-store-logo.png" class="img-fluid"/></a>
-      </div>-->
+    <h5>Get App</h5>
+    <a href="#" target="_blank"><img src="../../../assets/images/play-store-logo.png" class="img-fluid"/></a>
+  </div>-->
       <div class="col-md-12 text-center text-white d-block d-sm-block d-md-none d-lg-none d-xl-none d-xxl-none">
         <p class="mb-0 mt-0">All Rights Reserved to DoIT&C/RISL</p>
       </div>

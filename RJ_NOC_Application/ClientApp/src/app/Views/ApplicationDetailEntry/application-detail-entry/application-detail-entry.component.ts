@@ -294,6 +294,11 @@ export class ApplicationDetailEntryComponent implements OnInit {
                     this.isCheck30Female = true;
                     return;
                   }
+                  if (data['Data'][0]['data'][0]['ICARDetails'] =='') {
+                    this.toastr.error('Please update your ICAR details in College')
+                    this.isCheck30Female = true;
+                    return;
+                  }
                 }
                 //
                 if (this.SelectedDepartmentID == 2 && this.CollegeType_IsExisting == true && this.IsAHDegreeCollege == false) {

@@ -341,6 +341,10 @@ export class ApplicationPDFComponent implements OnInit {
       if (this.SelectedDepartmentID == 6) {
         pDFData.push({ "ContentName": "#CollegeHospitalDetails" })
       }
+      if (this.SelectedDepartmentID == 1) {
+        pDFData.push({ "ContentName": "#icardetails" })
+      }
+      
 
       pDFData.push({ "ContentName": "#CourseBasicDetails" })
       pDFData.push({ "ContentName": "#CollegeManagementSociety" })

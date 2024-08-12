@@ -37,11 +37,13 @@ export class ApplyNOCFDRDetailsComponent implements OnInit {
   public isValidFDRDocument: boolean = false;
   public showFDRDocument: boolean = false;
   public DocumentValidMessage: string = '';
+  public SelectedDepartmentID: number = 0;
   public SelectedCollageID: number = 0;
   public DApplicationNo: string = '';
 
   // model
   @Input() public CollegeID: number = 0;
+  @Input() public DepartmentID: number = 0;
   @Input() public ApplyNocApplicationID: number = 0;
   @Input() public IsSaveFDR: boolean = false;
   @Input() public CollegeName: string = '';
@@ -76,6 +78,7 @@ export class ApplyNOCFDRDetailsComponent implements OnInit {
 
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     this.SelectedCollageID = this.CollegeID;
+    this.SelectedDepartmentID = this.DepartmentID;
     this.request.ApplyNocID = this.ApplyNocApplicationID;
     this.request.CollegeName = this.CollegeName;
     this.DApplicationNo = this.ApplicationNo;
@@ -173,10 +176,17 @@ export class ApplyNOCFDRDetailsComponent implements OnInit {
     if (this.request.FDRNumber =='') {
       isValid = false;
     }
-   if (this.request.FDRAmount != Number(this.FDRDetailsData[0]['Amount']))
-    {
-      this.toastr.warning('please enter valid FDR Amount')
-      isValid= false;
+    if (this.SelectedDepartmentID != 1) {
+      if (this.request.FDRAmount != Number(this.FDRDetailsData[0]['Amount'])) {
+        this.toastr.warning('please enter valid FDR Amount')
+        isValid = false;
+      }
+    }
+    if (this.SelectedDepartmentID == 1) {
+      if (this.request.FDRAmount < Number(this.FDRDetailsData[0]['Amount'])) {
+        this.toastr.warning('please enter valid FDR Amount')
+        isValid = false;
+      }
     }
     // check all
     if (!isValid) {

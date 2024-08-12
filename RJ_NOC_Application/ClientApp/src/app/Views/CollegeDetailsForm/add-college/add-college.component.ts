@@ -89,6 +89,7 @@ export class AddCollegeComponent implements OnInit {
   public NAACAccreditedCertificateValidationMessage: string = '';
   public AffiliationDocumentValidationMessage: string = '';
   public FundingSourcesValidationMessage: string = '';
+  public ICARDocumentValidationMessage: string = '';
   public NACCValidityDateValidationMessage: string = '';
   public HospitalDocumentValidationMessage: string = '';
   public QueryStringCollageID: number = 0;
@@ -492,6 +493,14 @@ export class AddCollegeComponent implements OnInit {
         this.request.FundingSources = name;
         this.request.FundingSourcesPath = path;
         this.request.FundingSources_Dis_FileName = dis_Name;
+      }
+      else if (type == 'ICARDocument') {
+        this.ICARDocumentValidationMessage = msg;
+        this.request.ICARDocument = name;
+        this.request.ICARDocumentPath = path;
+        this.request.ICARDocument_Dis_FileName = dis_Name;
+        this.files = document.getElementById('fICARDocument');
+        this.files.value = '';
       }
     }
     catch (Ex) {
@@ -1380,6 +1389,17 @@ export class AddCollegeComponent implements OnInit {
         isValid = false;
       }
       if (this.request.ManagementTypeID <= 0) {
+        isValid = false;
+      }
+    }
+    if (this.request.DepartmentID == 1) {
+      if (this.request.AppliedICAR == "" || this.request.AppliedICAR == null) {
+        isValid = false;
+      }
+      if (this.request.AppliedICAR == "Yes" && (this.request.ApprovedICAR == "" || this.request.ApprovedICAR == null)) {
+        isValid = false;
+      }
+      if (this.request.AppliedICAR == "Yes" && this.request.ApprovedICAR == "Yes" && (this.request.ICARDocument == "" || this.request.ICARDocument == null)) {
         isValid = false;
       }
     }

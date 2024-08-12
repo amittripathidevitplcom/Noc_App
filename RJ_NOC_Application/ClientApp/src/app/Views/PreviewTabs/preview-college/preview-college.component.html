@@ -15,11 +15,11 @@
               <label>Type of College :</label>
               <input class="form-control disabled mt-1" disabled value="{{collegeListData.TypeofCollege}}" />
             </div>
-            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3"[hidden]="collegeListData.DepartmentID == 11">
+            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" [hidden]="collegeListData.DepartmentID == 11">
               <label>College Status :</label>
               <input class="form-control disabled mt-1" disabled value="{{collegeListData.CollegeStatus}}" />
             </div>
-            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3"[hidden]="collegeListData.DepartmentID == 11">
+            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" [hidden]="collegeListData.DepartmentID == 11">
               <label><b>College Logo :</b></label>
               <div class="clearfix"></div>
               <a *ngIf="!collegeListData.CollegeLogoPath.includes('.pdf')" data-fancybox="gallery" href="{{collegeListData.CollegeLogoPath}}" data-caption="Image 10" title="click here to zoom">
@@ -40,12 +40,12 @@
               <label>Management Type :</label>
               <input class="form-control disabled mt-1" disabled value="{{collegeListData.ManagementTypeName}}" />
             </div>
-            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="collegeListData.DepartmentID!=4"[hidden]="collegeListData.DepartmentID == 11">
+            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="collegeListData.DepartmentID!=4" [hidden]="collegeListData.DepartmentID == 11">
               <label>College Level :</label>
               <input class="form-control disabled mt-1" disabled value="{{collegeListData.CollegeLevel}}" />
             </div>
 
-            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="collegeListData.DepartmentID==4"[hidden]="collegeListData.DepartmentID == 11">
+            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="collegeListData.DepartmentID==4" [hidden]="collegeListData.DepartmentID == 11">
               <label>College Level :</label>
               <div class="form-control disabled mt-1" style="background-color: #e9ecef ">
                 <span *ngFor="let item of DTECollegeLevel let idx=index">
@@ -55,7 +55,7 @@
 
             </div>
 
-            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3"[hidden]="collegeListData.DepartmentID == 11">
+            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" [hidden]="collegeListData.DepartmentID == 11">
               <label>College Code :</label>
               <input class="form-control disabled mt-1" disabled value="{{collegeListData.CollegeCode}}" />
             </div>
@@ -232,7 +232,7 @@
                           </a>
                           <label *ngIf="row.Image1=='N/A'">{{row.Image1}}</label>
                           <!--<a class="bi bi-file-earmark-pdf-fill" *ngIf="row.HospitalDocumentPath.includes('.pdf')" data-fancybox="gallery" href="{{row.HospitalDocumentPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px">
-                          </a>-->
+                    </a>-->
                         </td>
                         <td>
                           <a *ngIf="row.Image2!='N/A'" data-fancybox="gallery" href="{{row.Image2}}" data-caption="Image 10" title="click here to zoom">
@@ -240,7 +240,7 @@
                           </a>
                           <label *ngIf="row.Image1=='N/A'">{{row.Image2}}</label>
                           <!--<a class="bi bi-file-earmark-pdf-fill" *ngIf="row.HospitalDocumentPath.includes('.pdf')" data-fancybox="gallery" href="{{row.HospitalDocumentPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px">
-                          </a>-->
+                    </a>-->
                         </td>
                       </tr>
                     </tbody>
@@ -303,6 +303,33 @@
                   <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
                     <label>Landline Number :</label>
                     <input class="form-control disabled mt-1" disabled value="{{collegeListData.GCD_LandlineNumber}}" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row" *ngIf="SelectedDepartmentID==1">
+          <div class="col-md-12">
+            <div class="card mb-0">
+              <div class="card-header">
+                <b><i class="bi bi-table"></i>ICAR Details </b>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                    <label>Have you applied for Accerditation in ICAR? :</label>
+                    <input class="form-control disabled mt-1" disabled value="{{collegeListData.AppliedICAR}}" />
+                  </div>
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="collegeListData.AppliedICAR=='Yes'">
+                    <label>Are you approved by ICAR?:</label>
+                    <input class="form-control disabled mt-1" disabled value="{{collegeListData.ApprovedICAR}}" />
+                  </div>
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="collegeListData.ApprovedICAR =='Yes' && collegeListData.AppliedICAR=='Yes'">
+                    <label><b>Upload Certificate of ICAR Accerditation :</b></label>
+                    <div class="clearfix"></div>
+                    <a class="bi bi-file-earmark-pdf-fill" *ngIf="collegeListData.ICARDocumentPath.includes('.pdf')" data-fancybox="gallery" href="{{collegeListData.ICARDocumentPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
                   </div>
                 </div>
               </div>

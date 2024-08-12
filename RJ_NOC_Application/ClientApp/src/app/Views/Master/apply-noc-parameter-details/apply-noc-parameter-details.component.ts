@@ -751,6 +751,7 @@ export class ApplyNocParameterDetailsComponent implements OnInit {
       // model
       const modalRef = this.modalService.open(ApplyNOCFDRDetailsComponent, { backdrop: 'static', size: 'xl', keyboard: false, centered: true });
       modalRef.componentInstance.CollegeID = item.CollegeID;
+      modalRef.componentInstance.DepartmentID = item.DepartmentID;
       modalRef.componentInstance.ApplyNocApplicationID = item.ApplyNocApplicationID;
       modalRef.componentInstance.IsSaveFDR = item.IsSaveFDR;
       modalRef.componentInstance.RefModal = modalRef;

@@ -21,16 +21,16 @@
   <form [formGroup]="CollegeDetailsForm" class="form-horizontal">
     <div class="card">
       <!--<div class="card-header d-flex justify-content-between align-items-center">
-        <b>Basic Information</b>
-        <span class="text-danger">(*) Fields is compulsory</span>
-      </div>-->
+    <b>Basic Information</b>
+    <span class="text-danger">(*) Fields is compulsory</span>
+  </div>-->
 
 
       <div class="card-header d-flex justify-content-between align-items-center">
         <b [hidden]="request.DepartmentID == 2">College Details </b>
         <b [hidden]="request.DepartmentID != 2">College/Institute Details</b>
-         
-       
+
+
       </div>
       <div class="card-body">
         <div class="row">
@@ -86,8 +86,8 @@
               </div>
             </div>
             <!--<div *ngIf="ProfileLogoValidationMessage!=''" class="text-danger">
-              <p><i aria-hidden="true"></i>{{ProfileLogoValidationMessage}}</p>
-            </div>-->
+          <p><i aria-hidden="true"></i>{{ProfileLogoValidationMessage}}</p>
+        </div>-->
           </div>
           <!---->
           <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="IsExisting">
@@ -147,12 +147,12 @@
           </div>
 
           <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" [hidden]="request.DepartmentID == 11 || (request.DepartmentID == 9 && IsExisting==false)">
-              <!--<span style="color:red;">*</span>-->
-              <label for="txtCollegeCode" class="form-label">College Code </label>
-              <input type="text" maxlength="15" class="form-control" id="txtCollegeCode" name="txtCollegeCode" [(ngModel)]="request.CollegeCode" formControlName="txtCollegeCode">
-              <div *ngIf="isSubmitted&&(request.DepartmentID==2 || request.DepartmentID==9) &&IsExisting&& request.CollegeCode==''" class="text-danger">
-                  <p *ngIf="isSubmitted&&(request.DepartmentID==2 || request.DepartmentID==9)&&IsExisting&& request.CollegeCode==''"><i aria-hidden="true"></i> This field is required .!</p>
-              </div>
+            <!--<span style="color:red;">*</span>-->
+            <label for="txtCollegeCode" class="form-label">College Code </label>
+            <input type="text" maxlength="15" class="form-control" id="txtCollegeCode" name="txtCollegeCode" [(ngModel)]="request.CollegeCode" formControlName="txtCollegeCode">
+            <div *ngIf="isSubmitted&&(request.DepartmentID==2 || request.DepartmentID==9) &&IsExisting&& request.CollegeCode==''" class="text-danger">
+              <p *ngIf="isSubmitted&&(request.DepartmentID==2 || request.DepartmentID==9)&&IsExisting&& request.CollegeCode==''"><i aria-hidden="true"></i> This field is required .!</p>
+            </div>
           </div>
 
 
@@ -241,8 +241,8 @@
             <label for="txtAISHECode" class="form-label">AISHE Code <span style="color:red;">*</span></label>
             <input type="text" class="form-control" id="txtAISHECode" name="txtAISHECode" [(ngModel)]="request.AISHECode" formControlName="txtAISHECode" maxlength="50">
             <!--<div *ngIf="AISHECodeValidationMessage!=''" class="text-danger">
-    <p><i aria-hidden="true"></i>{{AISHECodeValidationMessage}}</p>
-  </div>-->
+          <p><i aria-hidden="true"></i>{{AISHECodeValidationMessage}}</p>
+        </div>-->
             <p *ngIf="isSubmitted&&this.IsExisting == true && this.request.AISHECodeStatus == 1 && (this.request.AISHECode == null || this.request.AISHECode == '')" class="text-danger"><i aria-hidden="true"></i> This field is required .!</p>
           </div>
           <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
@@ -409,8 +409,8 @@
               <option *ngFor="let item of ParliamentAreaList" value="{{item.ParliamentAreaID}}">{{item.ParliamentAreaName}}</option>
             </select>
             <!--<div *ngIf="isSubmitted&&form.ddlParliamentAreaID.errors" class="text-danger">
-              <p *ngIf="!form.ddlParliamentAreaID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
-            </div>-->
+          <p *ngIf="!form.ddlParliamentAreaID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
+        </div>-->
           </div>
           <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
             <label for="ddlAssemblyAreaID" class="form-label">Assembly Area <!--<span style="color:red;">*</span>--></label>
@@ -419,8 +419,8 @@
               <option *ngFor="let item of AssembelyAreaList" value="{{item.AssemblyAreaID}}">{{item.AssemblyAreaName}}</option>
             </select>
             <!--<div *ngIf="isSubmitted&&form.ddlAssemblyAreaID.errors" class="text-danger">
-              <p *ngIf="!form.ddlAssemblyAreaID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
-            </div>-->
+          <p *ngIf="!form.ddlAssemblyAreaID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
+        </div>-->
           </div>
           <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
             <label for="txtCityTownVillage" class="form-label">City/Town/Village <span style="color:red;">*</span></label>
@@ -451,8 +451,8 @@
             <label for="txtAddressLine2" class="form-label">Address Line 2 </label>
             <input type="text" class="form-control" maxlength="200" id="txtAddressLine2" name="txtAddressLine2" [(ngModel)]="request.AddressLine2" formControlName="txtAddressLine2">
             <!--<div *ngIf="isSubmitted&&form.txtAddressLine2.errors" class="text-danger">
-              <p *ngIf="form.txtAddressLine2.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-            </div>-->
+          <p *ngIf="form.txtAddressLine2.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+        </div>-->
           </div>
 
           <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" [hidden]="!IsRural">
@@ -704,8 +704,8 @@
                 <label class="form-label">Address Line 2 </label>
                 <input type="text" class="form-control" maxlength="200" id="txtAddressLine2_Nearest" name="txtAddressLine2_Nearest" [(ngModel)]="request_NearestGovernmentHospitals.AddressLine2" formControlName="txtAddressLine2_Nearest">
                 <!--<div *ngIf="isSubmitted_NearestGovernmentHospitals&&form_NearestGovernmentHospitals.txtAddressLine2_Nearest.errors" class="text-danger">
-                  <p *ngIf="form_NearestGovernmentHospitals.txtAddressLine2_Nearest.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-                </div>-->
+              <p *ngIf="form_NearestGovernmentHospitals.txtAddressLine2_Nearest.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+            </div>-->
               </div>
               <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                 <label class="form-label">Select Area <span style="color:red;">*</span></label>
@@ -932,6 +932,61 @@
 
         </div>
       </div>
+
+
+
+
+      <div *ngIf="request.DepartmentID==1">
+        <div class="card-header border-top d-flex justify-content-between align-items-center">
+          <b>ICAR Details <span style="color:red;">*</span></b>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <label class="form-label">Have you applied for Accerditation in ICAR?<span style="color:red;">*</span></label>
+              <select class="form-select" id="ddlAppliedICAR" name="ddlAppliedICAR"
+                      [ngModelOptions]="{standalone: true}"
+                      [(ngModel)]="request.AppliedICAR">
+                <option value="">--Select--</option>
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+              </select>
+              <p *ngIf="isSubmitted&&request.DepartmentID==1&&(request.AppliedICAR=='0' ||request.AppliedICAR=='')" class="text-danger"><i aria-hidden="true"></i> This field is required .!</p>
+            </div>
+
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="request.AppliedICAR=='Yes'">
+              <label class="form-label">Are you approved by ICAR?<span style="color:red;">*</span></label>
+              <select class="form-select" id="ddlApprovedICAR" name="ddlApprovedICAR"
+                      [ngModelOptions]="{standalone: true}"
+                      [(ngModel)]="request.ApprovedICAR">
+                <option value="">--Select--</option>
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+              </select>
+              <p *ngIf="isSubmitted&&request.DepartmentID==1&& request.AppliedICAR=='Yes'&&(request.ApprovedICAR=='0' ||request.ApprovedICAR=='')" class="text-danger"><i aria-hidden="true"></i> This field is required .!</p>
+            </div>
+
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="request.ApprovedICAR=='Yes'&& request.AppliedICAR=='Yes'">
+              <label class="form-label">Upload Certificate of ICAR Accerditation<span style="color:red;">*</span></label>
+              <div class="d-flex">
+                <input type="file" style="display:none;" class="form-control" id="fICARDocument" name="fICARDocument" [ngModelOptions]="{standalone: true}" (change)="onFilechange($event,'ICARDocument')">
+                <label class="btn upload" for="fICARDocument">
+                  <span class="filename">Choose file</span>
+                  {{request.ICARDocument === '' ? 'No File Choosen' : request.ICARDocument_Dis_FileName}}
+                </label>
+                <div class="btn-group" *ngIf="request.ICARDocument !=''">
+                  <a class="btn btn-outline-primary" target="_blank" href="{{request.ICARDocumentPath}}"><i class="fa fa-eye"></i></a>
+                  <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('ICARDocument',request.ICARDocument)"><i class="fa fa-trash-o"></i></button>
+                </div>
+              </div>
+              <p *ngIf="isSubmitted&&request.DepartmentID==1&&(request.ICARDocument==null || request.ICARDocument=='')" class="text-danger"><i aria-hidden="true"></i>This field is required .!</p>
+              <p *ngIf="request.DepartmentID==1&&(request.ICARDocument==null || request.ICARDocument=='')" class="text-danger"><i aria-hidden="true"></i> {{ICARDocumentValidationMessage}}</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
       <div class="card-footer text-end">
         <button type="submit" (click)="SaveData()" class="btn btn-success"><i class="fa fa-save"></i> Save & Proceed To Management Society</button>
       </div>

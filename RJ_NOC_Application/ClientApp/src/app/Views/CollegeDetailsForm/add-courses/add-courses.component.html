@@ -124,7 +124,7 @@
               <label for="ddlSeatInformation" class="form-label">Seat Information  <span style="color:red">*</span></label>
               <select formControlName="ddlSeatInformation" id="ddlSeatInformation" [(ngModel)]="request.Seats" class="form-control">
                 <option value="0">--Select Seat--</option>
-                <option value="999999" *ngIf="this.request.DepartmentID !=9">0</option>
+                <option value="999999" *ngIf="this.request.DepartmentID !=9 && this.request.DepartmentID !=1">0</option>
                 <option [value]="item.ID" *ngFor="let item of seatInformationDataList">
                   {{item.Value}}
                 </option>

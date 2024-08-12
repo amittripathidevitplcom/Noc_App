@@ -673,6 +673,48 @@
               </div>
             </div>
           </div>
+
+          <div class="row" *ngIf="SelectedDepartmentID==1">
+            <div class="col-md-12">
+              <div class="card mb-0">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="table-responsive">
+                      <table class="table table-hover table-striped-columns text-left" id="icardetails" #content>
+                        <thead>
+                          <tr>
+                            <td colspan="3" style="    font-weight: 800;
+font-size: 18px;">
+                              <b><i class="bi bi-table"></i>&nbsp;ICAR Details </b>
+                            </td>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td>
+                              <label>Have you applied for Accerditation in ICAR?  :- {{collegeListData.AppliedICAR}}</label>
+                            </td>
+                            <td>
+                              <label *ngIf="collegeListData.AppliedICAR=='Yes'">Are you approved by ICAR? :- {{collegeListData.ApprovedICAR}}</label>
+                            </td>
+                            <td>
+                              <div *ngIf="collegeListData.ApprovedICAR=='Yes' && collegeListData.AppliedICAR=='Yes'">
+                                Upload Certificate of ICAR Accerditation :-
+                                <div class="clearfix"></div>
+                                <a class="bi bi-file-earmark-pdf-fill" *ngIf="collegeListData.ICARDocumentPath.includes('.pdf')" data-fancybox="gallery" href="{{collegeListData.ICARDocumentPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                              </div>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
           <div class="row" *ngIf="collegeNearestGovernmentHospitalsList.length>0">
             <div class="col-md-12">
               <div class="card mb-0">
@@ -1340,7 +1382,7 @@ font-size: 18px;">
                     </td>
                     <td>
                       Designation:- {{item.RoleName}}<br />
-                                                     <span *ngIf="(item.RoleName=='Technician'|| item.RoleName=='Lecturer'|| item.RoleName=='Assistant Professor')&& SelectedDepartmentID ==9">{{item.RoleName=='Technician'?'Paramedical Counsil Registered Number':item.RoleName=='Lecturer'|| item.RoleName=='Assistant Professor'?'RMC Registered Number':''}} :- {{item.DesignationRegistrationNo}} </span><br />
+                      <span *ngIf="(item.RoleName=='Technician'|| item.RoleName=='Lecturer'|| item.RoleName=='Assistant Professor')&& SelectedDepartmentID ==9">{{item.RoleName=='Technician'?'Paramedical Counsil Registered Number':item.RoleName=='Lecturer'|| item.RoleName=='Assistant Professor'?'RMC Registered Number':''}} :- {{item.DesignationRegistrationNo}} </span><br />
                       <span *ngIf="item.TeachingType=='Teaching'">Subject :- {{item.SubjectName}}</span><br />
                       Staff Status:- {{item.StaffStatus}}<br />
                       Annual Salary:- {{item.Salary}}<br />
@@ -2536,7 +2578,7 @@ font-size: 18px;">
         <!--Offline Payment Details-->
         <div class="card-body" *ngIf="OfflinePaymentDataModel.length>0">
           <div class="row">
-            <div class="table-responsive" >
+            <div class="table-responsive">
               <table class="table table-hover table-striped-columns" id="OfflinePayment" #content>
                 <thead>
                   <tr>
