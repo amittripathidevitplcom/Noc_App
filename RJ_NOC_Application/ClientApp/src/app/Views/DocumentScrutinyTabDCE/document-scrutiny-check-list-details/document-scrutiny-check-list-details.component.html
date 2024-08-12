@@ -217,11 +217,11 @@
               <table class="table table-bordered table-hover table-striped">
                 <thead>
                   <tr>
-                    <th>
+                    <!--<th>
                       Compliance<br />
 
                     </th>
-                    <th>Remark</th>
+                    <th>Remark</th>-->
 
 
                     <th>Sr. No.</th>
@@ -235,12 +235,12 @@
                 </thead>
                 <tbody>
                   <tr *ngFor="let row of CheckList_legalEntityInstituteDetailData; let indexOfelement=index;">
-                    <td>
+                    <!--<td>
                       {{row.Action}}
                     </td>
                     <td>
                       {{row.Action=='No'?row.Remark:''}}
-                    </td>
+                    </td>-->
                     <td> {{indexOfelement+1}}</td>
                     <td>{{row.RegistrationNo}}</td>
                     <td>{{row.InstituteName}}</td>

@@ -255,7 +255,7 @@
                     <table class="table table-bordered table-hover table-striped">
                       <thead>
                         <tr>
-                          <th>
+                          <!--<th>
                             Compliance<br />
                             <div class="form-check form-check-inline">
                               <input class="form-check-input" type="radio" name="rdInstituteSelectAllActionType" id="rdInstituteSelectAllYes" value="Yes" (change)="selectInstituteAll('Yes')">
@@ -266,7 +266,7 @@
                               <label class="form-check-label">No</label>
                             </div>
                           </th>
-                          <!--<th *ngIf="sSOLoginDataModel.RoleID==3 || sSOLoginDataModel.RoleID==5">Clerk Action</th>
+                          <th *ngIf="sSOLoginDataModel.RoleID==3 || sSOLoginDataModel.RoleID==5">Clerk Action</th>
                           <th *ngIf="sSOLoginDataModel.RoleID==5">Section Officer Action</th>-->
                           <th>Sr. No.</th>
                           <th>Registration No.</th>
@@ -280,7 +280,7 @@
                       </thead>
                       <tbody>
                         <tr *ngFor="let row of legalEntityInstituteDetailData; let indexOfelement=index;">
-                          <td>
+                          <!--<td>
                             <div class="col-lg-12 col-md-12 col-sm-6 col-12 mb-3">
                               <div class="form-check form-check-inline">
                                 <input class="form-check-input" type="radio" name="rdInstituteActionType{{indexOfelement+1}}" id="rdInstituteActionTypeYes{{indexOfelement+1}}" [(ngModel)]="row.Action" value="Yes" (change)="ClickInstituteOnAction(indexOfelement)">
@@ -298,7 +298,7 @@
                               </div>
                             </div>
 
-                          </td>
+                          </td>-->
                           <!--<td *ngIf="sSOLoginDataModel.RoleID==3 || sSOLoginDataModel.RoleID==5">
                             Compliance: {{row.C_Action}}<br />
                             <p [hidden]="row.C_Action !='No'">Remark : {{row.C_Remark}}</p>

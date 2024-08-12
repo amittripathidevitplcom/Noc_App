@@ -165,20 +165,20 @@ export class AhDocumentScrutinyLegalEntityComponent implements OnInit {
         }
       }
     }
-    if (this.legalEntityInstituteDetailData != null) {
-      for (var i = 0; i < this.legalEntityInstituteDetailData.length; i++) {
-        if (this.legalEntityInstituteDetailData[i].Action == '' || this.legalEntityInstituteDetailData[i].Action == undefined) {
-          this.toastr.warning('Please take Institute Action on all records');
-          return;
-        }
-        if (this.legalEntityInstituteDetailData[i].Action == 'No') {
-          if (this.legalEntityInstituteDetailData[i].Remark == '' || this.legalEntityInstituteDetailData[i].Remark == undefined) {
-            this.toastr.warning('Please enter Institute remark');
-            return;
-          }
-        }
-      }
-    }
+    //if (this.legalEntityInstituteDetailData != null) {
+    //  for (var i = 0; i < this.legalEntityInstituteDetailData.length; i++) {
+    //    if (this.legalEntityInstituteDetailData[i].Action == '' || this.legalEntityInstituteDetailData[i].Action == undefined) {
+    //      this.toastr.warning('Please take Institute Action on all records');
+    //      return;
+    //    }
+    //    if (this.legalEntityInstituteDetailData[i].Action == 'No') {
+    //      if (this.legalEntityInstituteDetailData[i].Remark == '' || this.legalEntityInstituteDetailData[i].Remark == undefined) {
+    //        this.toastr.warning('Please enter Institute remark');
+    //        return;
+    //      }
+    //    }
+    //  }
+    //}
     if (this.dsrequest.FinalRemark == '') {
       this.isRemarkValid = true;
       this.isFormvalid = false;
@@ -203,25 +203,25 @@ export class AhDocumentScrutinyLegalEntityComponent implements OnInit {
         });
       }
     }
-    if (this.legalEntityInstituteDetailData != null) {
-      if (this.legalEntityInstituteDetailData.length > 0) {
-        for (var i = 0; i < this.legalEntityInstituteDetailData.length; i++) {
-          console.log(this.legalEntityInstituteDetailData[i]);
-          this.dsrequest.DocumentScrutinyDetail.push({
-            DocumentScrutinyID: 0,
-            DepartmentID: this.SelectedDepartmentID,
-            CollegeID: this.SelectedCollageID,
-            UserID: 0,
-            RoleID: this.sSOLoginDataModel.RoleID,
-            ApplyNOCID: this.SelectedApplyNOCID,
-            Action: this.legalEntityInstituteDetailData[i].Action,
-            Remark: this.legalEntityInstituteDetailData[i].Remark,
-            TabRowID: this.legalEntityInstituteDetailData[i].InstituteID,
-            SubTabName: 'InstituteDetail'
-          });
-        }
-      }
-    }
+    //if (this.legalEntityInstituteDetailData != null) {
+    //  if (this.legalEntityInstituteDetailData.length > 0) {
+    //    for (var i = 0; i < this.legalEntityInstituteDetailData.length; i++) {
+    //      console.log(this.legalEntityInstituteDetailData[i]);
+    //      this.dsrequest.DocumentScrutinyDetail.push({
+    //        DocumentScrutinyID: 0,
+    //        DepartmentID: this.SelectedDepartmentID,
+    //        CollegeID: this.SelectedCollageID,
+    //        UserID: 0,
+    //        RoleID: this.sSOLoginDataModel.RoleID,
+    //        ApplyNOCID: this.SelectedApplyNOCID,
+    //        Action: this.legalEntityInstituteDetailData[i].Action,
+    //        Remark: this.legalEntityInstituteDetailData[i].Remark,
+    //        TabRowID: this.legalEntityInstituteDetailData[i].InstituteID,
+    //        SubTabName: 'InstituteDetail'
+    //      });
+    //    }
+    //  }
+    //}
     try {
       this.loaderService.requestStarted();
       await this.applyNOCApplicationService.SaveDocumentScrutiny(this.dsrequest)
