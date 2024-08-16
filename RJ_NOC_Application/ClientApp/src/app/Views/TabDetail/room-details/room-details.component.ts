@@ -157,7 +157,7 @@ export class RoomDetailsComponent implements OnInit {
 
 
   async LoadMaster() {
-   
+
     try {
       this.loaderService.requestStarted();
       await this.commonMasterService.GetCourseList_CollegeWise(this.SelectedCollageID)
@@ -416,8 +416,14 @@ export class RoomDetailsComponent implements OnInit {
       }
     }
     if (this.SelectedDepartmentID == 9) {
-      if ((this.request.Length * this.request.Width) < 450) {
+      var size = (this.request.Length * this.request.Width);
+      if (this.request.StudentCapacity <= 25 && size < 450) {
         this.toastr.error('Minimum Room Size Required : 450 Sq.Feet');
+        this.isformvalid = false;
+      }
+      else if (this.request.StudentCapacity > 25 && size < 600)
+      {
+        this.toastr.error('Minimum Room Size Required : 600 Sq.Feet');
         this.isformvalid = false;
       }
     }

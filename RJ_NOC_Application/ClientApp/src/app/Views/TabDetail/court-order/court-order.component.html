@@ -8,6 +8,25 @@
     <div class="card-body">
       <div class="row">
         <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+          <label for="ddlCourtName" class="form-label">Court Name<span style="color:red;">*</span></label>
+          <select class="form-select" id="ddlCourtName" name="ddlCourtName" formControlName="ddlCourtName"
+                  [(ngModel)]="request.CourtName">
+            <option value="">--Select--</option>
+            <option value="Jaipur High Court">Jaipur High Court</option>
+            <option value="Jodhpur High Court">Jodhpur High Court</option>
+          </select>
+          <div *ngIf="isSubmitted&&form.ddlCourtName.errors" class="text-danger">
+            <p *ngIf="form.ddlCourtName.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+          <label class="form-label">Civil Petition No <span style="color:red;">*</span></label>
+          <input type="text" class="form-control" id="txtCivilPetitionNo" name="txtCivilPetitionNo" [(ngModel)]="request.CivilPetitionNo" formControlName="txtCivilPetitionNo" />
+          <div *ngIf="isSubmitted&&form.txtCivilPetitionNo.errors" class="text-danger">
+            <p *ngIf="form.txtCivilPetitionNo.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
           <label class="form-label">Order Name <span style="color:red;">*</span></label>
           <input type="text" class="form-control" id="txtOrderName" name="txtOrderName" [(ngModel)]="request.OrderName" formControlName="txtOrderName" />
           <div *ngIf="isSubmitted&&form.txtOrderName.errors" class="text-danger">
@@ -71,6 +90,8 @@
           <thead>
             <tr>
               <th>Sr. No</th>
+              <th>Court Name</th>
+              <th>Civil Petition No</th>
               <th>Order Name</th>
               <th>Order Date</th>
               <th>Upload Document</th>
@@ -80,6 +101,8 @@
           <tbody>
             <tr *ngFor="let item of courtOrderList | tableSearchFilter:searchText;let idx=index;">
               <td>{{idx+1}}</td>
+              <td>{{item.CourtName}}</td>
+              <td>{{item.CivilPetitionNo}}</td>
               <td>{{item.OrderName}}</td>
               <td>{{item.OrderDate}}</td>
               <td>

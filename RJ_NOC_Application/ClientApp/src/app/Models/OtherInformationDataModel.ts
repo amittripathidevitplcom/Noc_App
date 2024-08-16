@@ -19,6 +19,9 @@ export class OtherInformationDataModel {
   public Action: string = '';
   public Remark: string = '';
   public CourseName: string = '';
+  public BookInvoiceFileName: string = '';
+  public BookInvoiceFilePath: string = '';
+  public BookInvoice_Dis_FileName: string = '';
 
 
   public C_Action: string = '';

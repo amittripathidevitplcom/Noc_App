@@ -694,13 +694,13 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-  public async GetQualificationMasterList_DepartmentWise(DepartmentID: number, IsTeaching: number, Type: string = '-1') {
+  public async GetQualificationMasterList_DepartmentWise(DepartmentID: number, IsTeaching: number, Type: string = '-1', DesignationID: number=0) {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     };
-    return await this.http.get(this.APIUrl_CommonMaster + "/GetQualificationMasterList_DepartmentWise/" + DepartmentID + "/" + IsTeaching + "/" + Type)
+    return await this.http.get(this.APIUrl_CommonMaster + "/GetQualificationMasterList_DepartmentWise/" + DepartmentID + "/" + IsTeaching + "/" + Type + "/" + DesignationID)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();
