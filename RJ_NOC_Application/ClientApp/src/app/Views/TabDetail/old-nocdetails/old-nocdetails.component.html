@@ -127,6 +127,7 @@
           <div *ngIf="isSubmitted&&form.txtRemark.errors" class="text-danger">
             <p *ngIf="form.txtRemark.errors.required"><i aria-hidden="true"></i>  This field is required .!</p>
           </div>
+          <span *ngIf="SelectedDepartmentID==9" style="color: forestgreen; font-size: 12px; font-weight: 600;">Please Add Ist NOC</span>
         </div>
 
         <!--<div class="col-lg-12 col-md-12 col-sm-12 col-12 mt-3 text-end">

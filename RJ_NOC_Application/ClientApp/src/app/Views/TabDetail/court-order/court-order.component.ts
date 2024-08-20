@@ -52,6 +52,8 @@ export class CourtOrderComponent {
       {
         txtOrderDate: ['', Validators.required],
         txtOrderName: ['', Validators.required],
+        txtCivilPetitionNo: ['', Validators.required],
+        ddlCourtName: ['', Validators.required],
         OrderDocumentName: [''],
       })
   }
@@ -235,6 +237,8 @@ export class CourtOrderComponent {
       this.request.CourtOrderID = 0;
       this.searchrequest.CourtOrderID = 0;
       this.request.OrderName = '';
+      this.request.CourtName = '';
+      this.request.CivilPetitionNo = '';
       this.request.OrderDate = '';
       this.request.OrderDocumentName = '';
       this.request.OrderDocumentNamePath = '';

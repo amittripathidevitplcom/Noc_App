@@ -15,6 +15,7 @@ import * as moment from 'moment'
 import { Pipe, PipeTransform } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { resolveAny } from 'dns';
+import { request } from 'http';
 type AOA = any[][];
 
 @Injectable({
@@ -401,7 +402,7 @@ export class StaffDetailsComponent implements OnInit {
 
   async GetCollegeWiseSubjectList(CollegeID: number) {
     try {
-     
+
       this.loaderService.requestStarted();
       await this.commonMasterService.GetCollegeWise_SubjectList_StaffDetails(this.SelectedCollageID, 'SubjectList', 0)//4=existing
         .then((data: any) => {
@@ -651,7 +652,7 @@ export class StaffDetailsComponent implements OnInit {
         }
       }
       if (this.request.TeachingType == 'Teaching' && this.IsCourseLevel == 'Yes') {
-        if (this.SelectedDepartmentID != 4 && this.SelectedDepartmentID != 11 && this.SelectedDepartmentID!=9) {
+        if (this.SelectedDepartmentID != 4 && this.SelectedDepartmentID != 11 && this.SelectedDepartmentID != 9) {
           if (this.request.SubjectID == 0) {
             this.isSubject = true;
             this.FormValid = false;
@@ -662,7 +663,7 @@ export class StaffDetailsComponent implements OnInit {
             this.FormValid = false;
           }
         }
-        
+
       }
 
       if (this.request.TeachingType == 'Teaching') {
@@ -679,7 +680,7 @@ export class StaffDetailsComponent implements OnInit {
         if (this.request.ResearchGuide == '' || this.request.ResearchGuide == null) {
           this.FormValid = false;
         }
-        if ((this.DesignationName == 'Technician' || this.DesignationName == 'Lecturer' || this.DesignationName == 'Assistant Professor') && this.SelectedDepartmentID==9) {
+        if ((this.DesignationName == 'Technician' || this.DesignationName == 'Lecturer' || this.DesignationName == 'Assistant Professor') && this.SelectedDepartmentID == 9) {
           if (this.request.DesignationRegistrationNo == null || this.request.DesignationRegistrationNo == '' || this.request.DesignationRegistrationNo == undefined) {
             this.FormValid = false;
           }
@@ -739,7 +740,7 @@ export class StaffDetailsComponent implements OnInit {
       if (this.request.Salary == '') {
         this.request.Salary = "0";
       }
-      if ((this.TotalStaffDetail > 10) && ((Number(this.request.Salary)/12) < 21000)) {
+      if ((this.TotalStaffDetail > 10) && ((Number(this.request.Salary) / 12) < 21000)) {
         if (this.request.ESINumber == '') {
           this.ESIStaffShowHide = true;
           this.IsESIDetails = true;
@@ -886,7 +887,7 @@ export class StaffDetailsComponent implements OnInit {
     try {
       this.loaderService.requestStarted();
       var QualificationName = this.HighestQualificationData.find((x: { QualificationID: number; }) => x.QualificationID == this.request.HighestQualification)?.QualificationName;
-      await this.commonMasterService.GetQualificationMasterList_DepartmentWise(this.SelectedDepartmentID, this.request.TeachingType == 'Teaching' ? 1 : 0, 'Qualification')
+      await this.commonMasterService.GetQualificationMasterList_DepartmentWise(this.SelectedDepartmentID, this.request.TeachingType == 'Teaching' ? 1 : 0, 'Qualification', this.request.RoleID)
         .then((data: any) => {
 
           data = JSON.parse(JSON.stringify(data));
@@ -1002,7 +1003,7 @@ export class StaffDetailsComponent implements OnInit {
       await this.staffDetailService.GetStaffDetailList_DepartmentCollegeWise(this.SelectedDepartmentID, this.SelectedCollageID, StaffDetailID)
         .then(async (data_Staff: any) => {
 
-          data_Staff = JSON.parse(JSON.stringify(data_Staff)); 
+          data_Staff = JSON.parse(JSON.stringify(data_Staff));
           console.log(data_Staff);
           this.State = data_Staff['State'];
           this.SuccessMessage = data_Staff['SuccessMessage'];
@@ -1012,12 +1013,12 @@ export class StaffDetailsComponent implements OnInit {
           this.request.ProfessionalQualificationID = 0;
           this.request.PassingYearID = 0;
           this.request.Marks = '';
-         // console.log(data_Staff['Data'][0]);
+          // console.log(data_Staff['Data'][0]);
           //await this.GetCollegeWiseSubjectList(this.SelectedCollageID);
           await this.GetStaffDesignation(this.request.TeachingType == 'Teaching' ? 1 : 0);
           await this.GetHighestQualificationList_DepartmentAndTypeWise(this.SelectedDepartmentID, this.request.TeachingType == 'Teaching' ? 1 : 0);
-          
-        
+
+
           this.OnChangeHighestQualification();
           //this.SetDateofAppointment();
           this.showPANCard = true;
@@ -1302,7 +1303,7 @@ export class StaffDetailsComponent implements OnInit {
         this.AllRoleData = data['Data'];
       }, error => console.error(error));
 
-    await this.commonMasterService.GetQualificationMasterList_DepartmentWise(this.SelectedDepartmentID, 0, 'Qualification')
+    await this.commonMasterService.GetQualificationMasterList_DepartmentWise(this.SelectedDepartmentID, 0, 'Qualification', this.request.RoleID)
       .then((data: any) => {
         data = JSON.parse(JSON.stringify(data));
         this.AllQualification = data['Data'];
@@ -1466,9 +1467,12 @@ export class StaffDetailsComponent implements OnInit {
     }
   }
   async OnChangeDesignation(DesignationID: number) {
+    if (this.SelectedDepartmentID == 9) {
+      this.GetQualificationList_DepartmentAndTypeWise();
+    }
     if (DesignationID <= 0) {
       return;
     }
-    this.DesignationName = this.RoleData.find((x: { RoleID: number; }) => x.RoleID == DesignationID)?.RoleName;
+    this.DesignationName = this.RoleData.find((x: { RoleID: number; }) => x.RoleID == DesignationID)?.RoleName;    
   }
 }

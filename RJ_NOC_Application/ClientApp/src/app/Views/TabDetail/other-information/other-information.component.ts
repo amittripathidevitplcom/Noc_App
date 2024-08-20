@@ -95,6 +95,9 @@ export class OtherInformationComponent implements OnInit {
   public isValidBookImageFilePath: boolean = false;
   public showImageFilePath: boolean = false;
   public showBookImageFilePath: boolean = false;
+  public isValidBookInvoiceFilePath: boolean = false;
+  public showBookInvoiceFilePath: boolean = false;
+
   public ReqNoofComputers: number = 10;
   public Dis_ReqNoofComputers: number = 10;
 
@@ -136,6 +139,7 @@ export class OtherInformationComponent implements OnInit {
         //OtherInformation_txtLength: ['', [Validators.required, Validators.min(1), Validators.max(500000)]],
         fileUploadImage: [''],
         fileUploadBookImage: [''],
+        fileUploadBookInvoice: [''],
         OtherInformation_Noofbooks: [''],
         OtherInformation_NoofComputers: [''],
         txtsearchText: [''],
@@ -207,11 +211,6 @@ export class OtherInformationComponent implements OnInit {
 
 
   async ddlCourse_change($event: any, SeletedCourseID: any) {
-
-
-
-
-
 
     this.request.CourseID = SeletedCourseID;
     this.request.Width = 0;
@@ -325,6 +324,7 @@ export class OtherInformationComponent implements OnInit {
       this.loaderService.requestStarted();
       this.isValidImageFilePath = false;
       this.isValidBookImageFilePath = false;
+      this.ImageValidationMessage = '';
       debugger;
       if (event.target.files && event.target.files[0]) {
         if (event.target.files[0].type === 'image/jpeg' || event.target.files[0].type === 'image/jpg' || event.target.files[0].type === 'application/pdf'
@@ -343,6 +343,12 @@ export class OtherInformationComponent implements OnInit {
               this.request.BookImageFilePath = '';
               this.request.BookImage_Dis_FileName = '';
             }
+            else if (Type == 'UploadBookInvoice') {
+              this.isValidBookInvoiceFilePath = true;
+              this.request.BookInvoiceFileName = '';
+              this.request.BookInvoiceFilePath = '';
+              this.request.BookInvoice_Dis_FileName = '';
+            }
             return
           }
           if (event.target.files[0].size < 100000) {
@@ -358,6 +364,12 @@ export class OtherInformationComponent implements OnInit {
               this.request.BookImageFileName = '';
               this.request.BookImageFilePath = '';
               this.request.BookImage_Dis_FileName = '';
+            }
+            else if (Type == 'UploadBookInvoice') {
+              this.isValidBookInvoiceFilePath = true;
+              this.request.BookInvoiceFileName = '';
+              this.request.BookInvoiceFilePath = '';
+              this.request.BookInvoice_Dis_FileName = '';
             }
             return
           }
@@ -375,6 +387,12 @@ export class OtherInformationComponent implements OnInit {
             this.request.BookImageFileName = '';
             this.request.BookImageFilePath = '';
             this.request.BookImage_Dis_FileName = '';
+          }
+          else if (Type == 'UploadBookInvoice') {
+            this.isValidBookInvoiceFilePath = true;
+            this.request.BookInvoiceFileName = '';
+            this.request.BookInvoiceFilePath = '';
+            this.request.BookInvoice_Dis_FileName = '';
           }
           return
         }
@@ -398,6 +416,12 @@ export class OtherInformationComponent implements OnInit {
                 this.request.BookImageFileName = data['Data'][0]["FileName"];
                 this.request.BookImageFilePath = data['Data'][0]["FilePath"];
                 this.request.BookImage_Dis_FileName = data['Data'][0]["Dis_FileName"];
+              }
+              else if (Type == 'UploadBookInvoice') {
+                this.showBookInvoiceFilePath = true;
+                this.request.BookInvoiceFileName = data['Data'][0]["FileName"];
+                this.request.BookInvoiceFilePath = data['Data'][0]["FilePath"];
+                this.request.BookInvoice_Dis_FileName = data['Data'][0]["Dis_FileName"];
               }
             }
             if (this.State == 1) {
@@ -446,6 +470,12 @@ export class OtherInformationComponent implements OnInit {
         this.request.BookImageFilePath = '';
         this.request.BookImage_Dis_FileName = '';
       }
+      else if (Type == 'UploadBookInvoice') {
+        this.showBookInvoiceFilePath = false;
+        this.request.BookInvoiceFileName = '';
+        this.request.BookInvoiceFilePath = '';
+        this.request.BookInvoice_Dis_FileName = '';
+      }
     }
     catch (Ex) {
       console.log(Ex);
@@ -491,6 +521,11 @@ export class OtherInformationComponent implements OnInit {
       }
       if (this.request.BookImageFilePath == '') {
         this.isValidBookImageFilePath = true;
+        this.ImageValidate = 'This field is required .!';
+        this.isformvalid = false;
+      }
+      if (this.request.BookInvoiceFilePath == '' && this.SelectedDepartmentID == 9) {
+        this.isValidBookInvoiceFilePath = true;
         this.ImageValidate = 'This field is required .!';
         this.isformvalid = false;
       }

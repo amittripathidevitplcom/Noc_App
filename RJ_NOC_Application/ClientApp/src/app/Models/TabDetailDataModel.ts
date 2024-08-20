@@ -360,6 +360,8 @@ export class CourtOrderDataModel {
   public CollegeID: number = 0;
   public UserID: number = 0;
   public OrderName: string = '';
+  public CourtName: string = '';
+  public CivilPetitionNo: string = '';
   public OrderDate: string = '';
   public OrderDocumentName: string = '';
   public OrderDocumentNamePath: string = '';

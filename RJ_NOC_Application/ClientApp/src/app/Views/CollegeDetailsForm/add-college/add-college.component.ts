@@ -263,7 +263,6 @@ export class AddCollegeComponent implements OnInit {
       this.loaderService.requestStarted();
       await this.legalEntityListService.GetLegalEntityBySSOID(this.request.ParentSSOID, 0)
         .then((data: any) => {
-          debugger;
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
@@ -714,7 +713,9 @@ export class AddCollegeComponent implements OnInit {
           this.CollegeLevelList_FilterData = this.CollegeLevelList;
         }
         else if (this.request.DepartmentID == 9) {
-          this.CollegeLevelList_FilterData = this.CollegeLevelList;
+          this.CollegeLevelList_FilterData = this.CollegeLevelList.filter((element: any) => {
+            return element.Name == "Diploma";
+          });
         }
         else {
           this.CollegeLevelList_FilterData = this.CollegeLevelList.filter((element: any) => {
