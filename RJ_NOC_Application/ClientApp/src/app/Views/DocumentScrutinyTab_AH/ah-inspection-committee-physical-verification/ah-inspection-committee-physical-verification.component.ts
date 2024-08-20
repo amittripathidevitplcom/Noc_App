@@ -621,4 +621,67 @@ export class AhInspectionCommitteePhysicalVerificationComponent {
       this.routers.navigate(['/animalhusbandryappnocpreview' + "/" + encodeURI(this.commonMasterService.Encrypt(DepartmentID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(CollegeID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(ApplyNOCID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(ApplicationNo.toString()))]);
     }
   }
+
+
+  ///Esanchar OTP
+
+  public CurrentOTP: number = 0;
+  async SendOTPByEsanchar(MobileNo: string, idx: number) {
+    this.CurrentOTP = 0;
+    try {
+      this.loaderService.requestStarted();
+      if (MobileNo != undefined && MobileNo.length == 10) {
+        for (var i = 0; i < this.ApplicationCommitteeList.length; i++) {
+          if (idx != i && this.ApplicationCommitteeList[i].SendOTP != 2) {
+            this.ApplicationCommitteeList[i].SendOTP = 0;
+          }
+        }
+        this.commonMasterService.SendMessage(MobileNo, 'OTP')
+          .then((data: any) => {
+            if (data.State == '0') {
+              this.ApplicationCommitteeList[idx].SendOTP = 1;
+              this.toastr.success("OTP send Successfully");
+              this.CurrentOTP = data['Data'];
+            } else {
+              this.toastr.warning(data.ErrorMessage);
+            }
+          }, error => console.error(error));
+      }
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  async VerifyOTPByEsanchar(UserOTP: number, idx: number) {
+    try {
+      this.loaderService.requestStarted();
+      if (UserOTP == this.CurrentOTP) {
+        this.toastr.success("OTP Verify Successfully");
+        this.ApplicationCommitteeList[idx].Verified = true;
+        this.ApplicationCommitteeList[idx].SendOTP = 2;
+      }
+      else if (UserOTP == Number(this.CustomOTP)) {
+        this.toastr.success("OTP Verify Successfully");
+        this.ApplicationCommitteeList[idx].Verified = true;
+        this.ApplicationCommitteeList[idx].SendOTP = 2;
+      }
+      else {
+        this.toastr.warning("Invalid OTP");
+      }
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
 }

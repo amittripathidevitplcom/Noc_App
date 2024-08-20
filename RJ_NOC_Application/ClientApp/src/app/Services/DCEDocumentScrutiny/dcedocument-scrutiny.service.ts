@@ -367,4 +367,16 @@ export class DCEDocumentScrutinyService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
+
+  public async DocumentScrutiny_FDRDetail(CollageID: number, RoleID: number, ApplyNOCID: number) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.post(this.APIUrl + "/DocumentScrutiny_FDRDetail/" + CollageID + "/" + RoleID + "/" + ApplyNOCID, httpOptions)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
 }

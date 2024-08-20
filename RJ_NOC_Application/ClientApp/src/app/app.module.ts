@@ -406,6 +406,8 @@ import { LOIApplicationPDFComponent } from './Views/loiapplication-pdf/loiapplic
 import { NgxPaginationModule } from 'ngx-pagination';
 import { PaymentReportComponent } from './Views/Admin/Payment_Report/payment-report/payment-report.component';
 import { LegalEntityDepartmentWiseComponent } from './Views/Admin/legal-entity-department-wise/legal-entity-department-wise.component';
+import { DocumentScrutinyFDRDetailsDCEComponent } from './Views/DocumentScrutinyTabDCE/document-scrutiny-fdrdetails-dce/document-scrutiny-fdrdetails-dce.component';
+import { DocumentScrutinyPaymentDetailsDCEComponent } from './Views/DocumentScrutinyTabDCE/document-scrutiny-payment-details-dce/document-scrutiny-payment-details-dce.component';
  
 
 @NgModule({
@@ -807,7 +809,9 @@ import { LegalEntityDepartmentWiseComponent } from './Views/Admin/legal-entity-d
     CourtOrderComponent,
     PreviewCourtOrderComponent,
     PaymentReportComponent,
-    LegalEntityDepartmentWiseComponent
+    LegalEntityDepartmentWiseComponent,
+    DocumentScrutinyFDRDetailsDCEComponent,
+    DocumentScrutinyPaymentDetailsDCEComponent
 
   ],
   imports: [
