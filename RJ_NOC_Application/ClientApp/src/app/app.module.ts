@@ -408,6 +408,10 @@ import { PaymentReportComponent } from './Views/Admin/Payment_Report/payment-rep
 import { LegalEntityDepartmentWiseComponent } from './Views/Admin/legal-entity-department-wise/legal-entity-department-wise.component';
 import { DocumentScrutinyFDRDetailsDCEComponent } from './Views/DocumentScrutinyTabDCE/document-scrutiny-fdrdetails-dce/document-scrutiny-fdrdetails-dce.component';
 import { DocumentScrutinyPaymentDetailsDCEComponent } from './Views/DocumentScrutinyTabDCE/document-scrutiny-payment-details-dce/document-scrutiny-payment-details-dce.component';
+import { NOCFormatMasterComponent } from './Views/Admin/nocformat-master/nocformat-master.component';
+//import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
+import { NgxEditorModule } from "ngx-editor";
+
  
 
 @NgModule({
@@ -811,7 +815,8 @@ import { DocumentScrutinyPaymentDetailsDCEComponent } from './Views/DocumentScru
     PaymentReportComponent,
     LegalEntityDepartmentWiseComponent,
     DocumentScrutinyFDRDetailsDCEComponent,
-    DocumentScrutinyPaymentDetailsDCEComponent
+    DocumentScrutinyPaymentDetailsDCEComponent,
+    NOCFormatMasterComponent
 
   ],
   imports: [
@@ -835,7 +840,7 @@ import { DocumentScrutinyPaymentDetailsDCEComponent } from './Views/DocumentScru
     //MatInputModule,
     //MatButtonModule,
     //MatIconModule,
-    RouterModule,
+    RouterModule, 
     NgMultiSelectDropDownModule.forRoot(),
     AutocompleteLibModule,
     NgIdleModule.forRoot(),
@@ -847,7 +852,9 @@ import { DocumentScrutinyPaymentDetailsDCEComponent } from './Views/DocumentScru
     }),
     NewGrievanceModule,
     NgbModule,
-    NgxPaginationModule
+    NgxPaginationModule,
+    NgxEditorModule
+    //CKEditorModule
   ],
   //exports: [TableSearchFilterPipe],
   //exports: [LoaderModule],

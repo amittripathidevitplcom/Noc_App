@@ -238,6 +238,7 @@ import { CourseReportsComponent } from './Views/DCEReports/course-reports/course
 import { CourtOrderComponent } from './Views/TabDetail/court-order/court-order.component';
 import { PaymentReportComponent } from './Views/Admin/Payment_Report/payment-report/payment-report.component';
 import { LegalEntityDepartmentWiseComponent } from './Views/Admin/legal-entity-department-wise/legal-entity-department-wise.component';
+import { NOCFormatMasterComponent } from './Views/Admin/nocformat-master/nocformat-master.component';
 
 const routes: Routes = [
   {
@@ -973,6 +974,9 @@ const routes: Routes = [
       },
       {
         path: 'legalentitydepartmentwise', component: LegalEntityDepartmentWiseComponent
+      },
+      {
+        path: 'nocformatmaster', component: NOCFormatMasterComponent
       },
 
     ]

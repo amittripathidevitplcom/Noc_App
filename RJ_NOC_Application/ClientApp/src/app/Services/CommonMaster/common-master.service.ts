@@ -5,6 +5,7 @@ import { catchError } from 'rxjs/operators';
 import { GlobalConstants } from '../../Common/GlobalConstants';
 import { CommonDataModel_TotalApplicationSearchFilter, CommonDataModel_TotalDraftEntrySearchFilter } from '../../Models/CommonMasterDataModel';
 import { PaymentDetailsDataModel_Filter } from '../../Models/PaymentReportModel';
+import { NOCFormatMasterModel } from '../../Models/NOCFormatMasterModel';
 @Injectable({
   providedIn: 'root'
 })
@@ -864,6 +865,13 @@ export class CommonMasterService {
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
     const request = { CollegeID: CollegeID, IsDraftSubmited: IsDraftSubmited, Deficiency: Deficiency }
     return await this.http.post(this.APIUrl_CommonMaster + "/DraftFinalSubmit", request, httpOptions)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+  public async SaveNOCFormatMaster(request:NOCFormatMasterModel) {
+    const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
+    return await this.http.post(this.APIUrl_CommonMaster + "/SaveNOCFormatMaster", request, httpOptions)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();

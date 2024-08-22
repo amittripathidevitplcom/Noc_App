@@ -974,7 +974,7 @@ export class CommissionerApplicationScrutinyListComponent implements OnInit {
           return;
         }
       }
-
+      debugger;
       var PNOC = this.ApplyNocParameterMasterList.find((x: { IsChecked: boolean; ParameterCode: string }) => x.IsChecked == true && x.ParameterCode == 'DEC_PNOCSubject')?.IsChecked;
       var PNOCCount = 0;
       if (PNOC == true) {
@@ -996,12 +996,13 @@ export class CommissionerApplicationScrutinyListComponent implements OnInit {
             }
           }
         }
+        if (PNOCCount <= 0) {
+          this.isFormvalid = false;
+          this.toastr.warning('Please select atleast one Subject in PNOC for Subject');
+          return;
+        }
       }
-      if (PNOCCount <= 0) {
-        this.isFormvalid = false;
-        this.toastr.warning('Please select atleast one Subject in PNOC for Subject');
-        return;
-      }
+
       if (!this.isFormvalid) {
         return;
       }
