@@ -409,8 +409,7 @@ import { LegalEntityDepartmentWiseComponent } from './Views/Admin/legal-entity-d
 import { DocumentScrutinyFDRDetailsDCEComponent } from './Views/DocumentScrutinyTabDCE/document-scrutiny-fdrdetails-dce/document-scrutiny-fdrdetails-dce.component';
 import { DocumentScrutinyPaymentDetailsDCEComponent } from './Views/DocumentScrutinyTabDCE/document-scrutiny-payment-details-dce/document-scrutiny-payment-details-dce.component';
 import { NOCFormatMasterComponent } from './Views/Admin/nocformat-master/nocformat-master.component';
-//import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
-import { NgxEditorModule } from "ngx-editor";
+
 
  
 
@@ -852,9 +851,7 @@ import { NgxEditorModule } from "ngx-editor";
     }),
     NewGrievanceModule,
     NgbModule,
-    NgxPaginationModule,
-    NgxEditorModule
-    //CKEditorModule
+    NgxPaginationModule
   ],
   //exports: [TableSearchFilterPipe],
   //exports: [LoaderModule],

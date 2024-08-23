@@ -5,7 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { LoaderService } from '../../../Services/Loader/loader.service';
 import { CommonMasterService } from '../../../Services/CommonMaster/common-master.service';
 import { NOCFormatMasterModel } from '../../../Models/NOCFormatMasterModel';
-import { Validators, Editor, Toolbar } from 'ngx-editor';
+/*import { Validators, Editor, Toolbar } from 'ngx-editor';*/
 
 @Component({
   selector: 'app-nocformat-master',
@@ -22,27 +22,24 @@ export class NOCFormatMasterComponent implements OnInit {
   public DepartmentData: any = [];
   public ParameterData: any = [];
 
-  public editor!: Editor;
-  public toolbar: Toolbar = [
-    ['bold', 'italic'],
-    ['underline', 'strike'],
-    ['code', 'blockquote'],
-    ['ordered_list', 'bullet_list'],
-    [{ heading: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'] }],
-    ['link', 'image'],
-    ['text_color', 'background_color'],
-    ['align_left', 'align_center', 'align_right', 'align_justify'],
-  ];
+  //public editor!: Editor;
+  //public toolbar: Toolbar = [
+  //  ['bold', 'italic'],
+  //  ['underline', 'strike'],
+  //  ['code', 'blockquote'],
+  //  ['ordered_list', 'bullet_list'],
+  //  [{ heading: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'] }],
+  //  ['link', 'image'],
+  //  ['text_color', 'background_color'],
+  //  ['align_left', 'align_center', 'align_right', 'align_justify'],
+  //];
 
   constructor(private toastr: ToastrService, private loaderService: LoaderService, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router) {
 
   }
   ngOnInit(): void {
-    this.editor = new Editor();
+    //this.editor = new Editor();
     this.GetDepartmentList();
-  }
-  ngOnDestroy(): void {
-    this.editor.destroy();
   }
 
   async GetDepartmentList() {
