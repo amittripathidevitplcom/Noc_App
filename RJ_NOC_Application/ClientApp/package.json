@@ -39,7 +39,8 @@
     "tslib": "^2.3.0",
     "xlsx": "^0.18.5",
     "zone.js": "~0.11.4",
-    "@ckeditor/ckeditor5-angular": "^8.0.0"
+    "@ckeditor/ckeditor5-angular": "^8.0.0",
+    "@ckeditor/ckeditor5-build-decoupled-document": "^43.0.0"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^16.2.0",

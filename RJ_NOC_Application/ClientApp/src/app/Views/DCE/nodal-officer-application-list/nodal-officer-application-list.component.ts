@@ -18,6 +18,7 @@ import { SSOLoginService } from '../../../Services/SSOLogin/ssologin.service';
 import { AadharServiceDetails } from '../../../Services/AadharServiceDetails/aadhar-service-details.service';
 import { AadharServiceDataModel } from '../../../Models/AadharServiceDataModel';
 import { Action } from 'rxjs/internal/scheduler/Action';
+import { ApplyNocParameterService } from '../../../Services/Master/apply-noc-parameter.service';
 
 @Component({
   selector: 'app-nodal-officer-application-list',
@@ -89,7 +90,7 @@ export class NodalOfficerApplicationListComponent implements OnInit {
   CommitteeMemberDetails!: FormGroup;
   public PVApplicationDetailsList: any[] = [];
   public PVCommitteeList: any[] = [];
-  constructor(private medicalDocumentScrutinyService: MedicalDocumentScrutinyService, private modalService: NgbModal, private loaderService: LoaderService, private toastr: ToastrService, private applyNOCApplicationService: ApplyNOCApplicationService,
+  constructor(private applyNocParameterService: ApplyNocParameterService,private medicalDocumentScrutinyService: MedicalDocumentScrutinyService, private modalService: NgbModal, private loaderService: LoaderService, private toastr: ToastrService, private applyNOCApplicationService: ApplyNOCApplicationService,
     private router: ActivatedRoute, private routers: Router, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService,
     private fileUploadService: FileUploadService, private committeeMasterService: CommitteeMasterService, private decDocumentScrutinyService: DCEDocumentScrutinyService, private sSOLoginService: SSOLoginService, private aadharServiceDetails: AadharServiceDetails
   ) { }
@@ -935,5 +936,142 @@ export class NodalOfficerApplicationListComponent implements OnInit {
       this.ShowHideNextAction = false;
     }
   }
+  public SelectedApplyNOCIDForFile: number = 0;
+  async MinisterOfflineFilePopUp(content: any, ApplyNOCID: number, ApplicationNo: string) {
+    this.ApplicationNo = '';
+    this.ApplicationNo = ApplicationNo;
+    this.SelectedApplyNOCIDForFile = ApplyNOCID;
+    this.modalService.open(content, { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' }).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+
+  }
+
+  public MinisterFile: string = '';
+  public MinisterFile_Dis_FileName: string = '';
+  public MinisterFilePath: string = '';
+
+  async UploadFile(event: any) {
+    if (event.target.files && event.target.files[0]) {
+      if (event.target.files[0].type === 'application/pdf') {
+        //if (event.target.files[0].size > 2000000) {
+        //  event.target.value = '';
+        //  this.toastr.warning('Select less then 2MB File');
+        //  return
+        //}
+        if (event.target.files[0].size < 100000) {
+          event.target.value = '';
+          this.toastr.warning('Select more then 100kb File');
+          return
+        }
+      }
+      else {
+        event.target.value = '';
+        this.toastr.warning('Select Only pdf');
+        return
+      }
+      // upload
+      this.file = event.target.files[0];
+      try {
+        this.loaderService.requestStarted();
+        await this.fileUploadService.UploadDocument(this.file).then((data: any) => {
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          if (this.State == 0) {
+            this.MinisterFile = data['Data'][0]["FileName"];
+            this.MinisterFilePath = data['Data'][0]["FilePath"];
+            this.MinisterFile_Dis_FileName = data['Data'][0]["Dis_FileName"];
+          }
+          if (this.State == 1) {
+            this.toastr.error(this.ErrorMessage)
+          }
+          else if (this.State == 2) {
+            this.toastr.warning(this.ErrorMessage)
+          }
+        });
+      }
+      catch (ex) { }
+      finally {
+        setTimeout(() => {
+          this.loaderService.requestEnded();
+        }, 200);
+      }
+
+    }
+    else {
+      this.MinisterFile = '';
+      this.MinisterFilePath = '';
+      this.MinisterFile_Dis_FileName = '';
+    }
+  }
+  async DeleteFile(file: string) {
+    try {
+      // delete from server folder
+      this.loaderService.requestEnded();
+      await this.fileUploadService.DeleteDocument(file).then((data: any) => {
+        this.State = data['State'];
+        this.SuccessMessage = data['SuccessMessage'];
+        this.ErrorMessage = data['ErrorMessage'];
+        if (this.State == 0) {
+          this.MinisterFile = '';
+          this.MinisterFilePath = '';
+          this.MinisterFile_Dis_FileName = '';
+        }
+        if (this.State == 1) {
+          this.toastr.error(this.ErrorMessage)
+        }
+        else if (this.State == 2) {
+          this.toastr.warning(this.ErrorMessage)
+        }
+      });
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  async SaveMinisterOfflineFile() {
+    try {
+      if (this.MinisterFile == '') {
+        this.toastr.warning('please upload a file');
+        return;
+      }
+      this.loaderService.requestStarted();
+      await this.applyNocParameterService.SaveApplyNocMinisterFile(this.SelectedApplyNOCIDForFile, this.MinisterFile).then(async (data: any) => {
+        this.State = data['State'];
+        this.SuccessMessage = data['SuccessMessage'];
+        this.ErrorMessage = data['ErrorMessage'];
+        if (this.State == 0) {
+          this.MinisterFile = '';
+          this.MinisterFilePath = '';
+          this.MinisterFile_Dis_FileName = '';
+          this.modalService.dismissAll('After Success');
+          await this.GetNodalOfficerApplyNOCApplicationList(this.sSOLoginDataModel.RoleID, this.sSOLoginDataModel.UserID, this.QueryStringStatus);
+        }
+        if (this.State == 1) {
+          this.toastr.error(this.ErrorMessage)
+        }
+        else if (this.State == 2) {
+          this.toastr.warning(this.ErrorMessage)
+        }
+      });
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
 }
 

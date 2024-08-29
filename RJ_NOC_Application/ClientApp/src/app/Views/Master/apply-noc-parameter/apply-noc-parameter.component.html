@@ -1287,7 +1287,7 @@
             <select class="form-select" id="ddlDTE_TostartNewCourseLevelID" name="ddlDTE_TostartNewCourseLevelID"
                     [(ngModel)]="request.DTE_IncreaseinIntakeAdditionofCourse.CourseLevelID"
                     #SeletedCourseLevelID (change)="GetCourse_CourseLevelIDWise(request.DTE_IncreaseinIntakeAdditionofCourse.StreamID,SeletedCourseLevelID.value,'IncreaseinIntake')">
-              <option value="0" disabled>--Select Course Level--</option>
+              <option value="0">--Select Course Level--</option>
               <option *ngFor="let item of DTE_CourseLevelList" value="{{item.ID}}">{{item.Name}}</option>
             </select>
           </div>

@@ -17,6 +17,8 @@ import { SSOLoginService } from '../../../Services/SSOLogin/ssologin.service';
 import { AadharServiceDetails } from '../../../Services/AadharServiceDetails/aadhar-service-details.service';
 import { AadharServiceDataModel } from '../../../Models/AadharServiceDataModel';
 import { ApplyNocParameterService } from '../../../Services/Master/apply-noc-parameter.service';
+import ClassicEditor from '@ckeditor/ckeditor5-build-decoupled-document';
+import { GlobalConstants } from '../../../Common/GlobalConstants';
 
 @Component({
   selector: 'app-jdacceapplication-list-dce',
@@ -99,11 +101,103 @@ export class JDACCEApplicationListDCEComponent implements OnInit {
   public ApplyNocParameterMasterList_ChangeInNameOfCollege: any = null;
   public ApplyNocParameterMasterList_ChangeInPlaceOfCollege: any = null;
   public ApplyNocParameterMasterList_PNOCOfSubject: any = null;
+  public editor: any = ClassicEditor;
+  config = {
+    toolbar: [
+      'heading',
+      '|',
+      'alignment',
+      '|',
+      'bold',
+      'italic',
+      'strikethrough',
+      'underline',
+      'subscript',
+      'superscript',
+      '|',
+      'link',
+      '|',
+      'bulletedList',
+      'numberedList',
+      'todoList',
+      '-', // break point
+      'fontfamily',
+      'fontsize',
+      'fontColor',
+      'fontBackgroundColor',
+      '|',
+      'code',
+      'codeBlock',
+      '|',
+      'insertTable',
+      '|',
+      'imageInsert',
+      'blockQuote',
+      '|',
+      'undo',
+      'redo',
+    ],
+    heading: {
+      options: [
+        {
+          model: 'paragraph',
+          title: 'Paragraph',
+          class: 'ck-heading_paragraph',
+        },
+        {
+          model: 'heading1',
+          view: 'h1',
+          title: 'Heading 1',
+          class: 'ck-heading_heading1',
+        },
+        {
+          model: 'heading2',
+          view: 'h2',
+          title: 'Heading 2',
+          class: 'ck-heading_heading2',
+        },
+        {
+          model: 'heading3',
+          view: 'h3',
+          title: 'Heading 3',
+          class: 'ck-heading_heading3',
+        },
+        {
+          model: 'heading4',
+          view: 'h4',
+          title: 'Heading 4',
+          class: 'ck-heading_heading4',
+        },
+      ],
+    },
+    fontFamily: {
+      options: [
+        'default',
+        'Arial, Helvetica, sans-serif',
+        'Courier New, Courier, monospace',
+        'Georgia, serif',
+        'Lucida Sans Unicode, Lucida Grande, sans-serif',
+        'Tahoma, Geneva, sans-serif',
+        'Times New Roman, Times, serif',
+        'Trebuchet MS, Helvetica, sans-serif',
+        'Verdana, Geneva, sans-serif',
+        // 'Popins'
+      ],
+    },
+  };
+
   constructor(private applyNocParameterService: ApplyNocParameterService, private medicalDocumentScrutinyService: MedicalDocumentScrutinyService, private modalService: NgbModal, private loaderService: LoaderService, private toastr: ToastrService, private applyNOCApplicationService: ApplyNOCApplicationService,
     private router: ActivatedRoute, private routers: Router, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService,
     private fileUploadService: FileUploadService, private committeeMasterService: CommitteeMasterService, private decDocumentScrutinyService: DCEDocumentScrutinyService, private sSOLoginService: SSOLoginService, private aadharServiceDetails: AadharServiceDetails
   ) { }
-
+  onReady(editor: any) {
+    editor.ui
+      .getEditableElement()
+      .parentElement.insertBefore(
+        editor.ui.view.toolbar.element,
+        editor.ui.getEditableElement()
+      );
+  }
   async ngOnInit() {
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     this.AadhaarNo = this.sSOLoginDataModel.AadhaarId
@@ -338,7 +432,7 @@ export class JDACCEApplicationListDCEComponent implements OnInit {
       }
 
       var CheckedCount = 0;
-      await this.ApplyNocParameterMasterList.forEach((i: { IsChecked: boolean, ApplyNocParameterID: number, ApplyNocApplicationID: number }) => {
+      await this.ApplyNocParameterMasterList.forEach((i: { IsChecked: boolean, ApplyNocParameterID: number, ApplyNocApplicationID: number, ParameterCode: string }) => {
         if (i.IsChecked) {
           CheckedCount++;
           this.requestnoc.AppliedNOCFor.push({
@@ -346,7 +440,9 @@ export class JDACCEApplicationListDCEComponent implements OnInit {
             ParameterID: i.ApplyNocParameterID,
             CreatedBy: this.sSOLoginDataModel.UserID,
             Remark: this.NOCIssuedRemark,
-            NoOfIssuedYear: this.IssuedYear
+            NoOfIssuedYear: this.IssuedYear,
+            NOCFormat: i.ParameterCode == 'DEC_NewCourse' ? this.NewCourseNOCFormat : i.ParameterCode == 'DEC_TNOCExtOfSubject' ? this.TNOCExtOfSubjectNOCFormat : i.ParameterCode == 'DEC_NewSubject' ? this.NewSubjectNOCFormat
+              : i.ParameterCode == 'DEC_PNOCSubject' ? this.PNOCOfSubjectNOCFormat : i.ParameterCode == 'DEC_ChangeManagement' ? this.ApplyNocParameterMasterList_ChangeInCollegeManagement.NOCFormat : i.ParameterCode == 'DEC_ChangeName' ? this.ApplyNocParameterMasterList_ChangeInNameOfCollege.NOCFormat : i.ParameterCode == 'DEC_ChangePlace' ? this.ApplyNocParameterMasterList_ChangeInPlaceOfCollege.NOCFormat:''
           });
         }
       });
@@ -475,12 +571,8 @@ export class JDACCEApplicationListDCEComponent implements OnInit {
       if (!this.isFormvalid) {
         return;
       }
-
-      console.log('deepak');
-      console.log(this.requestnoc);
-      console.log('deepak');
       this.loaderService.requestStarted();
-      await this.applyNOCApplicationService.GenerateDraftNOCForDCE(this.requestnoc)
+      await this.applyNOCApplicationService.GenerateNOCForDCE(this.requestnoc)
         .then((data: any) => {
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
@@ -542,16 +634,20 @@ export class JDACCEApplicationListDCEComponent implements OnInit {
           if (this.State == 0) {
             if (ParameterCode == 'DEC_NewCourse') {
               this.ApplyNocParameterMasterList_NewCourse = data['Data'];
+              this.NewCourseNOCFormat = this.ApplyNocParameterMasterList.find((x: { ParameterCode: string }) => x.ParameterCode == 'DEC_NewCourse')?.NOCFormat;
             }
             else if (ParameterCode == 'DEC_TNOCExtOfSubject') {
               this.ApplyNocParameterMasterList_TNOCExtOfSubject = data['Data'];
+              this.TNOCExtOfSubjectNOCFormat = this.ApplyNocParameterMasterList.find((x: { ParameterCode: string }) => x.ParameterCode == 'DEC_TNOCExtOfSubject')?.NOCFormat;
             }
             else if (ParameterCode == 'DEC_NewSubject') {
               this.ApplyNocParameterMasterList_NewCourseSubject = data['Data'];
+              this.NewSubjectNOCFormat = this.ApplyNocParameterMasterList.find((x: { ParameterCode: string }) => x.ParameterCode == 'DEC_NewSubject')?.NOCFormat;
             }
             else if (ParameterCode == 'DEC_PNOCSubject') {
               
               this.ApplyNocParameterMasterList_PNOCOfSubject = data['Data'];
+              this.PNOCOfSubjectNOCFormat = this.ApplyNocParameterMasterList.find((x: { ParameterCode: string }) => x.ParameterCode == 'DEC_PNOCSubject')?.NOCFormat;
             }
           }
           else {
@@ -586,12 +682,15 @@ export class JDACCEApplicationListDCEComponent implements OnInit {
               if (this.State == 0) {
                 if (ParameterCode == 'DEC_ChangeManagement') {
                   this.ApplyNocParameterMasterList_ChangeInCollegeManagement = data['Data']['ChangeInCollegeManagementList'][0];
+                  this.ApplyNocParameterMasterList_ChangeInCollegeManagement.NOCFormat = this.ApplyNocParameterMasterList.find((x: { ParameterCode: string }) => x.ParameterCode == 'DEC_ChangeManagement')?.NOCFormat;
                 }
                 else if (ParameterCode == 'DEC_ChangeName') {
                   this.ApplyNocParameterMasterList_ChangeInNameOfCollege = data['Data']['ChangeInNameOfCollegeList'][0];
+                  this.ApplyNocParameterMasterList_ChangeInNameOfCollege.NOCFormat = this.ApplyNocParameterMasterList.find((x: { ParameterCode: string }) => x.ParameterCode == 'DEC_ChangeName')?.NOCFormat;
                 }
                 else if (ParameterCode == 'DEC_ChangePlace') {
                   this.ApplyNocParameterMasterList_ChangeInPlaceOfCollege = data['Data']['ChangeInPlaceOfCollegeList'][0];
+                  this.ApplyNocParameterMasterList_ChangeInPlaceOfCollege.NOCFormat = this.ApplyNocParameterMasterList.find((x: { ParameterCode: string }) => x.ParameterCode == 'DEC_ChangePlace')?.NOCFormat;
                 }
               }
               else {
@@ -631,6 +730,167 @@ export class JDACCEApplicationListDCEComponent implements OnInit {
           this.ApplyNocParameterMasterList_PNOCOfSubject = [];
         }
       }
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+
+
+  public TNOCExtOfSubjectNOCFormat: string = '';
+  public NewCourseNOCFormat: string = '';
+  public NewSubjectNOCFormat: string = '';
+  public PNOCOfSubjectNOCFormat: string = '';
+  async PreviewPDF(ParameterID: number, NOCFormat: string) {
+    try {
+      this.loaderService.requestStarted();
+      this.requestnoc.AppliedNOCFor.push({
+        ApplyNOCID: this.SelectedApplyNOCID,
+        ParameterID: ParameterID,
+        CreatedBy: this.sSOLoginDataModel.UserID,
+        Remark: this.NOCIssuedRemark,
+        NoOfIssuedYear: this.IssuedYear,
+        NOCFormat: NOCFormat
+      });
+      debugger;
+      var NewSubjects = this.ApplyNocParameterMasterList.find((x: { IsChecked: boolean; ParameterCode: string }) => x.IsChecked == true && x.ParameterCode == 'DEC_NewSubject')?.IsChecked;
+      var NewSubjectsCount = 0;
+      if (NewSubjects == true) {
+        for (var i = 0; i < this.ApplyNocParameterMasterList_NewCourseSubject.length; i++) {
+          for (var j = 0; j < this.ApplyNocParameterMasterList_NewCourseSubject[i].SubjectList.length; j++) {
+            if (this.ApplyNocParameterMasterList_NewCourseSubject[i].SubjectList[j].IsSubjectChecked == true) {
+              NewSubjectsCount++;
+              this.requestnoc.NOCDetails.push({
+                ApplyNOCID: this.ApplyNocParameterMasterList_NewCourseSubject[i].ApplyNocApplicationID,
+                DepartmentID: this.SelectedDepartmentID,
+                RoleID: this.sSOLoginDataModel.RoleID,
+                UserID: this.sSOLoginDataModel.UserID,
+                CourseID: this.ApplyNocParameterMasterList_NewCourseSubject[i].CourseID,
+                CourseName: this.ApplyNocParameterMasterList_NewCourseSubject[i].CourseName,
+                SubjectID: this.ApplyNocParameterMasterList_NewCourseSubject[i].SubjectList[j].SubjectID,
+                SubjectName: this.ApplyNocParameterMasterList_NewCourseSubject[i].SubjectList[j].SubjectName,
+                ApplyNocParameterID: this.ApplyNocParameterMasterList_NewCourseSubject[i].SubjectList[j].ApplyNocParameterID,
+              });
+            }
+          }
+        }
+        if (NewSubjectsCount <= 0) {
+          this.isFormvalid = false;
+          this.toastr.warning('Please select atleast one Subject in New Subjects');
+          return;
+        }
+      }
+      var TNOCExt = this.ApplyNocParameterMasterList.find((x: { IsChecked: boolean; ParameterCode: string }) => x.IsChecked == true && x.ParameterCode == 'DEC_TNOCExtOfSubject')?.IsChecked;
+      var TNOCExtCount = 0;
+      if (TNOCExt == true) {
+        for (var i = 0; i < this.ApplyNocParameterMasterList_TNOCExtOfSubject.length; i++) {
+          for (var j = 0; j < this.ApplyNocParameterMasterList_TNOCExtOfSubject[i].SubjectList.length; j++) {
+            if (this.ApplyNocParameterMasterList_TNOCExtOfSubject[i].SubjectList[j].IsSubjectChecked == true) {
+              TNOCExtCount++;
+              this.requestnoc.NOCDetails.push({
+                ApplyNOCID: this.ApplyNocParameterMasterList_TNOCExtOfSubject[i].ApplyNocApplicationID,
+                DepartmentID: this.SelectedDepartmentID,
+                RoleID: this.sSOLoginDataModel.RoleID,
+                UserID: this.sSOLoginDataModel.UserID,
+                CourseID: this.ApplyNocParameterMasterList_TNOCExtOfSubject[i].CourseID,
+                CourseName: this.ApplyNocParameterMasterList_TNOCExtOfSubject[i].CourseName,
+                SubjectID: this.ApplyNocParameterMasterList_TNOCExtOfSubject[i].SubjectList[j].SubjectID,
+                SubjectName: this.ApplyNocParameterMasterList_TNOCExtOfSubject[i].SubjectList[j].SubjectName,
+                ApplyNocParameterID: this.ApplyNocParameterMasterList_TNOCExtOfSubject[i].SubjectList[j].ApplyNocParameterID,
+              });
+            }
+          }
+        }
+        if (TNOCExtCount <= 0) {
+          this.isFormvalid = false;
+          this.toastr.warning('Please select atleast one Subject in TNOC Extension Of Subject');
+          return;
+        }
+        if (this.IssuedYear <= 0) {
+          this.isFormvalid = false;
+          this.toastr.warning('Please select No Of Issued Year in TNOC Extension Of Subject');
+          return;
+        }
+      }
+
+      var NewCourse = this.ApplyNocParameterMasterList.find((x: { IsChecked: boolean; ParameterCode: string }) => x.IsChecked == true && x.ParameterCode == 'DEC_NewCourse')?.IsChecked;
+      var NewCourseCount = 0;
+      if (NewCourse == true) {
+        for (var i = 0; i < this.ApplyNocParameterMasterList_NewCourse.length; i++) {
+          for (var j = 0; j < this.ApplyNocParameterMasterList_NewCourse[i].SubjectList.length; j++) {
+            if (this.ApplyNocParameterMasterList_NewCourse[i].SubjectList[j].IsSubjectChecked == true) {
+              NewCourseCount++;
+              this.requestnoc.NOCDetails.push({
+                ApplyNOCID: this.ApplyNocParameterMasterList_NewCourse[i].ApplyNocApplicationID,
+                DepartmentID: this.SelectedDepartmentID,
+                RoleID: this.sSOLoginDataModel.RoleID,
+                UserID: this.sSOLoginDataModel.UserID,
+                CourseID: this.ApplyNocParameterMasterList_NewCourse[i].CourseID,
+                CourseName: this.ApplyNocParameterMasterList_NewCourse[i].CourseName,
+                SubjectID: this.ApplyNocParameterMasterList_NewCourse[i].SubjectList[j].SubjectID,
+                SubjectName: this.ApplyNocParameterMasterList_NewCourse[i].SubjectList[j].SubjectName,
+                ApplyNocParameterID: this.ApplyNocParameterMasterList_NewCourse[i].SubjectList[j].ApplyNocParameterID,
+              });
+            }
+          }
+        }
+        if (NewCourseCount <= 0) {
+          this.isFormvalid = false;
+          this.toastr.warning('Please select atleast one Subject in New Course');
+          return;
+        }
+      }
+      var PNOC = this.ApplyNocParameterMasterList.find((x: { IsChecked: boolean; ParameterCode: string }) => x.IsChecked == true && x.ParameterCode == 'DEC_PNOCSubject')?.IsChecked;
+      var PNOCCount = 0;
+      if (PNOC == true) {
+        for (var i = 0; i < this.ApplyNocParameterMasterList_PNOCOfSubject.length; i++) {
+          for (var j = 0; j < this.ApplyNocParameterMasterList_PNOCOfSubject[i].SubjectList.length; j++) {
+            if (this.ApplyNocParameterMasterList_PNOCOfSubject[i].SubjectList[j].IsSubjectChecked == true) {
+              PNOCCount++;
+              this.requestnoc.NOCDetails.push({
+                ApplyNOCID: this.ApplyNocParameterMasterList_PNOCOfSubject[i].ApplyNocApplicationID,
+                DepartmentID: this.SelectedDepartmentID,
+                RoleID: this.sSOLoginDataModel.RoleID,
+                UserID: this.sSOLoginDataModel.UserID,
+                CourseID: this.ApplyNocParameterMasterList_PNOCOfSubject[i].CourseID,
+                CourseName: this.ApplyNocParameterMasterList_PNOCOfSubject[i].CourseName,
+                SubjectID: this.ApplyNocParameterMasterList_PNOCOfSubject[i].SubjectList[j].SubjectID,
+                SubjectName: this.ApplyNocParameterMasterList_PNOCOfSubject[i].SubjectList[j].SubjectName,
+                ApplyNocParameterID: this.ApplyNocParameterMasterList_PNOCOfSubject[i].SubjectList[j].ApplyNocParameterID,
+              });
+            }
+          }
+        }
+        if (PNOCCount <= 0) {
+          this.isFormvalid = false;
+          this.toastr.warning('Please select atleast one Subject in PNOC for Subject');
+          return;
+        }
+      }
+
+
+      this.loaderService.requestStarted();
+      await this.applyNOCApplicationService.GenerateDraftNOCFor_DCE(this.requestnoc)
+        .then((data: any) => {
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          if (!this.State) {
+            this.toastr.success(this.SuccessMessage);
+            this.modalService.dismissAll('After Success');
+            window.open(GlobalConstants.SystemGeneratedPDFPathURL + data.Data, "_blank");
+            window.location.reload();
+          }
+          else {
+            this.toastr.error(this.ErrorMessage)
+          }
+        })
     }
     catch (Ex) {
       console.log(Ex);

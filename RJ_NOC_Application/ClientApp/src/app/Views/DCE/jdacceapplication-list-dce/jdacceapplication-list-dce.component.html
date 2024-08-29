@@ -336,6 +336,13 @@
                     </table>
                   </div>
                 </div>
+                <div class="row">
+                  <div class="col-lg-12 col-md-12 col-sm-6 col-12 mb-3">
+                    <label for="ddlParameterId">NOC Format <span style="color:red">*</span></label>
+                    <ckeditor [editor]="editor" [config]="config" (ready)="onReady($event)" [(ngModel)]="ApplyNocParameterMasterList_ChangeInCollegeManagement.NOCFormat"></ckeditor>
+                    <button type="submit" class="btn btn-primary" id="btnpreview" (click)="PreviewPDF(8,ApplyNocParameterMasterList_ChangeInCollegeManagement.NOCFormat)" name="btnSave">Preview</button>
+                  </div>
+                </div>
               </div>
             </div>
             <div class="card" *ngIf="ApplyNocParameterMasterList_ChangeInNameOfCollege!=null">
@@ -364,6 +371,13 @@
                     </table>
                   </div>
                 </div>
+                <div class="row">
+                  <div class="col-lg-12 col-md-12 col-sm-6 col-12 mb-3">
+                    <label for="ddlParameterId">NOC Format <span style="color:red">*</span></label>
+                    <ckeditor [editor]="editor" [config]="config" (ready)="onReady($event)" [(ngModel)]="ApplyNocParameterMasterList_ChangeInNameOfCollege.NOCFormat"></ckeditor>
+                    <button type="submit" class="btn btn-primary" id="btnpreview" (click)="PreviewPDF(3,ApplyNocParameterMasterList_ChangeInNameOfCollege.NOCFormat)" name="btnSave">Preview</button>
+                  </div>
+                </div>
               </div>
             </div>
             <div class="card" *ngIf="ApplyNocParameterMasterList_ChangeInPlaceOfCollege!=null">
@@ -388,6 +402,13 @@
                         </tr>
                       </tbody>
                     </table>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-lg-12 col-md-12 col-sm-6 col-12 mb-3">
+                    <label for="ddlParameterId">NOC Format <span style="color:red">*</span></label>
+                    <ckeditor [editor]="editor" [config]="config" (ready)="onReady($event)" [(ngModel)]="ApplyNocParameterMasterList_ChangeInPlaceOfCollege.NOCFormat"></ckeditor>
+                    <button type="submit" class="btn btn-primary" id="btnpreview" (click)="PreviewPDF(4,ApplyNocParameterMasterList_ChangeInPlaceOfCollege.NOCFormat)" name="btnSave">Preview</button>
                   </div>
                 </div>
               </div>
@@ -420,6 +441,13 @@
                         </tr>
                       </tbody>
                     </table>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-lg-12 col-md-12 col-sm-6 col-12 mb-3">
+                    <label for="ddlParameterId">NOC Format <span style="color:red">*</span></label>
+                    <ckeditor [editor]="editor" [config]="config" (ready)="onReady($event)" [(ngModel)]="NewCourseNOCFormat"></ckeditor>
+                    <button type="submit" class="btn btn-primary" id="btnpreview" (click)="PreviewPDF(9,NewCourseNOCFormat)" name="btnSave">Preview</button>
                   </div>
                 </div>
               </div>
@@ -455,6 +483,13 @@
                     </table>
                   </div>
                 </div>
+                <div class="row">
+                  <div class="col-lg-12 col-md-12 col-sm-6 col-12 mb-3">
+                    <label for="ddlParameterId">NOC Format <span style="color:red">*</span></label>
+                    <ckeditor [editor]="editor" [config]="config" (ready)="onReady($event)" [(ngModel)]="NewSubjectNOCFormat"></ckeditor>
+                    <button type="submit" class="btn btn-primary" id="btnpreview" (click)="PreviewPDF(11,NewSubjectNOCFormat)" name="btnSave">Preview</button>
+                  </div>
+                </div>
               </div>
             </div>
             <div class="card" *ngIf="ApplyNocParameterMasterList_TNOCExtOfSubject.length>0">
@@ -462,6 +497,19 @@
                 <b>&nbsp;TNOC Extension Of Subject</b>
               </div>
               <div class="card-body">
+                    <div class="row mb-3">
+                      <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                        <label class="form-label" style="margin-right:15px">No. of Issued Year : </label>
+                        <select class="form-select" id="ddlIssueYear" name="ddlIssueYear" [(ngModel)]="IssuedYear">
+                          <option value='0'>--Select--</option>
+                          <option value='1'>One</option>
+                          <option value='2'>Two</option>
+
+                        </select>
+
+                      </div>
+                    </div>
+                
                 <div class="row">
                   <div class="col-lg-12 col-md-12 col-sm-12 col-12">
                     <table class="table table-responsive table-bordered">
@@ -485,6 +533,13 @@
                         </tr>
                       </tbody>
                     </table>
+                  </div>
+                </div>
+                <div class="row mt-3">
+                  <div class="col-lg-12 col-md-12 col-sm-6 col-12 mt-3">
+                    <label for="ddlParameterId">NOC Format <span style="color:red">*</span></label>
+                    <ckeditor [editor]="editor" [config]="config" (ready)="onReady($event)" [(ngModel)]="TNOCExtOfSubjectNOCFormat"></ckeditor>
+                    <button type="submit" class="btn btn-primary" id="btnpreview" (click)="PreviewPDF(10,TNOCExtOfSubjectNOCFormat)" name="btnSave">Preview</button>
                   </div>
                 </div>
               </div>
@@ -519,27 +574,16 @@
                     </table>
                   </div>
                 </div>
-              </div>
-            </div>
-            <div class="card" *ngIf="ApplyNocParameterMasterList_TNOCExtOfSubject.length>0">
-              <div class="card-header">
-                <b>&nbsp;TNOC Extension </b>
-              </div>
-              <div class="card-body">
                 <div class="row">
-                  <div class="col-lg-12 col-md-12 col-sm-12 col-12">
-                    <label class="form-label" style="margin-right:15px">No. of Issued Year : </label>
-                    <select class="form-select" id="ddlIssueYear" name="ddlIssueYear" [(ngModel)]="IssuedYear">
-                      <option value='0'>--Select--</option>
-                      <option value='1'>One</option>
-                      <option value='2'>Two</option>
-
-                    </select>
-
+                  <div class="col-lg-12 col-md-12 col-sm-6 col-12 mb-3">
+                    <label for="ddlParameterId">NOC Format <span style="color:red">*</span></label>
+                    <ckeditor [editor]="editor" [config]="config" (ready)="onReady($event)" [(ngModel)]="PNOCOfSubjectNOCFormat"></ckeditor>
+                    <button type="submit" class="btn btn-primary" id="btnpreview" (click)="PreviewPDF(12,PNOCOfSubjectNOCFormat)" name="btnSave">Preview</button>
                   </div>
                 </div>
               </div>
             </div>
+            
             <div class="col-lg-12 col-md-12 col-sm-12 col-12">
               <label>NOC Issued Remark</label>
               <textarea id="NOCIssuedRemark" class="form-control" [(ngModel)]="NOCIssuedRemark"></textarea>

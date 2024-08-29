@@ -1666,5 +1666,38 @@ export class CommissionerApplicationScrutinyListComponent implements OnInit {
       }, 200);
     }
   }
+
+
+  async Forwardtoesign(ApplyNOCID: number) {
+   
+    //Show Loading
+    this.loaderService.requestStarted();
+    this.isLoading = true;
+    try {
+      if (confirm("Are you sure you want to forward to esign this application?")) {
+        await this.applyNOCApplicationService.ForwardToEsignDCE(ApplyNOCID, this.sSOLoginDataModel.UserID)
+          .then(async (data: any) => {
+            this.State = data['State'];
+            this.SuccessMessage = data['SuccessMessage'];
+            this.ErrorMessage = data['ErrorMessage'];
+            if (!this.State) {
+              this.toastr.success(this.SuccessMessage);
+              await this.GetNodalOfficerApplyNOCApplicationList(this.sSOLoginDataModel.RoleID, this.sSOLoginDataModel.UserID, this.QueryStringStatus);
+            }
+            else {
+              this.toastr.error(this.ErrorMessage)
+            }
+          })
+      }
+    }
+    catch (ex) { console.log(ex) }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+        this.isLoading = false;
+
+      }, 200);
+    }
+  }
 }
 

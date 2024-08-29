@@ -288,5 +288,23 @@ export class ApplyNOCApplicationService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
+  public async GenerateDraftNOCFor_DCE(request: NOCIssuedRequestDataModel) {
+    const headers = { 'content-type': 'application/json' }
+    return await this.http.post(this.APIUrl + '/GenerateDraftNOCFor_DCE/', request, { 'headers': headers })
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+  public async ForwardToEsignDCE(ApplyNOCID: number, UserId: number) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl + "/ForwardToEsignDCE/" + ApplyNOCID + "/" + UserId)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
 }
 
