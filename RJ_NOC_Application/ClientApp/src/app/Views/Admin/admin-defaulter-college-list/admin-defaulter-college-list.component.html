@@ -36,6 +36,7 @@
           <tr>
             <th>Action</th>
             <th>Sr. No.</th>
+            <th>Status</th>
             <th>Have you ever applied on NOC portal</th>
             <th>क्या आप PNOC प्राप्त हैं</th>
             <th>Last Application Number</th>
@@ -52,6 +53,7 @@
               <button type="button" class="btn btn-sm btn-info" title="Add Penalty" (click)="OpenPenaltyModel(Penaltymodel,row.RequestID)"><i class="fa fa-edit"></i></button>
             </td>
             <td>{{idx+1}}</td>
+            <td>{{row.ApplicationStatus}}</td>
             <td>{{row.EverAppliedNOC}}</td>
             <td>{{row.IsPNOC}}</td>
             <td>{{row.LastApplicationNo}}</td>
@@ -217,17 +219,29 @@
   </div>
   <div class="modal-body">
     <app-loader></app-loader>
-    <div class="row">
-      <div class="col-12">
+    <div class="row" *ngIf="DefaulterCollegePenaltyList.length<=0">
+      <div class="col-sm-12 col-12 mb-3">
         <label for="txtRemark" class="form-label">Penalty for(Narration)<span style="color:red;">*</span></label>
         <textarea id="txtRemark" class="form-control" [(ngModel)]="requestPenalty.Penaltyfor"></textarea>
         <p *ngIf="FormSubmit&&requestPenalty.Penaltyfor==''" class="text-danger"><i aria-hidden="true"></i> This field is required .!</p>
       </div>
-      <div class="col-12">
+      <div class="col-sm-12 col-12 mb-3">
+        <label for="DefaulterApproveReject" class="form-label" style="margin-right:15px">Approve / Reject : </label>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="radio" name="DefaulterApproveReject" id="DefaulterApprove" value="Approve" [(ngModel)]="requestPenalty.ApproveReject">
+          <label class="form-check-label" for="DefaulterApprove">Approve</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="radio" name="DefaulterApproveReject" id="DefaulterReject" value="Reject" [(ngModel)]="requestPenalty.ApproveReject">
+          <label class="form-check-label" for="DefaulterReject">Reject</label>
+        </div>
+        <p *ngIf="FormSubmit&&requestPenalty.ApproveReject==''" class="text-danger"><i aria-hidden="true"></i> This field is required .!</p>
+      </div>
+      <div class="col-sm-12 col-12 mb-3" *ngIf="requestPenalty.ApproveReject=='Approve'">
         <label for="txtPenaltyamount" class="form-label">Penalty Amount<span style="color:red;">*</span></label>
         <input autocomplete="off" type="text" maxlength="10" [(ngModel)]="requestPenalty.PenaltyAmount" class="form-control" id="txtPenaltyamount" name="txtPenaltyamount" (keypress)="numberOnly($event)">
-        <p *ngIf="FormSubmit&& requestPenalty.PenaltyAmount.toString()==''" class="text-danger"><i aria-hidden="true"></i> This field is required .!</p>
-        <p *ngIf="FormSubmit&& requestPenalty.PenaltyAmount==0" class="text-danger"><i aria-hidden="true"></i> Penalty Amount grater then zero .!</p>
+        <p *ngIf="FormSubmit&&requestPenalty.ApproveReject=='Approve'&&  requestPenalty.PenaltyAmount.toString()==''" class="text-danger"><i aria-hidden="true"></i> This field is required .!</p>
+        <p *ngIf="FormSubmit&& requestPenalty.PenaltyAmount==0 && requestPenalty.ApproveReject=='Approve'" class="text-danger"><i aria-hidden="true"></i> Penalty Amount grater then zero .!</p>
       </div>
       <div class="col-12 text-end mt-4">
         <button type="submit" id="btnPenaltySave" (click)="SaveData()" class="btn btn-success"> Save</button>
@@ -242,19 +256,21 @@
           <tr>
             <th style="width:5%">Sr. No.</th>
             <th>Penalty for</th>
+            <!--<th>Status</th>-->
             <th>Penalty Amount</th>
-            <th>Action</th>
+            <!--<th>Action</th>-->
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let row of DefaulterCollegePenaltyList; let idx=index;">
             <td>{{idx+1}}</td>
             <td>{{row.Penaltyfor}}</td>
+            <!--<td>{{row.ApplicationStatus}}</td>-->
             <td>{{row.PenaltyAmount}}</td>
-            <td>
-              <button type="submit" (click)="EditDefaulterCollegePenalty(row.PenaltyID)" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></button>
-              <button type="submit" (click)="DeleteDefaulterCollegePenalty(row.PenaltyID)" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></button>
-            </td>
+            <!--<td>
+    <button type="submit" (click)="EditDefaulterCollegePenalty(row.PenaltyID)" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></button>
+    <button type="submit" (click)="DeleteDefaulterCollegePenalty(row.PenaltyID)" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></button>
+  </td>-->
           </tr>
           <tr *ngIf="DefaulterCollegePenaltyList.length==0">
             <td colspan="10" class="text-center text-danger">No Data Found!</td>

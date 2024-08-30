@@ -123,37 +123,48 @@ export class AdminDefaulterCollegeListComponent implements OnInit {
   public SelectedRequestID: number = 0;
   async SaveData() {
     this.FormSubmit = true;
-    if (this.requestPenalty.Penaltyfor == '' || this.requestPenalty.PenaltyAmount == null || this.requestPenalty.PenaltyAmount.toString() == '') {
+    if (this.requestPenalty.Penaltyfor == '' ) {
       return;
     }
-    if (this.requestPenalty.PenaltyAmount == 0) {
+    if (this.requestPenalty.ApproveReject == '') {
       return;
+    }
+    if (this.requestPenalty.ApproveReject == 'Approve') {
+      if (this.requestPenalty.PenaltyAmount == null || this.requestPenalty.PenaltyAmount.toString() == '') {
+        return;
+      }
+      if (this.requestPenalty.PenaltyAmount == 0) {
+        return;
+      }
     }
     this.requestPenalty.DepartmentID = this.sSOLoginDataModel.DepartmentID;
     this.requestPenalty.ApplyNOCID = this.SelectedRequestID;
     this.requestPenalty.CreatedBy = this.sSOLoginDataModel.UserID;
     this.loaderService.requestStarted();
     try {
-      await this.DefaulterCollegeRequestService.SaveDefaulterCollegePenalty(this.requestPenalty)
-        .then(async (data: any) => {
-          this.State = data['State'];
-          this.SuccessMessage = data['SuccessMessage'];
-          this.ErrorMessage = data['ErrorMessage'];
-          if (this.State == 0) {
-            this.toastr.success(this.SuccessMessage);
-            this.requestPenalty = new ApplicationPenaltyDataModel();
-            const btnSave = document.getElementById('btnPenaltySave')
-            if (btnSave) btnSave.innerHTML = "Save";
-            this.FormSubmit = false;
-            await this.GetDefaulterCollegePenaltyData();
-          }
-          else if (this.State == 2) {
-            this.toastr.warning(this.ErrorMessage)
-          }
-          else {
-            this.toastr.error(this.ErrorMessage)
-          }
-        })
+      if (confirm("Are you sure you want?")) {
+        await this.DefaulterCollegeRequestService.SaveDefaulterCollegePenalty(this.requestPenalty)
+          .then(async (data: any) => {
+            this.State = data['State'];
+            this.SuccessMessage = data['SuccessMessage'];
+            this.ErrorMessage = data['ErrorMessage'];
+            if (this.State == 0) {
+              this.toastr.success(this.SuccessMessage);
+              this.requestPenalty = new ApplicationPenaltyDataModel();
+              const btnSave = document.getElementById('btnPenaltySave')
+              if (btnSave) btnSave.innerHTML = "Save";
+              this.FormSubmit = false;
+              await this.GetDefaulterCollegePenaltyData();
+              await this.GetApplicationList();
+            }
+            else if (this.State == 2) {
+              this.toastr.warning(this.ErrorMessage)
+            }
+            else {
+              this.toastr.error(this.ErrorMessage)
+            }
+          })
+      }
     }
     catch (ex) { console.log(ex) }
     finally {

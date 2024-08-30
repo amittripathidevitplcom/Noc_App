@@ -115,6 +115,9 @@ export class InspectionCommitteePhysicalVerificationDCEComponent implements OnIn
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
           this.ApplyNocDetails = data['Data'][0]['data'];
+          console.log('Test');
+          console.log(this.ApplyNocDetails);
+          console.log('Test');
         }, error => console.error(error));
     }
     catch (Ex) {
@@ -208,14 +211,14 @@ export class InspectionCommitteePhysicalVerificationDCEComponent implements OnIn
     this.SelectedDepartmentID = DepartmentID;
     this.SelectedApplyNOCID = ApplyNOCID;
     await this.GetRNCCheckListByTypeDepartment(ApplyNOCID, CollegeID);
-    await this.CheckTabsEntry(ApplyNOCID);
-    if (this.isTabCheckValid) {
+    //await this.CheckTabsEntry(ApplyNOCID);
+    //if (this.isTabCheckValid) {
       this.ShowHideApplicationAction = true;
-    }
-    else {
-      this.toastr.warning('First of all, check and complete all the tabs of document scrutiny and then complete the check list.');
-      this.ShowHideApplicationAction = false;
-    }
+    //}
+    //else {
+    //  this.toastr.warning('First of all, check and complete all the tabs of document scrutiny and then complete the check list.');
+    //  this.ShowHideApplicationAction = false;
+    //}
   }
   async SaveData() {
     this.isSubmit = true;
@@ -482,10 +485,12 @@ export class InspectionCommitteePhysicalVerificationDCEComponent implements OnIn
   }
 
   public FinalSubmitApplyNOCID: number = 0;
-  async OpenApplicationCommitteeMember(ApplyNOCID: number, ApplicationNo: string, CollegeID: number) {
+  public FinalSubmitIsGeoTagging: boolean = false;
+  async OpenApplicationCommitteeMember(ApplyNOCID: number, ApplicationNo: string, CollegeID: number, IsGeoTagging: boolean) {
     this.CommitteeApplicationNo = ApplicationNo;
     this.ShowHideCommittee = true;
     this.FinalSubmitApplyNOCID = ApplyNOCID;
+    this.FinalSubmitIsGeoTagging = IsGeoTagging;
     await this.GetApplicationCommitteeList(ApplyNOCID);
     await this.GetRNCCheckListByTypeDepartment(ApplyNOCID, CollegeID);
     await this.GetApplicationNodelOfficer(ApplyNOCID);
@@ -583,6 +588,11 @@ export class InspectionCommitteePhysicalVerificationDCEComponent implements OnIn
   async SubmitPhysicalVerification() {
     this.request = [];
     try {
+      if (this.FinalSubmitIsGeoTagging == false) {
+        this.toastr.warning('Please complete college inspection geo tag');
+        return;
+      }
+      await this.CheckTabsEntry(this.ApplicationCommitteeList[0].ApplyNocApplicationID);
       for (var i = 0; i < this.ApplicationCommitteeList.length; i++) {
         if (this.ApplicationCommitteeList[i].SendOTP != 2) {
           this.toastr.warning('Verified All Memeber');
@@ -613,6 +623,11 @@ export class InspectionCommitteePhysicalVerificationDCEComponent implements OnIn
       }
       if (!this.NodelOfficerOTPVerfied) {
         this.toastr.warning('Please Verify the Nodel Officer');
+        return;
+      }
+ 
+      if (!this.isTabCheckValid) {
+        this.toastr.warning('First of all, check and complete all the tabs of document scrutiny and then submit the application.');
         return;
       }
       await this.applyNOCApplicationService.SaveCommiteeInspectionRNCCheckList(this.request).then((data: any) => {

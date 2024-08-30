@@ -70,6 +70,7 @@ export class ApplicationPenaltyDataModel {
   public CollegeID: number = 0;
   public ApplyNOCID: number = 0;
   public Penaltyfor: string = '';
+  public ApproveReject: string = '';
   public PenaltyAmount: number = 0;
   public IsPayment: boolean = false;
   public CreatedBy: number = 0;

@@ -104,6 +104,17 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
+  public async GetDepartmentList_IsOpenDefaulter() {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl_CommonMaster + "/GetDepartmentList_IsOpenDefaulter")
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
   public async GetSchemeListByDepartment(DepatmentID: number) {
     const httpOptions = {
       headers: new HttpHeaders({

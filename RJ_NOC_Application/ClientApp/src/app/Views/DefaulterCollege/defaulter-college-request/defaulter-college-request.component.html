@@ -16,12 +16,25 @@
 </div>
 <div class="container-fluid mainContents">
   <div class="clearfix"></div>
-  <form [formGroup]="DefaulterCollegeForm" class="form-horizontal">
+
+  <form [formGroup]="DefaulterCollegeForm" class="form-horizontal" *ngIf="DefaulterCollegeList.length < 0 || !ShowRegister">
     <div class="card">
       <div class="card-header d-flex justify-content-between align-items-center">
         <b>Personal Detail</b>
       </div>
       <div class="card-body">
+        <div class="row">
+          <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-3">
+            <label for="ddlDepartmentID" class="form-label">Department <span style="color:red;">*</span></label>
+            <select class="form-select" id="ddlDepartmentID" name="ddlDepartmentID" [(ngModel)]="request.DepartmentID" formControlName="ddlDepartmentID">
+              <option value="0">--Select--</option>
+              <option *ngFor="let item of DepartmentList" value="{{item.DepartmentID}}">{{item.DepartmentName}}</option>
+            </select>
+            <div *ngIf="isSubmitted&&form.ddlDepartmentID.errors" class="text-danger">
+              <p *ngIf="!form.ddlDepartmentID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
+            </div>
+          </div>
+        </div>
         <div class="row">
           <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-3">
             <label for="ddlEverAppliedNOC" class="form-label">Have you ever applied on NOC portal/क्या आपने कभी NOC पोर्टल पर आवेदन किया है? <span style="color:red;">*</span></label>
@@ -207,7 +220,7 @@
 
         <div class="row">
           <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-3">
-            <label class="form-label">First Noc(Only pdf/image file.)(Min.Size 500KB)(Max.Size 2MB):<span style="color:red;">*</span></label>
+            <label class="form-label">First Noc(Only pdf/image file.)(Max.Size 2MB):<span style="color:red;">*</span></label>
             <div class="d-flex">
               <input type="file" style="display:none;" class="form-control" id="FirstNOCDoc" name="FirstNOCDoc" (change)="onFilechange($event,'FirstNOCDoc')" formControlName="FirstNOCDoc">
               <label class="btn upload" for="FirstNOCDoc">
@@ -225,7 +238,7 @@
           </div>
 
           <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-3">
-            <label class="form-label">Last Noc(Only pdf/image file.)(Min.Size 500KB)(Max.Size 2MB):<span style="color:red;">*</span></label>
+            <label class="form-label">Last Noc(Only pdf/image file.)(Max.Size 2MB):<span style="color:red;">*</span></label>
             <div class="d-flex">
               <input type="file" style="display:none;" class="form-control" id="LastNOCDoc" name="LastNOCDoc" (change)="onFilechange($event,'LastNOCDoc')" formControlName="LastNOCDoc">
               <label class="btn upload" for="LastNOCDoc">
@@ -243,7 +256,7 @@
           </div>
 
           <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-3">
-            <label class="form-label">Latest Affiliation of University/Proof of Latest Affiliation(Only pdf/image file.)(Min.Size 500KB)(Max.Size 2MB):<span style="color:red;">*</span></label>
+            <label class="form-label">Latest Affiliation of University/Proof of Latest Affiliation(Only pdf/image file.)(Max.Size 2MB):<span style="color:red;">*</span></label>
             <div class="d-flex">
               <input type="file" style="display:none;" class="form-control" id="LatestAffiliationDoc" name="LatestAffiliationDoc" (change)="onFilechange($event,'LatestAffiliationDoc')" formControlName="LatestAffiliationDoc">
               <label class="btn upload" for="LatestAffiliationDoc">
@@ -261,7 +274,7 @@
           </div>
 
           <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-3">
-            <label class="form-label">Result of session 2022-23(copy of TR of first year university result of each course running in college)(Only pdf/image file.)(Min.Size 500KB)(Max.Size 2MB):<span style="color:red;">*</span></label>
+            <label class="form-label">Result of last session(copy of TR of first year university result of each course running in college)(Only pdf/image file.)(Max.Size 2MB):<span style="color:red;">*</span></label>
             <div class="d-flex">
               <input type="file" style="display:none;" class="form-control" id="ResultLastSessionDoc" name="ResultLastSessionDoc" (change)="onFilechange($event,'ResultLastSessionDoc')" formControlName="ResultLastSessionDoc">
               <label class="btn upload" for="ResultLastSessionDoc">
@@ -279,7 +292,7 @@
           </div>
 
           <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-3">
-            <label class="form-label">Proof of Examinations form filled by students for session 2023-24(Only pdf/image file.)(Min.Size 500KB)(Max.Size 2MB):<span style="color:red;">*</span></label>
+            <label class="form-label">Proof of Examinations form filled by students for last session(Only pdf/image file.)(Max.Size 2MB):<span style="color:red;">*</span></label>
             <div class="d-flex">
               <input type="file" style="display:none;" class="form-control" id="LastSessionProofOfExaminationDoc" name="LastSessionProofOfExaminationDoc" (change)="onFilechange($event,'LastSessionProofOfExaminationDoc')" formControlName="LastSessionProofOfExaminationDoc">
               <label class="btn upload" for="LastSessionProofOfExaminationDoc">
@@ -297,65 +310,67 @@
           </div>
 
         </div>
-        <div class="card-footer">
-          <div class="row">
-            <div class="col-lg-6 col-md-6 col-sm-12 col-12 text-first">
-              <button *ngIf="DefaulterCollegeList.length<=0 || request.RequestID>0" type="submit" class="btn btn-success" (click)="SaveData()" id="btnSave"><i class="fa fa-save"></i> Register</button>
-            </div>
-            <div class="col-lg-6 col-md-6 col-sm-12 col-12 text-end">
-              <button type="reset" class="btn btn-secondary" (click)="ClearForm()">Cancel</button>
-            </div>
+
+
+      </div>
+      <div class="card-footer">
+        <div class="row">
+          <div class="col-lg-12 col-md-12 col-sm-12 col-12 text-end">
+            <button *ngIf="DefaulterCollegeList.length < 0 || !ShowRegister" type="submit" class="btn btn-success" (click)="SaveData()" id="btnSave"><i class="fa fa-save"></i> Register</button>
+            <button type="reset" class="btn btn-secondary" (click)="ClearForm()">Cancel</button>
           </div>
         </div>
-
       </div>
     </div>
-    <div class="card mb-0" *ngIf="DefaulterCollegeList.length>0">
-      <div class="card-header d-xxl-flex d-xl-flex d-md-flex d-sm-block justify-content-between align-items-center">
-        <b>Defaulter College Requests</b>
-        
-      </div>
 
-      <div class="table-responsive">
-        <table class="table table-hover table-striped-columns mb-0" id="tabellist" #content>
-          <thead>
-            <tr>
-              <th>SNo</th>
-              <th>EverApplied NOC</th>
-              <th>IsPNOC</th>
-              <th>FirstNOC Doc</th>
-              <th>LastNOC Doc</th>
-              <th>LastApplication No</th>
-              <th>College</th>
-              <th>University</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let row of DefaulterCollegeList | tableSearchFilter:searchText;let idx=index;">
-              <td>{{idx+1}}</td>
-              <td>{{row.EverAppliedNOC}}</td>
-              <td>{{row.IsPNOC}}</td>
-              <td><a target="_blank" title="View First NOC Document" class="btn btn-outline-primary btn-sm" href="{{row.FirstNOCDocPath}}"><i class="fa fa-eye"></i></a></td>
-              <td><a target="_blank" title="View Last NOC Document" class="btn btn-outline-primary btn-sm" href="{{row.LastNOCDocPath}}"><i class="fa fa-eye"></i></a></td>
-              <td>{{row.LastApplicationNo}}</td>
-              <td>{{row.CollegeName}}</td>
-              <td>{{row.UniversityName}}</td>
-              <td>
-                <div class="d-flex">
-                  <button type="button" (click)="Edit_OnClick(row.RequestID)" title="Edit" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></button>
-                  <button type="button" class="btn btn-sm btn-info" title="Penalty Fee" (click)="OpenPenaltyModel(Penaltymodel,row.RequestID)"><i class="fa fa-eye"></i></button>
-                  <button type="button" class="btn btn-sm btn-danger" title="Delete" (click)="Delete_OnClick(row.RequestID)"><i class="fa fa-trash"></i></button>
-                </div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-    </div>
   </form>
+  <div class="card mb-0" *ngIf="DefaulterCollegeList.length>0">
+    <div class="card-header d-xxl-flex d-xl-flex d-md-flex d-sm-block justify-content-between align-items-center">
+      <b>Defaulter College Requests</b>
 
+    </div>
+
+    <div class="table-responsive">
+      <table class="table table-hover table-striped-columns mb-0" id="tabellist" #content>
+        <thead>
+          <tr>
+            <th>SNo</th>
+            <th>EverApplied NOC</th>
+            <th>IsPNOC</th>
+            <th>FirstNOC Doc</th>
+            <th>LastNOC Doc</th>
+            <th>LastApplication No</th>
+            <th>College</th>
+            <th>University</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let row of DefaulterCollegeList | tableSearchFilter:searchText;let idx=index;">
+            <td>{{idx+1}}</td>
+            <td>{{row.EverAppliedNOC}}</td>
+            <td>{{row.IsPNOC}}</td>
+            <td><a target="_blank" title="View First NOC Document" class="btn btn-outline-primary btn-sm" href="{{row.FirstNOCDocPath}}"><i class="fa fa-eye"></i></a></td>
+            <td><a target="_blank" title="View Last NOC Document" class="btn btn-outline-primary btn-sm" href="{{row.LastNOCDocPath}}"><i class="fa fa-eye"></i></a></td>
+            <td>{{row.LastApplicationNo}}</td>
+            <td>{{row.CollegeName}}</td>
+            <td>{{row.UniversityName}}</td>
+            <td>{{row.ApplicationStatus}}</td>
+            <td>
+              <div class="d-flex">
+                <!--<button type="button" (click)="Edit_OnClick(row.RequestID)" title="Edit" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></button>-->
+                <button type="button" class="btn btn-sm btn-primary" title="View Details" (click)="ViewDetails(mymodaldetails,row.RequestID)"><i class="fa fa-eye"></i></button>
+                <button type="button" class="btn btn-sm btn-info" title="Penalty Fee" (click)="OpenPenaltyModel(Penaltymodel,row.RequestID)"><i class="fa fa-eye"></i></button>
+                <!--<button type="button" class="btn btn-sm btn-danger" title="Delete" (click)="Delete_OnClick(row.RequestID)"><i class="fa fa-trash"></i></button>-->
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
 </div>
 <ng-template #Penaltymodel let-modal>
   <div class="modal-header">
@@ -388,6 +403,146 @@
           </tr>
         </tbody>
       </table>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #mymodaldetails let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-applynocpayment-title" style="font-size: 17px; font-weight: 600 !important;">
+      Defaulter College Request Details
+    </h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <i class="fa fa-close"></i>
+    </button>
+  </div>
+  <div class="modal-body">
+    <app-loader></app-loader>
+    <div class="card">
+      <div class="card-header d-flex justify-content-between align-items-center">
+        <b>Personal Detail</b>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-3">
+            <label for="ddlEverAppliedNOC" class="form-label">Have you ever applied on NOC portal/क्या आपने कभी NOC पोर्टल पर आवेदन किया है? </label>
+            <input class="form-control" id="ddlEverAppliedNOC" name="ddlEverAppliedNOC" disabled [(ngModel)]="DefaulterCollegeDetailsData.EverAppliedNOC">
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="DefaulterCollegeDetailsData.EverAppliedNOC=='Yes'">
+            <label for="txtLastApplicationNo" class="form-label">Last Application Number </label>
+            <input class="form-control" id="txtLastApplicationNo" name="txtLastApplicationNo" disabled [(ngModel)]="DefaulterCollegeDetailsData.LastApplicationNo">
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="DefaulterCollegeDetailsData.EverAppliedNOC=='Yes'">
+            <label for="txtLastApplicationSubmittedDate" class="form-label">Submitted Application Date </label>
+            <input class="form-control" id="txtLastApplicationSubmittedDate" name="txtLastApplicationSubmittedDate" disabled [(ngModel)]="DefaulterCollegeDetailsData.LastApplicationSubmittedDate">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-3">
+            <label for="ddlIsPNOC" class="form-label">क्या आप PNOC प्राप्त हैं? </label>
+            <input class="form-control" id="ddlIsPNOC" name="ddlIsPNOC" disabled [(ngModel)]="DefaulterCollegeDetailsData.IsPNOC">
+          </div>
+
+          <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-3" *ngIf="DefaulterCollegeDetailsData.IsPNOC=='Yes'">
+            <label for="ddlCaseOperatedTNOCLevel" class="form-label">क्या आपका कोई प्रकरण TNOC स्तर में संचालित है? </label>
+            <input class="form-control" id="ddlCaseOperatedTNOCLevel" name="ddlCaseOperatedTNOCLevel" disabled [(ngModel)]="DefaulterCollegeDetailsData.CaseOperatedTNOCLevel">
+          </div>
+          <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-3" *ngIf="DefaulterCollegeDetailsData.IsPNOC=='Yes'||DefaulterCollegeDetailsData.IsPNOC=='No'">
+            <label for="ddlLastSessionOfTNOCID" class="form-label">अनापत्ति प्राप्त संचालित विषयों की TNOC का अन्तिम सत्र क्या है? </label>
+            <input class="form-control" id="ddlLastSessionOfTNOCID" name="ddlLastSessionOfTNOCID" disabled [(ngModel)]="DefaulterCollegeDetailsData.LastSessionOfTNOC">
+
+          </div>
+
+          <div class="row" *ngIf="DefaulterCollegeDetailsData.EverAppliedNOC=='No'">
+            <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-3">
+              <label for="txtCollegeNameEn" maxlength="200" class="form-label">College Name</label>
+              <input class="form-control" id="txtCollegeNameEn" name="txtCollegeNameEn" disabled [(ngModel)]="DefaulterCollegeDetailsData.CollegeName">
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-3">
+              <label for="ddlDivisionID" class="form-label">Division </label>
+              <input class="form-control" id="ddlDivisionID" name="ddlDivisionID" disabled [(ngModel)]="DefaulterCollegeDetailsData.DivisionName">
+            </div>
+
+
+            <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-3">
+              <label for="txtCollegeNameHi" maxlength="200" class="form-label">College Name in Hindi </label>
+              <input class="form-control" id="txtCollegeNameHi" name="txtCollegeNameHi" disabled [(ngModel)]="DefaulterCollegeDetailsData.CollegeNameHi">
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-3">
+              <label for="ddlDistrictID" class="form-label">District </label>
+              <input class="form-control" id="ddlDistrictID" name="ddlDistrictID" disabled [(ngModel)]="DefaulterCollegeDetailsData.DistrictName">
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-3">
+              <label for="txtEmail" class="form-label">College Email Address </label>
+              <input class="form-control" id="txtEmail" name="txtEmail" disabled [(ngModel)]="DefaulterCollegeDetailsData.CollegeEmail">
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-3">
+              <label for="txtMobileNumber" class="form-label">College Mobile Number </label>
+              <input class="form-control" id="txtMobileNumber" name="txtMobileNumber" disabled [(ngModel)]="DefaulterCollegeDetailsData.CollegeMobileNo">
+            </div>
+
+            <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-3">
+              <label for="ddlCollegeTypeID" class="form-label">Select College Type </label>
+              <input class="form-control" id="ddlCollegeTypeID" name="ddlCollegeTypeID" disabled [(ngModel)]="DefaulterCollegeDetailsData.CollegeType">
+            </div>
+
+            <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-3">
+              <label for="ddlUniversityID" class="form-label">
+                University Name
+              </label>
+              <input class="form-control" id="ddlUniversityID" name="ddlUniversityID" disabled [(ngModel)]="DefaulterCollegeDetailsData.UniversityName">
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-3">
+              <label for="ddlPresentCollegeStatus" class="form-label">Present Status of College </label>
+              <input class="form-control" id="ddlPresentCollegeStatus" name="ddlPresentCollegeStatus" disabled [(ngModel)]="DefaulterCollegeDetailsData.CollegePresentStatus">
+            </div>
+
+            <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-3">
+              <label for="ddlCollegeLevelID" class="form-label">College Level </label>
+              <input class="form-control" id="ddlCollegeLevelID" name="ddlCollegeLevelID" disabled [(ngModel)]="DefaulterCollegeDetailsData.CollegeLevel">
+            </div>
+
+            <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-3">
+              <label for="ddlEstablishmentYearID" class="form-label">Establishment Year</label>
+              <input class="form-control" id="ddlEstablishmentYearID" name="ddlEstablishmentYearID" disabled [(ngModel)]="DefaulterCollegeDetailsData.EstablishmentYear">
+            </div>
+
+          </div>
+
+          <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-3">
+              <label class="form-label">First Noc(Only pdf/image file.)(Min.Size 500KB)(Max.Size 2MB):</label>
+              <div class="clearfix"></div>
+              <a class="bi bi-file-earmark-pdf-fill" *ngIf="DefaulterCollegeDetailsData.FirstNOCDocPath.includes('.pdf')" data-fancybox="gallery" href="{{DefaulterCollegeDetailsData.FirstNOCDocPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+            </div>
+
+            <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-3">
+              <label class="form-label">Last Noc(Only pdf/image file.)(Min.Size 500KB)(Max.Size 2MB):</label>
+              <div class="clearfix"></div>
+              <a class="bi bi-file-earmark-pdf-fill" *ngIf="DefaulterCollegeDetailsData.LastNOCDocPath.includes('.pdf')" data-fancybox="gallery" href="{{DefaulterCollegeDetailsData.LastNOCDocPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+            </div>
+
+            <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-3">
+              <label class="form-label">Latest Affiliation of University/Proof of Latest Affiliation(Only pdf/image file.)(Min.Size 500KB)(Max.Size 2MB):</label>
+              <div class="clearfix"></div>
+              <a class="bi bi-file-earmark-pdf-fill" *ngIf="DefaulterCollegeDetailsData.LatestAffiliationDocPath.includes('.pdf')" data-fancybox="gallery" href="{{DefaulterCollegeDetailsData.LatestAffiliationDocPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+            </div>
+
+            <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-3">
+              <label class="form-label">Result of session 2022-23(copy of TR of first year university result of each course running in college)(Only pdf/image file.)(Min.Size 500KB)(Max.Size 2MB):</label>
+              <div class="clearfix"></div>
+              <a class="bi bi-file-earmark-pdf-fill" *ngIf="DefaulterCollegeDetailsData.ResultLastSessionDocPath.includes('.pdf')" data-fancybox="gallery" href="{{DefaulterCollegeDetailsData.ResultLastSessionDocPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+            </div>
+
+            <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-3">
+              <label class="form-label">Proof of Examinations form filled by students for session 2023-24(Only pdf/image file.)(Min.Size 500KB)(Max.Size 2MB):</label>
+              <div class="clearfix"></div>
+              <a class="bi bi-file-earmark-pdf-fill" *ngIf="DefaulterCollegeDetailsData.LastSessionProofOfExaminationDocPath.includes('.pdf')" data-fancybox="gallery" href="{{DefaulterCollegeDetailsData.LastSessionProofOfExaminationDocPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+            </div>
+
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </ng-template>

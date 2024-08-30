@@ -51,6 +51,7 @@ export class DefaulterCollegeRequestComponent {
   request = new DefaulterCollegeRequestDataModel();
   searchrequest = new DefaulterCollegeSearchFilterDataModel();
   sSOLoginDataModel = new SSOLoginDataModel();
+  public DepartmentList: any = [];
   constructor(private modalService: NgbModal,private DefaulterCollegeRequestService: DefaulterCollegeRequestService, private toastr: ToastrService, private loaderService: LoaderService, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private fileUploadService: FileUploadService) {
   }
   get form() { return this.DefaulterCollegeForm.controls; }
@@ -80,13 +81,35 @@ export class DefaulterCollegeRequestComponent {
         LatestAffiliationDoc: [''],
         ResultLastSessionDoc: [''],
         LastSessionProofOfExaminationDoc: [''],
+        ddlDepartmentID: ['', [DropdownValidators]]
       });
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     await this.GetDDLList();
+    await this.GetDepartmentList();
     await this.GetDefaulterCollegeList();
   }
 
-
+  async GetDepartmentList() {
+    try {
+      this.loaderService.requestStarted();
+      await this.commonMasterService.GetDepartmentList_IsOpenDefaulter()
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.DepartmentList = data['Data'];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
   async GetDDLList() {
     try {
       this.loaderService.requestStarted();
@@ -421,11 +444,11 @@ export class DefaulterCollegeRequestComponent {
               this.toastr.error('Select less then 2MB File')
               return
             }
-            if (this.file.size < 499000) {
-              this.ResetFileAndValidation(Type, 'Select more then 499kb File', '', '', '', false);
-              this.toastr.error('Select more then 499kb File')
-              return
-            }
+            //if (this.file.size < 499000) {
+            //  this.ResetFileAndValidation(Type, 'Select more then 499kb File', '', '', '', false);
+            //  this.toastr.error('Select more then 499kb File')
+            //  return
+            //}
           }
           else {
             this.toastr.warning('Select Only jpg/jpeg/pdf');
@@ -557,8 +580,10 @@ export class DefaulterCollegeRequestComponent {
       }, 200);
     }
   }
-
+  DefaulterCollegeDetailsData: any = {};
+  public ShowRegister: boolean = false;
   async GetDefaulterCollegeList() {
+    this.DefaulterCollegeDetailsData = {};
     this.searchrequest.SSOID = this.sSOLoginDataModel.SSOID;
     this.searchrequest.DepartmentID = this.sSOLoginDataModel.DepartmentID;
     try {
@@ -570,7 +595,12 @@ export class DefaulterCollegeRequestComponent {
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
           this.DefaulterCollegeList = data['Data'][0]['data'];
-          console.log(JSON.parse(JSON.stringify(this.DefaulterCollegeList)));
+          if (this.DefaulterCollegeList.length > 0) {
+            let ApprovePendingList = this.DefaulterCollegeList.filter((x: { ApplicationStatus: string; }) => x.ApplicationStatus == 'Approve' || x.ApplicationStatus == 'Pending');
+            if (ApprovePendingList.length > 0) {
+              this.ShowRegister = true;
+            }
+          }
         })
     }
     catch (Ex) {
@@ -691,6 +721,40 @@ export class DefaulterCollegeRequestComponent {
       return 'by clicking on a backdrop';
     } else {
       return `with: ${reason}`;
+    }
+  }
+
+  async ViewDetails(content: any, RequestID: number) {
+
+    this.modalService.open(content, { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' }).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+    await this.GetApplicationDetails(RequestID);
+  }
+  async GetApplicationDetails(RequestID: number) {
+    try {
+      this.DefaulterCollegeDetailsData = {};
+      this.searchrequest.RequestID = RequestID;
+      this.loaderService.requestStarted();
+      await this.DefaulterCollegeRequestService.GetDefaulterCollegeRequestData(this.searchrequest)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          // data
+          this.DefaulterCollegeDetailsData = data['Data'][0]['data'][0];
+        }, (error: any) => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
     }
   }
 }

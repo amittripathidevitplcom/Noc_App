@@ -749,6 +749,7 @@ export class JDACCEApplicationListDCEComponent implements OnInit {
   public PNOCOfSubjectNOCFormat: string = '';
   async PreviewPDF(ParameterID: number, NOCFormat: string) {
     try {
+      this.requestnoc = new NOCIssuedRequestDataModel();
       this.loaderService.requestStarted();
       this.requestnoc.AppliedNOCFor.push({
         ApplyNOCID: this.SelectedApplyNOCID,
@@ -883,12 +884,14 @@ export class JDACCEApplicationListDCEComponent implements OnInit {
           this.ErrorMessage = data['ErrorMessage'];
           if (!this.State) {
             this.toastr.success(this.SuccessMessage);
-            this.modalService.dismissAll('After Success');
+            //this.modalService.dismissAll('After Success');
             window.open(GlobalConstants.SystemGeneratedPDFPathURL + data.Data, "_blank");
-            window.location.reload();
+            //window.location.reload();
+            this.loaderService.requestEnded();
           }
           else {
-            this.toastr.error(this.ErrorMessage)
+            this.toastr.error(this.ErrorMessage);
+            this.loaderService.requestEnded();
           }
         })
     }
