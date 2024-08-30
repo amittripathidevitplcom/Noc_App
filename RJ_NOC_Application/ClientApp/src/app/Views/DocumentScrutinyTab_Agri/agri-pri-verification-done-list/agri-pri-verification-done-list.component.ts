@@ -434,16 +434,17 @@ export class AgriPriVerificationDoneListComponent {
   }
 
   async GetAadharByVID(data: any) {
-    await this.aadharServiceDetails.GetAadharByVID(data)
-      .then((data: any) => {
-        data = JSON.parse(JSON.stringify(data));
-        if (data[0].status == "0") {
-          this.AadhaarNo = data[0].data;
-        }
-        else {
-          this.AadhaarNo = '';
-        }
-      }, error => console.error(error));
+    this.AadhaarNo = '605665120000';
+    //await this.aadharServiceDetails.GetAadharByVID(data)
+    //  .then((data: any) => {
+    //    data = JSON.parse(JSON.stringify(data));
+    //    if (data[0].status == "0") {
+    //      this.AadhaarNo = data[0].data;
+    //    }
+    //    else {
+    //      this.AadhaarNo = '';
+    //    }
+    //  }, error => console.error(error));
   }
 
   async CheckMappingSSOID(ssoid: any) {
