@@ -62,7 +62,7 @@ export class GlobalConstants {
   //public static BacktoSSOURL: string = "https://nocapi.rajasthan.gov.in/sso_landing_page.aspx?backtosso=yes";
   //public static BacktoSSOURL_Logout: string = "https://nocapi.rajasthan.gov.in/sso_landing_page.aspx?backtosso=no";
   //public static ImagePathURL: string = "https://nocapi.rajasthan.gov.in/api/imagefile/"
-  // public static SystemGeneratedPDFPathURL: string = "https://nocapi.rajasthan.gov.in/api/SystemGeneratedPDF/"
+  //public static SystemGeneratedPDFPathURL: string = "https://nocapi.rajasthan.gov.in/api/SystemGeneratedPDF/"
   //public static SSOURL: string = "https://sso.rajasthan.gov.in/signin";
   //public static ApplicationTitle: string = "raj noc";
   //public static RPPRequstURL: string = "http://uat.rpp.rajasthan.gov.in/payments/v1/init";

@@ -35,6 +35,7 @@
                       <th>Department Name</th>
                       <th>College Name</th>
                       <th>Application No.</th>
+                      <th>Application Type</th>
                       <th *ngIf="QueryStringStatus!='Revert'">Action</th>
                     </tr>
                   </thead>
@@ -44,6 +45,7 @@
                       <td>{{item.DepartmentName}}</td>
                       <td>{{item.CollegeName}}</td>
                       <td>{{item.ApplicationNo}}</td>
+                      <td>{{item.ApplicationTypes}}</td>
                       <td *ngIf="QueryStringStatus!='Revert'">
                         <a *ngIf="QueryStringStatus=='Pending' || QueryStringStatus=='Forward'" href="javascript:void(0)" title="Application Scrutiny" (click)="ApplicationScrutiny_OnClick(item.DepartmentID,item.CollegeID,item.ApplyNOCID,item.ApplicationNo)" class="btn btn-sm btn-info"><i class="fa fa-eye"></i></a>
                         &nbsp;<button type="button" class="btn btn-sm btn-primary" *ngIf="item.PVStage!='0' " title="Post Verification Details" (click)="ViewApplicationPvDetails(mymodalViewPVDetails,item.ApplyNOCID,item.DepartmentID,item.CollegeID,item.ApplicationNo)"><i class="fa fa-list"></i></button>

@@ -1,0 +1,152 @@
+
+  <div class="card" *ngIf="request.DepartmentID==3">
+    <div class="card-header">
+      <b><i class="bi bi-info-circle"></i> e-Gras Details</b>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-lg-8 col-md-8 col-sm-12 col-12">
+          <a href="../../../../assets/PDF/E gras.pdf" target="_blank" class="btn btn-outline-primary">Download Guidelines for E-Gras Challan (Annexure-10)</a>
+          <h4 class="mt-3 mb-3">Office Name: 11503- Dy. Dir. College Education, Jaipur</h4>
+          <h4 class="mb-3">Budget Head: 0202-01-103-02-01-संचालक, महावि‌द्यालय शिक्षा के द्वारा </h4>
+          <h5 class="mb-3">PAN/TAN No.: JPRC00140A</h5>
+          <h2 class="alertBlink"> Payable Amount: ₹ {{ApplicationFee}}.00</h2>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-12 col-12">
+          <a href="https://egras.rajasthan.gov.in/" target="_blank" class="d-block btn btn-primary btn-lg">e-Gras Website URL <br />(ई-चालान लाने हेतु क्लिक करे)</a>
+        </div>
+        <div class="col-lg-12 col-md-12 col-sm-12 col-12 mt-4">
+          <p>नीट दिसंस्था में गलत बजट हेड कार्यालय के नाम से E-challan प्रस्तुत किया तो उसको अमान्य समझा जायेगा तथा संस्था इसके लिए स्वयं जिम्मेदार होगी। आयुक्तालय किसी भी स्तर पर इसमें संगोधन करने का आवेदन नहीं स्वीकारेगा।</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+<div class="clearfix"></div>
+
+
+  <div class="card mb-3">
+    <div class="card-header d-flex justify-content-between align-items-center">
+      <b><i class="fa fa-plus"></i>&nbsp;Add Offline Payment <span style="color:red;">*</span></b>
+
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-lg-3 col-md-3 col-sm-6 col-12 ">
+          <label>
+            Select Mode of Payment <span style="color:red;">*</span>
+          </label>
+          <select id="ddlPaymentMode" name="ddlPaymentMode" class="form-select" [(ngModel)]="request.PaymentMode">
+            <option value="0" selected disabled>--Select--</option>
+            <option *ngFor="let item of lstPaymentMode"
+                    value="{{item.ID}}">
+              {{item.Name}}
+            </option>
+
+
+          </select>
+          <div *ngIf="isSubmitted" class="text-danger">
+            <p class="mb-0" *ngIf="request.PaymentMode==''"> This field is required .!</p>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+          <label for="txtBankName" class="form-label">Bank Name <span style="color:red;">*</span></label>
+          <input type="text" class="form-control" id="txtBankName" name="txtBankName" [(ngModel)]="request.BankName">
+          <div *ngIf="isSubmitted" class="text-danger">
+            <p *ngIf="request.BankName=='' ||request.BankName==null"><i aria-hidden="true"></i> This field is required .!</p>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+          <label for="txtAmount" class="form-label">Amount(INR) <span style="color:red;">*</span></label>
+          <input type="number" class="form-control" id="txtAmount" name="txtAmount" [(ngModel)]="request.Amount">
+          <div *ngIf="isSubmitted" class="text-danger">
+            <p *ngIf="request.Amount=='' ||request.Amount== 0 || request.Amount==null"><i aria-hidden="true"></i> This field is required .!</p>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+          <label for="txtDateofIssuance" class="form-label">{{(request.DepartmentID==4 ||request.DepartmentID==3)?'Date':'Date of Issuance'}}<span style="color:red;">*</span></label>
+          <input type="date" class="form-control" id="txtDateofIssuance" name="txtDateofIssuance" [(ngModel)]="request.DateofIssuance">
+          <div *ngIf="isSubmitted" class="text-danger">
+            <p *ngIf="request.DateofIssuance=='' ||request.DateofIssuance==null"><i aria-hidden="true"></i> This field is required .!</p>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" [hidden]="(request.DepartmentID==4||request.DepartmentID==3)">
+          <label for="txtDateofExpiry" class="form-label">Date of Expiry <span style="color:red;">*</span></label>
+          <input type="date" class="form-control" id="txtDateofExpiry" name="txtDateofExpiry" [(ngModel)]="request.DateofExpiry">
+          <div *ngIf="isSubmitted" class="text-danger">
+            <p *ngIf="request.DateofExpiry=='' ||request.DateofExpiry==null"><i aria-hidden="true"></i> This field is required .!</p>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+    <label> {{(request.DepartmentID==4)?'Upload DD':request.DepartmentID==3?'Upload Receipt Document':'Upload DD/BC Transaction Recept'}}  <span style="color:red;">*</span></label>
+    <div class="d-flex">
+      <input type="file" [(ngModel)]="request.FileName" [ngModelOptions]="{standalone: true}" id="fileTransactionReceptDocument" (input)="onFilechangeItem($event)" class="form-control d-none" />
+      <label class="btn upload" for="fileTransactionReceptDocument">
+        <span class="filename">Choose file</span>
+        {{request.FileName === '' ? 'No File Choosen' : request.Dis_FileName}}
+      </label>
+      <div class="btn-group" *ngIf="request.FileName !== ''">
+        <a class="btn btn-outline-primary" target="_blank" href="{{request.FilePath}}"><i class="fa fa-eye"></i></a>
+        <button type="button" class="btn btn-outline-danger" (click)="DeleteImageItem(request.FileName)"><i class="fa fa-trash-o"></i></button>
+      </div>
+
+    </div>
+    <div class="text-danger" *ngIf="isSubmitted">
+      <p *ngIf="request.FileName==''"> This field is required .!</p>
+    </div>
+  </div>
+      </div>
+    </div>
+    <div class="card-footer">
+      <button type="button" class="btn btn-primary" (click)="AddOfflineFeeData()" title="Add">{{AddUpdatetext}}</button>&nbsp;
+      <button type="button" class="btn btn-danger" (click)="ResetOfflinepaymentdetails()" title="Add">Reset</button>
+
+    </div>
+  </div>
+
+
+
+<div class="card">
+  <div class="card-header">
+    <b>Offline Payment Details</b>
+  </div>
+  <div class="card-body">
+    <div class="row">
+      <div class="table-responsive">
+        <table class="table table-hover table-striped-columns">
+          <thead>
+            <tr>
+              <th>Sr.No.</th>
+              <th>Department</th>
+              <th>College</th>
+              <th>Bank Name</th>
+              <th>Payment Mode</th>
+              <th>Amount</th>
+              <th>{{(request.DepartmentID==4 ||request.DepartmentID==3)?'Date':'Date of Issuance'}}</th>
+              <th [hidden]="(request.DepartmentID==4 || request.DepartmentID==3)">Date of Expiry</th>
+              <th>Transaction Recept</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of lstOfflinePaymentDetails let idx =index">
+              <td>{{idx+1}}</td>
+              <td>{{item.DepartmentName}}</td>
+              <td>{{item.collegeName}}</td>
+              <td>{{item.BankName}}</td>
+              <td>{{item.PaymenyModeName}}</td>
+              <td>{{item.Amount}}</td>
+              <td>{{item.DateofIssuance | date:'dd-MM-yyyy'}}</td>
+              <td [hidden]="(request.DepartmentID==4 ||request.DepartmentID==3)">{{item.DateofExpiry | date:'dd-MM-yyyy'}}</td>
+              <td><a class="btn btn-sm btn-primary" target="_blank" title="View Transaction Recept" href="{{item.FilePath}}"><i class="fa fa-eye"></i></a></td>
+              <td>
+                <button type="button" class="btn btn-sm btn-primary" title="Edit" [hidden]="(QueryStringStatus=='R'&&item.Action=='Yes')" (click)="EditOffLinePaymentDetails(item)"><i class="fa fa-edit"></i></button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

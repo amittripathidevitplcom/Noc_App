@@ -35,6 +35,7 @@
                       <th>Department Name</th>
                       <th>College Name</th>
                       <th>Application No.</th>
+                      <th>Application Type</th>
                       <th *ngIf="QueryStringStatus!='Revert'">Action</th>
                     </tr>
                   </thead>
@@ -44,20 +45,21 @@
                       <td>{{item.DepartmentName}}</td>
                       <td>{{item.CollegeName}}</td>
                       <td>{{item.ApplicationNo}}</td>
+                      <td>{{item.ApplicationTypes}}</td>
                       <td *ngIf="QueryStringStatus!='Revert'">
                         <a *ngIf="QueryStringStatus=='Pending'" href="javascript:void(0)" title="Application Scrutiny" (click)="ApplicationScrutiny_OnClick(item.DepartmentID,item.CollegeID,item.ApplyNOCID,item.ApplicationNo)" class="btn btn-sm btn-info"><i class="fa fa-eye"></i></a>
                         &nbsp;<button type="button" class="btn btn-sm btn-primary" *ngIf="item.PVStage!='0' " title="Post Verification Details" (click)="ViewApplicationPvDetails(mymodalViewPVDetails,item.ApplyNOCID,item.DepartmentID,item.CollegeID,item.ApplicationNo)"><i class="fa fa-list"></i></button>
                         &nbsp;<button type="button" class="btn btn-sm btn-info" title="View Application trail" (click)="GetApplicationTrail(mymodal,item.ApplyNOCID)"><i class="fa fa-list"></i></button>
                         <a *ngIf="item.L1UploadDocument!=''" class="btn btn-sm btn-primary m-1" href="{{item.L1UploadDocumentPath}}" title="Level L1 Document" target="_blank"><i class="fa fa-eye"></i></a>
                         <a *ngIf="item.L2UploadDocument!=''" class="btn btn-sm btn-primary m-1" href="{{item.L2UploadDocumentPath}}" title="Level L2 Document" target="_blank"><i class="fa fa-eye"></i></a>
-
+                        <a *ngIf="item.MinisterFile!=''" class="btn btn-sm btn-primary m-1" href="{{item.MinisterFilePath}}" title="Minister Offline File" target="_blank"><i class="fa fa-eye"></i></a>
                         <a href="javascript:void(0)" title="Application Preview" (click)="ApplicationPreview_OnClick(item.DepartmentID,item.CollegeID)" class="btn btn-sm btn-secondary">
                           <i class="fa fa-eye"></i>
                         </a>
 
                         &nbsp;<a *ngIf="QueryStringStatus=='Pending'&& this.sSOLoginDataModel.RoleID==11" href="javascript:void(0)" class="btn btn-sm btn-info" title="Action" (click)="OpenGeneratePDFPopUP(ViewOpenGeneratePDFPopUP,item.ApplyNOCID,item.DepartmentID)">Generate NOC Draft</a>
-                        <span *ngIf="QueryStringStatus=='Pending' && this.sSOLoginDataModel.RoleID==11">
-                         <br /> <a style="margin-top:5px !important" *ngFor="let items of item.DraftNOCPdfFileDataModel let idxx =index" class="btn btn-sm btn-primary bi bi-file-earmark-pdf-fill" href="{{items.NOCFilePath}}" title="{{items.ApplyNocFor}}" target="_blank">{{items.ApplyNocFor}}</a>
+                        <span *ngIf="QueryStringStatus=='Pending' && this.sSOLoginDataModel.RoleID==11 || this.sSOLoginDataModel.RoleID==23">
+                          <br /> <a style="margin-top:5px !important" *ngFor="let items of item.DraftNOCPdfFileDataModel let idxx =index" class="btn btn-sm btn-primary bi bi-file-earmark-pdf-fill" href="{{items.NOCFilePath}}" title="{{items.ApplyNocFor}}" target="_blank">{{items.ApplyNocFor}}</a>
                         </span>
                       </td>
                     </tr>

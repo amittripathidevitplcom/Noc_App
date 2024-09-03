@@ -99,17 +99,17 @@ export class RevertedApplicationListComponent implements OnInit {
       this.routers.navigate([]).then(result => { window.open('/revertchecklistdte' + "/" + encodeURI(this.commonMasterService.Encrypt(DepartmentID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(CollegeID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(ApplyNocApplicationID.toString())) + "/" + VerificationStep, '_blank'); });
     }
     else if (DepartmentID == 3) {
-      if (RevertByRole != 17) {
-        await this.GetRevertApplicationRemarkByDepartment(DepartmentID, ApplyNocApplicationID, RevertByRole);
-        this.modalService.open(content, { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' }).result.then((result) => {
-          this.closeResult = `Closed with: ${result}`;
-        }, (reason) => {
-          this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-        });
-      }
-      else {
+      //if (RevertByRole != 17 ) {
+      //  await this.GetRevertApplicationRemarkByDepartment(DepartmentID, ApplyNocApplicationID, RevertByRole);
+      //  this.modalService.open(content, { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' }).result.then((result) => {
+      //    this.closeResult = `Closed with: ${result}`;
+      //  }, (reason) => {
+      //    this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+      //  });
+      //}
+      //else {
         this.routers.navigate([]).then(result => { window.open('/revertchecklistdce' + "/" + encodeURI(this.commonMasterService.Encrypt(DepartmentID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(CollegeID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(ApplyNocApplicationID.toString())), '_blank'); });
-      }
+      //}
     }
     else {
       this.routers.navigate([]).then(result => { window.open('/revertchecklistdce' + "/" + encodeURI(this.commonMasterService.Encrypt(DepartmentID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(CollegeID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(ApplyNocApplicationID.toString())), '_blank'); });

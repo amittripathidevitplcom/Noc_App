@@ -154,6 +154,7 @@ export class ApplyNocFDRDetailsDataModel {
   public FDRDocumentPath: string = '';
   public FDRDocument_Dis_FileName: string = '';
   public FDRExpriyDate: string = '';
+  public Action?: string = '';
 } 
 // list details
 export class ApplyNocApplicationDataModel {

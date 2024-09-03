@@ -1246,6 +1246,7 @@
 
                 <th>S.No.</th>
                 <th>Type</th>
+                <th>Subject</th>
                 <th>Name Of Person</th>
                 <th>Mobile No.</th>
                 <th>Highest Qualification</th>
@@ -1261,6 +1262,7 @@
 
                 <td>{{idx+1}}</td>
                 <td>{{item.TeachingType}}</td>
+                <td>{{item.SubjectName}}</td>
                 <td>{{item.PersonName}}</td>
                 <td>{{item.MobileNo}}</td>
                 <td>{{item.HighestQualificationName}}</td>
@@ -1601,10 +1603,162 @@
 
 
 <!--End Hostel Detail-->
+<!--FDR Details-->
+<div class="card">
+  <div class="card-header">
+    <b>FDR Details</b>
+  </div>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="table-responsive">
+          <table class="table table-hover table-striped">
+            <thead>
+              <tr>
+                <th>
+                  Compliance
+                </th>
+                <th>
+                  Remark
+                </th>
+                <th>S.No.</th>
+                <th>Bank Name</th>
+                <th>Branch Name</th>
+                <th>IFSC Code</th>
+                <th>FDR Number</th>
+                <th>FDR Amount</th>
+                <th>FDR Date</th>
+                <th>Period Of FDR</th>
+                <th>FDR Expriy Date</th>
+                <th>FDR Document</th>
 
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let row of CheckListFDRResponseDataModel; let idx=index;">
+                <td>{{row.Action}} </td>
+                <td>{{row.Action =='No'?row.Remark:''}}</td>
+                <td>{{idx+1}}</td>
+                <td>{{row.BankName}}</td>
+                <td>{{row.BranchName}}</td>
+                <td>{{row.IFSCCode}}</td>
+                <td>{{row.FDRNumber}}</td>
+                <td>{{row.FDRAmount}}</td>
+                <td>{{row.FDRDate}}</td>
+                <td>{{row.PeriodOfFDR}}</td>
+                <td>{{row.FDRExpriyDate}}</td>
+                <td>
+                  <a *ngIf="row.FDRDocument!=''" class="btn-outline-primary" target="_blank" href="{{row.FDRDocumentPath}}" title="View Document"><i class="fa fa-eye"></i></a>
+                </td>
+              </tr>
+              <tr *ngIf="CheckListFDRResponseDataModel.length<=0">
+                <td colspan="10" style="color:red">No Data Found.!</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="row" *ngIf="FDRFinalRemarks.length>0">
+      <div class="table-responsive">
+        <table class="table table-bordered table-hover table-striped">
+          <thead>
+            <tr>
+              <th>Sr.No.</th>
+              <th>Role</th>
+              <th>Action</th>
+              <th>Remark</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item1 of FDRFinalRemarks ; let idx =index">
+              <td>{{idx+1}}</td>
+              <td>{{item1.RoleID}}</td>
+              <td>{{item1.ActionName}}</td>
+              <td>{{item1.Remark}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
+</div>
+<!--End FDR Details-->
+<!--start payment details-->
+<div class="card" *ngIf="CheckOfflinePaymentDataModel.length>0">
+  <div class="card-header">
+    <b>Offline Payment Details</b>
+  </div>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="table-responsive">
+          <table class="table table-hover table-striped">
+            <thead>
+              <tr>
+                <th>
+                  Compliance
+                </th>
+                <th>
+                  Remark
+                </th>
+                <th>S.No.</th>
+                <th>Payment Mode</th>
+                <th>Bank Name</th>
+                <th>Amount</th>
+                <th>Date</th>
+                <th>Document</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let row of CheckOfflinePaymentDataModel; let idx=index;">
+                <td>{{row.Action}} </td>
+                <td>{{row.Action =='No'?row.Remark:''}}</td>
+                <td>{{idx+1}}</td>
+                <td>{{row.PaymentMode}}</td>
+                <td>{{row.BankName}}</td>
+                <td>{{row.Amount}}</td>
+                <td>{{row.Date}}</td>
+                <td><a href="{{row.FilePath}}" target="_blank" class="btn btn-primary"><i class="fa fa-eye"></i></a></td>
+              </tr>
+              <tr *ngIf="CheckOfflinePaymentDataModel.length<=0">
+                <td colspan="7" style="color:red">No Data Found.!</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="row" *ngIf="PaymentFinalRemarks.length>0">
+      <div class="table-responsive">
+        <table class="table table-bordered table-hover table-striped">
+          <thead>
+            <tr>
+              <th>Sr.No.</th>
+              <th>Role</th>
+              <th>Action</th>
+              <th>Remark</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item1 of PaymentFinalRemarks ; let idx =index">
+              <td>{{idx+1}}</td>
+              <td>{{item1.RoleID}}</td>
+              <td>{{item1.ActionName}}</td>
+              <td>{{item1.Remark}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+<!--end payment details-->
 <app-preview-apply-noc-detail></app-preview-apply-noc-detail>
-<app-preview-fdr-detail></app-preview-fdr-detail>
-<app-preview-payment-detail></app-preview-payment-detail>
+<!--<app-preview-fdr-detail></app-preview-fdr-detail>
+<app-preview-payment-detail></app-preview-payment-detail>-->
 <!--Class Wise Student Details-->
 <!--<div class="card mb-0">
   <div class="card-header d-xxl-flex d-xl-flex d-md-flex d-sm-block justify-content-between align-items-center">
@@ -2002,8 +2156,6 @@
       <option value="0" selected>--Select Role--</option>
       <option *ngFor="let item of UserRoleList" value="{{item.RoleID}}">{{item.RoleName}}</option>
     </select>
-
-
     <div *ngIf="isNextRoleIDValid&&NextRoleID<=0" class="text-danger">
       <p *ngIf="isNextRoleIDValid&&NextRoleID<=0"> This field is required .!</p>
     </div>

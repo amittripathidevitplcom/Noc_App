@@ -30,7 +30,7 @@
                 <th>Period Of FDR</th>
                 <th>FDR Expriy Date</th>
                 <th>FDR Document</th>
-
+                <th>Trails</th>
               </tr>
             </thead>
             <tbody>
@@ -66,6 +66,7 @@
                 <td>
                   <a *ngIf="row.FDRDocument!=''" class="btn-outline-primary" target="_blank" href="{{row.FDRDocumentPath}}" title="View Document"><i class="fa fa-eye"></i></a>
                 </td>
+                <td><button type="button" class="btn btn-sm btn-info" title="View" (click)="ViewTaril(row.ApplyNocFDRID,'FDRTrail')"><i class="fa fa-bars" aria-hidden="true"></i></button></td>
               </tr>
               <tr *ngIf="FDRResponseDataModel.length<=0">
                 <td colspan="10" style="color:red">No Data Found.!</td>

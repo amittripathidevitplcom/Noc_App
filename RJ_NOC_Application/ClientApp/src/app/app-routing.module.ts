@@ -239,6 +239,7 @@ import { CourtOrderComponent } from './Views/TabDetail/court-order/court-order.c
 import { PaymentReportComponent } from './Views/Admin/Payment_Report/payment-report/payment-report.component';
 import { LegalEntityDepartmentWiseComponent } from './Views/Admin/legal-entity-department-wise/legal-entity-department-wise.component';
 import { NOCFormatMasterComponent } from './Views/Admin/nocformat-master/nocformat-master.component';
+import { RevertOfflinePaymentDetailsComponent } from './Views/DCE/revert-offline-payment-details/revert-offline-payment-details.component';
 
 const routes: Routes = [
   {
@@ -977,6 +978,9 @@ const routes: Routes = [
       },
       {
         path: 'nocformatmaster', component: NOCFormatMasterComponent
+      },
+      {
+        path: 'revertofflinepaymentdetails', component: RevertOfflinePaymentDetailsComponent
       },
 
     ]

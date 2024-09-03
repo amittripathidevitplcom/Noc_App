@@ -146,7 +146,7 @@
             <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
               <label> {{(request.DepartmentID==4)?'Upload DD':request.DepartmentID==3?'Upload Receipt Document':'Upload DD/BC Transaction Recept'}}  <span style="color:red;">*</span></label>
               <div class="d-flex">
-                <input type="file" [(ngModel)]="request.TransactionReceptDocument" [ngModelOptions]="{standalone: true}" id="fileTransactionReceptDocument" (input)="onFilechangeItem($event)" class="form-control d-none" />
+                <input type="file" [(ngModel)]="request.FileName" [ngModelOptions]="{standalone: true}" id="fileTransactionReceptDocument" (input)="onFilechangeItem($event)" class="form-control d-none" />
                 <label class="btn upload" for="fileTransactionReceptDocument">
                   <span class="filename">Choose file</span>
                   {{request.FileName === '' ? 'No File Choosen' : request.Dis_FileName}}
