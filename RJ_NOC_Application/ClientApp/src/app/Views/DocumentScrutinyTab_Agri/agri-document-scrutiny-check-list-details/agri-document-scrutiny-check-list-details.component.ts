@@ -844,7 +844,7 @@ export class AgriDocumentScrutinyCheckListDetailsComponent implements OnInit {
       }
       else {
         this.ShowHideNextUser = true;
-        await this.commonMasterService.GetUserDetailsByRoleID(this.NextRoleID, this.sSOLoginDataModel.DepartmentID)
+        await this.commonMasterService.GetUserDetailsByRoleID(this.NextRoleID, this.sSOLoginDataModel.DepartmentID, this.SelectedApplyNOCID)
           .then(async (data: any) => {
             this.State = data['State'];
             this.SuccessMessage = data['SuccessMessage'];
