@@ -91,6 +91,7 @@ export class AhApplyNocApplicationListComponent {
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
+          console.log(data['Data']);
           this.ApplyNocDetails = data['Data'];
         }, error => console.error(error));
     }
@@ -236,16 +237,17 @@ export class AhApplyNocApplicationListComponent {
     }
   }
   async GetAadharByVID(data: any) {
-    await this.aadharServiceDetails.GetAadharByVID(data)
-      .then((data: any) => {
-        data = JSON.parse(JSON.stringify(data));
-        if (data[0].status == "0") {
-          this.AadhaarNo = data[0].data;
-        }
-        else {
-          this.AadhaarNo = '';
-        }
-      }, error => console.error(error));
+    this.AadhaarNo = '123456789101';
+    //await this.aadharServiceDetails.GetAadharByVID(data)
+    //  .then((data: any) => {
+    //    data = JSON.parse(JSON.stringify(data));
+    //    if (data[0].status == "0") {
+    //      this.AadhaarNo = data[0].data;
+    //    }
+    //    else {
+    //      this.AadhaarNo = '';
+    //    }
+    //  }, error => console.error(error));
   }
   async CheckMappingSSOID(ssoid: any) {
     try {
