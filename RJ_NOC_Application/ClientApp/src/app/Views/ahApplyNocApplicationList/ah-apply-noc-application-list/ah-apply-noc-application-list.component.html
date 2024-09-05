@@ -31,9 +31,20 @@
                     <td>{{item.DepartmentName}}</td>
                     <td>{{item.CollegeName}}</td>
                     <td>{{item.ApplicationNo}}</td>
-                    <td>
+
+                    <td *ngIf="this.sSOLoginDataModel.RoleID==12">
                       <a href="javascript:void(0)" *ngIf="item.IsCommittee=='Yes'" (click)="ApplicationPreview_OnClick(item.DepartmentID,item.CollegeID,item.ApplyNOCID,item.ApplicationNo,'Yes')" class="btn btn-sm btn-info"><i class="fa fa-eye"></i></a>
-                      &nbsp;<button type="button" *ngIf="IsCommitteType" class="btn btn-sm btn-primary" title="Assign Commitee" (click)="OpenAsignCommitteePopUP(mymodalAsignCommittee,item.ApplyNOCID,item.DepartmentID,item.CollegeID,item.ApplicationNo)"><i class="fa fa-users"></i></button>
+                      &nbsp;<button type="button" *ngIf="IsCommitteType==true" class="btn btn-sm btn-primary" title="Assign Commitee" (click)="OpenAsignCommitteePopUP(mymodalAsignCommittee,item.ApplyNOCID,item.DepartmentID,item.CollegeID,item.ApplicationNo)"><i class="fa fa-users"></i></button>
+                      &nbsp;<button type="button" class="btn btn-sm btn-info" title="View" (click)="GetApplicationTrail(mymodal,item.ApplyNOCID)"><i class="fa fa-bars"></i></button>
+                    </td>
+                    <td *ngIf="this.sSOLoginDataModel.RoleID==14||this.sSOLoginDataModel.RoleID==6">
+                      <a href="javascript:void(0)" *ngIf="(item.IsCommittee=='Yes'&& item.IsAsForward==true)||(item.IsCommittee=='No'&& item.IsAsForward==false)" (click)="ApplicationPreview_OnClick(item.DepartmentID,item.CollegeID,item.ApplyNOCID,item.ApplicationNo,'Yes')" class="btn btn-sm btn-info"><i class="fa fa-eye"></i></a>
+                      &nbsp;<button type="button" *ngIf="IsCommitteType==true&& item.IsAsForward==true" class="btn btn-sm btn-primary" title="Assign Commitee" (click)="OpenAsignCommitteePopUP(mymodalAsignCommittee,item.ApplyNOCID,item.DepartmentID,item.CollegeID,item.ApplicationNo)"><i class="fa fa-users"></i></button>
+                      &nbsp;<button type="button" class="btn btn-sm btn-info" title="View" (click)="GetApplicationTrail(mymodal,item.ApplyNOCID)"><i class="fa fa-bars"></i></button>
+                    </td>
+
+                    <td *ngIf="IsCommitteType==false">
+                      <a href="javascript:void(0)" (click)="ApplicationPreview_OnClick(item.DepartmentID,item.CollegeID,item.ApplyNOCID,item.ApplicationNo,'Yes')" class="btn btn-sm btn-info"><i class="fa fa-eye"></i></a>
                       &nbsp;<button type="button" class="btn btn-sm btn-info" title="View" (click)="GetApplicationTrail(mymodal,item.ApplyNOCID)"><i class="fa fa-bars"></i></button>
                     </td>
                   </tr>

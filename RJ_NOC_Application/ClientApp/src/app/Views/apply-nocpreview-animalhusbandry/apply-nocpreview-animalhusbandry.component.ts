@@ -48,6 +48,7 @@ import { AhDocumentScrutinyCheckListDetailsComponent } from '../DocumentScrutiny
 export class ApplyNocpreviewAnimalhusbandryComponent implements OnInit {
   @ViewChild('tabs') tabGroup!: MatTabGroup;
   public State: number = -1;
+
   public SuccessMessage: any = [];
   public ErrorMessage: any = [];
   public dropdownSettings: IDropdownSettings = {};
