@@ -866,7 +866,7 @@ export class DocumentScrutinyCheckListDetailsComponentDce implements OnInit {
           if (this.CheckTabsEntryData['LegalEntity'] <= 0 || this.CheckTabsEntryData['CollegeDetail'] <= 0 || this.CheckTabsEntryData['CollegeManagementSociety'] <= 0 || this.CheckTabsEntryData['LandInformation'] <= 0
             || this.CheckTabsEntryData['Facility'] <= 0 || this.CheckTabsEntryData['RequiredDocument'] <= 0 || this.CheckTabsEntryData['RoomDetails'] <= 0 || this.CheckTabsEntryData['OtherInformation'] <= 0
             || this.CheckTabsEntryData['BuildingDocuments'] <= 0 || this.CheckTabsEntryData['StaffDetails'] <= 0 || this.CheckTabsEntryData['OLDNOCDetails'] <= 0 || this.CheckTabsEntryData['AcademicInformation'] <= 0
-            || this.CheckTabsEntryData['OtherDocument'] <= 0 || this.CheckTabsEntryData['HostelDetails'] <= 0) {   //|| this.CheckTabsEntryData['ClassWiseStudentDetail'] <= 0|| this.CheckTabsEntryData['SubjectWiseStudentDetail'] <= 0
+            || this.CheckTabsEntryData['OtherDocument'] <= 0 || this.CheckTabsEntryData['HostelDetails'] <= 0 || this.CheckTabsEntryData['FDRDetails'] <= 0|| this.CheckTabsEntryData['OfflinePaymentDetails'] <= 0) {   //|| this.CheckTabsEntryData['ClassWiseStudentDetail'] <= 0|| this.CheckTabsEntryData['SubjectWiseStudentDetail'] <= 0
             this.isFormvalid = false;
             this.toastr.warning('Please do document scrutiny all tabs');
           }
@@ -885,7 +885,7 @@ export class DocumentScrutinyCheckListDetailsComponentDce implements OnInit {
       if (!this.isFormvalid) {
         return;
       }
-      if (this.sSOLoginDataModel.RoleID == 17 && this.NextRoleID == 1 && this.ActionID == 3) {
+      if ((this.sSOLoginDataModel.RoleID == 17 || this.sSOLoginDataModel.RoleID == 19) && this.NextRoleID == 1 && this.ActionID == 3) {
         if (this.TotalRevertCount == 1 && this.IsPVStageDone != 1) {
           this.toastr.warning('Physical Verification not done yet. you can not revert 2nd time');
           return;
@@ -1208,8 +1208,7 @@ export class DocumentScrutinyCheckListDetailsComponentDce implements OnInit {
       this.ShowHideNextRole = true;
       //this.ShowHideNextAction = false;
     }
-    debugger;
-    if (this.sSOLoginDataModel.RoleID == 17 && this.ActionID == 3) {
+    if ((this.sSOLoginDataModel.RoleID == 17 || this.sSOLoginDataModel.RoleID == 19) && this.ActionID == 3) {
       this.UserRoleList = this.UserRoleList.filter((x: { RoleID: number }) => x.RoleID == 1);
       this.ShowHideNextUser = false;
     }

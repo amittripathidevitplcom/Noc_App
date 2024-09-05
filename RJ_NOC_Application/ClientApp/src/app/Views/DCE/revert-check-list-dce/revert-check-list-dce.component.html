@@ -1953,7 +1953,7 @@
   <!--End Farm Land Details-->
   <!--end subject wise data-->
   <!--FDR Details-->
-  <div class="card">
+  <div class="card" *ngIf="RevertedTabData['FDRDetails']>0">
     <div class="card-header">
       <b>FDR Details</b>
     </div>
@@ -2028,7 +2028,7 @@
   </div>
   <!--End FDR Details-->
   <!--start payment details-->
-  <div class="card" *ngIf="CheckOfflinePaymentDataModel.length>0">
+  <div class="card" *ngIf="RevertedTabData['OfflinePaymentDetails']>0">
     <div class="card-header">
       <b>Offline Payment Details</b>
     </div>

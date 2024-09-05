@@ -259,6 +259,7 @@ export class CheckListForCommissionerComponent implements OnInit {
     this.CheckTabsEntry();
     this.GetPVStageStatusOfApplication(this.SelectedApplyNOCID);
     this.getFDRDetailId(this.SelectedCollageID);
+    this.GetOfflinePaymentDetails();
   }
 
 
@@ -902,9 +903,9 @@ export class CheckListForCommissionerComponent implements OnInit {
             this.UserRoleList = data['Data'];
 
             if (this.UserRoleList.length > 0) {
-              if (this.sSOLoginDataModel.RoleID != 11 && this.sSOLoginDataModel.RoleID != 23 && this.sSOLoginDataModel.RoleID != 20) {
+              //if (this.sSOLoginDataModel.RoleID != 11 && this.sSOLoginDataModel.RoleID != 23 && this.sSOLoginDataModel.RoleID != 20) {
                 this.UserRoleList = this.UserRoleList.filter((x: { RoleID: number; }) => x.RoleID != 1);
-              }
+             // }
               this.NextRoleID = this.UserRoleList[0]['RoleID'];
               await this.NextGetUserDetailsByRoleID();
             }
@@ -1521,6 +1522,7 @@ export class CheckListForCommissionerComponent implements OnInit {
           this.FDRFinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
           this.dsrequest.FinalRemark = this.FDRFinalRemarks.find((x: { RoleIDS: number; }) => x.RoleIDS == this.sSOLoginDataModel.RoleID)?.Remark;
           this.dsrequest.ActionID = this.FDRFinalRemarks.find((x: { RoleIDS: number; }) => x.RoleIDS == this.sSOLoginDataModel.RoleID)?.ActionID;
+          console.log(this.CheckListFDRResponseDataModel);
         }, (error: any) => console.error(error));
     }
     catch (Ex) {
@@ -1533,4 +1535,34 @@ export class CheckListForCommissionerComponent implements OnInit {
     }
   }
 
+  public CheckOfflinePaymentDataModel: any = [];
+  public PaymentFinalRemarks: any = [];
+  async GetOfflinePaymentDetails() {
+    try {
+
+      this.loaderService.requestStarted();
+      await this.dcedocumentScrutinyService.DocumentScrutiny_PaymentDetail(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
+        .then((data: any) => {
+          debugger;
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+
+          // data
+          this.CheckOfflinePaymentDataModel = data['Data'][0]['OfflinePaymentDetails'][0];
+          this.PaymentFinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
+          this.dsrequest.FinalRemark = this.PaymentFinalRemarks.find((x: { RoleIDS: number; }) => x.RoleIDS == this.sSOLoginDataModel.RoleID)?.Remark;
+          this.dsrequest.ActionID = this.PaymentFinalRemarks.find((x: { RoleIDS: number; }) => x.RoleIDS == this.sSOLoginDataModel.RoleID)?.ActionID;
+        }, (error: any) => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
 }
