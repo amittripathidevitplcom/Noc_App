@@ -1311,12 +1311,11 @@
               <a href="/inspectioncommitteephysicalverification/Pending" style="background: none;"><h2>{{dashboardDataModel.PVCommittee_Rejected}}</h2></a>
             </div>-->
             <div class="dashCardContent">
-              Ca
-              d<
+        
               <h4>
-                Ca
+            
                 Complete
-                d<
+              
               </h4>
               <a href="/inspectioncommitteephysicalverification/Completed" style="background: none;"><h2>{{dashboardDataModel.PVCommittee_Completed}}</h2></a>
             </div>
@@ -1474,7 +1473,7 @@
   <!--DEC SECTION DASHBOARD END-->
   <!--Agriculture department Start-->
   <div class="row" *ngIf="this.sSOLoginDataModel.DepartmentID==1 &&( this.sSOLoginDataModel.RoleID==29 || this.sSOLoginDataModel.RoleID ==11  || this.sSOLoginDataModel.RoleID ==12 || this.sSOLoginDataModel.RoleID ==24 || this.sSOLoginDataModel.RoleID ==27 ||  this.sSOLoginDataModel.RoleID ==28)">
-    <div class="col-lg-4 col-md-4 col-sm-6 col-12">
+    <div class="col-lg-6 col-md-6 col-sm-12 col-12">
       <div class="card staticsCards">
         <div class="card-header text-center text-white" style="background: rgba(0, 0, 0, 0.2) !important;"><h5>Document Scrutiny</h5></div>
         <div class="card-body">
@@ -1510,7 +1509,7 @@
       </div>
 
     </div>
-    <div class="col-lg-4 col-md-4 col-sm-6 col-12" *ngIf="this.sSOLoginDataModel.DepartmentID==1 && this.sSOLoginDataModel.RoleID==29">
+    <div class="col-lg-6 col-md-6 col-sm-12 col-12" *ngIf="this.sSOLoginDataModel.DepartmentID==1 && this.sSOLoginDataModel.RoleID==29">
       <div class="card staticsCards">
         <div class="card-header text-center text-white" style="background: rgba(0, 0, 0, 0.2) !important;"><h5>Primary Verification</h5></div>
         <div class="card-body">
@@ -2066,7 +2065,7 @@
   </div>
   <!--Department of technical Education End-->
   <!--Common Dashboard at Department Level-->
-  <div class="row" *ngIf="this.sSOLoginDataModel.RoleID !=10 && this.sSOLoginDataModel.RoleID!=0 && this.sSOLoginDataModel.RoleID!=1&& this.sSOLoginDataModel.RoleID!=35">
+  <div class="row" *ngIf="this.sSOLoginDataModel.RoleID !=10 && this.sSOLoginDataModel.RoleID!=0 && this.sSOLoginDataModel.RoleID!=1&& this.sSOLoginDataModel.RoleID!=35 && (this.sSOLoginDataModel.RoleID!=17 && this.sSOLoginDataModel.DepartmentID !=3)&& (this.sSOLoginDataModel.RoleID!=16 && this.sSOLoginDataModel.DepartmentID !=3)">
     <div class="col-lg-2 col-md-4 col-sm-6 col-12 flexSameSize">
       <div class="card staticsCards ">
         <div class="card-body">
