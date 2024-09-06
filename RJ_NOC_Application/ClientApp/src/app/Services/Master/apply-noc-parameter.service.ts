@@ -110,8 +110,8 @@ export class ApplyNocParameterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-  public async GetApplyNocPaymentHistoryApplicationID(ApplyNocApplicationID: number) {
-    return await this.http.get(this.APIUrl + "/GetApplyNocPaymentHistoryApplicationID/" + ApplyNocApplicationID)
+  public async GetApplyNocPaymentHistoryApplicationID(ApplyNocApplicationID: number, PaymentFor: string) {
+    return await this.http.get(this.APIUrl + "/GetApplyNocPaymentHistoryApplicationID/" + ApplyNocApplicationID + "/" + PaymentFor)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();

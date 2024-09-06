@@ -642,7 +642,7 @@ export class ApplyNocParameterDetailsComponent implements OnInit {
     try {
       this.loaderService.requestStarted();
       // get
-      await this.applyNocParameterService.GetApplyNocPaymentHistoryApplicationID(applyNocApplicationID)
+      await this.applyNocParameterService.GetApplyNocPaymentHistoryApplicationID(applyNocApplicationID, 'NOC')
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
@@ -679,7 +679,7 @@ export class ApplyNocParameterDetailsComponent implements OnInit {
     try {
       this.loaderService.requestStarted();
       // get
-      await this.applyNocParameterService.GetApplyNocPaymentHistoryApplicationID(applyNocApplicationID)
+      await this.applyNocParameterService.GetApplyNocPaymentHistoryApplicationID(applyNocApplicationID,'NOC')
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];

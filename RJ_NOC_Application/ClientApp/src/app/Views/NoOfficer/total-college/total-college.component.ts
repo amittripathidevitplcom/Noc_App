@@ -11,6 +11,8 @@ import { CollegeService } from '../../../services/collegedetailsform/College/col
 import { ModalDismissReasons, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { RequestDetails } from '../../../Models/PaymentDataModel';
 import { NocpaymentService } from '../../../Services/NocPayment/noc-payment.service';
+import { NocPaymentComponent } from '../../noc-payment/payment-request/noc-payment.component';
+import { ApplyNocParameterService } from '../../../Services/Master/apply-noc-parameter.service';
 
 @Component({
   selector: 'app-total-college',
@@ -19,7 +21,7 @@ import { NocpaymentService } from '../../../Services/NocPayment/noc-payment.serv
 })
 export class TotalCollegeComponent implements OnInit {
 
-  constructor(private draftApplicationListService: DraftApplicationListService, private toastr: ToastrService, private loaderService: LoaderService, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private collegeService: CollegeService, private sSOLoginService: SSOLoginService, private modalService: NgbModal, private nocpaymentService: NocpaymentService) {
+  constructor(private applyNocParameterService: ApplyNocParameterService,private draftApplicationListService: DraftApplicationListService, private toastr: ToastrService, private loaderService: LoaderService, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private collegeService: CollegeService, private sSOLoginService: SSOLoginService, private modalService: NgbModal, private nocpaymentService: NocpaymentService, private nocPaymentComponent: NocPaymentComponent) {
 
   }
 
@@ -499,7 +501,7 @@ export class TotalCollegeComponent implements OnInit {
             }
           }, error => console.error(error));
 
-        
+
       }
       else {
         this.isValidUserOTP = true;
@@ -585,4 +587,110 @@ export class TotalCollegeComponent implements OnInit {
     this.routers.navigate(['/applicationsummary' + "/" + encodeURI(this.commonMasterService.Encrypt(DepartmentID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(CollegeID.toString()))]);
   }
 
+
+
+
+  async MakePaymentEGrass_click(PaymentType: string) {
+    try {
+      this.loaderService.requestStarted();
+      await this.commonMasterService.GetCollegeBasicDetails(this.CollegeID.toString())
+        .then(async (data: any) => {
+          // payment request
+          this.CollegeName = data['Data'][0]['data'][0]['CollegeNameEn'];
+          this.nocPaymentComponent.request.ApplyNocApplicationID = this.CollegeID;
+          this.nocPaymentComponent.request.AMOUNT = Number(this.TotalLOIFees);
+          this.nocPaymentComponent.request.USEREMAIL = data['Data'][0]['data'][0].CollegeEmail;
+          this.nocPaymentComponent.request.USERNAME = this.CollegeName.substring(0, 49).replace(/[^a-zA-Z ]/g, "");
+          this.nocPaymentComponent.request.USERMOBILE = data['Data'][0]['data'][0].CollegeMobileNumber;
+          this.nocPaymentComponent.request.PURPOSE = "LOI Payment";
+          this.nocPaymentComponent.request.DepartmentID = data['Data'][0]['data'][0].DepartmentID;
+          this.nocPaymentComponent.request.CreatedBy = this.sSOLoginDataModel.UserID;
+          this.nocPaymentComponent.request.SSOID = this.sSOLoginDataModel.SSOID;
+          this.nocPaymentComponent.request.City = this.sSOLoginDataModel.SSOID;
+
+
+          this.nocPaymentComponent.request.RemitterName = this.CollegeName.substring(0, 49).replace(/[^a-zA-Z ]/g, "");
+          this.nocPaymentComponent.request.REGTINNO = this.CollegeID.toString();
+          this.nocPaymentComponent.request.DistrictCode = data['Data'][0]['data'][0].DistrictID;
+          this.nocPaymentComponent.request.Adrees = data['Data'][0]['data'][0].District_Eng;
+          this.nocPaymentComponent.request.City = data['Data'][0]['data'][0].District_Eng;
+          this.nocPaymentComponent.request.Pincode = data['Data'][0]['data'][0].Pincode;
+          this.nocPaymentComponent.request.PaymentType = PaymentType;
+
+
+          // post
+          await this.nocPaymentComponent.PaymentRequest_Egrass()
+        });
+    }
+
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  public PaymentHistoryDetails: any = [];
+  async PaymentHistoryApplyNocApplication_click(content: any, applyNocApplicationID: number) {
+    try {
+      this.loaderService.requestStarted();
+      // get
+      await this.applyNocParameterService.GetApplyNocPaymentHistoryApplicationID(applyNocApplicationID,'LOI')
+        .then((data: any) => {
+          console.log(data);
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          // data
+          if (this.State == 0) {
+            this.PaymentHistoryDetails = data['Data'][0]['data'];
+            // model popup
+            this.modalService.open(content, { size: 'xl', ariaLabelledBy: 'modal-applynocpaymentdetails-title', backdrop: 'static' }).result.then((result) => {
+              this.closeResult = `Closed with: ${result}`;
+            }, (reason) => {
+              this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+            });
+          }
+          else {
+            this.toastr.error(this.ErrorMessage);
+          }
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  async CheckStatus_click(item: any) {
+    try {
+      this.loaderService.requestStarted();
+      //debugger
+      // payment request
+      this.nocPaymentComponent.transactionStatusRequest.ApplyNocApplicationID = item.ApplyNocApplicationID;
+      this.nocPaymentComponent.transactionStatusRequest.AMOUNT = item.Amount;
+      this.nocPaymentComponent.transactionStatusRequest.PRN = item.PRNNO;
+      this.nocPaymentComponent.transactionStatusRequest.DepartmentID = item.DepartmentID;
+      this.nocPaymentComponent.request.CreatedBy = this.sSOLoginDataModel.UserID;
+      this.nocPaymentComponent.request.SSOID = this.sSOLoginDataModel.SSOID;
+      // post
+      //await this.nocPaymentComponent.GetTransactionStatus();
+      await this.nocPaymentComponent.GRAS_GetPaymentStatus(item.AID, item.DepartmentID, item.PaymentType);
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+
+  }
 }
