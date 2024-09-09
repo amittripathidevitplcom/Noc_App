@@ -628,7 +628,7 @@
                           </th>
                           <th>Remark</th>
                           <!--<th *ngIf="sSOLoginDataModel.RoleID==3 || sSOLoginDataModel.RoleID==5">Clerk Action</th>
-                  <th *ngIf="sSOLoginDataModel.RoleID==5">Section Officer Action</th>-->
+                          <th *ngIf="sSOLoginDataModel.RoleID==5">Section Officer Action</th>-->
                           <th>Sr. No.</th>
                           <th>Hospital Name</th>
                           <th>Hospital RegNo.</th>
@@ -646,13 +646,13 @@
                             {{row.Action=='No'?row.Remark:''}}
                           </td>
                           <!--<td *ngIf="sSOLoginDataModel.RoleID==3 || sSOLoginDataModel.RoleID==5">
-                    Compliance: {{row.C_Action}}<br />
-                    <p [hidden]="row.C_Action !='No'">Remark : {{row.C_Remark}}</p>
-                  </td>
-                  <td *ngIf="sSOLoginDataModel.RoleID==5">
-                    Compliance: {{row.S_Action}}<br />
-                    <p [hidden]="row.S_Action !='No'">Remark : {{row.S_Remark}}</p>
-                  </td>-->
+                            Compliance: {{row.C_Action}}<br />
+                            <p [hidden]="row.C_Action !='No'">Remark : {{row.C_Remark}}</p>
+                          </td>
+                          <td *ngIf="sSOLoginDataModel.RoleID==5">
+                            Compliance: {{row.S_Action}}<br />
+                            <p [hidden]="row.S_Action !='No'">Remark : {{row.S_Remark}}</p>
+                          </td>-->
                           <td> {{indexOfelement+1}}</td>
                           <td>{{row.HospitalName}}</td>
                           <td>{{row.HospitalRegNo}}</td>
@@ -1834,19 +1834,71 @@
       </div>
     </div>
   </div>-->
-  <div class="row  m-2">
-    <div class="col-lg-12 col-md-12 col-sm-12 col-12 mb-3">
-      <label>Remarks  <span style="color:red;">*</span></label>
-      <textarea id="CheckFinalRemark" class="form-control" [(ngModel)]="CheckFinalRemark"></textarea>
-      <div *ngIf="isRemarkValid" class="text-danger">
-        <p *ngIf="isRemarkValid"> This field is required .!</p>
+  <div *ngIf="this.sSOLoginDataModel.RoleID != 37">
+    <div class="row  m-2">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-12 mb-3">
+        <label>Remarks  <span style="color:red;">*</span></label>
+        <textarea id="CheckFinalRemark" class="form-control" [(ngModel)]="CheckFinalRemark"></textarea>
+        <div *ngIf="isRemarkValid" class="text-danger">
+          <p *ngIf="isRemarkValid"> This field is required .!</p>
+        </div>
       </div>
     </div>
-
+    <div class="row  m-2">
+      <div class="col-md-12">
+        <button type="button" class="btn btn-primary" (click)="DocumentScrutiny()" title="Submit">Submit</button>
+      </div>
+    </div>
   </div>
-  <div class="row  m-2">
-    <div class="col-md-12">
-      <button type="button" class="btn btn-primary" (click)="DocumentScrutiny()" title="Submit">Submit</button>
+  <div *ngIf="this.sSOLoginDataModel.RoleID == 37">
+    <div class="row m-2">
+      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+        <label for="ddlAction" class="form-label">Action On Application<span style="color:red;">*</span></label>
+        <select class="form-select" (change)="OnChangeCurrentAction()" [(ngModel)]="ActionID">
+          <option value="0" disabled selected>--Select Action--</option>
+          <option *ngFor="let item of WorkFlowActionList" value="{{item.ActionID}}">{{item.ActionName}}</option>
+        </select>
+        <div *ngIf="isActionTypeValid" class="text-danger">
+          <p *ngIf="isActionTypeValid"> This field is required .!</p>
+        </div>
+      </div>
+
+      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="ShowHideNextRoleNextUser">
+        <label for="ddlDistrictID" class="form-label">Next Role <span style="color:red;">*</span></label>
+
+        <select class="form-select" (change)="NextGetUserDetailsByRoleID()" [(ngModel)]="NextRoleID">
+          <option value="0" selected>--Select Role--</option>
+          <option *ngFor="let item of UserRoleList" value="{{item.RoleID}}">{{item.RoleName}}</option>
+        </select>
+        <div *ngIf="isNextRoleIDValid" class="text-danger">
+          <p *ngIf="isNextRoleIDValid"> This field is required .!</p>
+        </div>
+      </div>
+      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="ShowHideNextRoleNextUser">
+        <label for="ddlDistrictID" class="form-label">Next User <span style="color:red;">*</span></label>
+        <select class="form-select" [(ngModel)]="NextUserID">
+          <option value="0" selected>--Select User--</option>
+          <option *ngFor="let item of UserListRoleWise" value="{{item.UId}}">{{item.Name}}</option>
+        </select>
+        <div *ngIf="isNextUserIdValid" class="text-danger">
+          <p *ngIf="isNextUserIdValid"> This field is required .!</p>
+        </div>
+      </div>
+    </div>
+    <div class="row  m-2">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-12 mb-3">
+        <label>Remarks  <span style="color:red;">*</span></label>
+        <textarea id="CheckFinalRemark" class="form-control" [(ngModel)]="CheckFinalRemark"></textarea>
+        <div *ngIf="isRemarkValid" class="text-danger">
+          <p *ngIf="isRemarkValid"> This field is required .!</p>
+        </div>
+      </div>
+
+    </div>
+    <div class="row  m-2">
+      <div class="col-md-12">
+        <button type="button" class="btn btn-primary" (click)="Dealing_AssistantDocumentScrutiny()" title="Submit">Submit</button>
+      </div>
     </div>
   </div>
 </div>

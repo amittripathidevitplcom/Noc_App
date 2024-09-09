@@ -707,6 +707,7 @@ export class AhDocumentScrutinyCheckListDetailsComponent implements OnInit {
         this.routers.navigate(['/AHinspectioncommitteepostverification/Pending']);
       else if (this.sSOLoginDataModel.RoleID == 22)
         this.routers.navigate(['/AHinspectioncommitteefinalverification/Pending']);
+      
       //await this.applyNOCApplicationService.DocumentScrutiny(this.sSOLoginDataModel.RoleID, this.sSOLoginDataModel.UserID, this.ActionID, this.SelectedApplyNOCID, this.SelectedDepartmentID, this.CheckFinalRemark, this.NextRoleID, this.NextUserID, this.NextActionID)
       //  .then((data: any) => {
       //    data = JSON.parse(JSON.stringify(data));
@@ -734,6 +735,91 @@ export class AhDocumentScrutinyCheckListDetailsComponent implements OnInit {
       }, 200);
     }
   }
+
+  async Dealing_AssistantDocumentScrutiny() {
+    this.isFormvalid = true;
+    this.isNextUserIdValid = false;
+    this.isNextRoleIDValid = false;
+    this.isNextActionValid = false;
+    this.isRemarkValid = false;
+    try {
+      if (this.SelectedDepartmentID == 2) {
+        if (this.CollegeType_IsExisting) {
+          if (this.CheckTabsEntryData['LegalEntity'] <= 0 || this.CheckTabsEntryData['RoomDetails'] <= 0 || this.CheckTabsEntryData['CollegeDetail'] <= 0 || this.CheckTabsEntryData['CollegeManagementSociety'] <= 0 || this.CheckTabsEntryData['LandInformation'] <= 0
+            || this.CheckTabsEntryData['Facility'] <= 0 || this.CheckTabsEntryData['RequiredDocument'] <= 0 || this.CheckTabsEntryData['RoomDetails'] <= 0 || this.CheckTabsEntryData['OtherInformation'] <= 0
+            || this.CheckTabsEntryData['BuildingDocuments'] <= 0 || this.CheckTabsEntryData['StaffDetails'] <= 0 || this.CheckTabsEntryData['OLDNOCDetails'] <= 0 || this.CheckTabsEntryData['AcademicInformation'] <= 0
+            || this.CheckTabsEntryData['OtherDocument'] <= 0 || this.CheckTabsEntryData['VeterinaryHospital'] <= 0) {
+            this.isFormvalid = false;
+            this.toastr.warning('Please do document scrutiny all tabs');
+          }
+        }
+        else {
+          if (this.CheckTabsEntryData['LegalEntity'] <= 0 || this.CheckTabsEntryData['RoomDetails'] <= 0 || this.CheckTabsEntryData['CollegeDetail'] <= 0 || this.CheckTabsEntryData['CollegeManagementSociety'] <= 0 || this.CheckTabsEntryData['LandInformation'] <= 0
+            || this.CheckTabsEntryData['Facility'] <= 0 || this.CheckTabsEntryData['RequiredDocument'] <= 0 || this.CheckTabsEntryData['RoomDetails'] <= 0 || this.CheckTabsEntryData['OtherInformation'] <= 0
+            || this.CheckTabsEntryData['BuildingDocuments'] <= 0 || this.CheckTabsEntryData['OtherDocument'] <= 0 || this.CheckTabsEntryData['VeterinaryHospital'] <= 0
+          ) {
+            this.isFormvalid = false;
+            this.toastr.warning('Please do document scrutiny all tabs');
+          }
+        }
+      }
+
+        if (this.ActionID <= 0) {
+          this.isActionTypeValid = true;
+          this.isFormvalid = false;
+        }
+        if (this.CheckFinalRemark == '') {
+          this.isRemarkValid = true;
+          this.isFormvalid = false;
+        }
+
+        if (this.ShowHideNextRoleNextUser) {
+          if (this.NextRoleID <= 0) {
+            this.isNextRoleIDValid = true;
+            this.isFormvalid = false;
+          }
+          if (this.NextUserID <= 0) {
+            this.isNextUserIdValid = true;
+            this.isFormvalid = false;
+          }
+        }
+        else {
+          this.NextRoleID = 1;
+          this.NextUserID = 0;
+          this.NextActionID = 0;
+        }
+        if (!this.isFormvalid) {
+          return;
+        }
+        this.loaderService.requestStarted();
+        await this.applyNOCApplicationService.DocumentScrutiny(this.sSOLoginDataModel.RoleID, this.sSOLoginDataModel.UserID, this.ActionID, this.SelectedApplyNOCID, this.SelectedDepartmentID, this.CheckFinalRemark, this.NextRoleID, this.NextUserID, this.NextActionID)
+          .then((data: any) => {
+            data = JSON.parse(JSON.stringify(data));
+            this.State = data['State'];
+            this.SuccessMessage = data['SuccessMessage'];
+            this.ErrorMessage = data['ErrorMessage'];
+            if (this.State == 0) {
+              this.toastr.success(this.SuccessMessage);
+              this.routers.navigate(['/applynocapplicationlistAH']);
+            }
+            else if (this.State == 2) {
+              this.toastr.warning(this.ErrorMessage)
+            }
+            else {
+              this.toastr.error(this.ErrorMessage)
+            }
+          }, error => console.error(error));
+      }
+      catch (Ex) {
+        console.log(Ex);
+      }
+      finally {
+        setTimeout(() => {
+          this.loaderService.requestEnded();
+        }, 200);
+      }
+  }
+
   async GetRoleListForApporval() {
     this.UserRoleList = [];
     this.loaderService.requestStarted();
