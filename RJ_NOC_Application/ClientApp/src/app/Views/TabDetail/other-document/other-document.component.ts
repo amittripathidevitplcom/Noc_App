@@ -15,6 +15,7 @@ import autoTable, { Table } from 'jspdf-autotable'
 import * as XLSX from 'xlsx';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { SSOLoginDataModel } from '../../../Models/SSOLoginDataModel';
+import { Console } from 'console';
 
 
 @Component({
@@ -115,7 +116,7 @@ export class OtherDocumentComponent implements OnInit {
     else {
       this.routers.navigate(['/draftapplicationlist']);
     }
-
+    this.SelectedApplyNOCID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplyNOCID')?.toString()));
     this.QueryStringStatus = this.router.snapshot.paramMap.get('Status')?.toString();
     this.sSOLoginDataModel = JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     //this.request.CollegeID = this.SelectedCollageID;
@@ -365,7 +366,7 @@ export class OtherDocumentComponent implements OnInit {
 
       this.isValidFileName = false;
       //this.request.ActiveStatus = true;
-      //this.isDisabledGrid = false;
+      this.isDisabledGrid = false;
       this.GetAllOtherDocumentList();
       const btnSave = document.getElementById('btnSave')
       if (btnSave) btnSave.innerHTML = "Save";
@@ -428,13 +429,16 @@ export class OtherDocumentComponent implements OnInit {
 
     try {
       this.loaderService.requestStarted();
-      await this.collegeDocumentService.GetList(this.SelectedDepartmentID, this.SelectedCollageID,"OtherDocument")
+      await this.collegeDocumentService.GetList(this.SelectedDepartmentID, this.SelectedCollageID, "OtherDocument", this.SelectedApplyNOCID > 0 ? this.SelectedApplyNOCID : 0)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
           this.lstOtherDocuments = data['Data'][0]['data'];
+          console.log('Deepak');
+          console.log(this.lstOtherDocuments);
+          console.log('Deepak');
         }, error => console.error(error));
     }
     catch (Ex) {
@@ -448,33 +452,33 @@ export class OtherDocumentComponent implements OnInit {
   }
   async Edit_OnClick(OtherDocumentID: number) {
 
-    //this.isSubmitted = false;
-    //try {
-    //  this.loaderService.requestStarted();
-    //  await this.collegeDocumentService.GetOtheDocumentByID(OtherDocumentID, this.UserID)
-    //    .then((data: any) => {
-    //      data = JSON.parse(JSON.stringify(data));
-    //      this.request.OtherDocumentID = data['Data']["OtherDocumentID"];
-    //      this.request.CollegeID = data['Data']["CollegeID"];
-    //      this.request.DocumentName = data['Data']["DocumentName"];
+    this.isSubmitted = false;
+    try {
+      this.loaderService.requestStarted();
+      await this.collegeDocumentService.GetOtherDocumentByID(OtherDocumentID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.requestDoc.DID = data['Data'][0]['data'][0]["AID"];
+          //this.requestDoc.CollegeID = data['Data']["CollegeID"];
+          this.requestDoc.DocumentName = data['Data'][0]['data'][0]["DocumentName"];
 
 
-    //      this.request.FileName = data['Data']["FileName"];
-    //      this.request.FilePath = data['Data']["FilePath"];
-    //      this.request.Dis_FileName = data['Data']["Dis_FileName"];
-    //      this.isDisabledGrid = true;
-    //      const btnSave = document.getElementById('btnSave')
-    //      if (btnSave) btnSave.innerHTML = "Update";
-    //      const btnReset = document.getElementById('btnReset')
-    //      if (btnReset) btnReset.innerHTML = "Cancel";
-    //    }, error => console.error(error));
-    //}
-    //catch (ex) { console.log(ex) }
-    //finally {
-    //  setTimeout(() => {
-    //    this.loaderService.requestEnded();
-    //  }, 200);
-    //}
+          this.requestDoc.FileName = data['Data'][0]['data'][0]["FileName"];
+          this.requestDoc.FilePath = data['Data'][0]['data'][0]["FilePath"];
+          this.requestDoc.Dis_FileName = data['Data'][0]['data'][0]["Dis_FileName"];
+          this.isDisabledGrid = true;
+          const btnSave = document.getElementById('btnSave')
+          if (btnSave) btnSave.innerHTML = "Update";
+          const btnReset = document.getElementById('btnReset')
+          if (btnReset) btnReset.innerHTML = "Reset";
+        }, error => console.error(error));
+    }
+    catch (ex) { console.log(ex) }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
   }
   async Delete_OnClick(AID: number) {
 

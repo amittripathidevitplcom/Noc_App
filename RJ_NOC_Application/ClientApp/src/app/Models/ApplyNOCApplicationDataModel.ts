@@ -71,6 +71,9 @@ export class ApplicationPenaltyDataModel {
   public ApplyNOCID: number = 0;
   public Penaltyfor: string = '';
   public ApproveReject: string = '';
+  public PenaltyDoc?: string = '';
+  public PenaltyDoc_DisName?: string = '';
+  public PenaltyDocPath?: string = '';
   public PenaltyAmount: number = 0;
   public IsPayment: boolean = false;
   public CreatedBy: number = 0;

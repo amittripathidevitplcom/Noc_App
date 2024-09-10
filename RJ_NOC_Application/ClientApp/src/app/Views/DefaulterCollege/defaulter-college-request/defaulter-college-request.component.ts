@@ -687,7 +687,10 @@ export class DefaulterCollegeRequestComponent {
   modalReference!: NgbModalRef;
   closeResult!: string;
   public DefaulterCollegePenaltyList: any = [];
-  async OpenPenaltyModel(content: any, RequestID: number) {
+  public ApplicationStatus: any = [];
+  async OpenPenaltyModel(content: any, RequestID: number, Status: string) {
+    this.ApplicationStatus = '';
+    this.ApplicationStatus = Status;
     this.modalService.open(content, { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' }).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
@@ -696,6 +699,7 @@ export class DefaulterCollegeRequestComponent {
     await this.GetDefaulterCollegePenaltyData(RequestID);
   }
   async GetDefaulterCollegePenaltyData(RequestID: number) {
+    this.DefaulterCollegePenaltyList = [];
     //Show Loading
     this.loaderService.requestStarted();
     try {

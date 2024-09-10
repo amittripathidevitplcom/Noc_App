@@ -161,7 +161,7 @@ export class CollegeManagementSocietyRevertComponent implements OnInit {
         }, error => console.error(error));
     }
     // get colleges
-    await this.GetCollegesByDepartmentAndSsoId(0, this.ssoLoginModel.SSOID, 'Society');
+    await this.GetCollegesByDepartmentAndSsoId(0, this.ssoLoginModel.SSOID, 'RevertSociety');
     // get all Designation
     await this.GetAllDesignation();
     // get all Occupation
@@ -466,7 +466,7 @@ export class CollegeManagementSocietyRevertComponent implements OnInit {
           if (!this.State) {
             this.toastr.success(this.SuccessMessage)
             // get saved society
-            this.GetCollegesByDepartmentAndSsoId(0, this.ssoLoginModel.SSOID, 'Society');
+            this.GetCollegesByDepartmentAndSsoId(0, this.ssoLoginModel.SSOID, 'RevertSociety');
             this.GetAllDesignation();
             this.GetAllOccupation();
             this.GetSocietyAllList(this.request.CollegeID);//this.CollegeList[0]["CollegeID"]

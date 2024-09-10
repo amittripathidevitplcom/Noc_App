@@ -71,4 +71,16 @@ export class DefaulterCollegeRequestService {
       ).toPromise();
   }
 
+  public async GetDefaulterRequestCount(DepartmentID: number) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl + "/GetDefaulterRequestCount/" + DepartmentID)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+
 }

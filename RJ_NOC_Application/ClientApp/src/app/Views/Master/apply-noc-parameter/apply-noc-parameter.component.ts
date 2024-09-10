@@ -2695,9 +2695,8 @@ export class ApplyNocParameterComponent implements OnInit {
 
 
     await this.GetNocLateFees();
-    await this.CalculateAllAmount();
     await this.GetDefaulterCollegePenalty();
-
+    await this.CalculateAllAmount();
   }
 
   async GetDefaulterCollegePenalty() {
@@ -2821,9 +2820,9 @@ export class ApplyNocParameterComponent implements OnInit {
       this.request.TotalNocFee += this.DepartmentInspectionFee;
 
       this.request.TotalFeeAmount += this.DepartmentInspectionFee;
-      setTimeout(() => {
+/*      setTimeout(() => {*/
         this.request.TotalFeeAmount += this.request.TotalDefaulterCollegePenalty;
-      }, 500);
+   /*   }, 500);*/
 
 
     } catch (error) {

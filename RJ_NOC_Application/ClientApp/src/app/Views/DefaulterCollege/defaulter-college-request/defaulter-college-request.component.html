@@ -356,12 +356,16 @@
             <td>{{row.LastApplicationNo}}</td>
             <td>{{row.CollegeName}}</td>
             <td>{{row.UniversityName}}</td>
-            <td>{{row.ApplicationStatus}}</td>
+            <td>
+              <button type="button" *ngIf="row.ApplicationStatus=='Approve'" class="btn btn-sm btn-success" title="Penalty Fee" (click)="OpenPenaltyModel(Penaltymodel,row.RequestID,row.ApplicationStatus)">{{row.ApplicationStatus}}</button>
+              <button type="button" *ngIf="row.ApplicationStatus=='Reject'" class="btn btn-sm btn-danger" title="Penalty Fee" (click)="OpenPenaltyModel(Penaltymodel,row.RequestID,row.ApplicationStatus)">{{row.ApplicationStatus}}</button>
+              <button type="button" *ngIf="row.ApplicationStatus=='Pending'" class="btn btn-sm btn-secondary" title="Penalty Fee" (click)="OpenPenaltyModel(Penaltymodel,row.RequestID,row.ApplicationStatus)">{{row.ApplicationStatus}}</button>
+            </td>
             <td>
               <div class="d-flex">
                 <!--<button type="button" (click)="Edit_OnClick(row.RequestID)" title="Edit" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></button>-->
                 <button type="button" class="btn btn-sm btn-primary" title="View Details" (click)="ViewDetails(mymodaldetails,row.RequestID)"><i class="fa fa-eye"></i></button>
-                <button type="button" class="btn btn-sm btn-info" title="Penalty Fee" (click)="OpenPenaltyModel(Penaltymodel,row.RequestID)"><i class="fa fa-eye"></i></button>
+                <!--<button type="button" class="btn btn-sm btn-info" title="Penalty Fee" (click)="OpenPenaltyModel(Penaltymodel,row.RequestID)"><i class="fa fa-eye"></i></button>-->
                 <!--<button type="button" class="btn btn-sm btn-danger" title="Delete" (click)="Delete_OnClick(row.RequestID)"><i class="fa fa-trash"></i></button>-->
               </div>
             </td>
@@ -383,8 +387,18 @@
   </div>
   <div class="modal-body">
     <app-loader></app-loader>
-        <div class="table-responsive">
-      <table class="table table-hover table-striped-columns">
+    <div class="row" *ngIf="ApplicationStatus=='Pending'">
+      <div class="col-12">
+        Your Application is Pending.
+      </div>
+    </div>
+    <div class="row" *ngIf="ApplicationStatus=='Reject'">
+      <div class="col-12">
+        Your Application is Rejected.
+      </div>
+    </div>
+    <div class="table-responsive">
+      <table class="table table-hover table-striped-columns" *ngIf="DefaulterCollegePenaltyList.length>0 && ApplicationStatus=='Approve'">
         <thead>
           <tr>
             <th style="width:5%">Sr. No.</th>
@@ -403,6 +417,7 @@
           </tr>
         </tbody>
       </table>
+      <a *ngIf="ApplicationStatus=='Approve'"href="/addcollege" class="btn btn-sm btn-primary">Proceed <i class="fa fa-chevron-circle-right"></i></a>
     </div>
   </div>
 </ng-template>

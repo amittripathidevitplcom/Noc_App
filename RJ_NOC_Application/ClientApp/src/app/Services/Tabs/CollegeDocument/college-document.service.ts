@@ -28,6 +28,17 @@ export class CollegeDocumentService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
+  public async GetOtherDocumentByID(OtherDocumentID: number = 0) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl + "/GetOtherDocumentByID/" + OtherDocumentID)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
   public async Delete(AID: number) {
     const httpOptions = {
       headers: new HttpHeaders({

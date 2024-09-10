@@ -48,4 +48,5 @@ export class DefaulterCollegeSearchFilterDataModel {
   public DepartmentID: number = 0;
   public RequestID: number = 0;
   public SSOID: string = '';
+  public ApplicationStatus: string = 'All';
 }

@@ -16,7 +16,47 @@
 </div>
 <div class="container-fluid mainContents">
 
+  <div class="card">
+    <div class="card-header d-xxl-flex d-xl-flex d-md-flex d-sm-block justify-content-between align-items-center">
+      <b><i class="bi bi-table"></i>Status wise Application Count</b>
+      <div class="d-flex align-items-center table-filter mr-15">
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-2" *ngFor="let row of ApplicationCountList let idx=index;">
+          <b>{{row.ApplicationStatus}} : - </b>{{row.TotalApplication}}
+        </div>
+      </div>
+    </div>
 
+  </div>
+  <div class="card">
+    <div class="card-header d-flex justify-content-between align-items-center">
+      <b><i class="bi bi-table"></i> Search Defaulter</b>
+      <div class="d-flex d-flex justify-content-end align-items-center">
+        <button class="btn btn-outline-dark btn-sm ms-3" type="button" onclick="js_FilterCollapse(this)"><i class="fa fa-plus"></i></button>
+      </div>
+    </div>
+    <div class="cardBodyCollape" style="display:none">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+            <label for="ddlSearchbyApplicationStatus" class="form-label">Search By Application Status:</label>
+            <select class="form-select" id="ddlSearchbyApplicationStatus" name="ddlSearchbyApplicationStatus" [(ngModel)]="request.ApplicationStatus">
+              <option value="All">All</option>
+              <option value="Pending">Pending</option>
+              <option value="Approve">Approve</option>
+              <option value="Reject">Reject</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="card-footer text-end">
+        <button type="submit" (click)="GetApplicationList()" class="btn btn-primary"><i class="fa fa-search"></i>&nbsp;Search</button>
+       </div>
+    </div>
+  </div>
   <div class="card mb-0">
     <div class="card-header">
       <b><i class="bi bi-table"></i> Defaulter College List </b>
@@ -237,12 +277,28 @@
         </div>
         <p *ngIf="FormSubmit&&requestPenalty.ApproveReject==''" class="text-danger"><i aria-hidden="true"></i> This field is required .!</p>
       </div>
-      <div class="col-sm-12 col-12 mb-3" *ngIf="requestPenalty.ApproveReject=='Approve'">
+      <div class="col-lg-6 col-sm-12 col-12 mb-3" *ngIf="requestPenalty.ApproveReject=='Approve'">
         <label for="txtPenaltyamount" class="form-label">Penalty Amount<span style="color:red;">*</span></label>
         <input autocomplete="off" type="text" maxlength="10" [(ngModel)]="requestPenalty.PenaltyAmount" class="form-control" id="txtPenaltyamount" name="txtPenaltyamount" (keypress)="numberOnly($event)">
         <p *ngIf="FormSubmit&&requestPenalty.ApproveReject=='Approve'&&  requestPenalty.PenaltyAmount.toString()==''" class="text-danger"><i aria-hidden="true"></i> This field is required .!</p>
         <p *ngIf="FormSubmit&& requestPenalty.PenaltyAmount==0 && requestPenalty.ApproveReject=='Approve'" class="text-danger"><i aria-hidden="true"></i> Penalty Amount grater then zero .!</p>
       </div>
+      <div class="col-sm-12 col-12 mb-3">
+        <label class="form-label">Upload Document(Only pdf file.)(Max.Size 2MB):<span style="color:red;">*</span></label>
+        <div class="d-flex">
+          <input type="file" style="display:none;" class="form-control" id="fuPenaltyDoc" name="fuPenaltyDoc" (change)="onFilechange($event)">
+          <label class="btn upload" for="fuPenaltyDoc">
+            <span class="filename">Choose file</span>
+            {{requestPenalty.PenaltyDoc === '' ? 'No File Choosen' : requestPenalty.PenaltyDoc_DisName}}
+          </label>
+          <div class="btn-group" *ngIf="requestPenalty.PenaltyDoc != ''">
+            <a class="btn btn-outline-primary" target="_blank" href="{{requestPenalty.PenaltyDocPath}}"><i class="fa fa-eye"></i></a>
+            <button type="button" class="btn btn-outline-danger" (click)="DeleteImage(requestPenalty.PenaltyDoc)"><i class="fa fa-trash-o"></i></button>
+          </div>
+        </div>
+        <p *ngIf="FormSubmit&&requestPenalty.PenaltyDoc === '' " class="text-danger"><i aria-hidden="true"></i> This field is required .!</p>
+      </div>
+
       <div class="col-12 text-end mt-4">
         <button type="submit" id="btnPenaltySave" (click)="SaveData()" class="btn btn-success"> Save</button>
         &nbsp;<button type="submit" (click)="Reset()" class="btn btn-secondary"> Cancel</button>
@@ -256,9 +312,8 @@
           <tr>
             <th style="width:5%">Sr. No.</th>
             <th>Penalty for</th>
-            <!--<th>Status</th>-->
             <th>Penalty Amount</th>
-            <!--<th>Action</th>-->
+            <th>Penalty Document</th>
           </tr>
         </thead>
         <tbody>
@@ -267,6 +322,9 @@
             <td>{{row.Penaltyfor}}</td>
             <!--<td>{{row.ApplicationStatus}}</td>-->
             <td>{{row.PenaltyAmount}}</td>
+            <td>
+              <a class="bi bi-file-earmark-pdf-fill" *ngIf="row.PenaltyDocPath.includes('.pdf')" data-fancybox="gallery" href="{{row.PenaltyDocPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+            </td>
             <!--<td>
     <button type="submit" (click)="EditDefaulterCollegePenalty(row.PenaltyID)" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></button>
     <button type="submit" (click)="DeleteDefaulterCollegePenalty(row.PenaltyID)" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></button>

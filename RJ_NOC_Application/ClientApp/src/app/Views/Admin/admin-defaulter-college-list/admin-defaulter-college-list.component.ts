@@ -15,6 +15,7 @@ import { DefaulterCollegeSearchFilterDataModel } from '../../../Models/Defaulter
 import { DefaulterCollegeRequestService } from '../../../Services/DefaulterCollegeRequest/DefaulterCollegeRequest.service';
 import { ApplicationPenaltyDataModel } from '../../../Models/ApplyNOCApplicationDataModel';
 import { ApplyNOCApplicationService } from '../../../Services/ApplyNOCApplicationList/apply-nocapplication.service';
+import { FileUploadService } from '../../../Services/FileUpload/file-upload.service';
 
 @Component({
   selector: 'app-admin-defaulter-college-list',
@@ -24,7 +25,7 @@ import { ApplyNOCApplicationService } from '../../../Services/ApplyNOCApplicatio
 export class AdminDefaulterCollegeListComponent implements OnInit {
   request = new DefaulterCollegeSearchFilterDataModel();
 
-  constructor(private DefaulterCollegeRequestService: DefaulterCollegeRequestService, private toastr: ToastrService, private loaderService: LoaderService, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private collegeService: CollegeService, private sSOLoginService: SSOLoginService, private modalService: NgbModal, private nocpaymentService: NocpaymentService) {
+  constructor(private fileUploadService: FileUploadService,private DefaulterCollegeRequestService: DefaulterCollegeRequestService, private toastr: ToastrService, private loaderService: LoaderService, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private collegeService: CollegeService, private sSOLoginService: SSOLoginService, private modalService: NgbModal, private nocpaymentService: NocpaymentService) {
 
   }
 
@@ -42,11 +43,13 @@ export class AdminDefaulterCollegeListComponent implements OnInit {
   closeResult!: string;
   public searchText: string = '';
   requestPenalty = new ApplicationPenaltyDataModel();
+  public ApplicationCountList: any = [];
 
 
   async ngOnInit() {
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     await this.GetApplicationList();
+    await this.GetDefaulterRequestCount();
   }
 
   async GetApplicationList() {
@@ -129,6 +132,9 @@ export class AdminDefaulterCollegeListComponent implements OnInit {
     if (this.requestPenalty.ApproveReject == '') {
       return;
     }
+    if (this.requestPenalty.PenaltyDoc == '') {
+      return;
+    }
     if (this.requestPenalty.ApproveReject == 'Approve') {
       if (this.requestPenalty.PenaltyAmount == null || this.requestPenalty.PenaltyAmount.toString() == '') {
         return;
@@ -142,7 +148,7 @@ export class AdminDefaulterCollegeListComponent implements OnInit {
     this.requestPenalty.CreatedBy = this.sSOLoginDataModel.UserID;
     this.loaderService.requestStarted();
     try {
-      if (confirm("Are you sure you want?")) {
+      if (confirm("Are you sure you want to submit?")) {
         await this.DefaulterCollegeRequestService.SaveDefaulterCollegePenalty(this.requestPenalty)
           .then(async (data: any) => {
             this.State = data['State'];
@@ -270,5 +276,140 @@ export class AdminDefaulterCollegeListComponent implements OnInit {
     const btnSave = document.getElementById('btnPenaltySave')
     if (btnSave) btnSave.innerHTML = "Save";
     this.requestPenalty = new ApplicationPenaltyDataModel();
+  }
+
+
+  public file!: File;
+  public files: any = '';
+  public PenaltyDocValidationMessage: string = '';
+  async onFilechange(event: any) {
+
+    try {
+      this.loaderService.requestStarted();
+      this.file = event.target.files[0];
+      if (this.file) {
+          if (this.file.type == 'application/pdf') {
+            //size validation
+            if (this.file.size > 2000000) {
+              this.requestPenalty.PenaltyDoc = '';
+              this.requestPenalty.PenaltyDoc_DisName = '';
+              this.requestPenalty.PenaltyDocPath = '';
+              this.files = document.getElementById('fuPenaltyDoc');
+              this.files.value = '';
+              this.toastr.error('Select less then 2MB File')
+              return
+            }
+
+          }
+          else {
+            this.toastr.warning('Select Only jpdf');
+            // type validation
+            this.requestPenalty.PenaltyDoc = '';
+            this.requestPenalty.PenaltyDoc_DisName = '';
+            this.requestPenalty.PenaltyDocPath = '';
+            this.files = document.getElementById('fuPenaltyDoc');
+            this.files.value = '';
+            return
+          }
+          // upload to server folder
+          await this.fileUploadService.UploadDocument(this.file).then((data: any) => {
+            this.State = data['State'];
+            this.SuccessMessage = data['SuccessMessage'];
+            this.ErrorMessage = data['ErrorMessage'];
+            if (this.State == 0) {
+              this.requestPenalty.PenaltyDoc = data['Data'][0]["FileName"];
+              this.requestPenalty.PenaltyDoc_DisName = data['Data'][0]["Dis_FileName"];
+              this.requestPenalty.PenaltyDocPath = data['Data'][0]["FilePath"];
+              this.files = document.getElementById('fuPenaltyDoc');
+              this.files.value = '';
+            }
+            if (this.State == 1) {
+              this.toastr.error(this.ErrorMessage)
+            }
+            else if (this.State == 2) {
+              this.toastr.warning(this.ErrorMessage)
+            }
+          });
+        
+      }
+      else {
+        this.requestPenalty.PenaltyDoc = '';
+        this.requestPenalty.PenaltyDoc_DisName = '';
+        this.requestPenalty.PenaltyDocPath = '';
+        this.files = document.getElementById('fuPenaltyDoc');
+        this.files.value = '';
+      }
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        event.target.value = null;
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  async DeleteImage(file: string) {
+    try {
+
+      if (confirm("Are you sure you want to delete this ?")) {
+        this.loaderService.requestStarted();
+        // delete from server folder
+        await this.fileUploadService.DeleteDocument(file).then((data: any) => {
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          if (this.State == 0) {
+            this.requestPenalty.PenaltyDoc = '';
+            this.requestPenalty.PenaltyDoc_DisName = '';
+            this.requestPenalty.PenaltyDocPath = '';
+            this.files = document.getElementById('fuPenaltyDoc');
+            this.files.value = '';
+          }
+          if (this.State == 1) {
+            this.toastr.error(this.ErrorMessage)
+          }
+          else if (this.State == 2) {
+            this.toastr.warning(this.ErrorMessage)
+          }
+        });
+      }
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+
+  async GetDefaulterRequestCount() {
+    try {
+      this.ApplicationCountList = [];
+      this.loaderService.requestStarted();
+      await this.DefaulterCollegeRequestService.GetDefaulterRequestCount(this.sSOLoginDataModel.DepartmentID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.ApplicationCountList = data['Data'][0];
+
+          console.log(data);
+        }, error => console.error(error));
+
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
   }
 }
