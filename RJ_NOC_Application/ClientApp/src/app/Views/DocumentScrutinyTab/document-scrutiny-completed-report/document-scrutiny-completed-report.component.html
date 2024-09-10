@@ -32,6 +32,7 @@
                   <th>Department Name</th>
                   <th>College Name</th>
                   <th>Application No.</th>
+                  <th>Application Type</th>
                   <th *ngIf="this.sSOLoginDataModel.DepartmentID != 1 && this.sSOLoginDataModel.DepartmentID != 2">Remarks</th>
                   <th>Status</th>
                   <th>Action</th>
@@ -43,6 +44,7 @@
                   <td>{{item.DepartmentName}}</td>
                   <td>{{item.CollegeName}}</td>
                   <td>{{item.ApplicationNo}}</td>
+                  <td>{{item.Type}}</td>
                   <td *ngIf="this.sSOLoginDataModel.DepartmentID != 1 && this.sSOLoginDataModel.DepartmentID != 2">{{item.Remark}}</td>
                   <td>{{item.Status}}</td>
                   <td>

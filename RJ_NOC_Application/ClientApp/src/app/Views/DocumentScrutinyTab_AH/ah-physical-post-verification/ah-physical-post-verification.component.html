@@ -21,6 +21,7 @@
                     <th>Department Name</th>
                     <th>College Name</th>
                     <th>Application No.</th>
+                    <th>Application Type</th>
                     <th>Action</th>
                   </tr>
                 </thead>
@@ -30,6 +31,7 @@
                     <td>{{item.DepartmentName}}</td>
                     <td>{{item.CollegeName}}</td>
                     <td>{{item.ApplicationNo}}</td>
+                    <td>{{item.ApplicationType}}</td>
                     <td>
                       <a href="/applicationsummary/{{item.DepartmentID}}/{{item.CollegeID}}" target="_blank" class="btn btn-sm btn-info"><i class="fa fa-eye"></i></a>
                       <!--<a href="javascript:void(0)" title="Document Scrutiny Tab" (click)="ApplicationPreview_OnClick(item.DepartmentID,item.CollegeID,item.ApplyNOCID,item.ApplicationNo)" class="btn btn-sm btn-info"><i class="fa fa-eye"></i></a>-->
