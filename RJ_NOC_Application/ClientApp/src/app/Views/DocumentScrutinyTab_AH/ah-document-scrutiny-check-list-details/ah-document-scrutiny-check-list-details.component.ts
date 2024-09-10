@@ -743,6 +743,7 @@ export class AhDocumentScrutinyCheckListDetailsComponent implements OnInit {
     this.isNextActionValid = false;
     this.isRemarkValid = false;
     try {
+      debugger;
       if (this.SelectedDepartmentID == 2) {
         if (this.CollegeType_IsExisting) {
           if (this.CheckTabsEntryData['LegalEntity'] <= 0 || this.CheckTabsEntryData['RoomDetails'] <= 0 || this.CheckTabsEntryData['CollegeDetail'] <= 0 || this.CheckTabsEntryData['CollegeManagementSociety'] <= 0 || this.CheckTabsEntryData['LandInformation'] <= 0
