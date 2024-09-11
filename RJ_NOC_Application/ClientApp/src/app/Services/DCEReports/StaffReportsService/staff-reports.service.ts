@@ -59,13 +59,13 @@ export class StaffReportsService {
       ).toPromise();
   }
 
-  public async GetStaffDuplicateAdharList() {
+  public async GetStaffDuplicateAdharList(DepartmentID: number) {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     };
-    return await this.http.get(this.APIUrl + "/GetStaffDuplicateAdharList/")
+    return await this.http.get(this.APIUrl + "/GetStaffDuplicateAdharList/" + DepartmentID)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();

@@ -82,11 +82,24 @@
                   <a class="dropdown-item list-group-item list-group-item-action list-group-item-danger" href="javascript:void(0)" aria-label="Preview Application" (click)="GetApplicationSummary(item.DepartmentID,item.CollegeID)">Preview Application</a>
                 </li>
 
-                <li *ngIf="item.IsMakePayment==false && item.IsOpenNOCApplication==true">
+                <li *ngIf="item.IsMakePayment==false && item.IsOpenNOCApplication==true&&item.IsOpenDefaulter==false">
                   <a class="dropdown-item list-group-item list-group-item-action list-group-item-danger" href="javascript:void(0)" *ngIf="item.IsMakePayment==false" title="Delete Application"
                      (click)="DeleteApplyNocApplication_click(item)">Delete</a>
                 </li>
-                <li *ngIf="item.DepartmentID !=2 && item.IsOpenNOCApplication==true">
+
+                <!--defaulter-->
+                <li *ngIf="item.IsMakePayment==false && item.IsOpenNOCApplication==true&&item.IsOpenDefaulter==true&& item.IsDefaulter==true">
+                  <a class="dropdown-item list-group-item list-group-item-action list-group-item-danger" href="javascript:void(0)" *ngIf="item.IsMakePayment==false" title="Delete Application"
+                     (click)="DeleteApplyNocApplication_click(item)">Delete</a>
+                </li>
+
+                <li *ngIf="item.DepartmentID !=2 && item.IsOpenNOCApplication==true&&item.IsOpenDefaulter==false">
+                  <a class="dropdown-item list-group-item list-group-item-action list-group-item-danger" href="javascript:void(0)" title="Add FDR" (click)="AddFDR_click(item)">
+                    {{item.IsSaveFDR==true?'View FDR':'Add FDR'}}
+                  </a>
+                </li>
+                <!--defaulter-->
+                <li *ngIf="item.DepartmentID !=2 && item.IsOpenNOCApplication==true&&item.IsOpenDefaulter==true&& item.IsDefaulter==true">
                   <a class="dropdown-item list-group-item list-group-item-action list-group-item-danger" href="javascript:void(0)" title="Add FDR" (click)="AddFDR_click(item)">
                     {{item.IsSaveFDR==true?'View FDR':'Add FDR'}}
                   </a>
@@ -94,7 +107,12 @@
 
                 <li>
                   <!--<a *ngIf="(item.DepartmentID==4 || item.DepartmentID==3|| item.DepartmentID==2) && item.IsFinalSubmit==false && item.ManagementType!='Government'&& item.IsOpenNOCApplication==true" class="dropdown-item list-group-item list-group-item-action list-group-item-danger" href="javascript:void(0)" title="Add Offline Payment Details" (click)="OpenOfflinePaymentActionPopUP(mymodalAddOfflinePayment,item)">-->
-                  <a *ngIf="item.IsOnlineOfflinePayment=='Offline' && item.IsFinalSubmit==false && item.ManagementType!='Government'&& item.IsOpenNOCApplication==true" class="dropdown-item list-group-item list-group-item-action list-group-item-danger" href="javascript:void(0)" title="Add Offline Payment Details" (click)="OpenOfflinePaymentActionPopUP(mymodalAddOfflinePayment,item)">
+                  <a *ngIf="item.IsOnlineOfflinePayment=='Offline' && item.IsFinalSubmit==false && item.ManagementType!='Government'&& item.IsOpenNOCApplication==true&&item.IsOpenDefaulter==false" class="dropdown-item list-group-item list-group-item-action list-group-item-danger" href="javascript:void(0)" title="Add Offline Payment Details" (click)="OpenOfflinePaymentActionPopUP(mymodalAddOfflinePayment,item)">
+                    Add Offline Payment Details
+                  </a>
+                </li>
+                <li>
+                  <a *ngIf="item.IsOnlineOfflinePayment=='Offline' && item.IsFinalSubmit==false && item.ManagementType!='Government'&& item.IsOpenNOCApplication==true&&item.IsOpenDefaulter==true&& item.IsDefaulter==true" class="dropdown-item list-group-item list-group-item-action list-group-item-danger" href="javascript:void(0)" title="Add Offline Payment Details" (click)="OpenOfflinePaymentActionPopUP(mymodalAddOfflinePayment,item)">
                     Add Offline Payment Details
                   </a>
                 </li>
@@ -114,15 +132,15 @@
                   </a>
                 </li>
                 <!--<li *ngIf="item.DepartmentID==2 && item.IsOpenNOCApplication==true && item.IsFinalSubmit==true && item.IsMakeInspectionPayment==false">
-    <a class="dropdown-item list-group-item list-group-item-action list-group-item-danger" href="javascript:void(0)" title="Payment" (click)="InspectionPaymentApplyNocApplication_click(mymodalinspectionpayment,item.ApplyNocApplicationID)">
-      Inspection Payment
-    </a>
-  </li>
-  <li *ngIf="item.DepartmentID==2 && item.IsOpenNOCApplication==true && item.IsSaveFDR==false">
-    <a class="dropdown-item list-group-item list-group-item-action list-group-item-danger" href="javascript:void(0)" title="Payment" (click)="FDRPaymentApplyNocApplication_click(mymodalfdrpayment,item.ApplyNocApplicationID)">
-      FDR Payment
-    </a>
-  </li>-->
+                  <a class="dropdown-item list-group-item list-group-item-action list-group-item-danger" href="javascript:void(0)" title="Payment" (click)="InspectionPaymentApplyNocApplication_click(mymodalinspectionpayment,item.ApplyNocApplicationID)">
+                    Inspection Payment
+                  </a>
+                </li>
+                <li *ngIf="item.DepartmentID==2 && item.IsOpenNOCApplication==true && item.IsSaveFDR==false">
+                  <a class="dropdown-item list-group-item list-group-item-action list-group-item-danger" href="javascript:void(0)" title="Payment" (click)="FDRPaymentApplyNocApplication_click(mymodalfdrpayment,item.ApplyNocApplicationID)">
+                    FDR Payment
+                  </a>
+                </li>-->
                 <li *ngIf="(item.DepartmentID==6 || item.DepartmentID==9) && item.IsOpenNOCApplication==true">
                   <a class="dropdown-item list-group-item list-group-item-action list-group-item-danger" href="javascript:void(0)" title="Payment" *ngIf="item.IsMakePayment_ApplicationFee==false"
                      (click)="EmitraPaymentApplyNocApplication_click(mymodalemitrapayment,item.ApplyNocApplicationID)">
@@ -134,7 +152,13 @@
                 </li>
                 <li>
                   <a class="dropdown-item list-group-item list-group-item-action list-group-item-danger" href="javascript:void(0)"
-                     *ngIf="item.IsMakePayment==true && item.IsMakePayment_ApplicationFee==true && item.IsFinalSubmit==false && item.IsOpenNOCApplication==true" title="Final Submit Application" (click)="FinalSubmitApplyNocApplication_click(item)">
+                     *ngIf="item.IsMakePayment==true && item.IsMakePayment_ApplicationFee==true && item.IsFinalSubmit==false && item.IsOpenNOCApplication==true&&item.IsOpenDefaulter==false" title="Final Submit Application" (click)="FinalSubmitApplyNocApplication_click(item)">
+                    Final Submit
+                  </a>
+                </li>
+                <li>
+                  <a class="dropdown-item list-group-item list-group-item-action list-group-item-danger" href="javascript:void(0)"
+                     *ngIf="item.IsMakePayment==true && item.IsMakePayment_ApplicationFee==true && item.IsFinalSubmit==false && item.IsOpenNOCApplication==true&&item.IsOpenDefaulter==true&& item.IsDefaulter==true" title="Final Submit Application" (click)="FinalSubmitApplyNocApplication_click(item)">
                     Final Submit
                   </a>
                 </li>
@@ -150,9 +174,9 @@
 
 
                 <!--<li>
-    <a style="display:none" class="dropdown-item list-group-item list-group-item-action list-group-item-danger" href="javascript:void(0)" title="Egrass Payment" (click)="MakeGrassPayment_click(item)">
-      Egrass Payment
-    </a>-->
+                <a style="display:none" class="dropdown-item list-group-item list-group-item-action list-group-item-danger" href="javascript:void(0)" title="Egrass Payment" (click)="MakeGrassPayment_click(item)">
+                  Egrass Payment
+                </a>-->
                 <!--*ngIf="item.IsMakePayment==true"-->
                 <!--</li>-->
                 <li *ngIf="item.DepartmentID==4 && item.GenerateReceipt_DTE!=''">
@@ -230,7 +254,9 @@
         <label>
           <b>
             Application Type :
+            De
           </b>
+
           {{ApplyNocApplicationDetail.ApplicationTypeName}}
         </label>
       </div>
@@ -1306,6 +1332,7 @@
           <b>
             Application Type :
           </b>
+
           {{ApplyNocApplicationDetail.ApplicationTypeName}}
         </label>
       </div>
@@ -1374,7 +1401,10 @@
             Application Type : Inspection
           </b>
 
+           I
+
         </label>
+         I
       </div>
       <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
         <label>
@@ -1421,7 +1451,12 @@
             Application Type : FDR
           </b>
 
+           F
+          /d
+
         </label>
+         F
+        /d
       </div>
       <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
         <label>
@@ -1511,7 +1546,9 @@
             <div class="row">
               <div class="table-responsive maxheight600px">
                 <table class="table table-hover table-striped-columns">
+                  mn
                   <thead>
+                    mn
                     <tr>
                       <th>Sr. No.</th>
                       <th>PRN No</th>

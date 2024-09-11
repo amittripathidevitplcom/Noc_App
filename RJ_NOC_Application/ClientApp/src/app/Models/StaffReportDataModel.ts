@@ -23,6 +23,7 @@
       public SubjectID: number = 0;
       public CollegeName: string = '';
       public CollegeID: number = 0;
+      public DepartmentID: number = 0;
       
      // public StatusofCollegeID: number = 0;
 

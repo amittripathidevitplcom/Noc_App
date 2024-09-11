@@ -207,6 +207,8 @@ export class ApplyNocApplicationDataModel {
   public NodelName?: string = ''; 
   public NodelMobileNo?: string = ''; 
   public NodelCollegeName?: string = '';
+  public IsOpenDefaulter?: boolean = false;
+  public IsDefaulter?: boolean = false;
 }
 export class ApplyNocApplicationParameterDataModel {
   public ApplyNocParameterDetailID: number = 0;

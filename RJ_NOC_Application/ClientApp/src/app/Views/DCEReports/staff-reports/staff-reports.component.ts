@@ -11,6 +11,7 @@ import { StatisticsEntryComponent } from '../../Statistics/statistics-entry/stat
 import { CollegeService } from '../../../services/collegedetailsform/College/college.service';
 import { StaffReportsService } from '../../../Services/DCEReports/StaffReportsService/staff-reports.service';
 import * as XLSX from 'xlsx';
+import { SSOLoginDataModel } from '../../../Models/SSOLoginDataModel';
 
 @Component({
   selector: 'app-staff-reports',
@@ -41,7 +42,7 @@ export class StaffReportsComponent implements OnInit {
   public searchText: string = '';
 
 
-
+  sSOLoginDataModel = new SSOLoginDataModel();
   request = new StaffReportDataModel();
   requestlst = new StaffReportFilter();
 
@@ -50,7 +51,7 @@ export class StaffReportsComponent implements OnInit {
 
 
   async ngOnInit() {
-
+    this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     await this.GetAllDesignation();
     // await this.GetNocStatus();
     await this.GetSubjectList();
@@ -99,7 +100,7 @@ export class StaffReportsComponent implements OnInit {
   async GetCollegesByDepartmentID() {
     try {
       this.loaderService.requestStarted();
-      await this.collegeservice.GetCollegesByDepartmentID(3)
+      await this.collegeservice.GetCollegesByDepartmentID(this.sSOLoginDataModel.DepartmentID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
@@ -190,7 +191,7 @@ export class StaffReportsComponent implements OnInit {
     this.loaderService.requestStarted();
     this.isLoading = true;
     try {
-      await this.commonMasterService.GetCommonMasterList_DepartmentAndTypeWise(3, 'PresentCollegeStatus')
+      await this.commonMasterService.GetCommonMasterList_DepartmentAndTypeWise(this.sSOLoginDataModel.DepartmentID, 'PresentCollegeStatus')
         .then((data: any) => {
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
@@ -218,7 +219,7 @@ export class StaffReportsComponent implements OnInit {
     this.loaderService.requestStarted();
     this.isLoading = true;
     try {
-      await this.commonMasterService.GetCommonMasterList_DepartmentAndTypeWise(3, 'CourseType')
+      await this.commonMasterService.GetCommonMasterList_DepartmentAndTypeWise(this.sSOLoginDataModel.DepartmentID, 'CourseType')
         .then((data: any) => {
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
@@ -246,7 +247,7 @@ export class StaffReportsComponent implements OnInit {
     this.loaderService.requestStarted();
     this.isLoading = true;
     try {
-      await this.staffReportsService.GetStaffDuplicateAdharList()
+      await this.staffReportsService.GetStaffDuplicateAdharList(this.sSOLoginDataModel.DepartmentID)
         .then((data: any) => {
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
@@ -268,8 +269,8 @@ export class StaffReportsComponent implements OnInit {
 
 
   async DCEStaffDetailsList() {
-    debugger;
     try {
+      this.request.DepartmentID = this.sSOLoginDataModel.DepartmentID;
       this.loaderService.requestStarted();
       if (this.request.MonthlySalary.toString() == '' || this.request.MonthlySalary.toString() == null || this.request.MonthlySalary.toString() == undefined)
       {
