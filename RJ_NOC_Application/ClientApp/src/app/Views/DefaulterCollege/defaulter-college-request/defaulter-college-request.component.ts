@@ -125,7 +125,7 @@ export class DefaulterCollegeRequestComponent {
         }, error => console.error(error));
 
       // College Type
-      await this.commonMasterService.GetCommonMasterList_DepartmentAndTypeWise(3, "CollegeType")
+      await this.commonMasterService.GetCommonMasterList_DepartmentAndTypeWise(this.request.DepartmentID, "CollegeType")
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
@@ -142,9 +142,6 @@ export class DefaulterCollegeRequestComponent {
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
           this.PresentCollegeStatusList = data['Data'];
-          if (this.request.DepartmentID == 11) {
-            this.PresentCollegeStatusList = data['Data'];
-          }
         }, error => console.error(error));
 
       // college level
@@ -207,6 +204,7 @@ export class DefaulterCollegeRequestComponent {
 
 
   async ddlCollegeType_TextChange(SelectedCollegeTypeID: string) {
+    debugger;
     console.log('DepartmentID' + this.request.DepartmentID);
     this.loaderService.requestStarted();
     try {
@@ -216,7 +214,17 @@ export class DefaulterCollegeRequestComponent {
         });
 
         if (Item[0]['Name'] == 'Law Co-ed' || Item[0]['Name'] == 'Law Girls') {
-          await this.commonMasterService.GetUniversityByDepartmentId(3, 1)
+          await this.commonMasterService.GetUniversityByDepartmentId(this.request.DepartmentID, 1)
+            .then((data: any) => {
+              data = JSON.parse(JSON.stringify(data));
+              this.State = data['State'];
+              this.SuccessMessage = data['SuccessMessage'];
+              this.ErrorMessage = data['ErrorMessage'];
+              this.UniversityList = data['Data'];
+            }, error => console.error(error));
+        }
+        else {
+          await this.commonMasterService.GetUniversityByDepartmentId(this.request.DepartmentID)
             .then((data: any) => {
               data = JSON.parse(JSON.stringify(data));
               this.State = data['State'];
@@ -227,7 +235,7 @@ export class DefaulterCollegeRequestComponent {
         }
       }
       else {
-        await this.commonMasterService.GetUniversityByDepartmentId(3)
+        await this.commonMasterService.GetUniversityByDepartmentId(this.request.DepartmentID)
           .then((data: any) => {
             data = JSON.parse(JSON.stringify(data));
             this.State = data['State'];
@@ -248,7 +256,6 @@ export class DefaulterCollegeRequestComponent {
   }
 
   async ddlPresentCollegeStatus_TextChange(SelectedPresentCollegeStatusID: string) {
-    if (3 == 3) {
       try {
         this.loaderService.requestStarted();
         const SelectedPresentCollegeStatusID1 = Number(SelectedPresentCollegeStatusID);
@@ -270,7 +277,7 @@ export class DefaulterCollegeRequestComponent {
           this.loaderService.requestEnded();
         }, 200);
       }
-    }
+    
   }
 
   async SaveData() {
