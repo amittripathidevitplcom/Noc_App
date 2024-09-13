@@ -64,39 +64,39 @@ export class CourseReportsComponent implements PagingConfig, OnInit {
 
     this.sSOLoginDataModel = JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     await this.LoadMaster();
-    await this.GetDepartmentList(3);
+    await this.GetDepartmentList(this.sSOLoginDataModel.DepartmentID);
     await this.GetCourseReport();
   }
   async LoadMaster() {
     try {
       this.loaderService.requestStarted();
 
-      await this.commonMasterService.GetUniversityByDepartmentId(3)
+      await this.commonMasterService.GetUniversityByDepartmentId(this.sSOLoginDataModel.DepartmentID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.UniversityList = data['Data'];
         }, error => console.error(error));
-      await this.commonMasterService.GetCourseList_DepartmentIDWise(3)
+      await this.commonMasterService.GetCourseList_DepartmentIDWise(this.sSOLoginDataModel.DepartmentID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.CoursesList = data['Data'];
         }, error => console.error(error));
-      await this.commonMasterService.GetCommonMasterList_DepartmentAndTypeWise(3, "PresentCollegeStatus")
+      await this.commonMasterService.GetCommonMasterList_DepartmentAndTypeWise(this.sSOLoginDataModel.DepartmentID, "PresentCollegeStatus")
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.StatusOfCollegeList = data['Data'];
         }, error => console.error(error));
-      await this.commonMasterService.GetCommonMasterList_DepartmentAndTypeWise(3, "CourseType")
+      await this.commonMasterService.GetCommonMasterList_DepartmentAndTypeWise(this.sSOLoginDataModel.DepartmentID, "CourseType")
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.CourseTypeList = data['Data'];
         }, error => console.error(error));
-      await this.commonMasterService.GetCommonMasterList_DepartmentAndTypeWise(3, "OLDNOCStatus")
+      await this.commonMasterService.GetCommonMasterList_DepartmentAndTypeWise(this.sSOLoginDataModel.DepartmentID, "OLDNOCStatus")
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.CourseNOCStatusList = data['Data'];
         }, error => console.error(error));
-      await this.commonMasterService.GetCommonMasterList_DepartmentAndTypeWise(3, "OLDNOCStatus")
+      await this.commonMasterService.GetCommonMasterList_DepartmentAndTypeWise(this.sSOLoginDataModel.DepartmentID, "OLDNOCStatus")
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.SubjectNOCStatusList = data['Data'];
@@ -116,7 +116,7 @@ export class CourseReportsComponent implements PagingConfig, OnInit {
 
     try {
       this.loaderService.requestStarted();
-      await this.collegeService.GetCollegesByDepartmentID(3)
+      await this.collegeService.GetCollegesByDepartmentID(this.sSOLoginDataModel.DepartmentID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
@@ -229,19 +229,15 @@ export class CourseReportsComponent implements PagingConfig, OnInit {
   async GetCourseReport() {
     try {
       this.loaderService.requestStarted();
-      this.request.DepartmentID = 3;
+      this.request.DepartmentID = this.sSOLoginDataModel.DepartmentID;
       await this.coursereportservice.CoursesReport(this.request)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.GetCourseList = data['Data'][0]['data'];
           this.request.TotalRecords = data['Data'][0]['data'][0]["TotalRecords"];
-          this.request.TotalRecords = data['Data'][0]['data'][0]["TotalRecords"];
-
           this.pagingConfig.totalItems = this.request.TotalRecords;
-
           this.request.PageSize = this.pagingConfig.itemsPerPage;
           this.request.PageNumber = this.pagingConfig.currentPage;
-
           //this.request.TotalPages = Number((Number(this.request.TotalRecords) / Number(this.request.PageSize)).toFixed(0));  
           // this.SetPaginate(1);
         }, error => console.error(error));
@@ -263,7 +259,7 @@ export class CourseReportsComponent implements PagingConfig, OnInit {
     this.requestlst = new CourseReportSearchFilterLst();
     await this.LoadMaster();
     await this.GetCourseReport();
-    await this.GetDepartmentList(3);
+    await this.GetDepartmentList(this.sSOLoginDataModel.DepartmentID);
   }
 
   async btnExportTable_Click() {

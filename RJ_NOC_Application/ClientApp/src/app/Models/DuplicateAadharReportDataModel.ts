@@ -3,6 +3,7 @@ import { DecimalPipe } from "@angular/common";
 export class DuplicateAadharReportDataModel {
   public Gender: string = 'All';
   public DesignationID: number = 0;
+  public DepartmentID: number = 0;
   public StaffTypeID: string = 'All';
   public ResearchGuide: string = 'All';
   public DateOfAppointment: string = '';

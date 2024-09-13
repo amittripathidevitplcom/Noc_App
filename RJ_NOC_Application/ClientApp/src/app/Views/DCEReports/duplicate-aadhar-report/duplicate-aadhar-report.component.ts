@@ -41,8 +41,9 @@ export class DuplicateAadharReportComponent implements OnInit {
   async ngOnInit() {
 
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
+    this.request.DepartmentID = this.sSOLoginDataModel.DepartmentID;
     await this.GetAllDesignation();
-    await this.GetColleges_DepartmentWise(3);
+    await this.GetColleges_DepartmentWise(this.sSOLoginDataModel.DepartmentID);
     await this.GetDuplicateAadhaarReport();
 
   }
@@ -75,7 +76,7 @@ export class DuplicateAadharReportComponent implements OnInit {
   async GetColleges_DepartmentWise(CollegeTypeID: number) {
     try {
       this.loaderService.requestStarted();
-      await this.collegeservice.GetCollegesByDepartmentID(3)
+      await this.collegeservice.GetCollegesByDepartmentID(this.sSOLoginDataModel.DepartmentID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];

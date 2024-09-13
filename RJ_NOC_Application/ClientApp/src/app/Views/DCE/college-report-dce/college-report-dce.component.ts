@@ -72,27 +72,27 @@ export class CollegeReportDCEComponent implements OnInit {
     try {
       this.loaderService.requestStarted();
 
-      await this.commonMasterService.GetCommonMasterList_DepartmentAndTypeWise(3, "CourseType")
+      await this.commonMasterService.GetCommonMasterList_DepartmentAndTypeWise(this.sSOLoginDataModel.DepartmentID, "CourseType")
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.NOCStatusList = data['Data'];
         }, error => console.error(error));
-      await this.commonMasterService.GetWorkFlowStatusbyDepartment(3)
+      await this.commonMasterService.GetWorkFlowStatusbyDepartment(this.sSOLoginDataModel.DepartmentID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.ApplicationStatusList = data['Data'][0]['data'];
         }, error => console.error(error));
-      await this.commonMasterService.GetCommonMasterList_DepartmentAndTypeWise(3, "CollegeType")
+      await this.commonMasterService.GetCommonMasterList_DepartmentAndTypeWise(this.sSOLoginDataModel.DepartmentID, "CollegeType")
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.CollegeTypeList = data['Data'];
         }, error => console.error(error));
-      await this.commonMasterService.GetCommonMasterList_DepartmentAndTypeWise(3, "PresentCollegeStatus")
+      await this.commonMasterService.GetCommonMasterList_DepartmentAndTypeWise(this.sSOLoginDataModel.DepartmentID, "PresentCollegeStatus")
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.StatusOfCollegeList = data['Data'];
         }, error => console.error(error));
-      await this.commonMasterService.GetCommonMasterList_DepartmentAndTypeWise(3, "CollegeLevel")
+      await this.commonMasterService.GetCommonMasterList_DepartmentAndTypeWise(this.sSOLoginDataModel.DepartmentID, "CollegeLevel")
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.CollegeLevelList = data['Data'];
@@ -112,12 +112,12 @@ export class CollegeReportDCEComponent implements OnInit {
           data = JSON.parse(JSON.stringify(data));
           this.FinancialYearList = data['Data'];
         }, error => console.error(error));
-      await this.commonMasterService.GetUsersByRoleDepartment(3, 17)
+      await this.commonMasterService.GetUsersByRoleDepartment(this.sSOLoginDataModel.DepartmentID, 17)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.NodalOfficerList = data['Data'][0]['data'];
         }, error => console.error(error));
-      await this.commonMasterService.GetApplyNOCParameterbyDepartment(3)
+      await this.commonMasterService.GetApplyNOCParameterbyDepartment(this.sSOLoginDataModel.DepartmentID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.ApplicationTypeList = data['Data'][0]['data'];
@@ -125,27 +125,27 @@ export class CollegeReportDCEComponent implements OnInit {
 
 
 
-      await this.commonMasterService.GetLandAreaMasterList_DepartmentWise(3, 0)
+      await this.commonMasterService.GetLandAreaMasterList_DepartmentWise(this.sSOLoginDataModel.DepartmentID, 0)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.LandAreaList = data['Data'];
         }, error => console.error(error));
-      await this.commonMasterService.GetLandDoucmentTypeMasterList_DepartmentWise(3)
+      await this.commonMasterService.GetLandDoucmentTypeMasterList_DepartmentWise(this.sSOLoginDataModel.DepartmentID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.LandDocumentTypeList = data['Data'];
         }, error => console.error(error));
-      await this.commonMasterService.GetCommonMasterList_DepartmentAndTypeWises(3, 0, 'LandConversion')
+      await this.commonMasterService.GetCommonMasterList_DepartmentAndTypeWises(this.sSOLoginDataModel.DepartmentID, 0, 'LandConversion')
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.LandConversionList = data['Data'];
         }, error => console.error(error));
-      await this.commonMasterService.GetUniversityByDepartmentId(3)
+      await this.commonMasterService.GetUniversityByDepartmentId(this.sSOLoginDataModel.DepartmentID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.UniversityList = data['Data'];
         }, error => console.error(error));
-      await this.commonMasterService.GetCourseList_DepartmentIDWise(3)
+      await this.commonMasterService.GetCourseList_DepartmentIDWise(this.sSOLoginDataModel.DepartmentID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.CoursesList = data['Data'];
@@ -289,7 +289,7 @@ export class CollegeReportDCEComponent implements OnInit {
     try {
 
       this.loaderService.requestStarted();
-      this.request.DepartmentID = 3;
+      this.request.DepartmentID = this.sSOLoginDataModel.DepartmentID;
       await this.collegeservice.CollegesReport(this.request)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
