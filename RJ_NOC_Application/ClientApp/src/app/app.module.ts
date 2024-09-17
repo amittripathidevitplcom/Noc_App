@@ -413,6 +413,7 @@ import { DocumentScrutinyPaymentDetailsDCEComponent } from './Views/DocumentScru
 import { NOCFormatMasterComponent } from './Views/Admin/nocformat-master/nocformat-master.component';
 import { RevertFDRDetailsComponent } from './Views/DCE/revert-fdrdetails/revert-fdrdetails.component';
 import { RevertOfflinePaymentDetailsComponent } from './Views/DCE/revert-offline-payment-details/revert-offline-payment-details.component';
+import { UnlockApplicationComponent } from './Views/Admin/unlock-application/unlock-application.component';
 
 
  
@@ -821,7 +822,8 @@ import { RevertOfflinePaymentDetailsComponent } from './Views/DCE/revert-offline
     DocumentScrutinyPaymentDetailsDCEComponent,
     NOCFormatMasterComponent,
     RevertFDRDetailsComponent,
-    RevertOfflinePaymentDetailsComponent
+    RevertOfflinePaymentDetailsComponent,
+    UnlockApplicationComponent
 
   ],
   imports: [

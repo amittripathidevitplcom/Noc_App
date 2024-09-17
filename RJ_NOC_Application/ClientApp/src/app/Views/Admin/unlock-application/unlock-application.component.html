@@ -1,0 +1,121 @@
+<app-loader></app-loader>
+<div class="container-fluid breadcrumbBox py-2">
+  <div class="row align-items-center">
+    <div class="col-md-6">
+      <h3>Unlock Application</h3>
+    </div>
+    <div class="col-md-6 d-flex justify-content-end">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item active" aria-current="page">Unlock Application</li>
+        </ol>
+      </nav>
+    </div>
+  </div>
+</div>
+<div class="container-fluid mainContents">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card mb-0">
+        <div class="card-header d-xxl-flex d-xl-flex d-md-flex d-sm-block justify-content-between align-items-center">
+          <b><i class="bi bi-table"></i> Unlock Application Reports</b>
+          <div class="d-flex align-items-center table-filter mr-15">
+            <i class="fa fa-search"></i>
+            <input type="text" class="form-control" placeholder="Search Here" [(ngModel)]="searchText" />
+          </div>
+        </div>
+        <div class="card-body p-0">
+          <div class="table-responsive maxheight600px">
+            <table class="table table-bordered tableHeaderTH  tableHeaderTHMiddel  tableForm100 tableAlternate mb-0" id="tabellist" #content>
+              <thead>
+                <tr>
+                  <th>Sr. No</th>
+                  <th>Application Id</th>
+                  <th>Reason</th>
+                  <th>Document</th>
+                  <th>College</th>
+                  <th>College Mobile</th>
+                  <th>College Email</th>
+                  <th>Application Type</th>
+                  <th>District Name</th>
+                  <th>Tehsil Name</th>
+                  <th>SSO ID</th>
+                  <th></th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr *ngFor="let row of ApplicationList | tableSearchFilter:searchText; let idx=index;">
+                  <td>{{idx+1}}</td>
+                  <td>{{row.ApplyNOCID}}</td>
+                  <td>{{row.Reason}}</td>
+                  <td><a class="btn btn-sm btn-primary m-1" href="{{row.UnlockDocPath}}" title="Unlock Document File" target="_blank"><i class="fa fa-eye"></i></a></td>
+                  <td>{{row.CollegeName}}</td>
+                  <td>{{row.MobileNumber}}</td>
+                  <td>{{row.Email}}</td>
+                  <td>{{row.ApplicationTypeName}}</td>
+                  <td>{{row.DistrictName}}</td>
+                  <td>{{row.TehsilName}}</td>
+                  <td>{{row.SSOID}}</td>
+                  <td>
+                    &nbsp;<button type="button" class="btn btn-sm btn-info" title="View Application trail" (click)="GetApplicationTrail(mymodal,row.ApplyNOCID)"><i class="fa fa-list"></i></button>
+                  </td>
+
+                </tr>
+                <tr *ngIf="ApplicationList.length<=0">
+                  <td colspan="10" style="color:red;text-align:center">No Data Found.!</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #mymodal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title" style="font-size: 17px; font-weight: 600 !important;">Application Trail</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <i class="fa fa-close"></i>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="card">
+      <div class="card-header">
+        <b>Application Trail</b>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="table-responsive">
+            <table class="table table-hover table-striped-columns">
+              <thead>
+                <tr>
+                  <th>Sr.No.</th>
+                  <th>User Name</th>
+                  <th>Next User & Role</th>
+                  <th>Action</th>
+                  <th>Action Date</th>
+                  <th>Remark</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of ApplicationTrailList let idx =index">
+                  <td>{{idx+1}}</td>
+                  <td>{{item.ActionUser}}</td>
+                  <td>{{item.NextUserName}} ({{item.NextRoleName}})</td>
+                  <td>{{item.ActionName}}</td>
+                  <td>{{item.ActionDate}}</td>
+                  <td>{{item.Remark}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>

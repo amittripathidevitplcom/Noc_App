@@ -9,6 +9,9 @@ import { ApplyNocParameterService } from '../../../Services/Master/apply-noc-par
 import { DCEDocumentScrutinyService } from '../../../Services/DCEDocumentScrutiny/dcedocument-scrutiny.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as XLSX from 'xlsx';
+import { ModalDismissReasons, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { UnlockApplicationDataModel } from '../../../Models/CommonMasterDataModel';
+import { FileUploadService } from '../../../Services/FileUpload/file-upload.service';
 
 @Injectable()
 
@@ -19,6 +22,7 @@ import * as XLSX from 'xlsx';
 })
 export class DCENOCReportComponent implements OnInit {
   request = new DCENOCReportSearchFilterDataModel();
+  requestUnlock = new UnlockApplicationDataModel();
   sSOLoginDataModel = new SSOLoginDataModel();
   public State: number = -1;
   public SuccessMessage: any = [];
@@ -38,7 +42,10 @@ export class DCENOCReportComponent implements OnInit {
   public SuvdivisionList: any = [];
   public DivisionList: any = [];
 
-  constructor(private routers: Router,private router: ActivatedRoute,private dceDocumentScrutinyService: DCEDocumentScrutinyService, private toastr: ToastrService, private loaderService: LoaderService, private commonMasterService: CommonMasterService, private applyNocParameterService: ApplyNocParameterService) {
+  closeResult: string | undefined;
+  modalReference: NgbModalRef | undefined;
+
+  constructor(private fileUploadService: FileUploadService,private modalService: NgbModal,private routers: Router,private router: ActivatedRoute,private dceDocumentScrutinyService: DCEDocumentScrutinyService, private toastr: ToastrService, private loaderService: LoaderService, private commonMasterService: CommonMasterService, private applyNocParameterService: ApplyNocParameterService) {
   }
 
   async ngOnInit() {
@@ -285,6 +292,7 @@ export class DCENOCReportComponent implements OnInit {
 
 
   public UserRoleList: any = [];
+  public FormSubmit: boolean = false;
   async GetRoleListForApporval() {
     this.UserRoleList = [];
     this.loaderService.requestStarted();
@@ -298,6 +306,187 @@ export class DCENOCReportComponent implements OnInit {
             this.UserRoleList = data['Data'];
           }
         })
+    }
+    catch (ex) { console.log(ex) }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+  async UnlockApplicationModel(content: any, ApplyNOCID: number,DepartmentID: number,CollegeID: number) {
+    this.requestUnlock = new UnlockApplicationDataModel();
+    this.requestUnlock.ApplyNOCID = ApplyNOCID;
+    this.requestUnlock.DepartmentID = DepartmentID;
+    this.requestUnlock.CollegeID = CollegeID;
+    this.requestUnlock.UnlockSSOID = this.sSOLoginDataModel.SSOID;
+    this.requestUnlock.CreatedBy = this.sSOLoginDataModel.UserID;
+    this.modalService.open(content, { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' }).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+    try {
+      this.loaderService.requestStarted();
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return `with: ${reason}`;
+    }
+  }
+
+
+  public file!: File;
+  public files: any = '';
+  public PenaltyDocValidationMessage: string = '';
+  async onFilechange(event: any) {
+
+    try {
+      this.loaderService.requestStarted();
+      this.file = event.target.files[0];
+      if (this.file) {
+        if (this.file.type == 'application/pdf') {
+          //size validation
+          if (this.file.size > 2000000) {
+            this.requestUnlock.UnlockDoc = '';
+            this.requestUnlock.UnlockDoc_DisName = '';
+            this.requestUnlock.UnlockDocPath = '';
+            this.files = document.getElementById('fuPenaltyDoc');
+            this.files.value = '';
+            this.toastr.error('Select less then 2MB File')
+            return
+          }
+
+        }
+        else {
+          this.toastr.warning('Select Only jpdf');
+          // type validation
+          this.requestUnlock.UnlockDoc = '';
+          this.requestUnlock.UnlockDoc_DisName = '';
+          this.requestUnlock.UnlockDocPath = '';
+          this.files = document.getElementById('fuPenaltyDoc');
+          this.files.value = '';
+          return
+        }
+        // upload to server folder
+        await this.fileUploadService.UploadDocument(this.file).then((data: any) => {
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          if (this.State == 0) {
+            this.requestUnlock.UnlockDoc = data['Data'][0]["FileName"];
+            this.requestUnlock.UnlockDoc_DisName = data['Data'][0]["Dis_FileName"];
+            this.requestUnlock.UnlockDocPath = data['Data'][0]["FilePath"];
+            this.files = document.getElementById('fuUnlockDoc');
+            this.files.value = '';
+          }
+          if (this.State == 1) {
+            this.toastr.error(this.ErrorMessage)
+          }
+          else if (this.State == 2) {
+            this.toastr.warning(this.ErrorMessage)
+          }
+        });
+
+      }
+      else {
+        this.requestUnlock.UnlockDoc = '';
+        this.requestUnlock.UnlockDoc_DisName = '';
+        this.requestUnlock.UnlockDocPath = '';
+        this.files = document.getElementById('fuUnlockDoc');
+        this.files.value = '';
+      }
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        event.target.value = null;
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  async DeleteImage(file: string) {
+    try {
+
+      if (confirm("Are you sure you want to delete this ?")) {
+        this.loaderService.requestStarted();
+        // delete from server folder
+        await this.fileUploadService.DeleteDocument(file).then((data: any) => {
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          if (this.State == 0) {
+            this.requestUnlock.UnlockDoc = '';
+            this.requestUnlock.UnlockDoc_DisName = '';
+            this.requestUnlock.UnlockDocPath = '';
+            this.files = document.getElementById('fuUnlockDoc');
+            this.files.value = '';
+          }
+          if (this.State == 1) {
+            this.toastr.error(this.ErrorMessage)
+          }
+          else if (this.State == 2) {
+            this.toastr.warning(this.ErrorMessage)
+          }
+        });
+      }
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  async SaveData() {
+    this.FormSubmit = true;
+    if (this.requestUnlock.Reason == '') {
+      return;
+    }
+    if (this.requestUnlock.UnlockDoc == '') {
+      return;
+    }
+   
+    this.loaderService.requestStarted();
+    try {
+      if (confirm("Are you sure you unlock this application?")) {
+        await this.commonMasterService.UnlockApplication(this.requestUnlock)
+          .then(async (data: any) => {
+            this.State = data['State'];
+            this.SuccessMessage = data['SuccessMessage'];
+            this.ErrorMessage = data['ErrorMessage'];
+            if (this.State == 0) {
+              this.toastr.success(this.SuccessMessage);
+              this.FormSubmit = false;
+              this.modalService.dismissAll('After Success');
+              await this.GetDCENOCReportData();
+            }
+            else if (this.State == 2) {
+              this.toastr.warning(this.ErrorMessage)
+            }
+            else {
+              this.toastr.error(this.ErrorMessage)
+            }
+          })
+      }
     }
     catch (ex) { console.log(ex) }
     finally {

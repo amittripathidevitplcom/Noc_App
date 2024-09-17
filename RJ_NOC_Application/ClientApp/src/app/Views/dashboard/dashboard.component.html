@@ -563,7 +563,22 @@
               <a href="/dcenocreport/NOCIssued">View more <i class="fa fa-chevron-circle-right"></i></a>
             </div>
           </div>
-
+          <!--<div class="col-lg-2 col-md-4 col-sm-6 col-12">
+            <div class="card staticsCards">
+              <div class="card-body">
+                <div class="">
+                  <div class="dashCardIcon">
+                    <i class="fa fa-unlock"></i>
+                  </div>
+                  <div class="dashCardContent">
+                    <h4>Unlock Application</h4>
+                    <h2>{{dashboardDataModel.TotalUnlockApplication}}</h2>
+                  </div>
+                </div>
+              </div>
+              <a href="/unlockapplication">View more <i class="fa fa-chevron-circle-right"></i></a>
+            </div>
+          </div>-->
         </div>
       </div>
     </div>
@@ -633,7 +648,7 @@
   </div>
 
   <div class="row" *ngIf="this.sSOLoginDataModel.RoleID==0 || this.sSOLoginDataModel.RoleID==1">
-    <!--<div class="col-lg-2 col-md-4 col-sm-6 col-12" *ngIf="dashboardDataModel.TotalDCESubmitApplication<=0">
+    <div class="col-lg-2 col-md-4 col-sm-6 col-12" *ngIf="dashboardDataModel.TotalDCESubmitApplication<=0">
       <div class="card staticsCards">
         <div class="card-body">
           <div class="">
@@ -648,7 +663,7 @@
         </div>
         <a href="/defaultercollegerequest">View more <i class="fa fa-chevron-circle-right"></i></a>
       </div>
-    </div>-->
+    </div>
     <div class="col-lg-2 col-md-4 col-sm-6 col-12">
       <div class="card staticsCards ">
         <div class="card-body">

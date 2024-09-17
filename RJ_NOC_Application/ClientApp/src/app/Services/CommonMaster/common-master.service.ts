@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { GlobalConstants } from '../../Common/GlobalConstants';
-import { CommonDataModel_TotalApplicationSearchFilter, CommonDataModel_TotalDraftEntrySearchFilter } from '../../Models/CommonMasterDataModel';
+import { CommonDataModel_TotalApplicationSearchFilter, CommonDataModel_TotalDraftEntrySearchFilter, UnlockApplicationDataModel } from '../../Models/CommonMasterDataModel';
 import { PaymentDetailsDataModel_Filter } from '../../Models/PaymentReportModel';
 import { NOCFormatMasterModel } from '../../Models/NOCFormatMasterModel';
 @Injectable({
@@ -989,6 +989,17 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
+  public async GetUnlockApplicationTrail_DepartmentApplicationWise(ApplicationID: number, DepartmentID: number) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl_CommonMaster + "/GetUnlockApplicationTrail_DepartmentApplicationWise/" + ApplicationID + "/" + DepartmentID)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
   public async GetCourseList_ByCourseLevelIDWise(CourseLevelID: number, DepartmentID: number) {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -1489,6 +1500,13 @@ export class CommonMasterService {
       })
     };
     return await this.http.get(this.APIUrl_CommonMaster + "/GetNOCFormatList/" + NOCFormatID)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+  public async UnlockApplication(request: UnlockApplicationDataModel) {
+    const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
+    return await this.http.post(this.APIUrl_CommonMaster + "/UnlockApplication", request, httpOptions)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();

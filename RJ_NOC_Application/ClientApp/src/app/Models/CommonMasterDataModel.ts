@@ -36,3 +36,14 @@ export class CommonDataModel_TotalDraftEntrySearchFilter {
   public CollegeName: string = '';
   public Type: string = '';
 }
+export class UnlockApplicationDataModel {
+  public DepartmentID: number = 0;
+  public CollegeID: number = 0;
+  public ApplyNOCID: number = 0;
+  public Reason: string = '';
+  public UnlockSSOID: string = '';
+  public UnlockDoc: string = '';
+  public UnlockDoc_DisName: string = '';
+  public UnlockDocPath: string = '';
+  public CreatedBy: number = 0;
+}

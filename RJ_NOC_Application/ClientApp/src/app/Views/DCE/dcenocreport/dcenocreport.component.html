@@ -258,6 +258,7 @@
                   </td>
                   <td>{{row.SSOID}}</td>
                   <td>
+                    <!--<button type="button" *ngIf="QueryStringStatus=='Submit'" class="btn btn-sm btn-info" title="Unlock Application" (click)="UnlockApplicationModel(mymodal,row.ApplyNocApplicationID,row.DepartmentID,row.CollegeID)"><i class="fa fa-unlock"></i></button>-->
                     <a href="javascript:void(0)" (click)="ApplicationSummary_OnClick(row.DepartmentID,row.CollegeID)" class="btn btn-sm btn-secondary">
                       <i class="fa fa-eye"></i>
                     </a>
@@ -276,4 +277,43 @@
       </div>
     </div>
   </div>
+
+  <ng-template #mymodal let-modal>
+    <app-loader></app-loader>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title" style="font-size: 17px; font-weight: 600 !important;">Unlock Application</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <i class="fa fa-close"></i>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="row">
+        <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
+          <label><b> Reason:<span style="color:red;">*</span></b></label>
+          <textarea id="txtReason" class="form-control" [(ngModel)]="requestUnlock.Reason"></textarea>
+          <p *ngIf="FormSubmit&&requestUnlock.Reason === '' " class="text-danger"><i aria-hidden="true"></i> This field is required .!</p>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
+          <label class="form-label">Upload Document(Only pdf file.)(Max.Size 2MB):<span style="color:red;">*</span></label>
+          <div class="d-flex">
+            <input type="file" style="display:none;" class="form-control" id="fuUnlockDoc" name="fuUnlockDoc" (change)="onFilechange($event)">
+            <label class="btn upload" for="fuUnlockDoc">
+              <span class="filename">Choose file</span>
+              {{requestUnlock.UnlockDoc === '' ? 'No File Choosen' : requestUnlock.UnlockDoc_DisName}}
+            </label>
+            <div class="btn-group" *ngIf="requestUnlock.UnlockDoc != ''">
+              <a class="btn btn-outline-primary" target="_blank" href="{{requestUnlock.UnlockDocPath}}"><i class="fa fa-eye"></i></a>
+              <button type="button" class="btn btn-outline-danger" (click)="DeleteImage(requestUnlock.UnlockDoc)"><i class="fa fa-trash-o"></i></button>
+            </div>
+          </div>
+          <p *ngIf="FormSubmit&&requestUnlock.UnlockDoc === '' " class="text-danger"><i aria-hidden="true"></i> This field is required .!</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 text-end mt-4">
+          <button type="submit" id="btnUnlockApplication" (click)="SaveData()" class="btn btn-success"><i class="fa fa-unlock"></i> Unlock</button>
+        </div>
+      </div>
+    </div>
+  </ng-template>
 </div>

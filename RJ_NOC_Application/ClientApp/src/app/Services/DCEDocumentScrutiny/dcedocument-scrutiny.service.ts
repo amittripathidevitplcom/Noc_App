@@ -367,6 +367,17 @@ export class DCEDocumentScrutinyService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
+  public async GetUnlockApplication(DepartmentID: number) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl + "/GetUnlockApplication/" + DepartmentID )
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
 
   public async DocumentScrutiny_FDRDetail(CollageID: number, RoleID: number, ApplyNOCID: number) {
     const httpOptions = {
