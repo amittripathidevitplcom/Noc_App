@@ -2,12 +2,12 @@
 <div class="container-fluid breadcrumbBox py-2">
   <div class="row align-items-center">
     <div class="col-md-6">
-      <h3>Total Application</h3>
+      <h3>Total Submitted Application</h3>
     </div>
     <div class="col-md-6 d-flex justify-content-end">
       <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-          <li class="breadcrumb-item active" aria-current="page">Total Application</li>
+          <li class="breadcrumb-item active" aria-current="page">Total Submitted Application</li>
         </ol>
       </nav>
     </div>
@@ -18,7 +18,7 @@
   <div class="row">
     <div class="card mb-0">
       <div class="card-header d-xxl-flex d-xl-flex d-md-flex d-sm-block justify-content-between align-items-center">
-        <b><i class="bi bi-table"></i> Total Application List </b>
+        <b><i class="bi bi-table"></i> Total Submitted Application List </b>
         <div class="d-flex align-items-center table-filter mr-15">
           <i class="fa fa-search"></i>
           <input type="text" class="form-control" placeholder="Search Here" [(ngModel)]="searchText" />
@@ -28,9 +28,9 @@
         <table class="table table-hover table-striped-columns" id="tabellist">
           <thead>
             <tr>
-              <!--<th>Action</th>-->
+              <th>Action</th>
               <th>Sr. No.</th>
-              <th>ApplicationID</th>
+              <!--<th>ApplicationID</th>-->
               <th>ApplicationNo</th>
               <th>University Name</th>
               <th>College Name</th>
@@ -44,14 +44,14 @@
           </thead>
           <tbody>
             <tr *ngFor="let row of TotalApplicationList  | tableSearchFilter:searchText; let idx=index;">
-              <!--<td>
+              <td>
                 <a href="javascript:void(0)" (click)="ApplicationSummary_OnClick(row.DepartmentID,row.CollegeID)" title="Application Summary" class="btn btn-sm btn-secondary">
       <i class="fa fa-eye"></i>
     </a>
 
-              </td>-->
+              </td>
               <td style="text-align:center;">{{idx+1}}</td>
-              <td>{{row.ApplicationID}}</td>
+              <!--<td>{{row.ApplicationID}}</td>-->
               <td>{{row.ApplicationNo}}</td>
               <td>{{row.UniversityName}}</td>
               <td>{{row.CollegeName}}</td>
