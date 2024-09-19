@@ -1303,6 +1303,13 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
+  public async GetPreviousTotalApplicationListByDepartment(request: CommonDataModel_TotalApplicationSearchFilter) {
+    const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
+    return await this.http.post(this.APIUrl_CommonMaster + '/GetPreviousTotalApplicationListByDepartment', request, httpOptions)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
   public async GetLOIApplicationTrail(ApplicationID: number, DepartmentID: number) {
     const httpOptions = {
       headers: new HttpHeaders({

@@ -414,6 +414,7 @@ import { NOCFormatMasterComponent } from './Views/Admin/nocformat-master/nocform
 import { RevertFDRDetailsComponent } from './Views/DCE/revert-fdrdetails/revert-fdrdetails.component';
 import { RevertOfflinePaymentDetailsComponent } from './Views/DCE/revert-offline-payment-details/revert-offline-payment-details.component';
 import { UnlockApplicationComponent } from './Views/Admin/unlock-application/unlock-application.component';
+import { PrevoiusYearApplicationsComponent } from './Views/Reports/prevoius-year-applications/prevoius-year-applications.component';
 
 
  
@@ -823,7 +824,8 @@ import { UnlockApplicationComponent } from './Views/Admin/unlock-application/unl
     NOCFormatMasterComponent,
     RevertFDRDetailsComponent,
     RevertOfflinePaymentDetailsComponent,
-    UnlockApplicationComponent
+    UnlockApplicationComponent,
+    PrevoiusYearApplicationsComponent
 
   ],
   imports: [

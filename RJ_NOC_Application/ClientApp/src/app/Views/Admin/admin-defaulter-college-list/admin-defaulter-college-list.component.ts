@@ -200,6 +200,7 @@ export class AdminDefaulterCollegeListComponent implements OnInit {
     return true;
   }
 
+  public ApplicationStatus: string = 'Pending';
   public DefaulterCollegePenaltyList: any = [];
   async GetDefaulterCollegePenaltyData() {
     //Show Loading
@@ -211,6 +212,12 @@ export class AdminDefaulterCollegeListComponent implements OnInit {
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
           this.DefaulterCollegePenaltyList = data['Data'][0]['data'];
+          if (this.DefaulterCollegePenaltyList.length > 0) {
+            this.ApplicationStatus = this.DefaulterCollegePenaltyList[0].ApplicationStatus;
+          }
+          else {
+            this.ApplicationStatus = '';
+          }
         });
     }
     catch (ex) { console.log(ex) }

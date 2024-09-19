@@ -390,25 +390,25 @@
         Your Application is Pending.
       </div>
     </div>
-    <div class="row" *ngIf="ApplicationStatus=='Reject'">
+    <!--<div class="row" *ngIf="ApplicationStatus=='Reject'">
       <div class="col-12">
         Your Application is Rejected.
       </div>
-    </div>
+    </div>-->
     <div class="table-responsive">
-      <table class="table table-hover table-striped-columns" *ngIf="DefaulterCollegePenaltyList.length>0 && ApplicationStatus=='Approve'">
+      <table class="table table-hover table-striped-columns" *ngIf="DefaulterCollegePenaltyList.length>0 && (ApplicationStatus=='Approve'||ApplicationStatus=='Reject')">
         <thead>
           <tr>
             <th style="width:5%">Sr. No.</th>
-            <th>Penalty for</th>
-            <th>Penalty Amount</th>
+            <th>Reason for {{ApplicationStatus}}</th>
+            <th *ngIf="ApplicationStatus=='Approve'">Penalty Amount</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let row of DefaulterCollegePenaltyList; let idx=index;">
             <td>{{idx+1}}</td>
             <td>{{row.Penaltyfor}}</td>
-            <td>{{row.PenaltyAmount}}</td>
+            <td *ngIf="ApplicationStatus=='Approve'">{{row.PenaltyAmount}}</td>
           </tr>
           <tr *ngIf="DefaulterCollegePenaltyList.length==0">
             <td colspan="10" class="text-center text-danger">No Data Found!</td>

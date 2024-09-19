@@ -241,6 +241,7 @@ import { LegalEntityDepartmentWiseComponent } from './Views/Admin/legal-entity-d
 import { NOCFormatMasterComponent } from './Views/Admin/nocformat-master/nocformat-master.component';
 import { RevertOfflinePaymentDetailsComponent } from './Views/DCE/revert-offline-payment-details/revert-offline-payment-details.component';
 import { UnlockApplicationComponent } from './Views/Admin/unlock-application/unlock-application.component';
+import { PrevoiusYearApplicationsComponent } from './Views/Reports/prevoius-year-applications/prevoius-year-applications.component';
 
 const routes: Routes = [
   {
@@ -898,6 +899,9 @@ const routes: Routes = [
       },
       {
         path: 'totalapplicationlist/:Status', component: TotalApplicationListByDepartmentComponent
+      },
+      {
+        path: 'papplicationlist', component: PrevoiusYearApplicationsComponent
       },
       {
         path: 'documentscrutinydte/:DepartmentID/:CollegeID/:ApplyNOCID/:ApplicationNoYear/:ApplicationNoID/:Status/:ApplicationStatus', component: DocumentScrutinyDTEComponent

@@ -1,0 +1,74 @@
+<app-loader></app-loader>
+<div class="container-fluid breadcrumbBox py-2">
+  <div class="row align-items-center">
+    <div class="col-md-6">
+      <h3>Total Application</h3>
+    </div>
+    <div class="col-md-6 d-flex justify-content-end">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item active" aria-current="page">Total Application</li>
+        </ol>
+      </nav>
+    </div>
+  </div>
+</div>
+<div class="container-fluid">
+  
+  <div class="row">
+    <div class="card mb-0">
+      <div class="card-header d-xxl-flex d-xl-flex d-md-flex d-sm-block justify-content-between align-items-center">
+        <b><i class="bi bi-table"></i> Total Application List </b>
+        <div class="d-flex align-items-center table-filter mr-15">
+          <i class="fa fa-search"></i>
+          <input type="text" class="form-control" placeholder="Search Here" [(ngModel)]="searchText" />
+        </div>
+      </div>
+      <div class="table-responsive">
+        <table class="table table-hover table-striped-columns" id="tabellist">
+          <thead>
+            <tr>
+              <!--<th>Action</th>-->
+              <th>Sr. No.</th>
+              <th>ApplicationID</th>
+              <th>ApplicationNo</th>
+              <th>University Name</th>
+              <th>College Name</th>
+              <th>College SSOID</th>
+              <th>District Name</th>
+              <th>College Email</th>
+              <th>College Mobile Number</th>
+              <th>Full Address</th>
+              <th>ApplicationStatus</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let row of TotalApplicationList  | tableSearchFilter:searchText; let idx=index;">
+              <!--<td>
+                <a href="javascript:void(0)" (click)="ApplicationSummary_OnClick(row.DepartmentID,row.CollegeID)" title="Application Summary" class="btn btn-sm btn-secondary">
+      <i class="fa fa-eye"></i>
+    </a>
+
+              </td>-->
+              <td style="text-align:center;">{{idx+1}}</td>
+              <td>{{row.ApplicationID}}</td>
+              <td>{{row.ApplicationNo}}</td>
+              <td>{{row.UniversityName}}</td>
+              <td>{{row.CollegeName}}</td>
+              <td>{{row.CollegeSSOID}}</td>
+              <td>{{row.DistrictName}}</td>
+              <td>{{row.CollegeEmail}}</td>
+              <td>{{row.CollegeMobileNumber}}</td>
+              <td>{{row.FullAddress}}</td>
+              <td>{{row.ApplicationStatus}}</td>
+            </tr>
+            <tr *ngIf="TotalApplicationList.length==0">
+              <td colspan="20" class="text-center text-danger">No Data Found!</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
