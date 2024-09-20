@@ -334,7 +334,9 @@ export class RevertFDRDetailsComponent implements OnInit {
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
-          this.request = data['Data'][0];
+          if (data['Data'].length > 0) {
+            this.request = data['Data'][0];
+          }
         }, error => console.error(error));
     }
     catch (Ex) {
