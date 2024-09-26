@@ -34,6 +34,26 @@
               <p *ngIf="!form.ddlDepartmentID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
             </div>
           </div>
+          <div class="col-lg-3 col-md-6 col-sm-12 col-12 mb-3">
+            <label for="ddlDivisionID" class="form-label">Division <span style="color:red;">*</span></label>
+            <select class="form-select" id="ddlDivisionID" name="ddlDivisionID" [(ngModel)]="request.DivisionID" formControlName="ddlDivisionID" #SelectedDivisionID (change)="FillDivisionRelatedDDL(SelectedDivisionID.value,null)">
+              <option value="0">--Select--</option>
+              <option *ngFor="let item of DivisionList" value="{{item.DivisionID}}">{{item.DivisionName}}</option>
+            </select>
+            <div *ngIf="isSubmitted&&form.ddlDivisionID.errors" class="text-danger">
+              <p *ngIf="!form.ddlDivisionID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-6 col-sm-12 col-12 mb-3">
+            <label for="ddlDistrictID" class="form-label">District <span style="color:red;">*</span></label>
+            <select class="form-select" id="ddlDistrictID" name="ddlDistrictID" [(ngModel)]="request.DistrictID" formControlName="ddlDistrictID">
+              <option value="0">--Select--</option>
+              <option *ngFor="let item of DistrictList" value="{{item.DistrictID}}">{{item.DistrictName}}</option>
+            </select>
+            <div *ngIf="isSubmitted&&form.ddlDistrictID.errors" class="text-danger">
+              <p *ngIf="!form.ddlDistrictID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
+            </div>
+          </div>
         </div>
         <div class="row">
           <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-3">
@@ -109,16 +129,7 @@
               <p *ngIf="form.txtCollegeNameEn.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
             </div>
           </div>
-          <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-3">
-            <label for="ddlDivisionID" class="form-label">Division <span style="color:red;">*</span></label>
-            <select class="form-select" id="ddlDivisionID" name="ddlDivisionID" [(ngModel)]="request.DivisionID" formControlName="ddlDivisionID" #SelectedDivisionID (change)="FillDivisionRelatedDDL(SelectedDivisionID.value,null)">
-              <option value="0">--Select--</option>
-              <option *ngFor="let item of DivisionList" value="{{item.DivisionID}}">{{item.DivisionName}}</option>
-            </select>
-            <div *ngIf="isSubmitted&&form.ddlDivisionID.errors" class="text-danger">
-              <p *ngIf="!form.ddlDivisionID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
-            </div>
-          </div>
+          
 
 
           <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-3">
@@ -128,16 +139,7 @@
               <p *ngIf="form.txtCollegeNameHi.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
             </div>
           </div>
-          <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-3">
-            <label for="ddlDistrictID" class="form-label">District <span style="color:red;">*</span></label>
-            <select class="form-select" id="ddlDistrictID" name="ddlDistrictID" [(ngModel)]="request.DistrictID" formControlName="ddlDistrictID">
-              <option value="0">--Select--</option>
-              <option *ngFor="let item of DistrictList" value="{{item.DistrictID}}">{{item.DistrictName}}</option>
-            </select>
-            <div *ngIf="isSubmitted&&form.ddlDistrictID.errors" class="text-danger">
-              <p *ngIf="!form.ddlDistrictID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
-            </div>
-          </div>
+          
           <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-3">
             <label for="txtEmail" class="form-label">College Email Address <span style="color:red;">*</span></label>
             <input type="email" class="form-control" id="txtEmail" name="txtEmail" maxlength="50" [(ngModel)]="request.CollegeEmail" formControlName="txtEmail">
@@ -215,7 +217,37 @@
           </div>
 
         </div>
+        <div class="row">
+          <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-3">
+            <label for="ddlPendingCaseNOC" class="form-label">If any case pending for NOC? <span style="color:red;">*</span></label>
+            <select class="form-select" id="ddlPendingCaseNOC" name="ddlPendingCaseNOC" [(ngModel)]="request.PendingCaseNOC" formControlName="ddlPendingCaseNOC">
+              <option value="0">if any case pending for noc</option>
+              <option value="Yes">Yes</option>
+              <option value="No">No</option>
+            </select>
+            <div *ngIf="isSubmitted&&form.ddlPendingCaseNOC.errors" class="text-danger">
+              <p *ngIf="!form.ddlPendingCaseNOC.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
+            </div>
+          </div>
 
+          <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-3" *ngIf="request.PendingCaseNOC=='Yes'">
+            <label class="form-label">Upload pending case related document(Only pdf/image file.)(Max.Size 2MB):<span style="color:red;">*</span></label>
+            <div class="d-flex">
+              <input type="file" style="display:none;" class="form-control" id="PendingCaseDoc" name="PendingCaseDoc" (change)="onFilechange($event,'PendingCaseDoc')" formControlName="PendingCaseDoc">
+              <label class="btn upload" for="PendingCaseDoc">
+                <span class="filename">Choose file</span>
+                {{request.PendingCaseDoc === '' ? 'No File Choosen' : request.PendingCaseDoc_DisName}}
+              </label>
+              <div class="btn-group" *ngIf="request.PendingCaseDoc !== ''">
+                <a class="btn btn-outline-primary" target="_blank" href="{{request.PendingCaseDocPath}}"><i class="fa fa-eye"></i></a>
+                <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('PendingCaseDoc',request.PendingCaseDoc)"><i class="fa fa-trash-o"></i></button>
+              </div>
+            </div>
+            <div *ngIf="PendingCaseDocValidationMessage!=''" class="text-danger">
+              <p><i aria-hidden="true"></i>{{PendingCaseDocValidationMessage}}</p>
+            </div>
+          </div>
+        </div>
         <div class="row">
           <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-3">
             <label class="form-label">First Noc(Only pdf/image file.)(Max.Size 2MB):<span style="color:red;">*</span></label>
@@ -306,6 +338,7 @@
               <p><i aria-hidden="true"></i>{{LastSessionProofOfExaminationDocValidationMessage}}</p>
             </div>
           </div>
+          
 
         </div>
 
@@ -437,6 +470,17 @@
       </div>
       <div class="card-body">
         <div class="row">
+
+          <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-3">
+            <label for="ddlDivisionID" class="form-label">Division </label>
+            <input class="form-control" id="ddlDivisionID" name="ddlDivisionID" disabled [(ngModel)]="DefaulterCollegeDetailsData.DivisionName">
+          </div>
+          <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-3">
+            <label for="ddlDistrictID" class="form-label">District </label>
+            <input class="form-control" id="ddlDistrictID" name="ddlDistrictID" disabled [(ngModel)]="DefaulterCollegeDetailsData.DistrictName">
+          </div>
+        </div>
+        <div class="row">
           <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-3">
             <label for="ddlEverAppliedNOC" class="form-label">Have you ever applied on NOC portal/क्या आपने कभी NOC पोर्टल पर आवेदन किया है? </label>
             <input class="form-control" id="ddlEverAppliedNOC" name="ddlEverAppliedNOC" disabled [(ngModel)]="DefaulterCollegeDetailsData.EverAppliedNOC">
@@ -471,20 +515,14 @@
               <label for="txtCollegeNameEn" maxlength="200" class="form-label">College Name</label>
               <input class="form-control" id="txtCollegeNameEn" name="txtCollegeNameEn" disabled [(ngModel)]="DefaulterCollegeDetailsData.CollegeName">
             </div>
-            <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-3">
-              <label for="ddlDivisionID" class="form-label">Division </label>
-              <input class="form-control" id="ddlDivisionID" name="ddlDivisionID" disabled [(ngModel)]="DefaulterCollegeDetailsData.DivisionName">
-            </div>
+
 
 
             <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-3">
               <label for="txtCollegeNameHi" maxlength="200" class="form-label">College Name in Hindi </label>
               <input class="form-control" id="txtCollegeNameHi" name="txtCollegeNameHi" disabled [(ngModel)]="DefaulterCollegeDetailsData.CollegeNameHi">
             </div>
-            <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-3">
-              <label for="ddlDistrictID" class="form-label">District </label>
-              <input class="form-control" id="ddlDistrictID" name="ddlDistrictID" disabled [(ngModel)]="DefaulterCollegeDetailsData.DistrictName">
-            </div>
+
             <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-3">
               <label for="txtEmail" class="form-label">College Email Address </label>
               <input class="form-control" id="txtEmail" name="txtEmail" disabled [(ngModel)]="DefaulterCollegeDetailsData.CollegeEmail">
@@ -521,7 +559,19 @@
             </div>
 
           </div>
+          <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-3">
+              <label for="ddlPendingCaseNOC" class="form-label">If any case pending for NOC? </label>
+              <input class="form-control" id="ddlPendingCaseNOCID" name="ddlPendingCaseNOCID" disabled [(ngModel)]="DefaulterCollegeDetailsData.PendingCaseNOC">
+            </div>
 
+            <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-3" *ngIf="DefaulterCollegeDetailsData.PendingCaseNOC=='Yes'">
+              <label class="form-label">Upload pending case related document(Only pdf/image file.)(Max.Size 2MB):</label>
+              <div class="clearfix"></div>
+              <a class="bi bi-file-earmark-pdf-fill" *ngIf="DefaulterCollegeDetailsData.PendingCaseDoc.includes('.pdf')" data-fancybox="gallery" href="{{DefaulterCollegeDetailsData.PendingCaseDocPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+
+            </div>
+          </div>
           <div class="row">
             <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-3">
               <label class="form-label">First Noc(Only pdf/image file.)(Min.Size 500KB)(Max.Size 2MB):</label>

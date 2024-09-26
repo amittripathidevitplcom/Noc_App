@@ -16,6 +16,8 @@ import { DefaulterCollegeRequestService } from '../../../Services/DefaulterColle
 import { ApplicationPenaltyDataModel } from '../../../Models/ApplyNOCApplicationDataModel';
 import { ApplyNOCApplicationService } from '../../../Services/ApplyNOCApplicationList/apply-nocapplication.service';
 import { FileUploadService } from '../../../Services/FileUpload/file-upload.service';
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
 
 @Component({
   selector: 'app-admin-defaulter-college-list',
@@ -55,6 +57,7 @@ export class AdminDefaulterCollegeListComponent implements OnInit {
   async GetApplicationList() {
     try {
       this.request.DepartmentID = this.sSOLoginDataModel.DepartmentID;
+      this.request.UserID = this.sSOLoginDataModel.UserID;
       this.loaderService.requestStarted();
       await this.DefaulterCollegeRequestService.GetDefaulterCollegeRequestData(this.request)
         .then((data: any) => {
@@ -398,7 +401,7 @@ export class AdminDefaulterCollegeListComponent implements OnInit {
     try {
       this.ApplicationCountList = [];
       this.loaderService.requestStarted();
-      await this.DefaulterCollegeRequestService.GetDefaulterRequestCount(this.sSOLoginDataModel.DepartmentID)
+      await this.DefaulterCollegeRequestService.GetDefaulterRequestCount(this.sSOLoginDataModel.DepartmentID, this.sSOLoginDataModel.UserID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
@@ -409,6 +412,126 @@ export class AdminDefaulterCollegeListComponent implements OnInit {
           console.log(data);
         }, error => console.error(error));
 
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  btnSavePDF_Click(): void {
+    this.loaderService.requestStarted();
+    let dt = new Date();
+    let Imgpath = ''
+    
+    let DefaultImg = "../../../assets/images/userImg.jpg";
+    try {
+      let Heading1 = 'GOVERNMENT OF RAJASTHAN';
+      let Heading2 = 'OFFICE OF THE COMMISSIONER, COLLEGE EDUCATION,';
+      let Heading3 = 'RAJASTHAN, JAIPUR';
+
+            
+      let month = (Number(dt.getMonth()) + 1).toString();
+      let day = (Number(dt.getDate())).toString();
+      if (month.length == 1)
+        month = '0' + month.toString();
+      if (day.length == 1)
+        day = '0' + day.toString();
+      let Footer1 = 'DECLARATION';
+      let Footer2 = 'ALL THE ABOVE INFORMATION PROVIDED BY ME IS TRUE AND OTHERWISE I ACCEPT TO WITHDRAW MY APPLICATION.';
+      let Footer3 = 'PRINT DATE : - ' + dt.getFullYear() + '-' + month + '-' + day + ' ' + dt.getHours() + ':' + dt.getMinutes() + ':' + dt.getSeconds();
+      let Footer4 = 'SIGNATURE WITH DATE';
+      let Footer5 = '(PRESIDENT/SECRETARY OF MANAGEMENT COMMITTEE)';
+      let doc = new jsPDF('p', 'mm', [432, 279])
+      doc.setDrawColor(0);
+      doc.setFillColor(255, 0, 0);
+      doc.setFontSize(12);
+
+      let pDFData: any = [];
+      
+      pDFData.push({ "ContentName": "#DefaulterPersonalDetails" })
+      
+      for (var i = 0; i < pDFData.length; i++) {
+          //doc.rect(15, 35, doc.internal.pageSize.width - 30, doc.internal.pageSize.height - 45, 'S');
+          autoTable(doc,
+            {
+              html: pDFData[i].ContentName,
+              styles: { fontSize: 10, overflow: "linebreak" },
+              headStyles: {
+                fillColor: '#3f51b5',
+                textColor: '#fff',
+                halign: 'left',
+                fontSize: 13
+              },
+              bodyStyles: {
+                halign: 'left', valign: "top"
+              },
+              showHead: "everyPage",
+              margin: {
+                left: 16,
+                right: 16,
+                top: 35,
+                bottom: 70
+              },
+              //alternateRowStyles: {
+              //  fillColor: '#CCC',
+              //  textColor: '#fff',
+              //  halign: 'center',
+              //  fontSize: 10
+              //},
+              tableLineWidth: 0.5,
+              didDrawPage: function (data) {
+                // Header
+                doc.setFontSize(13);
+                doc.setTextColor("#161C22");
+
+                doc.text(Heading1, 140, 10, { align: 'center', maxWidth: 100 });
+                doc.setFontSize(12);
+                doc.text(Heading2, 140, 15, { align: 'center', maxWidth: 200 });
+                doc.setFontSize(12);
+                doc.text(Heading3, 140, 20, { align: 'center', maxWidth: 100 });
+                doc.setFontSize(10);
+                //doc.text(Heading4, 140, 25, { align: 'center', maxWidth: 150 });
+                //doc.setFontSize(8);
+                //doc.text(Heading5, 140, 30, { align: 'center', maxWidth: 100 });
+
+                // Footer
+                let str = "1";//+ doc.internal.getNumberOfPages();
+                doc.setFontSize(13);
+
+
+                let pageSize = doc.internal.pageSize;
+                let pageHeight = pageSize.height
+                  ? pageSize.height
+                  : pageSize.getHeight();
+                doc.line(264, 377, 15, 377)
+                doc.setTextColor("#3f51b5");
+                //doc.text(Footer1, data.settings.margin.left, pageHeight - 50);
+                //doc.line(264, 385, 15, 385)
+                //doc.setFontSize(10);
+                //doc.setTextColor("#161C22");
+                //doc.text(Footer2, data.settings.margin.left, pageHeight - 43);
+                //doc.text(Footer3, data.settings.margin.left, pageHeight - 22);
+                //doc.text(Footer4, 250, pageHeight - 22, { align: 'right', maxWidth: 500 });
+                let down = (pageHeight - 39);
+                try {
+                  doc.addImage(Imgpath, 214, down, 40, 13, 'PNG');
+                } catch (e) {
+                  //doc.addImage(DefaultImg, 214, down, 40, 13, 'JPG');
+                }
+
+                //doc.text(Footer5, 263, pageHeight - 18, { align: 'right', maxWidth: 500, });
+                doc.text(str, 575, 830);
+              }
+            }
+          )
+          //doc.rect(15, 35, doc.internal.pageSize.width - 30, doc.internal.pageSize.height - 45, 'S');
+        
+      }
+      doc.save("DefaulterApplicationSummery" + '.pdf');
     }
     catch (Ex) {
       console.log(Ex);

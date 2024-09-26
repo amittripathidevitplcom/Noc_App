@@ -126,125 +126,263 @@
       </div>
       <div class="card-body">
         <div class="row">
-          <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-3">
-            <label for="ddlEverAppliedNOC" class="form-label">Have you ever applied on NOC portal/क्या आपने कभी NOC पोर्टल पर आवेदन किया है? </label>
-            <input class="form-control" id="ddlEverAppliedNOC" name="ddlEverAppliedNOC" disabled [(ngModel)]="DefaulterCollegeDetailsData.EverAppliedNOC">
-          </div>
-          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="DefaulterCollegeDetailsData.EverAppliedNOC=='Yes'">
-            <label for="txtLastApplicationNo" class="form-label">Last Application Number </label>
-            <input class="form-control" id="txtLastApplicationNo" name="txtLastApplicationNo" disabled [(ngModel)]="DefaulterCollegeDetailsData.LastApplicationNo">
-          </div>
-          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="DefaulterCollegeDetailsData.EverAppliedNOC=='Yes'">
-            <label for="txtLastApplicationSubmittedDate" class="form-label">Submitted Application Date </label>
-            <input class="form-control" id="txtLastApplicationSubmittedDate" name="txtLastApplicationSubmittedDate" disabled [(ngModel)]="DefaulterCollegeDetailsData.LastApplicationSubmittedDate">
+          <div class="col-lg-2 col-md-4 col-sm-4 float-end">
+            <input type="button" value="Preview Download PDF" class="btn btn-sm btn-primary" (click)="btnSavePDF_Click()" />
           </div>
         </div>
         <div class="row">
-          <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-3">
-            <label for="ddlIsPNOC" class="form-label">क्या आप PNOC प्राप्त हैं? </label>
-            <input class="form-control" id="ddlIsPNOC" name="ddlIsPNOC" disabled [(ngModel)]="DefaulterCollegeDetailsData.IsPNOC">
-          </div>
+          <div class="table-responsive">
+            <table class="table table-hover table-striped-columns text-left" id="DefaulterPersonalDetails" #content>
+              <thead>
+                <tr>
+                  <td colspan="3" style="font-weight: 800;font-size: 18px;">
+                    <b><i class="bi bi-table"></i>&nbsp;Personal Detail</b>
+                  </td>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <label>Division :- {{DefaulterCollegeDetailsData.DivisionName}}</label>
+                  </td>
+                  <td>
+                    <label>District :- {{DefaulterCollegeDetailsData.DistrictName}}</label>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <label>Have you ever applied on NOC portal :- {{DefaulterCollegeDetailsData.EverAppliedNOC}}</label>
+                  </td>
+                  <td>
+                    <label *ngIf="DefaulterCollegeDetailsData.EverAppliedNOC=='Yes'">Last Application Number :- {{DefaulterCollegeDetailsData.LastApplicationNo}}</label>
+                    <br /><label *ngIf="DefaulterCollegeDetailsData.EverAppliedNOC=='Yes'">Submitted Application Date  :- {{DefaulterCollegeDetailsData.LastApplicationSubmittedDate}}</label>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <label>Are you a PNOC recipient? :- {{DefaulterCollegeDetailsData.IsPNOC}}</label>
+                  </td>
+                  <td>
+                    <label *ngIf="DefaulterCollegeDetailsData.IsPNOC=='Yes'">Are any of your cases operated in the TNOC level? :- {{DefaulterCollegeDetailsData.CaseOperatedTNOCLevel}}</label>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <label>What is the last session of TNOC for the subjects receiving no-objection? :- {{DefaulterCollegeDetailsData.LastSessionOfTNOC}}</label>
+                  </td>
+                  <td>
+                  </td>
+                </tr>
+                <tr *ngIf="DefaulterCollegeDetailsData.EverAppliedNOC=='No'">
+                  <td>
+                    <label>College Name :- {{DefaulterCollegeDetailsData.CollegeName}}</label>
+                  </td>
+                  <td>
+                    <!--<label>College Name in Hindi :- {{DefaulterCollegeDetailsData.CollegeNameHi}}</label>-->
+                  </td>
+                </tr>
+                <tr *ngIf="DefaulterCollegeDetailsData.EverAppliedNOC=='No'">
+                  <td>
+                    <label>College Email Address :- {{DefaulterCollegeDetailsData.CollegeEmail}}</label>
+                  </td>
+                  <td>
+                    <label>College Mobile Number :- {{DefaulterCollegeDetailsData.CollegeMobileNo}}</label>
+                  </td>
+                </tr>
+                <tr *ngIf="DefaulterCollegeDetailsData.EverAppliedNOC=='No'">
+                  <td>
+                    <label>College Type :- {{DefaulterCollegeDetailsData.CollegeType}}</label>
+                  </td>
+                  <td>
+                    <label>University Name :- {{DefaulterCollegeDetailsData.UniversityName}}</label>
+                  </td>
+                </tr>
+                <tr *ngIf="DefaulterCollegeDetailsData.EverAppliedNOC=='No'">
+                  <td>
+                    <label>College Level :- {{DefaulterCollegeDetailsData.CollegeLevel}}</label>
+                  </td>
+                  <td>
+                    <label>Establishment Year :- {{DefaulterCollegeDetailsData.EstablishmentYear}}</label>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <label>If any case pending for NOC? :- {{DefaulterCollegeDetailsData.PendingCaseNOC}}</label>
+                  </td>
+                  <td>
+                    <label *ngIf="DefaulterCollegeDetailsData.PendingCaseNOC=='Yes'">Upload pending case related document(Only pdf/image file.)(Max.Size 2MB) :-   <a class="bi bi-file-earmark-pdf-fill" *ngIf="DefaulterCollegeDetailsData.PendingCaseDoc.includes('.pdf')" data-fancybox="gallery" href="{{DefaulterCollegeDetailsData.PendingCaseDocPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a></label>
+                  </td>
+                </tr>
 
-          <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-3" *ngIf="DefaulterCollegeDetailsData.IsPNOC=='Yes'">
-            <label for="ddlCaseOperatedTNOCLevel" class="form-label">क्या आपका कोई प्रकरण TNOC स्तर में संचालित है? </label>
-            <input class="form-control" id="ddlCaseOperatedTNOCLevel" name="ddlCaseOperatedTNOCLevel" disabled [(ngModel)]="DefaulterCollegeDetailsData.CaseOperatedTNOCLevel">
-          </div>
-          <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-3" *ngIf="DefaulterCollegeDetailsData.IsPNOC=='Yes'||DefaulterCollegeDetailsData.IsPNOC=='No'">
-            <label for="ddlLastSessionOfTNOCID" class="form-label">अनापत्ति प्राप्त संचालित विषयों की TNOC का अन्तिम सत्र क्या है? </label>
-            <input class="form-control" id="ddlLastSessionOfTNOCID" name="ddlLastSessionOfTNOCID" disabled [(ngModel)]="DefaulterCollegeDetailsData.LastSessionOfTNOC">
 
-          </div>
-
-          <div class="row" *ngIf="DefaulterCollegeDetailsData.EverAppliedNOC=='No'">
-            <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-3">
-              <label for="txtCollegeNameEn" maxlength="200" class="form-label">College Name</label>
-              <input class="form-control" id="txtCollegeNameEn" name="txtCollegeNameEn" disabled [(ngModel)]="DefaulterCollegeDetailsData.CollegeName">
-            </div>
-            <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-3">
-              <label for="ddlDivisionID" class="form-label">Division </label>
-              <input class="form-control" id="ddlDivisionID" name="ddlDivisionID" disabled [(ngModel)]="DefaulterCollegeDetailsData.DivisionName">
-            </div>
-
-
-            <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-3">
-              <label for="txtCollegeNameHi" maxlength="200" class="form-label">College Name in Hindi </label>
-              <input class="form-control" id="txtCollegeNameHi" name="txtCollegeNameHi" disabled [(ngModel)]="DefaulterCollegeDetailsData.CollegeNameHi">
-            </div>
-            <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-3">
-              <label for="ddlDistrictID" class="form-label">District </label>
-              <input class="form-control" id="ddlDistrictID" name="ddlDistrictID" disabled [(ngModel)]="DefaulterCollegeDetailsData.DistrictName">
-            </div>
-            <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-3">
-              <label for="txtEmail" class="form-label">College Email Address </label>
-              <input class="form-control" id="txtEmail" name="txtEmail" disabled [(ngModel)]="DefaulterCollegeDetailsData.CollegeEmail">
-            </div>
-            <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-3">
-              <label for="txtMobileNumber" class="form-label">College Mobile Number </label>
-              <input class="form-control" id="txtMobileNumber" name="txtMobileNumber" disabled [(ngModel)]="DefaulterCollegeDetailsData.CollegeMobileNo">
-            </div>
-
-            <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-3">
-              <label for="ddlCollegeTypeID" class="form-label">Select College Type </label>
-              <input class="form-control" id="ddlCollegeTypeID" name="ddlCollegeTypeID" disabled [(ngModel)]="DefaulterCollegeDetailsData.CollegeType">
-            </div>
-
-            <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-3">
-              <label for="ddlUniversityID" class="form-label">
-                University Name
-              </label>
-              <input class="form-control" id="ddlUniversityID" name="ddlUniversityID" disabled [(ngModel)]="DefaulterCollegeDetailsData.UniversityName">
-            </div>
-            <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-3">
-              <label for="ddlPresentCollegeStatus" class="form-label">Present Status of College </label>
-              <input class="form-control" id="ddlPresentCollegeStatus" name="ddlPresentCollegeStatus" disabled [(ngModel)]="DefaulterCollegeDetailsData.CollegePresentStatus">
-            </div>
-
-            <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-3">
-              <label for="ddlCollegeLevelID" class="form-label">College Level </label>
-              <input class="form-control" id="ddlCollegeLevelID" name="ddlCollegeLevelID" disabled [(ngModel)]="DefaulterCollegeDetailsData.CollegeLevel">
-            </div>
-
-            <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-3">
-              <label for="ddlEstablishmentYearID" class="form-label">Establishment Year</label>
-              <input class="form-control" id="ddlEstablishmentYearID" name="ddlEstablishmentYearID" disabled [(ngModel)]="DefaulterCollegeDetailsData.EstablishmentYear">
-            </div>
-
-          </div>
-
-          <div class="row">
-            <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-3">
-              <label class="form-label">First Noc(Only pdf/image file.)(Min.Size 500KB)(Max.Size 2MB):</label>
-              <div class="clearfix"></div>
-              <a class="bi bi-file-earmark-pdf-fill" *ngIf="DefaulterCollegeDetailsData.FirstNOCDocPath.includes('.pdf')" data-fancybox="gallery" href="{{DefaulterCollegeDetailsData.FirstNOCDocPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
-            </div>
-
-            <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-3">
-              <label class="form-label">Last Noc(Only pdf/image file.)(Min.Size 500KB)(Max.Size 2MB):</label>
-              <div class="clearfix"></div>
-              <a class="bi bi-file-earmark-pdf-fill" *ngIf="DefaulterCollegeDetailsData.LastNOCDocPath.includes('.pdf')" data-fancybox="gallery" href="{{DefaulterCollegeDetailsData.LastNOCDocPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
-            </div>
-
-            <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-3">
-              <label class="form-label">Latest Affiliation of University/Proof of Latest Affiliation(Only pdf/image file.)(Min.Size 500KB)(Max.Size 2MB):</label>
-              <div class="clearfix"></div>
-              <a class="bi bi-file-earmark-pdf-fill" *ngIf="DefaulterCollegeDetailsData.LatestAffiliationDocPath.includes('.pdf')" data-fancybox="gallery" href="{{DefaulterCollegeDetailsData.LatestAffiliationDocPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
-            </div>
-
-            <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-3">
-              <label class="form-label">Result of session 2022-23(copy of TR of first year university result of each course running in college)(Only pdf/image file.)(Min.Size 500KB)(Max.Size 2MB):</label>
-              <div class="clearfix"></div>
-              <a class="bi bi-file-earmark-pdf-fill" *ngIf="DefaulterCollegeDetailsData.ResultLastSessionDocPath.includes('.pdf')" data-fancybox="gallery" href="{{DefaulterCollegeDetailsData.ResultLastSessionDocPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
-            </div>
-
-            <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-3">
-              <label class="form-label">Proof of Examinations form filled by students for session 2023-24(Only pdf/image file.)(Min.Size 500KB)(Max.Size 2MB):</label>
-              <div class="clearfix"></div>
-              <a class="bi bi-file-earmark-pdf-fill" *ngIf="DefaulterCollegeDetailsData.LastSessionProofOfExaminationDocPath.includes('.pdf')" data-fancybox="gallery" href="{{DefaulterCollegeDetailsData.LastSessionProofOfExaminationDocPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
-            </div>
-
+                <tr>
+                  <td>
+                    <label>First Noc(Only pdf/image file.):-   <a class="bi bi-file-earmark-pdf-fill" *ngIf="DefaulterCollegeDetailsData.FirstNOCDocPath.includes('.pdf')" data-fancybox="gallery" href="{{DefaulterCollegeDetailsData.FirstNOCDocPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a></label>
+                  </td>
+                  <td>
+                    <label>Last Noc(Only pdf/image file.):-   <a class="bi bi-file-earmark-pdf-fill" *ngIf="DefaulterCollegeDetailsData.LastNOCDocPath.includes('.pdf')" data-fancybox="gallery" href="{{DefaulterCollegeDetailsData.LastNOCDocPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a></label>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <label>Latest Affiliation of University/Proof of Latest Affiliation:-   <a class="bi bi-file-earmark-pdf-fill" *ngIf="DefaulterCollegeDetailsData.LatestAffiliationDocPath.includes('.pdf')" data-fancybox="gallery" href="{{DefaulterCollegeDetailsData.LatestAffiliationDocPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a></label>
+                  </td>
+                  <td>
+                    <label>Result of last session (copy of TR of first year university result of each course running in college) :- <a class="bi bi-file-earmark-pdf-fill" *ngIf="DefaulterCollegeDetailsData.ResultLastSessionDocPath.includes('.pdf')" data-fancybox="gallery" href="{{DefaulterCollegeDetailsData.ResultLastSessionDocPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a></label>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <label>Proof of Examinations form filled by students for last session :- <a class="bi bi-file-earmark-pdf-fill" *ngIf="DefaulterCollegeDetailsData.LastSessionProofOfExaminationDocPath.includes('.pdf')" data-fancybox="gallery" href="{{DefaulterCollegeDetailsData.LastSessionProofOfExaminationDocPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a></label>
+                  </td>
+                  <td>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
       </div>
+
+      <!--<div class="card-body">
+    <div class="row">
+      <div class="col-lg-2 col-md-4 col-sm-4 float-end">
+        <input type="button" value="Preview Download PDF" class="btn btn-sm btn-primary" (click)="btnSavePDF_Click()" />
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-3">
+        <label for="ddlDivisionID" class="form-label">Division </label>
+        <input class="form-control" id="ddlDivisionID" name="ddlDivisionID" disabled [(ngModel)]="DefaulterCollegeDetailsData.DivisionName">
+      </div>
+      <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-3">
+        <label for="ddlDistrictID" class="form-label">District </label>
+        <input class="form-control" id="ddlDistrictID" name="ddlDistrictID" disabled [(ngModel)]="DefaulterCollegeDetailsData.DistrictName">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-3">
+        <label for="ddlEverAppliedNOC" class="form-label">Have you ever applied on NOC portal/क्या आपने कभी NOC पोर्टल पर आवेदन किया है? </label>
+        <input class="form-control" id="ddlEverAppliedNOC" name="ddlEverAppliedNOC" disabled [(ngModel)]="DefaulterCollegeDetailsData.EverAppliedNOC">
+      </div>
+      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="DefaulterCollegeDetailsData.EverAppliedNOC=='Yes'">
+        <label for="txtLastApplicationNo" class="form-label">Last Application Number </label>
+        <input class="form-control" id="txtLastApplicationNo" name="txtLastApplicationNo" disabled [(ngModel)]="DefaulterCollegeDetailsData.LastApplicationNo">
+      </div>
+      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="DefaulterCollegeDetailsData.EverAppliedNOC=='Yes'">
+        <label for="txtLastApplicationSubmittedDate" class="form-label">Submitted Application Date </label>
+        <input class="form-control" id="txtLastApplicationSubmittedDate" name="txtLastApplicationSubmittedDate" disabled [(ngModel)]="DefaulterCollegeDetailsData.LastApplicationSubmittedDate">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-3">
+        <label for="ddlIsPNOC" class="form-label">क्या आप PNOC प्राप्त हैं? </label>
+        <input class="form-control" id="ddlIsPNOC" name="ddlIsPNOC" disabled [(ngModel)]="DefaulterCollegeDetailsData.IsPNOC">
+      </div>
+
+      <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-3" *ngIf="DefaulterCollegeDetailsData.IsPNOC=='Yes'">
+        <label for="ddlCaseOperatedTNOCLevel" class="form-label">क्या आपका कोई प्रकरण TNOC स्तर में संचालित है? </label>
+        <input class="form-control" id="ddlCaseOperatedTNOCLevel" name="ddlCaseOperatedTNOCLevel" disabled [(ngModel)]="DefaulterCollegeDetailsData.CaseOperatedTNOCLevel">
+      </div>
+      <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-3" *ngIf="DefaulterCollegeDetailsData.IsPNOC=='Yes'||DefaulterCollegeDetailsData.IsPNOC=='No'">
+        <label for="ddlLastSessionOfTNOCID" class="form-label">अनापत्ति प्राप्त संचालित विषयों की TNOC का अन्तिम सत्र क्या है? </label>
+        <input class="form-control" id="ddlLastSessionOfTNOCID" name="ddlLastSessionOfTNOCID" disabled [(ngModel)]="DefaulterCollegeDetailsData.LastSessionOfTNOC">
+
+      </div>
+
+      <div class="row" *ngIf="DefaulterCollegeDetailsData.EverAppliedNOC=='No'">
+        <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-3">
+          <label for="txtCollegeNameEn" maxlength="200" class="form-label">College Name</label>
+          <input class="form-control" id="txtCollegeNameEn" name="txtCollegeNameEn" disabled [(ngModel)]="DefaulterCollegeDetailsData.CollegeName">
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-3">
+          <label for="txtCollegeNameHi" maxlength="200" class="form-label">College Name in Hindi </label>
+          <input class="form-control" id="txtCollegeNameHi" name="txtCollegeNameHi" disabled [(ngModel)]="DefaulterCollegeDetailsData.CollegeNameHi">
+        </div>
+
+        <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-3">
+          <label for="txtEmail" class="form-label">College Email Address </label>
+          <input class="form-control" id="txtEmail" name="txtEmail" disabled [(ngModel)]="DefaulterCollegeDetailsData.CollegeEmail">
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-3">
+          <label for="txtMobileNumber" class="form-label">College Mobile Number </label>
+          <input class="form-control" id="txtMobileNumber" name="txtMobileNumber" disabled [(ngModel)]="DefaulterCollegeDetailsData.CollegeMobileNo">
+        </div>
+
+        <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-3">
+          <label for="ddlCollegeTypeID" class="form-label">Select College Type </label>
+          <input class="form-control" id="ddlCollegeTypeID" name="ddlCollegeTypeID" disabled [(ngModel)]="DefaulterCollegeDetailsData.CollegeType">
+        </div>
+
+        <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-3">
+          <label for="ddlUniversityID" class="form-label">
+            University Name
+          </label>
+          <input class="form-control" id="ddlUniversityID" name="ddlUniversityID" disabled [(ngModel)]="DefaulterCollegeDetailsData.UniversityName">
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-3">
+          <label for="ddlPresentCollegeStatus" class="form-label">Present Status of College </label>
+          <input class="form-control" id="ddlPresentCollegeStatus" name="ddlPresentCollegeStatus" disabled [(ngModel)]="DefaulterCollegeDetailsData.CollegePresentStatus">
+        </div>
+
+        <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-3">
+          <label for="ddlCollegeLevelID" class="form-label">College Level </label>
+          <input class="form-control" id="ddlCollegeLevelID" name="ddlCollegeLevelID" disabled [(ngModel)]="DefaulterCollegeDetailsData.CollegeLevel">
+        </div>
+
+        <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-3">
+          <label for="ddlEstablishmentYearID" class="form-label">Establishment Year</label>
+          <input class="form-control" id="ddlEstablishmentYearID" name="ddlEstablishmentYearID" disabled [(ngModel)]="DefaulterCollegeDetailsData.EstablishmentYear">
+        </div>
+
+      </div>
+      <div class="row">
+        <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-3">
+          <label for="ddlPendingCaseNOC" class="form-label">If any case pending for NOC? </label>
+          <input class="form-control" id="ddlPendingCaseNOCID" name="ddlPendingCaseNOCID" disabled [(ngModel)]="DefaulterCollegeDetailsData.PendingCaseNOC">
+        </div>
+
+        <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-3" *ngIf="DefaulterCollegeDetailsData.PendingCaseNOC=='Yes'">
+          <label class="form-label">Upload pending case related document(Only pdf/image file.)(Max.Size 2MB):</label>
+          <div class="clearfix"></div>
+          <a class="bi bi-file-earmark-pdf-fill" *ngIf="DefaulterCollegeDetailsData.PendingCaseDoc.includes('.pdf')" data-fancybox="gallery" href="{{DefaulterCollegeDetailsData.PendingCaseDocPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-3">
+          <label class="form-label">First Noc(Only pdf/image file.)(Min.Size 500KB)(Max.Size 2MB):</label>
+          <div class="clearfix"></div>
+          <a class="bi bi-file-earmark-pdf-fill" *ngIf="DefaulterCollegeDetailsData.FirstNOCDocPath.includes('.pdf')" data-fancybox="gallery" href="{{DefaulterCollegeDetailsData.FirstNOCDocPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+        </div>
+
+        <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-3">
+          <label class="form-label">Last Noc(Only pdf/image file.)(Min.Size 500KB)(Max.Size 2MB):</label>
+          <div class="clearfix"></div>
+          <a class="bi bi-file-earmark-pdf-fill" *ngIf="DefaulterCollegeDetailsData.LastNOCDocPath.includes('.pdf')" data-fancybox="gallery" href="{{DefaulterCollegeDetailsData.LastNOCDocPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+        </div>
+
+        <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-3">
+          <label class="form-label">Latest Affiliation of University/Proof of Latest Affiliation(Only pdf/image file.)(Min.Size 500KB)(Max.Size 2MB):</label>
+          <div class="clearfix"></div>
+          <a class="bi bi-file-earmark-pdf-fill" *ngIf="DefaulterCollegeDetailsData.LatestAffiliationDocPath.includes('.pdf')" data-fancybox="gallery" href="{{DefaulterCollegeDetailsData.LatestAffiliationDocPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+        </div>
+
+        <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-3">
+          <label class="form-label">Result of session 2022-23(copy of TR of first year university result of each course running in college)(Only pdf/image file.)(Min.Size 500KB)(Max.Size 2MB):</label>
+          <div class="clearfix"></div>
+          <a class="bi bi-file-earmark-pdf-fill" *ngIf="DefaulterCollegeDetailsData.ResultLastSessionDocPath.includes('.pdf')" data-fancybox="gallery" href="{{DefaulterCollegeDetailsData.ResultLastSessionDocPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+        </div>
+
+        <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-3">
+          <label class="form-label">Proof of Examinations form filled by students for session 2023-24(Only pdf/image file.)(Min.Size 500KB)(Max.Size 2MB):</label>
+          <div class="clearfix"></div>
+          <a class="bi bi-file-earmark-pdf-fill" *ngIf="DefaulterCollegeDetailsData.LastSessionProofOfExaminationDocPath.includes('.pdf')" data-fancybox="gallery" href="{{DefaulterCollegeDetailsData.LastSessionProofOfExaminationDocPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+        </div>
+
+      </div>
+    </div>
+  </div>-->
     </div>
   </div>
 </ng-template>

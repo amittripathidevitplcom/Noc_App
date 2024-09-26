@@ -42,6 +42,10 @@ export class DefaulterCollegeRequestDataModel {
   public CaseOperatedTNOCLevel: string = '0';
   public LastSessionOfTNOCID: number = 0;
   public LastSessionOfTNOC: string = '';
+  public PendingCaseNOC: string = '0';
+  public PendingCaseDoc: string = '';
+  public PendingCaseDocPath: string = '';
+  public PendingCaseDoc_DisName: string = '';
 }
 export class DefaulterCollegeSearchFilterDataModel {
   public UserID: number = 0;

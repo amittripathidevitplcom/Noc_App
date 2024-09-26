@@ -81,7 +81,9 @@ export class DefaulterCollegeRequestComponent {
         LatestAffiliationDoc: [''],
         ResultLastSessionDoc: [''],
         LastSessionProofOfExaminationDoc: [''],
-        ddlDepartmentID: ['', [DropdownValidators]]
+        ddlDepartmentID: ['', [DropdownValidators]],
+        ddlPendingCaseNOC: ['', [DropdownValidatorsString]],
+        PendingCaseDoc: [''],
       });
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     await this.GetDDLList();
@@ -305,6 +307,10 @@ export class DefaulterCollegeRequestComponent {
       isValid = false;
       this.LastSessionProofOfExaminationDocValidationMessage = 'This field is required .!';
     }
+    if (this.request.PendingCaseNOC == 'Yes' && (this.request.PendingCaseDoc == null || this.request.PendingCaseDoc == '')) {
+      isValid = false;
+      this.PendingCaseDocValidationMessage = 'This field is required .!';
+    }
 
     console.log(this.request);
     if (!isValid) {
@@ -359,12 +365,12 @@ export class DefaulterCollegeRequestComponent {
       //clear Validators
       this.request.CollegeName = '';
       this.DefaulterCollegeForm.get('txtCollegeNameEn')?.clearValidators();
-      this.request.DivisionID = 0;
-      this.DefaulterCollegeForm.get('ddlDivisionID')?.clearValidators();
+      //this.request.DivisionID = 0;
+      //this.DefaulterCollegeForm.get('ddlDivisionID')?.clearValidators();
       this.request.CollegeNameHi = '';
       this.DefaulterCollegeForm.get('txtCollegeNameHi')?.clearValidators();
-      this.request.DistrictID = 0;
-      this.DefaulterCollegeForm.get('ddlDistrictID')?.clearValidators();
+      //this.request.DistrictID = 0;
+      //this.DefaulterCollegeForm.get('ddlDistrictID')?.clearValidators();
       this.request.CollegeEmail = '';
       this.DefaulterCollegeForm.get('txtEmail')?.clearValidators();
       this.request.CollegeMobileNo = '';
@@ -384,9 +390,9 @@ export class DefaulterCollegeRequestComponent {
     else if (SelectedEverAppliedId == 'No') {
       //set Validators
       this.DefaulterCollegeForm.get('txtCollegeNameEn')?.setValidators([Validators.required]);
-      this.DefaulterCollegeForm.get('ddlDivisionID')?.setValidators([DropdownValidators]);
+      //this.DefaulterCollegeForm.get('ddlDivisionID')?.setValidators([DropdownValidators]);
       this.DefaulterCollegeForm.get('txtCollegeNameHi')?.setValidators([Validators.required]);
-      this.DefaulterCollegeForm.get('ddlDistrictID')?.setValidators([DropdownValidators]);
+      //this.DefaulterCollegeForm.get('ddlDistrictID')?.setValidators([DropdownValidators]);
       this.DefaulterCollegeForm.get('txtEmail')?.setValidators([Validators.required, Validators.email, Validators.pattern("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$")]);
       this.DefaulterCollegeForm.get('txtMobileNumber')?.setValidators([Validators.required, Validators.pattern("^[6-9][0-9]{9}$")]);
       this.DefaulterCollegeForm.get('ddlCollegeTypeID')?.setValidators([DropdownValidators]);
@@ -406,9 +412,9 @@ export class DefaulterCollegeRequestComponent {
     this.DefaulterCollegeForm.get('txtLastApplicationNo')?.updateValueAndValidity();
     this.DefaulterCollegeForm.get('txtLastApplicationSubmittedDate')?.updateValueAndValidity();
     this.DefaulterCollegeForm.get('txtCollegeNameEn')?.updateValueAndValidity();
-    this.DefaulterCollegeForm.get('ddlDivisionID')?.updateValueAndValidity();
+    //this.DefaulterCollegeForm.get('ddlDivisionID')?.updateValueAndValidity();
     this.DefaulterCollegeForm.get('txtCollegeNameHi')?.updateValueAndValidity();
-    this.DefaulterCollegeForm.get('ddlDistrictID')?.updateValueAndValidity();
+    //this.DefaulterCollegeForm.get('ddlDistrictID')?.updateValueAndValidity();
     this.DefaulterCollegeForm.get('txtEmail')?.updateValueAndValidity();
     this.DefaulterCollegeForm.get('txtMobileNumber')?.updateValueAndValidity();
     this.DefaulterCollegeForm.get('ddlCollegeTypeID')?.updateValueAndValidity();
@@ -443,7 +449,7 @@ export class DefaulterCollegeRequestComponent {
       this.loaderService.requestStarted();
       this.file = event.target.files[0];
       if (this.file) {
-        if (Type == 'FirstNOCDoc' || Type == 'LastNOCDoc' || Type == 'LatestAffiliationDoc' || Type == 'ResultLastSessionDoc' || Type == 'LastSessionProofOfExaminationDoc') {
+        if (Type == 'PendingCaseDoc'|| Type == 'FirstNOCDoc' || Type == 'LastNOCDoc' || Type == 'LatestAffiliationDoc' || Type == 'ResultLastSessionDoc' || Type == 'LastSessionProofOfExaminationDoc') {
           if (this.file.type == 'image/jpeg' || this.file.type == 'image/jpg' || this.file.type == 'application/pdf') {
             //size validation
             if (this.file.size > 2000000) {
@@ -528,6 +534,7 @@ export class DefaulterCollegeRequestComponent {
   }
 
   public files: any = '';
+  public PendingCaseDocValidationMessage: string = '';
   ResetFileAndValidation(type: string, msg: string, name: string, path: string, dis_Name: string, isShowFile: boolean) {
     //event.target.value = '';
     try {
@@ -575,6 +582,14 @@ export class DefaulterCollegeRequestComponent {
         this.request.LastSessionProofOfExaminationDocPath = path;
         this.request.LastSessionProofOfExaminationDoc_DisName = dis_Name;
         this.files = document.getElementById('LastSessionProofOfExaminationDoc');
+        this.files.value = '';
+      }
+      else if (type == 'PendingCaseDoc') {
+        this.PendingCaseDocValidationMessage = msg;
+        this.request.PendingCaseDoc = name;
+        this.request.PendingCaseDocPath = path;
+        this.request.PendingCaseDoc_DisName = dis_Name;
+        this.files = document.getElementById('PendingCaseDoc');
         this.files.value = '';
       }
     }
