@@ -28,6 +28,7 @@ import { DocumentScrutinyComponent } from '../../DCE/document-scrutiny/document-
 import { BuildingDetailsMasterService } from '../../../Services/BuildingDetailsMaster/building-details-master.service';
 import { OldnocdetailService } from '../../../Services/OldNOCDetail/oldnocdetail.service';
 import { HostelDetailService } from '../../../Services/Tabs/hostel-details.service';
+import { ApplyNocApplicationDataModel } from '../../../Models/ApplyNocParameterDataModel';
 
 
 @Injectable({
@@ -256,6 +257,7 @@ export class CheckListSecretaryDCEComponent implements OnInit {
     this.GetPVStageStatusOfApplication(this.SelectedApplyNOCID);
     this.getFDRDetailId(this.SelectedCollageID);
     this.GetOfflinePaymentDetails();
+    this.ViewApplyNocApplication(this.SelectedApplyNOCID);
   }
 
 
@@ -1415,6 +1417,39 @@ export class CheckListSecretaryDCEComponent implements OnInit {
           this.dsrequest.FinalRemark = this.PaymentFinalRemarks.find((x: { RoleIDS: number; }) => x.RoleIDS == this.sSOLoginDataModel.RoleID)?.Remark;
           this.dsrequest.ActionID = this.PaymentFinalRemarks.find((x: { RoleIDS: number; }) => x.RoleIDS == this.sSOLoginDataModel.RoleID)?.ActionID;
         }, (error: any) => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+  public ApplyNocApplicationDetail: ApplyNocApplicationDataModel = new ApplyNocApplicationDataModel();
+  async ViewApplyNocApplication(applyNocApplicationID: number) {
+    try {
+      this.loaderService.requestStarted();
+      // get
+      await this.applyNocParameterService.GetApplyNocApplicationByApplicationID(applyNocApplicationID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+
+          console.log(data['Data']);
+          // data
+          if (this.State == 0) {
+            this.ApplyNocApplicationDetail = data['Data'];
+            console.log(this.ApplyNocApplicationDetail);
+          }
+          else {
+            this.toastr.error(this.ErrorMessage);
+          }
+        }, error => console.error(error));
     }
     catch (Ex) {
       console.log(Ex);

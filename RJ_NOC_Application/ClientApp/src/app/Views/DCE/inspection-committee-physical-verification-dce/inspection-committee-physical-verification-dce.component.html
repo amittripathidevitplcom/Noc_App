@@ -35,6 +35,11 @@
                       <th>Department Name</th>
                       <th>College Name</th>
                       <th>Application No.</th>
+                      <th>Geo Tagging Status</th>
+                      <th>Latitude</th>
+                      <th>Longitude</th>
+                      <th>Image 1</th>
+                      <th>Image 2</th>
                       <th>Action</th>
                     </tr>
                   </thead>
@@ -44,6 +49,19 @@
                       <td>{{item.DepartmentName}}</td>
                       <td>{{item.CollegeName}}</td>
                       <td>{{item.ApplicationNo}}</td>
+                      <td>{{item.IsGeoTagging}}</td>
+                      <td>{{item.GT_Latitude}}</td>
+                      <td>{{item.GT_Longitude}}</td>
+                      <td>
+                        <a *ngIf="item.Image1!='N/A'" data-fancybox="gallery" href="{{item.Image1}}" data-caption="Image 10" title="click here to zoom">
+                          <img src="{{item.Image1}}" alt="Image 1" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                        </a>
+                      </td>
+                      <td>
+                        <a *ngIf="item.Image2!='N/A'" data-fancybox="gallery" href="{{item.Image2}}" data-caption="Image 10" title="click here to zoom">
+                          <img src="{{item.Image2}}" alt="Image 2" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                        </a>
+                      </td>
                       <td>
                         <a href="javascript:void(0)" title="Document Scrutiny Tab" (click)="DocumentScrutiny(item.DepartmentID,item.CollegeID,item.ApplyNOCID,item.ApplicationNo)" class="btn btn-sm btn-info"><i class="fa fa-eye"></i></a>
                         <!--<a href="/applicationsummary/{{item.DepartmentID}}/{{item.CollegeID}}" target="_blank" class="btn btn-sm btn-info"><i class="fa fa-eye"></i></a>-->                 <!--<a href="/applicationsummary/{{item.DepartmentID}}/{{item.CollegeID}}" target="_blank" class="btn btn-sm btn-info"><i class="fa fa-eye"></i></a>-->

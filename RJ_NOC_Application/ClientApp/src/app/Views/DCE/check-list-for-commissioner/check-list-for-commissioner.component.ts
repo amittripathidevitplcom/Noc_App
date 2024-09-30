@@ -26,6 +26,7 @@ import { FileUploadService } from '../../../Services/FileUpload/file-upload.serv
 import { BuildingDetailsMasterService } from '../../../Services/BuildingDetailsMaster/building-details-master.service';
 import { OldnocdetailService } from '../../../Services/OldNOCDetail/oldnocdetail.service';
 import { HostelDetailService } from '../../../Services/Tabs/hostel-details.service';
+import { ApplyNocApplicationDataModel } from '../../../Models/ApplyNocParameterDataModel';
 
 
 @Injectable({
@@ -220,6 +221,7 @@ export class CheckListForCommissionerComponent implements OnInit {
   UploadDocument_Dis_FileName: string = ''
   UploadDocument: string = ''
   UploadDocumentPath: string = ''
+ 
 
 
   constructor(private hostelDetailService: HostelDetailService,private oldnocdetailService: OldnocdetailService,private staffDetailService: StaffDetailService,private buildingDetailsMasterService: BuildingDetailsMasterService,private applyNocParameterService: ApplyNocParameterService, private toastr: ToastrService, private loaderService: LoaderService, private applyNOCApplicationService: ApplyNOCApplicationService,
@@ -260,6 +262,8 @@ export class CheckListForCommissionerComponent implements OnInit {
     this.GetPVStageStatusOfApplication(this.SelectedApplyNOCID);
     this.getFDRDetailId(this.SelectedCollageID);
     this.GetOfflinePaymentDetails();
+    this.GetWorkFlowRemarksByApplicationID(this.SelectedApplyNOCID);
+    this.ViewApplyNocApplication(this.SelectedApplyNOCID);
   }
 
 
@@ -1555,6 +1559,63 @@ export class CheckListForCommissionerComponent implements OnInit {
           this.dsrequest.FinalRemark = this.PaymentFinalRemarks.find((x: { RoleIDS: number; }) => x.RoleIDS == this.sSOLoginDataModel.RoleID)?.Remark;
           this.dsrequest.ActionID = this.PaymentFinalRemarks.find((x: { RoleIDS: number; }) => x.RoleIDS == this.sSOLoginDataModel.RoleID)?.ActionID;
         }, (error: any) => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+
+  public WorkFlowRemarks: any = [];
+  async GetWorkFlowRemarksByApplicationID(ApplyNOCID: number) {
+    try {
+      this.loaderService.requestStarted();
+      await this.dcedocumentScrutinyService.GetWorkFlowRemarksByApplicationID(ApplyNOCID)
+        .then((data: any) => {
+          debugger;
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.WorkFlowRemarks = data['Data'][0]['data'];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  public ApplyNocApplicationDetail: ApplyNocApplicationDataModel = new ApplyNocApplicationDataModel();
+  async ViewApplyNocApplication( applyNocApplicationID: number) {
+    try {
+      this.loaderService.requestStarted();
+      // get
+      await this.applyNocParameterService.GetApplyNocApplicationByApplicationID(applyNocApplicationID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+
+          console.log(data['Data']);
+          // data
+          if (this.State == 0) {
+            this.ApplyNocApplicationDetail = data['Data'];
+            console.log(this.ApplyNocApplicationDetail);
+          }
+          else {
+            this.toastr.error(this.ErrorMessage);
+          }
+        }, error => console.error(error));
     }
     catch (Ex) {
       console.log(Ex);

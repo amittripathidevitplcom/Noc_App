@@ -112,6 +112,15 @@ export class DefaulterCollegeRequestComponent {
       }, 200);
     }
   }
+  alphaOnly(event: any): boolean {  // Accept only alpha numerics, not special characters 
+    var regex = new RegExp("^[a-zA-Z ]+$");
+    var str = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+    if (regex.test(str)) {
+      return true;
+    }
+    event.preventDefault();
+    return false;
+  }
   async GetDDLList() {
     try {
       this.loaderService.requestStarted();

@@ -35,7 +35,7 @@
             </div>
           </div>
           <div class="col-lg-3 col-md-6 col-sm-12 col-12 mb-3">
-            <label for="ddlDivisionID" class="form-label">Division <span style="color:red;">*</span></label>
+            <label for="ddlDivisionID" class="form-label">Division <i class="fa fa-info-circle me-2 text-primary" title="Please select your division according to the old 7 divisions"></i> <span style="color:red;">*</span></label>
             <select class="form-select" id="ddlDivisionID" name="ddlDivisionID" [(ngModel)]="request.DivisionID" formControlName="ddlDivisionID" #SelectedDivisionID (change)="FillDivisionRelatedDDL(SelectedDivisionID.value,null)">
               <option value="0">--Select--</option>
               <option *ngFor="let item of DivisionList" value="{{item.DivisionID}}">{{item.DivisionName}}</option>
@@ -45,7 +45,7 @@
             </div>
           </div>
           <div class="col-lg-3 col-md-6 col-sm-12 col-12 mb-3">
-            <label for="ddlDistrictID" class="form-label">District <span style="color:red;">*</span></label>
+            <label for="ddlDistrictID" class="form-label">District <i class="fa fa-info-circle me-2 text-primary" title="Please select your district according to the old 33 districts"></i><span style="color:red;">*</span></label>
             <select class="form-select" id="ddlDistrictID" name="ddlDistrictID" [(ngModel)]="request.DistrictID" formControlName="ddlDistrictID">
               <option value="0">--Select--</option>
               <option *ngFor="let item of DistrictList" value="{{item.DistrictID}}">{{item.DistrictName}}</option>

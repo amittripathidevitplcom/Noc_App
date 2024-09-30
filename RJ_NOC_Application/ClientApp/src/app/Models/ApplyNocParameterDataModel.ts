@@ -209,6 +209,12 @@ export class ApplyNocApplicationDataModel {
   public NodelCollegeName?: string = '';
   public IsOpenDefaulter?: boolean = false;
   public IsDefaulter?: boolean = false;
+  public IsApplicationGeoTag?: boolean = false;
+  public ApplicationGeoImage1Path?: string = '';
+  public ApplicationGeoImage2Path?: string = '';
+  public ApplicationGeoLatitude?: string = '';
+  public ApplicationGeoLongitude?: string = '';
+
 }
 export class ApplyNocApplicationParameterDataModel {
   public ApplyNocParameterDetailID: number = 0;

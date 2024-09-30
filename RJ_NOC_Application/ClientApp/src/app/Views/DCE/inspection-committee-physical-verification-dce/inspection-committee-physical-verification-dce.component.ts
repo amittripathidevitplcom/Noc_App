@@ -115,9 +115,6 @@ export class InspectionCommitteePhysicalVerificationDCEComponent implements OnIn
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
           this.ApplyNocDetails = data['Data'][0]['data'];
-          console.log('Test');
-          console.log(this.ApplyNocDetails);
-          console.log('Test');
         }, error => console.error(error));
     }
     catch (Ex) {

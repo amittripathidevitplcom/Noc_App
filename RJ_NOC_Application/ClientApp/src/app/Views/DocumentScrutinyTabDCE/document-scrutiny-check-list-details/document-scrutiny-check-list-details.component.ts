@@ -25,6 +25,7 @@ import { TrusteeGeneralInfoService } from '../../../Services/TrusteeGeneralInfo/
 import { LegalEntityDataModel } from '../../../Models/TrusteeGeneralInfoDataModel';
 import { ApplyNocParameterService } from '../../../Services/Master/apply-noc-parameter.service';
 import { FileUploadService } from '../../../Services/FileUpload/file-upload.service';
+import { ApplyNocApplicationDataModel } from '../../../Models/ApplyNocParameterDataModel';
 
 
 @Injectable({
@@ -259,6 +260,7 @@ export class DocumentScrutinyCheckListDetailsComponentDce implements OnInit {
     this.GetPVStageStatusOfApplication(this.SelectedApplyNOCID);
     this.getFDRDetailId(this.SelectedCollageID);
     this.GetOfflinePaymentDetails();
+    this.ViewApplyNocApplication(this.SelectedApplyNOCID);
   }
 
 
@@ -1050,6 +1052,9 @@ export class DocumentScrutinyCheckListDetailsComponentDce implements OnInit {
               if (this.sSOLoginDataModel.RoleID == 17 && this.ActionID!=3) {
                 this.UserRoleList = this.UserRoleList.filter((x: { RoleID: number; }) => x.RoleID == 19 );
               }
+              if (this.sSOLoginDataModel.RoleID != 17 && this.ActionID != 3) {
+                this.UserRoleList = this.UserRoleList.filter((x: { RoleID: number; }) => x.RoleID != 1);
+              }
               this.NextRoleID = this.UserRoleList[0]['RoleID'];
               await this.NextGetUserDetailsByRoleID();
             }
@@ -1434,6 +1439,39 @@ export class DocumentScrutinyCheckListDetailsComponentDce implements OnInit {
           this.dsrequest.FinalRemark = this.PaymentFinalRemarks.find((x: { RoleIDS: number; }) => x.RoleIDS == this.sSOLoginDataModel.RoleID)?.Remark;
           this.dsrequest.ActionID = this.PaymentFinalRemarks.find((x: { RoleIDS: number; }) => x.RoleIDS == this.sSOLoginDataModel.RoleID)?.ActionID;
         }, (error: any) => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+  public ApplyNocApplicationDetail: ApplyNocApplicationDataModel = new ApplyNocApplicationDataModel();
+  async ViewApplyNocApplication(applyNocApplicationID: number) {
+    try {
+      this.loaderService.requestStarted();
+      // get
+      await this.applyNocParameterService.GetApplyNocApplicationByApplicationID(applyNocApplicationID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+
+          console.log(data['Data']);
+          // data
+          if (this.State == 0) {
+            this.ApplyNocApplicationDetail = data['Data'];
+            console.log(this.ApplyNocApplicationDetail);
+          }
+          else {
+            this.toastr.error(this.ErrorMessage);
+          }
+        }, error => console.error(error));
     }
     catch (Ex) {
       console.log(Ex);
