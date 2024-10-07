@@ -807,6 +807,8 @@ import { GenerateOrderMGOneComponent } from './Views/Medical Group 1/NOC/generat
     DistanceOtherMinorityBreakupComponent,
     WorkFlowFormat3Component,
     LOIApplicationPDFComponent,
+    ClinicalFacilityComponent,
+    PreviewClinicalFacilityComponent,
     UpdateCollegeSSOComponent,
     CollegePaymentReportComponent,
     TotalDraftEntryCollegeComponent,
@@ -829,8 +831,15 @@ import { GenerateOrderMGOneComponent } from './Views/Medical Group 1/NOC/generat
     DocumentScrutinyPaymentDetailsDCEComponent,
     NOCFormatMasterComponent,
     RevertFDRDetailsComponent,
-    RevertOfflinePaymentDetailsComponent
-
+    RevertOfflinePaymentDetailsComponent,
+    UnlockApplicationComponent,
+    PrevoiusYearApplicationsComponent,
+    MgoneNocapplicationListComponent,
+    NoccheckListMgoneComponent,
+    DentalChairsMgoneNocComponent,
+    MGOneDocumentScrutinyNodalOfficerComponent,
+    MgOneNocCompletedReportComponent,
+    GenerateOrderMGOneComponent
   ],
   imports: [
     CommonModule,
