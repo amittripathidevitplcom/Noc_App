@@ -1260,7 +1260,7 @@
                 <a href="/applynocapplicationlistAH" style="background: none;">{{dashboardDataModel.Pending}}</a>
               </h2>
             </div>
-            <div class="dashCardContent">              
+            <div class="dashCardContent">
               <h4>Completed</h4>
               <a href="/documentscrutinycompletedreport" style="background: none;"><h2>{{dashboardDataModel.Completed}}</h2></a>
             </div>
@@ -1317,8 +1317,8 @@
               <a href="/dceapplicationlist/Rejected" style="background: none;"><h2>{{dashboardDataModel.Nodal_Rejected}}</h2></a>
             </div>-->
             <div class="dashCardContent  text-start">
-                <h4>Reverted</h4>
-                <a href="/dceapplicationlist/Revert" style="background: none;"><h2>{{dashboardDataModel.Nodal_Reverted}}</h2></a>
+              <h4>Reverted</h4>
+              <a href="/dceapplicationlist/Revert" style="background: none;"><h2>{{dashboardDataModel.Nodal_Reverted}}</h2></a>
             </div>
             <div class="dashCardContent">
               <h4>Completed</h4>
@@ -1352,11 +1352,11 @@
               <a href="/inspectioncommitteephysicalverification/Pending" style="background: none;"><h2>{{dashboardDataModel.PVCommittee_Rejected}}</h2></a>
             </div>-->
             <div class="dashCardContent">
-        
+
               <h4>
-            
+
                 Complete
-              
+
               </h4>
               <a href="/inspectioncommitteephysicalverification/Completed" style="background: none;"><h2>{{dashboardDataModel.PVCommittee_Completed}}</h2></a>
             </div>
@@ -1722,7 +1722,7 @@
         </div>
       </div>
     </div>
-    <div class="col-lg-6 col-md-6 col-sm-6 col-12" *ngIf="this.sSOLoginDataModel.RoleID==7">
+    <div class="col-lg-8 col-md-8 col-sm-8 col-12" *ngIf="this.sSOLoginDataModel.RoleID==7">
       <div class="card staticsCards">
         <div class="card-header text-center text-white" style="background: rgba(0, 0, 0, 0.2) !important;"><h5>Application Scrutiny</h5></div>
         <div class="card-body">
@@ -1889,12 +1889,8 @@
               <a href="/deputysecretarylistmgone/Completed" style="background: none;"><h2>{{dashboardDataModel.JointSecretary_Completed}}</h2></a>
             </div>-->
             <div class="dashCardContent">
-              da
-              ed
               <h4>
-                da
-                LOI Issu
-                ed
+                LOI Issued
               </h4>
               <a href="/issuedloireportmgone" style="background: none;"><h2>{{dashboardDataModel.NOCIssued}}</h2></a>
             </div>
@@ -1918,6 +1914,144 @@
       </div>
     </div>-->
   </div>
+  <!--NOC  Medical Group 1 Department Start-->
+  <div class="row" *ngIf="this.sSOLoginDataModel.DepartmentID==5 &&(this.sSOLoginDataModel.RoleID==6||this.sSOLoginDataModel.RoleID==14||this.sSOLoginDataModel.RoleID==16||this.sSOLoginDataModel.RoleID==27||this.sSOLoginDataModel.RoleID==31||this.sSOLoginDataModel.RoleID==38||this.sSOLoginDataModel.RoleID==39||this.sSOLoginDataModel.RoleID==40||this.sSOLoginDataModel.RoleID==41)">
+    <div class="col-lg-9 col-md-9 col-sm-12 col-12" *ngIf="this.sSOLoginDataModel.RoleID==6||this.sSOLoginDataModel.RoleID==14">
+      <div class="card staticsCards">
+        <div class="card-header text-center text-white" style="background: rgba(0, 0, 0, 0.2) !important;"><h5>NOC Application</h5></div>
+        <div class="card-body">
+          <div class="d-flex justify-content-between">
+            <div class="dashCardContent text-start">
+              <h4>Pending</h4>
+              <h2>
+                <a href="/mgonenocapplicationlist" style="background: none;">{{dashboardDataModel.MG_NOC_Pending}}</a>
+              </h2>
+            </div>
+            <div class="dashCardContent">
+              <h4>Forwarded By Committee</h4>
+              <a href="/mgonenocapplicationlist" style="background: none;"><h2>{{dashboardDataModel.MG_NOC_ForwardCommittee}}</h2></a>
+            </div>
+            <div class="dashCardContent">
+              <h4>Forwarded By OSD</h4>
+              <a href="/mgonenocapplicationlist" style="background: none;"><h2>{{dashboardDataModel.MG_NOC_ForwardOSD}}</h2></a>
+            </div>
+            <div class="dashCardContent">
+              <h4>Forwarded By Dealing Officer</h4>
+              <a href="/mgonenocapplicationlist" style="background: none;"><h2>{{dashboardDataModel.MG_NOC_ForwardDealing}}</h2></a>
+            </div>
+            <div class="dashCardContent">
+              <h4>Revert By PS</h4>
+              <a href="/mgonenocapplicationlist" style="background: none;"><h2>{{dashboardDataModel.MG_NOC_RevertedPS}}</h2></a>
+            </div>
+            <div class="dashCardContent">
+              <h4>Rejected</h4>
+              <a href="/mgonenoccompleteapplicationlist/Rejected" style="background: none;"><h2>{{dashboardDataModel.MG_NOC_Rejected}}</h2></a>
+            </div>
+            <div class="dashCardContent">
+              <h4>Completed</h4>
+              <a href="/mgonenoccompleteapplicationlist" style="background: none;"><h2>{{dashboardDataModel.MG_NOC_Completed}}</h2></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-6 col-md-6 col-sm-12 col-12" *ngIf="this.sSOLoginDataModel.RoleID==27">
+      <div class="card staticsCards">
+        <div class="card-header text-center text-white" style="background: rgba(0, 0, 0, 0.2) !important;"><h5>NOC Application</h5></div>
+        <div class="card-body">
+          <div class="d-flex justify-content-between">
+            <div class="dashCardContent text-start">
+              <h4>Pending</h4>
+              <h2>
+                <a href="/mgonenocapplicationlist" style="background: none;">{{dashboardDataModel.MG_NOC_Pending}}</a>
+              </h2>
+            </div>
+            <div class="dashCardContent">
+              <h4>Forwarded by JS/DS</h4>
+              <a href="/mgonenocapplicationlist" style="background: none;"><h2>{{dashboardDataModel.MG_NOC_Forwardjs_ds}}</h2></a>
+            </div>
+            <div class="dashCardContent">
+              <h4>Reverted by Minister</h4>
+              <a href="/mgonenocapplicationlist" style="background: none;"><h2>{{dashboardDataModel.MG_NOC_RevertMinister}}</h2></a>
+            </div>
+            <div class="dashCardContent">
+              <h4>Completed</h4>
+              <a href="/mgonenoccompleteapplicationlist" style="background: none;"><h2>{{dashboardDataModel.MG_NOC_Completed}}</h2></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-4 col-md-4 col-sm-9 col-12" *ngIf="this.sSOLoginDataModel.RoleID==40">
+      <div class="card staticsCards">
+        <div class="card-header text-center text-white" style="background: rgba(0, 0, 0, 0.2) !important;"><h5>NOC Application</h5></div>
+        <div class="card-body">
+          <div class="d-flex justify-content-between">
+            <div class="dashCardContent text-start">
+              <h4>Pending</h4>
+              <h2>
+                <a href="/mgonenocapplicationlist" style="background: none;">{{dashboardDataModel.MG_NOC_Pending}}</a>
+              </h2>
+            </div>
+            <div class="dashCardContent">
+              <h4>Revert</h4>
+              <h2>
+                <a href="/mgonenocapplicationlist" style="background: none;">{{dashboardDataModel.MG_NOC_RevertCM}}</a>
+              </h2>
+            </div>
+            <div class="dashCardContent">
+              <h4>Completed</h4>
+              <a href="/mgonenoccompleteapplicationlist" style="background: none;"><h2>{{dashboardDataModel.MG_NOC_Completed}}</h2></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-3 col-md-3 col-sm-6 col-12" *ngIf="this.sSOLoginDataModel.RoleID!=6&&this.sSOLoginDataModel.RoleID!=14&&this.sSOLoginDataModel.RoleID!=27&&this.sSOLoginDataModel.RoleID!=40">
+      <div class="card staticsCards">
+        <div class="card-header text-center text-white" style="background: rgba(0, 0, 0, 0.2) !important;"><h5>NOC Application</h5></div>
+        <div class="card-body">
+          <div class="d-flex justify-content-between">
+            <div class="dashCardContent text-start">
+              <h4>Pending</h4>
+              <h2>
+                <a href="/mgonenocapplicationlist" style="background: none;">{{dashboardDataModel.MG_NOC_Pending}}</a>
+              </h2>
+            </div>
+            <div class="dashCardContent">
+              <h4>Completed</h4>
+              <a href="/mgonenoccompleteapplicationlist" style="background: none;"><h2>{{dashboardDataModel.MG_NOC_Completed}}</h2></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-3 col-md-3 col-sm-6 col-12" *ngIf="this.sSOLoginDataModel.RoleID==6||this.sSOLoginDataModel.RoleID==14||this.sSOLoginDataModel.RoleID==39">
+      <div class="card staticsCards">
+        <div class="card-header text-center text-white" style="background: rgba(0, 0, 0, 0.2) !important;"><h5>NOC Essentiality Certifcate</h5></div>
+        <div class="card-body">
+          <div class="d-flex justify-content-between">
+            <div class="dashCardContent text-start">
+              <h4>Pending</h4>
+              <h2>
+                <a href="/mgonenocapplicationlist" style="background: none;">{{dashboardDataModel.MG_NOCESC_Pending}}</a>
+              </h2>
+            </div>
+            <div class="dashCardContent">
+              <h4>Completed</h4>
+              <a href="/mgonenoccompleteapplicationlist" style="background: none;"><h2>{{dashboardDataModel.MG_NOCESC_Completed}}</h2></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <!--End NOC  Medical Group 1 Department-->
   <!--End Medical Group 1 Department-->
   <!--Department of technical Education Start-->
 
