@@ -31,6 +31,7 @@ export class DocumentScrutinyFacilityComponentDce implements OnInit {
   public isFormvalid: boolean = true;
   public isRemarkValid: boolean = false;
   public FacilitiesDataAllList: FacilityDetailsDataModel[] = [];
+  public FacilitiesDataHistory: FacilityDetailsDataModel[] = [];
   public FinalRemarks: any = [];
   public isDisabledAction: boolean = false;
   constructor(private dcedocumentscrutiny: DocumentScrutinyComponent, private facilityDetailsService: FacilityDetailsService, private commonMasterService: CommonMasterService, private dcedocumentScrutinyService: DCEDocumentScrutinyService,
@@ -186,5 +187,24 @@ export class DocumentScrutinyFacilityComponentDce implements OnInit {
   }
   ViewTaril(ID: number, ActionType: string) {
     this.dcedocumentscrutiny.ViewTarilCommon(ID, ActionType);
+  }
+  async GetFacilityDetailHistory(ID:number) {
+    try {
+      this.loaderService.requestStarted();
+      await this.commonMasterService.GetDocumentScrutiny_History(ID,'Facility')
+        .then((data: any) => {
+
+          data = JSON.parse(JSON.stringify(data));
+          this.FacilitiesDataHistory = data['Data'][0];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
   }
 }
