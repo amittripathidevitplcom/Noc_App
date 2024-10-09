@@ -58,6 +58,7 @@ export class NOCIssuedForDataModel {
   public Remark: string = '';
   public NoOfIssuedYear: number = 0;
   public NOCFormat?: string = '';
+  public ChangeIntoTNOC?: boolean=false;
 }
 export class NOCIssuedRequestDataModel {
   public NOCDetails: GenerateNOC_DataModel[] = [];

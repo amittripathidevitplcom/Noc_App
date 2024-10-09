@@ -858,24 +858,25 @@ export class CheckListSecretaryDCEComponent implements OnInit {
         return;
       }
       this.loaderService.requestStarted();
-
-      await this.applyNOCApplicationService.DocumentScrutiny(this.sSOLoginDataModel.RoleID, this.sSOLoginDataModel.UserID, this.ActionID, this.SelectedApplyNOCID, this.SelectedDepartmentID, this.CheckFinalRemark, this.NextRoleID, this.NextUserID, this.NextActionID)
-        .then((data: any) => {
-          data = JSON.parse(JSON.stringify(data));
-          this.State = data['State'];
-          this.SuccessMessage = data['SuccessMessage'];
-          this.ErrorMessage = data['ErrorMessage'];
-          if (this.State == 0) {
-            this.toastr.success(this.SuccessMessage);
-            this.routers.navigate(['/dceapplicationlist/Pending']);
-          }
-          else if (this.State == 2) {
-            this.toastr.warning(this.ErrorMessage)
-          }
-          else {
-            this.toastr.error(this.ErrorMessage)
-          }
-        }, error => console.error(error));
+      if (confirm("Are you sure you want to submit?")) {
+        await this.applyNOCApplicationService.DocumentScrutiny(this.sSOLoginDataModel.RoleID, this.sSOLoginDataModel.UserID, this.ActionID, this.SelectedApplyNOCID, this.SelectedDepartmentID, this.CheckFinalRemark, this.NextRoleID, this.NextUserID, this.NextActionID)
+          .then((data: any) => {
+            data = JSON.parse(JSON.stringify(data));
+            this.State = data['State'];
+            this.SuccessMessage = data['SuccessMessage'];
+            this.ErrorMessage = data['ErrorMessage'];
+            if (this.State == 0) {
+              this.toastr.success(this.SuccessMessage);
+              this.routers.navigate(['/dceapplicationlist/Pending']);
+            }
+            else if (this.State == 2) {
+              this.toastr.warning(this.ErrorMessage)
+            }
+            else {
+              this.toastr.error(this.ErrorMessage)
+            }
+          }, error => console.error(error));
+      }
     }
     catch (Ex) {
       console.log(Ex);
@@ -900,8 +901,8 @@ export class CheckListSecretaryDCEComponent implements OnInit {
 
             if (this.UserRoleList.length > 0) {
               this.UserRoleList = this.UserRoleList.filter((x: { RoleID: number; }) => x.RoleID != 1);
-              this.NextRoleID = this.UserRoleList[0]['RoleID'];
-              await this.NextGetUserDetailsByRoleID();
+              //this.NextRoleID = this.UserRoleList[0]['RoleID'];
+              //await this.NextGetUserDetailsByRoleID();
             }
           }
         })

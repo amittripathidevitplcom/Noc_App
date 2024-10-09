@@ -627,28 +627,84 @@ export class InspectionCommitteePhysicalVerificationDCEComponent implements OnIn
         this.toastr.warning('First of all, check and complete all the tabs of document scrutiny and then submit the application.');
         return;
       }
+      if (confirm("Are you sure you want to submit?")) {
+        await this.applyNOCApplicationService.SaveCommiteeInspectionRNCCheckList(this.request).then((data: any) => {
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+        });
+        await this.dceDocumentScrutinyService.FinalSubmitInspectionCommittee(this.ApplicationCommitteeList[0].ApplyNocApplicationID, this.sSOLoginDataModel.UserID)
+          .then((data: any) => {
+            data = JSON.parse(JSON.stringify(data));
+            this.State = data['State'];
+            this.SuccessMessage = data['SuccessMessage'];
+            this.ErrorMessage = data['ErrorMessage'];
+            if (this.State == 0) {
+              this.toastr.success(this.SuccessMessage);
+              window.location.reload();
+            }
+            else if (this.State == 1) {
+              this.toastr.error(this.ErrorMessage)
+            }
+            else if (this.State == 2) {
+              this.toastr.warning(this.ErrorMessage)
+            }
+          }, error => console.error(error));
+      }
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+  async SavePhysicalVerification() {
+    this.request = [];
+    try {
+      for (var i = 0; i < this.FinalCheckListData.length; i++) {
+        if (this.FinalCheckListData[i].IsChecked == '2') {
+          if (this.FinalCheckListData[i].Remark == '' || this.FinalCheckListData[i].Remark == undefined) {
+            this.toastr.warning('Please enter remark');
+            return
+          }
+        }
+        if (this.FinalCheckListData[i].IsChecked == '' || this.FinalCheckListData[i].IsChecked == undefined) {
+          this.toastr.warning('Please check all checklist');
+          return
+        }
+        this.request.push({
+          ApplyNOCID: this.FinalSubmitApplyNOCID,
+          RNCCheckListID: this.FinalCheckListData[i].RNCCheckListID,
+          CreatedBy: this.sSOLoginDataModel.UserID,
+          FileUploadName: "",//this.FinalCheckListData[i].FileUpload == true ? this.FinalCheckListData[i].FileUploadName :
+          IsChecked: this.FinalCheckListData[i].IsChecked,
+          Remark: this.FinalCheckListData[i].Remark,
+          FinalRemark: '',//this.FinalRemark
+          RoleID: this.sSOLoginDataModel.RoleID
+        })
+      }
+      if (!this.isTabCheckValid) {
+        this.toastr.warning('First of all, check and complete all the tabs of document scrutiny and then submit the application.');
+        return;
+      }
       await this.applyNOCApplicationService.SaveCommiteeInspectionRNCCheckList(this.request).then((data: any) => {
         this.State = data['State'];
         this.SuccessMessage = data['SuccessMessage'];
         this.ErrorMessage = data['ErrorMessage'];
+        if (this.State == 0) {
+          this.toastr.success(this.SuccessMessage);
+        }
+        else if (this.State == 1) {
+          this.toastr.error(this.ErrorMessage)
+        }
+        else if (this.State == 2) {
+          this.toastr.warning(this.ErrorMessage)
+        }
       });
-      await this.dceDocumentScrutinyService.FinalSubmitInspectionCommittee(this.ApplicationCommitteeList[0].ApplyNocApplicationID, this.sSOLoginDataModel.UserID)
-        .then((data: any) => {
-          data = JSON.parse(JSON.stringify(data));
-          this.State = data['State'];
-          this.SuccessMessage = data['SuccessMessage'];
-          this.ErrorMessage = data['ErrorMessage'];
-          if (this.State == 0) {
-            this.toastr.success(this.SuccessMessage);
-            window.location.reload();
-          }
-          else if (this.State == 1) {
-            this.toastr.error(this.ErrorMessage)
-          }
-          else if (this.State == 2) {
-            this.toastr.warning(this.ErrorMessage)
-          }
-        }, error => console.error(error));
     }
     catch (Ex) {
       console.log(Ex);

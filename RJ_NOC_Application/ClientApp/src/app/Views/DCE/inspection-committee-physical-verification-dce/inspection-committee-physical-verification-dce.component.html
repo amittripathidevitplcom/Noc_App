@@ -168,7 +168,7 @@
               </div>
               <div class="row  m-2">
                 <div class="col-md-12">
-                  <button type="button" class="btn btn-primary" *ngIf="IsBtnShowHide" (click)="SaveData()" title="Submit">Submit</button>
+                  <button type="button" class="btn btn-primary" *ngIf="IsBtnShowHide" (click)="SaveData()" title="Submit">Save</button>
                 </div>
               </div>
             </div>
@@ -339,7 +339,8 @@
                   </div>
                   <div class="row  m-2">
                     <div class="col-md-12">
-                      <button *ngIf="ApplicationCommitteeList.length>0 && IsBtnShowHide" type="button" class="btn btn-primary" (click)="SubmitPhysicalVerification()" title="Submit">Submit</button>
+                      <button type="button" class="btn btn-primary" *ngIf="ApplicationCommitteeList.length>0 && IsBtnShowHide" (click)="SavePhysicalVerification()" title="Submit">Save</button>&nbsp;&nbsp;
+                      <button *ngIf="ApplicationCommitteeList.length>0 && IsBtnShowHide" type="button" class="btn btn-success" (click)="SubmitPhysicalVerification()" title="Submit">Submit</button>
                     </div>
                   </div>
                 </div>

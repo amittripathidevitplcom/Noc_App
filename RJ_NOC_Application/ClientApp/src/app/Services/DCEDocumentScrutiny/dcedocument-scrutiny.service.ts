@@ -240,7 +240,7 @@ export class DCEDocumentScrutinyService {
         'Content-Type': 'application/json'
       })
     };
-    const body = { SSOID: SSOID, Status: Status };
+    const body = { SSOID: SSOID, Status: Status,IsWeb: true };
     return await this.http.post(this.APIUrl + "/GetPhysicalVerificationAppliationList/", body, httpOptions)
       .pipe(
         catchError(this.handleErrorObservable)

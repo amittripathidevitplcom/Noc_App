@@ -330,7 +330,7 @@
                 {{request.LastSessionProofOfExaminationDoc === '' ? 'No File Choosen' : request.LastSessionProofOfExaminationDoc_DisName}}
               </label>
               <div class="btn-group" *ngIf="showLastSessionProofOfExaminationDoc">
-                <a class="btn btn-outline-primary" target="_blank" href="{{request.ResultLastSessionDocPath}}"><i class="fa fa-eye"></i></a>
+                <a class="btn btn-outline-primary" target="_blank" href="{{request.LastSessionProofOfExaminationDocPath}}"><i class="fa fa-eye"></i></a>
                 <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('LastSessionProofOfExaminationDoc',request.LastSessionProofOfExaminationDoc)"><i class="fa fa-trash-o"></i></button>
               </div>
             </div>
@@ -569,7 +569,9 @@
               <label class="form-label">Upload pending case related document(Only pdf/image file.)(Max.Size 2MB):</label>
               <div class="clearfix"></div>
               <a class="bi bi-file-earmark-pdf-fill" *ngIf="DefaulterCollegeDetailsData.PendingCaseDoc.includes('.pdf')" data-fancybox="gallery" href="{{DefaulterCollegeDetailsData.PendingCaseDocPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
-
+              <a *ngIf="!DefaulterCollegeDetailsData.PendingCaseDoc.includes('.pdf')" data-fancybox="gallery" href="{{DefaulterCollegeDetailsData.PendingCaseDocPath}}" data-caption="Image 10" title="click here to zoom">
+                <img src="{{DefaulterCollegeDetailsData.PendingCaseDocPath}}" alt="College" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+              </a>
             </div>
           </div>
           <div class="row">
@@ -577,29 +579,44 @@
               <label class="form-label">First Noc(Only pdf/image file.)(Min.Size 500KB)(Max.Size 2MB):</label>
               <div class="clearfix"></div>
               <a class="bi bi-file-earmark-pdf-fill" *ngIf="DefaulterCollegeDetailsData.FirstNOCDocPath.includes('.pdf')" data-fancybox="gallery" href="{{DefaulterCollegeDetailsData.FirstNOCDocPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+              <a *ngIf="!DefaulterCollegeDetailsData.FirstNOCDocPath.includes('.pdf')" data-fancybox="gallery" href="{{DefaulterCollegeDetailsData.FirstNOCDocPath}}" data-caption="Image 10" title="click here to zoom">
+                <img src="{{DefaulterCollegeDetailsData.FirstNOCDocPath}}" alt="College" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+              </a>
             </div>
 
             <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-3">
               <label class="form-label">Last Noc(Only pdf/image file.)(Min.Size 500KB)(Max.Size 2MB):</label>
               <div class="clearfix"></div>
+              <a *ngIf="!DefaulterCollegeDetailsData.LastNOCDocPath.includes('.pdf')" data-fancybox="gallery" href="{{DefaulterCollegeDetailsData.LastNOCDocPath}}" data-caption="Image 10" title="click here to zoom">
+                <img src="{{DefaulterCollegeDetailsData.LastNOCDocPath}}" alt="College" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+              </a>
               <a class="bi bi-file-earmark-pdf-fill" *ngIf="DefaulterCollegeDetailsData.LastNOCDocPath.includes('.pdf')" data-fancybox="gallery" href="{{DefaulterCollegeDetailsData.LastNOCDocPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
             </div>
 
             <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-3">
               <label class="form-label">Latest Affiliation of University/Proof of Latest Affiliation(Only pdf/image file.)(Min.Size 500KB)(Max.Size 2MB):</label>
               <div class="clearfix"></div>
+              <a *ngIf="!DefaulterCollegeDetailsData.LatestAffiliationDocPath.includes('.pdf')" data-fancybox="gallery" href="{{DefaulterCollegeDetailsData.LatestAffiliationDocPath}}" data-caption="Image 10" title="click here to zoom">
+                <img src="{{DefaulterCollegeDetailsData.LatestAffiliationDocPath}}" alt="College" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+              </a>
               <a class="bi bi-file-earmark-pdf-fill" *ngIf="DefaulterCollegeDetailsData.LatestAffiliationDocPath.includes('.pdf')" data-fancybox="gallery" href="{{DefaulterCollegeDetailsData.LatestAffiliationDocPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
             </div>
 
             <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-3">
               <label class="form-label">Result of session 2022-23(copy of TR of first year university result of each course running in college)(Only pdf/image file.)(Min.Size 500KB)(Max.Size 2MB):</label>
               <div class="clearfix"></div>
+              <a *ngIf="!DefaulterCollegeDetailsData.ResultLastSessionDocPath.includes('.pdf')" data-fancybox="gallery" href="{{DefaulterCollegeDetailsData.ResultLastSessionDocPath}}" data-caption="Image 10" title="click here to zoom">
+                <img src="{{DefaulterCollegeDetailsData.ResultLastSessionDocPath}}" alt="College" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+              </a>
               <a class="bi bi-file-earmark-pdf-fill" *ngIf="DefaulterCollegeDetailsData.ResultLastSessionDocPath.includes('.pdf')" data-fancybox="gallery" href="{{DefaulterCollegeDetailsData.ResultLastSessionDocPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
             </div>
 
             <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-3">
               <label class="form-label">Proof of Examinations form filled by students for session 2023-24(Only pdf/image file.)(Min.Size 500KB)(Max.Size 2MB):</label>
               <div class="clearfix"></div>
+              <a *ngIf="!DefaulterCollegeDetailsData.LastSessionProofOfExaminationDocPath.includes('.pdf')" data-fancybox="gallery" href="{{DefaulterCollegeDetailsData.LastSessionProofOfExaminationDocPath}}" data-caption="Image 10" title="click here to zoom">
+                <img src="{{DefaulterCollegeDetailsData.LastSessionProofOfExaminationDocPath}}" alt="College" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+              </a>
               <a class="bi bi-file-earmark-pdf-fill" *ngIf="DefaulterCollegeDetailsData.LastSessionProofOfExaminationDocPath.includes('.pdf')" data-fancybox="gallery" href="{{DefaulterCollegeDetailsData.LastSessionProofOfExaminationDocPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
             </div>
 

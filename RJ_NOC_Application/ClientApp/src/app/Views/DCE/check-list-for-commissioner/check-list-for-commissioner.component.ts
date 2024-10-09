@@ -866,24 +866,25 @@ export class CheckListForCommissionerComponent implements OnInit {
         }
       }
       this.loaderService.requestStarted();
-
-      await this.applyNOCApplicationService.DocumentScrutiny(this.sSOLoginDataModel.RoleID, this.sSOLoginDataModel.UserID, this.ActionID, this.SelectedApplyNOCID, this.SelectedDepartmentID, this.CheckFinalRemark, this.NextRoleID, this.NextUserID, this.NextActionID, this.UploadDocument)
-        .then((data: any) => {
-          data = JSON.parse(JSON.stringify(data));
-          this.State = data['State'];
-          this.SuccessMessage = data['SuccessMessage'];
-          this.ErrorMessage = data['ErrorMessage'];
-          if (this.State == 0) {
-            this.toastr.success(this.SuccessMessage);
-            this.routers.navigate(['/dceapplicationlist/Pending']);
-          }
-          else if (this.State == 2) {
-            this.toastr.warning(this.ErrorMessage)
-          }
-          else {
-            this.toastr.error(this.ErrorMessage)
-          }
-        }, error => console.error(error));
+      if (confirm("Are you sure you want to submit?")) {
+        await this.applyNOCApplicationService.DocumentScrutiny(this.sSOLoginDataModel.RoleID, this.sSOLoginDataModel.UserID, this.ActionID, this.SelectedApplyNOCID, this.SelectedDepartmentID, this.CheckFinalRemark, this.NextRoleID, this.NextUserID, this.NextActionID, this.UploadDocument)
+          .then((data: any) => {
+            data = JSON.parse(JSON.stringify(data));
+            this.State = data['State'];
+            this.SuccessMessage = data['SuccessMessage'];
+            this.ErrorMessage = data['ErrorMessage'];
+            if (this.State == 0) {
+              this.toastr.success(this.SuccessMessage);
+              this.routers.navigate(['/dceapplicationlist/Pending']);
+            }
+            else if (this.State == 2) {
+              this.toastr.warning(this.ErrorMessage)
+            }
+            else {
+              this.toastr.error(this.ErrorMessage)
+            }
+          }, error => console.error(error));
+      }
     }
     catch (Ex) {
       console.log(Ex);
@@ -910,8 +911,8 @@ export class CheckListForCommissionerComponent implements OnInit {
               //if (this.sSOLoginDataModel.RoleID != 11 && this.sSOLoginDataModel.RoleID != 23 && this.sSOLoginDataModel.RoleID != 20) {
                 this.UserRoleList = this.UserRoleList.filter((x: { RoleID: number; }) => x.RoleID != 1);
              // }
-              this.NextRoleID = this.UserRoleList[0]['RoleID'];
-              await this.NextGetUserDetailsByRoleID();
+              //this.NextRoleID = this.UserRoleList[0]['RoleID'];
+              //await this.NextGetUserDetailsByRoleID();
             }
           }
         })
