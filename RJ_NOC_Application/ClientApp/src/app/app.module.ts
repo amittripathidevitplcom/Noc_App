@@ -415,6 +415,12 @@ import { RevertFDRDetailsComponent } from './Views/DCE/revert-fdrdetails/revert-
 import { RevertOfflinePaymentDetailsComponent } from './Views/DCE/revert-offline-payment-details/revert-offline-payment-details.component';
 import { UnlockApplicationComponent } from './Views/Admin/unlock-application/unlock-application.component';
 import { PrevoiusYearApplicationsComponent } from './Views/Reports/prevoius-year-applications/prevoius-year-applications.component';
+import { MgoneNocapplicationListComponent } from './Views/Medical Group 1/NOC/mgone-nocapplication-list/mgone-nocapplication-list.component';
+import { NoccheckListMgoneComponent } from './Views/Medical Group 1/NOC/noccheck-list-mgone/noccheck-list-mgone.component';
+import { DentalChairsMgoneNocComponent } from './Views/Medical Group 1/NOC/dental-chairs-mgone-noc/dental-chairs-mgone-noc.component';
+import { MGOneDocumentScrutinyNodalOfficerComponent } from './Views/Medical Group 1/NOC/mgone-document-scrutiny-nodal-officer/mgone-document-scrutiny-nodal-officer.component';
+import { MgOneNocCompletedReportComponent } from './Views/Medical Group 1/NOC/mg-one-noc-completed-report/mg-one-noc-completed-report.component';
+import { GenerateOrderMGOneComponent } from './Views/Medical Group 1/NOC/generate-order-mgone/generate-order-mgone.component';
 
 
  
@@ -801,6 +807,8 @@ import { PrevoiusYearApplicationsComponent } from './Views/Reports/prevoius-year
     DistanceOtherMinorityBreakupComponent,
     WorkFlowFormat3Component,
     LOIApplicationPDFComponent,
+    ClinicalFacilityComponent,
+    PreviewClinicalFacilityComponent,
     UpdateCollegeSSOComponent,
     CollegePaymentReportComponent,
     TotalDraftEntryCollegeComponent,
@@ -825,8 +833,13 @@ import { PrevoiusYearApplicationsComponent } from './Views/Reports/prevoius-year
     RevertFDRDetailsComponent,
     RevertOfflinePaymentDetailsComponent,
     UnlockApplicationComponent,
-    PrevoiusYearApplicationsComponent
-
+    PrevoiusYearApplicationsComponent,
+    MgoneNocapplicationListComponent,
+    NoccheckListMgoneComponent,
+    DentalChairsMgoneNocComponent,
+    MGOneDocumentScrutinyNodalOfficerComponent,
+    MgOneNocCompletedReportComponent,
+    GenerateOrderMGOneComponent
   ],
   imports: [
     CommonModule,

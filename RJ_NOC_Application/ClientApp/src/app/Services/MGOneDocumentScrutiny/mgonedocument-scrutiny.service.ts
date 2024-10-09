@@ -199,4 +199,19 @@ export class MGOneDocumentScrutinyService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
+
+  public async DocumentScrutiny_FDRDetails(CollegeID: number, RoleID: number, ApplyNOCID: number) {
+    const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
+    return await this.http.get(this.APIUrl + '/DocumentScrutiny_FDRDetails/' + CollegeID + "/" + RoleID + "/" + ApplyNOCID, httpOptions)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+  public async DocumentScrutiny_PaymentDetails(CollegeID: number, RoleID: number, ApplyNOCID: number) {
+    const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
+    return await this.http.get(this.APIUrl + '/DocumentScrutiny_PaymentDetails/' + CollegeID + "/" + RoleID + "/" + ApplyNOCID, httpOptions)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
 }
