@@ -1518,4 +1518,10 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
+  public async GetDocumentScrutiny_History(ID: number, Action: string) {
+    return await this.http.get(this.APIUrl_CommonMaster + "/GetDocumentScrutiny_History/" + ID + "/" + Action)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
 }
