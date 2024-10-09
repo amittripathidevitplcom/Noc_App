@@ -191,7 +191,7 @@ export class DocumentScrutinyFacilityComponentDce implements OnInit {
   async GetFacilityDetailHistory(ID:number) {
     try {
       this.loaderService.requestStarted();
-      await this.commonMasterService.GetDocumentScrutiny_History(ID,'Facility')
+      await this.commonMasterService.GetCollegeTabData_History(ID,'Facility')
         .then((data: any) => {
 
           data = JSON.parse(JSON.stringify(data));
