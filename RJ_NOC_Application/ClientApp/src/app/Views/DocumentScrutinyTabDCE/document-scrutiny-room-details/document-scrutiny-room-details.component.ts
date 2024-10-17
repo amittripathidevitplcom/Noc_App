@@ -10,6 +10,7 @@ import { RoomDetailsDataModel_RoomDetails } from '../../../Models/RoomDetailsDat
 import { RoomDetailsService } from '../../../Services/RoomDetails/room-details.service';
 import { DCEDocumentScrutinyService } from '../../../Services/DCEDocumentScrutiny/dcedocument-scrutiny.service';
 import { DocumentScrutinyComponent } from '../../DCE/document-scrutiny/document-scrutiny.component';
+import { ModalDismissReasons, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 
 
 @Component({
@@ -33,7 +34,7 @@ export class DocumentScrutinyRoomDetailsComponentDce implements OnInit {
   public FinalRemarks: any = [];
   public QueryStringStatus: any = '';
   public isDisabledAction: boolean = false;
-  constructor(private commonMasterService: CommonMasterService, private router: ActivatedRoute, private loaderService: LoaderService, private dcedocumentScrutinyService: DCEDocumentScrutinyService,
+  constructor(private modalService: NgbModal,private commonMasterService: CommonMasterService, private router: ActivatedRoute, private loaderService: LoaderService, private dcedocumentScrutinyService: DCEDocumentScrutinyService,
     private toastr: ToastrService, private applyNOCApplicationService: ApplyNOCApplicationService, private roomDetailsService: RoomDetailsService, private dcedocumentscrutiny: DocumentScrutinyComponent) { }
 
   async ngOnInit() {
@@ -188,5 +189,42 @@ export class DocumentScrutinyRoomDetailsComponentDce implements OnInit {
   }
   ViewTaril(ID: number, ActionType: string) {
     this.dcedocumentscrutiny.ViewTarilCommon(ID, ActionType);
+  }
+
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return `with: ${reason}`;
+    }
+  }
+  closeResult: string | undefined;
+  modalReference: NgbModalRef | undefined;
+  public ClassRoomHistory: any = [];
+  async ViewClassRoomDetailHistory(content: any, ID: number) {
+    this.ClassRoomHistory = [];
+    this.modalService.open(content, { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' }).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+    try {
+      this.loaderService.requestStarted();
+      await this.commonMasterService.GetCollegeTabData_History(ID, 'ClassRoomDetails')
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.ClassRoomHistory = data['Data'][0]['data']["Table"];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
   }
 }

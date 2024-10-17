@@ -46,7 +46,7 @@
                       <td>{{item.CollegeName}}</td>
                       <td>{{item.ApplicationNo}}</td>
                       <td>{{item.ApplicationTypes}}</td>
-                      <td *ngIf="QueryStringStatus!='Revert'">
+                      <td>
                         <a *ngIf="QueryStringStatus=='Pending'" href="javascript:void(0)" title="Application Scrutiny" (click)="ApplicationScrutiny_OnClick(item.DepartmentID,item.CollegeID,item.ApplyNOCID,item.ApplicationNo)" class="btn btn-sm btn-info"><i class="fa fa-eye"></i></a>
                         &nbsp;<button type="button" class="btn btn-sm btn-primary" *ngIf="item.PVStage!='0' " title="Post Verification Details" (click)="ViewApplicationPvDetails(mymodalViewPVDetails,item.ApplyNOCID,item.DepartmentID,item.CollegeID,item.ApplicationNo)"><i class="fa fa-list"></i></button>
                         &nbsp;<button type="button" class="btn btn-sm btn-info" title="View Application trail" (click)="GetApplicationTrail(mymodal,item.ApplyNOCID)"><i class="fa fa-list"></i></button>
@@ -382,6 +382,41 @@
                 </div>
               </div>
             </div>
+            <div class="card" *ngIf="ApplyNocParameterMasterList_ChangeinWomentoCoEducation!=null">
+              <div class="card-header">
+                <b>&nbsp;Change in Women to Co-Education</b>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                    <table class="table table-responsive table-bordered">
+                      <thead>
+                        <tr>
+                          <th>Sr.No.</th>
+                          <th>Consent Management Document</th>
+                          <th>Consent Student Document</th>
+
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>1</td>
+                          <td> <a class="bi bi-file-earmark-pdf-fill" data-fancybox="gallery" href="{{ApplyNocParameterMasterList_ChangeinWomentoCoEducation.ConsentManagementDocument}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a></td>
+                          <td><a class="bi bi-file-earmark-pdf-fill" data-fancybox="gallery" href="{{ApplyNocParameterMasterList_ChangeinWomentoCoEducation.ConsentStudentDocument}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-lg-12 col-md-12 col-sm-6 col-12 mb-3">
+                    <label for="ddlParameterId">NOC Format <span style="color:red">*</span></label>
+                    <ckeditor [editor]="editor" [config]="config" (ready)="onReady($event)" [(ngModel)]="ApplyNocParameterMasterList_ChangeinWomentoCoEducation.NOCFormat"></ckeditor>
+                    <button type="submit" class="btn btn-primary" id="btnpreview15" (click)="PreviewPDF(6,ApplyNocParameterMasterList_ChangeinWomentoCoEducation.NOCFormat)" name="btnpreview15">Preview</button>
+                  </div>
+                </div>
+              </div>
+            </div>
             <div class="card" *ngIf="ApplyNocParameterMasterList_ChangeInPlaceOfCollege!=null">
               <div class="card-header">
                 <b>&nbsp;College Place Change</b>
@@ -499,7 +534,7 @@
                 <b>&nbsp;TNOC Extension Of Subject</b>
               </div>
               <div class="card-body">
-                
+
                 <div class="row mb-3">
                   <div class="col-lg-12 col-md-12 col-sm-12 col-12">
                     <label class="form-label" style="margin-right:15px">No. of Issued Year : </label>
@@ -611,7 +646,7 @@
                 </div>
               </div>
             </div>
-            
+
             <div class="col-lg-12 col-md-12 col-sm-12 col-12">
               <label>NOC Issued Remark</label>
               <textarea id="NOCIssuedRemark" class="form-control" [(ngModel)]="NOCIssuedRemark"></textarea>

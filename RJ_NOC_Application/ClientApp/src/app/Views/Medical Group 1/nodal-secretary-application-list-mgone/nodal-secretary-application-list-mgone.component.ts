@@ -50,7 +50,7 @@ export class NodalSecretaryApplicationListMGOneComponent implements OnInit {
   async GetLOIApplicationList(RoleId: number, UserID: number, Status: string) {
     try {
       let ActionName = '';
-      ActionName = Status == 'Completed' ? 'Forward' : Status == 'Pending' ? 'Forward,ReSubmit Application' : '';
+      ActionName = Status == 'Completed' ? 'Forward' : Status == 'Pending' ? 'Apply LOI,Forward,ReSubmit Application' : '';
 
       this.loaderService.requestStarted();
       await this.mg1DocumentScrutinyService.GetLOIApplicationList(RoleId, UserID, Status, ActionName)
@@ -244,7 +244,7 @@ export class NodalSecretaryApplicationListMGOneComponent implements OnInit {
     this.UserRoleList = [];
     this.loaderService.requestStarted();
     try {
-      await this.commonMasterService.GetRoleListForApporval(this.sSOLoginDataModel.RoleID, this.sSOLoginDataModel.DepartmentID)
+      await this.commonMasterService.GetRoleListForApporval(this.sSOLoginDataModel.RoleID, this.sSOLoginDataModel.DepartmentID,"LOI")
         .then(async (data: any) => {
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
@@ -328,7 +328,7 @@ export class NodalSecretaryApplicationListMGOneComponent implements OnInit {
     this.WorkFlowActionList = [];
     this.loaderService.requestStarted();
     try {
-      await this.commonMasterService.GetWorkFlowActionListByRole(this.sSOLoginDataModel.RoleID, "Current", this.sSOLoginDataModel.DepartmentID)
+      await this.commonMasterService.GetWorkFlowActionListByRole(this.sSOLoginDataModel.RoleID, "Current", this.sSOLoginDataModel.DepartmentID,'LOI')
         .then(async (data: any) => {
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];

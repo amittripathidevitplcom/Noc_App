@@ -909,7 +909,7 @@ export class CheckListForCommissionerComponent implements OnInit {
 
             if (this.UserRoleList.length > 0) {
               //if (this.sSOLoginDataModel.RoleID != 11 && this.sSOLoginDataModel.RoleID != 23 && this.sSOLoginDataModel.RoleID != 20) {
-                this.UserRoleList = this.UserRoleList.filter((x: { RoleID: number; }) => x.RoleID != 1);
+              this.UserRoleList = this.UserRoleList.filter((x: { RoleID: number; }) => x.RoleID != 1 && x.RoleID != 17);
              // }
               //this.NextRoleID = this.UserRoleList[0]['RoleID'];
               //await this.NextGetUserDetailsByRoleID();

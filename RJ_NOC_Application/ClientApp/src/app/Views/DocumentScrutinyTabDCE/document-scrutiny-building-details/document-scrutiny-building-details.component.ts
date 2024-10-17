@@ -87,7 +87,6 @@ export class DocumentScrutinyBuildingDetailsComponentDce implements OnInit {
       await this.buildingDetailsMasterService.GetByID(BuildingDetailID, 0)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));         
-          
           this.buildingdetails.SchoolBuildingDetailsID = data['Data'][0]['data']['Table'][0]["SchoolBuildingDetailsID"];
           this.buildingdetails.BuildingTypeID = data['Data'][0]['data']['Table'][0]["BuildingTypeID"];
           this.buildingdetails.BuildingTypeName = data['Data'][0]['data']['Table'][0]["BuildingTypeName"];
@@ -99,14 +98,12 @@ export class DocumentScrutinyBuildingDetailsComponentDce implements OnInit {
           this.buildingdetails.Division_English = data['Data'][0]['data']['Table'][0]["Division_English"];
           this.buildingdetails.DistrictID = data['Data'][0]['data']['Table'][0]["DistrictID"];
           this.buildingdetails.District_Eng = data['Data'][0]['data']['Table'][0]["District_Eng"];
-
-          if (this.buildingdetails.RuralUrban == 'Rural') {
-            this.buildingdetails.TehsilID = data['Data'][0]['data']['Table'][0]["TehsilID"];
-            this.buildingdetails.TehsilName = data['Data'][0]['data']['Table'][0]["TehsilName"];
-            this.buildingdetails.PanchayatSamitiID = data['Data'][0]['data']['Table'][0]["PanchayatSamitiID"];
-            this.buildingdetails.PanchyatSamitiName = data['Data'][0]['data']['Table'][0]["PanchyatSamitiName"];
-          }
+          this.buildingdetails.TehsilID = data['Data'][0]['data']['Table'][0]["TehsilID"];
+          this.buildingdetails.TehsilName = data['Data'][0]['data']['Table'][0]["TehsilName"];
+          this.buildingdetails.PanchayatSamitiID = data['Data'][0]['data']['Table'][0]["PanchayatSamitiID"];
+          this.buildingdetails.PanchyatSamitiName = data['Data'][0]['data']['Table'][0]["PanchyatSamitiName"];
           this.buildingdetails.CityTownVillage = data['Data'][0]['data']['Table'][0]["CityTownVillage"];
+          this.buildingdetails.CityName = data['Data'][0]['data']['Table'][0]["CityName"];
           this.buildingdetails.ContactNo = data['Data'][0]['data']['Table'][0]["ContactNo"];
           this.buildingdetails.Pincode = data['Data'][0]['data']['Table'][0]["Pincode"];
           this.buildingdetails.OwnBuildingOrderNo = data['Data'][0]['data']['Table'][0]["OwnBuildingOrderNo"];
@@ -151,8 +148,18 @@ export class DocumentScrutinyBuildingDetailsComponentDce implements OnInit {
           this.buildingdetails.OtherFinancialResourcesFileUploadPath = data['Data'][0]['data']['Table'][0]["OtherFinancialResourcesFileUploadPath"];
           this.buildingdetails.Dis_OtherFinancialResourcesFileUpload = data['Data'][0]['data']['Table'][0]["Dis_OtherFinancialResourcesFileUpload"];
           this.buildingdetails.BuildingHostelQuartersRoadArea = data['Data'][0]['data']['Table'][0]["BuildingHostelQuartersRoadArea"];
+          this.buildingdetails.FireNOCOrderNumber = data['Data'][0]['data']['Table'][0]["FireNOCOrderNumber"];
+
+          if (this.buildingdetails.BuildingTypeName != 'Owned') {
+            this.buildingdetails.Dis_RentAgreementFileUpload = data['Data'][0]['data']['Table'][0]["Dis_RentAgreementFileUpload"];
+            this.buildingdetails.RentAgreementFileUpload = data['Data'][0]['data']['Table'][0]["RentAgreementFileUpload"];
+            this.buildingdetails.RentAgreementFileUploadPath = data['Data'][0]['data']['Table'][0]["RentAgreementFileUploadPath"];
+
+            this.buildingdetails.Rentvaliditydate = data['Data'][0]['data']['Table'][0]["Rentvaliditydate"];
+          }
 
           this.buildingdetails.lstBuildingDocDetails = data['Data'][0]['data']['Table1'];
+          this.buildingdetails.IsApproved = data['Data'][0]['data']['Table'][0]["IsApproved"];
         }, error => console.error(error));
     }
     catch (Ex) {
@@ -291,5 +298,38 @@ export class DocumentScrutinyBuildingDetailsComponentDce implements OnInit {
   }
   ViewTaril(ID: number, ActionType: string) {
     this.dcedocumentscrutiny.ViewTarilCommon(ID, ActionType);
+  }
+
+
+  public BuildingDetailsHistory: any = [];
+  public lstBuildingDocDetailshistory: any = [];
+  async ViewBuildingDetailHistory(content: any, ID: number) {
+    this.BuildingDetailsHistory = [];
+    this.lstBuildingDocDetailshistory = [];
+    this.modalService.open(content, { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' }).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+    try {
+      this.loaderService.requestStarted();
+      await this.commonMasterService.GetCollegeTabData_History(ID, 'BuildingDetails')
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          console.log('sdfds');
+          console.log(data);
+          console.log('dfsfds');
+          this.BuildingDetailsHistory = data['Data'][0]['data']["Table"];
+          this.lstBuildingDocDetailshistory = data['Data'][0]['data']["Table1"];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
   }
 }

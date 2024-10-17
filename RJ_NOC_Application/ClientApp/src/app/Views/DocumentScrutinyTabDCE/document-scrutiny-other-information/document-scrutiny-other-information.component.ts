@@ -203,4 +203,43 @@ export class DocumentScrutinyOtherInformationComponentDce implements OnInit {
   ViewTaril(ID: number, ActionType: string) {
     this.dcedocumentscrutiny.ViewTarilCommon(ID, ActionType);
   }
+
+
+
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return `with: ${reason}`;
+    }
+  }
+  closeResult: string | undefined;
+  modalReference: NgbModalRef | undefined;
+  public OtherInformationHistory: any = [];
+  async ViewOtherInformationHistory(content: any, ID: number) {
+    this.OtherInformationHistory = [];
+    this.modalService.open(content, { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' }).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+    try {
+      this.loaderService.requestStarted();
+      await this.commonMasterService.GetCollegeTabData_History(ID, 'OtherInformation')
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.OtherInformationHistory = data['Data'][0]['data']["Table"];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
 }

@@ -923,13 +923,13 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-  public async GetRoleListForApporval(RoleID: number, DepartmentID: number) {
+  public async GetRoleListForApporval(RoleID: number, DepartmentID: number, NOCType: string = 'NOC') {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     };
-    return await this.http.get(this.APIUrl_CommonMaster + "/GetRoleListForApporval/" + RoleID + "/" + DepartmentID)
+    return await this.http.get(this.APIUrl_CommonMaster + "/GetRoleListForApporval/" + RoleID + "/" + DepartmentID + "/" + NOCType)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();
@@ -945,13 +945,14 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-  public async GetWorkFlowActionListByRole(RoleID: number, Type: string, DepartmentID: number) {
+  public async GetWorkFlowActionListByRole(RoleID: number, Type: string, DepartmentID: number, NOCType: string = 'NOC') {
+    debugger;
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     };
-    return await this.http.get(this.APIUrl_CommonMaster + "/GetWorkFlowActionListByRole/" + RoleID + "/" + Type + "/" + DepartmentID)
+    return await this.http.get(this.APIUrl_CommonMaster + "/GetWorkFlowActionListByRole/" + RoleID + "/" + Type + "/" + DepartmentID + "/" + NOCType)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();
@@ -1518,8 +1519,8 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-  public async GetCollegeTabData_History(ID: number, Action: string) {
-    return await this.http.get(this.APIUrl_CommonMaster + "/GetCollegeTabData_History/" + ID + "/" + Action)
+  public async GetCollegeTabData_History(ID: number, Type: string) {
+    return await this.http.get(this.APIUrl_CommonMaster + "/GetCollegeTabData_History/" + ID + "/" + Type)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();

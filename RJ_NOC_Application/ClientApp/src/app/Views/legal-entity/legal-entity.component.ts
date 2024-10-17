@@ -209,6 +209,7 @@ export class LegalEntityComponent implements OnInit {
           txtRegisteredActName: ['']
 
         });
+      this.EnableDisableControls(true);
       this.legalentityAddMemberForm = this.formBuilder.group(
         {
 
@@ -285,6 +286,7 @@ export class LegalEntityComponent implements OnInit {
           this.IsDepartmentShowHide = false;
           this.isRegisterNoBox = false;
           this.isDisabled = true;
+          this.EnableDisableControls(false);
           this.request.LegalEntityID = data['Data'][0]['data']['Table']['0']['LegalEntityID'];
           if (data['Data'][0]['data']['Table']['0']['IsLegalEntity'] == 'Society') {
             this.request.IsLegalEntity = '1';
@@ -917,6 +919,7 @@ export class LegalEntityComponent implements OnInit {
       this.ShowNewRegistrationButton = false;
       this.isSocietyList = false;
       this.isDisabled = false;
+      this.EnableDisableControls(true);
       return;
     }
     try {
@@ -951,6 +954,7 @@ export class LegalEntityComponent implements OnInit {
               if (display) display.style.display = "block";
               this.isSocietyList = false;
               this.isDisabled = false;
+              this.EnableDisableControls(true);
               return;
             }
             this.memberdetails.MemberMobileNo = this.ScoietyData.PresidentMobileNo;
@@ -982,6 +986,7 @@ export class LegalEntityComponent implements OnInit {
             if (display) display.style.display = "block";
             this.isSocietyList = false;
             this.isDisabled = false;
+            this.EnableDisableControls(true);
           }
         }, error => console.error(error));
     }
@@ -1037,6 +1042,7 @@ export class LegalEntityComponent implements OnInit {
       this.isSocietyList = false;
       this.ScoietyData = {};
       this.isDisabled = false;
+      this.EnableDisableControls(true);
       this.issaveCancelBtn = false;
       this.isSocietyNewReg = false;
       this.isDisabledNewRegistration = false;
@@ -1070,6 +1076,7 @@ export class LegalEntityComponent implements OnInit {
       this.isSocietyList = false;
       this.ScoietyData = {};
       this.isDisabled = false;
+      this.EnableDisableControls(true);
       this.issaveCancelBtn = false;
       this.isSocietyNewReg = false;
       this.isDisabledNewRegistration = false;
@@ -1229,11 +1236,13 @@ export class LegalEntityComponent implements OnInit {
                 this.toastr.warning(this.ErrorMessage);
                 this.isSocietyList = false;
                 this.isDisabled = false;
+                this.EnableDisableControls(true);
                 return;
               }
             }, error => console.error(error));
           this.isSocietyList = true;
           this.isDisabled = true;
+          this.EnableDisableControls(false);
           const display = document.getElementById('ModalOtpVerify');
           if (display) display.style.display = 'none';
         }
@@ -1247,6 +1256,7 @@ export class LegalEntityComponent implements OnInit {
                 this.toastr.warning(this.ErrorMessage);
                 this.isSocietyList = false;
                 this.isDisabled = false;
+                this.EnableDisableControls(true);
                 this.isFormsFill = false;
                 this.issaveCancelBtn = false;
                 this.isSocietyNewReg = false;
@@ -1257,6 +1267,7 @@ export class LegalEntityComponent implements OnInit {
           this.ScoietyData = []
           this.isSocietyList = false;
           this.isDisabled = false;
+          this.EnableDisableControls(true);
           const ModelOTP = document.getElementById('ModalOtpVerify');
           if (ModelOTP) ModelOTP.style.display = 'none';
           const ModelWarning = document.getElementById('NotRegistered');
@@ -1304,7 +1315,7 @@ export class LegalEntityComponent implements OnInit {
   }
 
 
-  VerifyOTP12() {
+  async VerifyOTP12() {
     try {
       this.loaderService.requestStarted();
       this.isUserOTP = false;
@@ -1314,13 +1325,9 @@ export class LegalEntityComponent implements OnInit {
         return;
       }
 
-
-
-
-
-
       if (this.UserOTP == this.OTP || this.CustomOTP == this.UserOTP) {
         if (this.OldRegistrationNo != '') {
+          debugger;
           this.legalEntityService.CheckDuplicateRegNo(this.request.LegalEntityID, this.OldRegistrationNo, 'A')
             .then((data: any) => {
               this.State = data['State'];
@@ -1330,15 +1337,18 @@ export class LegalEntityComponent implements OnInit {
                 this.toastr.warning(this.ErrorMessage);
                 this.isSocietyList = false;
                 this.isDisabled = false;
+                this.EnableDisableControls(true);
                 return;
               }
             }, error => console.error(error));
           this.isSocietyList = true;
           this.isDisabled = true;
+           this.EnableDisableControls(false);
           const display = document.getElementById('ModalOtpVerify');
           if (display) display.style.display = 'none';
         }
         else {
+          debugger;
           this.legalEntityService.CheckDuplicateRegNo(this.request.LegalEntityID, this.request.RegistrationNo, this.request.PresidentAadhaarNumber)
             .then((data: any) => {
               this.State = data['State'];
@@ -1348,6 +1358,7 @@ export class LegalEntityComponent implements OnInit {
                 this.toastr.warning(this.ErrorMessage);
                 this.isSocietyList = false;
                 this.isDisabled = false;
+                this.EnableDisableControls(true);
                 this.isFormsFill = false;
                 this.issaveCancelBtn = false;
                 this.isSocietyNewReg = false;
@@ -1358,6 +1369,7 @@ export class LegalEntityComponent implements OnInit {
           this.ScoietyData = []
           this.isSocietyList = false;
           this.isDisabled = false;
+          this.EnableDisableControls(false);
           const ModelOTP = document.getElementById('ModalOtpVerify');
           if (ModelOTP) ModelOTP.style.display = 'none';
           const ModelWarning = document.getElementById('NotRegistered');
@@ -2079,6 +2091,7 @@ export class LegalEntityComponent implements OnInit {
       this.isSocietyList = false;
       this.ScoietyData = {};
       this.isDisabled = false;
+      this.EnableDisableControls(true);
       this.issaveCancelBtn = false;
       this.isSocietyNewReg = false;
       this.isDisabledNewRegistration = false;
@@ -2230,6 +2243,24 @@ export class LegalEntityComponent implements OnInit {
       setTimeout(() => {
         this.loaderService.requestEnded();
       }, 200);
+    }
+  }
+
+
+  async EnableDisableControls(EnableDisable: boolean) {
+    if (EnableDisable) {
+      this.legalentityForm.get('ddlRegistrationState')?.enable();
+      this.legalentityForm.get('ddlRegistrationDistrict')?.enable();
+      this.legalentityForm.get('OldRegistrationNo')?.enable();
+      this.legalentityForm.get('txtNewRegistration')?.enable();
+      this.legalentityForm.get('txtPreMobileNumber')?.enable();
+    }
+    else {
+      this.legalentityForm.get('ddlRegistrationState')?.disable();
+      this.legalentityForm.get('ddlRegistrationDistrict')?.disable();
+      this.legalentityForm.get('OldRegistrationNo')?.disable();
+      this.legalentityForm.get('txtNewRegistration')?.disable();
+      this.legalentityForm.get('txtPreMobileNumber')?.disable();
     }
   }
 }

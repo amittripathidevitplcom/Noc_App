@@ -99,6 +99,7 @@ export class JDACCEApplicationListDCEComponent implements OnInit {
   public ApplyNocParameterMasterList_NewCourseSubject: any = [];
   public ApplyNocParameterMasterList_ChangeInCollegeManagement: any = null;
   public ApplyNocParameterMasterList_ChangeInNameOfCollege: any = null;
+  public ApplyNocParameterMasterList_ChangeinWomentoCoEducation: any = null;
   public ApplyNocParameterMasterList_ChangeInPlaceOfCollege: any = null;
   public ApplyNocParameterMasterList_PNOCOfSubject: any = null;
   public editor: any = ClassicEditor;
@@ -409,6 +410,7 @@ export class JDACCEApplicationListDCEComponent implements OnInit {
     this.ApplyNocParameterMasterList_NewCourseSubject = [];
     this.ApplyNocParameterMasterList_ChangeInCollegeManagement = null;
     this.ApplyNocParameterMasterList_ChangeInNameOfCollege = null;
+    this.ApplyNocParameterMasterList_ChangeinWomentoCoEducation = null;
     this.ApplyNocParameterMasterList_ChangeInPlaceOfCollege = null;
     await this.GetAppliedParameterNOCForByApplyNOCID(ApplyNOCID);
     this.modalService.open(content, { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' }).result.then((result) => {
@@ -445,7 +447,7 @@ export class JDACCEApplicationListDCEComponent implements OnInit {
             NoOfIssuedYear: i.ParameterCode == 'DEC_PNOCSubject' ? this.PNOCIssuedYear: this.IssuedYear,
             ChangeIntoTNOC: this.ChangeIntoTNOC,
             NOCFormat: i.ParameterCode == 'DEC_NewCourse' ? this.NewCourseNOCFormat : i.ParameterCode == 'DEC_TNOCExtOfSubject' ? this.TNOCExtOfSubjectNOCFormat : i.ParameterCode == 'DEC_NewSubject' ? this.NewSubjectNOCFormat
-              : i.ParameterCode == 'DEC_PNOCSubject' && !this.ChangeIntoTNOC ? this.PNOCOfSubjectNOCFormat : i.ParameterCode == 'DEC_PNOCSubject' && this.ChangeIntoTNOC ? this.ChangePNOCintoTNOCNOCFormat : i.ParameterCode == 'DEC_ChangeManagement' ? this.ApplyNocParameterMasterList_ChangeInCollegeManagement.NOCFormat : i.ParameterCode == 'DEC_ChangeName' ? this.ApplyNocParameterMasterList_ChangeInNameOfCollege.NOCFormat : i.ParameterCode == 'DEC_ChangePlace' ? this.ApplyNocParameterMasterList_ChangeInPlaceOfCollege.NOCFormat : ''
+              : i.ParameterCode == 'DEC_PNOCSubject' && !this.ChangeIntoTNOC ? this.PNOCOfSubjectNOCFormat : i.ParameterCode == 'DEC_PNOCSubject' && this.ChangeIntoTNOC ? this.ChangePNOCintoTNOCNOCFormat : i.ParameterCode == 'DEC_ChangeManagement' ? this.ApplyNocParameterMasterList_ChangeInCollegeManagement.NOCFormat : i.ParameterCode == 'DEC_ChangeName' ? this.ApplyNocParameterMasterList_ChangeInNameOfCollege.NOCFormat : i.ParameterCode == 'DEC_ChangePlace' ? this.ApplyNocParameterMasterList_ChangeInPlaceOfCollege.NOCFormat : i.ParameterCode == 'DEC_GilsToCoed' ? this.ApplyNocParameterMasterList_ChangeinWomentoCoEducation .NOCFormat : ''
           });
         }
       });
@@ -700,6 +702,10 @@ export class JDACCEApplicationListDCEComponent implements OnInit {
                   this.ApplyNocParameterMasterList_ChangeInPlaceOfCollege = data['Data']['ChangeInPlaceOfCollegeList'][0];
                   this.ApplyNocParameterMasterList_ChangeInPlaceOfCollege.NOCFormat = this.ApplyNocParameterMasterList.find((x: { ParameterCode: string }) => x.ParameterCode == 'DEC_ChangePlace')?.NOCFormat;
                 }
+                else if (ParameterCode == 'DEC_GilsToCoed') {
+                  this.ApplyNocParameterMasterList_ChangeinWomentoCoEducation = data['Data']['ChangeInGirlstoCoedList'][0];
+                  this.ApplyNocParameterMasterList_ChangeinWomentoCoEducation.NOCFormat = this.ApplyNocParameterMasterList.find((x: { ParameterCode: string }) => x.ParameterCode == 'DEC_GilsToCoed')?.NOCFormat;
+                }
               }
               else {
                 if (ParameterCode == 'DEC_ChangeManagement') {
@@ -710,6 +716,9 @@ export class JDACCEApplicationListDCEComponent implements OnInit {
                 }
                 else if (ParameterCode == 'DEC_ChangePlace') {
                   this.ApplyNocParameterMasterList_ChangeInPlaceOfCollege = null;
+                }
+                else if (ParameterCode == 'DEC_GilsToCoed') {
+                  this.ApplyNocParameterMasterList_ChangeinWomentoCoEducation = null;
                 }
               }
             }, error => console.error(error));
@@ -733,6 +742,9 @@ export class JDACCEApplicationListDCEComponent implements OnInit {
         }
         else if (ParameterCode == 'DEC_ChangePlace') {
           this.ApplyNocParameterMasterList_ChangeInPlaceOfCollege = null;
+        }
+        else if (ParameterCode == 'DEC_GilsToCoed') {
+          this.ApplyNocParameterMasterList_ChangeinWomentoCoEducation = null;
         }
         else if (ParameterCode == 'DEC_PNOCSubject') {
           this.ApplyNocParameterMasterList_PNOCOfSubject = [];

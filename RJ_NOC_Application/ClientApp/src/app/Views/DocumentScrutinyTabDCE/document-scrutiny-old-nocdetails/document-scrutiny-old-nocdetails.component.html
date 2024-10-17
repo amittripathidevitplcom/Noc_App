@@ -72,6 +72,7 @@
                     <td>{{idx+1}}</td>
                     <td>
                       <button type="button" class="btn btn-sm btn-info" title="View" (click)="ViewOldNOCDetail(mymodal,item.OldNocID)"><i class="fa fa-eye"></i></button>
+                      <!--<button type="button" class="btn btn-sm btn-primary" title="View History" (click)="ViewOldNOCDetailHistory(oldnochistorymymodal,item.OldNocID)"><i class="fa fa-history"></i></button>-->
                     </td>
                     <td>{{item.CourseName}}</td>
                     <td>{{item.NOCTypeName}}</td>
@@ -143,74 +144,167 @@
           <button class="btn btn-primary" type="button" (click)="SubmitOldNOCDetails_Onclick()">Submit</button>
         </div>
       </div>
+    </div>
+    <ng-template #mymodal let-modal>
+      <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title" style="font-size: 17px; font-weight: 600 !important;">Old NOC Details</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+          <i class="fa fa-close"></i>
+        </button>
       </div>
-      <ng-template #mymodal let-modal>
-        <div class="modal-header">
-          <h4 class="modal-title" id="modal-basic-title" style="font-size: 17px; font-weight: 600 !important;">Old NOC Details</h4>
-          <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-            <i class="fa fa-close"></i>
-          </button>
+      <div class="modal-body">
+        <div class="row">
+
+          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+            <label><b>College Name :</b></label>
+            <input class="form-control disabled" disabled value="{{request.CollegeName}}" />
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+            <label><b>Course :</b></label>
+            <input class="form-control disabled" disabled value="{{request.CourseName}}" />
+          </div>
+
+          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+            <label><b>Subject :</b></label>
+            <div class="clearfix"></div>
+            <div class="form-control disabled">
+              <span *ngFor="let item of request.SubjectData let idx=index">
+                {{idx==0?'':', '}}{{item.SubjectName}}
+              </span>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+            <label><b>NOC Type :</b></label>
+            <input class="form-control disabled" disabled value="{{request.NOCTypeName}}" />
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+            <label><b> Session Year :</b></label>
+            <input class="form-control disabled" disabled value="{{request.FinancialYearName}}" />
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+            <label><b>Issued for Year :</b></label>
+            <input class="form-control disabled" disabled value="{{request.IssuedYear}}" />
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+            <label><b>NOC Number :</b></label>
+            <input class="form-control disabled" disabled value="{{request.NOCNumber}}" />
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+            <label><b> NOC Received On :</b></label>
+            <input class="form-control disabled" disabled value="{{request.NOCReceivedDate}}" />
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="request.NOCTypeName=='TNOC'">
+            <label><b>NOC Expire Date :</b></label>
+            <input class="form-control disabled" disabled value="{{request.NOCExpireDate}}" />
+          </div>
+
+          <div class="col-lg-12 col-md-12 col-sm-12 col-12 mb-3">
+            <label><b>Remark :</b></label>
+            <input class="form-control disabled" disabled value="{{request.Remark}}" />
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+            <label><b>Upload NOC :</b></label>
+            <a *ngIf="!request.UploadNOCDocPath.includes('.pdf')" data-fancybox="gallery" href="{{request.UploadNOCDocPath}}" data-caption="Image 10" title="click here to zoom">
+              <img src="{{request.UploadNOCDocPath}}" alt="NOC Document" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+            </a>
+            <a class="bi bi-file-earmark-pdf-fill" *ngIf="request.UploadNOCDocPath.includes('.pdf')" data-fancybox="gallery" href="{{request.UploadNOCDocPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+          </div>
         </div>
-        <div class="modal-body">
-          <div class="row">
+      </div>
+    </ng-template>
 
-            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-              <label><b>College Name :</b></label>
-              <input class="form-control disabled" disabled value="{{request.CollegeName}}" />
-            </div>
-            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-              <label><b>Course :</b></label>
-              <input class="form-control disabled" disabled value="{{request.CourseName}}" />
-            </div>
 
-            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-              <label><b>Subject :</b></label>
-              <div class="clearfix"></div>
-              <div class="form-control disabled">
-                <span *ngFor="let item of request.SubjectData let idx=index">
-                  {{idx==0?'':', '}}{{item.SubjectName}}
-                </span>
-              </div>
-            </div>
-            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-              <label><b>NOC Type :</b></label>
-              <input class="form-control disabled" disabled value="{{request.NOCTypeName}}" />
-            </div>
-            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-              <label><b> Session Year :</b></label>
-              <input class="form-control disabled" disabled value="{{request.FinancialYearName}}" />
-            </div>
-            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-              <label><b>Issued for Year :</b></label>
-              <input class="form-control disabled" disabled value="{{request.IssuedYear}}" />
-            </div>
-            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-              <label><b>NOC Number :</b></label>
-              <input class="form-control disabled" disabled value="{{request.NOCNumber}}" />
-            </div>
-            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-              <label><b> NOC Received On :</b></label>
-              <input class="form-control disabled" disabled value="{{request.NOCReceivedDate}}" />
-            </div>
-            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="request.NOCTypeName=='TNOC'">
-              <label><b>NOC Expire Date :</b></label>
-              <input class="form-control disabled" disabled value="{{request.NOCExpireDate}}" />
-            </div>
+    <ng-template #oldnochistorymymodal let-modal>
+      <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title" style="font-size: 17px; font-weight: 600 !important;">Old NOC Details</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+          <i class="fa fa-close"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-12">
+            <div class="table-responsive">
+              <table class="table table-bordered table-hover">
+                <tbody *ngFor="let item of OldNOCHistory ; let indexOfelement=index;">
+                  <tr>
+                    <td>
+                      <b>Modify On : </b><b>{{item.ModifyDate}}</b>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="row">
 
-            <div class="col-lg-12 col-md-12 col-sm-12 col-12 mb-3">
-              <label><b>Remark :</b></label>
-              <input class="form-control disabled" disabled value="{{request.Remark}}" />
-            </div>
-            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-              <label><b>Upload NOC :</b></label>
-              <a *ngIf="!request.UploadNOCDocPath.includes('.pdf')" data-fancybox="gallery" href="{{request.UploadNOCDocPath}}" data-caption="Image 10" title="click here to zoom">
-                <img src="{{request.UploadNOCDocPath}}" alt="NOC Document" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
-              </a>
-              <a class="bi bi-file-earmark-pdf-fill" *ngIf="request.UploadNOCDocPath.includes('.pdf')" data-fancybox="gallery" href="{{request.UploadNOCDocPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                        <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                          <label><b>College Name :</b></label>
+                          <input class="form-control disabled" disabled value="{{item.CollegeName}}" />
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                          <label><b>Course :</b></label>
+                          <input class="form-control disabled" disabled value="{{item.CourseName}}" />
+                        </div>
+
+                        <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                          <label><b>Subject :</b></label>
+                          <div class="clearfix"></div>
+                          <div class="form-control disabled">
+                            {{item.SubjectName}}
+                          </div>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                          <label><b>NOC Type :</b></label>
+                          <input class="form-control disabled" disabled value="{{item.NOCTypeName}}" />
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                          <label><b> Session Year :</b></label>
+                          <input class="form-control disabled" disabled value="{{item.FinancialYearName}}" />
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                          <label><b>Issued for Year :</b></label>
+                          <input class="form-control disabled" disabled value="{{item.IssuedYear}}" />
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                          <label><b>NOC Number :</b></label>
+                          <input class="form-control disabled" disabled value="{{item.NOCNumber}}" />
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                          <label><b> NOC Received On :</b></label>
+                          <input class="form-control disabled" disabled value="{{item.NOCReceivedDate}}" />
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="item.NOCTypeName=='TNOC'">
+                          <label><b>NOC Expire Date :</b></label>
+                          <input class="form-control disabled" disabled value="{{item.NOCExpireDate}}" />
+                        </div>
+
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-12 mb-3">
+                          <label><b>Remark :</b></label>
+                          <input class="form-control disabled" disabled value="{{item.Remark}}" />
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                          <label><b>Upload NOC :</b></label>
+                          <a *ngIf="!item.UploadNOCDocPath.includes('.pdf')" data-fancybox="gallery" href="{{item.UploadNOCDocPath}}" data-caption="Image 10" title="click here to zoom">
+                            <img src="{{item.UploadNOCDocPath}}" alt="NOC Document" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                          </a>
+                          <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.UploadNOCDocPath.includes('.pdf')" data-fancybox="gallery" href="{{item.UploadNOCDocPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td></td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
           </div>
         </div>
-      </ng-template>
-    </div>
+        <div class="row" *ngIf="OldNOCHistory.length<=0">
+          <span style="color:red"> No Data Found!!!</span>
+        </div>
+        
+      </div>
+    </ng-template>
+  </div>
   </div>
 

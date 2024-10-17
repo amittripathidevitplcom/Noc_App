@@ -40,6 +40,7 @@ export class RevertApplicationDetailEntryMGOneComponent implements OnInit {
   public SuccessMessage: any = [];
   public ErrorMessage: any = [];
   public IsShowDraftFinalSubmit: boolean = true;
+  public SearchRecordID: string = '';
 
   public QueryStringStatus: any = '';
   constructor(private dcedocumentScrutinyService: DCEDocumentScrutinyService, private mg1DocumentScrutinyService: MGOneDocumentScrutinyService, private toastr: ToastrService, private loaderService: LoaderService, private applyNOCApplicationService: ApplyNOCApplicationService,
@@ -49,11 +50,21 @@ export class RevertApplicationDetailEntryMGOneComponent implements OnInit {
     // $(".secondTab").addClass("highLightTab");
     this.loaderService.requestStarted();
     this.SelectedDepartmentID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DepartmentID')?.toString()));
+    this.SearchRecordID = this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString());
     this.SelectedCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
     this.SelectedApplyNOCID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplyNOCID')?.toString()));
     this.QueryStringStatus = this.router.snapshot.paramMap.get('Status')?.toString();
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
-
+    if (this.SearchRecordID.length > 20) {
+      await this.commonMasterService.GetCollegeID_SearchRecordIDWise(this.SearchRecordID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.SelectedCollageID = data['Data']['CollegeID'];
+        }, error => console.error(error));
+    }
+    else {
+      this.routers.navigate(['/dashboard']);
+    }
     //await this.GetRevertedTabData();
     await this.GetCollageDetails();
     await this.GetCollegeBasicDetails();

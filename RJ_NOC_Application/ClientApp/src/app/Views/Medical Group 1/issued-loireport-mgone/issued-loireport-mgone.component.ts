@@ -135,11 +135,13 @@ export class IssuedLOIReportMGOneComponent implements OnInit {
     this.UserOTP = '';
     try {
       this.loaderService.requestStarted();
+      debugger;
       if (this.AadhaarNo != undefined) {
         if (this.AadhaarNo.length > 12) {
           this.AadharRequest.AadharID = this.AadhaarNo;
           await this.aadharServiceDetails.GetAadharByVID(this.AadharRequest)
             .then((data: any) => {
+              debugger;
               data = JSON.parse(JSON.stringify(data));
               if (data[0].status == "0") {
                 this.AadhaarNo = data[0].data;
@@ -149,7 +151,9 @@ export class IssuedLOIReportMGOneComponent implements OnInit {
               }
             }, error => console.error(error));
         }
+        debugger;
         if (this.AadhaarNo.length == 12) {
+
           this.AadharRequest.AadharNo = this.AadhaarNo;
           this.AadharRequest.TransactionNo = '';
           await this.aadharServiceDetails.SendOtpByAadharNo_Esign(this.AadharRequest)
