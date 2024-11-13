@@ -154,6 +154,7 @@
               <div *ngIf="FirstRecognitionUploadValidationMessage!=''" class="text-danger">
                 <p><i aria-hidden="true"></i>{{FirstRecognitionUploadValidationMessage}}</p>
               </div>
+              <p class="text-danger" *ngIf="request.FirstRecognitionUploadDoc==''&& isSubmitted"><i aria-hidden="true"></i>  This field is required .!</p>
 
             </div>
             <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
@@ -174,7 +175,7 @@
               <label>Revised/Latest Recognition Upload<span style="color:red;">*</span></label>
               <div class="d-flex">
                 <input type="file" style="display:none;" class="form-control" id="RevisedRecognitionUploadDoc" name="RevisedRecognitionUploadDoc" (change)="ValidateDocumentImageDepartment11($event,'RevisedRecognitionUploadDoc')" formControlName="RevisedRecognitionUploadDoc">
-                
+
                 <label class="btn upload" for="RevisedRecognitionUploadDoc">
                   <span class="filename">Choose file</span>
                   {{request.RevisedRecognitionUploadDoc === '' ? 'No File Choosen' : request.RevisedRecognitionUploadDoc_Dis_FileName}}
@@ -187,6 +188,7 @@
               <div *ngIf="RevisedRecognitionUploadValidationMessage!=''" class="text-danger">
                 <p><i aria-hidden="true"></i>{{RevisedRecognitionUploadValidationMessage}}</p>
               </div>
+              <p class="text-danger" *ngIf="request.RevisedRecognitionUploadDoc==''&& isSubmitted"><i aria-hidden="true"></i>  This field is required .!</p>
 
             </div>
 
@@ -209,7 +211,7 @@
               <label>First State NOC Upload<span style="color:red;">*</span></label>
               <div class="d-flex">
                 <input type="file" style="display:none;" class="form-control" id="StateRecognitionUploadDoc" name="StateRecognitionUploadDoc" (change)="ValidateDocumentImageDepartment11($event,'StateRecognitionUploadDoc')" formControlName="StateRecognitionUploadDoc">
-                
+
                 <label class="btn upload" for="StateRecognitionUploadDoc">
                   <span class="filename">Choose file</span>
                   {{request.StateRecognitionUploadDoc === '' ? 'No File Choosen' : request.StateRecognitionUploadDoc_Dis_FileName}}
@@ -222,7 +224,7 @@
               <div *ngIf="StateRecognitionUploadValidationMessage!=''" class="text-danger">
                 <p><i aria-hidden="true"></i>{{StateRecognitionUploadValidationMessage}}</p>
               </div>
-
+              <p class="text-danger" *ngIf="request.StateRecognitionUploadDoc==''&& isSubmitted"><i aria-hidden="true"></i>  This field is required .!</p>
             </div>
 
 
@@ -244,7 +246,7 @@
               <label>Revised/Latest State NOC Upload<span style="color:red;">*</span></label>
               <div class="d-flex">
                 <input type="file" style="display:none;" class="form-control" id="RevisedStateRecognitionUploadDoc" name="RevisedStateRecognitionUploadDoc" (change)="ValidateDocumentImageDepartment11($event,'RevisedStateRecognitionUploadDoc')" formControlName="RevisedStateRecognitionUploadDoc">
-                
+
                 <label class="btn upload" for="RevisedStateRecognitionUploadDoc">
                   <span class="filename">Choose file</span>
                   {{request.RevisedStateRecognitionUploadDoc === '' ? 'No File Choosen' : request.RevisedStateRecognitionUploadDoc_Dis_FileName}}
@@ -257,7 +259,7 @@
               <div *ngIf="RevisedStateRecognitionUploadValidationMessage!=''" class="text-danger">
                 <p><i aria-hidden="true"></i>{{RevisedStateRecognitionUploadValidationMessage}}</p>
               </div>
-
+              <p class="text-danger" *ngIf="request.RevisedStateRecognitionUploadDoc==''&& isSubmitted"><i aria-hidden="true"></i>  This field is required .!</p>
             </div>
           </div>
           
@@ -387,18 +389,18 @@
           <td>{{row.NOCReceivedDate | date:'dd-MM-yyyy'}}</td>
           <!--<td>{{row.NOCExpireDate=='1900-01-01'?'':row.NOCExpireDate | date:'dd-MM-yyyy'}}</td>-->
           <td><a *ngIf="row.UploadNOCDoc!=''" target="_blank" href="{{row.UploadNOCDocPath}}" title="View Upload Document"><i class="fa fa-eye"></i></a></td>
-          <td>{{row.FirstOrderNo}}</td>
-          <td>{{row.FirstOrderDate | date:'dd-MM-yyyy'}}</td>
-          <td><a *ngIf="row.FirstRecognitionUploadDoc!=''" target="_blank" href="{{row.FirstRecognitionUploadDocPath}}" title="View Upload Document"><i class="fa fa-eye"></i></a></td>
-          <td>{{row.RevisedOrderNo}}</td>
-          <td>{{row.RevisedOrderDate | date:'dd-MM-yyyy'}}</td>
-          <td><a *ngIf="row.RevisedRecognitionUploadDoc!=''" target="_blank" href="{{row.RevisedRecognitionUploadDocPath}}" title="View Upload Document"><i class="fa fa-eye"></i></a></td>
-          <td>{{row.StateOrderNo}}</td>
-          <td>{{row.StateOrderDate |date:'dd-MM-yyyy'}}</td>
-          <td><a *ngIf="row.StateRecognitionUploadDoc!=''" target="_blank" href="{{row.StateRecognitionUploadDocPath}}" title="View Upload Document"><i class="fa fa-eye"></i></a></td>
-          <td>{{row.RevisedStateOrderNo}}</td>
-          <td>{{row.RevisedStateOrderDate | date:'dd-MM-yyyy'}}</td>
-          <td><a *ngIf="row.RevisedStateRecognitionUploadDoc!=''" target="_blank" href="{{row.RevisedStateRecognitionUploadDocPath}}" title="View Upload Document"><i class="fa fa-eye"></i></a></td>
+          <td *ngIf="SelectedDepartmentID ==11">{{row.FirstOrderNo}}</td>
+          <td *ngIf="SelectedDepartmentID ==11">{{row.FirstOrderDate | date:'dd-MM-yyyy'}}</td>
+          <td *ngIf="SelectedDepartmentID ==11"><a *ngIf="row.FirstRecognitionUploadDoc!=''" target="_blank" href="{{row.FirstRecognitionUploadDocPath}}" title="View Upload Document"><i class="fa fa-eye"></i></a></td>
+          <td *ngIf="SelectedDepartmentID ==11">{{row.RevisedOrderNo}}</td>
+          <td *ngIf="SelectedDepartmentID ==11">{{row.RevisedOrderDate | date:'dd-MM-yyyy'}}</td>
+          <td *ngIf="SelectedDepartmentID ==11"><a *ngIf="row.RevisedRecognitionUploadDoc!=''" target="_blank" href="{{row.RevisedRecognitionUploadDocPath}}" title="View Upload Document"><i class="fa fa-eye"></i></a></td>
+          <td *ngIf="SelectedDepartmentID ==11">{{row.StateOrderNo}}</td>
+          <td *ngIf="SelectedDepartmentID ==11">{{row.StateOrderDate |date:'dd-MM-yyyy'}}</td>
+          <td *ngIf="SelectedDepartmentID ==11"><a *ngIf="row.StateRecognitionUploadDoc!=''" target="_blank" href="{{row.StateRecognitionUploadDocPath}}" title="View Upload Document"><i class="fa fa-eye"></i></a></td>
+          <td *ngIf="SelectedDepartmentID ==11">{{row.RevisedStateOrderNo}}</td>
+          <td *ngIf="SelectedDepartmentID ==11">{{row.RevisedStateOrderDate | date:'dd-MM-yyyy'}}</td>
+          <td *ngIf="SelectedDepartmentID ==11"><a *ngIf="row.RevisedStateRecognitionUploadDoc!=''" target="_blank" href="{{row.RevisedStateRecognitionUploadDocPath}}" title="View Upload Document"><i class="fa fa-eye"></i></a></td>
           
           <td>{{row.Remark}}</td>
           <td>

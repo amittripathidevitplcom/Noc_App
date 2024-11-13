@@ -430,13 +430,48 @@ export class OldNOCDetailsComponent implements OnInit {
       this.oldNOCForm.get('ddlSubject')?.clearValidators();
     }
     this.oldNOCForm.get('ddlSubject')?.updateValueAndValidity();
-    if (this.SelectedDepartmentID == 11) {
-      this.oldNOCForm.get('ddlIssueYear')?.clearValidators();
+    if (this.SelectedDepartmentID != 11) {
+      this.oldNOCForm.get('ddlIssueYear')?.setValidators([DropdownValidators]);;
+      this.oldNOCForm.get('ddlSessionYear')?.clearValidators();
+      this.oldNOCForm.get('CourseCategory')?.clearValidators();
+      this.oldNOCForm.get('txtFirstOrderNo')?.clearValidators();
+      this.oldNOCForm.get('txtFirstOrderDate')?.clearValidators();
+      this.oldNOCForm.get('txtRevisedOrderDate')?.clearValidators();
+      this.oldNOCForm.get('txtRevisedOrderNo')?.clearValidators();
+      this.oldNOCForm.get('txtStateOrderNo')?.clearValidators();
+      this.oldNOCForm.get('txtStateOrderDate')?.clearValidators();
+      this.oldNOCForm.get('txtRevisedStateOrderNo')?.clearValidators();
+      this.oldNOCForm.get('txtRevisedStateOrderDate')?.clearValidators();
+      this.oldNOCForm.get('ddlIssueYear')?.updateValueAndValidity();
+      this.oldNOCForm.get('ddlSessionYear')?.updateValueAndValidity();
+      this.oldNOCForm.get('CourseCategory')?.updateValueAndValidity();
+      this.oldNOCForm.get('txtFirstOrderNo')?.updateValueAndValidity();
+      this.oldNOCForm.get('txtFirstOrderDate')?.updateValueAndValidity();
+      this.oldNOCForm.get('txtRevisedOrderDate')?.updateValueAndValidity();
+      this.oldNOCForm.get('txtRevisedOrderNo')?.updateValueAndValidity();
+      this.oldNOCForm.get('txtStateOrderNo')?.updateValueAndValidity();
+      this.oldNOCForm.get('txtStateOrderDate')?.updateValueAndValidity();
+      this.oldNOCForm.get('txtRevisedStateOrderNo')?.updateValueAndValidity();
+      this.oldNOCForm.get('txtRevisedStateOrderDate')?.updateValueAndValidity();
+      
     }
     else {
-      this.oldNOCForm.get('ddlIssueYear')?.setValidators([DropdownValidators]);
+      if (this.request.FirstRecognitionUploadDoc == '') {
+        this.IsFormValid = false;
+      }
+      if (this.request.RevisedRecognitionUploadDoc == '') {
+        this.IsFormValid = false;
+      }
+      if (this.request.StateRecognitionUploadDoc == '') {
+        this.IsFormValid = false;
+      }
+      if (this.request.RevisedStateRecognitionUploadDoc == '') {
+        this.IsFormValid = false;
+      }
+      this.oldNOCForm.get('ddlIssueYear')?.clearValidators();
+      this.oldNOCForm.get('ddlIssueYear')?.updateValueAndValidity();
     }
-    this.oldNOCForm.get('ddlIssueYear')?.updateValueAndValidity();
+  
 
     this.isSubmitted = true;
     if (this.oldNOCForm.invalid) {

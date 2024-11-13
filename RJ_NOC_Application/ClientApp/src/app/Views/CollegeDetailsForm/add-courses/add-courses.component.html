@@ -227,10 +227,10 @@
                 <th>Department</th>
                 <th>College Name</th>
                 <th>Course</th>
-                <th *ngIf="this.request.DepartmentID !=2 && this.request.DepartmentID !=9&& this.request.DepartmentID !=6">Stream</th>
-                <th style="width:250px !important" *ngIf="this.request.DepartmentID !=2 && this.request.DepartmentID !=9&& this.request.DepartmentID !=6">Subject</th>
+                <th *ngIf="this.request.DepartmentID !=2 && this.request.DepartmentID !=9&& this.request.DepartmentID !=6&& this.request.DepartmentID !=11">Stream</th>
+                <th style="width:250px !important" *ngIf="this.request.DepartmentID !=2 && this.request.DepartmentID !=9&& this.request.DepartmentID !=6&& this.request.DepartmentID !=11">Subject</th>
 
-                <th *ngIf="this.request.DepartmentID !=3 && CollegeStatus != 'New'">Seat</th> 
+                <th *ngIf="this.request.DepartmentID !=3 && CollegeStatus != 'New'&& this.request.DepartmentID !=11">Seat</th> 
                 <th *ngIf="this.request.DepartmentID ==3">No Of Enrolled Students</th>
                 <th *ngIf="this.request.DepartmentID ==11">Establishment Year</th>
                 <th *ngIf="this.request.DepartmentID ==11">Course Category</th>
@@ -245,9 +245,9 @@
                 <td>{{row.DepartmentName}}</td>
                 <td>{{row.CollageName}}</td>
                 <td >{{row.CourseName}}</td>
-                <td *ngIf="this.request.DepartmentID !=2&& this.request.DepartmentID !=9 && this.request.DepartmentID !=6">{{row.StreamName}}</td>
-                <td style="width:250px !important" *ngIf="this.request.DepartmentID !=2&& this.request.DepartmentID !=9&& this.request.DepartmentID !=6">{{row.SubjectDetails}}</td>
-                <td *ngIf="this.request.DepartmentID !=3 && CollegeStatus != 'New'">{{row.Dis_Sits}}</td>
+                <td *ngIf="this.request.DepartmentID !=2&& this.request.DepartmentID !=9 && this.request.DepartmentID !=6&& this.request.DepartmentID !=11">{{row.StreamName}}</td>
+                <td style="width:250px !important" *ngIf="this.request.DepartmentID !=2&& this.request.DepartmentID !=9&& this.request.DepartmentID !=6&& this.request.DepartmentID !=11">{{row.SubjectDetails}}</td>
+                <td *ngIf="this.request.DepartmentID !=3 && CollegeStatus != 'New'&& this.request.DepartmentID !=11">{{row.Dis_Sits}}</td>
                 <td *ngIf="this.request.DepartmentID ==3">{{row.NoOfEnrolledStudents}}</td>
                 <td *ngIf="this.request.DepartmentID ==11">{{row.FinancialYearName}}</td>
                 <td *ngIf="this.request.DepartmentID ==11">{{row.CourseCategoryName}}</td>

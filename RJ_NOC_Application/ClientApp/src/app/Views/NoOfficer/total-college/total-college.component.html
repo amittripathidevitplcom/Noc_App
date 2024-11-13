@@ -287,6 +287,25 @@
                     <label><b>Abbreviation Name :</b></label>
                     <input class="form-control disabled mt-1" disabled value="{{collegeListData.AbbreviationName}}" />
                   </div>
+                  <div class="card" *ngIf="collegeListData.DepartmentID ==11">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                      <b>University Details<span style="color:red;">*</span></b>
+                    </div>
+                    <div class="card-body">
+                      <div class="row">
+                        <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                          <label><b>Affiliation University Document :</b></label>
+                          <div class="clearfix"></div>
+                          <a class="bi bi-file-earmark-pdf-fill" *ngIf="collegeListData.AffiliationUniversityDocPath.includes('.pdf')" data-fancybox="gallery" href="{{collegeListData.AffiliationUniversityDocPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                          <label><b>University Approve Teaching Faculty Document :</b></label>
+                          <div class="clearfix"></div>
+                          <a class="bi bi-file-earmark-pdf-fill" *ngIf="collegeListData.UniversityApproveTeachingFacultyDocPath.includes('.pdf')" data-fancybox="gallery" href="{{collegeListData.UniversityApproveTeachingFacultyDocPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                   <div class="card">
                     <div class="card-header d-flex justify-content-between align-items-center">
                       <b>Address & Contact Detail <span style="color:red;">*</span></b>

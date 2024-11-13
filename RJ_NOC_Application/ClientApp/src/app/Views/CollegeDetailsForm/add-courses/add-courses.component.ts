@@ -318,6 +318,7 @@ export class AddCoursesComponent implements OnInit {
   }
   public isFormValid: boolean = true;
   async SaveData() {
+    debugger;
     this.isSubmitted = true;
     this.isFormValid = true;
 
@@ -344,9 +345,28 @@ export class AddCoursesComponent implements OnInit {
       this.CourseMasterForm.get('ddlSubject')?.updateValueAndValidity();
     }
     if (this.request.DepartmentID == 11) {
+      this.CourseMasterForm.get('ddlSessionYear')?.setValidators(DropdownValidators);
+      this.CourseMasterForm.get('CourseCategory')?.setValidators(DropdownValidators);
+      this.CourseMasterForm.get('txtTotalSeats')?.setValidators(Validators.required);
+      this.CourseMasterForm.get('txtCompositeUnit')?.setValidators(Validators.required);
+      this.CourseMasterForm.get('ddlSessionYear')?.updateValueAndValidity();
+      this.CourseMasterForm.get('CourseCategory')?.updateValueAndValidity();
+      this.CourseMasterForm.get('txtTotalSeats')?.updateValueAndValidity();
+      this.CourseMasterForm.get('txtCompositeUnit')?.updateValueAndValidity();
       this.CourseMasterForm.get('ddlSubject')?.clearValidators();
       this.CourseMasterForm.get('ddlSubject')?.updateValueAndValidity();
-    } 
+    }
+    else {
+      this.CourseMasterForm.get('ddlSessionYear')?.clearValidators();
+      this.CourseMasterForm.get('CourseCategory')?.clearValidators();
+      this.CourseMasterForm.get('txtTotalSeats')?.clearValidators();
+      this.CourseMasterForm.get('txtCompositeUnit')?.clearValidators();
+      this.CourseMasterForm.get('ddlSessionYear')?.updateValueAndValidity();
+      this.CourseMasterForm.get('CourseCategory')?.updateValueAndValidity();
+      this.CourseMasterForm.get('txtTotalSeats')?.updateValueAndValidity();
+      this.CourseMasterForm.get('txtCompositeUnit')?.updateValueAndValidity();
+    }
+    console.log(this.CourseMasterForm);
     if (this.CourseMasterForm.invalid) {
       this.isFormValid = false;
       return

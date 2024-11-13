@@ -179,7 +179,7 @@ export class AddCollegeComponent implements OnInit {
         ddlCityID: ['', [DropdownValidators]],
         txtUniversity: [''],
         ddlAbbreviation: [''],
-        txtAbbreviationName: ['']
+        txtAbbreviationName: [''],
         UniversityAffiliationDocument: [''],
         UniversityApproveTeachingFaculty: [''],
       })
