@@ -1,0 +1,13 @@
+@media print {
+  .table-bordered tr {
+    border-bottom: solid 1px #e0e0e0;
+  }
+
+    .table-bordered tr th, .table-bordered tr td {
+      border-left: solid 1px #e0e0e0;
+    }
+
+      .table-bordered tr th:nth-child(1), .table-bordered tr td:nth-child(1) {
+        border-right: solid 1px #e0e0e0;
+      }
+}

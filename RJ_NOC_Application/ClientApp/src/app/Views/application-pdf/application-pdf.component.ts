@@ -249,6 +249,7 @@ export class ApplicationPDFComponent implements OnInit {
   }
   @ViewChild('content') content: ElementRef | any;
   btnSavePDF_Click(): void {
+    debugger;
     this.loaderService.requestStarted();
     let dt = new Date();
     let Imgpath = ''
@@ -335,6 +336,7 @@ export class ApplicationPDFComponent implements OnInit {
         pDFData.push({ "ContentName": "#LegalInstituteDetails" })
       }
       pDFData.push({ "ContentName": "#CollegeBasicInfo" })
+      pDFData.push({ "ContentName": "#Universitydetails" })
       pDFData.push({ "ContentName": "#CollegeGeoTagging" })
       pDFData.push({ "ContentName": "#CollegeContactDetails" })
       pDFData.push({ "ContentName": "#CollegeGeneralContactDetails" })

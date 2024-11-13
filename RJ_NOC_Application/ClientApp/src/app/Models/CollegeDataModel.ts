@@ -71,6 +71,12 @@ export class CollegeDataModel {
   public FundingSources: string = '';
   public FundingSourcesPath: string = '';
   public FundingSources_Dis_FileName: string = '';
+  public AffiliationUniversityDoc: string = '';
+  public AffiliationUniversityDocPath: string = '';
+  public AffiliationUniversityDoc_Dis_FileName: string = '';
+  public UniversityApproveTeachingFacultyDoc: string = '';
+  public UniversityApproveTeachingFacultyDocPath: string = '';
+  public UniversityApproveTeachingFacultyDoc_Dis_FileName: string = '';
 
   //Agriculture
   public AppliedICAR: string = '';

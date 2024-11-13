@@ -11,6 +11,10 @@ export class CourseMasterDataModel {
   public DeleteStatus: boolean = false;
   public CourseLevelID: number = 0;
   public StreamID: number = 0;
+  public SessionYear: number = 0;
+  public CourseCategoryId: number = 0;
+  public TotalSeatsCourseWise: string = '';
+  public CompositeUnit: string = '';
 }
 
 export class CourseMasterDataModel_SubjectDetails {

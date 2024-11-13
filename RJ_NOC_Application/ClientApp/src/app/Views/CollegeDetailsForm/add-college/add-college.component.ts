@@ -88,6 +88,7 @@ export class AddCollegeComponent implements OnInit {
   public AISHECodeValidationMessage: string = '';
   public NAACAccreditedCertificateValidationMessage: string = '';
   public AffiliationDocumentValidationMessage: string = '';
+  
   public FundingSourcesValidationMessage: string = '';
   public ICARDocumentValidationMessage: string = '';
   public NACCValidityDateValidationMessage: string = '';
@@ -113,6 +114,10 @@ export class AddCollegeComponent implements OnInit {
   public dropdownSettings: IDropdownSettings = {};
   public ManagementTypeList: any = [];
   public SelectedCollegeLevel: any = [];
+  public showUniversityAffiliationDocument: boolean = false;
+  public showUniversityApproveTeachingFaculty: boolean = false;
+  public AffiliationUniversityDocumentValidationMessage: string = '';
+  public UniversityApproveTeachingFacultyValidationMessage: string = '';
   constructor(private legalEntityListService: LegalEntityService, private collegeService: CollegeService, private toastr: ToastrService, private loaderService: LoaderService, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private _fb: FormBuilder, private fileUploadService: FileUploadService) {
   }
 
@@ -175,6 +180,8 @@ export class AddCollegeComponent implements OnInit {
         txtUniversity: [''],
         ddlAbbreviation: [''],
         txtAbbreviationName: ['']
+        UniversityAffiliationDocument: [''],
+        UniversityApproveTeachingFaculty: [''],
       })
 
     this.CollegeDetailsForm_ContactDetails = this.formBuilder.group(
@@ -332,8 +339,7 @@ export class AddCollegeComponent implements OnInit {
   get form_ContactDetails() { return this.CollegeDetailsForm_ContactDetails.controls; }
   get form_NearestGovernmentHospitals() { return this.CollegeDetailsForm_NearestGovernmentHospitals.controls; }
 
-  async onFilechange(event: any, Type: string) {
-
+  async onFilechange(event: any, Type: string) {  
     try {
       this.loaderService.requestStarted();
       this.file = event.target.files[0];
@@ -481,8 +487,6 @@ export class AddCollegeComponent implements OnInit {
       else if (type == 'AffiliationDocument') {
 
         this.showAffiliationDocument = isShowFile;
-
-
         //this.showAffiliationDocument = isShowFile;
         this.AffiliationDocumentValidationMessage = msg;
         this.request.AffiliationDocument = name;
@@ -502,6 +506,20 @@ export class AddCollegeComponent implements OnInit {
         this.request.ICARDocument_Dis_FileName = dis_Name;
         this.files = document.getElementById('fICARDocument');
         this.files.value = '';
+      }
+      else if (type =='UniversityAffiliationDocument') {
+        this.showUniversityAffiliationDocument = isShowFile;        
+        this.AffiliationUniversityDocumentValidationMessage = msg;
+        this.request.AffiliationUniversityDoc = name;
+        this.request.AffiliationUniversityDocPath = path;
+        this.request.AffiliationUniversityDoc_Dis_FileName = dis_Name;
+      }
+      else if (type == 'UniversityApproveTeachingFaculty') {
+        this.showUniversityApproveTeachingFaculty = isShowFile;       
+        this.UniversityApproveTeachingFacultyValidationMessage = msg;
+        this.request.UniversityApproveTeachingFacultyDoc = name;
+        this.request.UniversityApproveTeachingFacultyDocPath = path;
+        this.request.UniversityApproveTeachingFacultyDoc_Dis_FileName = dis_Name;
       }
     }
     catch (Ex) {
@@ -1429,6 +1447,16 @@ export class AddCollegeComponent implements OnInit {
         isValid = false;
       }
     }
+    if (this.request.DepartmentID == 11) {
+      if (this.request.AffiliationUniversityDoc == null || this.request.AffiliationUniversityDoc == '') {
+        isValid = false;
+        this.AffiliationUniversityDocumentValidationMessage = 'This field is required .!';
+      }
+      if (this.request.UniversityApproveTeachingFacultyDoc == null || this.request.UniversityApproveTeachingFacultyDoc == '') {
+        isValid = false;
+        this.UniversityApproveTeachingFacultyValidationMessage = 'This field is required .!';
+      }
+    }
     if (!isValid) {
       return;
     }
@@ -1512,6 +1540,7 @@ export class AddCollegeComponent implements OnInit {
   }
 
   async GetData() {
+    debugger;
     //Show Loading
     this.loaderService.requestStarted();
     this.isLoading = true;
@@ -1570,6 +1599,8 @@ export class AddCollegeComponent implements OnInit {
 
           //await this.ddlCollegeType_TextChange(this.request.CollegeTypeID.toString())
           this.request.UniversityID = data['Data']['UniversityID'];
+          await this.ResetFileAndValidation('UniversityAffiliationDocument', '', this.request.AffiliationUniversityDoc, this.request.AffiliationUniversityDocPath, this.request.AffiliationUniversityDoc_Dis_FileName, this.request.DepartmentID == 11 ? true : false);
+          await this.ResetFileAndValidation('UniversityApproveTeachingFaculty', '', this.request.UniversityApproveTeachingFacultyDoc, this.request.UniversityApproveTeachingFacultyDocPath, this.request.UniversityApproveTeachingFacultyDoc_Dis_FileName, this.request.DepartmentID == 11 ? true : false);
           //if (!this.State) {
           //  //this.toastr.success(this.SuccessMessage)
           //}

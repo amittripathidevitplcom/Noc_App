@@ -217,7 +217,26 @@ export class OldNocDetailsDataModel {
   public S_Action: string = '';
   public C_Remark: string = '';
   public S_Remark: string = '';
-
+  public FirstOrderNo: string = '';
+  public FirstOrderDate: string = '';
+  public FirstRecognitionUploadDoc: string = '';
+  public FirstRecognitionUploadDocPath: string = '';
+  public FirstRecognitionUploadDoc_Dis_FileName: string = '';
+  public RevisedOrderNo: string = '';
+  public RevisedOrderDate: string = '';
+  public RevisedRecognitionUploadDoc: string = '';
+  public RevisedRecognitionUploadDocPath: string = '';
+  public RevisedRecognitionUploadDoc_Dis_FileName: string = '';
+  public StateOrderNo: string = '';
+  public StateOrderDate: string = '';
+  public StateRecognitionUploadDoc: string = '';
+  public StateRecognitionUploadDocPath: string = '';
+  public StateRecognitionUploadDoc_Dis_FileName: string = '';
+  public RevisedStateOrderNo: string = '';
+  public RevisedStateOrderDate: string = '';
+  public RevisedStateRecognitionUploadDoc: string = '';
+  public RevisedStateRecognitionUploadDocPath: string = '';
+  public RevisedStateRecognitionUploadDoc_Dis_FileName: string = '';
 }
 export class OldNocDetails_SubjectDataModel {
   public OldNOCSubjectID: number = 0;

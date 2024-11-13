@@ -295,44 +295,72 @@
               <p *ngIf="!form.ddlYearofEstablishment.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
             </div>
           </div>
-
-
-          <!--AffiliationDocumentCertificate-->
-          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="request.DepartmentID ==3">
-            <label class="form-label">Affiliation Document  <span style="color:red;">*</span></label>
-            <div class="d-flex">
-              <input type="file" style="display:none;" class="form-control" id="CollegeAffiliationDocument" name="CollegeAffiliationDocument" (change)="onFilechange($event,'AffiliationDocument')" formControlName="CollegeAffiliationDocument">
-              <label class="btn upload" for="CollegeAffiliationDocument">
-                <span class="filename">Choose file</span>
-                {{request.AffiliationDocument === '' ? 'No File Choosen' : request.AffiliationDocument_Dis_FileName}}
-              </label>
-              <div class="btn-group" *ngIf="showAffiliationDocument  && (request.AffiliationDocument !='')">
-                <a class="btn btn-outline-primary" target="_blank" href="{{request.AffiliationDocumentPath}}"><i class="fa fa-eye"></i></a>
-                <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('AffiliationDocument',request.AffiliationDocument)"><i class="fa fa-trash-o"></i></button>
+          <div class="card-header d-flex justify-content-between align-items-center border-top" *ngIf="request.DepartmentID==11">
+            <b>University Details<span style="color:red;">*</span></b>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="request.DepartmentID ==11">
+                <label class="form-label">Affiliation University<span style="color:red;">*</span></label>
+                <div class="d-flex">
+                  <input type="file" style="display:none;" class="form-control" id="UniversityAffiliationDocument" name="UniversityAffiliationDocument" (change)="onFilechange($event,'UniversityAffiliationDocument')" formControlName="UniversityAffiliationDocument">
+                  <label class="btn upload" for="UniversityAffiliationDocument">
+                    <span class="filename">Choose file</span>
+                    {{request.AffiliationUniversityDoc === '' ? 'No File Choosen' : request.AffiliationUniversityDoc_Dis_FileName}}
+                  </label>
+                  <div class="btn-group" *ngIf="showUniversityAffiliationDocument  && (request.AffiliationUniversityDoc !='')">
+                    <a class="btn btn-outline-primary" target="_blank" href="{{request.AffiliationUniversityDocPath}}"><i class="fa fa-eye"></i></a>
+                    <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('UniversityAffiliationDocument',request.AffiliationUniversityDoc)"><i class="fa fa-trash-o"></i></button>
+                  </div>
+                </div>
+                <div *ngIf="AffiliationUniversityDocumentValidationMessage!=''" class="text-danger">
+                  <p><i aria-hidden="true"></i>{{AffiliationUniversityDocumentValidationMessage}}</p>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="request.DepartmentID ==11">
+                <label class="form-label">University Approve Teaching Faculty  <span style="color:red;">*</span></label>
+                <div class="d-flex">
+                  <input type="file" style="display:none;" class="form-control" id="UniversityApproveTeachingFaculty" name="UniversityApproveTeachingFaculty" (change)="onFilechange($event,'UniversityApproveTeachingFaculty')" formControlName="UniversityApproveTeachingFaculty">
+                  <label class="btn upload" for="UniversityApproveTeachingFaculty">
+                    <span class="filename">Choose file</span>
+                    {{request.UniversityApproveTeachingFacultyDoc === '' ? 'No File Choosen' : request.UniversityApproveTeachingFacultyDoc_Dis_FileName}}
+                  </label>
+                  <div class="btn-group" *ngIf="showUniversityApproveTeachingFaculty  && (request.UniversityApproveTeachingFacultyDoc !='')">
+                    <a class="btn btn-outline-primary" target="_blank" href="{{request.UniversityApproveTeachingFacultyDocPath}}"><i class="fa fa-eye"></i></a>
+                    <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('UniversityApproveTeachingFaculty',request.UniversityApproveTeachingFacultyDoc)"><i class="fa fa-trash-o"></i></button>
+                  </div>
+                </div>
+                <div *ngIf="UniversityApproveTeachingFacultyValidationMessage!=''" class="text-danger">
+                  <p><i aria-hidden="true"></i>{{UniversityApproveTeachingFacultyValidationMessage}}</p>
+                </div>
               </div>
             </div>
-            <div *ngIf="AffiliationDocumentValidationMessage!=''" class="text-danger">
-              <p><i aria-hidden="true"></i>{{AffiliationDocumentValidationMessage}}</p>
+          </div>
+            <!--AffiliationDocumentCertificate-->
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="request.DepartmentID ==3">
+              <label class="form-label">Affiliation Document  <span style="color:red;">*</span></label>
+              <div class="d-flex">
+                <input type="file" style="display:none;" class="form-control" id="CollegeAffiliationDocument" name="CollegeAffiliationDocument" (change)="onFilechange($event,'AffiliationDocument')" formControlName="CollegeAffiliationDocument">
+                <label class="btn upload" for="CollegeAffiliationDocument">
+                  <span class="filename">Choose file</span>
+                  {{request.AffiliationDocument === '' ? 'No File Choosen' : request.AffiliationDocument_Dis_FileName}}
+                </label>
+                <div class="btn-group" *ngIf="showAffiliationDocument  && (request.AffiliationDocument !='')">
+                  <a class="btn btn-outline-primary" target="_blank" href="{{request.AffiliationDocumentPath}}"><i class="fa fa-eye"></i></a>
+                  <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('AffiliationDocument',request.AffiliationDocument)"><i class="fa fa-trash-o"></i></button>
+                </div>
+              </div>
+              <div *ngIf="AffiliationDocumentValidationMessage!=''" class="text-danger">
+                <p><i aria-hidden="true"></i>{{AffiliationDocumentValidationMessage}}</p>
+              </div>
             </div>
-          </div>
-          <!---->
-          <!--Medical Group 3 Abbreviation-->
-          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="request.DepartmentID ==6">
-            <label for="ddlAbbreviation" class="form-label">Is Abbreviation <span style="color:red;">*</span></label>
-            <select class="form-select" id="ddlAbbreviation" name="ddlAbbreviation" [(ngModel)]="request.IsAbbreviation" formControlName="ddlAbbreviation">
-              <option value="">--Select--</option>
-              <option value="Yes">Yes</option>
-              <option value="No">No</option>
-            </select>
-              <p *ngIf="isSubmitted&&(request.IsAbbreviation=='' || request.IsAbbreviation==null)" class="text-danger"><i aria-hidden="true"></i>This field is required .!</p>
-          </div>
-          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="request.DepartmentID ==6 && request.IsAbbreviation=='Yes'">
-            <label for="txtAbbreviationName" maxlength="200" class="form-label">Abbreviation Name<span style="color:red;">*</span></label>
-            <input [attr.disabled]="IsEdit ? true : null" type="text" class="form-control" id="txtAbbreviationName" name="txtAbbreviationName" [(ngModel)]="request.AbbreviationName" formControlName="txtAbbreviationName" (keypress)="alphaOnly($event)">
-            <p *ngIf="isSubmitted&&request.IsAbbreviation=='Yes' && (request.AbbreviationName=='' || request.AbbreviationName==null)" class="text-danger"><i aria-hidden="true"></i>This field is required .!</p>
+            <!---->
+
+
+
+
           </div>
         </div>
-      </div>
 
 
 

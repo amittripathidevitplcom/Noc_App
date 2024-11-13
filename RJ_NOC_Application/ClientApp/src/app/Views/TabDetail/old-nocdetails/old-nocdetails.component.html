@@ -69,7 +69,7 @@
             <p *ngIf="!form.ddlSessionYear.errors.DropdownValidators"><i aria-hidden="true"></i> This field is required .!</p>
           </div>
         </div>
-        <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+        <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" [hidden]="SelectedDepartmentID==11">
           <label>Issued for Year <span style="color:red;">*</span></label>
           <select class="form-select" id="ddlIssueYear" [(ngModel)]="request.IssuedYear" formControlName="ddlIssueYear">
             <option value="0" disabled>--Select Issued Year--</option>
@@ -119,22 +119,165 @@
           <div *ngIf="IsUploadDocRequried" class="text-danger">
             <p *ngIf="IsUploadDocRequried"> This field is required .!</p>
           </div>
-
         </div>
-        <div class="col-lg-12 col-md-12 col-sm-12 col-12 mb-3">
-          <label>Remark </label>
-          <textarea class="form-control" id="txtRemark" [(ngModel)]="request.Remark" formControlName="txtRemark"></textarea>
-          <div *ngIf="isSubmitted&&form.txtRemark.errors" class="text-danger">
-            <p *ngIf="form.txtRemark.errors.required"><i aria-hidden="true"></i>  This field is required .!</p>
+
+        <div class="card-body" *ngIf="SelectedDepartmentID==11">
+          <div class="row">
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <label>First NCTE Recognition Order No <span style="color:red;">*</span></label>
+              <input type="text" placeholder="Enter First Order Number" class="form-control" id="txtFirstOrderNo" [(ngModel)]="request.FirstOrderNo" formControlName="txtFirstOrderNo" />
+              <div *ngIf="isSubmitted&&form.txtFirstOrderNo.errors" class="text-danger">
+                <p *ngIf="form.txtFirstOrderNo.errors.required"><i aria-hidden="true"></i>  This field is required .!</p>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <label>First NCTE Recognition Date <span style="color:red;">*</span></label>
+              <input type="date" placeholder="DD/MM/YYYY" class="form-control" id="txtFirstOrderDate" [(ngModel)]="request.FirstOrderDate" formControlName="txtFirstOrderDate" max="{{MaxDate | date:'yyyy-MM-dd'}}" (change)="SetExpiryDate()" onkeypress="return false;" />
+              <div *ngIf="isSubmitted&&form.txtFirstOrderDate.errors" class="text-danger">
+                <p *ngIf="form.txtFirstOrderDate.errors.required"><i aria-hidden="true"></i>  This field is required .!</p>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <label>First NCTE Recognition Upload<span style="color:red;">*</span></label>
+              <div class="d-flex">
+                <input type="file" style="display:none;" class="form-control" id="FirstRecognitionUploadDoc" name="FirstRecognitionUploadDoc" (change)="ValidateDocumentImageDepartment11($event,'FirstRecognitionUploadDoc')" formControlName="FirstRecognitionUploadDoc">
+                <!--<input type="file" class="form-control" id="FirstRecognitionUploadDoc" style="display:none" [(ngModel)]="request.FirstRecognitionUploadDoc" formControlName="FirstRecognitionUploadDoc" (change)=ValidateDocumentImageDepartment11($event,'FirstRecognitionUploadDoc')>-->
+                <label class="btn upload" for="FirstRecognitionUploadDoc">
+                  <span class="filename">Choose file</span>
+                  {{request.FirstRecognitionUploadDoc === '' ? 'No File Choosen' : request.FirstRecognitionUploadDoc_Dis_FileName}}
+                </label>
+                <div class="btn-group" *ngIf="showFirstRecognitionFilePath">
+                  <a class="btn btn-outline-primary" target="_blank" href="{{request.FirstRecognitionUploadDocPath}}"><i class="fa fa-eye"></i></a>
+                  <button type="button" class="btn btn-outline-danger" (click)="DeleteImage1('FirstRecognitionUploadDoc',request.FirstRecognitionUploadDoc)"><i class="fa fa-trash-o"></i></button>
+                </div>
+              </div>
+              <div *ngIf="FirstRecognitionUploadValidationMessage!=''" class="text-danger">
+                <p><i aria-hidden="true"></i>{{FirstRecognitionUploadValidationMessage}}</p>
+              </div>
+
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <label>Revised/Latest Recognition Order No <span style="color:red;">*</span></label>
+              <input type="text" placeholder="Enter Revised Order Number" class="form-control" id="txtRevisedOrderNo" [(ngModel)]="request.RevisedOrderNo" formControlName="txtRevisedOrderNo" />
+              <div *ngIf="isSubmitted&&form.txtRevisedOrderNo.errors" class="text-danger">
+                <p *ngIf="form.txtRevisedOrderNo.errors.required"><i aria-hidden="true"></i>  This field is required .!</p>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <label>Revised/Latest Recognition Date <span style="color:red;">*</span></label>
+              <input type="date" placeholder="DD/MM/YYYY" class="form-control" id="txtRevisedOrderDate" [(ngModel)]="request.RevisedOrderDate" formControlName="txtRevisedOrderDate" max="{{MaxDate | date:'yyyy-MM-dd'}}" (change)="SetExpiryDate()" onkeypress="return false;" />
+              <div *ngIf="isSubmitted&&form.txtRevisedOrderDate.errors" class="text-danger">
+                <p *ngIf="form.txtRevisedOrderDate.errors.required"><i aria-hidden="true"></i>  This field is required .!</p>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <label>Revised/Latest Recognition Upload<span style="color:red;">*</span></label>
+              <div class="d-flex">
+                <input type="file" style="display:none;" class="form-control" id="RevisedRecognitionUploadDoc" name="RevisedRecognitionUploadDoc" (change)="ValidateDocumentImageDepartment11($event,'RevisedRecognitionUploadDoc')" formControlName="RevisedRecognitionUploadDoc">
+                
+                <label class="btn upload" for="RevisedRecognitionUploadDoc">
+                  <span class="filename">Choose file</span>
+                  {{request.RevisedRecognitionUploadDoc === '' ? 'No File Choosen' : request.RevisedRecognitionUploadDoc_Dis_FileName}}
+                </label>
+                <div class="btn-group" *ngIf="showRevisedRecognitionFilePath">
+                  <a class="btn btn-outline-primary" target="_blank" href="{{request.RevisedRecognitionUploadDocPath}}"><i class="fa fa-eye"></i></a>
+                  <button type="button" class="btn btn-outline-danger" (click)="DeleteImage1('RevisedRecognitionUploadDoc',request.RevisedRecognitionUploadDoc)"><i class="fa fa-trash-o"></i></button>
+                </div>
+              </div>
+              <div *ngIf="RevisedRecognitionUploadValidationMessage!=''" class="text-danger">
+                <p><i aria-hidden="true"></i>{{RevisedRecognitionUploadValidationMessage}}</p>
+              </div>
+
+            </div>
+
+
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <label>First State NOC Order No <span style="color:red;">*</span></label>
+              <input type="text" placeholder="Enter First State NOC Order Number" class="form-control" id="txtStateOrderNo" [(ngModel)]="request.StateOrderNo" formControlName="txtStateOrderNo" />
+              <div *ngIf="isSubmitted&&form.txtStateOrderNo.errors" class="text-danger">
+                <p *ngIf="form.txtStateOrderNo.errors.required"><i aria-hidden="true"></i>  This field is required .!</p>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <label>First State NOC Date <span style="color:red;">*</span></label>
+              <input type="date" placeholder="DD/MM/YYYY" class="form-control" id="txtStateOrderDate" [(ngModel)]="request.StateOrderDate" formControlName="txtStateOrderDate" max="{{MaxDate | date:'yyyy-MM-dd'}}" (change)="SetExpiryDate()" onkeypress="return false;" />
+              <div *ngIf="isSubmitted&&form.txtStateOrderDate.errors" class="text-danger">
+                <p *ngIf="form.txtStateOrderDate.errors.required"><i aria-hidden="true"></i>  This field is required .!</p>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <label>First State NOC Upload<span style="color:red;">*</span></label>
+              <div class="d-flex">
+                <input type="file" style="display:none;" class="form-control" id="StateRecognitionUploadDoc" name="StateRecognitionUploadDoc" (change)="ValidateDocumentImageDepartment11($event,'StateRecognitionUploadDoc')" formControlName="StateRecognitionUploadDoc">
+                
+                <label class="btn upload" for="StateRecognitionUploadDoc">
+                  <span class="filename">Choose file</span>
+                  {{request.StateRecognitionUploadDoc === '' ? 'No File Choosen' : request.StateRecognitionUploadDoc_Dis_FileName}}
+                </label>
+                <div class="btn-group" *ngIf="showStateRecognitionFilePath">
+                  <a class="btn btn-outline-primary" target="_blank" href="{{request.StateRecognitionUploadDocPath}}"><i class="fa fa-eye"></i></a>
+                  <button type="button" class="btn btn-outline-danger" (click)="DeleteImage1('StateRecognitionUploadDoc',request.StateRecognitionUploadDoc)"><i class="fa fa-trash-o"></i></button>
+                </div>
+              </div>
+              <div *ngIf="StateRecognitionUploadValidationMessage!=''" class="text-danger">
+                <p><i aria-hidden="true"></i>{{StateRecognitionUploadValidationMessage}}</p>
+              </div>
+
+            </div>
+
+
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <label>Revised/Latest State NOC Order No <span style="color:red;">*</span></label>
+              <input type="text" placeholder="Enter State NOC Order Number" class="form-control" id="txtRevisedStateOrderNo" [(ngModel)]="request.RevisedStateOrderNo" formControlName="txtRevisedStateOrderNo" />
+              <div *ngIf="isSubmitted&&form.txtRevisedStateOrderNo.errors" class="text-danger">
+                <p *ngIf="form.txtRevisedStateOrderNo.errors.required"><i aria-hidden="true"></i>  This field is required .!</p>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <label>Revised/Latest State NOC Date <span style="color:red;">*</span></label>
+              <input type="date" placeholder="DD/MM/YYYY" class="form-control" id="txtRevisedStateOrderDate" [(ngModel)]="request.RevisedStateOrderDate" formControlName="txtRevisedStateOrderDate" max="{{MaxDate | date:'yyyy-MM-dd'}}" (change)="SetExpiryDate()" onkeypress="return false;" />
+              <div *ngIf="isSubmitted&&form.txtRevisedStateOrderDate.errors" class="text-danger">
+                <p *ngIf="form.txtRevisedStateOrderDate.errors.required"><i aria-hidden="true"></i>  This field is required .!</p>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <label>Revised/Latest State NOC Upload<span style="color:red;">*</span></label>
+              <div class="d-flex">
+                <input type="file" style="display:none;" class="form-control" id="RevisedStateRecognitionUploadDoc" name="RevisedStateRecognitionUploadDoc" (change)="ValidateDocumentImageDepartment11($event,'RevisedStateRecognitionUploadDoc')" formControlName="RevisedStateRecognitionUploadDoc">
+                
+                <label class="btn upload" for="RevisedStateRecognitionUploadDoc">
+                  <span class="filename">Choose file</span>
+                  {{request.RevisedStateRecognitionUploadDoc === '' ? 'No File Choosen' : request.RevisedStateRecognitionUploadDoc_Dis_FileName}}
+                </label>
+                <div class="btn-group" *ngIf="showRevisedStateRecognitionFilePath">
+                  <a class="btn btn-outline-primary" target="_blank" href="{{request.RevisedStateRecognitionUploadDocPath}}"><i class="fa fa-eye"></i></a>
+                  <button type="button" class="btn btn-outline-danger" (click)="DeleteImage1('RevisedStateRecognitionUploadDoc',request.RevisedStateRecognitionUploadDoc)"><i class="fa fa-trash-o"></i></button>
+                </div>
+              </div>
+              <div *ngIf="RevisedStateRecognitionUploadValidationMessage!=''" class="text-danger">
+                <p><i aria-hidden="true"></i>{{RevisedStateRecognitionUploadValidationMessage}}</p>
+              </div>
+
+            </div>
           </div>
-          <span *ngIf="SelectedDepartmentID==9" style="color: forestgreen; font-size: 12px; font-weight: 600;">Please Add Ist NOC</span>
+          
         </div>
 
-        <!--<div class="col-lg-12 col-md-12 col-sm-12 col-12 mt-3 text-end">
-          <button class="btn btn-primary" type="button" (click)="AddData()">Save & Next</button>
-        </div>-->
+
+          <div class="col-lg-12 col-md-12 col-sm-12 col-12 mb-3">
+            <label>Remark </label>
+            <textarea class="form-control" id="txtRemark" [(ngModel)]="request.Remark" formControlName="txtRemark"></textarea>
+            <div *ngIf="isSubmitted&&form.txtRemark.errors" class="text-danger">
+              <p *ngIf="form.txtRemark.errors.required"><i aria-hidden="true"></i>  This field is required .!</p>
+            </div>
+            <span *ngIf="SelectedDepartmentID==9" style="color: forestgreen; font-size: 12px; font-weight: 600;">Please Add Ist NOC</span>
+          </div>
+
+          <!--<div class="col-lg-12 col-md-12 col-sm-12 col-12 mt-3 text-end">
+    <button class="btn btn-primary" type="button" (click)="AddData()">Save & Next</button>
+  </div>-->
+        </div>
       </div>
-    </div>
     <div class="card-footer text-end">
 
       <button type="button" class="btn btn-primary" id="btnAddNOCDetail" name="btnSave" (click)="AddOldNOCDetails()"><i class="fa fa-plus"></i>&nbsp;Add & Save</button>&nbsp;
@@ -204,14 +347,26 @@
         <tr>
           <th>Sr.No.</th>
           <th>Course</th>
-          <th *ngIf="SelectedDepartmentID!=9">Subject</th>
+          <th *ngIf="SelectedDepartmentID!=9 && SelectedDepartmentID!=11">Subject</th>
           <th>NOC Type</th>
           <th>NOC Issue on Session Year</th>
-          <th>Issued for Year</th>
+          <th *ngIf="SelectedDepartmentID!=11">Issued for Year</th>
           <th>NOC No.</th>
           <th>NOC Received On</th>
           <!--<th>NOC Expire Date</th>-->
           <th>NOC Document</th>
+          <th *ngIf="SelectedDepartmentID ==11">First NCTE Recognition Order No</th>
+          <th *ngIf="SelectedDepartmentID ==11">First NCTE Recognition Date</th>
+          <th *ngIf="SelectedDepartmentID ==11">First NCTE Recognition Upload</th>
+          <th *ngIf="SelectedDepartmentID ==11">Revised/Latest Recognition Order No</th>
+          <th *ngIf="SelectedDepartmentID ==11">Revised/Latest Recognition Date</th>
+          <th *ngIf="SelectedDepartmentID ==11">Revised/Latest Recognition Upload</th>
+          <th *ngIf="SelectedDepartmentID ==11">First State NOC Order No</th>
+          <th *ngIf="SelectedDepartmentID ==11">First State NOC Date</th>
+          <th *ngIf="SelectedDepartmentID ==11">First State NOC Upload</th>
+          <th *ngIf="SelectedDepartmentID ==11">Revised/Latest State NOC Order No</th>
+          <th *ngIf="SelectedDepartmentID ==11">Revised/Latest State NOC Date</th>
+          <th *ngIf="SelectedDepartmentID ==11">Revised/Latest State NOC Upload</th>
           <th>Remark</th>
           <th>Action</th>
         </tr>
@@ -220,21 +375,31 @@
         <tr *ngFor="let row of OldNocDetails; let indexOfelement=index;">
           <td> {{indexOfelement+1}}</td>
           <td>{{row.CourseName}}</td>
-          <td *ngIf="SelectedDepartmentID!=9">
+          <td *ngIf="SelectedDepartmentID!=9 && SelectedDepartmentID!=11">
             <p *ngFor="let item of row.SubjectData;">
               {{item.SubjectName}}
             </p>
           </td>
           <td>{{row.NOCTypeName}}</td>
           <td>{{row.FinancialYearName}}</td>
-          <td>{{row.IssuedYear == 11 ? 'Permanently':row.IssuedYear + " Year"}} </td>
+          <td *ngIf="SelectedDepartmentID!=11">{{row.IssuedYear == 11 ? 'Permanently':row.IssuedYear + " Year"}} </td>
           <td>{{row.NOCNumber}}</td>
           <td>{{row.NOCReceivedDate | date:'dd-MM-yyyy'}}</td>
-
-
-
           <!--<td>{{row.NOCExpireDate=='1900-01-01'?'':row.NOCExpireDate | date:'dd-MM-yyyy'}}</td>-->
           <td><a *ngIf="row.UploadNOCDoc!=''" target="_blank" href="{{row.UploadNOCDocPath}}" title="View Upload Document"><i class="fa fa-eye"></i></a></td>
+          <td>{{row.FirstOrderNo}}</td>
+          <td>{{row.FirstOrderDate | date:'dd-MM-yyyy'}}</td>
+          <td><a *ngIf="row.FirstRecognitionUploadDoc!=''" target="_blank" href="{{row.FirstRecognitionUploadDocPath}}" title="View Upload Document"><i class="fa fa-eye"></i></a></td>
+          <td>{{row.RevisedOrderNo}}</td>
+          <td>{{row.RevisedOrderDate | date:'dd-MM-yyyy'}}</td>
+          <td><a *ngIf="row.RevisedRecognitionUploadDoc!=''" target="_blank" href="{{row.RevisedRecognitionUploadDocPath}}" title="View Upload Document"><i class="fa fa-eye"></i></a></td>
+          <td>{{row.StateOrderNo}}</td>
+          <td>{{row.StateOrderDate |date:'dd-MM-yyyy'}}</td>
+          <td><a *ngIf="row.StateRecognitionUploadDoc!=''" target="_blank" href="{{row.StateRecognitionUploadDocPath}}" title="View Upload Document"><i class="fa fa-eye"></i></a></td>
+          <td>{{row.RevisedStateOrderNo}}</td>
+          <td>{{row.RevisedStateOrderDate | date:'dd-MM-yyyy'}}</td>
+          <td><a *ngIf="row.RevisedStateRecognitionUploadDoc!=''" target="_blank" href="{{row.RevisedStateRecognitionUploadDocPath}}" title="View Upload Document"><i class="fa fa-eye"></i></a></td>
+          
           <td>{{row.Remark}}</td>
           <td>
             <button type="button" class="btn btn-sm btn-primary" title="Edit" [hidden]="QueryStringStatus=='R'&&row.Action=='Yes'" [attr.disabled]="isDisabled ? true : null" (click)="EditItem(row.OldNocID)"><i class="fa fa-edit"></i></button>

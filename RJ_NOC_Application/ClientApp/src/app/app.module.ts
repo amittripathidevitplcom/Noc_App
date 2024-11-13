@@ -421,6 +421,7 @@ import { DentalChairsMgoneNocComponent } from './Views/Medical Group 1/NOC/denta
 import { MGOneDocumentScrutinyNodalOfficerComponent } from './Views/Medical Group 1/NOC/mgone-document-scrutiny-nodal-officer/mgone-document-scrutiny-nodal-officer.component';
 import { MgOneNocCompletedReportComponent } from './Views/Medical Group 1/NOC/mg-one-noc-completed-report/mg-one-noc-completed-report.component';
 import { GenerateOrderMGOneComponent } from './Views/Medical Group 1/NOC/generate-order-mgone/generate-order-mgone.component';
+import { AffiliationRegistrationComponent } from './Views/DTE_Affiliation/affiliation-registration/affiliation-registration.component';
 
 
  
@@ -839,7 +840,8 @@ import { GenerateOrderMGOneComponent } from './Views/Medical Group 1/NOC/generat
     DentalChairsMgoneNocComponent,
     MGOneDocumentScrutinyNodalOfficerComponent,
     MgOneNocCompletedReportComponent,
-    GenerateOrderMGOneComponent
+    GenerateOrderMGOneComponent,
+    AffiliationRegistrationComponent
   ],
   imports: [
     CommonModule,

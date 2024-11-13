@@ -164,6 +164,7 @@ export class ApplicationSummaryComponent implements OnInit {
   }
   @ViewChild('content') content: ElementRef | any;
   btnSavePDF_Click(): void {
+    
     this.loaderService.requestStarted();
     let dt = new Date();
     let Imgpath = this.DownloadPdfDetailslst[0]["data"][0]["MemberSignature2"];
@@ -199,7 +200,7 @@ export class ApplicationSummaryComponent implements OnInit {
       pDFData.push({ "ContentName": "#TrusteeGeneralDetails" })
       pDFData.push({ "ContentName": "#LegalMemberDetails" })
       pDFData.push({ "ContentName": "#LegalInstituteDetails" })
-      pDFData.push({ "ContentName": "#CollegeBasicInfo" })
+      pDFData.push({ "ContentName": "#CollegeBasicInfo" })      
       pDFData.push({ "ContentName": "#CollegeGeoTagging" })
       pDFData.push({ "ContentName": "#CollegeContactDetails" })
       pDFData.push({ "ContentName": "#CollegeGeneralContactDetails" })

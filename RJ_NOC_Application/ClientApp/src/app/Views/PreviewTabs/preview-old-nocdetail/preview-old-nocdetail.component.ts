@@ -71,6 +71,7 @@ export class PreviewOldNOCDetailComponent implements OnInit {
       this.loaderService.requestStarted();
       await this.oldnocdetailService.GetOldNOCDetailList_DepartmentCollegeWise(this.SelectedDepartmentID, this.SelectedCollageID, OldNocID)
         .then((data: any) => {
+          debugger;
           const display = document.getElementById('ModalViewOldNOCDetail');
           if (display) display.style.display = 'block';
           data = JSON.parse(JSON.stringify(data));

@@ -76,6 +76,14 @@ export class OldNOCDetailsComponent implements OnInit {
 
   public QueryStringStatus: any = '';
   public SelectedApplyNOCID: number = 0;
+  public FirstRecognitionUploadValidationMessage: string = '';
+  public RevisedRecognitionUploadValidationMessage: string = '';
+  public StateRecognitionUploadValidationMessage: string = '';
+  public RevisedStateRecognitionUploadValidationMessage: string = '';
+  public showFirstRecognitionFilePath: boolean = false;
+  public showRevisedRecognitionFilePath: boolean = false;
+  public showStateRecognitionFilePath: boolean = false;
+  public showRevisedStateRecognitionFilePath: boolean = false;
   constructor(private loaderService: LoaderService, private toastr: ToastrService, private fileUploadService: FileUploadService,
     private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private formBuilder: FormBuilder, private oldnocdetailService: OldnocdetailService) {
 
@@ -110,6 +118,18 @@ export class OldNOCDetailsComponent implements OnInit {
         dtNOCExpireDate: [''],
         UploadNOCDoc: [''],
         txtRemark: [''],
+        txtFirstOrderNo: ['', Validators.required],
+        txtFirstOrderDate: ['', Validators.required],
+        FirstRecognitionUploadDoc: [''],
+        txtRevisedOrderDate: ['', Validators.required],
+        txtRevisedOrderNo: ['', Validators.required],        
+        RevisedRecognitionUploadDoc: [''],
+        txtStateOrderNo: ['', Validators.required],
+        txtStateOrderDate: ['', Validators.required],
+        StateRecognitionUploadDoc: [''],
+        txtRevisedStateOrderNo: ['', Validators.required],
+        txtRevisedStateOrderDate: ['', Validators.required],
+        RevisedStateRecognitionUploadDoc: [''],
       });
     this.oldNOCForm.get('ddlIssueYear')?.enable();
     this.SelectedDepartmentID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DepartmentID')?.toString()));
@@ -390,7 +410,9 @@ export class OldNOCDetailsComponent implements OnInit {
     this.IsFormValid = true;
     this.SubjectRequried = false;
     this.SubjectDataModel = [];
+    console.log(this.SelectedSubjectDetails);
     if (this.SelectedSubjectDetails.length > 0) {
+      console.log(this.SelectedSubjectDetails.length);
       for (var i = 0; i < this.SelectedSubjectDetails.length; i++) {
         this.SubjectDataModel.push({
           OldNOCSubjectID: 0,
@@ -408,6 +430,13 @@ export class OldNOCDetailsComponent implements OnInit {
       this.oldNOCForm.get('ddlSubject')?.clearValidators();
     }
     this.oldNOCForm.get('ddlSubject')?.updateValueAndValidity();
+    if (this.SelectedDepartmentID == 11) {
+      this.oldNOCForm.get('ddlIssueYear')?.clearValidators();
+    }
+    else {
+      this.oldNOCForm.get('ddlIssueYear')?.setValidators([DropdownValidators]);
+    }
+    this.oldNOCForm.get('ddlIssueYear')?.updateValueAndValidity();
 
     this.isSubmitted = true;
     if (this.oldNOCForm.invalid) {
@@ -431,6 +460,7 @@ export class OldNOCDetailsComponent implements OnInit {
         }
       }
     }
+    console.log(this.request);
     if (!this.IsFormValid) {
       return;
     }
@@ -670,6 +700,10 @@ export class OldNOCDetailsComponent implements OnInit {
           this.request.Dis_FileName = this.request.Dis_FileName;
           console.log(this.request);
           this.showImageFilePath = true;
+           this.showFirstRecognitionFilePath = true;
+           this.showRevisedRecognitionFilePath = true;
+           this.showStateRecognitionFilePath = true;
+           this.showRevisedStateRecognitionFilePath = true;
           this.isDisabled = true;
           const btnAdd = document.getElementById('btnAddNOCDetail')
           if (btnAdd) { btnAdd.innerHTML = "Update"; }
@@ -703,6 +737,10 @@ export class OldNOCDetailsComponent implements OnInit {
       this.isSubmitted = false;
       this.isDisabled = false;
       this.showImageFilePath = false;
+      this.showFirstRecognitionFilePath= false;
+      this.showRevisedRecognitionFilePath= false;
+      this.showStateRecognitionFilePath= false;
+      this.showRevisedStateRecognitionFilePath= false;
       this.isToDisable = true;
       const btnAdd = document.getElementById('btnAddNOCDetail')
       if (btnAdd) { btnAdd.innerHTML = '<i class="fa fa-plus"></i>&nbsp;Add & Save'; }
@@ -724,4 +762,155 @@ export class OldNOCDetailsComponent implements OnInit {
       }, 200);
     }
   }
+  async ValidateDocumentImageDepartment11(event: any, Type: string) {   
+    try {
+      this.loaderService.requestStarted();
+      this.file = event.target.files[0];
+      if (this.file) {
+        if (Type == 'FirstRecognitionUploadDoc' || Type == 'RevisedRecognitionUploadDoc' || Type == 'StateRecognitionUploadDoc' || Type == 'RevisedStateRecognitionUploadDoc') {
+          if (this.file.type == 'application/pdf' || this.file.type == 'application/pdf') {
+            //size validation
+            if (this.file.size > 2000000) {
+              this.ResetFileAndValidation(Type, 'Select less then 2MB File', '', '', '', false);
+              this.toastr.error('Select more then 100kb File')
+              return
+            }
+            if (this.file.size < 100000) {
+              this.ResetFileAndValidation(Type, 'Select more then 100kb File', '', '', '', false);
+              this.toastr.error('Select more then 100kb File')
+              return
+            }
+          }
+          else {
+            this.toastr.warning('Select Only application/pdf');
+            // type validation
+            this.ResetFileAndValidation(Type, 'Select Only PDF', '', '', '', false);
+            return
+          }
+        }
+        else if (this.file.type == 'application/pdf') {
+          //size validation
+          if (this.file.size > 2000000) {
+            this.ResetFileAndValidation(Type, 'Select less then 2MB File', '', '', '', false);
+            return
+          }
+          if (this.file.size < 100000) {
+            this.ResetFileAndValidation(Type, 'Select more then 100kb File', '', '', '', false);
+            return
+          }
+        }
+        else {// type validation
+          this.ResetFileAndValidation(Type, 'Select Only pdf file', '', '', '', false);
+          return
+        }
+        // upload to server folder
+        await this.fileUploadService.UploadDocument(this.file).then((data: any) => {
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          if (this.State == 0) {
+            this.ResetFileAndValidation(Type, '', data['Data'][0]["FileName"], data['Data'][0]["FilePath"], data['Data'][0]["Dis_FileName"], true);
+          }
+          if (this.State == 1) {
+            this.toastr.error(this.ErrorMessage)
+          }
+          else if (this.State == 2) {
+            this.toastr.warning(this.ErrorMessage)
+          }
+        });
+      }
+      else {
+        this.ResetFileAndValidation(Type, '', '', '', '', false);
+      }
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        event.target.value = null;
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+  async DeleteImage1(Type: string, file: string) {
+    try {
+
+      if (confirm("Are you sure you want to delete this ?")) {
+        this.loaderService.requestStarted();
+        // delete from server folder
+        await this.fileUploadService.DeleteDocument(file).then((data: any) => {
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          if (this.State == 0) {
+            this.ResetFileAndValidation(Type, '', '', '', '', false);
+          }
+          if (this.State == 1) {
+            this.toastr.error(this.ErrorMessage)
+          }
+          else if (this.State == 2) {
+            this.toastr.warning(this.ErrorMessage)
+          }
+        });
+      }
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  public files: any = '';
+  ResetFileAndValidation(type: string, msg: string, name: string, path: string, dis_Name: string, isShowFile: boolean) {
+    //event.target.value = '';
+    try {
+      this.loaderService.requestStarted();
+      if (type == 'FirstRecognitionUploadDoc') {
+        this.showFirstRecognitionFilePath = isShowFile;
+        this.FirstRecognitionUploadValidationMessage = msg;
+        this.request.FirstRecognitionUploadDoc = name;
+        this.request.FirstRecognitionUploadDocPath = path;
+        this.request.FirstRecognitionUploadDoc_Dis_FileName = dis_Name;
+        
+      }      
+      else if (type == 'RevisedRecognitionUploadDoc') {
+        this.showRevisedRecognitionFilePath = isShowFile;
+        this.RevisedRecognitionUploadValidationMessage = msg;
+        this.request.RevisedRecognitionUploadDoc = name;
+        this.request.RevisedRecognitionUploadDocPath = path;
+        this.request.RevisedRecognitionUploadDoc_Dis_FileName = dis_Name;
+        
+      }
+      else if (type == 'StateRecognitionUploadDoc') {
+        this.showStateRecognitionFilePath = isShowFile;
+        this.StateRecognitionUploadValidationMessage = msg;
+        this.request.StateRecognitionUploadDoc = name;
+        this.request.StateRecognitionUploadDocPath = path;
+        this.request.StateRecognitionUploadDoc_Dis_FileName = dis_Name;
+      }
+      else if (type == 'RevisedStateRecognitionUploadDoc') {
+
+        this.showRevisedStateRecognitionFilePath = isShowFile;        
+        this.RevisedStateRecognitionUploadValidationMessage = msg;
+        this.request.RevisedStateRecognitionUploadDoc = name;
+        this.request.RevisedStateRecognitionUploadDocPath = path;
+        this.request.RevisedStateRecognitionUploadDoc_Dis_FileName = dis_Name;
+      }
+      
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  
 }

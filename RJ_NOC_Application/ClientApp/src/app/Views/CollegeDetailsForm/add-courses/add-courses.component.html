@@ -94,8 +94,47 @@
                 <p *ngIf="!form.ddlCourse.errors.DropdownValidators">This field is required .!</p>
               </div>
             </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="this.request.DepartmentID ==11">
+              <label>Establishment Year (For Each Course) <span style="color:red;">*</span></label>
+              <select class="form-select" id="ddlSessionYear" name="ddlSessionYear" [(ngModel)]="request.SessionYear" formControlName="ddlSessionYear">
+                <option value="0" disabled>--Select Session Year--</option>
+                <option *ngFor="let item of lstSessionYear"
+                        value="{{item.FinancialYearID}}">
+                  {{item.FinancialYearName}}
+                </option>
+              </select>
+              <div *ngIf="isSubmitted&&form.ddlSessionYear.errors" class="text-danger">
+                <p *ngIf="!form.ddlSessionYear.errors.DropdownValidators"><i aria-hidden="true"></i> This field is required .!</p>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="this.request.DepartmentID ==11">
+              <label>Course Category<span style="color:red;">*</span></label>
+              <select class="form-select" id="CourseCategory" name="CourseCategory" [(ngModel)]="request.CourseCategoryId" formControlName="CourseCategory">
+                <option value="0" disabled>--Select Course Category--</option>
+                <option *ngFor="let item of CourseCategoryDataList" value="{{item.CourseCategoryId}}">
+                  {{item.CourseCategoryName}}
+                </option>
+              </select>
+              <div *ngIf="isSubmitted&&form.CourseCategory.errors" class="text-danger">
+                <p *ngIf="!form.CourseCategory.errors.DropdownValidators"><i aria-hidden="true"></i> This field is required .!</p>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="this.request.DepartmentID ==11">
+              <label for="txtCommitteeName" class="form-label">Total Seats (Course Wise) <span style="color:red;">*</span></label>
+              <input type="text" class="form-control" id="txtTotalSeats" placeholder="Enter Seats Course Wise" name="txtTotalSeats" formControlName="txtTotalSeats" [(ngModel)]="request.TotalSeatsCourseWise" autocomplete="off">
 
+              <div *ngIf="isSubmitted&&form.txtTotalSeats.errors" class="text-danger">
+                <p *ngIf="form.txtTotalSeats.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="this.request.DepartmentID ==11">
+              <label for="txtCommitteeName" class="form-label">Composite Unit<span style="color:red;">*</span></label>
+              <input type="text" class="form-control" placeholder="Enter Composite Unit" id="txtCompositeUnit" name="txtCompositeUnit" formControlName="txtCompositeUnit" [(ngModel)]="request.CompositeUnit" autocomplete="off">
 
+              <div *ngIf="isSubmitted&&form.txtCompositeUnit.errors" class="text-danger">
+                <p *ngIf="form.txtCompositeUnit.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+              </div>
+            </div>
             <!--<div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3 multipleSelectsOverflow" [hidden]="(request.DepartmentID==2 || request.DepartmentID==11)">
     <label for="ddlSubject" class="form-label">Subject <span *ngIf="this.request.DepartmentID !=9" style="color:red">*</span></label>
     <ng-multiselect-dropdown [placeholder]="'--Select--'" formControlName="ddlSubject" id="ddlSubject"
@@ -147,7 +186,7 @@
     </div>-->
             </div>
           </div>
-        </div>
+          </div>
         <div class="card-footer text-end">
           <button name="btnSave" id="btnSave" class="btn btn-primary" [disabled]="isLoading" (click)="SaveData()">
             <img *ngIf="isLoading" style="width:17px" src="../../../assets/img/loader.gif" />
@@ -193,6 +232,10 @@
 
                 <th *ngIf="this.request.DepartmentID !=3 && CollegeStatus != 'New'">Seat</th> 
                 <th *ngIf="this.request.DepartmentID ==3">No Of Enrolled Students</th>
+                <th *ngIf="this.request.DepartmentID ==11">Establishment Year</th>
+                <th *ngIf="this.request.DepartmentID ==11">Course Category</th>
+                <th *ngIf="this.request.DepartmentID ==11">Total Seats (Course Wise) </th>
+                <th *ngIf="this.request.DepartmentID ==11">Composite Unit</th>
                 <th>Action</th>
               </tr>
             </thead>
@@ -206,6 +249,10 @@
                 <td style="width:250px !important" *ngIf="this.request.DepartmentID !=2&& this.request.DepartmentID !=9&& this.request.DepartmentID !=6">{{row.SubjectDetails}}</td>
                 <td *ngIf="this.request.DepartmentID !=3 && CollegeStatus != 'New'">{{row.Dis_Sits}}</td>
                 <td *ngIf="this.request.DepartmentID ==3">{{row.NoOfEnrolledStudents}}</td>
+                <td *ngIf="this.request.DepartmentID ==11">{{row.FinancialYearName}}</td>
+                <td *ngIf="this.request.DepartmentID ==11">{{row.CourseCategoryName}}</td>
+                <td *ngIf="this.request.DepartmentID ==11">{{row.TotalSeatsCourseWise}}</td>
+                <td *ngIf="this.request.DepartmentID ==11">{{row.CompositeUnit}}</td>
                 <td>
                   <div class="d-flex">
                     <button type="button" (click)="Edit_OnClick(row.CollegeWiseCourseID)" [attr.disabled]="isDisabledGrid ? true : null" title="Edit"

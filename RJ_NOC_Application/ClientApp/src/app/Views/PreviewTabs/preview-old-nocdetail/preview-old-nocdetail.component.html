@@ -12,19 +12,45 @@
         <div class="row">
           <div class="col-md-12">
             <div class="table-responsive">
-              <table class="table table-hover table-striped">
+              <table class="table table-hover table-striped table-bordered">
+                <thead>
                 <thead>
                   <tr>
-                    <th>S.No.</th>
-                    <th>Course</th>
-                    <th>NOC Type</th>
-                    <th>Session Year</th>
-                    <th>NOC No.</th>
-                    <th>NOC Received On</th>
-                    <th>Action</th>
+                    <td colspan="19" style="    font-weight: 800; font-size: 18px;">
+                      <b><i class="bi bi-table"></i>&nbsp;Old NOC Details</b>
+                    </td>
                   </tr>
-                </thead>
+                </thead>                
                 <tbody>
+                  <tr>
+                    <th rowspan="2">S.No.</th>
+                    <th rowspan="2">Course</th>
+                    <th rowspan="2">NOC Type</th>
+                    <th rowspan="2">Session Year</th>
+                    <th rowspan="2">NOC No.</th>
+                    <th rowspan="2">NOC Received On</th>
+                    <th *ngIf="SelectedDepartmentID==11" colspan="3">First NCTE Recognition</th>                   
+                    <th *ngIf="SelectedDepartmentID==11" colspan="3">Revised/Latest Recognition</th>                    
+                    <th *ngIf="SelectedDepartmentID==11" colspan="3">First State NOC</th>                    
+                    <th *ngIf="SelectedDepartmentID==11" colspan="3">Revised/Latest State NOC</th>                   
+                    <th rowspan="2">Action</th>
+                  </tr>
+                  <tr>
+
+                    <th *ngIf="SelectedDepartmentID==11">Order No</th>
+                    <th *ngIf="SelectedDepartmentID==11">Date</th>
+                    <th *ngIf="SelectedDepartmentID==11">Upload</th>
+                    <th *ngIf="SelectedDepartmentID==11">Order No</th>
+                    <th *ngIf="SelectedDepartmentID==11">Date</th>
+                    <th *ngIf="SelectedDepartmentID==11">Upload</th>
+                    <th *ngIf="SelectedDepartmentID==11">Order No</th>
+                    <th *ngIf="SelectedDepartmentID==11">Date</th>
+                    <th *ngIf="SelectedDepartmentID==11">Upload</th>
+                    <th *ngIf="SelectedDepartmentID==11">Order No</th>
+                    <th *ngIf="SelectedDepartmentID==11">Date</th>
+                    <th *ngIf="SelectedDepartmentID==11">Upload</th>
+                  </tr>
+
                   <tr *ngFor="let item of OldNocDetails let idx =index">
                     <td>{{idx+1}}</td>
                     <td>{{item.CourseName}}</td>
@@ -32,6 +58,40 @@
                     <td>{{item.FinancialYearName}}</td>
                     <td>{{item.NOCNumber}}</td>
                     <td>{{item.NOCReceivedDate | date:'dd-MM-yyyy'}}</td>
+                    <td *ngIf="SelectedDepartmentID==11">{{item.FirstOrderNo}}</td>
+                    <td *ngIf="SelectedDepartmentID==11">{{item.FirstOrderDate | date:'dd-MM-yyyy'}}</td>
+                    <td *ngIf="SelectedDepartmentID==11">
+                      <a *ngIf="!item.FirstRecognitionUploadDocPath.includes('.pdf')" data-fancybox="gallery" href="{{item.FirstRecognitionUploadDocPath}}" data-caption="Image 10" title="click here to zoom">
+                        <img src="{{item.FirstRecognitionUploadDocPath}}" alt="First NCTE Recognition Document" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                      </a>
+                      <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.FirstRecognitionUploadDocPath.includes('.pdf')" data-fancybox="gallery" href="{{item.FirstRecognitionUploadDocPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                    </td>
+
+                    <td *ngIf="SelectedDepartmentID==11">{{item.RevisedOrderNo}}</td>
+                    <td *ngIf="SelectedDepartmentID==11">{{item.RevisedOrderDate | date:'dd-MM-yyyy'}}</td>
+                    <td *ngIf="SelectedDepartmentID==11">
+                      <a *ngIf="!item.RevisedRecognitionUploadDocPath.includes('.pdf')" data-fancybox="gallery" href="{{item.RevisedRecognitionUploadDocPath}}" data-caption="Image 10" title="click here to zoom">
+                        <img src="{{item.RevisedRecognitionUploadDocPath}}" alt="First NCTE Recognition Document" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                      </a>
+                      <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.StateRecognitionUploadDocPath.includes('.pdf')" data-fancybox="gallery" href="{{item.StateRecognitionUploadDocPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                    </td>
+                    <td *ngIf="SelectedDepartmentID==11">{{item.StateOrderNo}}</td>
+                    <td *ngIf="SelectedDepartmentID==11">{{item.StateOrderDate | date:'dd-MM-yyyy'}}</td>
+                    <td *ngIf="SelectedDepartmentID==11">
+                      <a *ngIf="!item.StateRecognitionUploadDocPath.includes('.pdf')" data-fancybox="gallery" href="{{item.StateRecognitionUploadDocPath}}" data-caption="Image 10" title="click here to zoom">
+                        <img src="{{item.StateRecognitionUploadDocPath}}" alt="First NCTE Recognition Document" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                      </a>
+                      <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.StateRecognitionUploadDocPath.includes('.pdf')" data-fancybox="gallery" href="{{item.StateRecognitionUploadDocPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                    </td>
+                    <td *ngIf="SelectedDepartmentID==11">{{item.RevisedStateOrderNo}}</td>
+                    <td *ngIf="SelectedDepartmentID==11">{{item.RevisedStateOrderNo | date:'dd-MM-yyyy'}}</td>
+                    <td *ngIf="SelectedDepartmentID==11">
+                      <a *ngIf="!item.RevisedStateRecognitionUploadDocPath.includes('.pdf')" data-fancybox="gallery" href="{{item.RevisedStateRecognitionUploadDocPath}}" data-caption="Image 10" title="click here to zoom">
+                        <img src="{{item.RevisedStateRecognitionUploadDocPath}}" alt="First NCTE Recognition Document" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                      </a>
+                      <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.RevisedStateRecognitionUploadDocPath.includes('.pdf')" data-fancybox="gallery" href="{{item.RevisedStateRecognitionUploadDocPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                    </td>
+
                     <td>
                       <button type="button" class="btn btn-sm btn-info" title="View" (click)="ViewOldNOCDetail(mymodal,item.OldNocID)"><i class="fa fa-eye"></i></button>
                     </td>
@@ -67,7 +127,7 @@
             <input class="form-control disabled" disabled value="{{request.CourseName}}" />
           </div>
 
-          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" [hidden]="SelectedDepartmentID ==2 || SelectedDepartmentID==4">
+          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" [hidden]="SelectedDepartmentID ==2 || SelectedDepartmentID==4 || SelectedDepartmentID==11">
             <label><b>Subject :</b></label>
             <div class="clearfix"></div>
             <div class="form-control disabled">
@@ -84,7 +144,7 @@
             <label><b>NOC Issue on Session Year :</b></label>
             <input class="form-control disabled" disabled value="{{request.FinancialYearName}}" />
           </div>
-          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" [hidden]="SelectedDepartmentID==11">
             <label><b>Issued for Year :</b></label>
             <input class="form-control disabled" disabled value="{{request.IssuedYearName}}" />
           </div>
@@ -100,7 +160,71 @@
             <label><b>NOC Expire Date :</b></label>
             <input class="form-control disabled" disabled value="{{request.NOCExpireDate | date:'dd-MM-yyyy'}}" />
           </div>
+          <div class="card-body" *ngIf="SelectedDepartmentID==11">
+            <div class="row">
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label><b>First NCTE Recognition Order No:</b></label>
+                <input class="form-control disabled mt-1" disabled value="{{request.FirstOrderNo}}" />
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label><b>First NCTE Recognition Date:</b></label>
+                <input class="form-control disabled mt-1" disabled value="{{request.FirstOrderDate | date:'dd-MM-yyyy'}}" />
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label><b>First NCTE Recognition Upload:</b></label>
+                <a *ngIf="!request.FirstRecognitionUploadDocPath.includes('.pdf')" data-fancybox="gallery" href="{{request.FirstRecognitionUploadDocPath}}" data-caption="Image 10" title="click here to zoom">
+                  <img src="{{request.FirstRecognitionUploadDocPath}}" alt="First NCTE Recognition Document" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                </a>
+                <a class="bi bi-file-earmark-pdf-fill" *ngIf="request.FirstRecognitionUploadDocPath.includes('.pdf')" data-fancybox="gallery" href="{{request.FirstRecognitionUploadDocPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label><b>Revised/Latest Recognition Order No:</b></label>
+                <input class="form-control disabled mt-1" disabled value="{{request.RevisedOrderNo}}" />
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label><b>Revised/Latest Recognition Date:</b></label>
+                <input class="form-control disabled mt-1" disabled value="{{request.RevisedOrderDate | date:'dd-MM-yyyy'}}" />
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label><b>Revised/Latest Recognition Upload:</b></label>
+                <a *ngIf="!request.RevisedRecognitionUploadDocPath.includes('.pdf')" data-fancybox="gallery" href="{{request.RevisedRecognitionUploadDocPath}}" data-caption="Image 10" title="click here to zoom">
+                  <img src="{{request.RevisedRecognitionUploadDocPath}}" alt="First NCTE Recognition Document" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                </a>
+                <a class="bi bi-file-earmark-pdf-fill" *ngIf="request.RevisedRecognitionUploadDocPath.includes('.pdf')" data-fancybox="gallery" href="{{request.RevisedRecognitionUploadDocPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label><b>First State NOC Order No:</b></label>
+                <input class="form-control disabled mt-1" disabled value="{{request.StateOrderNo}}" />
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label><b>First State NOC Date:</b></label>
+                <input class="form-control disabled mt-1" disabled value="{{request.StateOrderDate | date:'dd-MM-yyyy'}}" />
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label><b>First State NOC Upload:</b></label>
+                <a *ngIf="!request.StateRecognitionUploadDocPath.includes('.pdf')" data-fancybox="gallery" href="{{request.StateRecognitionUploadDocPath}}" data-caption="Image 10" title="click here to zoom">
+                  <img src="{{request.StateRecognitionUploadDocPath}}" alt="First NCTE Recognition Document" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                </a>
+                <a class="bi bi-file-earmark-pdf-fill" *ngIf="request.StateRecognitionUploadDocPath.includes('.pdf')" data-fancybox="gallery" href="{{request.StateRecognitionUploadDocPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label><b>Revised/Latest State NOC Order No:</b></label>
+                <input class="form-control disabled mt-1" disabled value="{{request.RevisedStateOrderNo}}" />
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label><b>Revised/Latest State NOC Date:</b></label>
+                <input class="form-control disabled mt-1" disabled value="{{request.RevisedStateOrderNo | date:'dd-MM-yyyy'}}" />
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label><b>Revised/Latest State NOC Upload:</b></label>
+                <a *ngIf="!request.RevisedStateRecognitionUploadDocPath.includes('.pdf')" data-fancybox="gallery" href="{{request.RevisedStateRecognitionUploadDocPath}}" data-caption="Image 10" title="click here to zoom">
+                  <img src="{{request.RevisedStateRecognitionUploadDocPath}}" alt="First NCTE Recognition Document" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                </a>
+                <a class="bi bi-file-earmark-pdf-fill" *ngIf="request.RevisedStateRecognitionUploadDocPath.includes('.pdf')" data-fancybox="gallery" href="{{request.RevisedStateRecognitionUploadDocPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+              </div>
 
+            </div>
+          </div>
           <div class="col-lg-12 col-md-12 col-sm-12 col-12 mb-3">
             <label><b>Remark :</b></label>
             <input class="form-control disabled" disabled value="{{request.Remark}}" />
@@ -111,7 +235,7 @@
               <img src="{{request.UploadNOCDocPath}}" alt="NOC Document" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
             </a>
             <a class="bi bi-file-earmark-pdf-fill" *ngIf="request.UploadNOCDocPath.includes('.pdf')" data-fancybox="gallery" href="{{request.UploadNOCDocPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
-            </div>
+          </div>
         </div>
       </div>
     </ng-template>

@@ -131,7 +131,7 @@ export class TotalCollegeDepartmentWiseReportsComponent implements OnInit {
     }
   }
 
-  async GetCollegeDetailsByCollege(CollegeID: any) {
+  async GetCollegeDetailsByCollege(CollegeID: any) {    
     try {
       this.loaderService.requestStarted();
       await this.draftApplicationListService.ViewTotalCollegeDataByID(CollegeID, this.sSOLoginDataModel.UserID)

@@ -65,7 +65,8 @@ export class AddCoursesComponent implements OnInit {
 
   public SelectedCollageID: number = 0;
   public SearchRecordID: string = '';
-
+  public lstSessionYear: any = [];
+  public CourseCategoryDataList: any = [];
   constructor(private courseMasterService: CourseMasterService, private toastr: ToastrService, private loaderService: LoaderService,
     private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private _fb: FormBuilder,
     private clipboard: Clipboard) {
@@ -78,13 +79,18 @@ export class AddCoursesComponent implements OnInit {
       this.CourseMasterForm = this.formBuilder.group(
         {
           ddlCollege: ['', [DropdownValidators]],
-          ddlCourse: ['', [DropdownValidators]],
+          ddlCourse: ['', [DropdownValidators]],          
           ddlSubject: ['', Validators.required],
           ddlSeatInformation: [''],//, [DropdownValidators]
           txtNoOfEnrolledStudents: [''],//, Validators.required
           txtsearchText: [''],
           ddlCourseLevelID: ['', [DropdownValidators]],
-          ddlStreamID: [''] //, [DropdownValidators]
+          ddlStreamID: [''], //, [DropdownValidators]
+          ddlSessionYear: ['', [DropdownValidators]],
+          CourseCategory: ['', [DropdownValidators]],
+          txtTotalSeats: ['', Validators.required],
+          txtCompositeUnit: ['', Validators.required],
+          
         })
 
       const ddlDepartment = document.getElementById('ddlDepartment')
@@ -115,6 +121,8 @@ export class AddCoursesComponent implements OnInit {
       ///Edit Process
       await this.LoadMaster();
       await this.GetAllList();
+      await this.GetSessionYear();
+      await this.GetCourceCategoryList();
       this.dropdownSettings = {
         singleSelection: false,
         selectAllText: 'Select All',
@@ -441,6 +449,10 @@ export class AddCoursesComponent implements OnInit {
     this.request.Seats = 0;
     this.request.NoOfEnrolledStudents = undefined;
     this.request.SelectedSubjectDetails = [];
+    this.request.CompositeUnit = '';
+    this.request.CourseCategoryId = 0;
+    this.request.SessionYear = 0;
+    this.request.TotalSeatsCourseWise = '';
     this.subjectDataList = [];
     this.request.UserID = 0;
     this.request.ActiveStatus = true;
@@ -495,7 +507,10 @@ export class AddCoursesComponent implements OnInit {
 
           this.request.Seats = data['Data'][0]["Seats"];
           this.request.SelectedSubjectDetails = data['Data'][0]["SelectedSubjectDetails"];
-
+          this.request.SessionYear = data['Data'][0]["SessionYear"];
+          this.request.CourseCategoryId = data['Data'][0]["CourseCategoryId"];
+          this.request.TotalSeatsCourseWise = data['Data'][0]["TotalSeatsCourseWise"];
+          this.request.CompositeUnit = data['Data'][0]["CompositeUnit"];
           this.request.UserID = data['Data'][0]["UserID"];
           this.request.ActiveStatus = data['Data'][0]["ActiveStatus"];
           this.request.DeleteStatus = data['Data'][0]["DeleteStatus"];
@@ -802,6 +817,47 @@ export class AddCoursesComponent implements OnInit {
   shiftFHandler() {
     alert('Shift+F pressed!');
   }
+  async GetSessionYear() {
+    try {
+      this.loaderService.requestStarted();
+      await this.commonMasterService.GetAllFinancialYear_OldNOC(this.SelectedCollageID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.lstSessionYear = data['Data'];          
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  async GetCourceCategoryList() {
+    debugger;
+    try {
+      this.loaderService.requestStarted();
+      await this.commonMasterService.GetCollageList_DepartmentAndSSOIDWise(this.request.DepartmentID, this.sSOLoginDataModel.SSOID, "Course Category")
+        .then(async (data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.CourseCategoryDataList = data['Data'];
+         }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
 }
 
 
