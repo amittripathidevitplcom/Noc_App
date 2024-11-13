@@ -111,8 +111,8 @@
               <label>Course Category<span style="color:red;">*</span></label>
               <select class="form-select" id="CourseCategory" name="CourseCategory" [(ngModel)]="request.CourseCategoryId" formControlName="CourseCategory">
                 <option value="0" disabled>--Select Course Category--</option>
-                <option *ngFor="let item of CourseCategoryDataList" value="{{item.CourseCategoryId}}">
-                  {{item.CourseCategoryName}}
+                <option *ngFor="let item of CourseCategoryDataList" value="{{item.ID}}">
+                  {{item.Name}}
                 </option>
               </select>
               <div *ngIf="isSubmitted&&form.CourseCategory.errors" class="text-danger">

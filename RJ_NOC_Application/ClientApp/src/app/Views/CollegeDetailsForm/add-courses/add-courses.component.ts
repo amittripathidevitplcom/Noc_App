@@ -862,7 +862,7 @@ export class AddCoursesComponent implements OnInit {
     debugger;
     try {
       this.loaderService.requestStarted();
-      await this.commonMasterService.GetCollageList_DepartmentAndSSOIDWise(this.request.DepartmentID, this.sSOLoginDataModel.SSOID, "Course Category")
+      await this.commonMasterService.GetCommonMasterList_DepartmentAndTypeWise(this.request.DepartmentID,"Course Category")
         .then(async (data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.CourseCategoryDataList = data['Data'];
