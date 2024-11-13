@@ -13,6 +13,7 @@ import { ApplyNOCApplicationService } from '../../../Services/ApplyNOCApplicatio
 import { DocumentScrutinyDataModel } from '../../../Models/DocumentScrutinyDataModel';
 import { DCEDocumentScrutinyService } from '../../../Services/DCEDocumentScrutiny/dcedocument-scrutiny.service';
 import { DocumentScrutinyComponent } from '../../DCE/document-scrutiny/document-scrutiny.component';
+import { ModalDismissReasons, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 @Component({
   selector: 'app-document-scrutiny-legal-entity-dce',
   templateUrl: './document-scrutiny-legal-entity-dec.component.html',
@@ -20,7 +21,7 @@ import { DocumentScrutinyComponent } from '../../DCE/document-scrutiny/document-
 })
 export class DocumentScrutinyLegalEntityComponentDce implements OnInit {
 
-  constructor(private dcedocumentscrutiny: DocumentScrutinyComponent,private dcedocumentScrutinyService: DCEDocumentScrutinyService, private applyNOCApplicationService: ApplyNOCApplicationService, private legalEntityListService: LegalEntityService, private toastr: ToastrService, private loaderService: LoaderService, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private collegeService: CollegeService, private sSOLoginService: SSOLoginService) { }
+  constructor(private modalService: NgbModal,private dcedocumentscrutiny: DocumentScrutinyComponent,private dcedocumentScrutinyService: DCEDocumentScrutinyService, private applyNOCApplicationService: ApplyNOCApplicationService, private legalEntityListService: LegalEntityService, private toastr: ToastrService, private loaderService: LoaderService, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private collegeService: CollegeService, private sSOLoginService: SSOLoginService) { }
   public QueryStringStatus: any = '';
   public State: number = -1;
   public SuccessMessage: any = [];
@@ -294,5 +295,49 @@ export class DocumentScrutinyLegalEntityComponentDce implements OnInit {
   }
   ViewTaril(ID: number, ActionType: string) {
     this.dcedocumentscrutiny.ViewTarilCommon(ID, ActionType);
+  }
+
+
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return `with: ${reason}`;
+    }
+  }
+  closeResult: string | undefined;
+  modalReference: NgbModalRef | undefined;
+  public LegalEntityHistory: any = [];
+  public legalEntityInstituteDetailDataHis: any = [];
+  public legalEntityMemberDetailDataHis: any = [];
+  async ViewLegalEntityDetailHistory(content: any) {
+    this.LegalEntityHistory = [];
+    this.legalEntityInstituteDetailDataHis = [];
+    this.legalEntityMemberDetailDataHis = [];
+    this.modalService.open(content, { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' }).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+    try {
+      this.loaderService.requestStarted();
+      await this.commonMasterService.GetCollegeTabData_History(0, 'LegalEntityDetails', 0, this.sSOLoginDataModel.SSOID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.LegalEntityHistory = data['Data'][0]['data']["Table"];
+          this.legalEntityMemberDetailDataHis = data['Data'][0]['data']["Table2"];
+          this.legalEntityInstituteDetailDataHis = data['Data'][0]['data']["Table1"];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
   }
 }

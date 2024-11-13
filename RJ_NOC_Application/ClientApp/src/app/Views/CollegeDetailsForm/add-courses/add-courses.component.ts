@@ -14,8 +14,6 @@ import { Clipboard } from '@angular/cdk/clipboard';
 import jsPDF from 'jspdf'
 import autoTable from 'jspdf-autotable'
 import { EnumDepartment } from '../../../Common/enum-noc';
-import { Console } from 'console';
-import { async } from 'rxjs';
 
 
 @Injectable()

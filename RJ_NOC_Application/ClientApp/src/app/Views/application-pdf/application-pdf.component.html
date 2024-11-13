@@ -388,7 +388,8 @@
                   <tr>
                     <td colspan="3" style="    font-weight: 800;
     font-size: 18px;">
-                      <b><i class="bi bi-table"></i>&nbsp;College Detail</b>
+                      <b *ngIf="collegeListData.DepartmentID!=6"><i class="bi bi-table"></i>&nbsp;College Detail</b>
+                      <b *ngIf="collegeListData.DepartmentID==6"><i class="bi bi-table"></i>&nbsp;Nursing Institute Details</b>
                     </td>
                   </tr>
                 </thead>
@@ -468,11 +469,21 @@
                       <label>College Medium :-{{collegeListData.CollegeMediumName}}</label>
                     </td>
                     <td>
-                      <label *ngIf="collegeListData.DepartmentID==6">University / RMC  :-{{collegeListData.UniversityName}}</label>
+                      <label *ngIf="collegeListData.DepartmentID==6">University / RNC  :-{{collegeListData.UniversityName}}</label>
                       <label *ngIf="collegeListData.DepartmentID !=6">University :-{{collegeListData.UniversityName}}</label>
                     </td>
                     <td *ngIf="collegeListData.CollegeStatus!='New'">
                       <label>Year of Establishment :-{{collegeListData.FinancialYearName}}</label>
+                    </td>
+                  </tr>
+                  <tr *ngIf="collegeListData.DepartmentID==6">
+                    <td>
+                      <label>Is Abbreviation :-{{collegeListData.IsAbbreviation}}</label>
+                    </td>
+                    <td>
+                      <label *ngIf="collegeListData.IsAbbreviation=='Yes'">Abbreviation Name  :-{{collegeListData.AbbreviationName}}</label>
+                    </td>
+                    <td>
                     </td>
                   </tr>
                   <tr>
@@ -794,8 +805,8 @@ font-size: 18px;">
                       <th>Department</th>
                       <th>College Name</th>
                       <th>Course</th>
-                      <th *ngIf="this.SelectedDepartmentID !=2">Stream</th>
-                      <th style="width: 250px !important" *ngIf="this.SelectedDepartmentID !=2">Subject</th>
+                      <th *ngIf="this.SelectedDepartmentID !=2&&this.SelectedDepartmentID !=6">Stream</th>
+                      <th style="width: 250px !important" *ngIf="this.SelectedDepartmentID !=2&&this.SelectedDepartmentID !=6">Subject</th>
                       <th *ngIf="this.SelectedDepartmentID !=3 && CollegeType_IsExisting">Seat</th>
                       <th *ngIf="this.SelectedDepartmentID ==3">No Of Enrolled Students</th>
                     </tr>
@@ -804,8 +815,8 @@ font-size: 18px;">
                       <td>{{row.DepartmentName}}</td>
                       <td>{{row.CollageName}}</td>
                       <td>{{row.CourseName}}</td>
-                      <td *ngIf="this.SelectedDepartmentID !=2">{{row.StreamName}}</td>
-                      <td style="    width: 250px !important" *ngIf="this.SelectedDepartmentID !=2">{{row.SubjectDetails}}</td>
+                      <td *ngIf="this.SelectedDepartmentID !=2&&this.SelectedDepartmentID !=6">{{row.StreamName}}</td>
+                      <td style="    width: 250px !important" *ngIf="this.SelectedDepartmentID !=2&&this.SelectedDepartmentID !=6">{{row.SubjectDetails}}</td>
                       <td *ngIf="this.SelectedDepartmentID !=3 && CollegeType_IsExisting">{{row.Dis_Sits}}</td>
                       <td *ngIf="this.SelectedDepartmentID ==3">{{row.NoOfEnrolledStudents}}</td>
                     </tr>
@@ -1627,7 +1638,7 @@ font-size: 18px;">
                         <label>Whether the institution is a parent hospital or not :-{{row.ParentHospitalID==1?'Yes':'No'}}</label>
                       </td>
                       <td>
-                        <label>Hospital Status :-{{row.HospitalStatus}}</label>
+                        <label>Hospital Status :-{{row.HospitalStatus}}  <span *ngIf="row.HospitalStatus!=''">{{row.IsAffiliatedHospital}}</span></label>
                       </td>
                       <td>
                         <label>Hospital Area :-{{row.HospitalAreaName}}</label>

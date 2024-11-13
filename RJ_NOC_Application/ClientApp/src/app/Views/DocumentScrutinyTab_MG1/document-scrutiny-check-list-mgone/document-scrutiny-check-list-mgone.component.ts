@@ -477,10 +477,14 @@ export class DocumentScrutinyCheckListMGOneComponent implements OnInit {
       //this.CheckTabsEntryData['BuildingDocuments'] = this.CheckList_lstBuildingDetails.length <= 0 ? 1 : this.CheckTabsEntryData['BuildingDocuments'];
       //this.CheckTabsEntryData['HospitalDetails'] = this.CheckList_HospitalParentNotDataModelList.length <= 0 ? 1 : this.CheckTabsEntryData['HospitalDetails'];
       if (this.SelectedDepartmentID == 5) {
+        var ss = this.CheckTabsEntryData['LegalEntity'] <= 0 ? 'Legal Entity' : this.CheckTabsEntryData['CollegeDetail'] <= 0 ? 'College Detail' : this.CheckTabsEntryData['CollegeManagementSociety'] <= 0 ? 'College Management Society' :
+          this.CheckTabsEntryData['LandInformation'] <= 0 ? 'Land Detail' : this.CheckTabsEntryData['RequiredDocument'] <= 0 ? 'Required Document' : (this.CheckList_lstBuildingDetails.length > 0 && this.CheckTabsEntryData['BuildingDocuments'] <= 0) ? 'Building Details' :
+            (this.CheckList_HospitalParentNotDataModelList.length > 0 && this.CheckTabsEntryData['HospitalDetails'] <= 0) ? 'Hospital Details' : this.CheckTabsEntryData['CheckListDetail'] <= 0 ? 'Check List' : '';
+
         if (this.CheckTabsEntryData['LegalEntity'] <= 0 || this.CheckTabsEntryData['CollegeDetail'] <= 0 || this.CheckTabsEntryData['CollegeManagementSociety'] <= 0 || this.CheckTabsEntryData['LandInformation'] <= 0
-          || this.CheckTabsEntryData['RequiredDocument'] <= 0 || this.CheckTabsEntryData['BuildingDocuments'] <= 0 || this.CheckTabsEntryData['HospitalDetails'] <= 0 || this.CheckTabsEntryData['CheckListDetail']<=0) {
+          || this.CheckTabsEntryData['RequiredDocument'] <= 0 || (this.CheckList_lstBuildingDetails.length > 0 && this.CheckTabsEntryData['BuildingDocuments'] <= 0) || (this.CheckList_HospitalParentNotDataModelList.length>0 && this.CheckTabsEntryData['HospitalDetails'] <= 0) || this.CheckTabsEntryData['CheckListDetail']<=0) {
             this.isFormvalid = false;
-            this.toastr.warning('Please do document scrutiny all tabs');
+          this.toastr.warning('Please do document scrutiny ' + ss +' tabs');
           }
       }
 

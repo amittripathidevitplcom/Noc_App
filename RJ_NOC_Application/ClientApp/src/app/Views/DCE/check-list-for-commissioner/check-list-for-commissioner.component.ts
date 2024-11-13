@@ -1627,4 +1627,464 @@ export class CheckListForCommissionerComponent implements OnInit {
       }, 200);
     }
   }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  public AcademicHistory: any = [];
+  async ViewAcademicDetailHistory(content: any, ID: number) {
+    this.AcademicHistory = [];
+    this.modalService.open(content, { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' }).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+    try {
+      this.loaderService.requestStarted();
+      await this.commonMasterService.GetCollegeTabData_History(ID, 'AcademicDetails')
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.AcademicHistory = data['Data'][0]['data']["Table"];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+  public BuildingDetailsHistory: any = [];
+  public lstBuildingDocDetailshistory: any = [];
+  async ViewBuildingDetailHistory(content: any, ID: number) {
+    this.BuildingDetailsHistory = [];
+    this.lstBuildingDocDetailshistory = [];
+    this.modalService.open(content, { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' }).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+    try {
+      this.loaderService.requestStarted();
+      await this.commonMasterService.GetCollegeTabData_History(ID, 'BuildingDetails')
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          console.log('sdfds');
+          console.log(data);
+          console.log('dfsfds');
+          this.BuildingDetailsHistory = data['Data'][0]['data']["Table"];
+          this.lstBuildingDocDetailshistory = data['Data'][0]['data']["Table1"];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  public collegeListHistory: any = [];
+  public collegeContactDetailsHistoryList: any = [];
+  async ViewCollegeDetailHistory(content: any, ID: number) {
+    this.collegeListHistory = [];
+    this.collegeContactDetailsHistoryList = [];
+    this.modalService.open(content, { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' }).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+    try {
+      this.loaderService.requestStarted();
+      await this.commonMasterService.GetCollegeTabData_History(this.SelectedCollageID, 'CollegeDetails')
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.collegeListHistory = data['Data'][0]['data']["Table"];
+          this.collegeContactDetailsHistoryList = data['Data'][0]['data']["Table1"];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  public CollegeManagmentHistory: any = [];
+  async ViewCollegeManagmentHistory(content: any, ID: number) {
+    this.CollegeManagmentHistory = [];
+    this.modalService.open(content, { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' }).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+    try {
+      this.loaderService.requestStarted();
+      await this.commonMasterService.GetCollegeTabData_History(ID, 'CollegeManagmentSociety')
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.CollegeManagmentHistory = data['Data'][0]['data']["Table"];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  public FacilityHistory: any = [];
+  async ViewFacilityDetailHistory(content: any, ID: number) {
+    this.FacilityHistory = [];
+    this.modalService.open(content, { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' }).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+    try {
+      this.loaderService.requestStarted();
+      await this.commonMasterService.GetCollegeTabData_History(ID, 'FacilityDetails')
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.FacilityHistory = data['Data'][0]['data']["Table"];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  public FDRDetailsHistory: any = [];
+  async ViewFDRDetailHistory(content: any, ID: number) {
+    this.FDRDetailsHistory = [];
+    this.modalService.open(content, { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' }).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+    try {
+      this.loaderService.requestStarted();
+      await this.commonMasterService.GetCollegeTabData_History(ID, 'FDRDetails')
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.FDRDetailsHistory = data['Data'][0]['data']["Table"];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  public HostelHistory: any = [];
+  public HostelBlockHistory: any = [];
+  async ViewHostelDetailHistory(content: any, ID: number) {
+    this.HostelHistory = [];
+    this.HostelBlockHistory = [];
+    this.modalService.open(content, { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' }).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+    try {
+      this.loaderService.requestStarted();
+      await this.commonMasterService.GetCollegeTabData_History(ID, 'HostelDetails')
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.HostelHistory = data['Data'][0]['data']["Table"];
+          this.HostelBlockHistory = data['Data'][0]['data']["Table1"];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+
+  public LandDetailHistory: any = [];
+  public LandDetailsDocumentListHistory: any = [];
+  public DetailoftheLandHistory: any = [];
+  async ViewLandDetailHistory(content: any, LandDetailID: number) {
+    this.LandDetailHistory = [];
+    this.LandDetailsDocumentListHistory = [];
+    this.DetailoftheLandHistory = [];
+    this.modalService.open(content, { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' }).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+    try {
+      this.loaderService.requestStarted();
+      await this.commonMasterService.GetCollegeTabData_History(LandDetailID, 'LandDetails')
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.LandDetailHistory = data['Data'][0]['data']["Table"];
+          this.LandDetailsDocumentListHistory = data['Data'][0]['data']["Table1"];
+          this.DetailoftheLandHistory = data['Data'][0]['data']["Table2"];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+
+  public LegalEntityHistory: any = [];
+  public legalEntityInstituteDetailDataHis: any = [];
+  public legalEntityMemberDetailDataHis: any = [];
+  async ViewLegalEntityDetailHistory(content: any) {
+    this.LegalEntityHistory = [];
+    this.legalEntityInstituteDetailDataHis = [];
+    this.legalEntityMemberDetailDataHis = [];
+    this.modalService.open(content, { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' }).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+    try {
+      this.loaderService.requestStarted();
+      await this.commonMasterService.GetCollegeTabData_History(0, 'LegalEntityDetails', 0, this.sSOLoginDataModel.SSOID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.LegalEntityHistory = data['Data'][0]['data']["Table"];
+          this.legalEntityMemberDetailDataHis = data['Data'][0]['data']["Table2"];
+          this.legalEntityInstituteDetailDataHis = data['Data'][0]['data']["Table1"];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+
+
+  public OldNOCHistory: any = [];
+  async ViewOldNOCDetailHistory(content: any, ID: number) {
+    this.OldNOCHistory = [];
+    this.modalService.open(content, { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' }).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+    try {
+      this.loaderService.requestStarted();
+      await this.commonMasterService.GetCollegeTabData_History(ID, 'OldNOCDetails')
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.OldNOCHistory = data['Data'][0]['data']["Table"];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+
+  public OtherDocHistory: any = [];
+  async ViewOtherDocumentHistory(content: any, DocumentName: string) {
+    this.OtherDocHistory = [];
+    this.modalService.open(content, { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' }).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+    try {
+      this.loaderService.requestStarted();
+      await this.commonMasterService.GetCollegeTabData_History(0, 'OtherDoc', this.SelectedCollageID, DocumentName)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.OtherDocHistory = data['Data'][0]['data']["Table"];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+  public OtherInformationHistory: any = [];
+  async ViewOtherInformationHistory(content: any, ID: number) {
+    this.OtherInformationHistory = [];
+    this.modalService.open(content, { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' }).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+    try {
+      this.loaderService.requestStarted();
+      await this.commonMasterService.GetCollegeTabData_History(ID, 'OtherInformation')
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.OtherInformationHistory = data['Data'][0]['data']["Table"];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+  public RequiredDocHistory: any = [];
+  async ViewRequireDocumentDetailHistory(content: any, ID: number) {
+    this.RequiredDocHistory = [];
+    this.modalService.open(content, { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' }).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+    try {
+      this.loaderService.requestStarted();
+      await this.commonMasterService.GetCollegeTabData_History(ID, 'RequiredDoc', this.SelectedCollageID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.RequiredDocHistory = data['Data'][0]['data']["Table"];
+          console.log('Test');
+          console.log(this.RequiredDocHistory);
+          console.log('Test');
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+  public ClassRoomHistory: any = [];
+  async ViewClassRoomDetailHistory(content: any, ID: number) {
+    this.ClassRoomHistory = [];
+    this.modalService.open(content, { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' }).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+    try {
+      this.loaderService.requestStarted();
+      await this.commonMasterService.GetCollegeTabData_History(ID, 'ClassRoomDetails')
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.ClassRoomHistory = data['Data'][0]['data']["Table"];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+
+  public StaffDetailsHistory: any = [];
+  public StaffQualificationDetailsHistory: any = [];
+  async ViewStaffDetailHistory(content: any, ID: number) {
+    this.StaffDetailsHistory = [];
+    this.StaffQualificationDetailsHistory = [];
+    this.modalService.open(content, { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' }).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+    try {
+      this.loaderService.requestStarted();
+      await this.commonMasterService.GetCollegeTabData_History(ID, 'StaffDetails')
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.StaffDetailsHistory = data['Data'][0]['data']["Table"];
+          this.StaffQualificationDetailsHistory = data['Data'][0]['data']["Table1"];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+  public OfflinePaymentHistory: any = [];
+  async ViewOfflinePaymentHistory(content: any, ID: number) {
+    this.OfflinePaymentHistory = [];
+    this.modalService.open(content, { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' }).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+    try {
+      this.loaderService.requestStarted();
+      await this.commonMasterService.GetCollegeTabData_History(ID, 'OfflinePayment')
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.OfflinePaymentHistory = data['Data'][0]['data']["Table"];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
 }

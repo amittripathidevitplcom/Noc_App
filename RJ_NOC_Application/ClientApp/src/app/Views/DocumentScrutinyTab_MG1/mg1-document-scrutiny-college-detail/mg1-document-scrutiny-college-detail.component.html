@@ -13,6 +13,10 @@
                 <input class="form-control disabled mt-1" disabled value="{{collegeListData.DepartmentName_English}}" />
               </div>
               <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                <label>Type of College :</label>
+                <input class="form-control disabled mt-1" disabled value="{{collegeListData.TypeofCollege}}" />
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
                 <label>College Status :</label>
                 <input class="form-control disabled mt-1" disabled value="{{collegeListData.CollegeStatus}}" />
               </div>
@@ -25,8 +29,7 @@
                 <a class="bi bi-file-earmark-pdf-fill" *ngIf="collegeListData.CollegeLogoPath.includes('.pdf')" data-fancybox="gallery" href="{{collegeListData.CollegeLogoPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px">
                 </a>
               </div>
-            </div>
-            <div class="row">
+
               <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="collegeListData.CollegeStatus!='New'">
                 <label>Present Status of College :</label>
                 <input class="form-control disabled mt-1" disabled value="{{collegeListData.PresentCollegeStatus}}" />
@@ -51,7 +54,7 @@
                 <label>College Name in Hindi :</label>
                 <input class="form-control disabled mt-1" disabled value="{{collegeListData.CollegeNameHi}}" />
               </div>
-              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+              <!--<div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
                 <label>IS Your College NAAC Accredited :</label>
                 <input class="form-control disabled mt-1" disabled value="{{collegeListData.CollegeNAACAccredited}}" />
               </div>
@@ -63,7 +66,7 @@
               <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="collegeListData.CollegeNAACAccredited =='Yes'">
                 <label>NACC Validity Date :</label>
                 <input class="form-control disabled mt-1" disabled value="{{collegeListData.NACCValidityDate | date:'dd-MM-yyyy'}}" />
-              </div>
+              </div>-->
 
               <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="collegeListData.DepartmentID==3">
                 <label>AISHE Code Status :</label>

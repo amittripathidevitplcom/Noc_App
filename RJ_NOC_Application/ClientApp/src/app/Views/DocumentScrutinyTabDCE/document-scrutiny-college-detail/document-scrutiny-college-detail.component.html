@@ -8,6 +8,11 @@
         <div class="card-body">
           <div class="col-md-12" *ngIf="collegeListData!=null">
             <div class="row">
+              <div class="col-12">
+                <button type="button" class="btn btn-sm btn-primary" title="View History" (click)="ViewCollegeDetailHistory(collegehistorymymodal,0)"><i class="fa fa-history"></i></button>
+              </div>
+            </div>
+            <div class="row">
               <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
                 <label>Department :</label>
                 <input class="form-control disabled mt-1" disabled value="{{collegeListData.DepartmentName_English}}" />
@@ -259,7 +264,7 @@
                           </div>
                         </th>
                         <!--<th *ngIf="sSOLoginDataModel.RoleID==3 || sSOLoginDataModel.RoleID==5">Clerk Action</th>
-                        <th *ngIf="sSOLoginDataModel.RoleID==5">Section Officer Action</th>-->
+                      <th *ngIf="sSOLoginDataModel.RoleID==5">Section Officer Action</th>-->
                         <th>Sr. No.</th>
                         <th>Hospital Name</th>
                         <th>Hospital RegNo.</th>
@@ -291,13 +296,13 @@
 
                         </td>
                         <!--<td *ngIf="sSOLoginDataModel.RoleID==3 || sSOLoginDataModel.RoleID==5">
-                          Compliance: {{row.C_Action}}<br />
-                          <p [hidden]="row.C_Action !='No'">Remark : {{row.C_Remark}}</p>
-                        </td>
-                        <td *ngIf="sSOLoginDataModel.RoleID==5">
-                          Compliance: {{row.S_Action}}<br />
-                          <p [hidden]="row.S_Action !='No'">Remark : {{row.S_Remark}}</p>
-                        </td>-->
+                        Compliance: {{row.C_Action}}<br />
+                        <p [hidden]="row.C_Action !='No'">Remark : {{row.C_Remark}}</p>
+                      </td>
+                      <td *ngIf="sSOLoginDataModel.RoleID==5">
+                        Compliance: {{row.S_Action}}<br />
+                        <p [hidden]="row.S_Action !='No'">Remark : {{row.S_Remark}}</p>
+                      </td>-->
                         <td> {{indexOfelement+1}}</td>
                         <td>{{row.HospitalName}}</td>
                         <td>{{row.HospitalRegNo}}</td>
@@ -390,6 +395,297 @@
         </div>
       </div>
     </div>
+
+
+    <ng-template #collegehistorymymodal let-modal>
+      <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title" style="font-size: 17px; font-weight: 600 !important;">College Details History</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+          <i class="fa fa-close"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-12">
+            <div class="table-responsive">
+              <table class="table table-bordered table-hover">
+                <tbody *ngFor="let item of collegeListHistory ; let indexOfelement=index;">
+                  <tr>
+                    <td>
+                      <b>Modify On : </b><b>{{item.ModifyDate}}</b>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="row">
+                        <div class="col-md-12">
+                          <div class="card mb-0">
+                            <div class="card-header">
+                              <b><i class="bi bi-table"></i> College List </b>
+                            </div>
+                            <div class="card-body">
+                              <div class="row">
+                                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                                  <label>Department :</label>
+                                  <input class="form-control disabled mt-1" disabled value="{{item.DepartmentName_English}}" />
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="item.DepartmentID ==5">
+                                  <label>Type of College :</label>
+                                  <input class="form-control disabled mt-1" disabled value="{{item.TypeofCollege}}" />
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" [hidden]="item.DepartmentID == 11">
+                                  <label>College Status :</label>
+                                  <input class="form-control disabled mt-1" disabled value="{{item.CollegeStatus}}" />
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" [hidden]="item.DepartmentID == 11">
+                                  <label><b>College Logo :</b></label>
+                                  <div class="clearfix"></div>
+                                  <a data-fancybox="gallery" href="{{item.CollegeLogoPath}}" data-caption="Image 10" title="click here to zoom">
+                                    <img src="{{item.CollegeLogoPath}}" alt="College Logo" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                                  </a>
+                                </div>
+
+
+                                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="item.CollegeStatus!='New'">
+                                  <label>Present Status of College :</label>
+                                  <input class="form-control disabled mt-1" disabled value="{{item.PresentCollegeStatus}}" />
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                                  <label>College Type :</label>
+                                  <input class="form-control disabled mt-1" disabled value="{{item.CollegeType}}" />
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="item.DepartmentID==4">
+                                  <label>Management Type :</label>
+                                  <input class="form-control disabled mt-1" disabled value="{{item.ManagementTypeName}}" />
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="item.DepartmentID!=4" [hidden]="item.DepartmentID == 11">
+                                  <label>College Level :</label>
+                                  <input class="form-control disabled mt-1" disabled value="{{item.CollegeLevel}}" />
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" [hidden]="item.DepartmentID == 11">
+                                  <label>College Code :</label>
+                                  <input class="form-control disabled mt-1" disabled value="{{item.CollegeCode}}" />
+                                </div>
+
+                                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                                  <label>College Name in English :</label>
+                                  <input class="form-control disabled mt-1" disabled value="{{item.CollegeNameEn}}" />
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                                  <label>College Name in Hindi :</label>
+                                  <input class="form-control disabled mt-1" disabled value="{{item.CollegeNameHi}}" />
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                                  <label>IS Your College NAAC Accredited :</label>
+                                  <input class="form-control disabled mt-1" disabled value="{{item.CollegeNAACAccredited}}" />
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="item.CollegeNAACAccredited =='Yes'">
+                                  <label><b>NAAC Accredited Certificate :</b></label>
+                                  <div class="clearfix"></div>
+                                  <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.NAACAccreditedCertificatePath.includes('.pdf')" data-fancybox="gallery" href="{{item.NAACAccreditedCertificatePath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="item.CollegeNAACAccredited =='Yes'">
+                                  <label>NACC Validity Date :</label>
+                                  <input class="form-control disabled mt-1" disabled value="{{item.NACCValidityDate | date:'dd-MM-yyyy'}}" />
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="(item.DepartmentID==3 ||item.DepartmentID == 11)">
+                                  <label>AISHE Code Status :</label>
+                                  <input class="form-control disabled mt-1" disabled value="{{item.AISHECodeStatus}}" />
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="item.AISHECodeStatus =='Yes' && (item.DepartmentID !=2 || item.DepartmentID == 11)">
+                                  <label>AISHE Code :</label>
+                                  <input class="form-control disabled mt-1" disabled value="{{item.AISHECode}}" />
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                                  <label>College Medium :</label>
+                                  <input class="form-control disabled mt-1" disabled value="{{item.CollegeMediumName}}" />
+                                </div>
+
+
+                                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                                  <label>University :</label>
+                                  <input class="form-control disabled mt-1" disabled value="{{item.UniversityName}}" />
+                                </div>
+
+                                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="item.CollegeStatus!='New'">
+                                  <label>Year of Establishment :</label>
+                                  <input class="form-control disabled mt-1" disabled value="{{item.FinancialYearName}}" />
+                                </div>
+
+                                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                                  <label>Mobile Number :</label>
+                                  <input class="form-control disabled mt-1" disabled value="{{item.MobileNumber}}" />
+                                </div>
+
+                                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="item.DepartmentID ==3">
+                                  <label><b>Affiliation Document :</b></label>
+                                  <div class="clearfix"></div>
+                                  <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.AffiliationDocumentPath.includes('.pdf')" data-fancybox="gallery" href="{{item.AffiliationDocumentPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                                </div>
+
+                                <div class="card">
+                                  <div class="card-header d-flex justify-content-between align-items-center">
+                                    <b>Address & Contact Detail <span style="color:red;">*</span></b>
+                                  </div>
+                                  <div class="card-body">
+                                    <div class="row">
+                                      <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                                        <label>Division :</label>
+                                        <input class="form-control disabled mt-1" disabled value="{{item.Division_English}}" />
+                                      </div>
+                                      <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                                        <label>District :</label>
+                                        <input class="form-control disabled mt-1" disabled value="{{item.District_Eng}}" />
+                                      </div>
+                                      <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                                        <label>Subdivision :</label>
+                                        <input class="form-control disabled mt-1" disabled value="{{item.SubdivisionName}}" />
+                                      </div>
+                                      <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                                        <label>Tehsil :</label>
+                                        <input class="form-control disabled mt-1" disabled value="{{item.TehsilName}}" />
+                                      </div>
+                                      <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                                        <label>Area :</label>
+                                        <input class="form-control disabled mt-1" disabled value="{{item.RuralUrbanArea}}" />
+                                      </div>
+                                      <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="item.RuralUrbanArea=='Rural'">
+                                        <label>Panchayat Samiti :</label>
+                                        <input class="form-control disabled mt-1" disabled value="{{item.PanchyatSamitiName}}" />
+                                      </div>
+                                      <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="item.RuralUrbanArea=='Urban'">
+                                        <label>City :</label>
+                                        <input class="form-control disabled mt-1" disabled value="{{item.CityName}}" />
+                                      </div>
+                                      <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                                        <label>Parliament Area :</label>
+                                        <input class="form-control disabled mt-1" disabled value="{{item.ParliamentAreaName}}" />
+                                      </div>
+                                      <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                                        <label>Assembly Area :</label>
+                                        <input class="form-control disabled mt-1" disabled value="{{item.AssemblyAreaName}}" />
+                                      </div>
+                                      <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                                        <label>City/Town/Village :</label>
+                                        <input class="form-control disabled mt-1" disabled value="{{item.CityTownVillage}}" />
+                                      </div>
+
+                                      <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                                        <label>Pincode :</label>
+                                        <input class="form-control disabled mt-1" disabled value="{{item.Pincode}}" />
+                                      </div>
+                                      <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                                        <label>Address Line 1 :</label>
+                                        <input class="form-control disabled mt-1" disabled value="{{item.AddressLine1}}" />
+                                      </div>
+                                      <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                                        <label>Address Line 2 :</label>
+                                        <input class="form-control disabled mt-1" disabled value="{{item.AddressLine2}}" />
+                                      </div>
+
+                                      <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="item.RuralUrbanArea=='Rural'">
+                                        <label>Distance from City(km) :</label>
+                                        <input class="form-control disabled mt-1" disabled value="{{item.DistanceFromCity}}" />
+                                      </div>
+                                      <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                                        <label>Website Link :</label>
+                                        <input class="form-control disabled mt-1" disabled value="{{item.WebsiteLink}}" />
+                                      </div>
+                                      <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                                        <label>Mobile Number :</label>
+                                        <input class="form-control disabled mt-1" disabled value="{{item.MobileNumber}}" />
+                                      </div>
+                                      <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                                        <label>Landline Number :</label>
+                                        <input class="form-control disabled mt-1" disabled value="{{item.CollegeLandlineNumber}}" />
+                                      </div>
+                                      <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                                        <label>Email :</label>
+                                        <input class="form-control disabled mt-1" disabled value="{{item.Email}}" />
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row" *ngIf="collegeContactDetailsHistoryList.length>0">
+                        <div class="col-md-12">
+                          <div class="card mb-0">
+                            <div class="card-header">
+                              <b><i class="bi bi-table"></i> Contact Details </b>
+                            </div>
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                              <div class="table-responsive">
+                                <table class="table table-bordered table-hover table-striped">
+                                  <thead>
+                                    <tr>
+                                      <th>Sr.No.</th>
+                                      <th>Name Of Person</th>
+                                      <th>Designation</th>
+                                      <th>Mobile Number</th>
+                                      <th>Email Address</th>
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                    <tr *ngFor="let row of collegeContactDetailsHistoryList; let indexOfelement=index;">
+                                      <td> {{indexOfelement+1}}</td>
+                                      <td>{{row.NameOfPerson}}</td>
+                                      <td>{{row.DesignationName}}</td>
+                                      <td>{{row.MobileNumber}}</td>
+                                      <td>{{row.EmailAddress}}</td>
+                                    </tr>
+                                  </tbody>
+                                </table>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="row">
+                        <div class="col-md-12">
+                          <div class="card mb-0">
+                            <div class="card-header">
+                              <b><i class="bi bi-table"></i> General Contact Details </b>
+                            </div>
+                            <div class="card-body">
+                              <div class="row">
+                                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                                  <label>Designation :</label>
+                                  <input class="form-control disabled mt-1" disabled value="{{item.DesignationName}}" />
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                                  <label>Mobile Number :</label>
+                                  <input class="form-control disabled mt-1" disabled value="{{item.GCD_MobileNumber}}" />
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                                  <label>Landline Number :</label>
+                                  <input class="form-control disabled mt-1" disabled value="{{item.GCD_LandlineNumber}}" />
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="row" *ngIf="collegeListHistory.length<=0">
+          <span style="color:red"> No Data Found!!!</span>
+        </div>
+      </div>
+    </ng-template>
   </div>
 </div>
 

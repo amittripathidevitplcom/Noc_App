@@ -13,8 +13,8 @@
                 <th>Department</th>
                 <th>College Name</th>
                 <th>Course</th>
-                <th *ngIf="this.SelectedDepartmentID !=2">Stream</th>
-                <th style="width: 250px !important" *ngIf="this.SelectedDepartmentID !=2">Subject</th>
+                <th *ngIf="this.SelectedDepartmentID !=2 && this.SelectedDepartmentID !=6">Stream</th>
+                <th style="width: 250px !important" *ngIf="this.SelectedDepartmentID !=2 && this.SelectedDepartmentID !=6">Subject</th>
                 <th *ngIf="this.SelectedDepartmentID !=3 && CollegeType_IsExisting">Seat</th>
                 <th *ngIf="this.SelectedDepartmentID ==3">No Of Enrolled Students</th>
               </tr>
@@ -25,8 +25,8 @@
                 <td>{{row.DepartmentName}}</td>
                 <td>{{row.CollageName}}</td>
                 <td>{{row.CourseName}}</td>
-                <td *ngIf="this.SelectedDepartmentID !=2">{{row.StreamName}}</td>
-                <td style="width:250px !important" *ngIf="this.SelectedDepartmentID !=2">{{row.SubjectDetails}}</td>
+                <td *ngIf="this.SelectedDepartmentID !=2 && this.SelectedDepartmentID !=6">{{row.StreamName}}</td>
+                <td style="width:250px !important" *ngIf="this.SelectedDepartmentID !=2 && this.SelectedDepartmentID !=6">{{row.SubjectDetails}}</td>
 
                 <td *ngIf="this.SelectedDepartmentID !=3 && CollegeType_IsExisting">{{row.Dis_Sits}}</td>
                 <td *ngIf="this.SelectedDepartmentID ==3">{{row.NoOfEnrolledStudents}}</td>

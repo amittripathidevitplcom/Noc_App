@@ -229,39 +229,10 @@ export class LOIApplicationPDFComponent implements OnInit {
       let Heading1 = 'GOVERNMENT OF RAJASTHAN';
       let Heading2 = '';
       let Heading3 = '';
-      if (this.SelectedDepartmentID == 3) {
-        Heading1 = 'GOVERNMENT OF RAJASTHAN';
-        Heading2 = 'OFFICE OF THE COMMISSIONER, COLLEGE EDUCATION,';
-        Heading3 = 'RAJASTHAN, JAIPUR';
-      }
-      else if (this.SelectedDepartmentID == 4) {
-        Heading1 = 'GOVERNMENT OF RAJASTHAN';
-        Heading2 = 'DIRECTORATE OF TECHNICAL EDUCATION, RAJASTHAN,';
-        Heading3 = 'W-6 RESIDENCY ROAD, JODHPUR-342032';
-      }
-      else if (this.SelectedDepartmentID == 2) {
-        Heading1 = 'GOVERNMENT OF RAJASTHAN';
-        Heading2 = 'Animal Husbandry Department Jaipur Rajasthan';
-        Heading3 = '';
-      }
-      else if (this.SelectedDepartmentID == 1) {
-        Heading1 = 'GOVERNMENT OF RAJASTHAN';
-        Heading2 = 'Agriculture Department Jaipur Rajasthan';
-        Heading3 = '';
-      }
-      else if (this.SelectedDepartmentID == 5) {
+
+      if (this.SelectedDepartmentID == 5) {
         Heading1 = 'GOVERNMENT OF RAJASTHAN';
         Heading2 = 'Medical Education Group 1';
-        Heading3 = '';
-      }
-      else if (this.SelectedDepartmentID == 6) {
-        Heading1 = 'GOVERNMENT OF RAJASTHAN';
-        Heading2 = 'Department of medical & health(Group 3)';
-        Heading3 = '';
-      }
-      else if (this.SelectedDepartmentID == 9) {
-        Heading1 = 'GOVERNMENT OF RAJASTHAN';
-        Heading2 = 'Medical Education Group 3 (Paramedical)';
         Heading3 = '';
       }
       else {
@@ -308,50 +279,30 @@ export class LOIApplicationPDFComponent implements OnInit {
         pDFData.push({ "ContentName": "#CollegeHospitalDetails" })
       }
 
-      pDFData.push({ "ContentName": "#CourseBasicDetails" })
-      pDFData.push({ "ContentName": "#CollegeManagementSociety" })
+      //pDFData.push({ "ContentName": "#CourseBasicDetails" })
+      //pDFData.push({ "ContentName": "#CollegeManagementSociety" })
       pDFData.push({ "ContentName": "#LandDetails" })
-      pDFData.push({ "ContentName": "#BuildingDetails" })
-      pDFData.push({ "ContentName": "#FacilityDetails" })
+      if (this.lstBuildingDetails.length > 0) {
+        pDFData.push({ "ContentName": "#BuildingDetails" })
+      }
+      //pDFData.push({ "ContentName": "#FacilityDetails" })
       pDFData.push({ "ContentName": "#RequiredDocumentDetails" })
-      pDFData.push({ "ContentName": "#OtherDocumentDetails" })
-      if (this.SelectedDepartmentID == 6) {
-        pDFData.push({ "ContentName": "#OtherHospitalRealtedDocumentDetails" })
-      }
+      //pDFData.push({ "ContentName": "#OtherDocumentDetails" })
 
-      if (this.SelectedDepartmentID == 3) {
-        pDFData.push({ "ContentName": "#ActivityDetails" })
-      }
 
-      pDFData.push({ "ContentName": "#RoomDetails" })
-      pDFData.push({ "ContentName": "#OtherInfoDetails" })
+      //pDFData.push({ "ContentName": "#RoomDetails" })
+      //pDFData.push({ "ContentName": "#OtherInfoDetails" })
 
-      if (this.CollegeType_IsExisting) {
-        pDFData.push({ "ContentName": "#OldNocDetial" })
-        pDFData.push({ "ContentName": "#StaffDetails" })
-        pDFData.push({ "ContentName": "#AcademicInfo" })
-      }
-      if (this.SelectedDepartmentID == 1) {
-        pDFData.push({ "ContentName": "#FarmLandDetial" })
-      }
-      if (this.SelectedDepartmentID == 3 || this.SelectedDepartmentID == 6 || this.SelectedDepartmentID == 4) {
-        pDFData.push({ "ContentName": "#HostelDetial" })
-        pDFData.push({ "ContentName": "#HospitalDetailInfo" })
 
-      }
-      if (this.SelectedDepartmentID == 6 || this.SelectedDepartmentID == 5) {
+      if (this.SelectedDepartmentID == 6 || this.SelectedDepartmentID == 5 && this.HospitalAllDatalst.length > 0) {
         pDFData.push({ "ContentName": "#HospitalDetailInfo" })
       }
-      if (this.SelectedDepartmentID == 9) {
-        pDFData.push({ "ContentName": "#ParaHospitalDetailInfo" })
+
+      //pDFData.push({ "ContentName": "#OfflinePayment" })
+      if (this.paymentResponseDataModel.length > 0) {
+        pDFData.push({ "ContentName": "#OnlinePayment" })
       }
-      if (this.SelectedDepartmentID == 2) {
-        pDFData.push({ "ContentName": "#VetHospitalDetial" })
-        pDFData.push({ "ContentName": "#courtOrder" })
-      }
-      pDFData.push({ "ContentName": "#OfflinePayment" })
-      pDFData.push({ "ContentName": "#OnlinePayment" })
-      pDFData.push({ "ContentName": "#ApplyNOCDetails" })
+      //pDFData.push({ "ContentName": "#ApplyNOCDetails" })
       for (var i = 0; i < pDFData.length; i++) {
 
         if (pDFData[i].ContentName == '#TrusteeMemberDetails') {
@@ -700,95 +651,8 @@ export class LOIApplicationPDFComponent implements OnInit {
             }
           )
         }
-        else if (pDFData[i].ContentName == '#StaffDetails') {
-          autoTable(doc,
-            {
-              html: pDFData[i].ContentName,
-              styles: { fontSize: 10, overflow: "linebreak" },
-              headStyles: {
-                fillColor: '#3f51b5',
-                textColor: '#fff',
-                halign: 'left',
-                fontSize: 13
-              },
-
-              theme: 'plain',
-              bodyStyles: {
-                halign: 'left', valign: "top"
-              },
-              showHead: "everyPage",
-              margin: {
-                left: 16,
-                right: 16,
-                top: 35,
-                bottom: 70
-              },
-              tableLineWidth: 0.5,
-              didDrawPage: function (data) {
-                // Header
-
-                doc.setFontSize(13);
-                doc.setTextColor("#161C22");
-
-                doc.text(Heading1, 140, 10, { align: 'center', maxWidth: 100 });
-                doc.setFontSize(12);
-                doc.text(Heading2, 140, 15, { align: 'center', maxWidth: 200 });
-                doc.setFontSize(12);
-                doc.text(Heading3, 140, 20, { align: 'center', maxWidth: 100 });
-                doc.setFontSize(10);
-                doc.text(Heading4, 140, 25, { align: 'center', maxWidth: 150 });
-                doc.setFontSize(8);
-                doc.text(Heading5, 140, 30, { align: 'center', maxWidth: 100 });
-
-                // Footer
-                let str = "1";//+ doc.internal.getNumberOfPages();
-                doc.setFontSize(13);
-
-
-                let pageSize = doc.internal.pageSize;
-                let pageHeight = pageSize.height
-                  ? pageSize.height
-                  : pageSize.getHeight();
-                doc.line(264, 377, 15, 377)
-                doc.setTextColor("#3f51b5");
-                doc.text(Footer1, data.settings.margin.left, pageHeight - 50);
-                doc.line(264, 385, 15, 385)
-                doc.setFontSize(10);
-                doc.setTextColor("#161C22");
-                doc.text(Footer2, data.settings.margin.left, pageHeight - 43);
-                doc.text(Footer3, data.settings.margin.left, pageHeight - 22);
-                doc.text(Footer4, 250, pageHeight - 22, { align: 'right', maxWidth: 500 });
-                let down = (pageHeight - 39);
-                try {
-                  doc.addImage(Imgpath, 214, down, 40, 13, 'PNG');
-                } catch (e) {
-                  //doc.addImage(DefaultImg, 214, down, 40, 13, 'JPG');
-                }
-
-                doc.text(Footer5, 263, pageHeight - 18, { align: 'right', maxWidth: 500, });
-                doc.text(str, 575, 830);
-              },
-              didDrawCell: function (data) {
-                if ((data.column.index === 1) && data.row.index >= 1 && data.cell.section === 'body') {
-                  let td = data.cell.raw
-                  var img = (td as HTMLTableCellElement).getElementsByTagName('img')[0];
-                  var dim = data.cell.height - data.cell.padding('vertical');
-                  //var textPos = data.cell.textPos;
-                  try {
-                    doc.addImage(img.src, 'JPEG', data.cell.x + 2, data.cell.y + 2, 11, 20);
-                  } catch (e) {
-                    //doc.addImage(DefaultImg, 'JPG', data.cell.x + 2, data.cell.y + 2, 11, 20);
-                  }
-
-                }
-              }
-            }
-          )
-        }
         else {
-          if (pDFData[i].ContentName == '#CollegeManagementSociety') {
-            doc.addPage();
-          }
+
           //doc.rect(15, 35, doc.internal.pageSize.width - 30, doc.internal.pageSize.height - 45, 'S');
           autoTable(doc,
             {

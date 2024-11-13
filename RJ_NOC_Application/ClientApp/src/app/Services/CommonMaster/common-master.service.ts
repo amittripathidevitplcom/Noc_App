@@ -812,7 +812,7 @@ export class CommonMasterService {
         'Content-Type': 'application/json'
       })
     };
-    return await this.http.get(this.APIUrl_CommonMaster + "/GetDashboardDataSSOWise/" + SSOID + "/" + DepartmentID + "/" + RoleID + "/" + UserID)
+    return await this.http.get(this.APIUrl_CommonMaster + "/GetDashboardDataSSOWise/" + SSOID + "/" + DepartmentID + "/" + RoleID + "/" + UserID + "/"+true)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();
@@ -1519,8 +1519,10 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-  public async GetCollegeTabData_History(ID: number, Type: string) {
-    return await this.http.get(this.APIUrl_CommonMaster + "/GetCollegeTabData_History/" + ID + "/" + Type)
+  public async GetCollegeTabData_History(ID: number, Type: string, CollegeID: number = 0, DocumentName: string='') {
+    const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
+    var request = { ID: ID, Type: Type, CollegeID: CollegeID, DocumentName: DocumentName };
+    return await this.http.post(this.APIUrl_CommonMaster + "/GetCollegeTabData_History", request, httpOptions)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();

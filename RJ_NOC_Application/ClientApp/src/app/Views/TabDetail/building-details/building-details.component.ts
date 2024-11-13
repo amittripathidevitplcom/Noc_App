@@ -153,9 +153,9 @@ export class BuildingDetailsComponent implements OnInit {
         txtContactNo_Owner: ['', [Validators.required, Validators.pattern("^[0-9]*$"), Validators.minLength(10), Validators.maxLength(10)]],
        // txtBuildingHostelQuartersRoadArea: ['', [Validators.required, Validators.min(1)]],
         txtBuildingHostelQuartersRoadArea: [''],
-        txtFromDate: [''],//, Validators.required
-        txtFireNOCOrderNumber: [''],//, Validators.required
-        txtToDate: [''],//, Validators.required
+        txtFromDate: ['', Validators.required],//, Validators.required
+        txtFireNOCOrderNumber: ['', Validators.required],//, Validators.required
+        txtToDate: ['', Validators.required],//, Validators.required
         txtFireNOCUpload: [''],
         txtOrderNo: ['', Validators.required],
         txtOrderDate: ['', Validators.required],
@@ -380,7 +380,23 @@ export class BuildingDetailsComponent implements OnInit {
     this.CssClass_TextDangerLength = '';
     this.isSubmitted = true;
     this.isFormValid = true;
+    if (this.SelectedDepartmentID == 6) {
+      this.buildingdetailsForm.get('txtFireNOCOrderNumber')?.setValidators([Validators.required]);
+      this.buildingdetailsForm.get('txtFromDate')?.setValidators([Validators.required]);
+      this.buildingdetailsForm.get('txtToDate')?.setValidators([Validators.required]);
+      this.buildingdetailsForm.get('txtFireNOCOrderNumber')?.updateValueAndValidity();
+      this.buildingdetailsForm.get('txtFromDate')?.updateValueAndValidity();
+      this.buildingdetailsForm.get('txtToDate')?.updateValueAndValidity();
+    }
+    else {
+      this.buildingdetailsForm.get('txtFireNOCOrderNumber')?.clearValidators();
+      this.buildingdetailsForm.get('txtFromDate')?.clearValidators();
+      this.buildingdetailsForm.get('txtToDate')?.clearValidators();
+      this.buildingdetailsForm.get('txtFireNOCOrderNumber')?.updateValueAndValidity();
+      this.buildingdetailsForm.get('txtFromDate')?.updateValueAndValidity();
+      this.buildingdetailsForm.get('txtToDate')?.updateValueAndValidity();
 
+    }
     if (this.SelectedDepartmentID == 4) {
       if (!this.IsGovtCollege) {
         this.buildingdetailsForm.get('txtOwnBuildingOrderNo')?.setValidators([Validators.required]);
@@ -459,10 +475,10 @@ export class BuildingDetailsComponent implements OnInit {
       this.ImageValidate = 'This field is required .!';
       return
     }
-    //if (this.buildingdetails.FireNOCFileUpload == '' && !this.IsGovtCollege) {
-    //  this.ImageValidate = 'This field is required .!';
-    //  return
-    //}
+    if (this.buildingdetails.FireNOCFileUpload == '' && !this.IsGovtCollege && this.SelectedDepartmentID==6) {
+      this.ImageValidate = 'This field is required .!';
+      return
+    }
     if (this.buildingdetails.PWDNOCFileUpload == '' && !this.IsGovtCollege) {
       this.ImageValidate = 'This field is required .!';
       return

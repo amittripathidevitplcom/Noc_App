@@ -26,10 +26,10 @@
       </div>
     </div>
     <div class="card-body">
-      <div class="row" *ngIf="IsDepartmentShowHide"> 
+      <div class="row" *ngIf="IsDepartmentShowHide">
         <div class="col-lg-3 col-md-3 col-sm-3 col-3 mb-3">
           <label for="ddlDepartmentID" class="form-label">Select Department <span style="color:red;">*</span></label>
-         
+
           <select class="form-select" id="ddlDepartmentID" name="ddlDepartmentID" [(ngModel)]="request.ProcessDepartmentID">
             <option value='0'>--Select--</option>
             <option *ngFor="let item of DepartmentList" value="{{item.DepartmentID}}">{{item.DepartmentName}}</option>
@@ -324,7 +324,7 @@
           </div>
           <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
             <label for=""> Date Of Registration</label>
-              <input class="form-control" type="date" id="txtSocietyRegistrationDate" [(ngModel)]="request.SocietyRegistrationDate" formControlName="txtSocietyRegistrationDate" max="{{RegistrationMaxDate | date:'yyyy-MM-dd'}}" (change)="SetElectionPresentManagementCommitteeDatemindate()" onkeypress="return false;" />            
+            <input class="form-control" type="date" id="txtSocietyRegistrationDate" [(ngModel)]="request.SocietyRegistrationDate" formControlName="txtSocietyRegistrationDate" max="{{RegistrationMaxDate | date:'yyyy-MM-dd'}}" (change)="SetElectionPresentManagementCommitteeDatemindate()" onkeypress="return false;" />
             <div *ngIf="isSubmitted&&form.txtSocietyRegistrationDate.errors" class="text-danger">
               <p *ngIf="form.txtSocietyRegistrationDate.errors.required">This field is required .!</p>
             </div>
@@ -444,7 +444,8 @@
             </div>
           </div>
           <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-            <label for="TrusteeMemberProofDoc">Trustee Member Proof<span style="color:red">*</span></label>
+            <label for="TrusteeMemberProofDoc" *ngIf="request.ProcessDepartmentID !=6">Trustee Member Proof<span style="color:red">*</span></label>
+            <label for="TrusteeMemberProofDoc" *ngIf="request.ProcessDepartmentID ==6">List of Trustee Members<span style="color:red">*</span></label>
             <div class="d-flex">
               <input class="form-control d-none" type="file" id="TrusteeMemberProofDoc" formControlName="TrusteeMemberProofDoc" (change)="ValidateDocument($event,'TrusteeMember')" />
               <label class="btn upload" for="TrusteeMemberProofDoc">
@@ -534,7 +535,8 @@
     <div *ngIf="isFormsFill">
       <form [formGroup]="legalentityAddMemberForm" class="form-horizontal">
         <div class="card-header border-top">
-          <b>Add Member Details</b>
+          <b *ngIf="request.ProcessDepartmentID!=6">Add Member Details</b>
+          <b *ngIf="request.ProcessDepartmentID ==6">Add Member Detail as Per Annexure-6</b>
         </div>
         <div class="card-body">
           <div class="row">
@@ -641,7 +643,7 @@
                   <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('PresidentAadhaar', memberdetails.PresidentAadhaarProofDoc)"><i class="fa fa-trash-o"></i></button>
                 </div>
               </div>
-                <!--<p *ngIf="isMemberAdded&&memberdetails.PresidentAadhaarProofDoc ==''" class="text-danger"><i aria-hidden="true"></i> {{ImageValidationMessage_PresidentAadhaarProofDoc}}</p>-->
+              <!--<p *ngIf="isMemberAdded&&memberdetails.PresidentAadhaarProofDoc ==''" class="text-danger"><i aria-hidden="true"></i> {{ImageValidationMessage_PresidentAadhaarProofDoc}}</p>-->
               <div *ngIf="isPresidentAadhaarProofDoc" class="text-danger">
                 <p *ngIf="isPresidentAadhaarProofDoc"> This field is required .!</p>
               </div>

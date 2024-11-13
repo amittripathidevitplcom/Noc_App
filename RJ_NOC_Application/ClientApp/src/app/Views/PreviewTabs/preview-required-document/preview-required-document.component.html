@@ -18,7 +18,7 @@
             <tbody>
               <tr *ngFor="let item of request.DocumentDetails ; let indexOfelement=index;">
                 <td> {{indexOfelement+1}}</td>
-                <td>{{item.DocumentName}}</td>
+                <td><div style="max-width: auto; white-space: normal;">{{item.DocumentName}}</div></td>
                 <td>
                   <a *ngIf="!item.FilePath.includes('.pdf')" data-fancybox="gallery" href="{{item.FilePath}}" data-caption="Image 10" title="click here to zoom">
                     <img src="{{item.FilePath}}" alt="File Document" style="width:50px !important;height:50px !important;" class="img-thumbnail" />

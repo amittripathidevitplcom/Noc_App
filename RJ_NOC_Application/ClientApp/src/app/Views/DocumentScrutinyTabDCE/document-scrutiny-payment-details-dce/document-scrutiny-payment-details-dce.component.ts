@@ -10,6 +10,7 @@ import { DCEDocumentScrutinyService } from '../../../Services/DCEDocumentScrutin
 import { ToastrService } from 'ngx-toastr';
 import { ApplyNOCApplicationService } from '../../../Services/ApplyNOCApplicationList/apply-nocapplication.service';
 import { DocumentScrutinyComponent } from '../../DCE/document-scrutiny/document-scrutiny.component';
+import { ModalDismissReasons, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-document-scrutiny-payment-details-dce',
@@ -35,7 +36,7 @@ export class DocumentScrutinyPaymentDetailsDCEComponent implements OnInit {
   public FinalRemarks: any = [];
   public QueryStringStatus: any = '';
 
-  constructor(private dcedocumentscrutiny: DocumentScrutinyComponent,private dceDocumentScrutinyService: DCEDocumentScrutinyService,private applyNOCApplicationService: ApplyNOCApplicationService,private toastr: ToastrService,private loaderService: LoaderService, private nocpaymentService: NocpaymentService, private router: ActivatedRoute, private commonMasterService: CommonMasterService) {
+  constructor(private modalService: NgbModal,private dcedocumentscrutiny: DocumentScrutinyComponent,private dceDocumentScrutinyService: DCEDocumentScrutinyService,private applyNOCApplicationService: ApplyNOCApplicationService,private toastr: ToastrService,private loaderService: LoaderService, private nocpaymentService: NocpaymentService, private router: ActivatedRoute, private commonMasterService: CommonMasterService) {
 
 
   }
@@ -225,5 +226,43 @@ export class DocumentScrutinyPaymentDetailsDCEComponent implements OnInit {
     this.dcedocumentscrutiny.ViewTarilCommon(ID, ActionType);
   }
 
+
+
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return `with: ${reason}`;
+    }
+  }
+  closeResult: string | undefined;
+  modalReference: NgbModalRef | undefined;
+  public OfflinePaymentHistory: any = [];
+  async ViewOfflinePaymentHistory(content: any, ID: number) {
+    this.OfflinePaymentHistory = [];
+    this.modalService.open(content, { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' }).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+    try {
+      this.loaderService.requestStarted();
+      await this.commonMasterService.GetCollegeTabData_History(ID, 'OfflinePayment')
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.OfflinePaymentHistory = data['Data'][0]['data']["Table"];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
 
 }

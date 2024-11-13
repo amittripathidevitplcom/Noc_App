@@ -597,10 +597,14 @@ export class LegalEntityComponent implements OnInit {
       var GetPresident = this.request.MemberDetails.find((x: { MembersPostName: string; }) => x.MembersPostName == 'President')?.MembersPostName;
       var GetSecretary = this.request.MemberDetails.find((x: { MembersPostName: string; }) => x.MembersPostName == 'Secretary')?.MembersPostName;
       var GetTreasurer = this.request.MemberDetails.find((x: { MembersPostName: string; }) => x.MembersPostName == 'Treasurer')?.MembersPostName;
-      if (GetPresident == undefined || GetPresident == '' || GetPresident == null ||
+      if ((GetPresident == undefined || GetPresident == '' || GetPresident == null ||
         GetSecretary == undefined || GetSecretary == '' || GetSecretary == null ||
-        GetTreasurer == undefined || GetTreasurer == '' || GetTreasurer == null) {
+        GetTreasurer == undefined || GetTreasurer == '' || GetTreasurer == null) && this.request.ProcessDepartmentID!=6) {
         this.toastr.warning("Add President, Secretary and Treasurer in Society member");
+        isValid = false;
+      }
+      if ((GetPresident == undefined || GetPresident == '' || GetPresident == null) && this.request.ProcessDepartmentID == 6) {
+        this.toastr.warning("Add President in Society member");
         isValid = false;
       }
 
@@ -698,6 +702,7 @@ export class LegalEntityComponent implements OnInit {
       if (this.legalentityAddMemberForm.invalid) {
         return;
       }
+      this.memberdetails.MembersPostName = this.lstMemberPost.find((x: { RoleID: number; }) => x.RoleID == this.memberdetails.MemberPostID)?.RoleName;
       var GetAadhaarNo = this.request.MemberDetails.find((x: { PresidentAadhaarNumber: string; }, index) => x.PresidentAadhaarNumber == this.memberdetails.PresidentAadhaarNumber && index != this.CurrentIndex)?.PresidentAadhaarNumber;
       if (GetAadhaarNo != undefined && GetAadhaarNo != '') {
         this.toastr.warning(GetAadhaarNo + " aadhaar no. already exist in member list");
@@ -745,6 +750,7 @@ export class LegalEntityComponent implements OnInit {
 
       if (this.CurrentIndex != -1) {
         this.request.MemberDetails.splice(this.CurrentIndex, 1, this.memberdetails);
+        console.log(this.memberdetails);
       }
       else {
         this.request.MemberDetails.push({
@@ -896,6 +902,7 @@ export class LegalEntityComponent implements OnInit {
         this.isRegisterNoBox = false;
         this.request.IsLegalEntity = currentlegal;
       }
+      this.request.ProcessDepartmentID = this.holdDepartmentID;
     }
     catch (ex) { console.log(ex) }
     finally {
@@ -1754,7 +1761,7 @@ export class LegalEntityComponent implements OnInit {
             }
             return
           }
-          if (event.target.files[0].size < 100000) {
+          if ((event.target.files[0].size < 100000 && this.request.ProcessDepartmentID != 6) || (event.target.files[0].size < 20000 && this.request.ProcessDepartmentID == 6)) {
             event.target.value = '';
 
             //this.toastr.warning('Select more then 100kb File');
@@ -1763,7 +1770,7 @@ export class LegalEntityComponent implements OnInit {
               this.memberdetails.Dis_MemberPhotoName = '';
               this.memberdetails.MemberPhotoPath = '';
               this.memberdetails.MemberPhoto = '';
-              this.ImageValidationMessage_MemberPhoto = 'Select more then 100kb File';
+              this.ImageValidationMessage_MemberPhoto = this.request.ProcessDepartmentID == 6 ? 'Select more then 20kb File': 'Select more then 100kb File';
               this.file = document.getElementById('txtMemberPhoto');
               this.file.value = '';
             }
@@ -1772,7 +1779,7 @@ export class LegalEntityComponent implements OnInit {
               this.memberdetails.Dis_MemberSignatureName = '';
               this.memberdetails.MemberSignaturePath = '';
               this.memberdetails.MemberSignature = '';
-              this.ImageValidationMessage_MemberSignature = 'Select more then 100kb File';
+              this.ImageValidationMessage_MemberSignature = this.request.ProcessDepartmentID == 6 ? 'Select more then 20kb File' : 'Select more then 100kb File';
               this.file = document.getElementById('txtMemberSign');
               this.file.value = '';
             }
@@ -1781,7 +1788,7 @@ export class LegalEntityComponent implements OnInit {
               this.request.Dis_TrustLogoDocName = '';
               this.request.TrustLogoDocPath = '';
               this.request.TrustLogoDoc = '';
-              this.ImageValidationMessage_TrustLogoDoc = 'Select more then 100kb File';
+              this.ImageValidationMessage_TrustLogoDoc = this.request.ProcessDepartmentID == 6 ? 'Select more then 20kb File' : 'Select more then 100kb File';
               this.file = document.getElementById('TrustLogoDoc');
               this.file.value = '';
             }

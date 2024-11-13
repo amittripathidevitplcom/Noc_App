@@ -48,6 +48,18 @@ export class LandDetailDataModel {
   public NameOfLandPurchasedAllotted: string = '';
 
 
+
+  //Medical Group 3
+
+  public LandOwnerShipID  : number = 0;
+  public SocietyMemberID : number = 0;
+  public FromLeaseDate: string = '';
+  public ToLeaseDate: string = '';
+  public FromRentDate: string = '';
+  public ToRentDate: string = '';
+  public LeaseDocument: string = '';
+  public Dis_LeaseDocument: string = '';
+  public LeaseDocumentPath: string = '';
 }
 
 export class LandDetailDocumentDataModel extends RequiredDocumentsDataModel_Documents {

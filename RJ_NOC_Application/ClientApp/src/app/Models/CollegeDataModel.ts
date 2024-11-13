@@ -79,6 +79,10 @@ export class CollegeDataModel {
   public ICARDocumentPath: string = '';
   public ICARDocument_Dis_FileName: string = '';
 
+
+  //Medical Group 3
+  public IsAbbreviation: string = '';
+  public AbbreviationName: string = '';
 }
 export class ContactDetailsDataModel {
   public ContactID: number = 0;

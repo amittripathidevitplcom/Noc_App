@@ -172,7 +172,9 @@ export class AddCollegeComponent implements OnInit {
         NAACAccreditedCertificate: [''],
         txtNACCValidityDate: [''],
         ddlCityID: ['', [DropdownValidators]],
-        txtUniversity: ['']
+        txtUniversity: [''],
+        ddlAbbreviation: [''],
+        txtAbbreviationName: ['']
       })
 
     this.CollegeDetailsForm_ContactDetails = this.formBuilder.group(
@@ -186,7 +188,7 @@ export class AddCollegeComponent implements OnInit {
     this.CollegeDetailsForm_NearestGovernmentHospitals = this.formBuilder.group(
       {
         txtHospitalName: ['', Validators.required],
-        txtHospitalRegNo: ['', Validators.required],
+        txtHospitalRegNo: [''],//, Validators.required
         fHospitalDocument: ['', Validators.required],
         txtHospitalDistance: ['', Validators.required],
         txtAddressLine1_Nearest: ['', Validators.required],
@@ -1412,6 +1414,11 @@ export class AddCollegeComponent implements OnInit {
     if (this.request.DepartmentID == 6) {
       if (this.request.NearestGovernmentHospitalsList.length == 0) {
         this.toastr.error("Please add government hospitals nearest to the institution");
+        isValid = false;
+      }
+      if (this.request.IsAbbreviation=='') {
+        isValid = false;
+      } if (this.request.IsAbbreviation == 'Yes' && this.request.AbbreviationName == '') {
         isValid = false;
       }
     }

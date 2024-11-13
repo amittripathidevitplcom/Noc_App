@@ -43,7 +43,7 @@
 
           <div class="col-md-2 mb-2">
             <label>Width ({{UnitType}})<span style="color:red;">*</span></label>
-            <input type="text" class="form-control" id="txtWidth_Room" name="txtWidth_Room" placeholder="Enter Width ({{UnitType}})"
+            <input maxlength="3" type="text" class="form-control" id="txtWidth_Room" name="txtWidth_Room" placeholder="Enter Width ({{UnitType}})"
                    [(ngModel)]="request.Width" formControlName="txtWidth_Room" (keypress)="numberOnly($event)">
             <div *ngIf="isSubmitted&&form.txtWidth_Room.errors" class="text-danger">
               <p *ngIf="form.txtWidth_Room.errors.required">This field is required .!</p>
@@ -55,7 +55,7 @@
           </div>
           <div class="col-md-2 mb-2">
             <label>Length ({{UnitType}})<span style="color:red;">*</span></label>
-            <input type="text" class="form-control" id="txtLength_Room" name="txtLength_Room" placeholder="Enter Length ({{UnitType}})"
+            <input maxlength="3" type="text" class="form-control" id="txtLength_Room" name="txtLength_Room" placeholder="Enter Length ({{UnitType}})"
                    [(ngModel)]="request.Length" formControlName="txtLength_Room" (keypress)="numberOnly($event)">
             <div *ngIf="isSubmitted&&form.txtLength_Room.errors" class="text-danger">
               <p *ngIf="form.txtLength_Room.errors.required">This field is required .!</p>

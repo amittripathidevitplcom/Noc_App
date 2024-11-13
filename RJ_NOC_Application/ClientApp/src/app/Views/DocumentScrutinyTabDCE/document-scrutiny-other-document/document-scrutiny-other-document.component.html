@@ -22,8 +22,9 @@
                   </div>
                 </th>
                 <!--<th *ngIf="sSOLoginDataModel.RoleID==3 || sSOLoginDataModel.RoleID==5">Clerk Action</th>
-                <th *ngIf="sSOLoginDataModel.RoleID==5">Section Officer Action</th>-->
+              <th *ngIf="sSOLoginDataModel.RoleID==5">Section Officer Action</th>-->
                 <th>Sr. No.</th>
+                <th>Action</th>
                 <th>Document Name</th>
                 <th>File</th>
                 <th>Trails</th>
@@ -51,14 +52,17 @@
 
                 </td>
                 <!--<td *ngIf="sSOLoginDataModel.RoleID==3 || sSOLoginDataModel.RoleID==5">
-                  Compliance: {{item.C_Action}}<br />
-                                               <p [hidden]="item.C_Action !='No'">Remark : {{item.C_Remark}}</p>
-                </td>
-                <td *ngIf="sSOLoginDataModel.RoleID==5">
-                  Compliance: {{item.S_Action}}<br />
-                                               <p [hidden]="item.S_Action !='No'">Remark : {{item.S_Remark}}</p>
-                </td>-->
+                Compliance: {{item.C_Action}}<br />
+                                             <p [hidden]="item.C_Action !='No'">Remark : {{item.C_Remark}}</p>
+              </td>
+              <td *ngIf="sSOLoginDataModel.RoleID==5">
+                Compliance: {{item.S_Action}}<br />
+                                             <p [hidden]="item.S_Action !='No'">Remark : {{item.S_Remark}}</p>
+              </td>-->
                 <td> {{indexOfelement+1}}</td>
+                <td>
+                  <button type="button" class="btn btn-sm btn-primary" title="View History" (click)="ViewOtherDocumentHistory(OtherDocumenthistorymymodal,item.DocumentName)"><i class="fa fa-history"></i></button>
+                </td>
                 <td>{{item.DocumentName}}</td>
                 <td>
                   <a *ngIf="!item.FilePath.includes('.pdf')" data-fancybox="gallery" href="{{item.FilePath}}" data-caption="Image 10" title="click here to zoom">
@@ -131,5 +135,45 @@
         </div>
       </div>
     </div>
+
+    <ng-template #OtherDocumenthistorymymodal let-modal>
+      <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title" style="font-size: 17px; font-weight: 600 !important;">Other Documents History</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+          <i class="fa fa-close"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-12">
+            <div class="table-responsive">
+              <table class="table table-bordered table-hover">
+                <tbody *ngFor="let item of OtherDocHistory ; let indexOfelement=index;">
+                  <tr>
+                    <td>
+                      <b>Modify On : </b><b>{{item.ModifyDate}}</b>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      {{item.DocumentName}}   :
+                      <a *ngIf="!item.FilePath.includes('.pdf')" data-fancybox="gallery" href="{{item.FilePath}}" data-caption="Image 10" title="click here to zoom">
+                        <img src="{{item.FilePath}}" alt="File Document" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                      </a>
+                      <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.FilePath.includes('.pdf')" data-fancybox="gallery" href="{{item.FilePath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+
+
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="row" *ngIf="OtherDocHistory.length<=0">
+          <span style="color:red"> No Data Found!!!</span>
+        </div>
+      </div>
+    </ng-template>
   </div>
 </div>

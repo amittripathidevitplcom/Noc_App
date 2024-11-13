@@ -152,19 +152,24 @@ export class RoomDetailsComponent implements OnInit {
     await this.GetCollageDetails();
     await this.LoadMaster();
     await this.GetRoomDetailAllList();
+
+
   }
   get form() { return this.RoomDetailsForm.controls; }
 
 
   async LoadMaster() {
-
+    this.courseDataList = [];
     try {
       this.loaderService.requestStarted();
       await this.commonMasterService.GetCourseList_CollegeWise(this.SelectedCollageID)
-        .then((data: any) => {
+        .then(async (data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.courseDataList = data['Data'];
-          console.log(this.courseDataList);
+          if (this.SelectedDepartmentID == 6 && this.courseDataList.length == 1) {
+            this.request.CourseID = this.courseDataList[0].CourseID;
+            await this.ddlCourse_change('', this.request.CourseID);
+          }
         }, error => console.error(error));
     }
     catch (Ex) {
@@ -412,6 +417,14 @@ export class RoomDetailsComponent implements OnInit {
 
       if ((this.request.Length * this.request.Width) < 800) {
         this.toastr.error('Minimum Room Size Required : 800 Sq.Feet');
+        this.isformvalid = false;
+      }
+    }
+    if (this.SelectedDepartmentID == 6) {
+      let ReqSize = 900;
+
+      if ((this.request.Length * this.request.Width) < 900) {
+        this.toastr.error('Minimum Room Size Required : 900 Sq.Feet');
         this.isformvalid = false;
       }
     }

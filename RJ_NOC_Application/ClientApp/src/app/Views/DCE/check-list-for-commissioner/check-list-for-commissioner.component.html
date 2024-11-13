@@ -11,7 +11,11 @@
         </div>
         <div class="card-body">
           <div class="col-md-12" *ngIf="CheckList_legalEntityListData1!=null ">
-
+            <div class="row">
+              <div class="col-12">
+                <button type="button" class="btn btn-sm btn-primary" title="View History" (click)="ViewLegalEntityDetailHistory(legalentityhistorymymodal)"><i class="fa fa-history"></i></button>
+              </div>
+            </div>
             <div class="row">
               <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
                 <label>Legal Entity :</label>
@@ -280,6 +284,11 @@
         </div>
         <div class="card-body">
           <div class="card-body" *ngIf="CheckList_collegeListData!=null">
+            <div class="row">
+              <div class="col-md-12">
+                <button type="button" class="btn btn-sm btn-primary" title="View History" (click)="ViewCollegeDetailHistory(collegehistorymymodal,0)"><i class="fa fa-history"></i></button>
+              </div>
+            </div>
             <div class="col-md-12">
               <div class="row">
                 <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
@@ -656,6 +665,7 @@
               <thead>
                 <tr>
                   <th>SNo</th>
+                  <th>Action</th>
                   <th>Name</th>
                   <th>Father Name</th>
                   <th>Mobile No</th>
@@ -676,6 +686,9 @@
               <tbody>
                 <tr *ngFor="let row of CheckList_SocietyAllList let idx=index;">
                   <td>{{idx+1}}</td>
+                  <td>
+                    <button type="button" class="btn btn-sm btn-primary" title="View History" (click)="ViewCollegeManagmentHistory(CollegeManagmenthistorymymodal,row.SocietyID)"><i class="fa fa-history"></i></button>
+                  </td>
                   <td>{{row.PersonName}}</td>
                   <td>{{row.FatherName}}</td>
                   <td>{{row.MobileNo}}</td>
@@ -784,7 +797,10 @@
               <td>{{item.IsConvereted}}</td>
               <td>{{item.LandTypeName}}</td>
               <td>{{item.LandOwnerName}}</td>
-              <td><button type="button" class="btn btn-sm btn-info" title="View" (click)="ViewLandDetail(LandModel,item.LandDetailID)"><i class="fa fa-eye"></i></button></td>
+              <td>
+                <button type="button" class="btn btn-sm btn-info" title="View" (click)="ViewLandDetail(LandModel,item.LandDetailID)"><i class="fa fa-eye"></i></button>
+                <button type="button" class="btn btn-sm btn-primary" title="View History" (click)="ViewLandDetailHistory(landhistorymymodal,item.LandDetailID)"><i class="fa fa-history"></i></button>
+              </td>
               <td><button type="button" class="btn btn-sm btn-info" title="View" (click)="ViewTaril(item.LandDetailID,'LandDetailsTrail')"><i class="fa fa-bars" aria-hidden="true"></i></button></td>
             </tr>
             <tr *ngIf="CheckList_LandDetailList.length<=0">
@@ -831,6 +847,7 @@
             <thead>
               <tr>
                 <th>Sr. No.</th>
+                <th>Action</th>
                 <th>Facility Name</th>
                 <th>Is Available(Y/N)</th>
                 <th>No of Facility</th>
@@ -842,6 +859,7 @@
             <tbody>
               <tr *ngFor="let item of CheckList_FacilitiesDataAllList ; let indexOfelement=index;">
                 <td> {{indexOfelement+1}}</td>
+                <td><button type="button" class="btn btn-sm btn-primary" title="View History" (click)="ViewFacilityDetailHistory(facilityhistorymymodal,item.FacilityDetailID)"><i class="fa fa-history"></i></button></td>
                 <td>
                   {{item.FacilitiesName}}
                 </td>
@@ -902,6 +920,7 @@
             <thead>
               <tr>
                 <th>Sr. No.</th>
+                <th></th>
                 <th>Document Name</th>
                 <th>File</th>
                 <th>Trails</th>
@@ -910,6 +929,9 @@
             <tbody>
               <tr *ngFor="let item of CheckList_DocumentDetails ; let indexOfelement=index;">
                 <td> {{indexOfelement+1}}</td>
+                <td>
+                  <button type="button" class="btn btn-sm btn-primary" title="View History" (click)="ViewRequireDocumentDetailHistory(Requirehistorymymodal,item.DID)"><i class="fa fa-history"></i></button>
+                </td>
                 <td>{{item.DocumentName}}</td>
                 <td>
                   <a *ngIf="!item.FilePath.includes('.pdf')" data-fancybox="gallery" href="{{item.FilePath}}" data-caption="Image 10" title="click here to zoom">
@@ -963,6 +985,7 @@
             <thead>
               <tr>
                 <th>Sr. No.</th>
+                <th>Action</th>
                 <th>Course</th>
                 <th>Room No.</th>
                 <th>Width ({{SelectedDepartmentID==4?'sq. meter':'sq. ft'}}) Size</th>
@@ -977,6 +1000,9 @@
               <tr *ngFor="let item of CheckList_RoomDetails; let idx =index">
                 <td width="5%">
                   {{idx+1}}
+                </td>
+                <td>
+                  <button type="button" class="btn btn-sm btn-primary" title="View History" (click)="ViewClassRoomDetailHistory(classroomhistorymymodal,item.CollegeWiseRoomID)"><i class="fa fa-history"></i></button>
                 </td>
                 <td>
                   {{item.CourseName}}
@@ -1054,6 +1080,7 @@
               <thead>
                 <tr>
                   <th>Sr. No.</th>
+                  <th>Action</th>
                   <th>Infrastructure Name</th>
                   <th>No. of Rooms</th>
                   <th>Minimum Size (Sq. Feet)</th>
@@ -1067,6 +1094,9 @@
               <tbody>
                 <tr *ngFor="let item of CheckList_OtherInformation ; let indexOfelement=index;">
                   <td> {{indexOfelement+1}}</td>
+                  <td>
+                    <button type="button" class="btn btn-sm btn-primary" title="View History" (click)="ViewOtherInformationHistory(otherinformationhistorymymodal,item.CollegeWiseOtherInfoID)"><i class="fa fa-history"></i></button>
+                  </td>
                   <td>
                     {{item.CourseName}}
                   </td>
@@ -1162,7 +1192,10 @@
                   <button type="button" class="btn btn-sm btn-info" title="View" (click)="ViewBuildingDetails(buildingmodal,item.SchoolBuildingDetailsID)"><i class="fa fa-eye"></i></button>
                 </div>
               </td>
-              <td><button type="button" class="btn btn-sm btn-info" title="View" (click)="ViewTaril(item.SchoolBuildingDetailsID,'BuildingDetailsTrail')"><i class="fa fa-bars" aria-hidden="true"></i></button></td>
+              <td>
+                <button type="button" class="btn btn-sm btn-info" title="View" (click)="ViewTaril(item.SchoolBuildingDetailsID,'BuildingDetailsTrail')"><i class="fa fa-bars" aria-hidden="true"></i></button>
+                <button type="button" class="btn btn-sm btn-primary" title="View History" (click)="ViewBuildingDetailHistory(builddetailhistorymymodal,item.SchoolBuildingDetailsID)"><i class="fa fa-history"></i></button>
+              </td>
             </tr>
             <tr *ngIf="CheckList_lstBuildingDetails.length<=0">
               <td colspan="13" style="color:red">No Data Found.!</td>
@@ -1244,8 +1277,12 @@
                   <td>{{item.DateOfBirth}}</td>
                   <td>
                     <button type="button" class="btn btn-sm btn-info" title="View" (click)="ViewStaffDetail(staffmodal,item.StaffDetailID)"><i class="fa fa-eye"></i></button>
+                    <button type="button" class="btn btn-sm btn-primary" title="View History" (click)="ViewStaffDetailHistory(staffdetailhistorymymodal,item.StaffDetailID)"><i class="fa fa-history"></i></button>
                   </td>
-                  <td><button type="button" class="btn btn-sm btn-info" title="View" (click)="ViewTaril(item.StaffDetailID,'StaffDetailsTrail')"><i class="fa fa-bars" aria-hidden="true"></i></button></td>
+                  <td>
+                    <button type="button" class="btn btn-sm btn-info" title="View" (click)="ViewTaril(item.StaffDetailID,'StaffDetailsTrail')"><i class="fa fa-bars" aria-hidden="true"></i></button>
+
+                  </td>
                 </tr>
                 <tr *ngIf="CheckList_StaffDetailModel.length<=0">
                   <td colspan="7" style="color:red">No Data Found.!</td>
@@ -1314,6 +1351,7 @@
                     <td>{{item.NOCReceivedDate}}</td>
                     <td>
                       <button type="button" class="btn btn-sm btn-info" title="View" (click)="ViewOldNOCDetail(oldnocmodal,item.OldNocID)"><i class="fa fa-eye"></i></button>
+                      <button type="button" class="btn btn-sm btn-primary" title="View History" (click)="ViewOldNOCDetailHistory(oldnochistorymymodal,item.OldNocID)"><i class="fa fa-history"></i></button>
                     </td>
                     <td><button type="button" class="btn btn-sm btn-info" title="View" (click)="ViewTaril(item.OldNocID,'OldNocTrail')"><i class="fa fa-bars" aria-hidden="true"></i></button></td>
                   </tr>
@@ -1365,6 +1403,7 @@
               <thead>
                 <tr>
                   <th>Sr. No.</th>
+                  <th>Action</th>
                   <th>Financial Year</th>
                   <th>Course Name</th>
                   <th>Result</th>
@@ -1379,6 +1418,9 @@
               <tbody>
                 <tr *ngFor="let row of CheckList_AcademicInformationList;let idx=index;">
                   <td>{{idx+1}}</td>
+                  <td>
+                    <button type="button" class="btn btn-sm btn-primary" title="View History" (click)="ViewAcademicDetailHistory(Academichistorymymodal,row.AcademicInformationID)"><i class="fa fa-history"></i></button>
+                  </td>
                   <td>{{row.FinancialYearName}}</td>
                   <td>{{row.CourseName}}</td>
                   <td>{{row.ResultName}}</td>
@@ -1435,6 +1477,7 @@
               <thead>
                 <tr>
                   <th>Sr. No.</th>
+                  <th>Action</th>
                   <th>Document Name</th>
                   <th>File</th>
                   <th>Trails</th>
@@ -1443,6 +1486,9 @@
               <tbody>
                 <tr *ngFor="let item of CheckList_OtherDocumentDetails ; let indexOfelement=index;">
                   <td> {{indexOfelement+1}}</td>
+                  <td>
+                    <button type="button" class="btn btn-sm btn-primary" title="View History" (click)="ViewOtherDocumentHistory(OtherDocumenthistorymymodal,item.DocumentName)"><i class="fa fa-history"></i></button>
+                  </td>
                   <td>{{item.DocumentName}}</td>
                   <td>
                     <a *ngIf="!item.FilePath.includes('.pdf')" data-fancybox="gallery" href="{{item.FilePath}}" data-caption="Image 10" title="click here to zoom">
@@ -1515,6 +1561,7 @@
                   <td>{{row.HostelType}}</td>
                   <td>
                     <button type="button" class="btn btn-sm btn-info" title="View" (click)="ViewItem(hostelmodal,row.HostelDetailID)"><i class="fa fa-eye"></i></button>
+                    <button type="button" class="btn btn-sm btn-primary" title="View History" (click)="ViewHostelDetailHistory(hostelhistorymymodal,row.HostelDetailID)"><i class="fa fa-history"></i></button>
                   </td>
                   <td><button type="button" class="btn btn-sm btn-info" title="View" (click)="ViewTaril(row.HostelDetailID,'HostelDetailTrail')"><i class="fa fa-bars" aria-hidden="true"></i></button></td>
                 </tr>
@@ -1565,6 +1612,7 @@
               <thead>
                 <tr>
                   <th>S.No.</th>
+                  <th>Action</th>
                   <th>Bank Name</th>
                   <th>Branch Name</th>
                   <th>IFSC Code</th>
@@ -1580,6 +1628,9 @@
               <tbody>
                 <tr *ngFor="let row of CheckListFDRResponseDataModel; let idx=index;">
                   <td>{{idx+1}}</td>
+                  <td>
+                    <button type="button" class="btn btn-sm btn-primary" title="View History" (click)="ViewFDRDetailHistory(fdrdetailhistorymymodal,row.ApplyNocFDRID)"><i class="fa fa-history"></i></button>
+                  </td>
                   <td>{{row.BankName}}</td>
                   <td>{{row.BranchName}}</td>
                   <td>{{row.IFSCCode}}</td>
@@ -1640,6 +1691,7 @@
               <thead>
                 <tr>
                   <th>S.No.</th>
+                  <th>Action</th>
                   <th>Payment Mode</th>
                   <th>Bank Name</th>
                   <th>Amount</th>
@@ -1651,6 +1703,9 @@
               <tbody>
                 <tr *ngFor="let row of CheckOfflinePaymentDataModel; let idx=index;">
                   <td>{{idx+1}}</td>
+                  <td>
+                    <button type="button" class="btn btn-sm btn-primary" title="View History" (click)="ViewOfflinePaymentHistory(paymenthistorymymodal,row.PaymentID)"><i class="fa fa-history"></i></button>
+                  </td>
                   <td>{{row.PaymentMode}}</td>
                   <td>{{row.BankName}}</td>
                   <td>{{row.Amount}}</td>
@@ -1737,6 +1792,7 @@
       </div>
     </div>
   </div>
+
   <!--<app-preview-fdr-detail></app-preview-fdr-detail>
   <app-preview-payment-detail></app-preview-payment-detail>-->
   <!--Class Wise Student Details-->
@@ -2973,9 +3029,9 @@
         <input class="form-control disabled" disabled value="{{requeststaff.ESINumber}}" />
       </div>
       <!--<div class="col-md-4 mb-3" *ngIf="requeststaff.TeachingType=='NonTeaching'">
-    <label><b>Role Mapping :</b></label>
-    <input class="form-control disabled" disabled value="{{requeststaff.RoleMapping}}" />
-  </div>-->
+        <label><b>Role Mapping :</b></label>
+        <input class="form-control disabled" disabled value="{{requeststaff.RoleMapping}}" />
+      </div>-->
       <div class="col-md-4 mb-3">
         <label><b>Annual Salary :</b></label>
         <input class="form-control disabled" disabled value="{{requeststaff.Salary}}" />
@@ -3323,6 +3379,1875 @@
 
         </div>
       </div>
+    </div>
+  </div>
+</ng-template>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<ng-template #Academichistorymymodal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title" style="font-size: 17px; font-weight: 600 !important;">Academic Information History</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <i class="fa fa-close"></i>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-12">
+        <div class="table-responsive">
+          <table class="table table-bordered table-hover">
+            <tbody *ngFor="let item of AcademicHistory ; let indexOfelement=index;">
+              <tr>
+                <td colspan="4">
+                  <b>Modify On : </b><b>{{item.ModifyDate}}</b>
+                </td>
+              </tr>
+              <tr>
+                <td>Financial Year : <b>{{item.FinancialYearName}}</b></td>
+                <td>Course Name : <b>{{item.CourseName}}</b></td>
+                <td>Result : <b>{{item.ResultName}}</b></td>
+                <td>Admitted Student : <b>{{item.AdmittedStudent}}</b></td>
+              </tr>
+              <tr>
+                <td>Appeared Student : <b>{{item.AppearedStudent}}</b></td>
+                <td>Passed Student : <b>{{item.PassedStudent}}</b></td>
+                <td>Failed Student : <b>{{item.FailedStudent}}</b></td>
+                <td>Other Student : <b>{{item.OtherStudent}}</b></td>
+              </tr>
+              <tr>
+                <td colspan="4"></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="row" *ngIf="AcademicHistory.length<=0">
+      <span style="color:red"> No Data Found!!!</span>
+    </div>
+  </div>
+</ng-template>
+<ng-template #builddetailhistorymymodal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title" style="font-size: 17px; font-weight: 600 !important;">Building Details History</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <i class="fa fa-close"></i>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="card">
+      <div class="card-header d-flex justify-content-between align-items-center">
+        <b><i class="fa fa-filter"></i>&nbsp;Building Documents</b>
+      </div>
+
+      <div class="card-body">
+        <div class="row">
+          <div class="col-12">
+            <div class="table-responsive">
+              <table class="table table-bordered table-hover">
+                <tbody *ngFor="let item of BuildingDetailsHistory ; let indexOfelement=index;">
+                  <tr>
+                    <td colspan="4">
+                      <b>Modify On : </b><b>{{item.ModifyDate}}</b>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td colspan="4">
+                      Building Category  : <b>{{item.BuildingTypeName}}</b>
+                    </td>
+                  </tr>
+                  <tr *ngIf="item.BuildingTypeName!='Owned'">
+                    <td>Owner Name :  <b>{{item.OwnerName}}</b></td>
+                    <td>Address Line 1 : <b>{{item.AddressLine1}}</b></td>
+                    <td>Address Line 2 : <b>{{item.AddressLine2}}</b></td>
+                    <td>Rural / Urban : <b>{{item.RuralUrban}}</b></td>
+                  </tr>
+                  <tr *ngIf="item.BuildingTypeName!='Owned'">
+                    <td>Division :  <b>{{item.Division_English}}</b></td>
+                    <td>District : <b>{{item.District_Eng}}</b></td>
+                    <td>Tehsil : <b>{{item.TehsilName}}</b></td>
+                    <td><span *ngIf="item.RuralUrban == 'Urban'">City : <b>{{item.CityName}}</b></span></td>
+                  </tr>
+                  <tr *ngIf="item.BuildingTypeName!='Owned'">
+                    <td><span *ngIf="item.RuralUrban == 'Rural'">Panchayat Samiti :  <b>{{item.PanchyatSamitiName}}</b></span></td>
+                    <td>City/Town/Village : <b>{{item.CityTownVillage}}</b></td>
+                    <td>Contact No : <b>{{item.ContactNo}}</b></td>
+                    <td>Pincode :<b>{{item.Pincode}}</b></td>
+                  </tr>
+                  <tr>
+                    <td>Total Constructed Building Area (in Sq. Ft) :  <b>{{item.BuildingHostelQuartersRoadArea}}</b></td>
+                    <td *ngIf="item.BuildingTypeName=='Owned'"></td>
+                    <td *ngIf="item.BuildingTypeName!='Owned'">
+                      Upload Registered Rent Agreement/Lease Deed : <a *ngIf="!item.RentAgreementFileUpload.includes('.pdf') && item.RentAgreementFileUploadPath!='N/A'" data-fancybox="gallery" href="{{item.RentAgreementFileUploadPath}}" data-caption="Image 10" title="click here to zoom">
+                        <img src="{{item.RentAgreementFileUploadPath}}" alt="Building Document" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                      </a>
+                      <label *ngIf="item.RentAgreementFileUploadPath=='N/A'">{{item.RentAgreementFileUploadPath}}</label>
+                      <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.RentAgreementFileUpload.includes('.pdf') && item.RentAgreementFileUploadPath!='N/A'" data-fancybox="gallery" href="{{item.RentAgreementFileUploadPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                    </td>
+                    <td *ngIf="item.BuildingTypeName=='Owned'"></td>
+                    <td *ngIf="item.BuildingTypeName!='Owned'">Rent Valid Up To : <b>{{item.Rentvaliditydate | date:'dd-MM-yyyy'}}</b></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td colspan="4">
+                      <div class="card">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                          <b *ngIf="item.BuildingTypeName=='Owned'"><i class="fa fa-filter"></i>&nbsp;Certificate of Own Building in own land in same campus Order No. & Order Date : </b>
+                          <b *ngIf="item.BuildingTypeName!='Owned'"><i class="fa fa-filter"></i>&nbsp;Certificate of Land & Rented Building in same "Tehsil" Order No. & Order Date : </b>
+                        </div>
+                        <div class="card-body">
+                          <div class="row">
+                            <div class="col-lg-3 col-md-3 col-sm-4 col-12 mb-3">
+                              <label class="form-label"><b>Order No :</b></label>
+                              <input class="form-control disabled" disabled value="{{item.OwnBuildingOrderNo}}" />
+                            </div>
+
+                            <div class="col-lg-3 col-md-3 col-sm-4 col-12 mb-3">
+                              <label class="form-label"><b>Order Date :</b></label>
+                              <input class="form-control disabled" disabled value="{{item.OwnBuildingOrderDate}}" />
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                              <label><b>Upload Own Building Document :</b></label>
+                              <a *ngIf="!item.OwnBuildingFileUpload.includes('.pdf')" data-fancybox="gallery" href="{{item.OwnBuildingFileUploadPath}}" data-caption="Image 10" title="click here to zoom">
+                                <img src="{{item.OwnBuildingFileUploadPath}}" alt="Building Document" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                              </a>
+                              <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.OwnBuildingFileUpload.includes('.pdf')" data-fancybox="gallery" href="{{item.OwnBuildingFileUploadPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="card">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                          <b><i class="fa fa-filter"></i>&nbsp;Fire NOC Validity</b>
+                        </div>
+                        <div class="card-body">
+                          <div class="row">
+                            <div class="col-lg-3 col-md-3 col-sm-4 col-12 mb-3">
+                              <label class="form-label"><b>Order No :</b></label>
+                              <input class="form-control disabled" disabled value="{{item.FireNOCOrderNumber}}" />
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-4 col-12 mb-3">
+                              <label class="form-label"><b>From Date :</b></label>
+                              <input class="form-control disabled" disabled value="{{item.FromDate}}" />
+                            </div>
+
+                            <div class="col-lg-3 col-md-3 col-sm-4 col-12 mb-3">
+                              <label class="form-label"><b>To Date :</b></label>
+                              <input class="form-control disabled" disabled value="{{item.ToDate}}" />
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                              <label><b>Upload Fire NOC Document :</b></label>
+                              <a *ngIf="!item.FireNOCFileUpload.includes('.pdf')" data-fancybox="gallery" href="{{item.FireNOCFileUploadPath}}" data-caption="Image 10" title="click here to zoom">
+                                <img src="{{item.FireNOCFileUploadPath}}" alt="Fire NOC Document" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                              </a>
+                              <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.FireNOCFileUpload.includes('.pdf')" data-fancybox="gallery" href="{{item.FireNOCFileUploadPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="card">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                          <b><i class="fa fa-filter"></i>&nbsp;Current Year Building Safety Certificate Order No. & Order Date: </b>
+                        </div>
+                        <div class="card-body">
+                          <div class="row">
+                            <div class="col-lg-3 col-md-3 col-sm-4 col-12 mb-3">
+                              <label for="txtOrderNo" class="form-label"><b>Order No :</b> </label>
+                              <input class="form-control disabled" disabled value="{{item.OrderNo}}" />
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-4 col-12 mb-3">
+                              <label for="txtOrderDate"><b>Order Date :</b></label>
+                              <input class="form-control disabled" disabled value="{{item.OrderDate}}" />
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-4 col-12 mb-3">
+                              <label for="txtExpiringOn"><b>Expiring On :</b></label>
+                              <input class="form-control disabled" disabled value="{{item.ExpiringOn}}" />
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                              <label><b>Upload PWD NOC Document :</b></label>
+                              <a *ngIf="!item.PWDNOCFileUpload.includes('.pdf')" data-fancybox="gallery" href="{{item.PWDNOCFileUploadPath}}" data-caption="Image 10" title="click here to zoom">
+                                <img src="{{item.PWDNOCFileUploadPath}}" alt="PWD NOC Document" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                              </a>
+                              <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.PWDNOCFileUpload.includes('.pdf')" data-fancybox="gallery" href="{{item.PWDNOCFileUploadPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td colspan="4"></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="row" *ngIf="BuildingDetailsHistory.length<=0">
+          <span style="color:red"> No Data Found!!!</span>
+        </div>
+
+        <div class="card">
+          <div class="card-header d-flex justify-content-between align-items-center">
+            <b><i class="fa fa-filter"></i>&nbsp;Building Photos</b>
+          </div>
+          <div class="card-body">
+            <div class="row" *ngIf="lstBuildingDocDetailshistory.length>0">
+              <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                <div class="table-responsive">
+                  <table class="table table-bordered table-hover table-striped">
+                    <thead>
+                      <tr>
+                        <th>Sr. No.</th>
+                        <th>Modify On </th>
+                        <th>Document Name</th>
+                        <th>File</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let item of lstBuildingDocDetailshistory; let indexOfelement=index;">
+                        <td> {{indexOfelement+1}}</td>
+                        <td> {{item.ModifyDate}}</td>
+                        <td>
+                          {{item.DocumentName}}
+                        </td>
+                        <td>
+                          <a *ngIf="!item.FilePath.includes('.pdf')" data-fancybox="gallery" href="{{item.FilePath}}" data-caption="Image 10" title="click here to zoom">
+                            <img src="{{item.FilePath}}" alt="Image/File" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                          </a>
+                          <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.FilePath.includes('.pdf')" data-fancybox="gallery" href="{{item.FilePath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                        </td>
+                      </tr>
+                      <tr *ngIf="lstBuildingDocDetailshistory.length<=0">
+                        <td colspan="2" style="color:red">No Data Found.!</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #collegehistorymymodal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title" style="font-size: 17px; font-weight: 600 !important;">College Details History</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <i class="fa fa-close"></i>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-12">
+        <div class="table-responsive">
+          <table class="table table-bordered table-hover">
+            <tbody *ngFor="let item of collegeListHistory ; let indexOfelement=index;">
+              <tr>
+                <td>
+                  <b>Modify On : </b><b>{{item.ModifyDate}}</b>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div class="card mb-0">
+                        <div class="card-header">
+                          <b><i class="bi bi-table"></i> College List </b>
+                        </div>
+                        <div class="card-body">
+                          <div class="row">
+                            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                              <label>Department :</label>
+                              <input class="form-control disabled mt-1" disabled value="{{item.DepartmentName_English}}" />
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="item.DepartmentID ==5">
+                              <label>Type of College :</label>
+                              <input class="form-control disabled mt-1" disabled value="{{item.TypeofCollege}}" />
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" [hidden]="item.DepartmentID == 11">
+                              <label>College Status :</label>
+                              <input class="form-control disabled mt-1" disabled value="{{item.CollegeStatus}}" />
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" [hidden]="item.DepartmentID == 11">
+                              <label><b>College Logo :</b></label>
+                              <div class="clearfix"></div>
+                              <a data-fancybox="gallery" href="{{item.CollegeLogoPath}}" data-caption="Image 10" title="click here to zoom">
+                                <img src="{{item.CollegeLogoPath}}" alt="College Logo" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                              </a>
+                            </div>
+
+
+                            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="item.CollegeStatus!='New'">
+                              <label>Present Status of College :</label>
+                              <input class="form-control disabled mt-1" disabled value="{{item.PresentCollegeStatus}}" />
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                              <label>College Type :</label>
+                              <input class="form-control disabled mt-1" disabled value="{{item.CollegeType}}" />
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="item.DepartmentID==4">
+                              <label>Management Type :</label>
+                              <input class="form-control disabled mt-1" disabled value="{{item.ManagementTypeName}}" />
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="item.DepartmentID!=4" [hidden]="item.DepartmentID == 11">
+                              <label>College Level :</label>
+                              <input class="form-control disabled mt-1" disabled value="{{item.CollegeLevel}}" />
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" [hidden]="item.DepartmentID == 11">
+                              <label>College Code :</label>
+                              <input class="form-control disabled mt-1" disabled value="{{item.CollegeCode}}" />
+                            </div>
+
+                            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                              <label>College Name in English :</label>
+                              <input class="form-control disabled mt-1" disabled value="{{item.CollegeNameEn}}" />
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                              <label>College Name in Hindi :</label>
+                              <input class="form-control disabled mt-1" disabled value="{{item.CollegeNameHi}}" />
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                              <label>IS Your College NAAC Accredited :</label>
+                              <input class="form-control disabled mt-1" disabled value="{{item.CollegeNAACAccredited}}" />
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="item.CollegeNAACAccredited =='Yes'">
+                              <label><b>NAAC Accredited Certificate :</b></label>
+                              <div class="clearfix"></div>
+                              <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.NAACAccreditedCertificatePath.includes('.pdf')" data-fancybox="gallery" href="{{item.NAACAccreditedCertificatePath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="item.CollegeNAACAccredited =='Yes'">
+                              <label>NACC Validity Date :</label>
+                              <input class="form-control disabled mt-1" disabled value="{{item.NACCValidityDate | date:'dd-MM-yyyy'}}" />
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="(item.DepartmentID==3 ||item.DepartmentID == 11)">
+                              <label>AISHE Code Status :</label>
+                              <input class="form-control disabled mt-1" disabled value="{{item.AISHECodeStatus}}" />
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="item.AISHECodeStatus =='Yes' && (item.DepartmentID !=2 || item.DepartmentID == 11)">
+                              <label>AISHE Code :</label>
+                              <input class="form-control disabled mt-1" disabled value="{{item.AISHECode}}" />
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                              <label>College Medium :</label>
+                              <input class="form-control disabled mt-1" disabled value="{{item.CollegeMediumName}}" />
+                            </div>
+
+
+                            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                              <label>University :</label>
+                              <input class="form-control disabled mt-1" disabled value="{{item.UniversityName}}" />
+                            </div>
+
+                            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="item.CollegeStatus!='New'">
+                              <label>Year of Establishment :</label>
+                              <input class="form-control disabled mt-1" disabled value="{{item.FinancialYearName}}" />
+                            </div>
+
+                            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                              <label>Mobile Number :</label>
+                              <input class="form-control disabled mt-1" disabled value="{{item.MobileNumber}}" />
+                            </div>
+
+                            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="item.DepartmentID ==3">
+                              <label><b>Affiliation Document :</b></label>
+                              <div class="clearfix"></div>
+                              <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.AffiliationDocumentPath.includes('.pdf')" data-fancybox="gallery" href="{{item.AffiliationDocumentPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                            </div>
+
+                            <div class="card">
+                              <div class="card-header d-flex justify-content-between align-items-center">
+                                <b>Address & Contact Detail <span style="color:red;">*</span></b>
+                              </div>
+                              <div class="card-body">
+                                <div class="row">
+                                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                                    <label>Division :</label>
+                                    <input class="form-control disabled mt-1" disabled value="{{item.Division_English}}" />
+                                  </div>
+                                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                                    <label>District :</label>
+                                    <input class="form-control disabled mt-1" disabled value="{{item.District_Eng}}" />
+                                  </div>
+                                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                                    <label>Subdivision :</label>
+                                    <input class="form-control disabled mt-1" disabled value="{{item.SubdivisionName}}" />
+                                  </div>
+                                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                                    <label>Tehsil :</label>
+                                    <input class="form-control disabled mt-1" disabled value="{{item.TehsilName}}" />
+                                  </div>
+                                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                                    <label>Area :</label>
+                                    <input class="form-control disabled mt-1" disabled value="{{item.RuralUrbanArea}}" />
+                                  </div>
+                                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="item.RuralUrbanArea=='Rural'">
+                                    <label>Panchayat Samiti :</label>
+                                    <input class="form-control disabled mt-1" disabled value="{{item.PanchyatSamitiName}}" />
+                                  </div>
+                                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="item.RuralUrbanArea=='Urban'">
+                                    <label>City :</label>
+                                    <input class="form-control disabled mt-1" disabled value="{{item.CityName}}" />
+                                  </div>
+                                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                                    <label>Parliament Area :</label>
+                                    <input class="form-control disabled mt-1" disabled value="{{item.ParliamentAreaName}}" />
+                                  </div>
+                                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                                    <label>Assembly Area :</label>
+                                    <input class="form-control disabled mt-1" disabled value="{{item.AssemblyAreaName}}" />
+                                  </div>
+                                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                                    <label>City/Town/Village :</label>
+                                    <input class="form-control disabled mt-1" disabled value="{{item.CityTownVillage}}" />
+                                  </div>
+
+                                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                                    <label>Pincode :</label>
+                                    <input class="form-control disabled mt-1" disabled value="{{item.Pincode}}" />
+                                  </div>
+                                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                                    <label>Address Line 1 :</label>
+                                    <input class="form-control disabled mt-1" disabled value="{{item.AddressLine1}}" />
+                                  </div>
+                                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                                    <label>Address Line 2 :</label>
+                                    <input class="form-control disabled mt-1" disabled value="{{item.AddressLine2}}" />
+                                  </div>
+
+                                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="item.RuralUrbanArea=='Rural'">
+                                    <label>Distance from City(km) :</label>
+                                    <input class="form-control disabled mt-1" disabled value="{{item.DistanceFromCity}}" />
+                                  </div>
+                                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                                    <label>Website Link :</label>
+                                    <input class="form-control disabled mt-1" disabled value="{{item.WebsiteLink}}" />
+                                  </div>
+                                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                                    <label>Mobile Number :</label>
+                                    <input class="form-control disabled mt-1" disabled value="{{item.MobileNumber}}" />
+                                  </div>
+                                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                                    <label>Landline Number :</label>
+                                    <input class="form-control disabled mt-1" disabled value="{{item.CollegeLandlineNumber}}" />
+                                  </div>
+                                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                                    <label>Email :</label>
+                                    <input class="form-control disabled mt-1" disabled value="{{item.Email}}" />
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row" *ngIf="collegeContactDetailsHistoryList.length>0">
+                    <div class="col-md-12">
+                      <div class="card mb-0">
+                        <div class="card-header">
+                          <b><i class="bi bi-table"></i> Contact Details </b>
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                          <div class="table-responsive">
+                            <table class="table table-bordered table-hover table-striped">
+                              <thead>
+                                <tr>
+                                  <th>Sr.No.</th>
+                                  <th>Name Of Person</th>
+                                  <th>Designation</th>
+                                  <th>Mobile Number</th>
+                                  <th>Email Address</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr *ngFor="let row of collegeContactDetailsHistoryList; let indexOfelement=index;">
+                                  <td> {{indexOfelement+1}}</td>
+                                  <td>{{row.NameOfPerson}}</td>
+                                  <td>{{row.DesignationName}}</td>
+                                  <td>{{row.MobileNumber}}</td>
+                                  <td>{{row.EmailAddress}}</td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div class="card mb-0">
+                        <div class="card-header">
+                          <b><i class="bi bi-table"></i> General Contact Details </b>
+                        </div>
+                        <div class="card-body">
+                          <div class="row">
+                            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                              <label>Designation :</label>
+                              <input class="form-control disabled mt-1" disabled value="{{item.DesignationName}}" />
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                              <label>Mobile Number :</label>
+                              <input class="form-control disabled mt-1" disabled value="{{item.GCD_MobileNumber}}" />
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                              <label>Landline Number :</label>
+                              <input class="form-control disabled mt-1" disabled value="{{item.GCD_LandlineNumber}}" />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="row" *ngIf="collegeListHistory.length<=0">
+      <span style="color:red"> No Data Found!!!</span>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #CollegeManagmenthistorymymodal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title" style="font-size: 17px; font-weight: 600 !important;">College Management Society Details History</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <i class="fa fa-close"></i>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-12">
+        <div class="table-responsive">
+          <table class="table table-bordered table-hover">
+            <tbody *ngFor="let item of CollegeManagmentHistory ; let indexOfelement=index;">
+              <tr>
+                <td>
+                  <b>Modify On : </b><b>{{item.ModifyDate}}</b>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="row">
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                      <label><b> College:</b></label>
+                      <input class="form-control disabled" disabled value="{{item.CollegeNameEn}}" />
+                    </div>
+
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                      <label> <b>Person Name</b></label>
+                      <input class="form-control disabled" disabled value="{{item.PersonName}}" />
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                      <label> <b>Profile Photo</b></label>
+                      <a *ngIf="!item.ProfilePhoto.includes('.pdf')" data-fancybox="gallery" href="{{item.ProfilePhotoPath}}" data-caption="Image 10" title="click here to zoom">
+                        <img src="{{item.ProfilePhotoPath}}" alt="Profile Photo" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                      </a>
+                      <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.ProfilePhoto.includes('.pdf')" data-fancybox="gallery" href="{{item.ProfilePhotoPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                      <label><b> Designation: </b></label>
+                      <input class="form-control disabled" disabled value="{{item.DesignationName}}" />
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                      <label> <b>Occupation:</b></label>
+                      <input class="form-control disabled" disabled value="{{item.OccupationName}}" />
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="item.OccupationName=='Others'">
+                      <label> <b>Other Occupation:</b></label>
+                      <input class="form-control disabled" disabled value="{{item.OtherOccupation}}" />
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                      <label> <b>Management Committee Should have at least two educationists : </b> </label>
+                      <input class="form-control disabled" disabled value="{{item.Educationists}}" />
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                      <label> <b> Mobile No: </b></label>
+                      <input class="form-control disabled" disabled value="{{item.MobileNo}}" />
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                      <label>  <b>Email: </b></label>
+                      <input class="form-control disabled" disabled value="{{item.Email}}" />
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                      <label> <b>Gender:</b> </label>
+                      <input class="form-control disabled" disabled value="{{item.Gender}}" />
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                      <label> <b>Father Name: </b> </label>
+                      <input class="form-control disabled" disabled value="{{item.FatherName}}" />
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                      <label><b> Aadhaar Number : </b></label>
+                      <input class="form-control disabled" disabled value="{{item.MaskedAadhaarNo}}" />
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                      <label> <b>Aadhaar Card </b></label>
+                      <a *ngIf="!item.AadhaarCard.includes('.pdf')" data-fancybox="gallery" href="{{item.AadhaarCardPath}}" data-caption="Image 10" title="click here to zoom">
+                        <img src="{{item.AadhaarCardPath}}" alt="Aadhaar Card" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                      </a>
+                      <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.AadhaarCard.includes('.pdf')" data-fancybox="gallery" href="{{item.AadhaarCardPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                      <label> <b>Signature Document</b></label>
+                      <a *ngIf="!item.SignatureDoc.includes('.pdf')" data-fancybox="gallery" href="{{item.SignatureDocPath}}" data-caption="Image 10" title="click here to zoom">
+                        <img src="{{item.SignatureDocPath}}" alt="Signature Document" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                      </a>
+                      <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.SignatureDoc.includes('.pdf')" data-fancybox="gallery" href="{{item.SignatureDocPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                      <label><b>PAN Number:</b></label>
+                      <input class="form-control disabled" disabled value="{{item.PANNo}}" />
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                      <label> <b>PAN Card </b></label>
+                      <a *ngIf="!item.PANCard.includes('.pdf')" data-fancybox="gallery" href="{{item.PANCardPath}}" data-caption="Image 10" title="click here to zoom">
+                        <img src="{{item.PANCardPath}}" alt="PAN Card" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                      </a>
+                      <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.PANCard.includes('.pdf')" data-fancybox="gallery" href="{{item.PANCardPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                      <label> <b>IsPrimary </b></label>
+                      <input class="form-control disabled" disabled value="{{item.IsPrimary == false ? 'No' : 'Yes'}}" />
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                      <label> <b>IsAuthorized </b></label>
+                      <input class="form-control disabled" disabled value="{{item.IsAuthorized == false ? 'No' : 'Yes'}}" />
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="item.IsAuthorized !=false">
+                      <label> <b>Authorized Document </b></label>
+                      <a *ngIf="!item.AuthorizedDocument.includes('.pdf') && item.AuthorizedDocumentPath!='N/A'" data-fancybox="gallery" href="{{item.AuthorizedDocumentPath}}" data-caption="Image 10" title="click here to zoom">
+                        <img src="{{item.AuthorizedDocumentPath}}" alt="Authorized Document" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                      </a>
+                      <label *ngIf="item.AuthorizedDocumentPath=='N/A'">{{item.AuthorizedDocumentPath}}</label>
+                      <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.AuthorizedDocument.includes('.pdf') && item.AuthorizedDocumentPath!='N/A'" data-fancybox="gallery" href="{{item.AuthorizedDocumentPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="item.OccupationName=='Educationist'">
+                      <label> <b>Education Proof </b></label>
+                      <a *ngIf="!item.EducationProof.includes('.pdf') && item.EducationProofPath!='N/A'" data-fancybox="gallery" href="{{item.EducationProofPath}}" data-caption="Image 10" title="click here to zoom">
+                        <img src="{{item.EducationProofPath}}" alt="Education Proof" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                      </a>
+                      <label *ngIf="item.EducationProofPath=='N/A'">{{item.EducationProofPath}}</label>
+                      <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.EducationProof.includes('.pdf') && item.EducationProofPath!='N/A'" data-fancybox="gallery" href="{{item.EducationProofPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="item.OccupationName=='Educationist'">
+                      <label> <b>Consent Letter </b></label>
+                      <a *ngIf="!item.ConsentLetter.includes('.pdf') && item.ConsentLetterPath!='N/A'" data-fancybox="gallery" href="{{item.ConsentLetterPath}}" data-caption="Image 10" title="click here to zoom">
+                        <img src="{{item.ConsentLetterPath}}" alt="Consent Letter" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                      </a>
+                      <label *ngIf="item.ConsentLetterPath=='N/A'">{{item.ConsentLetterPath}}</label>
+                      <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.ConsentLetter.includes('.pdf') && item.ConsentLetterPath!='N/A'" data-fancybox="gallery" href="{{item.ConsentLetterPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                    </div>
+                  </div>
+
+                </td>
+              </tr>
+              <tr>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="row" *ngIf="CollegeManagmentHistory.length<=0">
+      <span style="color:red"> No Data Found!!!</span>
+    </div>
+  </div>
+</ng-template>
+<ng-template #facilityhistorymymodal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title" style="font-size: 17px; font-weight: 600 !important;">Facility Details History</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <i class="fa fa-close"></i>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-12">
+        <div class="table-responsive">
+          <table class="table table-bordered table-hover">
+            <tbody *ngFor="let item of FacilityHistory ; let indexOfelement=index;">
+              <tr>
+                <td colspan="5">
+                  <b>Modify On : </b><b>{{item.ModifyDate}}</b>
+                </td>
+              </tr>
+              <tr>
+                <td>Facility Name : <b>{{item.FacilitiesName}}</b></td>
+                <td>Is Available(Y/N) :  <b>{{item.IsAvailable}}</b></td>
+                <td>No of Facility : <b>{{item.NoOf}}</b></td>
+                <td>Minimum Size : <b>{{item.MinSize}}</b></td>
+                <td>
+                  Image/File: <a *ngIf="!item.FacilitiesUrl.includes('.pdf')" data-fancybox="gallery" href="{{item.FacilitiesUrlPath}}" data-caption="Image 10" title="click here to zoom">
+                    <img src="{{item.FacilitiesUrlPath}}" alt="Facilities" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                  </a>
+                  <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.FacilitiesUrl.includes('.pdf')" data-fancybox="gallery" href="{{item.FacilitiesUrlPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                </td>
+              </tr>
+              <tr>
+                <td colspan="5"></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="row" *ngIf="FacilityHistory.length<=0">
+      <span style="color:red"> No Data Found!!!</span>
+    </div>
+  </div>
+</ng-template>
+<ng-template #fdrdetailhistorymymodal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title" style="font-size: 17px; font-weight: 600 !important;">FDR Details History</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <i class="fa fa-close"></i>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-12">
+        <div class="table-responsive">
+          <table class="table table-bordered table-hover">
+            <tbody *ngFor="let item of FDRDetailsHistory ; let indexOfelement=index;">
+              <tr>
+                <td colspan="4">
+                  <b>Modify On : </b><b>{{item.ModifyDate}}</b>
+                </td>
+              </tr>
+              <tr>
+                <td>Bank Name : <b>{{item.BankName}}</b></td>
+                <td>Branch Name :  <b>{{item.BranchName}}</b></td>
+                <td>IFSC Code : <b>{{item.IFSCCode}}</b></td>
+                <td>FDR Number: <b>{{item.FDRNumber}}</b></td>
+              </tr>
+              <tr>
+                <td>FDR Amount : <b>{{item.FDRAmount}}</b></td>
+                <td>FDR Date:  <b>{{item.FDRDate}}</b></td>
+                <td>Period Of FDR : <b>{{item.PeriodOfFDR}}</b></td>
+                <td>FDR Expriy Date: <b>{{item.FDRExpriyDate}}</b></td>
+              </tr>
+              <tr>
+                <td colspan="4">FDR Document :<a *ngIf="item.FDRDocument!=''" class="btn-outline-primary" target="_blank" href="{{item.FDRDocumentPath}}" title="View Document"><i class="fa fa-eye"></i></a></td>
+              </tr>
+              <tr>
+                <td colspan="4"></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="row" *ngIf="FDRDetailsHistory.length<=0">
+      <span style="color:red"> No Data Found!!!</span>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #hostelhistorymymodal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title" style="font-size: 17px; font-weight: 600 !important;">Hostel Details History</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <i class="fa fa-close"></i>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-12">
+        <div class="table-responsive">
+          <table class="table table-bordered table-hover">
+            <tbody *ngFor="let item of HostelHistory ; let indexOfelement=index;">
+              <tr>
+                <td>
+                  <b>Modify On : </b><b>{{item.ModifyDate}}</b>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="row">
+                    <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3">
+                      <label><b>Is Hostel In Campus</b>: &nbsp;&nbsp; </label>
+                      <input class="form-control disabled" disabled value="{{item.IsHostelCampus}}" />
+                    </div>
+                    <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3">
+                      <label><b>Hostel Category</b>: &nbsp;&nbsp; </label>
+                      <input class="form-control disabled" disabled value="{{item.HostelCategory}}" />
+                    </div>
+                    <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3">
+                      <label><b>Hostel Name</b>:&nbsp;&nbsp; </label>
+                      <input class="form-control disabled" disabled value="{{item.HostelName}}" />
+                    </div>
+                    <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3">
+                      <label><b>Address Line 1</b>:&nbsp;&nbsp; </label>
+                      <input class="form-control disabled" disabled value="{{item.AddressLine1}}" />
+                    </div>
+                    <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3">
+                      <label><b>Address Line 2</b>:&nbsp;&nbsp; </label>
+                      <input class="form-control disabled" disabled value="{{item.AddressLine2}}" />
+                    </div>
+                    <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3">
+                      <label><b>IsRuralUrban</b>:&nbsp;&nbsp; </label>
+                      <input class="form-control disabled" disabled value="{{item.IsRuralUrban}}" />
+                    </div>
+                    <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3">
+                      <label><b>Division</b>:&nbsp;&nbsp;</label>
+                      <input class="form-control disabled" disabled value="{{item.DivisionName}}" />
+                    </div>
+                    <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3">
+                      <label><b>District</b>:&nbsp;&nbsp;</label>
+                      <input class="form-control disabled" disabled value="{{item.DistrictName}}" />
+                    </div>
+                    <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3">
+                      <label><b>Tehsil</b>:&nbsp;&nbsp; </label>
+                      <input class="form-control disabled" disabled value="{{item.TehsilName}}" />
+                    </div>
+                    <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3" [hidden]="item.IsRuralUrban=='Rural'">
+                      <label><b>City</b>:&nbsp;&nbsp;</label>
+                      <input class="form-control disabled" disabled value="{{item.CityName}}" />
+                    </div>
+                    <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3" [hidden]="item.IsRuralUrban!='Rural'">
+                      <label><b>Panchayat Samiti</b>:&nbsp;&nbsp;</label>
+                      <input class="form-control disabled" disabled value="{{item.PanchyatSamitiName}}" />
+                    </div>
+                    <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3">
+                      <label><b>City/Town/Village</b>:&nbsp;&nbsp; </label>
+                      <input class="form-control disabled" disabled value="{{item.CityTownVillage}}" />
+                    </div>
+                    <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3">
+                      <label><b>Pincode</b>:&nbsp;&nbsp; </label>
+                      <input class="form-control disabled" disabled value="{{item.Pincode}}" />
+                    </div>
+                    <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3">
+                      <label><b>Contact Person Name</b>:&nbsp;&nbsp; </label>
+                      <input class="form-control disabled" disabled value="{{item.ContactPersonName}}" />
+                    </div>
+                    <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3">
+                      <label><b>Contact Person No.</b>:&nbsp;&nbsp;</label>
+                      <input class="form-control disabled" disabled value="{{item.ContactPersonNo}}" />
+                    </div>
+                    <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3">
+                      <label><b>Distance of College (KM)</b>:&nbsp;&nbsp; </label>
+                      <input class="form-control disabled" disabled value="{{item.DistanceOfCollege}}" />
+                    </div>
+                    <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3">
+                      <label><b>Type</b>:&nbsp;&nbsp; </label>
+                      <input class="form-control disabled" disabled value="{{item.HostelType}}" />
+                    </div>
+                    <div class="row" *ngIf="item.HostelType=='Rent'">
+                      <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3">
+                        <label><b>Owner Name</b>:&nbsp;&nbsp; </label>
+                        <input class="form-control disabled" disabled value="{{item.OwnerName}}" />
+                      </div>
+                      <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3">
+                        <label><b>Contact No.</b> :&nbsp;&nbsp;</label>
+                        <input class="form-control disabled" disabled value="{{item.OwnerContactNo}}" />
+                      </div>
+                      <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3">
+                        <label><b>From Date</b>:&nbsp;&nbsp; </label>
+                        <input class="form-control disabled" disabled value="{{item.FromDate}}" />
+                      </div>
+                      <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3">
+                        <label><b>To Date</b>:&nbsp;&nbsp; </label>
+                        <input class="form-control disabled" disabled value="{{item.ToDate}}" />
+                      </div>
+                      <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3">
+                        <label><b>Rent Document</b> :&nbsp;&nbsp;</label>
+                        <a *ngIf="!item.RentDocument.includes('.pdf')" data-fancybox="gallery" href="{{item.RentDocumentPath}}" data-caption="Image 10" title="click here to zoom">
+                          <img src="{{item.RentDocumentPath}}" alt="Rent Document" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                        </a>
+                        <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.RentDocument.includes('.pdf')" data-fancybox="gallery" href="{{item.RentDocumentPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                      </div>
+                    </div>
+                  </div>
+
+                </td>
+              </tr>
+              <tr>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="row" *ngIf="HostelBlockHistory.length>0">
+          <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+            <div class="table-responsive">
+              <table class="table table-hover table-striped">
+                <thead>
+                  <tr>
+                    <th>Sr. No.</th>
+                    <th>Modify On</th>
+                    <th>Hostel Block</th>
+                    <th>Area (In Sq Feet)</th>
+                    <th>Image</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let row of HostelBlockHistory ;let idx=index;">
+                    <td>{{idx+1}}</td>
+                    <td>{{row.ModifyDate}}</td>
+                    <td>{{row.CourseName}}</td>
+                    <td>{{row.Width}}</td>
+                    <td>
+                      <a *ngIf="!row.ImageFileName.includes('.pdf')" data-fancybox="gallery" href="{{row.ImageFilePath}}" data-caption="Image 10" title="click here to zoom">
+                        <img src="{{row.ImageFilePath}}" alt="Rent Document" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                      </a>
+                      <a class="bi bi-file-earmark-pdf-fill" *ngIf="row.ImageFileName.includes('.pdf')" data-fancybox="gallery" href="{{row.ImageFilePath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row" *ngIf="HostelHistory.length<=0">
+      <span style="color:red"> No Data Found!!!</span>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #landhistorymymodal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title" style="font-size: 17px; font-weight: 600 !important;">Land Details History</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <i class="fa fa-close"></i>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-12">
+        <div class="table-responsive">
+          <table class="table table-bordered table-hover">
+            <tbody *ngFor="let item of LandDetailHistory ; let indexOfelement=index;">
+              <tr *ngIf="indexOfelement==0">
+                <td colspan="2">College:  <b>{{item.CollegeName}}</b></td>
+              </tr>
+              <tr>
+                <td colspan="2">Modify Date:  <b>{{item.ModifyDate}}</b></td>
+              </tr>
+              <tr>
+                <td>Land Area Situated In : <b>{{item.LandAreaSituatedName}}</b></td>
+                <td>Land Document Type  : <b>{{item.LandDocumentTypeName}}</b></td>
+              </tr>
+              <tr>
+
+                <td>Is Your Land converted to Institution/Education :<b>{{item.IsConvereted}}</b></td>
+                <td>Name of Owner of Land : <b>{{item.LandOwnerName}}</b></td>
+              </tr>
+              <tr>
+                <td>Land Area (in {{item.AreaType !=''?item.AreaType:UnitOfLand}}) : <b>{{item.LandArea}}</b></td>
+                <td *ngIf="(item.Code=='NCON' || item.Code=='PCON')">Affidavit Date(DD/MM/YYYY) : <b>{{item.AffidavitDate | date:'dd-MM-yyyy'}}</b></td>
+              </tr>
+              <tr>
+                <td colspan="2"></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="row" *ngIf="LandDetailsDocumentListHistory.length>0">
+          <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+            <div class="table-responsive">
+              <table class="table table-bordered table-hover">
+                <thead>
+                  <tr>
+                    <th>Sr. No.</th>
+                    <th>Modify Date</th>
+                    <th>Document Name</th>
+                    <th>Document Type</th>
+                    <th>Show Document</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of LandDetailsDocumentListHistory ; let indexOfelement=index;">
+                    <td> {{indexOfelement+1}}</td>
+                    <td> {{item.ModifyDate}}</td>
+                    <td>{{item.DocumentName}}</td>
+                    <td>{{item.DocumentType}}</td>
+                    <td><a class="btn-outline-primary" target="_blank" href="{{item.FilePath}}" title="View Document"><i class="fa fa-eye"></i></a></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="row" *ngIf="DetailoftheLandHistory.length>0">
+          <div class="col-md-12">
+            <div class="card mb-0">
+              <div class="card-header">
+                <b><i class="bi bi-table"></i>&nbsp;Detail of the Land (With Khasra No.):  </b>
+              </div>
+              <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                <div class="table-responsive">
+                  <table class="table table-bordered table-hover">
+                    <thead>
+                      <tr>
+                        <th>Sr.No.</th>
+                        <th>Modify Date</th>
+                        <th>Land Type</th>
+                        <th>Area</th>
+                        <th>Khasra No</th>
+                        <th>Land Conversion Order No</th>
+                        <th>Land Conversion Order Date</th>
+                        <th>Land Conversion Document</th>
+                        <th>Other Document</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let row of DetailoftheLandHistory; let indexOfelement=index;">
+                        <td> {{indexOfelement+1}}</td>
+                        <td> {{row.ModifyDate}}</td>
+                        <td>{{row.LandTypeName}}</td>
+                        <td>{{row.LandArea}}</td>
+                        <td>{{row.KhasraNo}}</td>
+                        <td>{{row.LandConversionOrderNo}}</td>
+                        <td>{{row.LandConversionOrderDate}}</td>
+                        <td><a class="btn-outline-primary" target="_blank" href="{{row.FilePath}}" title="View Document"><i class="fa fa-eye"></i></a></td>
+                        <td>
+                          <a *ngIf="row.FileOtherName!=''" class="btn-outline-primary" target="_blank" href="{{row.FileOtherPath}}" title="View Document"><i class="fa fa-eye"></i></a>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row" *ngIf="LandDetailHistory.length<=0">
+      <span style="color:red"> No Data Found!!!</span>
+    </div>
+  </div>
+</ng-template>
+<ng-template #legalentityhistorymymodal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title" style="font-size: 17px; font-weight: 600 !important;">Legal Entity Details History</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <i class="fa fa-close"></i>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-12">
+        <div class="table-responsive">
+          <table class="table table-bordered table-hover">
+            <tbody *ngFor="let item of LegalEntityHistory ; let indexOfelement=index;">
+              <tr>
+                <td>
+                  <b>Modify On : </b><b>{{item.ModifyDate}}</b>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div class="card mb-0">
+                        <div class="card-header">
+                          <b><i class="bi bi-table"></i> Legal Entity </b>
+                        </div>
+                        <div class="card-body">
+                          <div class="row">
+                            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                              <label>Legal Entity :</label>
+                              <input class="form-control disabled mt-1" disabled value="{{item.IsLegalEntity}}" />
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                              <label>SSOID :</label>
+                              <input class="form-control disabled mt-1" disabled value="{{item.SSOID}}" />
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                              <label>Registration No :</label>
+                              <input class="form-control disabled mt-1" disabled value="{{item.RegistrationNo}}" />
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                              <label>President Mobile Number :</label>
+                              <input class="form-control disabled mt-1" disabled value="{{item.PresidentMobileNo}}" />
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                              <label>President Email ID :</label>
+                              <input class="form-control disabled mt-1" disabled value="{{item.PresidentEmail}}" />
+                            </div>
+
+                            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                              <label>Name  :</label>
+                              <input class="form-control disabled mt-1" disabled value="{{item.SocietyName}}" />
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                              <label>Present Status :</label>
+                              <input class="form-control disabled mt-1" disabled value="{{item.SocietyPresentStatusName}}" />
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                              <label>State  :</label>
+                              <input class="form-control disabled mt-1" disabled value="{{item.StateName_English}}" />
+                            </div>
+
+                            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                              <label>District  :</label>
+                              <input class="form-control disabled mt-1" disabled value="{{item.District_Eng}}" />
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                              <label>Act (Which Act You Registered)  :</label>
+                              <input class="form-control disabled mt-1" disabled value="{{item.RegisteredAct}}" />
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="item.RegisteredAct=='Other'">
+                              <label>Act (Which Act You Registered)  :</label>
+                              <input class="form-control disabled mt-1" disabled value="{{item.RegisteredActName}}" />
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                              <label>Date Of Registration :</label>
+                              <input class="form-control disabled mt-1" disabled value="{{item.SocietyRegistrationDate | date:'dd-MM-yyyy'}}" />
+                            </div>
+
+                            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                              <label>Date of Election of Present Management Committee :</label>
+                              <input class="form-control disabled mt-1" disabled value="{{item.ElectionPresentManagementCommitteeDate | date:'dd-MM-yyyy'}}" />
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                              <label>Registered Address :</label>
+                              <input class="form-control disabled mt-1" disabled value="{{item.SocietyRegisteredAddress}}" />
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                              <label>Pincode :</label>
+                              <input class="form-control disabled mt-1" disabled value="{{item.Pincode}}" />
+                            </div>
+
+                            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                              <label>Other Institution run by the Society :</label>
+                              <input class="form-control disabled mt-1" disabled value="{{item.IsOtherInstitution}}" />
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                              <label>Women Member of Management Committee<br /> is more than 30% of Total Members :</label>
+                              <input class="form-control disabled mt-1" disabled value="{{item.IsWomenMembers}}" />
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                              <label>Date of Election of Management Committee<br /> not more than 3 Year :</label>
+                              <input class="form-control disabled mt-1" disabled value="{{item.IsDateOfElection}}" />
+                            </div>
+
+                            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                              <label>Management Committee certified By Registrar :</label>
+                              <input class="form-control disabled mt-1" disabled value="{{item.ManagementCommitteeCertified}}" />
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                              <label>PAN Number :</label>
+                              <input class="form-control disabled mt-1" disabled value="{{item.SocietyPANNumber}}" />
+                            </div>
+
+                            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                              <label><b>Trust Logo :</b></label>
+                              <div class="clearfix"></div>
+                              <a data-fancybox="gallery" href="{{item.TrustLogoDocPath}}" data-caption="Image 10" title="click here to zoom">
+                                <img src="{{item.TrustLogoDocPath}}" alt="Trust Logo" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                              </a>
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                              <label><b>Trustee Member Proof :</b></label>&nbsp;
+                              <label><a target="_blank" href="{{item.TrusteeMemberProofDocPath}}" title="View Trustee Member Proof"><i class="fa fa-eye"></i></a></label>
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                              <label><b>Pan Proof :</b></label>&nbsp;
+                              <label><a target="_blank" href="{{item.SocietyPanProofDocPath}}" title="View Society Pan Proof"><i class="fa fa-eye"></i></a></label>
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                              <label><b>Registration Document :</b></label>&nbsp;
+                              <label><a target="_blank" href="{{item.RegistrationDocPath}}" title="View Registration Document"><i class="fa fa-eye"></i></a></label>
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="item.ProcessDepartmentID==9">
+                              <label><b> By-Laws document :</b></label>&nbsp;
+                              <label><a target="_blank" href="{{item.ByLawsDocumentPath}}" title="View By Laws document"><i class="fa fa-eye"></i></a></label>
+                            </div>
+                          </div>
+                          <div class="row">
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                </td>
+              </tr>
+              <tr>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="row" *ngIf="legalEntityMemberDetailDataHis.length>0">
+      <div class="col-md-12">
+        <div class="card mb-0">
+          <div class="card-header">
+            <b><i class="bi bi-table"></i> Member Details </b>
+          </div>
+          <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+            <div class="table-responsive">
+              <table class="table table-bordered table-hover table-striped">
+                <thead>
+                  <tr>
+                    <th>Sr. No.</th>
+                    <th>Member Name</th>
+                    <th>Father's Name</th>
+                    <th>Date Of Birth</th>
+                    <th>Mobile No.</th>
+                    <th>Post</th>
+                    <th>Aadhaar Number</th>
+                    <th>Member Photo</th>
+                    <th>Member Sign</th>
+                    <th>Aadhaar Document</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let row of legalEntityMemberDetailDataHis; let indexOfelement=index;">
+                    <td> {{indexOfelement+1}}</td>
+                    <td>{{row.MemberName}}</td>
+                    <td>{{row.MemberFatherName}}</td>
+                    <td>{{row.MemberDOB | date:'dd-MM-yyyy'}}</td>
+                    <td>{{row.MemberMobileNo}}</td>
+                    <td>{{row.MemberPostName}}</td>
+                    <td>{{row.Dis_AadhaarNumber}}</td>
+                    <td>
+                      <a *ngIf="!row.MemberPhotoPath.includes('.pdf') && row.MemberPhoto!='' && row.MemberPhotoPath!='N/A'" data-fancybox="gallery" href="{{row.MemberPhotoPath}}" data-caption="Image 10" title="click here to zoom">
+                        <img src="{{row.MemberPhotoPath}}" alt="Member Photo" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                      </a>
+                      <label *ngIf="row.MemberPhotoPath=='N/A'">{{row.MemberPhotoPath}}</label>
+                      <a class="bi bi-file-earmark-pdf-fill" *ngIf="row.MemberPhotoPath.includes('.pdf') && row.MemberPhotoPath!='N/A'" data-fancybox="gallery" href="{{row.MemberPhotoPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+
+                    </td>
+                    <td>
+                      <a *ngIf="!row.MemberSignaturePath.includes('.pdf') && row.MemberSignature!='' && row.MemberSignaturePath!='N/A'" data-fancybox="gallery" href="{{row.MemberSignaturePath}}" data-caption="Image 10" title="click here to zoom">
+                        <img src="{{row.MemberSignaturePath}}" alt="Member Signature" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                      </a>
+                      <label *ngIf="row.MemberSignaturePath=='N/A'">{{row.MemberSignaturePath}}</label>
+                      <a class="bi bi-file-earmark-pdf-fill" *ngIf="row.MemberSignaturePath.includes('.pdf')  && row.MemberSignaturePath!='N/A'" data-fancybox="gallery" href="{{row.MemberSignaturePath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+
+                    </td>
+                    <td>
+                      <a *ngIf="!row.PresidentAadhaarProofDocPath.includes('.pdf') && row.PresidentAadhaarProofDocPath!='N/A'" data-fancybox="gallery" href="{{row.PresidentAadhaarProofDocPath}}" data-caption="Image 10" title="click here to zoom">
+                        <img src="{{row.PresidentAadhaarProofDocPath}}" alt="Member Signature" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                      </a>
+                      <label *ngIf="row.PresidentAadhaarProofDocPath=='N/A'">{{row.PresidentAadhaarProofDocPath}}</label>
+                      <a class="bi bi-file-earmark-pdf-fill" *ngIf="row.PresidentAadhaarProofDocPath.includes('.pdf')  && row.PresidentAadhaarProofDocPath!='N/A'" data-fancybox="gallery" href="{{row.PresidentAadhaarProofDocPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row" *ngIf="legalEntityInstituteDetailDataHis.length>0">
+      <div class="col-md-12">
+        <div class="card mb-0">
+          <div class="card-header">
+            <b><i class="bi bi-table"></i> Institute Details </b>
+          </div>
+          <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+            <div class="table-responsive">
+              <table class="table table-bordered table-hover table-striped">
+                <thead>
+                  <tr>
+                    <th>Sr. No.</th>
+                    <th>Registration No.</th>
+                    <th>Institute Name</th>
+                    <th>Contact Person Name</th>
+                    <th>Designation</th>
+                    <th>Contact Number</th>
+                    <th>State</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let row of legalEntityInstituteDetailDataHis; let indexOfelement=index;">
+                    <td> {{indexOfelement+1}}</td>
+                    <td>{{row.RegistrationNo}}</td>
+                    <td>{{row.InstituteName}}</td>
+                    <td>{{row.InstitutePersonName}}</td>
+                    <td>{{row.InstituteDesignation}}</td>
+                    <td>{{row.InstituteContactNumber}}</td>
+                    <td>{{row.StateName_English}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row" *ngIf="LegalEntityHistory.length<=0">
+      <span style="color:red"> No Data Found!!!</span>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #oldnochistorymymodal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title" style="font-size: 17px; font-weight: 600 !important;">Old NOC Details</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <i class="fa fa-close"></i>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-12">
+        <div class="table-responsive">
+          <table class="table table-bordered table-hover">
+            <tbody *ngFor="let item of OldNOCHistory ; let indexOfelement=index;">
+              <tr>
+                <td>
+                  <b>Modify On : </b><b>{{item.ModifyDate}}</b>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="row">
+
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                      <label><b>College Name :</b></label>
+                      <input class="form-control disabled" disabled value="{{item.CollegeName}}" />
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                      <label><b>Course :</b></label>
+                      <input class="form-control disabled" disabled value="{{item.CourseName}}" />
+                    </div>
+
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                      <label><b>Subject :</b></label>
+                      <div class="clearfix"></div>
+                      <div class="form-control disabled">
+                        {{item.SubjectName}}
+                      </div>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                      <label><b>NOC Type :</b></label>
+                      <input class="form-control disabled" disabled value="{{item.NOCTypeName}}" />
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                      <label><b> Session Year :</b></label>
+                      <input class="form-control disabled" disabled value="{{item.FinancialYearName}}" />
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                      <label><b>Issued for Year :</b></label>
+                      <input class="form-control disabled" disabled value="{{item.IssuedYear}}" />
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                      <label><b>NOC Number :</b></label>
+                      <input class="form-control disabled" disabled value="{{item.NOCNumber}}" />
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                      <label><b> NOC Received On :</b></label>
+                      <input class="form-control disabled" disabled value="{{item.NOCReceivedDate}}" />
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="item.NOCTypeName=='TNOC'">
+                      <label><b>NOC Expire Date :</b></label>
+                      <input class="form-control disabled" disabled value="{{item.NOCExpireDate}}" />
+                    </div>
+
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-12 mb-3">
+                      <label><b>Remark :</b></label>
+                      <input class="form-control disabled" disabled value="{{item.Remark}}" />
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                      <label><b>Upload NOC :</b></label>
+                      <a *ngIf="!item.UploadNOCDocPath.includes('.pdf')" data-fancybox="gallery" href="{{item.UploadNOCDocPath}}" data-caption="Image 10" title="click here to zoom">
+                        <img src="{{item.UploadNOCDocPath}}" alt="NOC Document" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                      </a>
+                      <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.UploadNOCDocPath.includes('.pdf')" data-fancybox="gallery" href="{{item.UploadNOCDocPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="row" *ngIf="OldNOCHistory.length<=0">
+      <span style="color:red"> No Data Found!!!</span>
+    </div>
+
+  </div>
+</ng-template>
+
+<ng-template #OtherDocumenthistorymymodal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title" style="font-size: 17px; font-weight: 600 !important;">Other Documents History</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <i class="fa fa-close"></i>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-12">
+        <div class="table-responsive">
+          <table class="table table-bordered table-hover">
+            <tbody *ngFor="let item of OtherDocHistory ; let indexOfelement=index;">
+              <tr>
+                <td>
+                  <b>Modify On : </b><b>{{item.ModifyDate}}</b>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  {{item.DocumentName}}   :
+                  <a *ngIf="!item.FilePath.includes('.pdf')" data-fancybox="gallery" href="{{item.FilePath}}" data-caption="Image 10" title="click here to zoom">
+                    <img src="{{item.FilePath}}" alt="File Document" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                  </a>
+                  <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.FilePath.includes('.pdf')" data-fancybox="gallery" href="{{item.FilePath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+
+
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="row" *ngIf="OtherDocHistory.length<=0">
+      <span style="color:red"> No Data Found!!!</span>
+    </div>
+  </div>
+</ng-template>
+<ng-template #otherinformationhistorymymodal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title" style="font-size: 17px; font-weight: 600 !important;">Other Information History</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <i class="fa fa-close"></i>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-12">
+        <div class="table-responsive">
+          <table class="table table-bordered table-hover">
+            <tbody *ngFor="let item of OtherInformationHistory ; let indexOfelement=index;">
+              <tr>
+                <td colspan="4">
+                  <b>Modify On : </b><b>{{item.ModifyDate}}</b>
+                </td>
+              </tr>
+              <tr>
+                <td>Infrastructure Name : <b>{{item.CourseName}}</b></td>
+                <td>No. of Rooms :  <b>{{item.NoOfRooms == 0 ? 'N/A' : item.NoOfRooms}}</b></td>
+                <td>Minimum Size (Sq. Feet) : <b>{{item.Width}}</b></td>
+                <td>Number Of Computers : <b>{{item.NoofComputers == 0 ? 'N/A' : item.NoofComputers}}</b></td>
+              </tr>
+              <tr>
+                <td>Number Of Books : <b>{{item.NoofBooks == 0 ? 'N/A' : item.NoofBooks}}</b></td>
+                <td>
+                  Document :
+                  <a *ngIf="!item.ImageFilePath.includes('.pdf')" data-fancybox="gallery" href="{{item.ImageFilePath}}" data-caption="Image 10" title="click here to zoom">
+                    <img src="{{item.ImageFilePath}}" alt="Image File" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                  </a>
+                  <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.ImageFilePath.includes('.pdf')" data-fancybox="gallery" href="{{item.ImageFilePath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                </td>
+                <td>
+                  Library Document :        <a *ngIf="!item.BookImageFilePath.includes('.pdf')&&item.BookImageFileName!=''" data-fancybox="gallery" href="{{item.BookImageFilePath}}" data-caption="Image 10" title="click here to zoom">
+                    <img src="{{item.BookImageFilePath}}" alt="Image File" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                  </a>
+                  <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.BookImageFilePath.includes('.pdf')&&item.BookImageFileName!=''" data-fancybox="gallery" href="{{item.BookImageFilePath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                  <span *ngIf="item.BookImageFileName==''">N/A</span>
+                </td>
+              </tr>
+              <tr>
+                <td colspan="4"></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="row" *ngIf="OtherInformationHistory.length<=0">
+      <span style="color:red"> No Data Found!!!</span>
+    </div>
+  </div>
+</ng-template>
+<ng-template #Requirehistorymymodal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title" style="font-size: 17px; font-weight: 600 !important;">Required Documents History</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <i class="fa fa-close"></i>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-12">
+        <div class="table-responsive">
+          <table class="table table-bordered table-hover">
+            <tbody *ngFor="let item of RequiredDocHistory ; let indexOfelement=index;">
+              <tr>
+                <td>
+                  <b>Modify On : </b><b>{{item.ModifyDate}}</b>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  {{item.DocumentName}}   :
+                  <a *ngIf="!item.FilePath.includes('.pdf')" data-fancybox="gallery" href="{{item.FilePath}}" data-caption="Image 10" title="click here to zoom">
+                    <img src="{{item.FilePath}}" alt="File Document" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                  </a>
+                  <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.FilePath.includes('.pdf')" data-fancybox="gallery" href="{{item.FilePath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+
+
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="row" *ngIf="RequiredDocHistory.length<=0">
+      <span style="color:red"> No Data Found!!!</span>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #classroomhistorymymodal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title" style="font-size: 17px; font-weight: 600 !important;">Class Room Details History</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <i class="fa fa-close"></i>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-12">
+        <div class="table-responsive">
+          <table class="table table-bordered table-hover">
+            <tbody *ngFor="let item of ClassRoomHistory ; let indexOfelement=index;">
+              <tr>
+                <td colspan="4">
+                  <b>Modify On : </b><b>{{item.ModifyDate}}</b>
+                </td>
+              </tr>
+              <tr>
+                <td>Course : <b>{{item.CourseName}}</b></td>
+                <td>Room No. :  <b>{{item.NoOfRooms}}</b></td>
+                <td>Width (In Feet) Size : <b>{{item.Width}}</b></td>
+                <td>Length (In Feet): <b>{{item.Length}}</b></td>
+              </tr>
+              <tr>
+
+                <td>Room Size (sq. ft): <b>{{item.Length*item.Width}}</b></td>
+                <td>Student Capacity: <b>{{item.StudentCapacity}}</b></td>
+                <td>
+                  <b>Upload Image: </b>   <a *ngIf="!item.ImageFilePath.includes('.pdf')" data-fancybox="gallery" href="{{item.ImageFilePath}}" data-caption="Image 10" title="click here to zoom">
+                    <img src="{{item.ImageFilePath}}" alt="Image/File" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                  </a>
+                  <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.ImageFilePath.includes('.pdf')" data-fancybox="gallery" href="{{item.ImageFilePath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                </td>
+              </tr>
+              <tr>
+                <td colspan="4"></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="row" *ngIf="ClassRoomHistory.length<=0">
+      <span style="color:red"> No Data Found!!!</span>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #staffdetailhistorymymodal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title" style="font-size: 17px; font-weight: 600 !important;">Staff Details History</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <i class="fa fa-close"></i>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-12">
+        <div class="table-responsive">
+          <table class="table table-bordered table-hover">
+            <tbody *ngFor="let item of StaffDetailsHistory ; let indexOfelement=index;">
+              <tr>
+                <td>
+                  <b>Modify On : </b><b>{{item.ModifyDate}}</b>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="row">
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                      <label class="form-label" style="margin-right:15px"><b> Type :</b></label>
+                      <input class="form-control disabled" disabled value="{{item.TeachingType}}" />
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="item.TeachingType=='Teaching'">
+                      <label><b>Subject :</b></label>
+                      <input class="form-control disabled" disabled value="{{item.SubjectName}}" />
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-4 mb-3">
+                      <label><b>Name of Person:</b> </label>
+                      <input class="form-control disabled" disabled value="{{item.PersonName}}" />
+                    </div>
+                    <div class="col-md-4 mb-3" *ngIf="item.TeachingType=='Teaching'">
+                      <label><b>Designation :</b> </label>
+                      <input class="form-control disabled" disabled value="{{item.RoleName}}" />
+                    </div>
+                    <div class="col-md-4 mb-3">
+                      <label><b>Mobile No. :</b> </label>
+                      <input class="form-control disabled" disabled value="{{item.MobileNo}}" />
+                    </div>
+                    <div class="col-md-4 mb-3">
+                      <label><b>Email :</b></label>
+                      <input class="form-control disabled" disabled value="{{item.Email}}" />
+                    </div>
+                    <div class="col-md-4 mb-3">
+                      <label><b>Gender :</b></label>
+                      <input class="form-control disabled" disabled value="{{item.Gender}}" />
+                    </div>
+                    <div class="col-md-4 mb-3">
+                      <label><b>Highest Qualification :</b></label>
+                      <input class="form-control disabled" disabled value="{{item.HighestQualificationName}}" />
+                    </div>
+                    <div class="col-md-4 mb-3">
+                      <label><b>Aadhar Number :</b></label>
+                      <input class="form-control disabled" disabled value="{{item.MaskedAadhaarNo}}" />
+                    </div>
+                    <div class="col-md-4 mb-3">
+                      <label><b>PAN Number :</b></label>
+                      <input class="form-control disabled" disabled value="{{item.PANNo}}" />
+                    </div>
+                    <div class="col-md-4 mb-3">
+                      <label><b>Date Of Birth :</b></label>
+                      <input class="form-control disabled" disabled value="{{item.DateOfBirth | date:'dd-MM-yyyy'}}" />
+                    </div>
+                    <div class="col-md-4 mb-3">
+                      <label><b>Date Of Appointment :</b></label>
+                      <input class="form-control disabled" disabled value="{{item.DateOfAppointment | date:'dd-MM-yyyy'}}" />
+                    </div>
+                    <div class="col-md-4 mb-3">
+                      <label><b>Date Of Joining :</b></label>
+                      <input class="form-control disabled" disabled value="{{item.DateOfJoining | date:'dd-MM-yyyy'}}" />
+                    </div>
+                    <div class="col-md-4 mb-3">
+                      <label><b>Total Number of Experience (Year) :</b></label>
+                      <input class="form-control disabled" disabled value="{{item.NumberofExperience}}" />
+                    </div>
+                    <div class="col-md-4 mb-3" *ngIf="item.TeachingType=='Teaching'">
+                      <label><b>Specialization Subject :</b></label>
+                      <input class="form-control disabled" disabled value="{{item.SpecializationSubject}}" />
+                    </div>
+                    <div class="col-md-4 mb-3" *ngIf="item.ESINumber != ''">
+                      <label><b>ESI Number :</b></label>
+                      <input class="form-control disabled" disabled value="{{item.ESINumber}}" />
+                    </div>
+                    <div class="col-md-4 mb-3">
+                      <label><b>Salary :</b></label>
+                      <input class="form-control disabled" disabled value="{{item.Salary}}" />
+                    </div>
+                    <div class="col-md-4 mb-3">
+                      <label class="form-label" style="margin-right:15px"><b>Staff Status :</b></label>
+                      <input class="form-control disabled" disabled value="{{item.StaffStatus}}" />
+                    </div>
+                    <div class="col-md-4 mb-3">
+                      <label class="form-label" style="margin-right:15px"><b>PF Deduction :</b></label>
+                      <input class="form-control disabled" disabled value="{{item.PFDeduction}}" />
+                    </div>
+                    <div class="col-md-4 mb-3" *ngIf="item.PFDeduction=='Yes'">
+                      <label><b> UAN No. :</b></label>
+                      <input class="form-control disabled" disabled value=" {{item.UANNumber}}" />
+                    </div>
+                    <div class="col-md-4 mb-3" *ngIf="item.TeachingType=='Teaching'">
+                      <label class="form-label" style="margin-right:15px"><b>Research Guide :</b></label>
+                      <input class="form-control disabled" disabled value="{{item.ResearchGuide}}" />
+                    </div>
+                    <div class="row">
+                      <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                        <div class="table-responsive">
+                          <table class="table table-bordered table-hover table-striped">
+                            <thead>
+                              <tr>
+                                <th>Profile Photo</th>
+                                <th>Aadhaar Card</th>
+                                <th>PAN Card</th>
+                                <th>Experience Certificate</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr>
+                                <td>
+                                  <a *ngIf="!item.ProfilePhoto.includes('.pdf')" data-fancybox="gallery" href="{{item.ProfilePhotoPath}}" data-caption="Image 10" title="click here to zoom">
+                                    <img src="{{item.ProfilePhotoPath}}" alt="Profile Photo" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                                  </a>
+                                  <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.ProfilePhoto.includes('.pdf')" data-fancybox="gallery" href="{{item.ProfilePhotoPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                                </td>
+                                <td>
+                                  <a *ngIf="!item.AadhaarCard.includes('.pdf')" data-fancybox="gallery" href="{{item.AadhaarCardPath}}" data-caption="Image 10" title="click here to zoom">
+                                    <img src="{{item.AadhaarCardPath}}" alt="Aadhaar Card" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                                  </a>
+                                  <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.AadhaarCard.includes('.pdf')" data-fancybox="gallery" href="{{item.AadhaarCardPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                                </td>
+                                <td>
+                                  <a *ngIf="!item.PANCard.includes('.pdf')" data-fancybox="gallery" href="{{item.PANCardPath}}" data-caption="Image 10" title="click here to zoom">
+                                    <img src="{{item.PANCardPath}}" alt="PAN Card" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                                  </a>
+                                  <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.PANCard.includes('.pdf')" data-fancybox="gallery" href="{{item.PANCardPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                                </td>
+                                <td>
+                                  <a *ngIf="!item.ExperienceCertificate.includes('.pdf')" data-fancybox="gallery" href="{{item.ExperienceCertificatePath}}" data-caption="Image 10" title="click here to zoom">
+                                    <img src="{{item.ExperienceCertificatePath}}" alt="Experience Certificate" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                                  </a>
+                                  <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.ExperienceCertificate.includes('.pdf')" data-fancybox="gallery" href="{{item.ExperienceCertificatePath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-header">
+            <b>Educational Qualification Details</b>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="table-responsive" *ngIf="StaffQualificationDetailsHistory.length>0">
+                <table class="table table-hover table-striped-columns">
+                  <thead>
+                    <tr>
+                      <th>Modify On</th>
+                      <th>Professional Qualification</th>
+                      <th> Stream/Subject </th>
+                      <th>University/Board/ Institution</th>
+                      <th>Passing Year</th>
+                      <th>Percentage/Grade</th>
+                      <th>Upload Document</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let item of StaffQualificationDetailsHistory let idx =index">
+                      <td>
+                        {{item.ModifyDate}}
+                      </td>
+                      <td>
+                        {{item.ProfessionalQualification}}
+                      </td>
+                      <td>
+                        {{item.StreamSubject}}
+                      </td>
+                      <td>
+                        {{item.UniversityBoardInstitutionName}}
+                      </td>
+                      <td>
+                        {{item.PassingYear}}
+                      </td>
+                      <td>
+                        {{item.Marks}}
+                      </td>
+                      <td>
+                        <a *ngIf="!item.UploadDocument.includes('.pdf')" data-fancybox="gallery" href="{{item.UploadDocumentPath}}" data-caption="Image 10" title="click here to zoom">
+                          <img src="{{item.UploadDocumentPath}}" alt="Upload Document" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                        </a>
+                        <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.UploadDocument.includes('.pdf')" data-fancybox="gallery" href="{{item.UploadDocumentPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row" *ngIf="StaffDetailsHistory.length<=0">
+      <span style="color:red"> No Data Found!!!</span>
+    </div>
+  </div>
+</ng-template>
+<ng-template #paymenthistorymymodal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title" style="font-size: 17px; font-weight: 600 !important;">Payment Details History</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <i class="fa fa-close"></i>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-12">
+        <div class="table-responsive">
+          <table class="table table-bordered table-hover">
+            <tbody *ngFor="let item of OfflinePaymentHistory ; let indexOfelement=index;">
+              <tr>
+                <td colspan="5">
+                  <b>Modify On : </b><b>{{item.ModifyDate}}</b>
+                </td>
+              </tr>
+              <tr>
+                <td>Payment Mode :{{item.PaymentMode}}</td>
+                <td>Bank Name :{{item.BankName}}</td>
+                <td>Amount :{{item.Amount}}</td>
+                <td>Date :{{item.Date}}</td>
+                <td>Document  :<a href="{{item.FilePath}}" target="_blank" class="btn btn-primary"><i class="fa fa-eye"></i></a></td>
+              </tr>
+
+              <tr>
+                <td colspan="5"></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="row" *ngIf="OfflinePaymentHistory.length<=0">
+      <span style="color:red"> No Data Found!!!</span>
     </div>
   </div>
 </ng-template>

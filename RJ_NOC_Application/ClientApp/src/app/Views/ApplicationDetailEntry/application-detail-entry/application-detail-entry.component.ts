@@ -410,6 +410,24 @@ export class ApplicationDetailEntryComponent implements OnInit {
                     return;
                   }
                 }
+                if (this.SelectedDepartmentID == 6) {
+                  if (data['Data'][0]['data'][0]['PendingPrincipleInSociety'] <= 0) {
+                    this.toastr.error('Please Add One Principal in Society.')
+                    this.isCheck30Female = true;
+                    return;
+                  }
+                  if (data['Data'][0]['data'][0]['PendingBoysHostel'] <= 0) {
+                    this.toastr.error('Please Add One Boys Hostel.')
+                    this.isCheck30Female = true;
+                    return;
+                  }
+                  if (data['Data'][0]['data'][0]['PendingGirlsHostel'] <= 0) {
+                    this.toastr.error('Please Add One Girls Hostel.')
+                    this.isCheck30Female = true;
+                    return;
+                  }
+                  
+                }
               }
               else {
                 this.toastr.error(this.ErrorMessage)

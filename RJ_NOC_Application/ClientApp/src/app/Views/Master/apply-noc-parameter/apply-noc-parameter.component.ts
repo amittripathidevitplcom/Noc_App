@@ -1048,6 +1048,15 @@ export class ApplyNocParameterComponent implements OnInit {
       }
       HasData = IfSelectedParamenter;
     }
+    else if (this.request.DepartmentID == 6) {
+      let IfSelectedParamenter = true;
+      for (var i = 0; i < this.ApplyNocParameterMasterList_ddl.length; i++) {
+        if (this.ApplyNocParameterMasterList_ddl[i].IsChecked == true) {
+          IfSelectedParamenter = true;
+        }
+      }
+      HasData = IfSelectedParamenter;
+    }
     else if (this.request.DepartmentID == 1) {
       let IfSelectedParamenter = false;
       if (this.isInspectionFee)

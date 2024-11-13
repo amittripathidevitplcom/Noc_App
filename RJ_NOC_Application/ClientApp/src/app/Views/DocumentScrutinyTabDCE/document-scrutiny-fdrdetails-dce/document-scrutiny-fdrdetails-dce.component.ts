@@ -10,6 +10,7 @@ import { DocumentScrutinyComponent } from '../../DCE/document-scrutiny/document-
 import { ApplyNOCApplicationService } from '../../../Services/ApplyNOCApplicationList/apply-nocapplication.service';
 import { ToastrService } from 'ngx-toastr';
 import { DCEDocumentScrutinyService } from '../../../Services/DCEDocumentScrutiny/dcedocument-scrutiny.service';
+import { ModalDismissReasons, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 
 
 @Component({
@@ -34,7 +35,7 @@ export class DocumentScrutinyFDRDetailsDCEComponent implements OnInit {
   public QueryStringStatus: any = '';
 
 
-  constructor(private dceDocumentScrutinyService: DCEDocumentScrutinyService,private applyNOCApplicationService: ApplyNOCApplicationService, private toastr: ToastrService, private dcedocumentscrutiny: DocumentScrutinyComponent,private loaderService: LoaderService, private applyNocParameterService: ApplyNocParameterService, private router: ActivatedRoute, private commonMasterService: CommonMasterService) {
+  constructor(private modalService: NgbModal,private dceDocumentScrutinyService: DCEDocumentScrutinyService,private applyNOCApplicationService: ApplyNOCApplicationService, private toastr: ToastrService, private dcedocumentscrutiny: DocumentScrutinyComponent,private loaderService: LoaderService, private applyNocParameterService: ApplyNocParameterService, private router: ActivatedRoute, private commonMasterService: CommonMasterService) {
 
 
   }
@@ -199,5 +200,42 @@ export class DocumentScrutinyFDRDetailsDCEComponent implements OnInit {
     this.dcedocumentscrutiny.ViewTarilCommon(ID, ActionType);
   }
 
+
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return `with: ${reason}`;
+    }
+  }
+  closeResult: string | undefined;
+  modalReference: NgbModalRef | undefined;
+  public FDRDetailsHistory: any = [];
+  async ViewFDRDetailHistory(content: any, ID: number) {
+    this.FDRDetailsHistory = [];
+    this.modalService.open(content, { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' }).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+    try {
+      this.loaderService.requestStarted();
+      await this.commonMasterService.GetCollegeTabData_History(ID, 'FDRDetails')
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.FDRDetailsHistory = data['Data'][0]['data']["Table"];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
 }
 

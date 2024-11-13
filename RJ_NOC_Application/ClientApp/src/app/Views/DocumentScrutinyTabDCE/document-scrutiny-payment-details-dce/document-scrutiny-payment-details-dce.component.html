@@ -62,6 +62,7 @@
                   </div>
                 </th>
                 <th>S.No.</th>
+                <th>Action</th>
                 <th>Payment Mode</th>
                 <th>Bank Name</th>
                 <th>Amount</th>
@@ -92,6 +93,9 @@
 
                 </td>
                 <td>{{idx+1}}</td>
+                <td>
+                  <button type="button" class="btn btn-sm btn-primary" title="View History" (click)="ViewOfflinePaymentHistory(paymenthistorymymodal,row.PaymentID)"><i class="fa fa-history"></i></button>
+                </td>
                 <td>{{row.PaymentMode}}</td>
                 <td>{{row.BankName}}</td>
                 <td>{{row.Amount}}</td>
@@ -163,5 +167,47 @@
         </div>
       </div>
     </div>
+
+
+    <ng-template #paymenthistorymymodal let-modal>
+      <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title" style="font-size: 17px; font-weight: 600 !important;">Payment Details History</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+          <i class="fa fa-close"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-12">
+            <div class="table-responsive">
+              <table class="table table-bordered table-hover">
+                <tbody *ngFor="let item of OfflinePaymentHistory ; let indexOfelement=index;">
+                  <tr>
+                    <td colspan="5">
+                      <b>Modify On : </b><b>{{item.ModifyDate}}</b>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Payment Mode :{{item.PaymentMode}}</td>
+                    <td>Bank Name :{{item.BankName}}</td>
+                    <td>Amount :{{item.Amount}}</td>
+                    <td>Date :{{item.Date}}</td>
+                    <td>Document  :<a href="{{item.FilePath}}" target="_blank" class="btn btn-primary"><i class="fa fa-eye"></i></a></td>
+                  </tr>
+                  
+                  <tr>
+                    <td colspan="5"></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="row" *ngIf="OfflinePaymentHistory.length<=0">
+          <span style="color:red"> No Data Found!!!</span>
+        </div>
+      </div>
+    </ng-template>
+
   </div>
 </div>

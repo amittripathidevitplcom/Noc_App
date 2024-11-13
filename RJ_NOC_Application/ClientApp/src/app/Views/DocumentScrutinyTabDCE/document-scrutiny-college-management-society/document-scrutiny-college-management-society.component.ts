@@ -239,4 +239,30 @@ export class DocumentScrutinyCollegeManagementSocietyComponentDce implements OnI
       return `with: ${reason}`;
     }
   }
+
+  public CollegeManagmentHistory: any = [];
+  async ViewCollegeManagmentHistory(content: any, ID: number) {
+    this.CollegeManagmentHistory = [];
+    this.modalService.open(content, { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' }).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+    try {
+      this.loaderService.requestStarted();
+      await this.commonMasterService.GetCollegeTabData_History(ID, 'CollegeManagmentSociety')
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.CollegeManagmentHistory = data['Data'][0]['data']["Table"];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
 }

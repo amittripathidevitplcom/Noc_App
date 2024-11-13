@@ -20,7 +20,7 @@
             <label class="form-check-label" for="NoParentHospital">No</label>
           </div>
         </div>
-        <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
+        <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
           <label for="employeeName" class="form-label" style="margin-right:15px">Hospital Status </label>
           <div class="clearfix"></div>
           <div class="form-check form-check-inline">
@@ -34,6 +34,15 @@
           <div *ngIf="isHospitalrequried&&(request.HospitalStatus==null || request.HospitalStatus=='')" class="text-danger">
             <p *ngIf="isHospitalrequried"><i aria-hidden="true"></i> This field is required .!</p>
           </div>
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="request.HospitalStatus!=''">
+          <label class="form-label">Affiliated Hospital <span style="color:red;">*</span></label>
+          <select class="form-select" id="ddlIsAffiliatedHospital" name="ddlIsAffiliatedHospital" [(ngModel)]="request.IsAffiliatedHospital" formControlName="ddlIsAffiliatedHospital">
+            <option value="">--Select--</option>
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+          </select>
+          <p *ngIf="request.IsAffiliatedHospital==''||request.IsAffiliatedHospital==null" class="text-danger"><i aria-hidden="true"></i>This field is required .!</p>
         </div>
       </div>
       <div class="card" *ngIf="LegalEntityDataModel!=null && IsHospitalOwned">
@@ -770,8 +779,8 @@
                   <label class="form-label">Address Line 2 <!--<span style="color:red;">*</span>--></label>
                   <input type="text" class="form-control" id="txtAddressLine2_Owner" name="txtAddressLine2_Owner" [(ngModel)]="request.AddressLine2_Owner" formControlName="txtAddressLine2_Owner" (keypress)="alphaandNumberOnly($event)">
                   <!--<div *ngIf="isSubmitted&&form.txtAddressLine2_Owner.errors" class="text-danger">
-      <p *ngIf="form.txtAddressLine2_Owner.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-    </div>-->
+                    <p *ngIf="form.txtAddressLine2_Owner.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                  </div>-->
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                   <label class="form-label">Select Area <span style="color:red;">*</span></label>
@@ -909,8 +918,8 @@
                     <label class="form-label">Address Line 2 <!--<span style="color:red;">*</span>--></label>
                     <input type="text" class="form-control" id="txtAddressLine2_Other" name="txtAddressLine2_Other" [(ngModel)]="request.AddressLine2_Other" formControlName="txtAddressLine2_Other" (keypress)="alphaandNumberOnly($event)">
                     <!--<div *ngIf="isSubmitted&&form.txtAddressLine2_Other.errors" class="text-danger">
-      <p *ngIf="form.txtAddressLine2_Other.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-    </div>-->
+                      <p *ngIf="form.txtAddressLine2_Other.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                    </div>-->
                   </div>
                   <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                     <label class="form-label">Select Area <span style="color:red;">*</span></label>
@@ -1142,8 +1151,8 @@
                   <label class="form-label">Address Line 2 <!--<span style="color:red;">*</span>--></label>
                   <input type="text" class="form-control" id="txtAddressLine2" name="txtAddressLine2" [(ngModel)]="requestNot.AddressLine2" formControlName="txtAddressLine2" (keypress)="alphaandNumberOnly($event)">
                   <!--<div *ngIf="isSubmitted_ParentNot&&form_ParentNot.txtAddressLine2.errors" class="text-danger">
-      <p *ngIf="form_ParentNot.txtAddressLine2.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-    </div>-->
+                    <p *ngIf="form_ParentNot.txtAddressLine2.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                  </div>-->
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                   <label class="form-label">Select Area <span style="color:red;">*</span></label>
@@ -1227,21 +1236,21 @@
                 </div>
                 <!-- end -->
                 <!--<div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" style="margin-top: 5px;">
-    <label class="form-label">Document </label>
-    <div class="d-flex">
-      <input type="file" class="form-control" id="fParentNotDocument" name="fParentNotDocument"
-             [(ngModel)]="requestNot.ParentNotDocument"
-             formControlName="fParentNotDocument" (change)="onFilechange($event,'ParentNotDocument')" />
-      <div class="btn-group" *ngIf="showParentNotDocument">
-        <a class="btn btn-outline-primary" target="_blank" href="{{requestNot.ParentNotDocument}}"><i class="fa fa-eye"></i></a>
-        <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('ParentNotDocument')"><i class="fa fa-trash-o"></i></button>
-      </div>
-    </div>
-    <div *ngIf="ParentNotDocumentValidationMessage!=''" class="text-danger">
-      <p><i aria-hidden="true"></i>{{ParentNotDocumentValidationMessage}}</p>
-    </div>
-  </div>-->
-        
+                  <label class="form-label">Document </label>
+                  <div class="d-flex">
+                    <input type="file" class="form-control" id="fParentNotDocument" name="fParentNotDocument"
+                           [(ngModel)]="requestNot.ParentNotDocument"
+                           formControlName="fParentNotDocument" (change)="onFilechange($event,'ParentNotDocument')" />
+                    <div class="btn-group" *ngIf="showParentNotDocument">
+                      <a class="btn btn-outline-primary" target="_blank" href="{{requestNot.ParentNotDocument}}"><i class="fa fa-eye"></i></a>
+                      <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('ParentNotDocument')"><i class="fa fa-trash-o"></i></button>
+                    </div>
+                  </div>
+                  <div *ngIf="ParentNotDocumentValidationMessage!=''" class="text-danger">
+                    <p><i aria-hidden="true"></i>{{ParentNotDocumentValidationMessage}}</p>
+                  </div>
+                </div>-->
+
                 <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" style="margin-top: 5px;">
                   <label for="fParentNotDocument" class="form-label">Document</label>
                   <div class="d-flex">
@@ -1276,19 +1285,19 @@
                     </div>
                   </div>
                   <!--<div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" style="margin-top: 5px;" [hidden]="!IsAffiliatedHospitalAffiliationToOther">
-      <label class="form-label">Consent form </label>
-      <div class="d-flex">
-        <input type="file" class="form-control" id="fConsentForm" name="fConsentForm" [(ngModel)]="requestNot.ConsentForm" formControlName="fConsentForm" (change)="onFilechange($event,'ConsentForm')" />
-        <div class="btn-group" *ngIf="showParentNotConsentForm">
-          <a class="btn btn-outline-primary" target="_blank" href="{{requestNot.ConsentForm}}"><i class="fa fa-eye"></i></a>
-          <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('ConsentForm')"><i class="fa fa-trash-o"></i></button>
-        </div>
-      </div>
-      <div *ngIf="ParentNotConsentFormValidationMessage!=''" class="text-danger">
-        <p><i aria-hidden="true"></i>{{ParentNotConsentFormValidationMessage}}</p>
-      </div>
-    </div>-->
-   
+                    <label class="form-label">Consent form </label>
+                    <div class="d-flex">
+                      <input type="file" class="form-control" id="fConsentForm" name="fConsentForm" [(ngModel)]="requestNot.ConsentForm" formControlName="fConsentForm" (change)="onFilechange($event,'ConsentForm')" />
+                      <div class="btn-group" *ngIf="showParentNotConsentForm">
+                        <a class="btn btn-outline-primary" target="_blank" href="{{requestNot.ConsentForm}}"><i class="fa fa-eye"></i></a>
+                        <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('ConsentForm')"><i class="fa fa-trash-o"></i></button>
+                      </div>
+                    </div>
+                    <div *ngIf="ParentNotConsentFormValidationMessage!=''" class="text-danger">
+                      <p><i aria-hidden="true"></i>{{ParentNotConsentFormValidationMessage}}</p>
+                    </div>
+                  </div>-->
+
                   <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" style="margin-top: 5px;">
                     <label for="fConsentForm" class="form-label">Consent form</label>
                     <div class="d-flex">
@@ -1449,8 +1458,8 @@
                         <label class="form-label">Address Line 2 <!--<span style="color:red;">*</span>--></label>
                         <input type="text" class="form-control" id="txtAddressLine2_ManageBy" name="txtAddressLine2_ManageBy" [(ngModel)]="requestNot.AddressLine2_ManageBy" formControlName="txtAddressLine2_ManageBy" (keypress)="alphaandNumberOnly($event)">
                         <!--<div *ngIf="isSubmitted_ParentNot&&form_ParentNot.txtAddressLine2_ManageBy.errors" class="text-danger">
-      <p *ngIf="form_ParentNot.txtAddressLine2_ManageBy.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-    </div>-->
+                          <p *ngIf="form_ParentNot.txtAddressLine2_ManageBy.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                        </div>-->
                       </div>
                       <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                         <label class="form-label">Select Area <span style="color:red;">*</span></label>
@@ -1573,8 +1582,8 @@
                         <label class="form-label">Address Line 2 <!--<span style="color:red;">*</span>--></label>
                         <input type="text" class="form-control" id="txtAddressLine2_Owner" name="txtAddressLine2_Owner" [(ngModel)]="requestNot.AddressLine2_Owner" formControlName="txtAddressLine2_Owner" (keypress)="alphaandNumberOnly($event)">
                         <!--<div *ngIf="isSubmitted_ParentNot&&form_ParentNot.txtAddressLine2_Owner.errors" class="text-danger">
-      <p *ngIf="form_ParentNot.txtAddressLine2_Owner.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-    </div>-->
+                          <p *ngIf="form_ParentNot.txtAddressLine2_Owner.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                        </div>-->
                       </div>
                       <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                         <label class="form-label">Select Area <span style="color:red;">*</span></label>
@@ -1763,9 +1772,13 @@
           <label class="form-label" style="margin-right:15px"> <b>Whether the institution is a parent hospital or not :</b></label>
           <input class="form-control disabled" disabled value="{{HospitalData.ParentHospitalID==1?'Yes':'No'}}" />
         </div>
-        <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-3">
+        <div class="col-lg-3 col-md-3 col-sm-12 col-12 mb-3">
           <label class="form-label" style="margin-right:15px"> <b>Hospital Status :</b></label>
           <input class="form-control disabled" disabled value="{{HospitalData.HospitalStatus}}" />
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-12 col-12 mb-3" *ngIf="HospitalData.HospitalStatus !=''">
+          <label class="form-label" style="margin-right:15px"> <b>Affiliated Hospital :</b></label>
+          <input class="form-control disabled" disabled value="{{HospitalData.IsAffiliatedHospital}}" />
         </div>
       </div>
       <div>

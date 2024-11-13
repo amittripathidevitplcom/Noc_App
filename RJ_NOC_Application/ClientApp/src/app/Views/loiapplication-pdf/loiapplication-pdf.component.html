@@ -324,7 +324,7 @@
                         <tr>
                           <td colspan="7" style="    font-weight: 800;
     font-size: 18px;">
-                            <b><i class="bi bi-table"></i>&nbsp;Institute Details</b>
+                            <b><i class="bi bi-table"></i>&nbsp;Other Institute Details</b>
                           </td>
                         </tr>
                       </thead>
@@ -373,7 +373,7 @@
                     <td>
                       <label>Department :-{{collegeListData.DepartmentName_English}}</label>
                     </td>
-                    <td *ngIf="collegeListData.DepartmentID==3">
+                    <td *ngIf="collegeListData.DepartmentID==5">
                       <label>Type of College :-{{collegeListData.TypeofCollege}}</label>
                     </td>
                     <td>
@@ -421,7 +421,7 @@
                     </td>
                   </tr>
                   <tr>
-                    <td>
+                    <td *ngIf="collegeListData.DepartmentID!=5">
                       <label>IS Your College NAAC Accredited :-{{collegeListData.CollegeNAACAccredited}}</label>
                     </td>
                     <td *ngIf="collegeListData.CollegeNAACAccredited =='Yes'">
@@ -834,7 +834,7 @@
                   </tr>
                   <tr *ngFor="let item of RequiredDocumentDetailsDataList ; let indexOfelement=index;">
                     <td> {{indexOfelement+1}}</td>
-                    <td>{{item.DocumentName}}</td>
+                    <td><div style="max-width: auto; white-space: normal;">{{item.DocumentName}}</div></td>
                     <td *ngIf="item.FilePath.length>0">
                       Yes
                     </td>

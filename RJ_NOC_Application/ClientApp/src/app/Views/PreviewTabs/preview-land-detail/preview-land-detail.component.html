@@ -15,6 +15,7 @@
               <th>Land Doc Type</th>
               <th>Is Convereted</th>
               <th *ngIf="SelectedDepartmentID==5">Land Type</th>
+              <th *ngIf="SelectedDepartmentID==6">Land OwnerShip</th>
               <th>Owner Name</th>
               <th>Action</th>
             </tr>
@@ -27,6 +28,24 @@
               <td>{{item.LandDocumentTypeName}}</td>
               <td>{{item.IsConvereted}}</td>
               <td *ngIf="SelectedDepartmentID==5">{{item.MedicalGroupOneLandType}}</td>
+              <td *ngIf="SelectedDepartmentID==6">
+                {{item.LandOwnerShipName}}       <br />
+                <span *ngIf="item.LandOwnerShipName=='Society Member'">
+                  Society Member Name :  {{item.SocietyMemberName}}
+                  <br />
+                  From Lease Date :  {{item.FromLeaseDate}}
+                  <br />
+                  To Lease Date :  {{item.ToLeaseDate}}
+                  <br />
+                  Lease Document :  <a class="btn-outline-primary" target="_blank" href="{{item.LeaseDocumentPath}}" title="View Document"><i class="fa fa-eye"></i></a>
+                </span>
+                <span *ngIf="item.LandOwnerShipName=='Rent'">
+                  From Rent Date :  {{item.FromRentDate}}
+                  <br />
+                  To Rent Date :  {{item.ToRentDate}}
+                </span>
+
+              </td>
               <td>{{item.LandOwnerName}}</td>
               <td>
                 <!--<button type="button" class="btn btn-sm btn-info" title="View" (click)="ViewLandDetail(item.LandDetailID)"><i class="fa fa-eye"></i></button>-->

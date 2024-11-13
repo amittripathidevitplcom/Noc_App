@@ -136,6 +136,7 @@ export class HospitalDetailComponent implements OnInit {
       {
         rbParentHospital: [''],
         rbHospitalStatus: [''],
+        ddlIsAffiliatedHospital: [''],
         rbHospitalArea: ['', Validators.required],
         txtHospitalName: ['', Validators.required],
         txtHospitalRegNo: ['', Validators.required],
@@ -1204,6 +1205,7 @@ export class HospitalDetailComponent implements OnInit {
       this.request.CityTownVillage_Other = '';
       this.request.Pincode_Other = null;
       this.request.HospitalStatus = '';
+      this.request.IsAffiliatedHospital = '';
       this.ResetFileAndValidation('All', '', '', '', '', false);
 
 
@@ -1304,6 +1306,7 @@ export class HospitalDetailComponent implements OnInit {
     // parenthospitalid
     this.requestNot.ParentHospitalID = this.request.ParentHospitalID;
     this.requestNot.HospitalStatus = this.request.HospitalStatus;
+    this.requestNot.IsAffiliatedHospital = this.request.IsAffiliatedHospital;
 
 
     if (this.QueryStringDepartmentID == 5) {
@@ -1357,6 +1360,7 @@ export class HospitalDetailComponent implements OnInit {
       // reset
       this.IsHospitalOwned = false;
       this.request.HospitalStatus = '';
+      this.request.IsAffiliatedHospital = '';
       this.requestNot.HospitalID = 0;
       this.requestNot.HospitalAreaID = 0;
       this.requestNot.HospitalRegNo = '';
@@ -1497,9 +1501,18 @@ export class HospitalDetailComponent implements OnInit {
         this.isValid = false;
       }
     }
-    if (this.request.HospitalStatus == null || this.request.HospitalStatus == '') {
+
+    let selectedHospitalAreaValidation = this.HospitalAreaValidationList.filter((element: any) => element.ID == this.request.HospitalAreaID);
+    if (selectedHospitalAreaValidation.length > 0) {
+      if (selectedHospitalAreaValidation[0].Name != 'Tribal' && selectedHospitalAreaValidation[0].Name != 'Hilly') {
+        if (this.request.HospitalStatus == null || this.request.HospitalStatus == '') {
+          this.isValid = false;
+          this.isHospitalrequried = true;
+        }
+      }
+    }
+    if ((this.request.HospitalStatus != null && this.request.HospitalStatus != '')&& (this.request.IsAffiliatedHospital == null || this.request.IsAffiliatedHospital == '')) {
       this.isValid = false;
-      this.isHospitalrequried = true;
     }
     return this.isValid;
   }
@@ -1520,9 +1533,17 @@ export class HospitalDetailComponent implements OnInit {
     if (!(this.requestNot.HospitalDistance >= this.MinDistance_ParentNot && this.requestNot.HospitalDistance <= this.MaxDistance_ParentNot)) {
       this.isValid_ParentNot = false;
     }
-    if (this.request.HospitalStatus == null || this.request.HospitalStatus == '') {
+    let selectedHospitalAreaValidation = this.HospitalAreaValidationList.filter((element: any) => element.ID == this.requestNot.HospitalAreaID);
+    if (selectedHospitalAreaValidation.length > 0) {
+      if (selectedHospitalAreaValidation[0].Name != 'Tribal' && selectedHospitalAreaValidation[0].Name != 'Hilly') {
+        if (this.request.HospitalStatus == null || this.request.HospitalStatus == '') {
+          this.isValid_ParentNot = false;
+          this.isHospitalrequried = true;
+        }
+      }
+    }
+    if ((this.request.HospitalStatus != null && this.request.HospitalStatus != '') && (this.request.IsAffiliatedHospital == null || this.request.IsAffiliatedHospital == '')) {
       this.isValid_ParentNot = false;
-      this.isHospitalrequried = true;
     }
 
     return this.isValid_ParentNot;

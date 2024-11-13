@@ -21,6 +21,7 @@
                   </div>
                 </th>
                 <th>S.No.</th>
+                <th>Action</th>
                 <th>Bank Name</th>
                 <th>Branch Name</th>
                 <th>IFSC Code</th>
@@ -55,6 +56,9 @@
 
                 </td>
                 <td>{{idx+1}}</td>
+                <td>
+                  <button type="button" class="btn btn-sm btn-primary" title="View History" (click)="ViewFDRDetailHistory(fdrdetailhistorymymodal,row.ApplyNocFDRID)"><i class="fa fa-history"></i></button>
+                </td>
                 <td>{{row.BankName}}</td>
                 <td>{{row.BranchName}}</td>
                 <td>{{row.IFSCCode}}</td>
@@ -131,5 +135,55 @@
         </div>
       </div>
     </div>
+
+
+
+
+    <ng-template #fdrdetailhistorymymodal let-modal>
+      <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title" style="font-size: 17px; font-weight: 600 !important;">FDR Details History</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+          <i class="fa fa-close"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-12">
+            <div class="table-responsive">
+              <table class="table table-bordered table-hover">
+                <tbody *ngFor="let item of FDRDetailsHistory ; let indexOfelement=index;">
+                  <tr>
+                    <td colspan="4">
+                      <b>Modify On : </b><b>{{item.ModifyDate}}</b>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Bank Name : <b>{{item.BankName}}</b></td>
+                    <td>Branch Name :  <b>{{item.BranchName}}</b></td>
+                    <td>IFSC Code : <b>{{item.IFSCCode}}</b></td>
+                    <td>FDR Number: <b>{{item.FDRNumber}}</b></td>
+                  </tr>
+                  <tr>
+                    <td>FDR Amount : <b>{{item.FDRAmount}}</b></td>
+                    <td>FDR Date:  <b>{{item.FDRDate}}</b></td>
+                    <td>Period Of FDR : <b>{{item.PeriodOfFDR}}</b></td>
+                    <td>FDR Expriy Date: <b>{{item.FDRExpriyDate}}</b></td>
+                  </tr>
+                  <tr>
+                    <td colspan="4">FDR Document :<a *ngIf="item.FDRDocument!=''" class="btn-outline-primary" target="_blank" href="{{item.FDRDocumentPath}}" title="View Document"><i class="fa fa-eye"></i></a></td>
+                  </tr>
+                  <tr>
+                    <td colspan="4"></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="row" *ngIf="FDRDetailsHistory.length<=0">
+          <span style="color:red"> No Data Found!!!</span>
+        </div>
+      </div>
+    </ng-template>
   </div>
 </div>

@@ -12,6 +12,7 @@ import { FileUploadService } from '../../../Services/FileUpload/file-upload.serv
 import { Console, debug, log } from 'console';
 import { Table } from 'jspdf-autotable';
 import { type } from 'os';
+import { SocityService } from '../../../Services/Master/SocietyManagement/socity.service';
 
 @Component({
   selector: 'app-land-details',
@@ -80,7 +81,7 @@ export class LandDetailsComponent implements OnInit {
   public QueryStringStatus: any = '';
   public SelectedApplyNOCID: number = 0;
 
-  constructor(private loaderService: LoaderService, private toastr: ToastrService, private landDetailsService: LandDetailsService, private fileUploadService: FileUploadService,
+  constructor(private societyService: SocityService, private loaderService: LoaderService, private toastr: ToastrService, private landDetailsService: LandDetailsService, private fileUploadService: FileUploadService,
     private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private formBuilder: FormBuilder) {
 
   }
@@ -110,6 +111,13 @@ export class LandDetailsComponent implements OnInit {
         dtLeaseDate: [''],
         ddlMedicalGroupOneLandUnit: [''],
         txtNameOfLandPurchasedAllotted: [''],
+
+        ddlLandOwnerShip: [''],
+        ddlSocietyMemberName: [''],
+        dtFromLeaseDate: [''],
+        dtToLeaseDate: [''],
+        dtFromRentDate: [''],
+        dtToRentDate: [''],
       });
     this.request.BuildingHostelQuartersRoadArea = 0;
     this.request.LandDetailDocument = [];
@@ -167,6 +175,10 @@ export class LandDetailsComponent implements OnInit {
     if (this.SelectedDepartmentID == 5) {
       await this.GetMedicalGroupOneLandType(this.SelectedDepartmentID, 'MedicalGroupOneLandType');
       await this.GetMedicalGroupOneLandUnit(this.SelectedDepartmentID, 'MedicalGroupOneLandUnit');
+    }
+    if (this.SelectedDepartmentID == 6) {
+      await this.GetMedicalGroupThreeLandOwnerShip(this.SelectedDepartmentID, 'LandOwnerShipGroup3');
+      this.GetSocietyMemberList(this.SelectedCollageID);
     }
   }
 
@@ -606,7 +618,7 @@ export class LandDetailsComponent implements OnInit {
     this.IstxtBuildingHostel = false;
     this.isSubmitted = true;
     var message = '';
-     
+
     if (this.SelectedDepartmentID == 11) {
       this.LandDetailForm.get('ddlLandAreaId')?.clearValidators();
     }
@@ -614,7 +626,48 @@ export class LandDetailsComponent implements OnInit {
       this.LandDetailForm.get('ddlLandAreaId')?.setValidators([DropdownValidators]);
     }
     this.LandDetailForm.get('ddlLandAreaId')?.updateValueAndValidity();
+    if (this.SelectedDepartmentID == 6) {
+      var LandOwnerShip = this.lstLandOwnerShip.find((x: { ID: number; }) => x.ID == this.request.LandOwnerShipID)?.Name;
+      if (LandOwnerShip == 'Rent') {
+        if (this.request.FromRentDate == '' || this.request.FromRentDate == null) {
+          return;
+        }
+        if (this.request.ToRentDate == '' || this.request.ToRentDate == null) {
+          return;
+        }
+        let FromRentDate = new Date(this.request.FromRentDate);
+        let ToRentDate = new Date(this.request.ToRentDate);
+        let Rentyear = Math.floor((Date.UTC(ToRentDate.getFullYear(), ToRentDate.getMonth(), ToRentDate.getDate()) - Date.UTC(FromRentDate.getFullYear(), FromRentDate.getMonth(), FromRentDate.getDate())) / (1000 * 60 * 60 * 24) / 365);
+        if (Rentyear < 2) {
+          this.toastr.error("Rent must be 2 years");
+          return;
+        }
+      }
+      if (LandOwnerShip == 'Society Member') {
 
+        if (this.request.FromLeaseDate == '' || this.request.FromLeaseDate == null) {
+          return;
+        }
+        if (this.request.ToLeaseDate == '' || this.request.ToLeaseDate == null) {
+          return;
+        }
+        if (this.request.SocietyMemberID <=0) {
+          return;
+        }
+        if (this.request.LeaseDocument == '' || this.request.LeaseDocument == null) {
+          return;
+        }
+        let FromLeaseDate = new Date(this.request.FromLeaseDate);
+        let ToLeaseDate = new Date(this.request.ToLeaseDate);
+        let Leaseyear = Math.floor((Date.UTC(ToLeaseDate.getFullYear(), ToLeaseDate.getMonth(), ToLeaseDate.getDate()) - Date.UTC(FromLeaseDate.getFullYear(), FromLeaseDate.getMonth(), FromLeaseDate.getDate())) / (1000 * 60 * 60 * 24) / 365);
+        if (Leaseyear < 30) {
+          this.toastr.error("Lease must be 30 years");
+          return;
+        }
+      }
+
+
+    }
 
 
     if (this.LandDetailForm.invalid) {
@@ -641,6 +694,7 @@ export class LandDetailsComponent implements OnInit {
     //  this.IstxtBuildingHostel = true;
     //  return;
     //}
+    
     var LandConversionName = this.LandConversionData.find((x: { ID: number; }) => x.ID == this.request.LandConvertedID).Name;
     if (LandConversionName == 'Partially Converted' || LandConversionName == 'Not Converted') {
       if (this.request.AffidavitDate == '' || this.request.AffidavitDate == null) {
@@ -862,6 +916,19 @@ export class LandDetailsComponent implements OnInit {
       this.request.LeaseDate = '';
       this.request.NameOfLandPurchasedAllotted = '';
       this.ShowLeaseDate = false;
+      this.request.LandOwnerShipID =0;
+      this.request.SocietyMemberID =0;
+      this.request.FromLeaseDate = '';
+      this.request.ToLeaseDate = '';
+      this.request.FromRentDate ='';
+      this.request.ToRentDate ='';
+      this.request.LeaseDocument = '';
+      this.request.Dis_LeaseDocument = '';
+      this.request.LeaseDocumentPath = '';
+      this.ShowSociety = false;
+      this.ShowRent = false;
+
+
       await this.GetLandDocument(this.SelectedDepartmentID, 'LandDetail');
       const btnSave = document.getElementById('btnAddLandDetail')
       if (btnSave) btnSave.innerHTML = "Save";
@@ -915,8 +982,23 @@ export class LandDetailsComponent implements OnInit {
           this.request.NameOfLandPurchasedAllotted = data['Data'][0]['NameOfLandPurchasedAllotted'];
           this.request.LeaseDate = data['Data'][0]["LeaseDate"];
 
+          debugger;
+          this.request.LandOwnerShipID = data['Data'][0]["LandOwnerShipID"];
+          await this.OnChangeLandOwnerShip(data['Data'][0]["LandOwnerShipID"]);
+          this.request.SocietyMemberID = data['Data'][0]["SocietyMemberID"];
+          this.request.FromLeaseDate = data['Data'][0]["FromLeaseDate"];
+          this.request.ToLeaseDate = data['Data'][0]["ToLeaseDate"];
+          this.request.FromRentDate = data['Data'][0]["FromRentDate"];
+          this.request.ToRentDate = data['Data'][0]["ToRentDate"];
+          this.request.LeaseDocument = data['Data'][0]["LeaseDocument"];
+          this.request.Dis_LeaseDocument = data['Data'][0]["Dis_LeaseDocument"];
+          this.request.LeaseDocumentPath = data['Data'][0]["LeaseDocumentPath"];
+
           this.GetLandSqureMeterMappingDetails(this.request.LandAreaID);
-          console.log(this.request.LandDetailDocument);
+
+
+
+
           this.isDisabledGrid = true;
           const btnSave = document.getElementById('btnAddLandDetail')
           if (btnSave) btnSave.innerHTML = "Update";
@@ -1421,6 +1503,168 @@ export class LandDetailsComponent implements OnInit {
       setTimeout(() => {
         this.loaderService.requestEnded();
       }, 10);
+    }
+  }
+
+
+
+  public lstLandOwnerShip: any = [];
+  public lstSocietyMemberName: any = [];
+  public ShowSociety: boolean = false;
+  public ShowRent: boolean = false;
+
+  async GetMedicalGroupThreeLandOwnerShip(DepartmentID: number, Type: string) {
+    try {
+      this.loaderService.requestStarted();
+      await this.commonMasterService.GetCommonMasterList_DepartmentAndTypeWise(DepartmentID, Type)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.lstLandOwnerShip = data['Data'];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 10);
+    }
+  }
+
+  public LandOwnerShipNames: string = '';
+  async OnChangeLandOwnerShip(LandOwnerShipID: number) {
+    this.ShowSociety = false;
+    this.ShowRent = false;
+    var LandOwnerShip = this.lstLandOwnerShip.find((x: { ID: number; }) => x.ID == this.request.LandOwnerShipID)?.Name;
+    this.LandOwnerShipNames = LandOwnerShip;
+    if (LandOwnerShip == 'Society Member') {
+      this.ShowSociety = true;
+    }
+    else if (LandOwnerShip == 'Rent') {
+      this.ShowRent = true;
+    }
+    else {
+      this.ShowSociety = false;
+      this.ShowRent = false;
+    }
+  }
+
+  async GetSocietyMemberList(CollegeID: number) {
+    try {
+      this.loaderService.requestStarted();
+      await this.societyService.GetSocietyAllList(0, CollegeID)
+        .then(async (data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.lstSocietyMemberName = data['Data'][0]['data'];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+  async onFilechangeLease(event: any, Type: string) {
+    try {
+      this.file = event.target.files[0];
+      if (this.file) {
+        if (this.file.type === 'application/pdf') {
+          //size validation
+          if (this.file.size > 5000000) {
+            this.toastr.error('Select less then 5MB File');
+            this.request.Dis_LeaseDocument = '';
+            this.request.LeaseDocument = '';
+            this.request.LeaseDocumentPath = '';
+            return
+          }
+          if (this.file.size < 100000) {
+            this.request.Dis_LeaseDocument = '';
+            this.request.LeaseDocument = '';
+            this.request.LeaseDocumentPath = '';
+            this.toastr.error('Select more then 100kb File')
+            return
+          }
+        }
+        else {// type validation
+          this.request.Dis_LeaseDocument = '';
+          this.request.LeaseDocument = '';
+          this.request.LeaseDocumentPath = '';
+          this.toastr.error('Select Only pdf file')
+          return
+        }
+        // upload to server folder
+        this.loaderService.requestStarted();
+
+        await this.fileUploadService.UploadDocument(this.file)
+          .then((data: any) => {
+            data = JSON.parse(JSON.stringify(data));
+
+            this.State = data['State'];
+            this.SuccessMessage = data['SuccessMessage'];
+            this.ErrorMessage = data['ErrorMessage'];
+            if (this.State == 0) {
+              this.request.Dis_LeaseDocument = data['Data'][0]["Dis_FileName"];
+              this.request.LeaseDocument = data['Data'][0]["FileName"];
+              this.request.LeaseDocumentPath = data['Data'][0]["FilePath"];
+              event.target.value = null;
+            }
+            if (this.State == 1) {
+              this.toastr.error(this.ErrorMessage)
+            }
+            else if (this.State == 2) {
+              this.toastr.warning(this.ErrorMessage)
+            }
+          });
+      }
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      /*setTimeout(() => {*/
+      this.loaderService.requestEnded();
+      /*  }, 200);*/
+    }
+  }
+  async DeleteLeaseDoc(FileName: string) {
+    try {
+      // delete from server folder
+      this.loaderService.requestEnded();
+      await this.fileUploadService.DeleteDocument(FileName).then((data: any) => {
+        this.State = data['State'];
+        this.SuccessMessage = data['SuccessMessage'];
+        this.ErrorMessage = data['ErrorMessage'];
+        if (this.State == 0) {
+          this.request.Dis_LeaseDocument = '';
+          this.request.LeaseDocument = '';
+          this.request.LeaseDocumentPath = '';
+        }
+        if (this.State == 1) {
+          this.toastr.error(this.ErrorMessage)
+        }
+        else if (this.State == 2) {
+          this.toastr.warning(this.ErrorMessage)
+        }
+      });
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
     }
   }
 }
