@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NocpaymentService } from '../../../Services/NocPayment/noc-payment.service';
 import { LoaderService } from '../../../Services/Loader/loader.service';
 import { CommonMasterService } from '../../../Services/CommonMaster/common-master.service';
+import { SSOLoginDataModel } from '../../../Models/SSOLoginDataModel';
 
 
 @Component({
@@ -24,6 +25,9 @@ export class PreviewPaymentDetailComponent implements OnInit
   public SelectedDepartmentID: number = 0;
   public showRentDocument: boolean = false;
 
+  sSOLoginDataModel = new SSOLoginDataModel();
+
+
   constructor(private loaderService: LoaderService, private nocpaymentService: NocpaymentService, private router: ActivatedRoute, private commonMasterService: CommonMasterService) {
 
 
@@ -31,6 +35,7 @@ export class PreviewPaymentDetailComponent implements OnInit
 
   async ngOnInit()
   {
+    this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     this.SelectedDepartmentID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DepartmentID')?.toString()));
     this.SelectedCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
     this.GetPreviewPaymentDetails(this.SelectedCollageID);
@@ -41,7 +46,7 @@ export class PreviewPaymentDetailComponent implements OnInit
     try {
      
       this.loaderService.requestStarted();
-      await this.nocpaymentService.GetPreviewPaymentDetails(SelectedCollageID)
+      await this.nocpaymentService.GetPreviewPaymentDetails(SelectedCollageID, this.sSOLoginDataModel.SessionID)
         .then((data: any) => {
 
           data = JSON.parse(JSON.stringify(data));
@@ -64,7 +69,7 @@ export class PreviewPaymentDetailComponent implements OnInit
     try {
 
       this.loaderService.requestStarted();
-      await this.nocpaymentService.GetOfflinePaymentDetails(SelectedCollageID)
+      await this.nocpaymentService.GetOfflinePaymentDetails(SelectedCollageID, this.sSOLoginDataModel.SessionID)
         .then((data: any) => {
 
           data = JSON.parse(JSON.stringify(data));

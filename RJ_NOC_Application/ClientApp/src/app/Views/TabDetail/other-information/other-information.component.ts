@@ -21,6 +21,8 @@ import { FileUploadService } from '../../../Services/FileUpload/file-upload.serv
 import { GlobalConstants } from '../../../Common/GlobalConstants';
 import { PostCollegeLabInformation } from '../../../Models/CollegeLabInformationDataModel';
 import { EnumDepartment } from '../../../Common/enum-noc';
+import { CollegeService } from '../../../services/collegedetailsform/College/college.service';
+import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 
 
@@ -125,7 +127,7 @@ export class OtherInformationComponent implements OnInit {
   public SelectedApplyNOCID: number = 0;
   public textHeading: string = '';
   public SearchRecordID: string = '';
-  constructor(private otherInformationService: OtherInformationService, private toastr: ToastrService, private loaderService: LoaderService,
+  constructor(private modalService: NgbModal,private collegeService: CollegeService, private otherInformationService: OtherInformationService, private toastr: ToastrService, private loaderService: LoaderService,
     private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute,
     private routers: Router, private _fb: FormBuilder, private fileUploadService: FileUploadService, private clipboard: Clipboard) { }
 
@@ -143,6 +145,18 @@ export class OtherInformationComponent implements OnInit {
         OtherInformation_Noofbooks: [''],
         OtherInformation_NoofComputers: [''],
         txtsearchText: [''],
+
+
+        FloorAreaofLibrary: [''],
+        txtProfessional: [''],
+        txtOther: [''],
+        txtPeriodicalsNo: [''],
+        txtJournalsNo: [''],
+        txtSeatingCapacity: [''],
+        ddlInternetFacility: [''],
+        ddlCounterforSale: [''],
+        ddlComputerPrint: [''],
+        ddlRegistersMaintained: [''],
 
       })
 
@@ -175,11 +189,11 @@ export class OtherInformationComponent implements OnInit {
     this.request.DepartmentID = this.SelectedDepartmentID;
     this.LoadMaster(0);
     this.GetOtherInformationAllList();
+    await this.GetCollageDetails();
     if (this.SelectedDepartmentID == 2) {
       this.textHeading = 'Type of facility';
     }
-    else if (this.SelectedDepartmentID == 3)
-    {
+    else if (this.SelectedDepartmentID == 3) {
       this.textHeading = 'Other';
     }
     else {
@@ -529,9 +543,40 @@ export class OtherInformationComponent implements OnInit {
         this.ImageValidate = 'This field is required .!';
         this.isformvalid = false;
       }
+      if (this.SelectedDepartmentID == 2 && this.IsAHDegreeCollege) {
+        if (this.request.FloorAreaofLibrary == '') {
+          this.isformvalid = false;
+        }
+        if (this.request.Professional == '') {
+          this.isformvalid = false;
+        }
+        if (this.request.Other == '') {
+          this.isformvalid = false;
+        }
+        if (this.request.PeriodicalsNo == '') {
+          this.isformvalid = false;
+        }
+        if (this.request.JournalsNo == '') {
+          this.isformvalid = false;
+        }
+        if (this.request.SeatingCapacity == '') {
+          this.isformvalid = false;
+        }
+        if (this.request.InternetFacility == '') {
+          this.isformvalid = false;
+        }
+        if (this.request.CounterforSale == '') {
+          this.isformvalid = false;
+        }
+        if (this.request.ComputerPrint == '') {
+          this.isformvalid = false;
+        }
+        if (this.request.RegistersMaintained == '') {
+          this.isformvalid = false;
+        }
+      }
     }
     this.Dis_ReqNoofComputers = this.ReqNoofComputers;
-    debugger
     if ((OtherName == 'Computer' || OtherName == 'Computer Room' || OtherName == ' Computer Room ') && (this.SelectedDepartmentID == 2)) {
       if (Number(this.request.NoOfRooms) > 0) {
         if (Number(this.request.NoofComputers) < (this.ReqNoofComputers * this.request.NoOfRooms)) {
@@ -709,6 +754,46 @@ export class OtherInformationComponent implements OnInit {
 
   }
 
+  closeResult: string | undefined;
+  public CollegeWiseAHOtherDetails: any = {};
+  async ViewAHLibrary(CollegeWiseOtherInfoID: number, content: any) {
+    this.modalService.open(content, { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' }).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+    try {
+      this.loaderService.requestStarted();
+      await this.otherInformationService.GetOtherInformationByID(CollegeWiseOtherInfoID,0,this.SelectedCollageID)
+        .then((data: any) => {
+
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.CollegeWiseAHOtherDetails = data['Data'][0];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+
+  }
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return `with: ${reason}`;
+    }
+  }
+
   async txtNoOfRooms_change(Val: any) {
     try {
       if (this.SelectedDepartmentID == 2) {
@@ -783,8 +868,18 @@ export class OtherInformationComponent implements OnInit {
             this.request.BookImageFileName = data['Data'][0]["BookImageFileName"];
             this.request.BookImageFilePath = data['Data'][0]["BookImageFilePath"];
             this.request.BookImage_Dis_FileName = data['Data'][0]["BookImage_Dis_FileName"];
-          }
 
+            this.request.FloorAreaofLibrary = data['Data'][0]["FloorAreaofLibrary"];
+            this.request.SeatingCapacity = data['Data'][0]["SeatingCapacity"];
+            this.request.InternetFacility = data['Data'][0]["InternetFacility"];
+            this.request.CounterforSale = data['Data'][0]["CounterforSale"];
+            this.request.ComputerPrint = data['Data'][0]["ComputerPrint"];
+            this.request.RegistersMaintained = data['Data'][0]["RegistersMaintained"];
+            this.request.Professional = data['Data'][0]["Professional"];
+            this.request.PeriodicalsNo = data['Data'][0]["PeriodicalsNo"];
+            this.request.JournalsNo = data['Data'][0]["JournalsNo"];
+            this.request.Other = data['Data'][0]["Other"];
+          }
           if (Number(data['Data'][0]["NoofComputers"]) > 0) {
             this.ShowHideComputers = true;
             this.request.NoofComputers = data['Data'][0]["NoofComputers"];
@@ -1200,6 +1295,30 @@ export class OtherInformationComponent implements OnInit {
     }
     return true;
 
+  }
+
+
+  public IsAHDegreeCollege: boolean = false;
+  async GetCollageDetails() {
+    try {
+      this.IsAHDegreeCollege = false;
+      this.loaderService.requestStarted();
+      await this.collegeService.GetData(this.SelectedCollageID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          if (data['Data']['CollegeLevelName'] == 'UG' && data['Data']['DepartmentID'] == 2) {
+            this.IsAHDegreeCollege = true;
+          }
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
   }
 }
 

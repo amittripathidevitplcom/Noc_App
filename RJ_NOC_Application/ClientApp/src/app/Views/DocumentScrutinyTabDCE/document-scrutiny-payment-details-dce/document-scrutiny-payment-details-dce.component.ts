@@ -55,7 +55,7 @@ export class DocumentScrutinyPaymentDetailsDCEComponent implements OnInit {
     try {
 
       this.loaderService.requestStarted();
-      await this.nocpaymentService.GetPreviewPaymentDetails(SelectedCollageID)
+      await this.nocpaymentService.GetPreviewPaymentDetails(SelectedCollageID, this.sSOLoginDataModel.SessionID)
         .then((data: any) => {
 
           data = JSON.parse(JSON.stringify(data));

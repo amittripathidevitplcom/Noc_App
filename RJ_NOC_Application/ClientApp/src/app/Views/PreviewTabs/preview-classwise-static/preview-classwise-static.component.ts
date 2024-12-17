@@ -245,7 +245,7 @@ export class PreviewClasswiseStaticComponent implements OnInit {
     try {
 
       this.loaderService.requestStarted();
-      await this.classWiseStudentDetailsServiceService.GetCollegeWiseStudenetDetails(this.SelectedCollageID)
+      await this.classWiseStudentDetailsServiceService.GetCollegeWiseStudenetDetails(this.SelectedCollageID, 0, this.sSOLoginDataModel.SessionID)
         .then((data: any) => {
 
           data = JSON.parse(JSON.stringify(data));

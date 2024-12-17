@@ -16,6 +16,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { resolveAny } from 'dns';
 import { request } from 'http';
+import { CollegeService } from '../../../services/collegedetailsform/College/college.service';
 type AOA = any[][];
 
 @Injectable({
@@ -97,7 +98,7 @@ export class StaffDetailsComponent implements OnInit {
   public SelectedApplyNOCID: number = 0;
   public SearchRecordID: string = '';
   public DesignationName: string = '';
-  constructor(private loaderService: LoaderService, private toastr: ToastrService, private staffDetailService: StaffDetailService, private fileUploadService: FileUploadService
+  constructor( private collegeService: CollegeService,private loaderService: LoaderService, private toastr: ToastrService, private staffDetailService: StaffDetailService, private fileUploadService: FileUploadService
     , private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private formBuilder: FormBuilder, private modalService: NgbModal) {
 
   }
@@ -141,6 +142,8 @@ export class StaffDetailsComponent implements OnInit {
         fileData: [''],
         txtDesignationRegistrationNo: [''],
         rddetailofjob: ['', Validators.required],
+        ddldepartmentId: [''],
+        ddlNETQualified: [''],
       });
     this.StaffEducationDetailForm = this.formBuilder.group(
       {
@@ -180,11 +183,12 @@ export class StaffDetailsComponent implements OnInit {
     }
     this.SelectedApplyNOCID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplyNOCID')?.toString()));
     this.QueryStringStatus = this.router.snapshot.paramMap.get('Status')?.toString();
-
+    await this.GetCollageDetails();
     await this.GetCourseLevelByCollegeIDAndDepartmentID();
     await this.GetCollegeWiseSubjectList(this.SelectedCollageID);
     await this.GetQualificationList_DepartmentAndTypeWise();
     await this.GetStaffDetailList_DepartmentCollegeWise(this.SelectedDepartmentID, this.SelectedCollageID, 0);
+    await this.GetAHDepartmentList();
     this.loaderService.requestEnded();
   }
   get form() { return this.StaffDetailForm.controls; }
@@ -600,6 +604,7 @@ export class StaffDetailsComponent implements OnInit {
 
   async SaveData() {
     try {
+      debugger;
       this.isRoleMapping = false;
       this.isSpecializationSubject = false;
       this.FormValid = true;
@@ -652,7 +657,7 @@ export class StaffDetailsComponent implements OnInit {
         }
       }
       if (this.request.TeachingType == 'Teaching' && this.IsCourseLevel == 'Yes') {
-        if (this.SelectedDepartmentID != 4 && this.SelectedDepartmentID != 11 && this.SelectedDepartmentID != 9) {
+        if (this.SelectedDepartmentID != 4 && this.SelectedDepartmentID != 11 && this.SelectedDepartmentID != 9 && (this.SelectedDepartmentID != 2 && !this.IsAHDegreeCollege)) {
           if (this.request.SubjectID == 0) {
             this.isSubject = true;
             this.FormValid = false;
@@ -665,7 +670,14 @@ export class StaffDetailsComponent implements OnInit {
         }
 
       }
-
+      if (this.SelectedDepartmentID == 2) {
+        if (this.request.AHDepartmentID == undefined || this.request.AHDepartmentID ==0) {
+          this.FormValid = false;
+        }
+        if (this.request.NETQualified == '') {
+          this.FormValid = false;
+        }
+      }
       if (this.request.TeachingType == 'Teaching') {
         if (this.request.Email == '' || this.request.Email == null) {
           this.FormValid = false;
@@ -1474,5 +1486,56 @@ export class StaffDetailsComponent implements OnInit {
       return;
     }
     this.DesignationName = this.RoleData.find((x: { RoleID: number; }) => x.RoleID == DesignationID)?.RoleName;    
+  }
+
+
+
+
+
+  public AHDepartmentList: any = [];
+  async GetAHDepartmentList() {
+    try {
+      this.loaderService.requestStarted();
+      await this.commonMasterService.GetAHDepartmentList()
+        .then((data: any) => {
+
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.AHDepartmentList = data['Data'][0];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+  public IsAHDegreeCollege: boolean = false;
+  async GetCollageDetails() {
+    try {
+      this.IsAHDegreeCollege = false;
+      this.loaderService.requestStarted();
+      await this.collegeService.GetData(this.SelectedCollageID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          if (data['Data']['CollegeLevelName'] == 'UG' && data['Data']['DepartmentID'] == 2) {
+            this.IsAHDegreeCollege = true;
+          }
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
   }
 }

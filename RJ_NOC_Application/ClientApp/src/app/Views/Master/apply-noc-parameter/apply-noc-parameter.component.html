@@ -56,11 +56,11 @@
 
           <tr *ngFor="let row of draftApplicatoinListData  | tableSearchFilter:searchText; let idx=index;">
             <td>
-              <button *ngIf="row.IsApplyNOCFinalSubmit==false && row.IsOpenNOCApplication==true&& row.IsOpenDefaulter==false&& row.IsDefaulter==false" class="btn btn-primary" (click)="ClickApplyNOC(row.DepartmentID,row.CollegeID,row.IsApplyNOCFinalSubmit,row.PendingNOC)" type="button" id="dropdownMenuButton1"
+              <button *ngIf="row.IsApplyNOCFinalSubmit==false && row.IsOpenNOCApplication==true&& row.IsOpenDefaulter==false&& row.IsDefaulter==false&& row.OpenApplicationSession==sSOLoginDataModel.SessionID" class="btn btn-primary" (click)="ClickApplyNOC(row.DepartmentID,row.CollegeID,row.IsApplyNOCFinalSubmit,row.PendingNOC)" type="button" id="dropdownMenuButton1"
                       style="background-color: #132649;">
                 Apply Noc
               </button>
-              <button *ngIf="row.IsApplyNOCFinalSubmit==false && row.IsOpenNOCApplication==true&& row.IsOpenDefaulter==true && row.IsDefaulter==true" class="btn btn-primary" (click)="ClickApplyNOC(row.DepartmentID,row.CollegeID,row.IsApplyNOCFinalSubmit,row.PendingNOC)" type="button" id="dropdownMenuButton1"
+              <button *ngIf="row.IsApplyNOCFinalSubmit==false && row.IsOpenNOCApplication==true&& row.IsOpenDefaulter==true && row.IsDefaulter==true&& row.OpenDefaulterSession==sSOLoginDataModel.SessionID" class="btn btn-primary" (click)="ClickApplyNOC(row.DepartmentID,row.CollegeID,row.IsApplyNOCFinalSubmit,row.PendingNOC)" type="button" id="dropdownMenuButton1"
                       style="background-color: #132649;">
                 Apply Noc
               </button>
@@ -2653,12 +2653,18 @@
       <div class="row">
         <div class="col-lg-12 col-md-12 col-sm-12 col-12 mt-3">
           <h4 class="text-danger">Disclaimer:</h4>
-          <ol class="text-danger">
+          <ol class="text-danger"  *ngIf="SelectedDepartmentID !=4">
             <li>Submit your application with appropriate option like- new course, new subject, tnoc, pnoc.</li>
             <li>Once the application is submitted you have to print challan or download.</li>
             <li>Once you did the payment you need to upload proof of payment (receipt) from applied noc, <a href="#"> Upload Reciept</a></li>
             <li>Note: here only those subjects or courses will be visible for which draft is complete.</li>
             <li *ngIf="SelectedDepartmentID !=2">If NOC is for name change, location change, merger, coed to girl please fill details in <a href="#">College Amendment</a></li>
+          </ol>
+          <ol class="text-danger"  *ngIf="SelectedDepartmentID ==4">
+            <li>Submit your application with appropriate option like- new course, increase in intake etc.</li>
+            <li>You will have to make demand draft (DD)and upload the same on NOC portal before final submit.</li>
+            <li>Upload original affidavit as submitted to AICTE portal.</li>
+            <li>Please ensure to upload Resolution of the trust/society.</li>
           </ol>
         </div>
       </div>

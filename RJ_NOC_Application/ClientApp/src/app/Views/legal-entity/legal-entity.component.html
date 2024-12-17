@@ -521,11 +521,39 @@
               </div>
             </div>
             <p *ngIf="isSubmitted&&request.ByLawsDocument ==''" class="text-danger"><i aria-hidden="true"></i>This field is required .!</p>
-            <div *ngIf="isValidRegistrationDoc" class="text-danger">
-              <p *ngIf="isValidRegistrationDoc"> {{ImageValidationMessage_ByLawsDocument}}</p>
+            <div *ngIf="isValidByLawsDocument" class="text-danger">
+              <p *ngIf="isValidByLawsDocument"> {{ImageValidationMessage_ByLawsDocument}}</p>
             </div>
           </div>
 
+
+          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="request.ProcessDepartmentID==2">
+            <label for="">Whether the College/ Society/ Trust has been changed since its first inception? <span style="color:red">*</span></label>
+            <select class="form-select" id="ddlFirstInception" [(ngModel)]="request.FirstInception" formControlName="ddlFirstInception">
+              <option value="" disabled>--Select--</option>
+              <option value="Yes">Yes</option>
+              <option value="No">No</option>
+            </select>
+            <p *ngIf="isSubmitted&&request.FirstInception==''" class="text-danger"> This field is required .!</p>
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="request.ProcessDepartmentID==2 && request.FirstInception=='Yes'">
+            <label for="fFirstInceptiondocument"> Upload document<span style="color:red">*</span></label>
+            <div class="d-flex">
+              <input class="form-control d-none" type="file" id="fFirstInceptiondocument" formControlName="fFirstInceptiondocument" (change)="ValidateDocument($event,'FirstInceptionDocument')" />
+              <label class="btn upload" for="fFirstInceptiondocument">
+                <span class="filename">Choose file</span>
+                {{request.FirstInceptionDocument === '' ? 'No File Choosen' : request.Dis_FirstInceptionDocumentName}}
+              </label>
+              <div class="btn-group" *ngIf="request.FirstInceptionDocument!=''">
+                <a class="btn btn-outline-primary" target="_blank" href="{{request.FirstInceptionDocumentPath}}"><i class="fa fa-eye"></i></a>
+                <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('FirstInceptionDocument', request.FirstInceptionDocument)"><i class="fa fa-trash-o"></i></button>
+              </div>
+            </div>
+            <p *ngIf="isSubmitted&&request.FirstInceptionDocument ==''" class="text-danger"><i aria-hidden="true"></i>This field is required .!</p>
+            <div *ngIf="isValidFirstInceptionDoc" class="text-danger">
+              <p *ngIf="isValidFirstInceptionDoc"> {{ImageValidationMessage_FirstInceptionDocument}}</p>
+            </div>
+          </div>
 
         </div>
 
@@ -651,6 +679,21 @@
                 <p *ngIf="isValidPresidentAadhaarProofDoc"> {{ImageValidationMessage_PresidentAadhaarProofDoc}}</p>
               </div>
             </div>
+
+
+            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-2"  *ngIf="request.ProcessDepartmentID==2">
+              <label for="txtMAddress" class="form-label">Address <span style="color:red">*</span></label>
+              <input type="text" class="form-control" id="txtMAddress" [(ngModel)]="memberdetails.MemberAddress" formControlName="txtMAddress">
+              <p *ngIf="isMemberAdded&&memberdetails.MemberAddress==''" class="text-danger">  This field is required .!</p>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-2"  *ngIf="request.ProcessDepartmentID==2">
+              <label for="txtQualification" class="form-label">Qualification <span style="color:red">*</span></label>
+              <input type="text" class="form-control" id="txtQualification" [(ngModel)]="memberdetails.MemberQualification" formControlName="txtQualification">
+              <p *ngIf="isMemberAdded&&memberdetails.MemberQualification==''" class="text-danger">  This field is required .!</p>
+            </div>
+
+
+
             <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
               <button class="btn btn-primary" id="btnAddmember" style="margin-top:27px" (click)="AddMember()"><i class="fa fa-plus"></i> Add</button>&nbsp;&nbsp;
               <button type="button" class="btn btn-danger" style="margin-top:27px" (click)="ResetmemberDetails()"> Reset</button>
@@ -671,6 +714,8 @@
                   <th>Member Photo</th>
                   <th>Member Sign</th>
                   <th>Aadhaar Document</th>
+                  <th *ngIf="request.ProcessDepartmentID==2">Member Address</th>
+                  <th *ngIf="request.ProcessDepartmentID==2">Member Qualification</th>
                   <th>Action</th>
                 </tr>
               </thead>
@@ -695,6 +740,8 @@
                     <a *ngIf="row.PresidentAadhaarProofDoc!='' && row.PresidentAadhaarProofDocPath!='N/A'" target="_blank" href="{{row.PresidentAadhaarProofDocPath}}" title="View Aadhar Document"><i class="fa fa-eye"></i></a>
                     <label *ngIf="row.PresidentAadhaarProofDocPath=='N/A'">{{row.PresidentAadhaarProofDocPath}}</label>
                   </td>
+                  <td *ngIf="request.ProcessDepartmentID==2">{{row.MemberAddress}}</td>
+                  <td *ngIf="request.ProcessDepartmentID==2">{{row.MemberQualification}}</td>
                   <td>
                     <button type="button" id="btnEdit_{{indexOfelement}}" class="btn btn-primary" title="Edit" (click)="EditMemberDetail(indexOfelement)" [attr.disabled]="isDisabledGrid ? true : null"><i class="fa fa-edit"></i></button><!--[attr.disabled]="isDisabledGrid ? true : null"-->
                     <button class="btn btn-danger" type="button" (click)="DeleteMember(indexOfelement)" [attr.disabled]="isDisabledGrid ? true : null"><i class="fa fa-trash-o"></i></button>

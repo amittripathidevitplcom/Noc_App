@@ -6,6 +6,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { DashboardDataModel } from '../../Models/DashboardDataModel';
 import { ToastrService } from 'ngx-toastr';
 import { SSOLoginDataModel } from '../../Models/SSOLoginDataModel';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-dashboard',
@@ -19,10 +21,17 @@ export class DashboardComponent implements OnInit {
   public State: number = -1;
   public SuccessMessage: any = [];
   public ErrorMessage: any = [];
-  constructor(private loaderService: LoaderService, private toastr: ToastrService, private commonMasterService: CommonMasterService) { }
+  public url: string = 'https://analytics.rajasthan.gov.in/RajSso/SASVisualAnalyticsViewer/VisualAnalyticsViewer.jsp?reportName=Rajasthan+NOC+Managment+System&reportPath=/RAJ+NOC/&appSwitcherDisabled=true&redirectUrl=&token=';
+  AnalyticsDashboardUrl: SafeResourceUrl | undefined;
+  public ssotoken: string = '';
+  constructor(public cookie: CookieService, public sanitizer: DomSanitizer,private loaderService: LoaderService, private toastr: ToastrService, private commonMasterService: CommonMasterService) { }
 
   async ngOnInit() {
     this.loaderService.requestStarted();
+    this.ssotoken = this.cookie.get('RAJSSO');
+    console.log(this.ssotoken);
+    this.url = this.url + this.ssotoken;
+    this.AnalyticsDashboardUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.url);
     this.sSOLoginDataModel = JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     await this.GetDashboardDataSSOWise(this.sSOLoginDataModel.SSOID);
     this.loaderService.requestEnded();
@@ -31,7 +40,7 @@ export class DashboardComponent implements OnInit {
   async GetDashboardDataSSOWise(SSOID: string) {
     try {
       this.loaderService.requestStarted();
-      await this.commonMasterService.GetDashboardDataSSOWise(SSOID, this.sSOLoginDataModel.DepartmentID, this.sSOLoginDataModel.RoleID, this.sSOLoginDataModel.UserID)
+      await this.commonMasterService.GetDashboardDataSSOWise(SSOID, this.sSOLoginDataModel.DepartmentID, this.sSOLoginDataModel.RoleID, this.sSOLoginDataModel.UserID, this.sSOLoginDataModel.SessionID)
         .then((data: any) => {
 
           data = JSON.parse(JSON.stringify(data));

@@ -45,6 +45,7 @@ export class CollegeList_StatisticsFinalSubmitedDataModel_Filter {
   public UniversityID: number = 0
   public DivisionID: number = 0
   public DistrictID: number = 0
+  public SessionYear: number = 0
   public CollegeName: string = ''
 }
 
@@ -54,5 +55,6 @@ export class TotalNotFilledStatics_DataModel_Filter {
   public UniversityID: number = 0
   public DivisionID: number = 0
   public DistrictID: number = 0
+  public SessionYear: number = 0
   public CollegeName: string = ''
 }

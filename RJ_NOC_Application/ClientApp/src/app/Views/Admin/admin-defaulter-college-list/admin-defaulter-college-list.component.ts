@@ -58,6 +58,7 @@ export class AdminDefaulterCollegeListComponent implements OnInit {
     try {
       this.request.DepartmentID = this.sSOLoginDataModel.DepartmentID;
       this.request.UserID = this.sSOLoginDataModel.UserID;
+      this.request.SessionYear = this.sSOLoginDataModel.SessionID;
       this.loaderService.requestStarted();
       await this.DefaulterCollegeRequestService.GetDefaulterCollegeRequestData(this.request)
         .then((data: any) => {
@@ -135,9 +136,9 @@ export class AdminDefaulterCollegeListComponent implements OnInit {
     if (this.requestPenalty.ApproveReject == '') {
       return;
     }
-    if (this.requestPenalty.PenaltyDoc == '') {
-      return;
-    }
+    //if (this.requestPenalty.PenaltyDoc == '') {
+    //  return;
+    //}
     if (this.requestPenalty.ApproveReject == 'Approve') {
       if (this.requestPenalty.PenaltyAmount == null || this.requestPenalty.PenaltyAmount.toString() == '') {
         return;
@@ -401,7 +402,7 @@ export class AdminDefaulterCollegeListComponent implements OnInit {
     try {
       this.ApplicationCountList = [];
       this.loaderService.requestStarted();
-      await this.DefaulterCollegeRequestService.GetDefaulterRequestCount(this.sSOLoginDataModel.DepartmentID, this.sSOLoginDataModel.UserID)
+      await this.DefaulterCollegeRequestService.GetDefaulterRequestCount(this.sSOLoginDataModel.DepartmentID, this.sSOLoginDataModel.UserID, this.sSOLoginDataModel.SessionID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];

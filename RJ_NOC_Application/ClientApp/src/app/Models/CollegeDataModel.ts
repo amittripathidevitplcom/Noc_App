@@ -89,6 +89,13 @@ export class CollegeDataModel {
   //Medical Group 3
   public IsAbbreviation: string = '';
   public AbbreviationName: string = '';
+
+
+
+  //AH
+  public FaxNo: string = '';
+  public LiveStockFarmAddress: string = '';
+  public VeternaryClinicalAddress: string = '';
 }
 export class ContactDetailsDataModel {
   public ContactID: number = 0;

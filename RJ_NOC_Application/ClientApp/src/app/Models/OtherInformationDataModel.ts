@@ -29,5 +29,20 @@ export class OtherInformationDataModel {
   public S_Action: string = '';
   public S_Remark: string = '';
   public NoOfRooms: number = 1;
+
+
+
+  public FloorAreaofLibrary: string = '';
+  public Professional: string = '';
+  public Other: string = '';
+  public PeriodicalsNo: string = '';
+  public JournalsNo: string = '';
+  public SeatingCapacity: string = '';
+  public InternetFacility: string = '';
+  public CounterforSale: string = '';
+  public ComputerPrint: string = '';
+  public RegistersMaintained: string = '';
+
+
 }
 

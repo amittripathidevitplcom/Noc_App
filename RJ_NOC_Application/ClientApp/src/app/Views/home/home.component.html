@@ -189,19 +189,36 @@
             </div>
           </div>
           <div class="tab-pane fade" id="v-pills-d3" role="tabpanel" aria-labelledby="v-pills-d3-tab" tabindex="0">
+            <div class="d-flex justify-content-start mb-3 contactMarquee">
+              <marquee direction="left" onmouseover="this.stop();" onmouseout="this.start();" scrollamount="5">
+                <ul class="d-flex align-items-center flex-wrap">
+                  <li>
+                    <p class="mb-4 blinkText" *ngFor="let row of DCE_HomePage_IncreaseDateData_Top ;let idx=index;">
+                      {{row.Content}}
+                    </p>
+                    <!--<span class="blinkText" *ngFor="let row of DCE_HomePage_IncreaseDateData_Top ;let idx=index;">   {{row.Content}}"Online NOC Portal start soon for session 2025-26"</span>-->
+                  </li>
+                </ul>
+              </marquee>
+            </div>
+
             <div class="d-flex justify-content-start mb-3">
               <img src="../../../assets/images/3.jpg" height="80" width="80"
                    alt="icon">
               <h5 class="position-relative ms-2 mt-3">Department of<br />Technical Education</h5>
             </div>
-            <p class="mb-4">राज्य में संचालित तकनीकी संस्थानों के लिये राज्य सरकार द्वारा जारी किये जाने वाले अनापत्ति प्रमाण-पत्र (NOC) / राज्य सरकार का अभिमत प्राप्त करने के लिये सत्र 2024-25 हेतु तकनीकी पाठ्यक्रमों के साथ-साथ <b>BCA/BBA/BMS</b> के नये पाठ्यकम प्रारम्भ करने/संचालित करने एवं <b>Working Professionals</b> पाठ्यक्रमों को प्रारम्भ करने वाले तकनीकी संस्थान/ट्रस्ट/ सोसायटी से ऑनलाईन आवेदन पत्र <a href="https://sso.rajasthan.gov.in/signin?ru=UNOC" target="_blank">https://rajnoc.rajasthan.gov.in/</a> पर दिनांक <b>21-08-2024</b> से <b>27.08.2024</b> तक किये जा सकेंगे।</p>
-            <!--<p class="mb-4"> ऑनलाइन एनओसी आवेदन पत्र की अंतिम तिथि 15 फरवरी 2024 से 22 फरवरी 2024 तक बढ़ा दी गई है। </p>
-            <p class="mb-4"> ऑनलाइन एनओसी आवेदन पत्र की अंतिम तिथि 22 फरवरी 2024 से 29 फरवरी 2024 तक बढ़ा दी गई है। </p>-->
+
+            <p class="mb-4" *ngFor="let row of DCE_HomePage_IncreaseDateData_Bottom ;let idx=index;">
+              {{row.Content}}
+            </p>
+            <!--<p class="mb-4">राज्य में संचालित तकनीकी संस्थानों के लिये राज्य सरकार द्वारा जारी किये जाने वाले अनापत्ति प्रमाण-पत्र (NOC)प्राप्त करने के लिए सत्र 2025-26 हेतु तकनीकी पाठ्यक्रमों के प्रारम्भ/सीटों में कमी/वृद्धि इत्यादि करने वाले तकनीकी संस्थान/ट्रस्ट/ सोसायटी से ऑनलाईन आवेदन पत्र https://rajnoc.rajasthan.gov.in/ पर शीघ्र आमंत्रित किये जायेंगे।  </p>-->
+
 
             <div class="buttons mt-2 mb-4">
               <a href="https://sso.rajasthan.gov.in/signin?ru=UNOC" target="_blank" class="btncomn">Login to SSO</a>
-              <a href="../../../assets/images/doc/UserManualforNewInstitute.pdf" target="_blank" class="btncomn">View User Manual For New Institute</a>
-              <a href="../../../assets/images/doc/UserManualforExistingInstitute.pdf" target="_blank" class="btncomn">View User Manual For Existing Institute</a>
+              <a href="https://nocapi.rajasthan.gov.in/api/ImageFile/25Nov2024050749908981DTE%20New%20Institutes%20pdf.pdf" target="_blank" class="btncomn">View User Manual For New Institute</a>
+              <a href="https://nocapi.rajasthan.gov.in/api/ImageFile/25Nov2024050811604704DTE%20Existing%20Institutes%20pdf.pdf" target="_blank" class="btncomn">View User Manual For Existing Institute</a>
+              <a href="https://nocapi.rajasthan.gov.in/api/ImageFile/25Nov2024050907359393DTEgeotag.pdf" target="_blank" class="btncomn">View User Manual For Geo Tagging</a>
             </div>
           </div>
           <div class="tab-pane fade" id="v-pills-d4" role="tabpanel" aria-labelledby="v-pills-d4-tab" tabindex="0">
@@ -354,3 +371,4 @@
     </div>
   </div>
 </section>
+

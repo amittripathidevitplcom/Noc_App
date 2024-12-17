@@ -204,6 +204,14 @@
                       <label><b> By-Laws document :</b></label>&nbsp;
                       <label><a target="_blank" href="{{legalEntityListData1.ByLawsDocumentPath}}" title="View By Laws document"><i class="fa fa-eye"></i></a></label>
                     </div>
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="legalEntityListData1.ProcessDepartmentID==2">
+                      <label>Whether the College/ Society/ Trust has been changed since its first inception? :</label>
+                      <input class="form-control disabled mt-1" disabled value="{{legalEntityListData1.FirstInception}}" />
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="legalEntityListData1.ProcessDepartmentID==2 && legalEntityListData1.FirstInception=='Yes'">
+                      <label><b>First Inception Document :</b></label>&nbsp;
+                      <label><a target="_blank" href="{{legalEntityListData1.FirstInceptionDocumentPath}}" title="View By first inception document"><i class="fa fa-eye"></i></a></label>
+                    </div>
                   </div>
                   <div class="row">
                   </div>
@@ -232,6 +240,8 @@
                           <th>Member Photo</th>
                           <th>Member Sign</th>
                           <th>Aadhaar Document</th>
+                          <th *ngIf="legalEntityListData1.ProcessDepartmentID==2">Address</th>
+                          <th *ngIf="legalEntityListData1.ProcessDepartmentID==2">Qualification</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -267,6 +277,8 @@
                             <a class="bi bi-file-earmark-pdf-fill" *ngIf="row.PresidentAadhaarProofDocPath.includes('.pdf')  && row.PresidentAadhaarProofDocPath!='N/A'" data-fancybox="gallery" href="{{row.PresidentAadhaarProofDocPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
 
                           </td>
+                          <td *ngIf="legalEntityListData1.ProcessDepartmentID==2">{{row.MemberAddress}}</td>
+                          <td *ngIf="legalEntityListData1.ProcessDepartmentID==2">{{row.MemberQualification}}</td>
                         </tr>
                       </tbody>
                     </table>

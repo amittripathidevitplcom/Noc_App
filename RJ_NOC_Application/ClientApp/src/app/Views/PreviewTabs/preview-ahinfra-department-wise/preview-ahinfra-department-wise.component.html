@@ -1,0 +1,33 @@
+
+<div class="card tabCard1 mb-0" *ngFor="let item of AHDepartmentList; let idx =index">
+  <div class="card-header">
+    <b>
+      {{idx+1}}.&nbsp;<i class="bi bi-building-add"></i>&nbsp;{{item.DepartmentName}}
+    </b>
+  </div>
+  <div class="card-body">
+    <div class="row">
+      <div class="table-responsive">
+        <table class="table">
+          <tbody>
+            <tr *ngFor="let items of item.AHFacilityDepartmentList; let idxx =index" [hidden]="items.IsHide">
+              <td style="width:5%">{{idxx+1}}</td>
+              <td style="width:60%;">
+                {{items.Name}}<span class="text-danger" *ngIf="items.IsMandatory">*</span>
+              </td>
+              <td>
+                <a *ngIf="items.ControlType=='UploadFile'" class="bi bi-file-earmark-pdf-fill"  data-fancybox="gallery" href="{{items.ValuePath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                <input disabled type="text" class="form-control" *ngIf="items.ControlType=='Text' || items.ControlType=='DropDown'" [(ngModel)]="items.Value" />
+              </td>
+              <td>
+                {{items.Unit}}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+

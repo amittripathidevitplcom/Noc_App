@@ -6,6 +6,7 @@ import { StaffDetailDataModel } from '../../../Models/TabDetailDataModel';
 import { SSOLoginDataModel } from '../../../Models/SSOLoginDataModel';
 import { StaffDetailService } from '../../../Services/StaffDetail/staff-detail.service';
 import { ModalDismissReasons, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { CollegeService } from '../../../services/collegedetailsform/College/college.service';
 
 @Component({
   selector: 'app-preview-staff-detail',
@@ -28,14 +29,16 @@ export class PreviewStaffDetailComponent implements OnInit {
   closeResult: string | undefined;
   modalReference: NgbModalRef | undefined;
 
-  constructor(private loaderService: LoaderService, private staffDetailService: StaffDetailService
+  constructor(private collegeService: CollegeService, private loaderService: LoaderService, private staffDetailService: StaffDetailService
     , private commonMasterService: CommonMasterService, private router: ActivatedRoute, private modalService: NgbModal) { }
 
  async ngOnInit() {
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
    this.SelectedDepartmentID = await Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DepartmentID')?.toString()));
    this.SelectedCollageID = await Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
+   await this.GetCollageDetails();
    await this.GetStaffDetailList_DepartmentCollegeWise(this.SelectedDepartmentID, this.SelectedCollageID, 0);
+
   }
   async GetStaffDetailList_DepartmentCollegeWise(DepartmentID: number, CollegeID: number, StaffDetailID: number) {
     try {
@@ -120,6 +123,29 @@ export class PreviewStaffDetailComponent implements OnInit {
       return 'by clicking on a backdrop';
     } else {
       return `with: ${reason}`;
+    }
+  }
+
+  public IsAHDegreeCollege: boolean = false;
+  async GetCollageDetails() {
+    try {
+      this.IsAHDegreeCollege = false;
+      this.loaderService.requestStarted();
+      await this.collegeService.GetData(this.SelectedCollageID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          if (data['Data']['CollegeLevelName'] == 'UG' && data['Data']['DepartmentID'] == 2) {
+            this.IsAHDegreeCollege = true;
+          }
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
     }
   }
 }

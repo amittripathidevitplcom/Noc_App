@@ -5,7 +5,7 @@
       <h3 class="me-2">Application Details</h3>( <span style="color:forestgreen;font-size:12px;font-weight:600">{{CollegeName}}</span> )
     </div>
     <div class="col-md-5 d-flex justify-content-end align-items-center">
-      <div *ngIf="SelectedDepartmentID !=5 && SelectedDepartmentID !=11">
+      <div *ngIf="SelectedDepartmentID !=5">
         <button [attr.disabled]="IsShowDraftFinalSubmit ? true : null" class="btn btn-success btn-sm me-3" style="padding-top:2px !important" type="button" (click)="DraftFinalSubmit(1)">
           {{DraftbuttonName}}
         </button>
@@ -205,6 +205,28 @@
               <app-staff-details></app-staff-details>
             </mat-tab>
 
+            <!--Staff Details for Animal Husbandry Degree College-->
+            <mat-tab *ngIf="SelectedDepartmentID==2 && IsAHDegreeCollege">
+              <ng-template mat-tab-label>
+                <i class="fa fa-users icon" aria-hidden="true"></i>
+                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['StaffDetails']>0"></i>
+                <span class="badge pulse" *ngIf="CheckTabsEntryData['StaffDetails']==0"></span>
+                <span>Staff Details</span>
+              </ng-template>
+              <app-staff-details></app-staff-details>
+            </mat-tab>
+
+            
+            <!--Animal Husbandry Department-->
+            <mat-tab *ngIf="SelectedDepartmentID==2 && IsAHDegreeCollege">
+              <ng-template mat-tab-label>
+                <i class="fa fa-address-card-o icon" aria-hidden="true" ></i>
+                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['DepartmentWiseInfrastructure']>0"></i>
+                <span class="badge pulse" *ngIf="CheckTabsEntryData['DepartmentWiseInfrastructure']==0"></span>
+                <span>Department Wise Infrastructure</span>
+              </ng-template>
+              <app-ahinfra-department-wise></app-ahinfra-department-wise>
+            </mat-tab>
 
             <!--Academic Information Only for New-->
             <mat-tab *ngIf="CollegeType_IsExisting && (SelectedDepartmentID!=5 && SelectedDepartmentID!=11) && IsAHDegreeCollege==false">

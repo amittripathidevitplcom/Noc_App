@@ -25,9 +25,9 @@
         <div class="col-xxl-1 col-xl-1 col-lg-1 col-md-1 col-sm-1 col-1 d-none d-lg-block">
           <button class="sidebarToggle d-none d-lg-block" onclick="togglesidebar();"><i class="fa fa-bars" aria-hidden="true"></i></button>
           <!--<div class="searchBox d-flex justify-content-between align-items-center">
-            <input type="text" class="form-control borderRadius0" placeholder="Sreach Here....">
-            <button class="btn btn-soft-primary borderRadius0"><i class="fa fa-search"></i></button>
-          </div>-->
+        <input type="text" class="form-control borderRadius0" placeholder="Sreach Here....">
+        <button class="btn btn-soft-primary borderRadius0"><i class="fa fa-search"></i></button>
+      </div>-->
         </div>
         <div class="col-xxl-6 col-xl-6 col-lg-5 col-md-6 col-sm-6 col-6 d-none d-lg-block contactMarquee">
           <!--<marquee direction="left" onmouseover="this.stop();" onmouseout="this.start();" scrollamount="5">-->
@@ -67,14 +67,14 @@
 
           <!--<ul class="topBarRight"><li>
 
-            <a href="javascript:void(0)" class="language HiLanguage" title="Choose Language"></a>
-          </li>-->
+        <a href="javascript:void(0)" class="language HiLanguage" title="Choose Language"></a>
+      </li>-->
           <!--<li class="dropdown">
-            <a href="javascript:void(0)" class="dropdown-toggle" title="Notification" id="notificationBox" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-bell"></i></a>
-            <div class="TopslideBox notificationBox dropdown-menu" aria-labelledby="notificationBox">
-              <h3><i class="bi bi-bell"></i> Notification</h3>
-            </div>
-          </li></ul>-->
+        <a href="javascript:void(0)" class="dropdown-toggle" title="Notification" id="notificationBox" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-bell"></i></a>
+        <div class="TopslideBox notificationBox dropdown-menu" aria-labelledby="notificationBox">
+          <h3><i class="bi bi-bell"></i> Notification</h3>
+        </div>
+      </li></ul>-->
 
           <ul class="UserDropDown">
             <li class="dropdown userDropBox">
@@ -89,8 +89,8 @@
               </a>
               <div class="UserBox dropdown-menu dropdown-menu-right pb-0" aria-labelledby="notificationBox">
                 <!--<a href="javascript:void(0)" class="dropdown-item"><i class="bi bi-people"></i>&nbsp;Profile</a>
-                <a href="javascript:void(0)" class="dropdown-item"><i class="bi bi-gear"></i>&nbsp;Setting</a>
-                <a href="javascript:void(0)" class="dropdown-item"><i class="bi bi-envelope"></i>&nbsp;Messege</a>-->
+            <a href="javascript:void(0)" class="dropdown-item"><i class="bi bi-gear"></i>&nbsp;Setting</a>
+            <a href="javascript:void(0)" class="dropdown-item"><i class="bi bi-envelope"></i>&nbsp;Messege</a>-->
 
                 <h5 class="dropdown-item">{{sSOLoginDataModel.FirstName}} {{sSOLoginDataModel.LastName}} <br /><span class="designation">{{sSOLoginDataModel.RoleName}}</span></h5>
 
@@ -104,6 +104,19 @@
               </div>
             </li>
           </ul>
+        </div>
+      </div>
+      <div class="row text-end">
+
+        <div class="col-xxl-9 col-xl-9 col-lg-9 col-md-6 col-sm-6 col-6 d-none d-lg-block">
+        </div>
+        <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-6 col-sm-6 col-6 d-flex align-items-center justify-content-end topUlsControl">
+          <label class="me-2">Session</label>
+          <select id="ddlsession" name="ddlsession" class="form-select" [(ngModel)]="SessionID"
+                  #SeletedSession (change)="loadDataSessionWise(SeletedSession.value)">
+            <option value="0" disabled>--Select--</option>
+            <option *ngFor="let item of lstFinancialYear" value="{{item.FinancialYearID}}">{{item.FinancialYearName}}</option>
+          </select>
         </div>
       </div>
     </div>

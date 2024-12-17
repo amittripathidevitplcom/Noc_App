@@ -47,26 +47,26 @@ export class CollegeService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-  public async RevertedApplicationList(LoginSSOID: string) {
+  public async RevertedApplicationList(LoginSSOID: string, SessionYear: number) {
     const httpOptions =
     {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     };
-    return await this.http.get(this.APIUrl + "/RevertedApplicationList/" + LoginSSOID)
+    return await this.http.get(this.APIUrl + "/RevertedApplicationList/" + LoginSSOID+"/" + SessionYear)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-  public async RejectedApplicationList(LoginSSOID: string) {
+  public async RejectedApplicationList(LoginSSOID: string,SessionYear:number=0) {
     const httpOptions =
     {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     };
-    return await this.http.get(this.APIUrl + "/RejectedApplicationList/" + LoginSSOID)
+    return await this.http.get(this.APIUrl + "/RejectedApplicationList/" + LoginSSOID + "/" + SessionYear)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();

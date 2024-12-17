@@ -277,13 +277,13 @@ export class ApplyNOCApplicationService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-  public async GetApplicationPenaltyList(SSOID: string) {
+  public async GetApplicationPenaltyList(SSOID: string, SessionYear: number=0) {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     };
-    return await this.http.get(this.APIUrl + "/GetApplicationPenaltyList/" + SSOID)
+    return await this.http.get(this.APIUrl + "/GetApplicationPenaltyList/" + SSOID + "/" + SessionYear)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();

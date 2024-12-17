@@ -735,7 +735,9 @@ export class LegalEntityRevertComponent implements OnInit {
           PresidentAadhaarProofDoc: this.memberdetails.PresidentAadhaarProofDoc,
           Dis_PresidentAadhaarProofDocName: this.memberdetails.Dis_PresidentAadhaarProofDocName,
           PresidentAadhaarProofDocPath: this.memberdetails.PresidentAadhaarProofDocPath == '' ? 'N/A' : this.memberdetails.PresidentAadhaarProofDocPath,
-          Dis_AadhaarNumber: this.memberdetails.Dis_AadhaarNumber
+          Dis_AadhaarNumber: this.memberdetails.Dis_AadhaarNumber,
+          MemberAddress: this.memberdetails.MemberAddress,
+          MemberQualification: this.memberdetails.MemberQualification
         });
       }
       this.memberdetails = new LegalEntityMemberDetailsDataModel();

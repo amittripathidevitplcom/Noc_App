@@ -75,6 +75,15 @@ export class StatisticsEntryComponent implements OnInit {
         }
       }, error => console.error(error));
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
+
+
+    await this.GetDepartmentList();
+    let IsOpenDepartment = this.DepartmentList.find((x: { DepartmentID: number; }) => x.DepartmentID == this.SelectedDepartmentID)?.IsOpenStatistics;
+    let OpenStatisticsSession = this.DepartmentList.find((x: { DepartmentID: number; }) => x.DepartmentID == this.SelectedDepartmentID)?.OpenStatisticsSession;
+    if (IsOpenDepartment == false || this.sSOLoginDataModel.SessionID != OpenStatisticsSession) {
+      this.toastr.warning('Department is not open for Statistics');
+      this.routers.navigate(['/dashboard']);
+    }
     await this.GetCollegeStatisticsFinalSubmitStatus();
     await this.GetCollageDetails();
     await this.CheckTabsEntry_StatisticsEntry();
@@ -395,4 +404,27 @@ export class StatisticsEntryComponent implements OnInit {
     this.SelectedCollegeEntryType = "0";
   }
 
+
+  public DepartmentList: any = [];
+  async GetDepartmentList() {
+    try {
+      this.loaderService.requestStarted();
+      await this.commonMasterService.GetDepartmentList()
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.DepartmentList = data['Data'];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
 }

@@ -1,4 +1,3 @@
-
 <!--<app-loader></app-loader>-->
 <div class="card-body">
   <div class="card">
@@ -58,16 +57,16 @@
             </div>
           </div>
           <!--<div class="col-md-3 mb-2">
-    <label>Length (In Feet)<span style="color:red;">*</span></label>
-    <input type="text" class="form-control" id="OtherInformation_txtLength" name="OtherInformation_txtLength"
-           placeholder="Enter Length (In Feet)"
-           [(ngModel)]="request.Length" formControlName="OtherInformation_txtLength" (keypress)="numberOnly($event)">
-    <div *ngIf="isSubmitted&&form.OtherInformation_txtLength.errors" class="text-danger">
-      <p *ngIf="form.OtherInformation_txtLength.errors.required">This field is required .!</p>
-      <p *ngIf="form.OtherInformation_txtLength.errors.min">Length will be greater than zero .!</p>
-      <p *ngIf="form.OtherInformation_txtLength.errors.max">Length will be less than 500000 .!</p>
-    </div>
-  </div>-->
+            <label>Length (In Feet)<span style="color:red;">*</span></label>
+            <input type="text" class="form-control" id="OtherInformation_txtLength" name="OtherInformation_txtLength"
+                   placeholder="Enter Length (In Feet)"
+                   [(ngModel)]="request.Length" formControlName="OtherInformation_txtLength" (keypress)="numberOnly($event)">
+            <div *ngIf="isSubmitted&&form.OtherInformation_txtLength.errors" class="text-danger">
+              <p *ngIf="form.OtherInformation_txtLength.errors.required">This field is required .!</p>
+              <p *ngIf="form.OtherInformation_txtLength.errors.min">Length will be greater than zero .!</p>
+              <p *ngIf="form.OtherInformation_txtLength.errors.max">Length will be less than 500000 .!</p>
+            </div>
+          </div>-->
           <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="!ShowHideLabData">
             <label for="fileUploadImage" class="form-label">Upload (PDF/Image)<span style="color:red;" *ngIf="SelectedDepartmentID!=4">*</span></label>
             <div class="d-flex">
@@ -158,6 +157,91 @@
               </div>
             </div>
           </div>
+          <div class="row" *ngIf="!ShowHideLabData && ShowHideBook && SelectedDepartmentID==2 && IsAHDegreeCollege">
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <label>Floor Area of Library<span style="color:red;">*</span></label>
+              <input type="text" class="form-control" id="txtFloorArea" [(ngModel)]="request.FloorAreaofLibrary" name="txtFloorArea"
+                     formControlName="FloorAreaofLibrary" (keypress)="numberOnly($event)">
+              <p *ngIf="isSubmitted&&!ShowHideLabData && ShowHideBook && SelectedDepartmentID==2 && IsAHDegreeCollege && request.FloorAreaofLibrary==''" class="text-danger">This field is required .!</p>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <label>Professional<span style="color:red;">*</span></label>
+              <input type="text" class="form-control" id="txtProfessional" [(ngModel)]="request.Professional" name="txtProfessional"
+                     formControlName="txtProfessional" (keypress)="numberOnly($event)">
+              <p *ngIf="isSubmitted&&!ShowHideLabData && ShowHideBook && SelectedDepartmentID==2 && IsAHDegreeCollege && request.Professional==''" class="text-danger">This field is required .!</p>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <label>Other<span style="color:red;">*</span></label>
+              <input type="text" class="form-control" id="txtOther" [(ngModel)]="request.Other" name="txtOther"
+                     formControlName="txtOther" (keypress)="numberOnly($event)">
+              <p *ngIf="isSubmitted&&!ShowHideLabData && ShowHideBook && SelectedDepartmentID==2 && IsAHDegreeCollege && request.Other==''" class="text-danger">This field is required .!</p>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <label>No. of Periodicals available/ subscribing<span style="color:red;">*</span></label>
+              <input type="text" class="form-control" id="txtPeriodicalsNo" [(ngModel)]="request.PeriodicalsNo" name="txtPeriodicalsNo"
+                     formControlName="txtPeriodicalsNo" (keypress)="numberOnly($event)">
+              <p *ngIf="isSubmitted&&!ShowHideLabData && ShowHideBook && SelectedDepartmentID==2 && IsAHDegreeCollege && request.PeriodicalsNo==''" class="text-danger">This field is required .!</p>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <label>No of Journals available/ subscribing<span style="color:red;">*</span></label>
+              <input type="text" class="form-control" id="txtJournalsNo" [(ngModel)]="request.JournalsNo" name="txtJournalsNo"
+                     formControlName="txtJournalsNo" (keypress)="numberOnly($event)">
+              <p *ngIf="isSubmitted&&!ShowHideLabData && ShowHideBook && SelectedDepartmentID==2 && IsAHDegreeCollege && request.JournalsNo==''" class="text-danger">This field is required .!</p>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <label>Seating capacity for reading<span style="color:red;">*</span></label>
+              <input type="text" class="form-control" id="txtSeatingCapacity" [(ngModel)]="request.SeatingCapacity" name="txtSeatingCapacity"
+                     formControlName="txtSeatingCapacity" (keypress)="numberOnly($event)">
+              <p *ngIf="isSubmitted&&!ShowHideLabData && ShowHideBook && SelectedDepartmentID==2 && IsAHDegreeCollege && request.SeatingCapacity==''" class="text-danger">This field is required .!</p>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <label>
+                Whether Internet facility is available<span style="color:red;">*</span>
+              </label>
+              <select class="form-select" id="ddlInternetFacility" [(ngModel)]="request.InternetFacility" formControlName="ddlInternetFacility">
+                <option value="" disabled>--Select--</option>
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+              </select>
+              <p *ngIf="isSubmitted&&!ShowHideLabData && ShowHideBook && SelectedDepartmentID==2 && IsAHDegreeCollege && request.InternetFacility==''" class="text-danger">This field is required .!</p>
+            </div>
+
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <label>
+                Counter for sale of reprints<span style="color:red;">*</span>
+              </label>
+              <select class="form-select" id="ddlCounterforSale" [(ngModel)]="request.CounterforSale" formControlName="ddlCounterforSale">
+                <option value="" disabled>--Select--</option>
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+              </select>
+              <p *ngIf="isSubmitted&&!ShowHideLabData && ShowHideBook && SelectedDepartmentID==2 && IsAHDegreeCollege && request.CounterforSale==''" class="text-danger">This field is required .!</p>
+            </div>
+
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <label>
+                Computer print outs of abstracts<span style="color:red;">*</span>
+              </label>
+              <select class="form-select" id="ddlComputerPrint" [(ngModel)]="request.ComputerPrint" formControlName="ddlComputerPrint">
+                <option value="" disabled>--Select--</option>
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+              </select>
+              <p *ngIf="isSubmitted&&!ShowHideLabData && ShowHideBook && SelectedDepartmentID==2 && IsAHDegreeCollege && request.ComputerPrint==''" class="text-danger">This field is required .!</p>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <label>
+                Registers Maintained<span style="color:red;">*</span>
+              </label>
+              <select class="form-select" id="ddlRegistersMaintained" [(ngModel)]="request.RegistersMaintained" formControlName="ddlRegistersMaintained">
+                <option value="" disabled>--Select--</option>
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+              </select>
+              <p *ngIf="isSubmitted&&!ShowHideLabData && ShowHideBook && SelectedDepartmentID==2 && IsAHDegreeCollege && request.RegistersMaintained==''" class="text-danger">This field is required .!</p>
+            </div>
+
+          </div>
 
           <div class="col-lg-12 col-md-12 col-sm-6 col-12 mt-3 text-end" *ngIf="!ShowHideLabData">
             <button type="submit" class="btn btn-primary" id="btnSave" name="btnSave" (click)="SaveData()"><i class="fa fa-plus"></i> Add &amp; Save </button>
@@ -166,35 +250,35 @@
         </div>
 
 
-        </div>
-        <div class="card-body" *ngIf="ShowHideLabData">
-          <div class="row" *ngIf="CollegeWiseLabSubject.length>0">
-            <div class="col-md-12">
-              <div class="table-responsive" >
-                <table class="table table-hover table-striped-columns" id="tabellistLLab" #content>
-                  <thead>
-                    <tr>
-                      <th>Sr. No.</th>
-                      <th>Course</th>
-                      <th>Subject Name</th>
-                      <!--<th>Room No.</th>-->
-                      <th>Width</th>
-                      <th>Length</th>
-                      <th>Lab Images</th>
-                      <th>Lab Equipment Images</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr *ngFor="let row of CollegeWiseLabSubject;let idx=index;">
-                      <td>{{idx+1}}</td>
-                      <td>{{row.CourseName}}</td>
-                      <td>{{row.SubjectName}}</td>
-                      <!--<td>
-                        <input type="text" class="form-control" id="txRoomNo{{idx}}" [ngModelOptions]="{standalone: true}" name="txRoomNo{{idx}}" [(ngModel)]="row.RoomNo" autocomplete="off">
-                        <div class="text-danger">
-                          <p *ngIf="row.RoomNo==''"> This field is required .!</p>
-                        </div>
-                      </td>-->
+      </div>
+      <div class="card-body" *ngIf="ShowHideLabData">
+        <div class="row" *ngIf="CollegeWiseLabSubject.length>0">
+          <div class="col-md-12">
+            <div class="table-responsive">
+              <table class="table table-hover table-striped-columns" id="tabellistLLab" #content>
+                <thead>
+                  <tr>
+                    <th>Sr. No.</th>
+                    <th>Course</th>
+                    <th>Subject Name</th>
+                    <!--<th>Room No.</th>-->
+                    <th>Width</th>
+                    <th>Length</th>
+                    <th>Lab Images</th>
+                    <th>Lab Equipment Images</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let row of CollegeWiseLabSubject;let idx=index;">
+                    <td>{{idx+1}}</td>
+                    <td>{{row.CourseName}}</td>
+                    <td>{{row.SubjectName}}</td>
+                    <!--<td>
+                      <input type="text" class="form-control" id="txRoomNo{{idx}}" [ngModelOptions]="{standalone: true}" name="txRoomNo{{idx}}" [(ngModel)]="row.RoomNo" autocomplete="off">
+                      <div class="text-danger">
+                        <p *ngIf="row.RoomNo==''"> This field is required .!</p>
+                      </div>
+                    </td>-->
 
                     <td>
                       <input type="text" class="form-control" id="txtWidth{{idx}}" maxlength="4" [ngModelOptions]="{standalone: true}" name="txtWidth{{idx}}" (keypress)="numberOnly($event)" [(ngModel)]="row.Width" autocomplete="off">
@@ -202,7 +286,7 @@
                         <p *ngIf="row.Width==''"> This field is required!</p>
                       </div>
                       <div *ngIf="request.CourseID>0">
-                        <p *ngIf="row.Width>0 && row.Width< WidthMin" class="text-danger"s>Please Enter Min size : {{WidthMin}} sq. ft</p>
+                        <p *ngIf="row.Width>0 && row.Width< WidthMin" class="text-danger" s>Please Enter Min size : {{WidthMin}} sq. ft</p>
                       </div>
                     </td>
                     <td>
@@ -215,131 +299,131 @@
                       </div>
                     </td>
 
-                      <td>
-                        <div class="d-flex">
-                          <input type="file" [(ngModel)]="row.LabImage" [ngModelOptions]="{standalone: true}" id="fileLandDocument_{{idx}}"  accept="image/jpg, image/jpeg" (input)="onFilechangeItem($event,row)" class="form-control d-none" />
-                          <label class="btn upload" for="fileLandDocument_{{idx}}">
-                            <span class="filename">Choose file</span>
-                            {{row.FileName === '' ? 'No File Choosen' : row.Dis_FileName}}
-                          </label>
-                          <div class="btn-group" *ngIf="row.FileName !== ''">
-                            <a class="btn btn-outline-primary" target="_blank" href="{{row.FilePath}}"><i class="fa fa-eye"></i></a>
-                            <button type="button" class="btn btn-outline-danger" (click)="DeleteImageItem(row)"><i class="fa fa-trash-o"></i></button>
-                          </div>
+                    <td>
+                      <div class="d-flex">
+                        <input type="file" [(ngModel)]="row.LabImage" [ngModelOptions]="{standalone: true}" id="fileLandDocument_{{idx}}" accept="image/jpg, image/jpeg" (input)="onFilechangeItem($event,row)" class="form-control d-none" />
+                        <label class="btn upload" for="fileLandDocument_{{idx}}">
+                          <span class="filename">Choose file</span>
+                          {{row.FileName === '' ? 'No File Choosen' : row.Dis_FileName}}
+                        </label>
+                        <div class="btn-group" *ngIf="row.FileName !== ''">
+                          <a class="btn btn-outline-primary" target="_blank" href="{{row.FilePath}}"><i class="fa fa-eye"></i></a>
+                          <button type="button" class="btn btn-outline-danger" (click)="DeleteImageItem(row)"><i class="fa fa-trash-o"></i></button>
+                        </div>
 
+                      </div>
+                      <div class="text-danger">
+                        <p *ngIf="row.FileName==''"> This field is required .!</p>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="d-flex">
+                        <input type="file" [(ngModel)]="row.ToolImage" [ngModelOptions]="{standalone: true}" accept="application/pdf" id="fileLandDocumentOther_{{idx}}" (input)="onFilechangeItemOther($event,row)" class="form-control d-none" />
+                        <label class="btn upload" for="fileLandDocumentOther_{{idx}}">
+                          <span class="filename">Choose file</span>
+                          {{row.FileOtherName === '' ? 'No File Choosen' : row.Dis_OtherFileName}}
+                        </label>
+                        <div class="btn-group" *ngIf="row.FileOtherName !== ''">
+                          <a class="btn btn-outline-primary" target="_blank" href="{{row.FileOtherPath}}"><i class="fa fa-eye"></i></a>
+                          <button type="button" class="btn btn-outline-danger" (click)="DeleteImageOther(row)"><i class="fa fa-trash-o"></i></button>
                         </div>
-                        <div class="text-danger">
-                          <p *ngIf="row.FileName==''"> This field is required .!</p>
-                        </div>
-                      </td>
-                      <td>
-                        <div class="d-flex">
-                          <input type="file" [(ngModel)]="row.ToolImage" [ngModelOptions]="{standalone: true}"  accept="application/pdf" id="fileLandDocumentOther_{{idx}}" (input)="onFilechangeItemOther($event,row)" class="form-control d-none" />
-                          <label class="btn upload" for="fileLandDocumentOther_{{idx}}">
-                            <span class="filename">Choose file</span>
-                            {{row.FileOtherName === '' ? 'No File Choosen' : row.Dis_OtherFileName}}
-                          </label>
-                          <div class="btn-group" *ngIf="row.FileOtherName !== ''">
-                            <a class="btn btn-outline-primary" target="_blank" href="{{row.FileOtherPath}}"><i class="fa fa-eye"></i></a>
-                            <button type="button" class="btn btn-outline-danger" (click)="DeleteImageOther(row)"><i class="fa fa-trash-o"></i></button>
-                          </div>
-                        </div>
-                        <div class="text-danger">
-                          <p *ngIf="row.FileOtherName==''"> This field is required .!</p>
-                        </div>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-            <div class="col-lg-12 col-md-12 col-sm-6 col-12 mt-3 text-end">
-              <button type="submit" class="btn btn-primary" id="btnSave" name="btnSave" (click)="SaveDataLab()"><i class="fa fa-plus"></i> Add &amp; Save </button>
-              <button type="submit" class="btn btn-danger" id="btnReset" name="btnReset" (click)="ResetControl()">Reset</button>
+                      </div>
+                      <div class="text-danger">
+                        <p *ngIf="row.FileOtherName==''"> This field is required .!</p>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
           </div>
+          <div class="col-lg-12 col-md-12 col-sm-6 col-12 mt-3 text-end">
+            <button type="submit" class="btn btn-primary" id="btnSave" name="btnSave" (click)="SaveDataLab()"><i class="fa fa-plus"></i> Add &amp; Save </button>
+            <button type="submit" class="btn btn-danger" id="btnReset" name="btnReset" (click)="ResetControl()">Reset</button>
+          </div>
         </div>
+      </div>
 
 
 
 
-        <div class="card-body">
-          <div class="row" *ngIf="OtherInformation.length>0">
-            <div class="card mb-0">
-              <div class="card-header d-xxl-flex d-xl-flex d-md-flex d-sm-block justify-content-between align-items-center">
-                <b><i class="fa fa-plus"></i>&nbsp;Other Information</b>
-                <div class="d-flex align-items-center">
-                  <div class="btn-group mr-15" role="group" aria-label="Basic outlined example">
-                    <button type="button" class="btn btn-outline-primary" title="Copy" id="btnCopyTable" (click)="btnCopyTable_Click()"><i class="fa fa-copy"></i></button>
-                    <button type="button" class="btn btn-outline-primary" title="Excel" id="btnExportTable" (click)="btnExportTable_Click()"><i class="fa fa-file-excel-o"></i></button>
-                    <button type="button" class="btn btn-outline-primary" title="PDF" id="btnSavePDF" (click)="btnSavePDF_Click()"><i class="fa fa-file-pdf-o"></i></button>
-                  </div>
-                  <div class="d-flex align-items-center table-filter mr-15">
-                    <i class="fa fa-search"></i>
-                    <input type="text" class="form-control" placeholder="Search Here" [(ngModel)]="searchText" formControlName="txtsearchText" name="txtsearchText" />
-                  </div>
+      <div class="card-body">
+        <div class="row" *ngIf="OtherInformation.length>0">
+          <div class="card mb-0">
+            <div class="card-header d-xxl-flex d-xl-flex d-md-flex d-sm-block justify-content-between align-items-center">
+              <b><i class="fa fa-plus"></i>&nbsp;Other Information</b>
+              <div class="d-flex align-items-center">
+                <div class="btn-group mr-15" role="group" aria-label="Basic outlined example">
+                  <button type="button" class="btn btn-outline-primary" title="Copy" id="btnCopyTable" (click)="btnCopyTable_Click()"><i class="fa fa-copy"></i></button>
+                  <button type="button" class="btn btn-outline-primary" title="Excel" id="btnExportTable" (click)="btnExportTable_Click()"><i class="fa fa-file-excel-o"></i></button>
+                  <button type="button" class="btn btn-outline-primary" title="PDF" id="btnSavePDF" (click)="btnSavePDF_Click()"><i class="fa fa-file-pdf-o"></i></button>
                 </div>
-              </div>
-            </div>
-
-
-
-
-
-
-            <div class="card-body">
-              <div class="row">
-                <div class="col-md-12">
-                  <div class="table-responsive">
-                    <table class="table table-hover table-striped-columns" id="tabellist" #content>
-                      <thead>
-                        <tr>
-                          <th>Sr. No.</th>
-                          <th>{{textHeading}}</th>
-                          <th>No. of Rooms</th>
-                          <th>Minimum Size (Sq. Feet)</th>
-                          <!--<th>Length (In Feet)</th>-->
-                          <th>Number Of Books</th>
-                          <th>Number Of Computers</th>
-                          <th>View Document</th>
-                          <th>View Library Document</th>
-                          <th *ngIf="SelectedDepartmentID==9">View bill/Invoice</th>
-                          <th>Action</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr *ngFor="let row of OtherInformation | tableSearchFilter:searchText;let idx=index;">
-                          <td>{{idx+1}}</td>
-                          <td>{{row.CourseName}}</td>
-                          <td>{{row.NoOfRooms}}</td>
-                          <td>{{row.Width}}</td>
-                          <!--<td>{{row.Length}}</td>-->
-                          <td>{{row.NoofBooks==0?'N/A':row.NoofBooks}}</td>
-                          <td>{{row.NoofComputers==0?'N/A':row.NoofComputers}}</td>
-                          <td>{{row.ImageFileName==''?'N/A':''}}<a target="_blank" *ngIf="row.ImageFileName!=''" href="{{row.ImageFilePath}}"><i class="fa fa-eye"></i></a></td>
-                          <td><a *ngIf="row.BookImageFileName!=''" target="_blank" href="{{row.BookImageFilePath}}"><i class="fa fa-eye"></i></a></td>
-                          <td *ngIf="SelectedDepartmentID==9">{{row.BookInvoiceFileName==''?'N/A':''}}<a *ngIf="row.BookInvoiceFileName!=''" target="_blank" href="{{row.BookInvoiceFilePath}}"><i class="fa fa-eye"></i></a></td>
-                          <td>
-                            <div class="d-flex">
-
-                              <a [attr.disabled]="isDisabledGrid ? true : null" href="javascript:void(0)" *ngIf="row.DepartmentID==3 && row.CourseName=='Laboratory'" class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-backdrop="false" data-bs-target="#ViewLandDetailDocument" (click)="ViewLabDetails()"><i class="fa fa-eye"></i></a>
-
-                              <button type="button" (click)="Edit_OnClick(row.CollegeWiseOtherInfoID)" [hidden]="QueryStringStatus=='R'&&row.Action=='Yes'" [attr.disabled]="isDisabledGrid ? true : null" title="Edit" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></button>
-                              <button *ngIf="isDeleteButton" type="button" class="btn btn-sm btn-danger" [hidden]="QueryStringStatus=='R'" title="Delete" (click)="Delete_OnClick(row.CollegeWiseOtherInfoID)" [attr.disabled]="isDisabledGrid ? true : null"><i class="fa fa-trash"></i></button>
-
-                            </div>
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
+                <div class="d-flex align-items-center table-filter mr-15">
+                  <i class="fa fa-search"></i>
+                  <input type="text" class="form-control" placeholder="Search Here" [(ngModel)]="searchText" formControlName="txtsearchText" name="txtsearchText" />
                 </div>
               </div>
             </div>
           </div>
-        </div>
 
-      
+
+
+
+
+
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="table-responsive">
+                  <table class="table table-hover table-striped-columns" id="tabellist" #content>
+                    <thead>
+                      <tr>
+                        <th>Sr. No.</th>
+                        <th>{{textHeading}}</th>
+                        <th>No. of Rooms</th>
+                        <th>Minimum Size (Sq. Feet)</th>
+                        <!--<th>Length (In Feet)</th>-->
+                        <th>Number Of Books</th>
+                        <th>Number Of Computers</th>
+                        <th>View Document</th>
+                        <th>View Library Document</th>
+                        <th *ngIf="SelectedDepartmentID==9">View bill/Invoice</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let row of OtherInformation | tableSearchFilter:searchText;let idx=index;">
+                        <td>{{idx+1}}</td>
+                        <td>{{row.CourseName}}</td>
+                        <td>{{row.NoOfRooms}}</td>
+                        <td>{{row.Width}}</td>
+                        <!--<td>{{row.Length}}</td>-->
+                        <td>{{row.NoofBooks==0?'N/A':row.NoofBooks}}</td>
+                        <td>{{row.NoofComputers==0?'N/A':row.NoofComputers}}</td>
+                        <td>{{row.ImageFileName==''?'N/A':''}}<a target="_blank" *ngIf="row.ImageFileName!=''" href="{{row.ImageFilePath}}"><i class="fa fa-eye"></i></a></td>
+                        <td><a *ngIf="row.BookImageFileName!=''" target="_blank" href="{{row.BookImageFilePath}}"><i class="fa fa-eye"></i></a></td>
+                        <td *ngIf="SelectedDepartmentID==9">{{row.BookInvoiceFileName==''?'N/A':''}}<a *ngIf="row.BookInvoiceFileName!=''" target="_blank" href="{{row.BookInvoiceFilePath}}"><i class="fa fa-eye"></i></a></td>
+                        <td>
+                          <div class="d-flex">
+
+                            <a [attr.disabled]="isDisabledGrid ? true : null" href="javascript:void(0)" *ngIf="row.DepartmentID==3 && row.CourseName=='Laboratory'" class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-backdrop="false" data-bs-target="#ViewLandDetailDocument" (click)="ViewLabDetails()"><i class="fa fa-eye"></i></a>
+                            <button type="button" class="btn btn-sm btn-info" title="View" (click)="ViewAHLibrary(row.CollegeWiseOtherInfoID,mymodal)"><i class="fa fa-eye"></i></button>
+                            <button type="button" (click)="Edit_OnClick(row.CollegeWiseOtherInfoID)" [hidden]="QueryStringStatus=='R'&&row.Action=='Yes'" [attr.disabled]="isDisabledGrid ? true : null" title="Edit" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></button>
+                            <button *ngIf="isDeleteButton" type="button" class="btn btn-sm btn-danger" [hidden]="QueryStringStatus=='R'" title="Delete" (click)="Delete_OnClick(row.CollegeWiseOtherInfoID)" [attr.disabled]="isDisabledGrid ? true : null"><i class="fa fa-trash"></i></button>
+
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
     </form>
   </div>
 </div>
@@ -352,7 +436,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="ViewLandDetailDocument"><i class="fa fa-close"></i></button>
       </div>
       <div class="modal-body py-4">
-   
+
 
         <div class="row" *ngIf="CollegeWiseLabViewDetails.length>0">
           <div class="col-md-12">
@@ -408,3 +492,79 @@
     </div>
   </div>
 </div>
+
+<ng-template #mymodal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title" style="font-size: 17px; font-weight: 600 !important;">Library Other Details</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <i class="fa fa-close"></i>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="card">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+            <label>
+              Floor Area of Library
+            </label>
+            <input value="{{CollegeWiseAHOtherDetails.FloorAreaofLibrary}}" class="form-control disabled" disabled />
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+            <label>
+              Seating capacity for reading
+            </label>
+            <input value="{{CollegeWiseAHOtherDetails.SeatingCapacity}}" class="form-control disabled" disabled />
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+            <label>
+              Whether Internet facility is available
+            </label>
+            <input value="{{CollegeWiseAHOtherDetails.InternetFacility}}" class="form-control disabled" disabled />
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+            <label>
+              Counter for sale of reprints
+            </label>
+            <input value="{{CollegeWiseAHOtherDetails.CounterforSale}}" class="form-control disabled" disabled />
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+            <label>
+              Computer print outs of abstracts
+            </label>
+            <input value="{{CollegeWiseAHOtherDetails.ComputerPrint}}" class="form-control disabled" disabled />
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+            <label>
+              Registers Maintained
+            </label>
+            <input value="{{CollegeWiseAHOtherDetails.RegistersMaintained}}" class="form-control disabled" disabled />
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+            <label>
+              Professional
+            </label>
+            <input value="{{CollegeWiseAHOtherDetails.Professional}}" class="form-control disabled" disabled />
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+            <label>
+              No. of Periodicals available/ subscribing
+            </label>
+            <input value="{{CollegeWiseAHOtherDetails.PeriodicalsNo}}" class="form-control disabled" disabled />
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+            <label>
+              No of Journals available/ subscribing
+            </label>
+            <input value="{{CollegeWiseAHOtherDetails.JournalsNo}}" class="form-control disabled" disabled />
+          </div>      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+            <label>
+              Other
+            </label>
+            <input value="{{CollegeWiseAHOtherDetails.Other}}" class="form-control disabled" disabled />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>

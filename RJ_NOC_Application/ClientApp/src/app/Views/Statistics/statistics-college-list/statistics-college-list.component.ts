@@ -51,14 +51,13 @@ export class StatisticsCollegeListComponent implements OnInit {
   async GetApplicationList() {
     try {
       this.loaderService.requestStarted();
-      await this.draftApplicationListService.StatisticsCollegeList(this.sSOLoginDataModel.SSOID)
+      await this.draftApplicationListService.StatisticsCollegeList(this.sSOLoginDataModel.SSOID, this.sSOLoginDataModel.SessionID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
           this.draftApplicatoinListData = data['Data'][0]['data'];
-          console.log(this.draftApplicatoinListData);
         }, error => console.error(error));
     }
     catch (Ex) {
@@ -129,7 +128,7 @@ export class StatisticsCollegeListComponent implements OnInit {
     try {
 
       this.loaderService.requestStarted();
-      await this.classWiseStudentDetailsServiceService.GetCollegeWiseStudenetDetails(CollegeID)
+      await this.classWiseStudentDetailsServiceService.GetCollegeWiseStudenetDetails(CollegeID, 0, this.sSOLoginDataModel.SessionID)
         .then((data: any) => {
 
           data = JSON.parse(JSON.stringify(data));
@@ -187,7 +186,7 @@ export class StatisticsCollegeListComponent implements OnInit {
   async GetSubjectWiseStudenetDetails(CollegeID: number) {
     try {
       this.loaderService.requestStarted();
-      await this.classWiseStudentDetailsServiceService.GetSubjectWiseStudenetDetails(CollegeID)
+      await this.classWiseStudentDetailsServiceService.GetSubjectWiseStudenetDetails(CollegeID, 0, this.sSOLoginDataModel.SessionID)
         .then((data: any) => {
 
           data = JSON.parse(JSON.stringify(data));

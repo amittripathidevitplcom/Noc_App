@@ -248,6 +248,7 @@ import { DentalChairsMgoneNocComponent } from './Views/Medical Group 1/NOC/denta
 import { MGOneDocumentScrutinyNodalOfficerComponent } from './Views/Medical Group 1/NOC/mgone-document-scrutiny-nodal-officer/mgone-document-scrutiny-nodal-officer.component';
 import { MgOneNocCompletedReportComponent } from './Views/Medical Group 1/NOC/mg-one-noc-completed-report/mg-one-noc-completed-report.component';
 import { GenerateOrderMGOneComponent } from './Views/Medical Group 1/NOC/generate-order-mgone/generate-order-mgone.component';
+import { AHInfraDepartmentWiseComponent } from './Views/TabDetail/ahinfra-department-wise/ahinfra-department-wise.component';
 
 const routes: Routes = [
   {
@@ -747,6 +748,9 @@ const routes: Routes = [
         path: 'checklistforcommissioner/:DepartmentID/:CollegeID/:ApplyNOCID/:ApplicationNoYear/:ApplicationNoID', component: CheckListForCommissionerComponent
       },
       {
+        path: 'checklistforcommissioner/:DepartmentID/:CollegeID/:ApplyNOCID/:ApplicationNoYear/:ApplicationNoID/:Status', component: CheckListForCommissionerComponent
+      },
+      {
         path: 'checklistforsecretarydce/:DepartmentID/:CollegeID/:ApplyNOCID/:ApplicationNoYear/:ApplicationNoID', component: CheckListSecretaryDCEComponent
       },
       {
@@ -996,6 +1000,9 @@ const routes: Routes = [
 
       {
         path: 'nocdentalchairsreportmgone/:DepartmentID/:CollegeID/:NOCID/:Status', component: DentalChairsMgoneNocComponent
+      },
+      {
+        path: 'ahinfradepartmentwise', component: AHInfraDepartmentWiseComponent
       },
     ]
     // ,canActivate: [SkipLocationChangeGuard],

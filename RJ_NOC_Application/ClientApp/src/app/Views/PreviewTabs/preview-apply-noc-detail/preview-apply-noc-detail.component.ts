@@ -67,7 +67,7 @@ export class PreviewApplyNocDetailComponent implements OnInit {
     try {
       this.loaderService.requestStarted();
       // get
-      await this.applyNocParameterService.GetApplyNocApplicationLists(this.SelectedCollageID,this.SelectedDepartmentID)
+      await this.applyNocParameterService.GetApplyNocApplicationLists(this.SelectedCollageID, this.SelectedDepartmentID, this.sSOLoginDataModel.SessionID)
         .then((data: any) => {
 
           data = JSON.parse(JSON.stringify(data));

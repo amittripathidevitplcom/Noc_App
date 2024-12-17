@@ -92,6 +92,7 @@
             <td>
               <button type="button" class="btn btn-sm btn-primary" title="View Details" (click)="ViewDetails(mymodaldetails,row.RequestID)"><i class="fa fa-eye"></i></button>
               <button *ngIf="sSOLoginDataModel.RoleID==19" type="button" class="btn btn-sm btn-info" title="Add Penalty" (click)="OpenPenaltyModel(Penaltymodel,row.RequestID)"><i class="fa fa-edit"></i></button>
+              <button *ngIf="sSOLoginDataModel.RoleID==10 && row.ApplicationStatus!='Pending'" type="button" class="btn btn-sm btn-info" title="View Penalty" (click)="OpenPenaltyModel(Penaltymodel,row.RequestID)"><i class="fa fa-eye"></i></button>
             </td>
             <td>{{idx+1}}</td>
             <td>{{row.ApplicationStatus}}</td>
@@ -460,7 +461,7 @@
         <p *ngIf="FormSubmit&& requestPenalty.PenaltyAmount==0 && requestPenalty.ApproveReject=='Approve'" class="text-danger"><i aria-hidden="true"></i> Penalty Amount grater then zero .!</p>
       </div>
       <div class="col-sm-12 col-12 mb-3">
-        <label class="form-label">Upload {{requestPenalty.ApproveReject}} Order Copy(Only pdf file.)(Max.Size 2MB):<span style="color:red;">*</span></label>
+        <label class="form-label">Upload {{requestPenalty.ApproveReject}} Order Copy(Only pdf file.)(Max.Size 2MB):<!--<span style="color:red;">*</span>--></label>
         <div class="d-flex">
           <input type="file" style="display:none;" class="form-control" id="fuPenaltyDoc" name="fuPenaltyDoc" (change)="onFilechange($event)">
           <label class="btn upload" for="fuPenaltyDoc">
@@ -472,7 +473,7 @@
             <button type="button" class="btn btn-outline-danger" (click)="DeleteImage(requestPenalty.PenaltyDoc)"><i class="fa fa-trash-o"></i></button>
           </div>
         </div>
-        <p *ngIf="FormSubmit&&requestPenalty.PenaltyDoc === '' " class="text-danger"><i aria-hidden="true"></i> This field is required .!</p>
+        <!--<p *ngIf="FormSubmit&&requestPenalty.PenaltyDoc === '' " class="text-danger"><i aria-hidden="true"></i> This field is required .!</p>-->
       </div>
 
       <div class="col-12 text-end mt-4">

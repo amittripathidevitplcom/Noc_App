@@ -1583,3 +1583,10 @@ b, strong, label.form-label, .fw-bold, .mat-tab-label span, .table th, .form-hor
     color:#132649;
     font-weight:600;
 }
+.responsive-iframe {
+  top: 0;
+  left: 0;
+  border: 0;
+  width: 100%;
+  height: 500px;
+}

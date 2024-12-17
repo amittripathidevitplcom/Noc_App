@@ -53,4 +53,5 @@ export class DefaulterCollegeSearchFilterDataModel {
   public RequestID: number = 0;
   public SSOID: string = '';
   public ApplicationStatus: string = 'All';
+  public SessionYear: number = 0;
 }

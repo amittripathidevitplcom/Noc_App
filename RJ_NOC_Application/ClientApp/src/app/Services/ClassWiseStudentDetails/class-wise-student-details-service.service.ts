@@ -17,24 +17,24 @@ export class ClassWiseStudentDetailsServiceService {
   handleErrorObservable(error: Response | any) {
     return throwError(error);
   }
-  public async GetCollegeWiseStudenetDetails(CollegeID: number, ApplyNOCID: number = 0) {
+  public async GetCollegeWiseStudenetDetails(CollegeID: number, ApplyNOCID: number = 0, SessionYear: number) {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     };
-    return await this.http.get(this.APIUrl + "/GetCollegeWiseStudenetDetails/" + CollegeID + "/" + ApplyNOCID)
+    return await this.http.get(this.APIUrl + "/GetCollegeWiseStudenetDetails/" + CollegeID + "/" + ApplyNOCID+"/" + SessionYear)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-  public async GetSubjectWiseStudenetDetails(CollegeID: number, ApplyNOCID: number = 0) {
+  public async GetSubjectWiseStudenetDetails(CollegeID: number, ApplyNOCID: number = 0, SessionYear: number) {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     };
-    return await this.http.get(this.APIUrl + "/GetSubjectWiseStudenetDetails/" + CollegeID + "/" + ApplyNOCID)
+    return await this.http.get(this.APIUrl + "/GetSubjectWiseStudenetDetails/" + CollegeID + "/" + ApplyNOCID + "/" + SessionYear)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();

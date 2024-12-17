@@ -15,35 +15,35 @@ export class DraftApplicationListService {
   handleErrorObservable(error: Response | any) {
     return throwError(error);
   }
-  public async DraftApplicationList(LoginSSOID: string) {
+  public async DraftApplicationList(LoginSSOID: string, SessionYear:number=0) {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     };
-    return await this.http.get(this.APIUrl_CommonMaster + "/DraftApplicationList/" + LoginSSOID)
+    return await this.http.get(this.APIUrl_CommonMaster + "/DraftApplicationList/" + LoginSSOID + "/" + SessionYear)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-  public async StatisticsCollegeList(LoginSSOID: string) {
+  public async StatisticsCollegeList(LoginSSOID: string, SessionYear: number) {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     };
-    return await this.http.get(this.APIUrl_CommonMaster + "/StatisticsCollegeList/" + LoginSSOID)
+    return await this.http.get(this.APIUrl_CommonMaster + "/StatisticsCollegeList/" + LoginSSOID + "/" + SessionYear)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-  public async CollegeDetails(LoginSSOID: string, Type: string = 'College') {
+  public async CollegeDetails(LoginSSOID: string, Type: string = 'College', SessionYear: number=0) {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     };
-    return await this.http.get(this.APIUrl_CommonMaster + "/CollegeDetails/" + LoginSSOID + "/" + Type)
+    return await this.http.get(this.APIUrl_CommonMaster + "/CollegeDetails/" + LoginSSOID + "/" + Type + "/" + SessionYear)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();

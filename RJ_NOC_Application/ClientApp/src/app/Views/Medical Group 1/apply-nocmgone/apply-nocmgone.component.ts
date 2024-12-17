@@ -61,7 +61,7 @@ export class ApplyNOCMGOneComponent implements OnInit {
   async GetDocuments(Type: string) {
     try {
       this.loaderService.requestStarted();
-      await this.collegeDocumentService.GetList(this.SelectedDepartmentID, this.SelectedCollageID, Type,0)
+      await this.collegeDocumentService.GetList(this.SelectedDepartmentID, this.SelectedCollageID, Type, 0)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
@@ -216,66 +216,101 @@ export class ApplyNOCMGOneComponent implements OnInit {
   async SaveApplyNoc_click() {
 
 
-      //this.isSave = false; 
-      try {
-        let isValid = true;
-        this.isSubmitted = true;
-        //set
-        this.request.DocumentDetails.forEach(item => {
-          if (item.IsMandatory == true && item.FileName == '') {
-            this.IsValid = false;
-          }
-        });
-        if (!this.IsTermsChecked) {
-          this.toastr.warning('Please accept terms and condition');
-          isValid = false;
+    //this.isSave = false; 
+    try {
+      let isValid = true;
+      this.isSubmitted = true;
+      //set
+      this.request.DocumentDetails.forEach(item => {
+        if (item.IsMandatory == true && item.FileName == '') {
+          this.IsValid = false;
         }
-
-        if (!isValid) {
-          return;
-        }
-        this.request.CollegeID = this.SelectedCollageID;
-        this.request.DocumentType = 'ApplyNOCMgOne';
-        this.applyrequest.CollegeID = this.SelectedCollageID;
-        this.applyrequest.ApplicationTypeID = 0;
-        if (confirm("Are you satisfied with the data that are showing in the View Application? Apply NOC After Not  Edit Your Application Profile.")) {
-
-          this.loaderService.requestStarted();
-
-          await this.collegeDocumentService.SaveData(this.request)
-            .then((data: any) => {
-              this.toastr.success(this.SuccessMessage)
-            })
-          //post
-          await this.applyNocParameterService.SaveApplyNocApplication(this.applyrequest)
-            .then((data: any) => {
-              data = JSON.parse(JSON.stringify(data));
-              this.State = data['State'];
-              this.SuccessMessage = data['SuccessMessage'];
-              this.ErrorMessage = data['ErrorMessage'];
-              //
-              if (this.State == 0) {
-                this.toastr.success(this.SuccessMessage);
-                setTimeout(() => {
-                  //move to list page
-                  this.routers.navigate(['/applynocapplicationdetail']);
-                }, 1000);
-              }
-              else {
-                this.toastr.error(this.ErrorMessage);
-              }
-
-            }, error => console.error(error));
-        }
+      });
+      if (!this.IsTermsChecked) {
+        this.toastr.warning('Please accept terms and condition');
+        isValid = false;
       }
-      catch (ex) {
-        console.log(ex);
+      await this.CheckTabsEntry();
+      if (this.CheckTabsEntryData['LandInformation'] <= 0) {
+        this.toastr.warning('Please Fill land Details');
+        isValid = false;
+      } else if (this.CheckTabsEntryData['RequiredDocument'] <= 0) {
+        this.toastr.warning('Please Fill Required Document');
+        isValid = false;
+      } else if (this.CheckTabsEntryData['BuildingDocuments'] <= 0) {
+        this.toastr.warning('Please Fill Building Details');
+        isValid = false;
+      } else if (this.CheckTabsEntryData['HospitalDetails'] <= 0) {
+        this.toastr.warning('Please Fill Hospital Details');
+        isValid = false;
       }
-      finally {
-        setTimeout(() => {
-          this.loaderService.requestEnded();
-          //this.isSubmitted = false;
-        }, 200);
+
+
+
+      if (!isValid) {
+        return;
+      }
+      this.request.CollegeID = this.SelectedCollageID;
+      this.request.DocumentType = 'ApplyNOCMgOne';
+      this.applyrequest.CollegeID = this.SelectedCollageID;
+      this.applyrequest.ApplicationTypeID = 0;
+      if (confirm("Are you satisfied with the data that are showing in the View Application? Apply NOC After Not  Edit Your Application Profile.")) {
+
+        this.loaderService.requestStarted();
+
+        await this.collegeDocumentService.SaveData(this.request)
+          .then((data: any) => {
+            this.toastr.success(this.SuccessMessage)
+          })
+        //post
+        await this.applyNocParameterService.SaveApplyNocApplication(this.applyrequest)
+          .then((data: any) => {
+            data = JSON.parse(JSON.stringify(data));
+            this.State = data['State'];
+            this.SuccessMessage = data['SuccessMessage'];
+            this.ErrorMessage = data['ErrorMessage'];
+            //
+            if (this.State == 0) {
+              this.toastr.success(this.SuccessMessage);
+              setTimeout(() => {
+                //move to list page
+                this.routers.navigate(['/applynocapplicationdetail']);
+              }, 1000);
+            }
+            else {
+              this.toastr.error(this.ErrorMessage);
+            }
+
+          }, error => console.error(error));
       }
     }
+    catch (ex) {
+      console.log(ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+        //this.isSubmitted = false;
+      }, 200);
+    }
   }
+  public CheckTabsEntryData: any = [];
+  async CheckTabsEntry() {
+    try {
+      this.loaderService.requestStarted();
+      await this.commonMasterService.CheckTabsEntry(this.SelectedCollageID.toString())
+        .then(async (data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.CheckTabsEntryData = data['Data'][0]['data'][0];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+}

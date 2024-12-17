@@ -49,7 +49,7 @@ export class RevertedApplicationListComponent implements OnInit {
   async RevertedApplicationList() {
     try {
       this.loaderService.requestStarted();
-      await this.collegeservice.RevertedApplicationList(this.sSOLoginDataModel.SSOID)
+      await this.collegeservice.RevertedApplicationList(this.sSOLoginDataModel.SSOID, this.sSOLoginDataModel.SessionID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];

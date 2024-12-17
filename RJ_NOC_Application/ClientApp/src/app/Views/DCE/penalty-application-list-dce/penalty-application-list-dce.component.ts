@@ -38,7 +38,7 @@ export class PenaltyApplicationListDCEComponent {
     //Show Loading
     this.loaderService.requestStarted();
     try {
-      await this.applyNOCApplicationService.GetApplicationPenaltyList(this.sSOLoginDataModel.SSOID)
+      await this.applyNOCApplicationService.GetApplicationPenaltyList(this.sSOLoginDataModel.SSOID, this.sSOLoginDataModel.SessionID)
         .then(async (data: any) => {
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];

@@ -206,7 +206,9 @@ export class LegalEntityComponent implements OnInit {
           txtSocietyPanProofDoc: [''],
           fRegistrationDocument: [''],
           fLawsdocument: [''],
-          txtRegisteredActName: ['']
+          txtRegisteredActName: [''],
+          ddlFirstInception: [''],
+          fFirstInceptiondocument: [''],
 
         });
       this.EnableDisableControls(true);
@@ -223,6 +225,8 @@ export class LegalEntityComponent implements OnInit {
           txtMemberSign: [''],
           txtPresidentAadhaarNumber: ['', [Validators.required, Validators.pattern("^[2-9]{1}[0-9]{3}[0-9]{4}[0-9]{4}$"), Validators.minLength(12), Validators.maxLength(12)]],
           txtPresidentAadhaarProofDoc: [''],
+          txtMAddress: [''],
+          txtQualification: ['']
         });
       this.legalentityAddInstituteForm = this.formBuilder.group(
         {
@@ -363,6 +367,14 @@ export class LegalEntityComponent implements OnInit {
             this.request.Dis_ByLawsDocumentName = data['Data'][0]['data']['Table']['0']['Dis_ByLawsDocumentName'];
             this.request.ByLawsDocumentPath = data['Data'][0]['data']['Table']['0']['ByLawsDocumentPath'];
           }
+
+          if (this.request.ProcessDepartmentID == 2) {
+            this.request.FirstInception = data['Data'][0]['data']['Table']['0']['FirstInception'];
+            this.request.FirstInceptionDocument = data['Data'][0]['data']['Table']['0']['FirstInceptionDocument'];
+            this.request.Dis_FirstInceptionDocumentName = data['Data'][0]['data']['Table']['0']['Dis_FirstInceptionDocumentName'];
+            this.request.FirstInceptionDocumentPath = data['Data'][0]['data']['Table']['0']['FirstInceptionDocumentPath'];
+          }
+
           //legalentityAddMember
           this.request.MemberDetails = JSON.parse(JSON.stringify(data['Data'][0]['data']['Table2']));
           console.log(this.request.MemberDetails);
@@ -594,6 +606,14 @@ export class LegalEntityComponent implements OnInit {
         this.IsSocietyPanProofDoc = 'This field is required .!';
         isValid = false;
       }
+      if (this.request.ProcessDepartmentID == 2) {
+        if (this.request.FirstInception == '') {
+          return;
+        }
+        if (this.request.FirstInception == 'Yes' && this.request.FirstInceptionDocument == '') {
+          return;
+        }
+      }
       var GetPresident = this.request.MemberDetails.find((x: { MembersPostName: string; }) => x.MembersPostName == 'President')?.MembersPostName;
       var GetSecretary = this.request.MemberDetails.find((x: { MembersPostName: string; }) => x.MembersPostName == 'Secretary')?.MembersPostName;
       var GetTreasurer = this.request.MemberDetails.find((x: { MembersPostName: string; }) => x.MembersPostName == 'Treasurer')?.MembersPostName;
@@ -694,13 +714,18 @@ export class LegalEntityComponent implements OnInit {
   async AddMember() {
     try {
       this.CurrentIndex;
-      this.loaderService.requestStarted();
+
       this.isMemberSignature = false;
       this.isMemberPhoto = false;
       this.isPresidentAadhaarProofDoc = false;
       this.isMemberAdded = true;
       if (this.legalentityAddMemberForm.invalid) {
         return;
+      }
+      if (this.request.ProcessDepartmentID == 2) {
+        if (this.memberdetails.MemberAddress == '' || this.memberdetails.MemberQualification == '') {
+          return;
+        }
       }
       this.memberdetails.MembersPostName = this.lstMemberPost.find((x: { RoleID: number; }) => x.RoleID == this.memberdetails.MemberPostID)?.RoleName;
       var GetAadhaarNo = this.request.MemberDetails.find((x: { PresidentAadhaarNumber: string; }, index) => x.PresidentAadhaarNumber == this.memberdetails.PresidentAadhaarNumber && index != this.CurrentIndex)?.PresidentAadhaarNumber;
@@ -753,6 +778,7 @@ export class LegalEntityComponent implements OnInit {
         console.log(this.memberdetails);
       }
       else {
+        this.loaderService.requestStarted();
         this.request.MemberDetails.push({
           MemberID: 0,
           MemberName: this.memberdetails.MemberName,
@@ -771,7 +797,9 @@ export class LegalEntityComponent implements OnInit {
           PresidentAadhaarProofDoc: this.memberdetails.PresidentAadhaarProofDoc,
           Dis_PresidentAadhaarProofDocName: this.memberdetails.Dis_PresidentAadhaarProofDocName,
           PresidentAadhaarProofDocPath: this.memberdetails.PresidentAadhaarProofDocPath == '' ? 'N/A' : this.memberdetails.PresidentAadhaarProofDocPath,
-          Dis_AadhaarNumber: this.memberdetails.Dis_AadhaarNumber
+          Dis_AadhaarNumber: this.memberdetails.Dis_AadhaarNumber,
+          MemberAddress: this.memberdetails.MemberAddress,
+          MemberQualification: this.memberdetails.MemberQualification
         });
       }
       this.memberdetails = new LegalEntityMemberDetailsDataModel();
@@ -1483,7 +1511,9 @@ export class LegalEntityComponent implements OnInit {
   }
 
   public isValidRegistrationDoc: boolean = true;
+  public isValidFirstInceptionDoc: boolean = true;
   public ImageValidationMessage_RegistrationDoc: string = '';
+  public ImageValidationMessage_FirstInceptionDocument: string = '';
   async ValidateDocument(event: any, Type: string) {
     try {
       this.loaderService.requestStarted();
@@ -1544,6 +1574,15 @@ export class LegalEntityComponent implements OnInit {
               this.file = document.getElementById('fLawsdocument');
               this.file.value = '';
             }
+            else if (Type == 'FirstInceptionDocument') {
+              this.isValidFirstInceptionDoc = true;
+              this.request.Dis_FirstInceptionDocumentName = '';
+              this.request.FirstInceptionDocumentPath = '';
+              this.request.FirstInceptionDocument = '';
+              this.ImageValidationMessage_FirstInceptionDocument = 'Select less then 2MB File';
+              this.file = document.getElementById('fFirstInceptiondocument');
+              this.file.value = '';
+            }
             return
           }
           if (event.target.files[0].size < 100000) {
@@ -1592,6 +1631,15 @@ export class LegalEntityComponent implements OnInit {
               this.request.ByLawsDocument = '';
               this.ImageValidationMessage_ByLawsDocument = 'Select more then 100kb File';
               this.file = document.getElementById('fLawsdocument');
+              this.file.value = '';
+            }
+            else if (Type == 'FirstInceptionDocument') {
+              this.isValidFirstInceptionDoc = true;
+              this.request.Dis_FirstInceptionDocumentName = '';
+              this.request.FirstInceptionDocumentPath = '';
+              this.request.FirstInceptionDocument = '';
+              this.ImageValidationMessage_FirstInceptionDocument = 'Select more then 100kb File';
+              this.file = document.getElementById('fFirstInceptiondocument');
               this.file.value = '';
             }
             return
@@ -1645,6 +1693,15 @@ export class LegalEntityComponent implements OnInit {
             this.file = document.getElementById('fLawsdocument');
             this.file.value = '';
           }
+          else if (Type == 'FirstInceptionDocument') {
+            this.isValidFirstInceptionDoc = true;
+            this.request.Dis_FirstInceptionDocumentName = '';
+            this.request.FirstInceptionDocumentPath = '';
+            this.request.FirstInceptionDocument = '';
+            this.ImageValidationMessage_FirstInceptionDocument = 'Select Only pdf file';
+            this.file = document.getElementById('fFirstInceptiondocument');
+            this.file.value = '';
+          }
 
           return
         }
@@ -1696,6 +1753,14 @@ export class LegalEntityComponent implements OnInit {
               this.request.ByLawsDocument = data['Data'][0]["FileName"];
               this.ImageValidationMessage_ByLawsDocument = '';
               this.file = document.getElementById('fLawsdocument');
+              this.file.value = '';
+            }
+            else if (Type == 'FirstInceptionDocument') {
+              this.request.Dis_FirstInceptionDocumentName = data['Data'][0]["Dis_FileName"];;
+              this.request.FirstInceptionDocumentPath = data['Data'][0]["FilePath"];
+              this.request.FirstInceptionDocument = data['Data'][0]["FileName"];
+              this.ImageValidationMessage_FirstInceptionDocument = '';
+              this.file = document.getElementById('fFirstInceptiondocument');
               this.file.value = '';
             }
           }
@@ -1947,6 +2012,14 @@ export class LegalEntityComponent implements OnInit {
             this.file = document.getElementById('fLawsdocument');
             this.file.value = '';
           }
+          else if (Type == 'FirstInceptionDocument') {
+            this.request.Dis_FirstInceptionDocumentName = '';
+            this.request.FirstInceptionDocumentPath = '';
+            this.request.FirstInceptionDocument = '';
+            this.ImageValidationMessage_FirstInceptionDocument = '';
+            this.file = document.getElementById('fFirstInceptiondocument');
+            this.file.value = '';
+          }
         }
         if (this.State == 1) {
           this.toastr.error(this.ErrorMessage)
@@ -2165,6 +2238,8 @@ export class LegalEntityComponent implements OnInit {
     this.memberdetails.PresidentAadhaarProofDocPath = this.request.MemberDetails[idx].PresidentAadhaarProofDocPath;
     this.memberdetails.PresidentAadhaarProofDoc = this.request.MemberDetails[idx].PresidentAadhaarProofDoc;
     this.memberdetails.Dis_AadhaarNumber = this.request.MemberDetails[idx].Dis_AadhaarNumber;
+    this.memberdetails.MemberAddress = this.request.MemberDetails[idx].MemberAddress;
+    this.memberdetails.MemberQualification = this.request.MemberDetails[idx].MemberQualification;
 
 
     this.showMemberPhoto = this.memberdetails.MemberPhoto != '' ? true : false;

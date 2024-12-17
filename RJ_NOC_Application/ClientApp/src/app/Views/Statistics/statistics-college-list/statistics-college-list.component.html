@@ -64,7 +64,7 @@
                          title="View Statistics Data" (click)="PreviewStatistics_click(row.CollegeID,row.DepartmentID,row.SearchRecordID,row.SelectedCollegeEntryType)">
                         <i class="fa fa-list"></i>
                       </a>
-                      <a href="javascript:void(0)" title="Statistics Entry" (click)="DraftEdit_OnClick(row.DepartmentID,row.SearchRecordID)" class="btn btn-sm btn-info" *ngIf="row.IsStatisticsFinalSubmit==0">
+                      <a href="javascript:void(0)" title="Statistics Entry" (click)="DraftEdit_OnClick(row.DepartmentID,row.SearchRecordID)" class="btn btn-sm btn-info" *ngIf="row.IsStatisticsFinalSubmit==0 && sSOLoginDataModel.SessionID==row.OpenStatisticsSession && row.TotalAppliedNOC>0">
                         <i class="fa fa-edit"></i>
                       </a>
 
@@ -297,7 +297,6 @@
                       <td>{{OFTotalMinorityBoysFooter}}</td>
                       <td>{{OFTotalMinorityGirlsFooter}}</td>
                       <!--<td>{{TotalOFTotalMinorityTransgenderFooter}}</td>-->
-                      it
                       <td>{{TotalMinorityTotalFooter}}</td>
                       <td>{{OFTotalPHBoysFooter}}</td>
                       <td>{{OFTotalPHGirlsFooter}}</td>

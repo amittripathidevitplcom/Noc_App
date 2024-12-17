@@ -15,17 +15,17 @@
       </nav>
     </div>
   </div>
-</div> 
+</div>
 <div class="container-fluid mainContents">
 
-  <div class="clearfix"></div> 
+  <div class="clearfix"></div>
   <form [formGroup]="CollegeDetailsForm" class="form-horizontal">
     <div class="card">
       <!--<div class="card-header d-flex justify-content-between align-items-center">
         <b>Basic Information</b>
         <span class="text-danger">(*) Fields is compulsory</span>
-      </div>--> 
-       
+      </div>-->
+
       <div class="card-header d-flex justify-content-between align-items-center">
         <b *ngIf="request.DepartmentID == 9">College/university </b>
         <b *ngIf="request.DepartmentID != 2 && request.DepartmentID != 9 && request.DepartmentID != 6">College Details </b>
@@ -89,8 +89,8 @@
               </div>
             </div>
             <!--<div *ngIf="ProfileLogoValidationMessage!=''" class="text-danger">
-      <p><i aria-hidden="true"></i>{{ProfileLogoValidationMessage}}</p>
-    </div>-->
+              <p><i aria-hidden="true"></i>{{ProfileLogoValidationMessage}}</p>
+            </div>-->
           </div>
           <!---->
           <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="IsExisting">
@@ -244,8 +244,8 @@
             <label for="txtAISHECode" class="form-label">AISHE Code <span style="color:red;">*</span></label>
             <input type="text" class="form-control" id="txtAISHECode" name="txtAISHECode" [(ngModel)]="request.AISHECode" formControlName="txtAISHECode" maxlength="50">
             <!--<div *ngIf="AISHECodeValidationMessage!=''" class="text-danger">
-      <p><i aria-hidden="true"></i>{{AISHECodeValidationMessage}}</p>
-    </div>-->
+              <p><i aria-hidden="true"></i>{{AISHECodeValidationMessage}}</p>
+            </div>-->
             <p *ngIf="isSubmitted&&this.IsExisting == true && this.request.AISHECodeStatus == 1 && (this.request.AISHECode == null || this.request.AISHECode == '')" class="text-danger"><i aria-hidden="true"></i> This field is required .!</p>
           </div>
           <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
@@ -336,31 +336,44 @@
               </div>
             </div>
           </div>
-            <!--AffiliationDocumentCertificate-->
-            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="request.DepartmentID ==3">
-              <label class="form-label">Affiliation Document  <span style="color:red;">*</span></label>
-              <div class="d-flex">
-                <input type="file" style="display:none;" class="form-control" id="CollegeAffiliationDocument" name="CollegeAffiliationDocument" (change)="onFilechange($event,'AffiliationDocument')" formControlName="CollegeAffiliationDocument">
-                <label class="btn upload" for="CollegeAffiliationDocument">
-                  <span class="filename">Choose file</span>
-                  {{request.AffiliationDocument === '' ? 'No File Choosen' : request.AffiliationDocument_Dis_FileName}}
-                </label>
-                <div class="btn-group" *ngIf="showAffiliationDocument  && (request.AffiliationDocument !='')">
-                  <a class="btn btn-outline-primary" target="_blank" href="{{request.AffiliationDocumentPath}}"><i class="fa fa-eye"></i></a>
-                  <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('AffiliationDocument',request.AffiliationDocument)"><i class="fa fa-trash-o"></i></button>
-                </div>
-              </div>
-              <div *ngIf="AffiliationDocumentValidationMessage!=''" class="text-danger">
-                <p><i aria-hidden="true"></i>{{AffiliationDocumentValidationMessage}}</p>
+          <!--AffiliationDocumentCertificate-->
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="request.DepartmentID ==3">
+            <label class="form-label">Affiliation Document  <span style="color:red;">*</span></label>
+            <div class="d-flex">
+              <input type="file" style="display:none;" class="form-control" id="CollegeAffiliationDocument" name="CollegeAffiliationDocument" (change)="onFilechange($event,'AffiliationDocument')" formControlName="CollegeAffiliationDocument">
+              <label class="btn upload" for="CollegeAffiliationDocument">
+                <span class="filename">Choose file</span>
+                {{request.AffiliationDocument === '' ? 'No File Choosen' : request.AffiliationDocument_Dis_FileName}}
+              </label>
+              <div class="btn-group" *ngIf="showAffiliationDocument  && (request.AffiliationDocument !='')">
+                <a class="btn btn-outline-primary" target="_blank" href="{{request.AffiliationDocumentPath}}"><i class="fa fa-eye"></i></a>
+                <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('AffiliationDocument',request.AffiliationDocument)"><i class="fa fa-trash-o"></i></button>
               </div>
             </div>
-            <!---->
-
-
-
-
+            <div *ngIf="AffiliationDocumentValidationMessage!=''" class="text-danger">
+              <p><i aria-hidden="true"></i>{{AffiliationDocumentValidationMessage}}</p>
+            </div>
           </div>
+          <!---->
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="request.DepartmentID ==6">
+            <label for="ddlAbbreviation" class="form-label">Is Abbreviation <span style="color:red;">*</span></label>
+            <select class="form-select" id="ddlAbbreviation" name="ddlAbbreviation" [(ngModel)]="request.IsAbbreviation" formControlName="ddlAbbreviation">
+              <option value="">--Select--</option>
+              <option value="Yes">Yes</option>
+              <option value="No">No</option>
+            </select>
+            <p *ngIf="isSubmitted&&(request.IsAbbreviation=='' || request.IsAbbreviation==null)" class="text-danger"><i aria-hidden="true"></i>This field is required .!</p>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="request.DepartmentID ==6 && request.IsAbbreviation=='Yes'">
+            <label for="txtAbbreviationName" maxlength="200" class="form-label">Abbreviation Name<span style="color:red;">*</span></label>
+            <input [attr.disabled]="IsEdit ? true : null" type="text" class="form-control" id="txtAbbreviationName" name="txtAbbreviationName" [(ngModel)]="request.AbbreviationName" formControlName="txtAbbreviationName" (keypress)="alphaOnly($event)">
+            <p *ngIf="isSubmitted&&request.IsAbbreviation=='Yes' && (request.AbbreviationName=='' || request.AbbreviationName==null)" class="text-danger"><i aria-hidden="true"></i>This field is required .!</p>
+          </div>
+
+
+
         </div>
+      </div>
 
 
 
@@ -570,6 +583,29 @@
           <!---->
 
         </div>
+        <div class="row" *ngIf="request.DepartmentID ==2">
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+            <label for="txtfaxno" class="form-label">Fax No<span style="color:red;">*</span></label>
+            <input type="text" class="form-control" maxlength="200" id="txtfaxno" name="txtfaxno" [(ngModel)]="request.FaxNo" [ngModelOptions]="{standalone: true}">
+            <div>
+              <p *ngIf="isSubmitted&&request.FaxNo==''" class="text-danger"><i aria-hidden="true"></i> This field is required .!</p>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+            <label for="txtLiveStockFarmAddress" class="form-label">LiveStock Farm Address<span style="color:red;">*</span></label>
+            <input type="text" class="form-control" maxlength="200" id="txtLiveStockFarmAddress" name="txtLiveStockFarmAddress" [(ngModel)]="request.LiveStockFarmAddress" [ngModelOptions]="{standalone: true}">
+            <div>
+              <p *ngIf="isSubmitted&&request.LiveStockFarmAddress==''" class="text-danger"><i aria-hidden="true"></i> This field is required .!</p>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+            <label for="txtVeternaryClinicalAddress" class="form-label">Veternary Clinical Complex Address<span style="color:red;">*</span></label>
+            <input type="text" class="form-control" maxlength="200" id="txtVeternaryClinicalAddress" name="txtVeternaryClinicalAddress" [(ngModel)]="request.VeternaryClinicalAddress" [ngModelOptions]="{standalone: true}">
+            <div>
+              <p *ngIf="isSubmitted&&request.VeternaryClinicalAddress==''" class="text-danger"><i aria-hidden="true"></i> This field is required .!</p>
+            </div>
+          </div>
+        </div>
       </div>
 
       <form [formGroup]="CollegeDetailsForm_ContactDetails" class="form-horizontal">
@@ -722,8 +758,8 @@
                 <label class="form-label">Hospital Reg. No.</label>  <!--<span style="color:red;">*</span>-->
                 <input type="text" class="form-control" maxlength="50" id="txtHospitalRegNo" name="txtHospitalRegNo" [(ngModel)]="request_NearestGovernmentHospitals.HospitalRegNo" formControlName="txtHospitalRegNo">
                 <!--<div *ngIf="isSubmitted_NearestGovernmentHospitals&&form_NearestGovernmentHospitals.txtHospitalRegNo.errors" class="text-danger">
-    <p *ngIf="form_NearestGovernmentHospitals.txtHospitalRegNo.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-  </div>-->
+                  <p *ngIf="form_NearestGovernmentHospitals.txtHospitalRegNo.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                </div>-->
               </div>
 
               <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">

@@ -82,6 +82,15 @@ export class ApplicationDetailEntryComponent implements OnInit {
     this.QueryStringStatus = this.router.snapshot.paramMap.get('Status')?.toString();
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     this.DraftbuttonName = 'Save Draft';
+
+    if (this.SelectedApplyNOCID <= 0 || Number.isNaN(this.SelectedApplyNOCID)) {
+      await this.GetDepartmentList();
+      let IsOpenDepartment = this.DepartmentList.find((x: { DepartmentID: number; }) => x.DepartmentID == this.SelectedDepartmentID)?.IsOpenNOCApplication;
+      if (IsOpenDepartment == false) {
+        this.toastr.warning('Department is not open for noc applications');
+        this.routers.navigate(['/dashboard']);
+      }
+    }
     await this.GetCollageDetails();
     await this.GetCollegeBasicDetails();
     await this.CheckTabsEntry();
@@ -690,6 +699,23 @@ export class ApplicationDetailEntryComponent implements OnInit {
         }
       }
     }
+    if (this.SelectedDepartmentID == 11) {
+      if (this.CollegeType_IsExisting == true) {
+        if (this.CheckTabsEntryData['LandInformation'] > 0 && this.CheckTabsEntryData['Facility'] > 0 && this.CheckTabsEntryData['RequiredDocument'] > 0 &&
+          this.CheckTabsEntryData['RoomDetails'] > 0 && this.CheckTabsEntryData['OtherInformation'] > 0 && this.CheckTabsEntryData['BuildingDocuments'] > 0
+          && this.CheckTabsEntryData['CourseDetails'] > 0
+        ) {
+          this.IsShowDraftFinalSubmit = false;
+        }
+      }
+      else {
+        if (this.CheckTabsEntryData['LandInformation'] > 0 && this.CheckTabsEntryData['Facility'] > 0 && this.CheckTabsEntryData['RequiredDocument'] > 0 &&
+          this.CheckTabsEntryData['RoomDetails'] > 0 && this.CheckTabsEntryData['OtherInformation'] > 0 && this.CheckTabsEntryData['BuildingDocuments'] > 0
+          && this.CheckTabsEntryData['CourseDetails'] > 0) {
+          this.IsShowDraftFinalSubmit = false;
+        }
+      }
+    }
 
 
 
@@ -739,6 +765,31 @@ export class ApplicationDetailEntryComponent implements OnInit {
         this.loaderService.requestEnded();
         this.isLoading = false;
 
+      }, 200);
+    }
+  }
+
+
+
+  public DepartmentList: any = [];
+  async GetDepartmentList() {
+    try {
+      this.loaderService.requestStarted();
+      await this.commonMasterService.GetDepartmentList()
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.DepartmentList = data['Data'];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
       }, 200);
     }
   }

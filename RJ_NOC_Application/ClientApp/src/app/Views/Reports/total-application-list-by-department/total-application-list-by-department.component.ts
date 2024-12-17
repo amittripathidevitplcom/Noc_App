@@ -67,7 +67,7 @@ export class TotalApplicationListByDepartmentComponent implements OnInit {
     try {
       this.ApplicationCountList = [];
       this.loaderService.requestStarted();
-      await this.commonMasterService.GetApplicationCountRoleWise(this.sSOLoginDataModel.DepartmentID)
+      await this.commonMasterService.GetApplicationCountRoleWise(this.sSOLoginDataModel.DepartmentID, this.sSOLoginDataModel.SessionID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
@@ -215,6 +215,7 @@ export class TotalApplicationListByDepartmentComponent implements OnInit {
       this.request.ApplicationID = this.request.ApplicationID == null || this.request.ApplicationID.toString() == '' || this.request.ApplicationID == undefined ? 0 : this.request.ApplicationID;
       this.loaderService.requestStarted();
       this.request.DepartmentID = this.sSOLoginDataModel.DepartmentID;
+      this.request.SessionYear = this.sSOLoginDataModel.SessionID;
       await this.commonMasterService.GetTotalApplicationListByDepartment(this.request)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));

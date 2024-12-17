@@ -214,7 +214,7 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-  public async GetCollageList_DepartmentAndSSOIDWise(DepartmentID: number, LoginSSOID: string, Type: string) {   
+  public async GetCollageList_DepartmentAndSSOIDWise(DepartmentID: number, LoginSSOID: string, Type: string) {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
@@ -555,6 +555,17 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
+  public async GetDashBoardFinancialYear() {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl_CommonMaster + "/GetDashBoardFinancialYear")
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
   public async GetAllFinancialYear_AcademicInformation() {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -621,13 +632,13 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-  public async SendMessage(MobileNo: string, MessageType: string, ID: number=0) {
+  public async SendMessage(MobileNo: string, MessageType: string, ID: number = 0) {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     };
-    return await this.http.get(GlobalConstants.apiURL + "SMSMail/SendMessage/" + MobileNo + "/" + MessageType+"/"+ID)
+    return await this.http.get(GlobalConstants.apiURL + "SMSMail/SendMessage/" + MobileNo + "/" + MessageType + "/" + ID)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();
@@ -706,7 +717,7 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-  public async GetQualificationMasterList_DepartmentWise(DepartmentID: number, IsTeaching: number, Type: string = '-1', DesignationID: number=0) {
+  public async GetQualificationMasterList_DepartmentWise(DepartmentID: number, IsTeaching: number, Type: string = '-1', DesignationID: number = 0) {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
@@ -806,13 +817,13 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-  public async GetDashboardDataSSOWise(SSOID: string, DepartmentID: number, RoleID: number, UserID: number) {
+  public async GetDashboardDataSSOWise(SSOID: string, DepartmentID: number, RoleID: number, UserID: number, SessionYear: number = 0) {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     };
-    return await this.http.get(this.APIUrl_CommonMaster + "/GetDashboardDataSSOWise/" + SSOID + "/" + DepartmentID + "/" + RoleID + "/" + UserID + "/"+true)
+    return await this.http.get(this.APIUrl_CommonMaster + "/GetDashboardDataSSOWise/" + SSOID + "/" + DepartmentID + "/" + RoleID + "/" + UserID + "/" + true + "/" + SessionYear)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();
@@ -880,7 +891,7 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-  public async SaveNOCFormatMaster(request:NOCFormatMasterModel) {
+  public async SaveNOCFormatMaster(request: NOCFormatMasterModel) {
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
     return await this.http.post(this.APIUrl_CommonMaster + "/SaveNOCFormatMaster", request, httpOptions)
       .pipe(
@@ -934,7 +945,7 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-  public async GetUserDetailsByRoleID(RoleID: number, DepartmentID: number, ApplyNOCID: number=0) {
+  public async GetUserDetailsByRoleID(RoleID: number, DepartmentID: number, ApplyNOCID: number = 0) {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
@@ -1440,13 +1451,13 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-  public async HomePage_IncreaseDate() {
+  public async HomePage_IncreaseDate(DepartmentID: number) {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     };
-    return await this.http.get(this.APIUrl_CommonMaster + "/HomePage_IncreaseDate")
+    return await this.http.get(this.APIUrl_CommonMaster + "/HomePage_IncreaseDate/" + DepartmentID)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();
@@ -1478,13 +1489,13 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-  public async GetApplicationCountRoleWise(DepartmentID: number) {
+  public async GetApplicationCountRoleWise(DepartmentID: number, SessionYear: number) {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     };
-    return await this.http.get(this.APIUrl_CommonMaster + "/GetApplicationCountRoleWise/" + DepartmentID)
+    return await this.http.get(this.APIUrl_CommonMaster + "/GetApplicationCountRoleWise/" + DepartmentID + "/" + SessionYear)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();
@@ -1519,10 +1530,44 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-  public async GetCollegeTabData_History(ID: number, Type: string, CollegeID: number = 0, DocumentName: string='') {
+  public async GetCollegeTabData_History(ID: number, Type: string, CollegeID: number = 0, DocumentName: string = '') {
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
     var request = { ID: ID, Type: Type, CollegeID: CollegeID, DocumentName: DocumentName };
     return await this.http.post(this.APIUrl_CommonMaster + "/GetCollegeTabData_History", request, httpOptions)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+
+
+
+  public async GetAHFacilityDepartmentList(DepartmentID: number,CollegeID:number) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl_CommonMaster + "/GetAHFacilityDepartmentList/" + DepartmentID + "/" + CollegeID)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+  public async GetAHDepartmentList() {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl_CommonMaster + "/GetAHDepartmentList")
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+
+  public async SaveAHDepartmentInfrastructure(request: any) {
+    const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
+
+    return await this.http.post(this.APIUrl_CommonMaster + "/SaveAHDepartmentInfrastructure", request, httpOptions)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();

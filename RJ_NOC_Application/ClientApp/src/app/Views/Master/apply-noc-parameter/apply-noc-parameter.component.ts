@@ -284,7 +284,7 @@ export class ApplyNocParameterComponent implements OnInit {
   async GetApplicationList() {
     try {
       this.loaderService.requestStarted();
-      await this.draftApplicationListService.CollegeDetails(this.sSOLoginDataModel.SSOID, 'NOC')
+      await this.draftApplicationListService.CollegeDetails(this.sSOLoginDataModel.SSOID, 'NOC',this.sSOLoginDataModel.SessionID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
@@ -2560,7 +2560,7 @@ export class ApplyNocParameterComponent implements OnInit {
     if (confirm("Are you sure you want to delete this ?")) {
       const indexToRemove = this.ApplyNocParameterMasterList_PNOCOfSubject.ApplyNocParameterCourseList.findIndex((pl) => pl.CourseID === CourseID);
       this.ApplyNocParameterMasterList_PNOCOfSubject.ApplyNocParameterCourseList.splice(indexToRemove, 1);
-      //this.ApplyNocParameterMasterList_PNOCOfSubject.FeeAmount = this.calcuatePNOCSubjectFees();
+      this.ApplyNocParameterMasterList_PNOCOfSubject.FeeAmount = this.calcuatePNOCSubjectFees();
       this.CalculateAllAmount();
     }
   }
@@ -2810,7 +2810,7 @@ export class ApplyNocParameterComponent implements OnInit {
       //DEC NOC
       if (this.ApplyNocParameterMasterList_PNOCOfSubject?.ApplyNocParameterCourseList != null) {
 
-        //this.request.TotalFeeAmount += this.calcuatePNOCSubjectFees();
+        this.request.TotalFeeAmount += this.calcuatePNOCSubjectFees();
       }
 
       this.request.TotalNocFee = this.request.TotalFeeAmount;

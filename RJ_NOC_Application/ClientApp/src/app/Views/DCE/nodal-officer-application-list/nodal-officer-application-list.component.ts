@@ -127,7 +127,7 @@ export class NodalOfficerApplicationListComponent implements OnInit {
         ActionName = Status == 'Completed' ? 'Approve' : Status == 'Rejected' ? 'Reject' : Status == 'Revert' ? 'Revert' : Status == 'Pending' ? 'Approve':'';
       }
       this.loaderService.requestStarted();
-      await this.decDocumentScrutinyService.GetNodalOfficerApplyNOCApplicationList(RoleId, UserID, Status, ActionName)
+      await this.decDocumentScrutinyService.GetNodalOfficerApplyNOCApplicationList(RoleId, UserID, Status, ActionName, this.sSOLoginDataModel.SessionID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];

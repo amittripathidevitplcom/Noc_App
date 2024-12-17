@@ -136,7 +136,7 @@ export class DCENOCReportComponent implements OnInit {
       if (this.request.ReportStatus == null || this.request.ReportStatus == undefined) {
         this.request.ReportStatus =  '';
       }
-
+      this.request.SessionYear = this.sSOLoginDataModel.SessionID;
       this.ApplicationList = [];
       this.loaderService.requestStarted();
       await this.dceDocumentScrutinyService.GetDCENOCReportData(this.request)
@@ -146,8 +146,6 @@ export class DCENOCReportComponent implements OnInit {
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
           this.ApplicationList = data['Data'];
-
-          console.log(data);
         }, error => console.error(error));
       
     }
@@ -164,7 +162,7 @@ export class DCENOCReportComponent implements OnInit {
     try {
       this.ApplicationCountList = [];
       this.loaderService.requestStarted();
-      await this.commonMasterService.GetApplicationCountRoleWise(this.sSOLoginDataModel.DepartmentID)
+      await this.commonMasterService.GetApplicationCountRoleWise(this.sSOLoginDataModel.DepartmentID, this.sSOLoginDataModel.SessionID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];

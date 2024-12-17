@@ -386,6 +386,18 @@
                           <label>Email :</label>
                           <input class="form-control disabled mt-1" disabled value="{{collegeListData.Email}}" />
                         </div>
+                        <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="collegeListData.DepartmentID ==2">
+                          <label>Fax No :</label>
+                          <input class="form-control disabled mt-1" disabled value="{{collegeListData.FaxNo}}" />
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3"  *ngIf="collegeListData.DepartmentID ==2">
+                          <label>Live Stock Farm Address :</label>
+                          <input class="form-control disabled mt-1" disabled value="{{collegeListData.LiveStockFarmAddress}}" />
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3"  *ngIf="collegeListData.DepartmentID ==2">
+                          <label>Veternary Clinical Complex Address :</label>
+                          <input class="form-control disabled mt-1" disabled value="{{collegeListData.VeternaryClinicalAddress}}" />
+                        </div>
                       </div>
                     </div>
                   </div>

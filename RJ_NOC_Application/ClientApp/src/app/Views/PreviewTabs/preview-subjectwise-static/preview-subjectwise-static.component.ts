@@ -239,7 +239,7 @@ export class PreviewSubjectwiseStaticComponent implements OnInit {
   async GetSubjectWiseStudenetDetails() {
     try {
       this.loaderService.requestStarted();
-      await this.classWiseStudentDetailsServiceService.GetSubjectWiseStudenetDetails(this.SelectedCollageID)
+      await this.classWiseStudentDetailsServiceService.GetSubjectWiseStudenetDetails(this.SelectedCollageID, 0, this.sSOLoginDataModel.SessionID)
         .then((data: any) => {
 
           data = JSON.parse(JSON.stringify(data));

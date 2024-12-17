@@ -187,13 +187,13 @@ export class DTEDocumentScrutinyService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-  public async GetApplyNOCApplicationList(RoleId: number, UserID: number, Status: string, ActionName: string) {
+  public async GetApplyNOCApplicationList(RoleId: number, UserID: number, Status: string, ActionName: string,SessionYear:number) {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     };
-    return await this.http.get(this.APIUrl + "/GetApplyNOCApplicationList/" + RoleId + "/" + UserID + "/" + Status + "/" + ActionName)
+    return await this.http.get(this.APIUrl + "/GetApplyNOCApplicationList/" + RoleId + "/" + UserID + "/" + Status + "/" + ActionName + "/" + SessionYear)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();

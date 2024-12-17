@@ -100,11 +100,36 @@ export class MasterPageComponent implements OnInit {
       // this.router.navigate(['/login']);
     }
     this.RoleID = this.sSOLoginDataModel.UserID;
+    this.SessionID = this.sSOLoginDataModel.SessionID;
+    await this.GetAllFinancialYear();
     await this.GetUserRoleList();
     await this.LoadMenu(this.sSOLoginDataModel.UserID);
 
   }
-
+  public lstFinancialYear: any = [];
+  public SessionID: number = 0;
+  async GetAllFinancialYear() {
+    this.lstFinancialYear = [];
+    try {
+      this.loaderService.requestStarted();
+      await this.commonMasterService.GetDashBoardFinancialYear()
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.lstFinancialYear = data['Data'];
+          //if (this.lstFinancialYear.length > 0 && (this.SessionID == 0 ||  this.SessionID == undefined)) {
+          //  this.SessionID = this.lstFinancialYear[this.lstFinancialYear.length - 1]['FinancialYearID'];
+          //}
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
   async GetUserRoleList() {
     try {
       this.loaderService.requestStarted();
@@ -129,7 +154,7 @@ export class MasterPageComponent implements OnInit {
 
     this.loaderService.requestStarted();
 
-    this.RoleID = this.lstUserRole.find((x: { UserID: number; }) => x.UserID == SeletedUserId).RoleID;;
+    this.RoleID = this.lstUserRole.find((x: { UserID: number; }) => x.UserID == SeletedUserId).RoleID;
     this.sSOLoginDataModel.RoleID = this.RoleID;
 
     if (this.RoleID > 0) {
@@ -331,4 +356,25 @@ export class MasterPageComponent implements OnInit {
   btnOk() {
     this.BackToSSO();
   }
+
+  async loadDataSessionWise(SeletedSessionId: any) {
+
+    this.loaderService.requestStarted();
+
+    if (SeletedSessionId > 0) {
+      this.sSOLoginDataModel.SessionID = SeletedSessionId;
+      this.sSOLoginDataModel.SessionName = this.lstFinancialYear.find((x: { FinancialYearID: number; }) => x.FinancialYearID == SeletedSessionId)?.FinancialYearName;
+      localStorage.setItem('SSOLoginUser', JSON.stringify(this.sSOLoginDataModel))
+      //this.LoadMenu(this.RoleID);
+      window.open('/dashboard', "_self");
+      this.SessionID = SeletedSessionId;
+    }
+
+
+    //this.router.navigate(['/dashboard']);
+    setTimeout(() => {
+      this.loaderService.requestEnded();
+    }, 100);
+  }
+
 }

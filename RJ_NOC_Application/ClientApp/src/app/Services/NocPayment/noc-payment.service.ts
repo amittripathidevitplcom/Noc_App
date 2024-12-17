@@ -82,24 +82,24 @@ export class NocpaymentService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-  public async GetPreviewPaymentDetails(CollegeID: Number) {
+  public async GetPreviewPaymentDetails(CollegeID: Number, SessionYear: number) {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     };
-    return await this.http.get(this.APIUrl + "/GetPreviewPaymentDetails/" + CollegeID, httpOptions)
+    return await this.http.get(this.APIUrl + "/GetPreviewPaymentDetails/" + CollegeID + "/" + SessionYear, httpOptions)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-  public async GetOfflinePaymentDetails(CollegeID: Number) {
+  public async GetOfflinePaymentDetails(CollegeID: Number, SessionYear: number) {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     };
-    return await this.http.get(this.APIUrl + "/GetOfflinePaymentDetails/" + CollegeID, httpOptions)
+    return await this.http.get(this.APIUrl + "/GetOfflinePaymentDetails/" + CollegeID + "/" + SessionYear, httpOptions)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();

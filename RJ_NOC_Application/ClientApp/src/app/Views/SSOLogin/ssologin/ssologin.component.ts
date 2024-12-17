@@ -217,12 +217,16 @@ export class SSOLoginComponent implements OnInit {
           data = JSON.parse(JSON.stringify(data));
           console.log(data);
           if (data['Data'][0]['data'].length > 0) {
-            
             this.sSOLoginDataModel.SSOID = data['Data'][0]['data'][0]['SSOID'];
             this.sSOLoginDataModel.RoleID = data['Data'][0]['data'][0]['RoleID'];
             this.sSOLoginDataModel.RoleName = data['Data'][0]['data'][0]['RoleName'];
             this.sSOLoginDataModel.DepartmentID = data['Data'][0]['data'][0]['DepartmentID'];
             this.sSOLoginDataModel.UserID = data['Data'][0]['data'][0]['UserID'];
+            this.sSOLoginDataModel.SessionID = data['Data'][0]['data'][0]['SessionYear'];
+            this.sSOLoginDataModel.SessionName = data['Data'][0]['data'][0]['SessionYearName'];
+            if (this.sSOLoginDataModel.DepartmentID != 4) {
+              this.sSOLoginDataModel.SessionID = this.sSOLoginDataModel.SessionID - 1;
+            }
           }
         }, error => console.error(error));
       //console.log(this.sSOLoginDataModel.RoleID);

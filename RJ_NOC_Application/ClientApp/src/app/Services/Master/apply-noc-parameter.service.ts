@@ -87,8 +87,8 @@ export class ApplyNocParameterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-  public async GetApplyNocApplicationList(SSOID: string) {
-    return await this.http.get(this.APIUrl + "/GetApplyNocApplicationList" + "/" + SSOID)
+  public async GetApplyNocApplicationList(SSOID: string, SessionYear: number=0) {
+    return await this.http.get(this.APIUrl + "/GetApplyNocApplicationList" + "/" + SSOID + "/" + SessionYear)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();
@@ -145,15 +145,15 @@ export class ApplyNocParameterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-  public async GetApplyNocApplicationLists(SelectedCollageID: number, SelectedDepartmentID: number) {
-    return await this.http.get(this.APIUrl + "/GetApplyNocApplicationLists" + "/" + SelectedCollageID + "/" + SelectedDepartmentID)
+  public async GetApplyNocApplicationLists(SelectedCollageID: number, SelectedDepartmentID: number,SessionYear:number) {
+    return await this.http.get(this.APIUrl + "/GetApplyNocApplicationLists" + "/" + SelectedCollageID + "/" + SelectedDepartmentID + "/" + SessionYear)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-  public async ViewApplyNocFDRDetailsByCollegeID(CollegeID: number) {
+  public async ViewApplyNocFDRDetailsByCollegeID(CollegeID: number, SessionYear: number) {
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
-    return await this.http.get(this.APIUrl + '/ViewApplyNoc_FDRDetailsByCollegeID/' + CollegeID, httpOptions)
+    return await this.http.get(this.APIUrl + '/ViewApplyNoc_FDRDetailsByCollegeID/' + CollegeID + "/" + SessionYear, httpOptions)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();

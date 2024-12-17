@@ -18,6 +18,9 @@
                 <th>No of books</th>
                 <th>Upload Image</th>
                 <th>Book's Details Document</th>
+                <th  *ngIf="SelectedDepartmentID==2">
+                  Action
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -52,6 +55,9 @@
                   <label *ngIf="item.BookImageFilePath=='N/A'">{{item.BookImageFilePath}}</label>
                   <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.BookImageFilePath.includes('.pdf') && item.BookImageFilePath!='N/A'" data-fancybox="gallery" href="{{item.BookImageFilePath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
                 </td>
+                <td *ngIf="SelectedDepartmentID==2">
+                  <button type="button" class="btn btn-sm btn-info" title="View" (click)="ViewAHLibrary(item.CollegeWiseOtherInfoID,AHLibrarymodal)"><i class="fa fa-eye"></i></button>
+                </td>
               </tr>
               <tr *ngIf="OtherInformation.length<=0">
                 <td colspan="20" style="color:red">No Data Found.!</td>
@@ -63,3 +69,78 @@
     </div>
   </div>
 </div>
+<ng-template #AHLibrarymodal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title" style="font-size: 17px; font-weight: 600 !important;">Library Other Details</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <i class="fa fa-close"></i>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="card">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+            <label>
+              Floor Area of Library
+            </label>
+            <input value="{{CollegeWiseAHOtherDetails.FloorAreaofLibrary}}" class="form-control disabled" disabled />
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+            <label>
+              Seating capacity for reading
+            </label>
+            <input value="{{CollegeWiseAHOtherDetails.SeatingCapacity}}" class="form-control disabled" disabled />
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+            <label>
+              Whether Internet facility is available
+            </label>
+            <input value="{{CollegeWiseAHOtherDetails.InternetFacility}}" class="form-control disabled" disabled />
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+            <label>
+              Counter for sale of reprints
+            </label>
+            <input value="{{CollegeWiseAHOtherDetails.CounterforSale}}" class="form-control disabled" disabled />
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+            <label>
+              Computer print outs of abstracts
+            </label>
+            <input value="{{CollegeWiseAHOtherDetails.ComputerPrint}}" class="form-control disabled" disabled />
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+            <label>
+              Registers Maintained
+            </label>
+            <input value="{{CollegeWiseAHOtherDetails.RegistersMaintained}}" class="form-control disabled" disabled />
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+            <label>
+              Professional
+            </label>
+            <input value="{{CollegeWiseAHOtherDetails.Professional}}" class="form-control disabled" disabled />
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+            <label>
+              No. of Periodicals available/ subscribing
+            </label>
+            <input value="{{CollegeWiseAHOtherDetails.PeriodicalsNo}}" class="form-control disabled" disabled />
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+            <label>
+              No of Journals available/ subscribing
+            </label>
+            <input value="{{CollegeWiseAHOtherDetails.JournalsNo}}" class="form-control disabled" disabled />
+          </div>      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+            <label>
+              Other
+            </label>
+            <input value="{{CollegeWiseAHOtherDetails.Other}}" class="form-control disabled" disabled />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>

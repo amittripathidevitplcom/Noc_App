@@ -82,7 +82,7 @@ export class DocumentScrutinyApplicationListDTEComponent implements OnInit {
       //}
       
       this.loaderService.requestStarted();
-      await this.dteDocumentScrutinyService.GetApplyNOCApplicationList(RoleId, UserID, Status, ActionName)
+      await this.dteDocumentScrutinyService.GetApplyNOCApplicationList(RoleId, UserID, Status, ActionName, this.sSOLoginDataModel.SessionID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];

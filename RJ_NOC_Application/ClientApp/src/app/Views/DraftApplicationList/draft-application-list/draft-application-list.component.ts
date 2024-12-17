@@ -55,7 +55,7 @@ export class DraftApplicationListComponent implements OnInit {
   async GetApplicationList() {
     try {
       this.loaderService.requestStarted();
-      await this.draftApplicationListService.DraftApplicationList(this.sSOLoginDataModel.SSOID)
+      await this.draftApplicationListService.DraftApplicationList(this.sSOLoginDataModel.SSOID, this.sSOLoginDataModel.SessionID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];

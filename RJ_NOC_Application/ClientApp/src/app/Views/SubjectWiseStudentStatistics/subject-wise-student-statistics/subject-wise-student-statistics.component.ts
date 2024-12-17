@@ -87,7 +87,7 @@ export class SubjectWiseStudentStatisticsComponent implements OnInit {
   async GetSubjectWiseStudenetDetails(CollageID: number) {
     try {
       this.loaderService.requestStarted();
-      await this.classWiseStudentDetailsServiceService.GetSubjectWiseStudenetDetails(CollageID, this.SelectedApplyNOCID > 0 ? this.SelectedApplyNOCID:0)
+      await this.classWiseStudentDetailsServiceService.GetSubjectWiseStudenetDetails(CollageID, this.SelectedApplyNOCID > 0 ? this.SelectedApplyNOCID : 0, this.sSOLoginDataModel.SessionID)
         .then((data: any) => {
 
           data = JSON.parse(JSON.stringify(data));

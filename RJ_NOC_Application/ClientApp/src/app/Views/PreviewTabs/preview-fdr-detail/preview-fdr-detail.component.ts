@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ApplyNocParameterService } from '../../../Services/Master/apply-noc-parameter.service';
 import { LoaderService } from '../../../Services/Loader/loader.service';
 import { CommonMasterService } from '../../../Services/CommonMaster/common-master.service';
+import { SSOLoginDataModel } from '../../../Models/SSOLoginDataModel';
 
 
 @Component({
@@ -19,7 +20,7 @@ export class PreviewFDRDetailComponent implements OnInit
   public ErrorMessage: any = [];
   public SelectedCollageID: number = 0;
   public SelectedDepartmentID: number = 0;
-
+  sSOLoginDataModel = new SSOLoginDataModel();
 
   constructor(private loaderService: LoaderService, private applyNocParameterService: ApplyNocParameterService, private router: ActivatedRoute, private commonMasterService: CommonMasterService) {
 
@@ -28,6 +29,7 @@ export class PreviewFDRDetailComponent implements OnInit
 
   async ngOnInit()
   {
+    this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     this.SelectedCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
     await this.getFDRDetailId(this.SelectedCollageID);
   }
@@ -35,7 +37,7 @@ export class PreviewFDRDetailComponent implements OnInit
   async getFDRDetailId(CollegeID: number) {
     try {
       this.loaderService.requestStarted();
-      await this.applyNocParameterService.ViewApplyNocFDRDetailsByCollegeID(CollegeID)
+      await this.applyNocParameterService.ViewApplyNocFDRDetailsByCollegeID(CollegeID, this.sSOLoginDataModel.SessionID)
         .then((data: any) => {
 
           data = JSON.parse(JSON.stringify(data));

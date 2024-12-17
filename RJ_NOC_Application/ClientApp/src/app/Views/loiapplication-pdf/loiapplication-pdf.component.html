@@ -355,6 +355,58 @@
             </div>
           </div>
         </div>
+
+
+        <!--College Managment Society-->
+        <div class="card-body" *ngIf="IsManagmentType">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="table-responsive" *ngIf="SocietyAllList.length>0">
+                <table class="table table-hover table-striped-columns table-sm" id="CollegeManagementSociety" #content>
+                  <thead>
+                    <tr>
+                      <td colspan="8" style="    font-weight: 800;
+font-size: 18px;">
+                        <b><i class="bi bi-table"></i>&nbsp;College Management Society</b>
+                      </td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <th>S.No.</th>
+                      <th>College</th>
+                      <th>Personal Info</th>
+                      <th>Post & Service </th>
+                      <th>Other Details </th>
+                    </tr>
+                    <tr *ngFor="let row of SocietyAllList let idx=index;">
+                      <td>{{idx+1}}</td>
+                      <td>{{row.CollegeNameEn}}</td>
+                      <td>
+                        Name:- {{row.PersonName}}<br />
+                        Father Name:- {{row.FatherName}}<br />
+                        Email:- {{row.Email}}<br />
+                        Gender:- {{row.Gender}}<br />
+                        MobileNo:- {{row.MobileNo}}<br />
+                      </td>
+
+                      <td>
+                        Designation:- {{row.DesignationName}}<br />
+                        Occupation:- {{row.OccupationName}}<br />
+                      </td>
+                      <td>
+                        Aadhaar No.:- {{row.AadhaarNo}}<br />
+                        PAN No.:- {{row.PANNo}}<br />
+                        IsPrimary.:- {{row.IsPrimary == false ? 'No' : 'Yes'}}<br />
+                        IsAuthorized.:- {{row.IsAuthorized == false ? 'No' : 'Yes'}}<br />
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
         <!--College details-->
         <div class="card-body">
           <div class="row">
@@ -853,7 +905,7 @@
 
 
         <!--Hospital Details-->
-        <div class="card-body" >
+        <div class="card-body">
           <div class="row">
             <div class="table-responsive">
               <div *ngFor="let row of HospitalAllDatalst;let idx=index;">
@@ -1364,7 +1416,7 @@ font-size: 18px;">
             </div>
           </div>
         </div>
- 
+
         <div class="card-footer">
           <input type="button" value="Preview Download PDF" class="btn btn-sm btn-primary" (click)="btnSavePDF_Click()" />
         </div>

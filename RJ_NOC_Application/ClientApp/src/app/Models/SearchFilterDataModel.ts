@@ -18,6 +18,7 @@ export class DCENOCReportSearchFilterDataModel {
   public ApplicationStatusID: number = 0
   public YearNewExistingID: number = 0
   public ApplicationCurrentRole: number = 0
+  public SessionYear: number = 0
 }
 export class TotalCollegeReportSearchFilter {
   public DepartmentID: number = 0

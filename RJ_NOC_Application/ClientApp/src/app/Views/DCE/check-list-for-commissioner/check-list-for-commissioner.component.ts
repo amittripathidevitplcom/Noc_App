@@ -221,7 +221,8 @@ export class CheckListForCommissionerComponent implements OnInit {
   UploadDocument_Dis_FileName: string = ''
   UploadDocument: string = ''
   UploadDocumentPath: string = ''
- 
+  public QueryStringStatus: any = '';
+
 
 
   constructor(private hostelDetailService: HostelDetailService,private oldnocdetailService: OldnocdetailService,private staffDetailService: StaffDetailService,private buildingDetailsMasterService: BuildingDetailsMasterService,private applyNocParameterService: ApplyNocParameterService, private toastr: ToastrService, private loaderService: LoaderService, private applyNOCApplicationService: ApplyNOCApplicationService,
@@ -236,6 +237,7 @@ export class CheckListForCommissionerComponent implements OnInit {
     this.SelectedCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
     this.SelectedApplyNOCID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplyNOCID')?.toString()));
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
+    this.QueryStringStatus = this.router.snapshot.paramMap.get('Status')?.toString();
     await this.CountTotalRevertDCE();
     this.GetLandDetailsDataList();
     this.GetFacilityDetailAllList();
@@ -875,7 +877,13 @@ export class CheckListForCommissionerComponent implements OnInit {
             this.ErrorMessage = data['ErrorMessage'];
             if (this.State == 0) {
               this.toastr.success(this.SuccessMessage);
-              this.routers.navigate(['/dceapplicationlist/Pending']);
+              if (this.QueryStringStatus == 'ForwardedSecretary') {
+                this.routers.navigate(['/commissionerapplicationscrutinylist/ForwardedSecretary']);
+              }
+              else {
+                this.routers.navigate(['/dceapplicationlist/Pending']);
+              }
+             
             }
             else if (this.State == 2) {
               this.toastr.warning(this.ErrorMessage)

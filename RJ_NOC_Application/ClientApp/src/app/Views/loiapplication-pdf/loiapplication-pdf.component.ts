@@ -280,7 +280,7 @@ export class LOIApplicationPDFComponent implements OnInit {
       }
 
       //pDFData.push({ "ContentName": "#CourseBasicDetails" })
-      //pDFData.push({ "ContentName": "#CollegeManagementSociety" })
+      pDFData.push({ "ContentName": "#CollegeManagementSociety" })
       pDFData.push({ "ContentName": "#LandDetails" })
       if (this.lstBuildingDetails.length > 0) {
         pDFData.push({ "ContentName": "#BuildingDetails" })
@@ -1039,7 +1039,7 @@ export class LOIApplicationPDFComponent implements OnInit {
     try {
 
       this.loaderService.requestStarted();
-      await this.nocpaymentService.GetPreviewPaymentDetails(SelectedCollageID)
+      await this.nocpaymentService.GetPreviewPaymentDetails(SelectedCollageID, this.sSOLoginDataModel.SessionID)
         .then((data: any) => {
 
           data = JSON.parse(JSON.stringify(data));
@@ -1061,7 +1061,7 @@ export class LOIApplicationPDFComponent implements OnInit {
   async GetOfflinePaymentDetails(SelectedCollageID: number) {
     try {
       this.loaderService.requestStarted();
-      await this.nocpaymentService.GetOfflinePaymentDetails(SelectedCollageID)
+      await this.nocpaymentService.GetOfflinePaymentDetails(SelectedCollageID, this.sSOLoginDataModel.SessionID)
         .then((data: any) => {
 
           data = JSON.parse(JSON.stringify(data));

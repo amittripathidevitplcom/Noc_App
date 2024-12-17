@@ -137,6 +137,8 @@ export class StaffDetailDataModel {
   public Gender: string = '';
   public DesignationRegistrationNo?: string = '';
   public DetailofJob?: string = '';
+  public AHDepartmentID?: number = 0;
+  public NETQualified?: string = '';
 }
 export class EducationalQualificationDetails_StaffDetail {
   public EducationalQualificationID: number = 0;

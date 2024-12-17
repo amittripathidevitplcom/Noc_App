@@ -213,8 +213,8 @@ export class JDACCEApplicationListDCEComponent implements OnInit {
     try {
       this.loaderService.requestStarted();
       let ActionName = '';
-      ActionName = Status == 'Completed' ? 'Approve' : Status == 'Rejected' ? '' : Status == 'Pending' ? 'Approve' : Status == 'Revert' ? 'Revert':'';
-      await this.decDocumentScrutinyService.GetNodalOfficerApplyNOCApplicationList(RoleId, UserID, Status, ActionName)
+      ActionName = Status == 'Completed' ? 'Approve' : Status == 'Rejected' ? '' : Status == 'Pending' ? 'Approve' : Status == 'Revert' ? 'Revert' : '';
+      await this.decDocumentScrutinyService.GetNodalOfficerApplyNOCApplicationList(RoleId, UserID, Status, ActionName, this.sSOLoginDataModel.SessionID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];

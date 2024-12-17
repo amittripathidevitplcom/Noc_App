@@ -51,7 +51,10 @@ export class LegalEntityDataModel {
   public ByLawsDocumentPath: string = '';
   public ByLawsDocument: string = '';
 
-
+  public FirstInception: string = '';
+  public Dis_FirstInceptionDocumentName: string = '';
+  public FirstInceptionDocumentPath: string = '';
+  public FirstInceptionDocument: string = '';
 }
 
 export class RegistrationDetail_LegalEntityDataModel {
@@ -80,6 +83,8 @@ export class LegalEntityMemberDetailsDataModel {
   public PresidentAadhaarProofDoc: string = '';
 
   public Dis_AadhaarNumber: string = '';
+  public MemberAddress: string = '';
+  public MemberQualification: string = '';
 }
 export class LegalEntityInstituteDetailsDataModel {
   public InstituteID: number = 0;

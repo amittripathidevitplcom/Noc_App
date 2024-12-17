@@ -136,6 +136,11 @@ export class LoginComponent implements OnInit {
             this.sSOLoginDataModel.RoleName = data['Data'][0]['data'][0]['RoleName'];
             this.sSOLoginDataModel.DepartmentID = data['Data'][0]['data'][0]['DepartmentID'];
             this.sSOLoginDataModel.UserID = data['Data'][0]['data'][0]['UserID'];
+            this.sSOLoginDataModel.SessionID = data['Data'][0]['data'][0]['SessionYear'];
+            this.sSOLoginDataModel.SessionName = data['Data'][0]['data'][0]['SessionYearName'];
+            if (this.sSOLoginDataModel.DepartmentID != 4) {
+              this.sSOLoginDataModel.SessionID = this.sSOLoginDataModel.SessionID - 1;
+            }
           }
         }, error => console.error(error));
       console.log(this.sSOLoginDataModel.RoleID);

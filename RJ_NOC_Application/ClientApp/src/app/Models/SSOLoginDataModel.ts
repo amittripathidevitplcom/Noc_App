@@ -33,6 +33,8 @@ export class SSOLoginDataModel {
   public UserID: number = 0;
   public RoleName: string = '';
   public DepartmentID: number = 0;
+  public SessionID: number = 0;
+  public SessionName: string = '';
 }
 
 

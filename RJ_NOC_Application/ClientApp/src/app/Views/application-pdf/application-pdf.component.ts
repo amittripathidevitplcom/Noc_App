@@ -191,6 +191,10 @@ export class ApplicationPDFComponent implements OnInit {
       if (this.SelectedDepartmentID == 9) {
         await this.GetAllClinicalFacilityList();
       }
+
+      if (this.SelectedDepartmentID == 2) {
+        await this.GetAHFacilityDepartmentList();
+      }
       
     }
     catch (Ex) {
@@ -205,6 +209,7 @@ export class ApplicationPDFComponent implements OnInit {
 
   }
   public UserSSOID: string = '';
+  public IsAHDegreeCollege: boolean = false;
   async GetCollageDetails() {
     try {
 
@@ -217,6 +222,9 @@ export class ApplicationPDFComponent implements OnInit {
           if (this.collegeDataList['CollegeStatus'] == 'New') {
             this.CollegeType_IsExisting = false;
             //this.isAcademicInformation = false;
+          }
+          if (this.collegeDataList['CollegeLevelName'] == 'UG' && this.collegeDataList['DepartmentID'] == 2) {
+            this.IsAHDegreeCollege = true;
           }
         }, error => console.error(error));
     }
@@ -389,6 +397,7 @@ export class ApplicationPDFComponent implements OnInit {
       if (this.SelectedDepartmentID == 2) {
         pDFData.push({ "ContentName": "#VetHospitalDetial" })
         pDFData.push({ "ContentName": "#courtOrder" })
+        pDFData.push({ "ContentName": "#AHDepartmentList" })
       }
       pDFData.push({ "ContentName": "#OfflinePayment" })
       pDFData.push({ "ContentName": "#OnlinePayment" })
@@ -1495,7 +1504,7 @@ export class ApplicationPDFComponent implements OnInit {
     try {
 
       this.loaderService.requestStarted();
-      await this.nocpaymentService.GetPreviewPaymentDetails(SelectedCollageID)
+      await this.nocpaymentService.GetPreviewPaymentDetails(SelectedCollageID, this.sSOLoginDataModel.SessionID)
         .then((data: any) => {
 
           data = JSON.parse(JSON.stringify(data));
@@ -1517,7 +1526,7 @@ export class ApplicationPDFComponent implements OnInit {
   async GetOfflinePaymentDetails(SelectedCollageID: number) {
     try {
       this.loaderService.requestStarted();
-      await this.nocpaymentService.GetOfflinePaymentDetails(SelectedCollageID)
+      await this.nocpaymentService.GetOfflinePaymentDetails(SelectedCollageID, this.sSOLoginDataModel.SessionID)
         .then((data: any) => {
 
           data = JSON.parse(JSON.stringify(data));
@@ -1635,7 +1644,7 @@ export class ApplicationPDFComponent implements OnInit {
     try {
       this.loaderService.requestStarted();
       // get
-      await this.applyNocParameterService.GetApplyNocApplicationLists(this.SelectedCollageID, this.SelectedDepartmentID)
+      await this.applyNocParameterService.GetApplyNocApplicationLists(this.SelectedCollageID, this.SelectedDepartmentID, this.sSOLoginDataModel.SessionID)
         .then((data: any) => {
 
           data = JSON.parse(JSON.stringify(data));
@@ -1792,6 +1801,49 @@ export class ApplicationPDFComponent implements OnInit {
       setTimeout(() => {
         this.loaderService.requestEnded();
       }, 200);
+    }
+  }
+
+  public AHDepartmentList: any = [];
+  async GetAHFacilityDepartmentList() {
+
+    try {
+      this.loaderService.requestStarted();
+      await this.commonMasterService.GetAHFacilityDepartmentList(0, this.SelectedCollageID)
+        .then(async (data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.AHDepartmentList = data['Data'];
+          for (var i = 0; i < this.AHDepartmentList.length; i++) {
+            for (var j = 0; j < this.AHDepartmentList[i].AHFacilityDepartmentList.length; j++) {
+              await this.ShowHideRow(i, j, this.AHDepartmentList[i].AHFacilityDepartmentList[j].ID);
+            }
+          }
+
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+  async ShowHideRow(Departidx: number, idx: number, ID: number) {
+    var GetChild = this.AHDepartmentList[Departidx].AHFacilityDepartmentList.filter((x: { ParentID: number }) => x.ParentID == ID);
+    if (GetChild.length > 0) {
+      for (var j = 0; j < this.AHDepartmentList[Departidx].AHFacilityDepartmentList.length; j++) {
+        if (this.AHDepartmentList[Departidx].AHFacilityDepartmentList[j].ParentID == ID && this.AHDepartmentList[Departidx].AHFacilityDepartmentList[idx].Value == 'Yes') {
+          this.AHDepartmentList[Departidx].AHFacilityDepartmentList[j].IsHide = false;
+        }
+        else if (this.AHDepartmentList[Departidx].AHFacilityDepartmentList[j].ParentID == ID && this.AHDepartmentList[Departidx].AHFacilityDepartmentList[idx].Value != 'Yes') {
+          this.AHDepartmentList[Departidx].AHFacilityDepartmentList[j].IsHide = true;
+          this.AHDepartmentList[Departidx].AHFacilityDepartmentList[j].Value = '';
+
+        }
+      }
     }
   }
 }

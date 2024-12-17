@@ -75,6 +75,7 @@ export class TotalNotFilledStaticsReportComponent implements OnInit {
     try {
       this.loaderService.requestStarted();
       this.request.DepartmentID = this.sSOLoginDataModel.DepartmentID;
+      this.request.SessionYear = this.sSOLoginDataModel.SessionID;
       await this.classWiseStudentDetailsServiceService.CollegeList_StatisticsNotFilledReport(this.request)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));

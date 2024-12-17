@@ -25,6 +25,7 @@ export class CommonDataModel_TotalApplicationSearchFilter {
   public ApplicationID: number = null
   public ApplicationStatusID: number = 0
   public ApplicationCurrentRole: number = 0
+  public SessionYear: number = 0
 }
 
 export class CommonDataModel_TotalDraftEntrySearchFilter {

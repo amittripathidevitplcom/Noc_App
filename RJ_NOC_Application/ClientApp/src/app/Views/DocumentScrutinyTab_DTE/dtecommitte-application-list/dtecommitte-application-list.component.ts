@@ -58,7 +58,7 @@ export class DTECommitteApplicationListComponent implements OnInit {
         ActionName = Status == 'Completed' ? 'Forward to Inspection Committee after inspection,Forward To Joint Secretary after inspection' : Status == 'Pending' ? 'Forward to DTE committee' : Status == 'Revert' ? 'Revert to Nodal officer after inspection' : Status == 'Reject' ? 'Reject after inspection' : '';
       }
             this.loaderService.requestStarted();
-      await this.dteDocumentScrutinyService.GetApplyNOCApplicationList(RoleId, UserID, Status, ActionName)
+      await this.dteDocumentScrutinyService.GetApplyNOCApplicationList(RoleId, UserID, Status, ActionName, this.sSOLoginDataModel.SessionID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];

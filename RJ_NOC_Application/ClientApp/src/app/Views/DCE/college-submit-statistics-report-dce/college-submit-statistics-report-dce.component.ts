@@ -118,6 +118,7 @@ export class CollegeSubmitStatisticsReportDCEComponent implements OnInit {
     try {
       this.loaderService.requestStarted();
       this.request.DepartmentID = this.sSOLoginDataModel.DepartmentID;
+      this.request.SessionYear = this.sSOLoginDataModel.SessionID;
       await this.classWiseStudentDetailsServiceService.CollegeList_StatisticsFinalSubmited(this.request)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
@@ -230,7 +231,7 @@ export class CollegeSubmitStatisticsReportDCEComponent implements OnInit {
     try {
 
       this.loaderService.requestStarted();
-      await this.classWiseStudentDetailsServiceService.GetCollegeWiseStudenetDetails(CollegeID)
+      await this.classWiseStudentDetailsServiceService.GetCollegeWiseStudenetDetails(CollegeID, 0, this.sSOLoginDataModel.SessionID)
         .then((data: any) => {
 
           data = JSON.parse(JSON.stringify(data));
@@ -288,7 +289,7 @@ export class CollegeSubmitStatisticsReportDCEComponent implements OnInit {
   async GetSubjectWiseStudenetDetails(CollegeID: number) {
     try {
       this.loaderService.requestStarted();
-      await this.classWiseStudentDetailsServiceService.GetSubjectWiseStudenetDetails(CollegeID)
+      await this.classWiseStudentDetailsServiceService.GetSubjectWiseStudenetDetails(CollegeID, 0, this.sSOLoginDataModel.SessionID)
         .then((data: any) => {
 
           data = JSON.parse(JSON.stringify(data));

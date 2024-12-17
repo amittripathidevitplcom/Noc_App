@@ -35,7 +35,7 @@
             <p *ngIf="form.rdTeachingType.errors.required"> This field is required .!</p>
           </div>
         </div>
-        <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="request.TeachingType=='Teaching' && IsCourseLevel=='Yes' && (SelectedDepartmentID !=4 && SelectedDepartmentID !=11 && SelectedDepartmentID !=9)">
+        <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="request.TeachingType=='Teaching' && IsCourseLevel=='Yes' && (SelectedDepartmentID !=4 && SelectedDepartmentID !=11 && SelectedDepartmentID !=9&& (SelectedDepartmentID !=2 && !IsAHDegreeCollege))">
           <label>Subject <span style="color:red;" *ngIf="SelectedDepartmentID !=9">*</span></label>
           <select id="ddlSubjectId" name="ddlSubjectId" class="form-control" formControlName="ddlSubjectId" [(ngModel)]="request.SubjectID">
             <option value="0" disabled>--Select--</option>
@@ -44,7 +44,28 @@
               {{item.SubjectName}}
             </option>
           </select>
-          <p *ngIf="isSubmitted&&request.TeachingType=='Teaching'&&request.SubjectID<=0  && (SelectedDepartmentID !=4 && SelectedDepartmentID !=11 && SelectedDepartmentID !=9)" class="text-danger"> This field is required .!</p>
+          <p *ngIf="isSubmitted&&request.TeachingType=='Teaching'&&request.SubjectID<=0  && (SelectedDepartmentID !=4 && SelectedDepartmentID !=11 && SelectedDepartmentID !=9&& (SelectedDepartmentID !=2 && !IsAHDegreeCollege))" class="text-danger"> This field is required .!</p>
+        </div>
+
+        <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="SelectedDepartmentID ==2 && IsAHDegreeCollege">
+          <label>Department <span style="color:red;">*</span></label>
+          <select id="ddldepartmentId" name="ddldepartmentId" class="form-control" formControlName="ddldepartmentId" [(ngModel)]="request.AHDepartmentID">
+            <option value="0" disabled>--Select--</option>
+            <option *ngFor="let item of AHDepartmentList"
+                    value="{{item.ID}}">
+              {{item.DepartmentName}}
+            </option>
+          </select>
+          <p *ngIf="isSubmitted&&SelectedDepartmentID ==2 && IsAHDegreeCollege &&request.AHDepartmentID<=0 " class="text-danger"> This field is required .!</p>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="SelectedDepartmentID ==2 && IsAHDegreeCollege">
+          <label for="">NET Qualified? <span style="color:red">*</span></label>
+          <select class="form-select" id="ddlNETQualified" [(ngModel)]="request.NETQualified" formControlName="ddlNETQualified">
+            <option value="" disabled>--Select--</option>
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+          </select>
+          <p *ngIf="isSubmitted&&SelectedDepartmentID ==2 && IsAHDegreeCollege&&request.NETQualified==''" class="text-danger"> This field is required .!</p>
         </div>
       </div>
       <div class="row">
@@ -241,7 +262,7 @@
             <p *ngIf="isExperianceCertificate"> This field is required .!</p>
           </div>
         </div>
-        <div class="col-md-4 mb-3" *ngIf="request.TeachingType=='Teaching' && IsCourseLevel=='Yes'  && SelectedDepartmentID !=4 && SelectedDepartmentID !=11 && SelectedDepartmentID !=9">
+        <div class="col-md-4 mb-3" *ngIf="request.TeachingType=='Teaching' && IsCourseLevel=='Yes'  && SelectedDepartmentID !=4 && SelectedDepartmentID !=11 && SelectedDepartmentID !=9 && SelectedDepartmentID !=2 ">
           <label>Specialization Subject <span style="color:red;" *ngIf=" SelectedDepartmentID !=9">*</span></label>
           <select id="txtSpecializationSubject" name="txtSpecializationSubject" class="form-control" formControlName="txtSpecializationSubject" [(ngModel)]="request.SpecializationSubject">
             <option value="" disabled>--Select--</option>
@@ -537,6 +558,8 @@
                       <p class="m-0"><b>Qualification : </b> {{item.HighestQualificationName}}</p>
                       <p class="m-0"><b>Type : </b>{{item.TeachingType}}</p>
                       <p class="m-0"><b>Gender : </b>{{item.Gender}}</p>
+                      <p class="m-0" *ngIf="SelectedDepartmentID ==2 && IsAHDegreeCollege"><b>Department : </b>{{item.DepartmentName}}</p>
+                      <p class="m-0" *ngIf="SelectedDepartmentID ==2 && IsAHDegreeCollege"><b>NET Qualified : </b>{{item.NETQualified}}</p>
                     </td>
                     <td>
                       <p class="m-0"><b>DATE OF BIRTH : </b>{{item.DateOfBirth}}</p>

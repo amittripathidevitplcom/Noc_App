@@ -7,6 +7,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FileUploadService } from '../../Services/FileUpload/file-upload.service';
 import { Clipboard } from '@angular/cdk/clipboard';
 import { UserManualDocumentService } from '../../Services/UserManualDocument/user-manual-document.service';
+
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -21,18 +22,17 @@ export class HomeComponent implements OnInit {
   }
 
   async ngOnInit() {
-    await this.HomePage_IncreaseDate();
     await this.GetUserManualDocumentMasterList(0);
   }
-  async HomePage_IncreaseDate() {
+  async HomePage_IncreaseDate(DepartmentID: number) {
     try {
       this.loaderService.requestStarted();
-      await this.commonMasterService.HomePage_IncreaseDate()
+      await this.commonMasterService.HomePage_IncreaseDate(DepartmentID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           console.log(data);
-          this.DCE_HomePage_IncreaseDateData_Top = data['Data'][0].filter((x: any) => x.DepartmentID === 3 && x.Type=='Top');
-          this.DCE_HomePage_IncreaseDateData_Bottom = data['Data'][0].filter((x: any) => x.DepartmentID === 3 && x.Type == 'Bottom');
+          this.DCE_HomePage_IncreaseDateData_Top = data['Data'][0].filter((x: any) => x.DepartmentID === DepartmentID && x.Type=='Top');
+          this.DCE_HomePage_IncreaseDateData_Bottom = data['Data'][0].filter((x: any) => x.DepartmentID === DepartmentID && x.Type == 'Bottom');
         }, error => console.error(error));
     }
     catch (Ex) {
@@ -48,6 +48,7 @@ export class HomeComponent implements OnInit {
 
     try {
       this.loaderService.requestStarted();
+      await this.HomePage_IncreaseDate(DepartmentID);
       await this.usermanualDocumentService.GetUserManualDocumentMasterList(DepartmentID, 'U')
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));

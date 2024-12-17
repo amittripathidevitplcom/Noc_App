@@ -51,7 +51,7 @@ export class JSApplicationListDTEComponent implements OnInit {
       let ActionName = '';
       ActionName = Status == 'Completed' ? 'Release NOC,Reject NOC' : Status == 'Pending' ? 'Forward To Joint Secretary,Forward To Joint Secretary after inspection' : Status == 'Esign' ? 'Release NOC,Reject NOC':'';
       this.loaderService.requestStarted();
-      await this.dteDocumentScrutinyService.GetApplyNOCApplicationList(RoleId, UserID, Status, ActionName)
+      await this.dteDocumentScrutinyService.GetApplyNOCApplicationList(RoleId, UserID, Status, ActionName, this.sSOLoginDataModel.SessionID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];

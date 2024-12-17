@@ -88,7 +88,7 @@ export class AddCollegeComponent implements OnInit {
   public AISHECodeValidationMessage: string = '';
   public NAACAccreditedCertificateValidationMessage: string = '';
   public AffiliationDocumentValidationMessage: string = '';
-  
+
   public FundingSourcesValidationMessage: string = '';
   public ICARDocumentValidationMessage: string = '';
   public NACCValidityDateValidationMessage: string = '';
@@ -339,7 +339,7 @@ export class AddCollegeComponent implements OnInit {
   get form_ContactDetails() { return this.CollegeDetailsForm_ContactDetails.controls; }
   get form_NearestGovernmentHospitals() { return this.CollegeDetailsForm_NearestGovernmentHospitals.controls; }
 
-  async onFilechange(event: any, Type: string) {  
+  async onFilechange(event: any, Type: string) {
     try {
       this.loaderService.requestStarted();
       this.file = event.target.files[0];
@@ -507,15 +507,15 @@ export class AddCollegeComponent implements OnInit {
         this.files = document.getElementById('fICARDocument');
         this.files.value = '';
       }
-      else if (type =='UniversityAffiliationDocument') {
-        this.showUniversityAffiliationDocument = isShowFile;        
+      else if (type == 'UniversityAffiliationDocument') {
+        this.showUniversityAffiliationDocument = isShowFile;
         this.AffiliationUniversityDocumentValidationMessage = msg;
         this.request.AffiliationUniversityDoc = name;
         this.request.AffiliationUniversityDocPath = path;
         this.request.AffiliationUniversityDoc_Dis_FileName = dis_Name;
       }
       else if (type == 'UniversityApproveTeachingFaculty') {
-        this.showUniversityApproveTeachingFaculty = isShowFile;       
+        this.showUniversityApproveTeachingFaculty = isShowFile;
         this.UniversityApproveTeachingFacultyValidationMessage = msg;
         this.request.UniversityApproveTeachingFacultyDoc = name;
         this.request.UniversityApproveTeachingFacultyDocPath = path;
@@ -1434,7 +1434,7 @@ export class AddCollegeComponent implements OnInit {
         this.toastr.error("Please add government hospitals nearest to the institution");
         isValid = false;
       }
-      if (this.request.IsAbbreviation=='') {
+      if (this.request.IsAbbreviation == '') {
         isValid = false;
       } if (this.request.IsAbbreviation == 'Yes' && this.request.AbbreviationName == '') {
         isValid = false;
@@ -1455,6 +1455,17 @@ export class AddCollegeComponent implements OnInit {
       if (this.request.UniversityApproveTeachingFacultyDoc == null || this.request.UniversityApproveTeachingFacultyDoc == '') {
         isValid = false;
         this.UniversityApproveTeachingFacultyValidationMessage = 'This field is required .!';
+      }
+    }
+    if (this.request.DepartmentID == 2) {
+      if (this.request.FaxNo == null || this.request.FaxNo == '') {
+        isValid = false;
+      }
+      if (this.request.LiveStockFarmAddress == null || this.request.LiveStockFarmAddress == '') {
+        isValid = false;
+      }
+      if (this.request.VeternaryClinicalAddress == null || this.request.VeternaryClinicalAddress == '') {
+        isValid = false;
       }
     }
     if (!isValid) {

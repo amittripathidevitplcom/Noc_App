@@ -422,6 +422,8 @@ import { MGOneDocumentScrutinyNodalOfficerComponent } from './Views/Medical Grou
 import { MgOneNocCompletedReportComponent } from './Views/Medical Group 1/NOC/mg-one-noc-completed-report/mg-one-noc-completed-report.component';
 import { GenerateOrderMGOneComponent } from './Views/Medical Group 1/NOC/generate-order-mgone/generate-order-mgone.component';
 import { AffiliationRegistrationComponent } from './Views/DTE_Affiliation/affiliation-registration/affiliation-registration.component';
+import { AHInfraDepartmentWiseComponent } from './Views/TabDetail/ahinfra-department-wise/ahinfra-department-wise.component';
+import { PreviewAHInfraDepartmentWiseComponent } from './Views/PreviewTabs/preview-ahinfra-department-wise/preview-ahinfra-department-wise.component';
 
 
  
@@ -841,7 +843,9 @@ import { AffiliationRegistrationComponent } from './Views/DTE_Affiliation/affili
     MGOneDocumentScrutinyNodalOfficerComponent,
     MgOneNocCompletedReportComponent,
     GenerateOrderMGOneComponent,
-    AffiliationRegistrationComponent
+    AffiliationRegistrationComponent,
+    AHInfraDepartmentWiseComponent,
+    PreviewAHInfraDepartmentWiseComponent
   ],
   imports: [
     CommonModule,
