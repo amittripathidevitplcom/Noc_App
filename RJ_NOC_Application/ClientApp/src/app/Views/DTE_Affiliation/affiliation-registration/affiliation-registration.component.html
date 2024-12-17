@@ -1,0 +1,193 @@
+<app-loader></app-loader>
+<div class="container-fluid breadcrumbBox py-2">
+  <div class="row align-items-center">
+    <div class="col-md-6">
+      <!--<h3>Application For Grant Of Beter Affilition Of State Government(As Desired By AICTE) </h3>-->
+    </div>
+    <div class="col-md-6 d-flex justify-content-end">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="#">Application Master</a></li>
+          <li class="breadcrumb-item active" aria-current="page">DTE Affiliation</li>
+        </ol>
+      </nav>
+    </div>
+  </div>
+</div>
+<div class="container-fluid mainContents">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="clearfix"></div>
+      <form [formGroup]="DTEAffiliationForm" class="form-horizontal">
+        <div class="card">
+          <div class="card-header d-flex justify-content-between align-items-center">
+            <b class="text-center"><i class="fa fa-plus"></i>&nbsp;Application For Grant Of Beter Affiliation Of State Government(As Desired By AICTE) </b>
+          </div>
+          <div class="card-body border">
+            <div class="card-header d-flex justify-content-between align-items-center">
+              <b class="text-center">Important Date For Application</b>
+            </div>
+            <div class="row">
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label>Start Date :</label>
+                <input  disabled class="form-control disabled" value="{{dteAffiliationDataModel.StartDate}}"/>
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label>End Date :</label>
+                <input disabled class="form-control disabled" value=" {{dteAffiliationDataModel.EndDate}}" />
+              </div>
+            </div>
+          </div>
+         
+          <div class="card-body border" *ngIf="AffiliationRegistrationList.length<=0 && dteAffiliationDataModel.IsOpen && dteAffiliationDataModel.ApplicationSession==ApplyAffiliationFY || request.DTE_ARId>0">
+            <div class="row">
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                <label for="ddlDepartmentID" class="form-label">Department Name <span style="color:red;">*</span></label>
+                <select class="form-control" id="ddlDepartmentID" name="ddlDepartmentID" [(ngModel)]="request.DepartmentID" formControlName="ddlDepartmentID" [attr.disabled]="is_disableDepartment ? '' : null">
+                  <option value="0" selected>--Select Department--</option>
+                  <option *ngFor="let item of DepartmentList" value="{{item.DepartmentID}}">{{item.DepartmentName}}</option>
+                </select>
+                <div *ngIf="isSubmitted&&form.ddlDepartmentID.errors" class="text-danger">
+                  <p *ngIf="!form.ddlDepartmentID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <!--(change)="SelectionOnchange()"-->
+              <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
+                <label for="ddlCollegeStatusId" class="form-label">Status Of College<span style="color:red;">*</span></label>
+                <select class="form-control" id="ddlCollegeStatusId" name="ddlCollegeStatusId" [(ngModel)]="request.CollegeStatusId" formControlName="ddlCollegeStatusId" [attr.disabled]="is_disableCollegeStatus ? '' : null">
+                  <option value="0" selected>--Select Status Category--</option>
+                  <option *ngFor="let item of StatusOfCollegeList" value="{{item.ID}}">{{item.Name}}</option>
+                </select>
+                <div *ngIf="isSubmitted&&form.ddlCollegeStatusId.errors" class="text-danger">
+                  <p *ngIf="!form.ddlCollegeStatusId.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
+                </div>
+              </div>
+              <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
+                <label for="txtCollege_Name" class="form-label">College Name<span style="color:red;">*</span></label>
+                <input type="text" id="txtCollege_Name" placeholder="Enter the College Name" formControlName="txtCollege_Name" maxlength="100" class="form-control" [(ngModel)]="request.College_Name" (keypress)="alphaOnly($event)" autocomplete="off">
+                <div *ngIf="isSubmitted&&form.txtCollege_Name.errors" class="text-danger">
+                  <p *ngIf="form.txtCollege_Name.errors.required">This field is required .!</p>
+                </div>
+              </div>
+              <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
+                <label for="txtMobile_Number" class="form-label mb-0">Mobile Number <span style="color:red;">*</span></label>
+                <input type="text" class="form-control" placeholder="Enter the Mobile Number" id="txtMobile_Number" name="txtMobile_Number" formControlName="txtMobile_Number" [(ngModel)]="request.Mobile_Number" maxlength="12" (keypress)="numberOnly($event)">
+
+                <div *ngIf="isSubmitted&&form.txtMobile_Number.errors" class="text-danger">
+                  <p *ngIf="form.txtMobile_Number.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                </div>
+              </div>
+              <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
+                <label for="txtEmail_Address" class="form-label mb-0">Email Address <span style="color:red;">*</span> </label>
+                <input type="text" class="form-control" placeholder="Enter the Email Address" id="txtEmail_Address" name="txtEmail_Address" formControlName="txtEmail_Address" [(ngModel)]="request.Email_Address">
+
+                <div *ngIf="isSubmitted&&form.txtEmail_Address.errors" class="text-danger">
+                  <p *ngIf="form.txtEmail_Address.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                </div>
+              </div>
+              <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3" *ngIf="ShowAffilationType==true">
+                <label for="ddlAffiliationType" class="form-label">Affiliation Type<span style="color:red;">*</span></label>
+                <select class="form-select" id="ddlAffiliationType" name="ddlAffiliationType" [(ngModel)]="request.AffiliationTypeID" formControlName="ddlAffiliationType">
+                  <option value="0" disabled>--Select Affiliation Type--</option>
+                  <option *ngFor="let item of AffiliationType" value="{{item.ID}}">
+                    {{item.Name}}
+                  </option>
+                </select>
+                <p class="text-danger" *ngIf="isSubmitted &&  ApplyAffiliation =='Existing' && request.AffiliationTypeID==0"><i aria-hidden="true"></i>This field is required .!</p>
+              </div>
+            </div>
+          </div>
+          <div class="card-footer text-end" *ngIf="AffiliationRegistrationList.length<=0 && dteAffiliationDataModel.IsOpen && dteAffiliationDataModel.ApplicationSession==ApplyAffiliationFY || request.DTE_ARId>0">
+            <button type="submit" class="btn btn-primary" id="btnSave" name="btnSave" (click)="SaveData()">Register</button>
+            <button type="submit" class="btn btn-danger" id="btnReset" name="btnReset" (click)="ResetControl()">Reset</button>
+          </div>
+
+        </div>
+      </form>
+    </div>
+    <div class="card mb-0" *ngIf="AffiliationRegistrationList.length>0">
+      <div class="card-header d-xxl-flex d-xl-flex d-md-flex d-sm-block justify-content-between align-items-center">
+        <b><i class="bi bi-table"></i>Affiliatation Registration List </b>
+        <div class="d-flex align-items-center">          
+          <div class="d-flex align-items-center table-filter mr-15">
+            <i class="fa fa-search"></i>
+            <input type="text" class="form-control" placeholder="Search Here" [(ngModel)]="searchText" />
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-bordered" id="tabellist">
+            <thead>
+              <tr>
+                <th>
+                  Action
+                </th>
+                <th>
+                  Sr.No.
+                </th>
+                <th>
+                  Department Name
+                </th>
+                <th>
+                  College Status
+                </th>
+                <th>
+                  College Name
+                </th>
+                <th>
+                  Mobile Number
+                </th>
+                <th>
+                  Email Id
+                </th>
+                <th *ngIf="ShowAffilationType==true">
+                  Affiliation Type
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let row of AffiliationRegistrationList| tableSearchFilter:searchText;let idx=index; ">
+                <td>
+                  <div class="d-flex">
+                    <button type="button" (click)="Edit_OnClick(row.DepartmentID,row.DTE_ARId)" [attr.disabled]="isDisabledGrid ? true : null" title="Edit" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></button>
+                    <button type="button" (click)="View_OnClick(row.DepartmentID,row.DTE_ARId)" [attr.disabled]="isDisabledGrid ? true : null" title="View" class="btn btn-sm btn-info"><i class="fa fa-eye"></i></button>
+                  </div>
+                </td>
+                <td>
+                  {{idx+1}}
+                </td>
+                <td>
+                  {{row.DepartmentName_English}}
+                </td>
+                <td>
+                  {{row.AffiliationCategoryName}}
+                </td>
+                <td>
+                  {{row.College_Name}}
+                </td>
+                <td>
+                  {{row.Mobile_Number}}
+                </td>
+                <td>
+                  {{row.Email_Address}}
+                </td>
+                <td *ngIf="ShowAffilationType==true">
+                  {{row.AffiliationTypeName}}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+

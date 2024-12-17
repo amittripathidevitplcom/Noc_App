@@ -118,6 +118,9 @@ export class AddCollegeComponent implements OnInit {
   public showUniversityApproveTeachingFaculty: boolean = false;
   public AffiliationUniversityDocumentValidationMessage: string = '';
   public UniversityApproveTeachingFacultyValidationMessage: string = '';
+
+
+  public DTEARNID: number = 0;
   constructor(private legalEntityListService: LegalEntityService, private collegeService: CollegeService, private toastr: ToastrService, private loaderService: LoaderService, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private _fb: FormBuilder, private fileUploadService: FileUploadService) {
   }
 
@@ -214,9 +217,12 @@ export class AddCollegeComponent implements OnInit {
     setTimeout(function () { (window as any).LoadData(); }, 200)
     // query string
     this.QueryStringCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
+    //this.DTEARNID = this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DTE_ARId')?.toString());
 
-
-
+    //if (this.DTEARNID > 0) {
+    //  this.request.DepartmentID = 4;
+    //  this.FillDepartmentRelatedDDL('', this.request.DepartmentID.toString());
+    //}
 
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
 

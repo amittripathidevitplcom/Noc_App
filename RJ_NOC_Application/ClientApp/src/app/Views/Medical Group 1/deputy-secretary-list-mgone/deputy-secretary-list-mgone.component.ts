@@ -44,6 +44,7 @@ export class DeputySecretaryListMGOneComponent implements OnInit {
   }
 
   async GetLOIApplicationList(RoleId: number, UserID: number, Status: string) {
+    debugger;
     try {
       let ActionName = '';
       ActionName = Status == 'Completed' ? 'Forward To Deputy Secretary' : Status == 'Pending' ? 'Forward To Joint Secretary,Revert' : '';

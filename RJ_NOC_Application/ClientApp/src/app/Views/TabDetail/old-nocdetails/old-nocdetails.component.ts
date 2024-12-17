@@ -431,7 +431,7 @@ export class OldNOCDetailsComponent implements OnInit {
     }
     this.oldNOCForm.get('ddlSubject')?.updateValueAndValidity();
     if (this.SelectedDepartmentID != 11) {
-      this.oldNOCForm.get('ddlIssueYear')?.setValidators([DropdownValidators]);;
+      this.oldNOCForm.get('ddlIssueYear')?.setValidators([DropdownValidators]);
       this.oldNOCForm.get('ddlSessionYear')?.clearValidators();
       this.oldNOCForm.get('CourseCategory')?.clearValidators();
       this.oldNOCForm.get('txtFirstOrderNo')?.clearValidators();

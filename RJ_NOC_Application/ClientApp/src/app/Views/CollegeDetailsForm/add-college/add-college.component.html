@@ -35,7 +35,7 @@
       </div>
       <div class="card-body">
         <div class="row">
-          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" >
             <label for="ddlDepartmentID" class="form-label">Select Department <span style="color:red;">*</span></label>
             <select [attr.disabled]="IsEdit ? true : null" class="form-select" id="ddlDepartmentID" name="ddlDepartmentID" [(ngModel)]="request.DepartmentID" formControlName="ddlDepartmentID" #SeletedDepartmentID (change)="FillDepartmentRelatedDDL($event,SeletedDepartmentID.value)">
               <option value="0">--Select--</option>

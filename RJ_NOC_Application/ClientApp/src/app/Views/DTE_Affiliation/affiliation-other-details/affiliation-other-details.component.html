@@ -1,0 +1,158 @@
+<app-loader></app-loader>
+<div class="container-fluid breadcrumbBox py-2">
+  <div class="row align-items-center">
+    <div class="col-md-6">
+    </div>
+    <div class="col-md-6 d-flex justify-content-end">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="#">Other Details</a></li>
+          <li class="breadcrumb-item active" aria-current="page">DTE Affiliation</li>
+        </ol>
+      </nav>
+    </div>
+  </div>
+</div>
+<div class="container-fluid mainContents">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="clearfix"></div>
+      <form [formGroup]="DTEAffiliationOtherDetailsForm" class="form-horizontal">
+        <div class="card">
+          <div class="card">
+            <div class="card-body border">
+              <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-6 mb-3">
+                  <label>Whether the Institute and the course(s) to be commenced are approved by the Government of Rajasthan and NOC has been issued?<span style="color:red;">*</span></label>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-6 mb-3">                 
+                  <select class="form-select" id="ddlNocIssued" name="ddlNocIssued" [(ngModel)]="request.NocIssued" formControlName="ddlNocIssued" (change)="OnchangeStatus()">
+                    <option value="0" disabled>--Select Status NOC Issued--</option>
+                    <option *ngFor="let item of NOCIssuedDataList" value="{{item.NocIssued}}">
+                      {{item.AffilationIssue}}
+                    </option>
+                  </select>                  
+                  <div *ngIf="isSubmitted&&form.ddlNocIssued.errors" class="text-danger">
+                    <p *ngIf="!form.ddlNocIssued.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
+                  </div>
+                </div>
+              </div>
+              <div class="row" *ngIf="NOCSTATUS==true">
+                <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
+                  <label for="txtNocNumber" class="form-label">NOC Number<span style="color:red;">*</span></label>
+                  <input type="text" id="txtNocNumber" placeholder="Enter the NOC Number" formControlName="txtNocNumber" maxlength="100" class="form-control" [(ngModel)]="request.NocNumber"   autocomplete="off">
+                  <p class="text-danger" *ngIf="isSubmitted &&  request.NOCStatus =='Yes' && request.NocNumber==''"><i aria-hidden="true"></i>This field is required .!</p>
+                    <!--<p *ngIf="form.txtNocNumber.errors.required">This field is required .!</p>-->
+                 
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
+                  <label for="txtNocIssueDate" class="form-label">NOC Issue Date <span style="color:red;">*</span></label>
+                  <input type="date" placeholder="DD/MM/YYYY" class="form-control" id="txtNocIssueDate" [(ngModel)]="request.NocIssueDate" formControlName="txtNocIssueDate" max="{{MaxDate | date:'yyyy-MM-dd'}}" onkeypress="return false;" />
+                  <p class="text-danger" *ngIf="isSubmitted &&  request.NOCStatus =='Yes' && request.NocIssueDate==''"><i aria-hidden="true"></i>This field is required .!</p>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
+                  <label>Attach copy of the approval letter (NOC): (Only pdf/image file) (Max. Size 1MB)<span style="color:red;">*</span></label>
+                  <div class="d-flex">
+                    <input type="file" style="display:none;" class="form-control" id="UploadNocApproval" name="UploadNocApproval" (change)="ValidateDocumentNOCApproval($event,'UploadNocApproval')" formControlName="UploadNocApproval">
+                    <label class="btn upload" for="UploadNocApproval">
+                      <span class="filename">Choose file</span>
+                      {{request.UploadNocApproval === '' ? 'No File Choosen' : request.UploadNocApprovalDoc_Dis_FileName}}
+                    </label>
+                    <div class="btn-group" *ngIf="request.UploadNocApproval !=''">
+                      <a class="btn btn-outline-primary" target="_blank" href="{{request.UploadNocApprovalDocPath}}"><i class="fa fa-eye"></i></a>
+                      <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('UploadNocApproval',request.UploadNocApproval)"><i class="fa fa-trash-o"></i></button>
+                    </div>
+                  </div>                 
+                  <p class="text-danger" *ngIf="request.UploadNocApproval==''&& isSubmitted &&  request.NOCStatus =='Yes'"><i aria-hidden="true"></i>  This field is required .!</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card-header d-flex justify-content-between align-items-center">
+            <b class="text-center">&nbsp;Details Of AICTE EOA / LOA</b>
+          </div>
+          <div class="card">
+            <div class="card-body border">
+              <div class="row">               
+                <div class="col-lg-6 col-md-6 col-sm-6 col-6 mb-3">
+                  <label>AICTE EOA / LOA <span style="color:red;">*</span></label>
+                  <select class="form-select" id="ddlAICTE_EOA_LOA" name="ddlAICTE_EOA_LOA" [(ngModel)]="request.AICTE_EOA_LOA" formControlName="ddlAICTE_EOA_LOA" (change)="OnchangeEOAStatus()">
+                    <option value="0" disabled>--Select Status EOA/LOA--</option>
+                    <option *ngFor="let item of NOCIssuedDataList" value="{{item.NocIssued}}">
+                      {{item.AffilationIssue}}
+                    </option>
+                  </select>
+                  <div *ngIf="isSubmitted&&form.ddlAICTE_EOA_LOA.errors" class="text-danger">
+                    <p *ngIf="!form.ddlAICTE_EOA_LOA.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
+                  </div>
+                </div>
+              </div>
+              <div class="row" *ngIf="AICTEEOALOAStatus==true">
+                <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
+                  <label for="txtAICTELAO_No" class="form-label">AICTE LOA No:<span style="color:red;">*</span></label>
+                  <input type="text" id="txtAICTELAO_No" placeholder="Enter the AICTE LAO No" formControlName="txtAICTELAO_No" maxlength="100" class="form-control" [(ngModel)]="request.AICTELAO_No" autocomplete="off">
+                  <p class="text-danger" *ngIf="isSubmitted && request.AICTEStatus =='Yes' && request.AICTELAO_No==''"><i aria-hidden="true"></i>This field is required .!</p>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
+                  <label>EOA /LOA Date <span style="color:red;">*</span></label>
+                  <input type="date" placeholder="DD/MM/YYYY" class="form-control" id="txtEOA_LOA_Date" [(ngModel)]="request.EOA_LOA_Date" formControlName="txtEOA_LOA_Date"  max="{{MaxDate | date:'yyyy-MM-dd'}}" onkeypress="return false;" />
+                  <p class="text-danger" *ngIf="isSubmitted && request.AICTEStatus =='Yes' && request.EOA_LOA_Date==''"><i aria-hidden="true"></i>This field is required .!</p>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
+                  <label>Attach copy of the approval letter (LOA): (Only pdf/image file) (Max. Size 1MB)<span style="color:red;">*</span></label>
+                  <div class="d-flex">
+                    <input type="file" style="display:none;" class="form-control" id="UploadLOAApproval" name="UploadLOAApproval" (change)="ValidateDocumentNOCApproval($event,'UploadLOAApproval')" formControlName="UploadLOAApproval">
+                    <label class="btn upload" for="UploadLOAApproval">
+                      <span class="filename">Choose file</span>
+                      {{request.UploadLOAApproval === '' ? 'No File Choosen' : request.UploadLOAApproval_Dis_FileName}}
+                    </label>
+                    <div class="btn-group" *ngIf="request.UploadLOAApproval !=''">
+                      <a class="btn btn-outline-primary" target="_blank" href="{{request.UploadLOAApprovalDocPath}}"><i class="fa fa-eye"></i></a>
+                      <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('UploadLOAApproval',request.UploadLOAApproval)"><i class="fa fa-trash-o"></i></button>
+                    </div>
+                  </div>                 
+                  <p class="text-danger" *ngIf="request.UploadLOAApproval==''&& isSubmitted && request.AICTEStatus =='Yes'"><i aria-hidden="true"></i>  This field is required .!</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card-header d-flex justify-content-between align-items-center">
+            <b class="text-center">&nbsp;Application Form</b>
+          </div>
+          <div class="card">
+            <div class="card-body border">
+              <div class="row">
+                <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
+                  <label>Upload Soft Copy of application form: (Only pdf/image file) (Max. Size 1MB)<span style="color:red;">*</span></label>
+                  <div class="d-flex">
+                    <input type="file" style="display:none;" class="form-control" id="UploadApplicationForm" name="UploadApplicationForm" (change)="ValidateDocumentNOCApproval($event,'UploadApplicationForm')" formControlName="UploadApplicationForm">
+                    <label class="btn upload" for="UploadApplicationForm">
+                      <span class="filename">Choose file</span>
+                      {{request.UploadApplicationForm === '' ? 'No File Choosen' : request.UploadApplicationFormDoc_Dis_FileName}}
+                    </label>
+                    <div class="btn-group" *ngIf="request.UploadApplicationForm !=''">
+                      <a class="btn btn-outline-primary" target="_blank" href="{{request.UploadApplicationFormDocPath}}"><i class="fa fa-eye"></i></a>
+                      <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('UploadApplicationForm',request.UploadApplicationForm)"><i class="fa fa-trash-o"></i></button>
+                    </div>
+                  </div>
+                  <p class="text-danger" *ngIf="request.UploadApplicationForm==''&& isSubmitted"><i aria-hidden="true"></i>  This field is required .!</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card-footer text-end">
+            <button type="submit" class="btn btn-primary" id="btnSave" name="btnSave" (click)="SaveData()">Submit</button>
+            <button type="submit" class="btn btn-danger" id="btnReset" name="btnReset" (click)="ResetControl()">Reset</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+

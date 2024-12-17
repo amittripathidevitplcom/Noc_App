@@ -93,6 +93,7 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
+  
   public async GetDepartmentList_IsOpenNOCApplication() {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -1275,6 +1276,17 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
+  public async GetDteAffiliation_SearchRecordIDWise(SearchRecordID: string) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl_CommonMaster + "/GetDteAffiliation_SearchRecordIDWise/" + SearchRecordID)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
   public async GetWorkFlowStatusbyDepartment(DepartmentID: number) {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -1572,4 +1584,49 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
+  public async GetStartDateEndDateDepartmentwise(DepartmentID: number) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl_CommonMaster + "/GetStartDateEndDateDepartmentwise/" + DepartmentID)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+  public async GetDTEAffiliationApply(SSOID: string) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl_CommonMaster + "/GetDTEAffiliationApply/" + SSOID)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+  public async GetAffiliationRegistrationList(SSOID: string) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl_CommonMaster + "/GetAffiliationRegistrationList/" + SSOID)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+  public async Get_DTEAffiliationFeeDetailsList() {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl_CommonMaster + "/Get_DTEAffiliationFeeDetailsList")
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+  
 }

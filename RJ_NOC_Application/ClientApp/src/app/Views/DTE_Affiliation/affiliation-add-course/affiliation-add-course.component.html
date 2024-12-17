@@ -1,0 +1,122 @@
+<app-loader></app-loader>
+<div class="container-fluid breadcrumbBox py-2">
+  <div class="row align-items-center">
+    <div class="col-md-6">
+    </div>
+    <div class="col-md-6 d-flex justify-content-end">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="#">DTE Affiliation</a></li>
+          <li class="breadcrumb-item active" aria-current="page">Add Course</li>
+        </ol>
+      </nav>
+    </div>
+  </div>
+</div>
+<div class="container-fluid mainContents">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="clearfix"></div>
+      <form [formGroup]="DTEAffiliationAddCourseForm" class="form-horizontal">
+        <div class="card">
+          <div class="card-header d-flex justify-content-between align-items-center">
+            <b class="text-center"><i class="fa fa-plus"></i> Add Course</b>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-lg-12 col-md-12 col-sm-12 col-12 mb-3">
+                <label for="ddlAffiliationCourseTypeID" class="form-label">Course Status<span style="color:red;">*</span></label>
+                <select class="form-control" id="ddlCollegeStatusId" name="ddlCollegeStatusId" [(ngModel)]="request.CollegeStatusId" formControlName="ddlCollegeStatusId" (change)="SelectionOnchange()">
+                  <option value="0" selected>--Select Course Status--</option>
+                  <option *ngFor="let item of StatusOfCollegeList" value="{{item.ID}}">{{item.Name}}</option>
+                </select>
+                <div *ngIf="isSubmitted&&form.ddlCollegeStatusId.errors" class="text-danger">
+                  <p *ngIf="!form.ddlCollegeStatusId.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
+                </div>
+              </div>
+
+              <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
+                <label for="ddlAffiliationCourseTypeID" class="form-label">Course Type<span style="color:red;">*</span></label>
+                <select class="form-select" id="ddlAffiliationCourseTypeID" name="ddlAffiliationCourseTypeID" [(ngModel)]="request.AffiliationCourseTypeID" formControlName="ddlAffiliationCourseTypeID" (change)="GetAffiliationCourseNameList(request.AffiliationCourseTypeID)">
+                  <option value="0" disabled>--Select Status Course Type--</option>
+                  <option *ngFor="let item of AffilationCourseTypeList" value="{{item.ID}}">
+                    {{item.Name}}
+                  </option>
+                </select>
+                <div *ngIf="isSubmitted&&form.ddlAffiliationCourseTypeID.errors" class="text-danger">
+                  <p *ngIf="!form.ddlAffiliationCourseTypeID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
+                </div>
+              </div>
+              <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
+                <label for="txtCourseIntakeAsPerAICTELOA" class="form-label">Course Intake As Per AICTE LOA<span style="color:red;">*</span></label>
+                <input type="text" id="txtCourseIntakeAsPerAICTELOA" placeholder="Enter the Course Intake As Per AICTE LOA" formControlName="txtCourseIntakeAsPerAICTELOA" maxlength="100" class="form-control" [(ngModel)]="request.CourseIntakeAsPerAICTELOA" (keypress)="alphaOnly($event)" autocomplete="off">
+                <div *ngIf="isSubmitted&&form.txtCourseIntakeAsPerAICTELOA.errors" class="text-danger">
+                  <p *ngIf="form.txtCourseIntakeAsPerAICTELOA.errors.required">This field is required .!</p>
+                </div>
+              </div>
+              <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
+                <label for="ddlCourseID" class="form-label">Course Name<span style="color:red;">*</span></label>
+                <select class="form-select" id="ddlCourseID" name="ddlCourseID" [(ngModel)]="request.CourseID" formControlName="ddlCourseID">
+                  <option value="0" disabled>--Select Status Course Name--</option>
+                  <option *ngFor="let item of AffiliationCourseNameList" value="{{item.CourseID}}">
+                    {{item.CourseName}}
+                  </option>
+                </select>
+                <div *ngIf="isSubmitted&&form.ddlCourseID.errors" class="text-danger">
+                  <p *ngIf="!form.ddlCourseID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
+                </div>
+              </div>
+              <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
+                <label for="ddlAffiliationShiftID" class="form-label">Shift<span style="color:red;">*</span></label>
+                <select class="form-select" id="ddlAffiliationShiftID" name="ddlAffiliationShiftID" [(ngModel)]="request.AffiliationShiftID" formControlName="ddlAffiliationShiftID">
+                  <option value="0" disabled>--Select Status Shift--</option>
+                  <option *ngFor="let item of shiftDataList" value="{{item.shiftID}}">
+                    {{item.shiftName}}
+                  </option>
+                </select>
+                <div *ngIf="isSubmitted&&form.ddlAffiliationShiftID.errors" class="text-danger">
+                  <p *ngIf="!form.ddlAffiliationShiftID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
+                </div>
+              </div>
+              <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
+                <label for="ddlYearofstartingID" class="form-label">Year of starting<span style="color:red;">*</span></label>
+                <select class="form-select" id="ddlYearofstartingID" name="ddlYearofstartingID" [(ngModel)]="request.YearofstartingID" formControlName="ddlYearofstartingID">
+                  <option value="0" disabled>--Select Year Branch--</option>
+                  <option *ngFor="let item of FinancialYearList" value="{{item.FinancialYearID}}">
+                    {{item.FinancialYearName}}
+                  </option>
+                </select>
+                <div *ngIf="isSubmitted&&form.ddlAffiliationBranchID.errors" class="text-danger">
+                  <p *ngIf="!form.ddlAffiliationBranchID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
+                </div>
+              </div>
+              <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
+                <label for="ddlAffiliationBranchID" class="form-label">Branch Type<span style="color:red;">*</span></label>
+                <select class="form-select" id="ddlAffiliationBranchID" name="ddlAffiliationBranchID" [(ngModel)]="request.AffiliationBranchID" formControlName="ddlAffiliationBranchID">
+                  <option value="0" disabled>--Select Status Branch--</option>
+                  <option *ngFor="let item of AffiliationBranchList" value="{{item.ID}}">
+                    {{item.Name}}
+                  </option>
+                </select>
+                <div *ngIf="isSubmitted&&form.ddlAffiliationBranchID.errors" class="text-danger">
+                  <p *ngIf="!form.ddlAffiliationBranchID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
+                </div>
+              </div>
+            </div>
+            </div>
+          
+
+
+          <div class="card-footer text-end">
+            <button type="submit" class="btn btn-primary" id="btnSave" name="btnSave" (click)="SaveData()">Submit</button>
+            <button type="submit" class="btn btn-danger" id="btnReset" name="btnReset" (click)="ResetControl()">Reset</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+
+

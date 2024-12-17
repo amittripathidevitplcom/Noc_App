@@ -186,6 +186,7 @@ export class ApplicationDetailEntryComponent implements OnInit {
   }
   isCheck30Female: boolean = false;
   async DraftFinalSubmit(IsDraftSubmited: any) {
+    debugger;
     if (confirm("Are you satisfied with the data that are showing in the View Application?")) {
       let Femalepre = 0;
       let TotalDuplicateAadhaar = 0;
@@ -683,7 +684,9 @@ export class ApplicationDetailEntryComponent implements OnInit {
 
     //this.CheckTabsEntryData['StaffDetails'] > 0 &&
     if (this.SelectedDepartmentID == 4) {
+      debugger;
       if (this.CollegeType_IsExisting == true) {
+        console.log(this.CheckTabsEntryData);
         if (this.CheckTabsEntryData['LandInformation'] > 0 && this.CheckTabsEntryData['Facility'] > 0 && this.CheckTabsEntryData['RequiredDocument'] > 0 &&
           this.CheckTabsEntryData['RoomDetails'] > 0 && this.CheckTabsEntryData['OtherInformation'] > 0 && this.CheckTabsEntryData['BuildingDocuments'] > 0
           && this.CheckTabsEntryData['CourseDetails'] > 0
@@ -728,6 +731,24 @@ export class ApplicationDetailEntryComponent implements OnInit {
       }
       else {
         if (this.CheckTabsEntryData['LandInformation'] > 0 && this.CheckTabsEntryData['Facility'] > 0 && this.CheckTabsEntryData['RequiredDocument'] > 0 && this.CheckTabsEntryData['RoomDetails'] > 0 && this.CheckTabsEntryData['OtherInformation'] > 0 && this.CheckTabsEntryData['BuildingDocuments'] > 0 && this.CheckTabsEntryData['HostelDetails'] > 0) {
+          this.IsShowDraftFinalSubmit = false;
+        }
+      }
+    }
+    if (this.SelectedDepartmentID == 11) {     
+      if (this.CollegeType_IsExisting == true) {
+        console.log(this.CheckTabsEntryData);
+        if (this.CheckTabsEntryData['LandInformation'] > 0 && this.CheckTabsEntryData['Facility'] > 0 && this.CheckTabsEntryData['RequiredDocument'] > 0 &&
+          this.CheckTabsEntryData['RoomDetails'] > 0 && this.CheckTabsEntryData['OtherInformation'] > 0 && this.CheckTabsEntryData['BuildingDocuments'] > 0
+          && this.CheckTabsEntryData['CourseDetails'] > 0
+        ) {
+          this.IsShowDraftFinalSubmit = false;
+        }
+      }
+      else {
+        if (this.CheckTabsEntryData['LandInformation'] > 0 && this.CheckTabsEntryData['Facility'] > 0 && this.CheckTabsEntryData['RequiredDocument'] > 0 &&
+          this.CheckTabsEntryData['RoomDetails'] > 0 && this.CheckTabsEntryData['OtherInformation'] > 0 && this.CheckTabsEntryData['BuildingDocuments'] > 0
+          && this.CheckTabsEntryData['CourseDetails'] > 0) {
           this.IsShowDraftFinalSubmit = false;
         }
       }

@@ -424,6 +424,12 @@ import { GenerateOrderMGOneComponent } from './Views/Medical Group 1/NOC/generat
 import { AffiliationRegistrationComponent } from './Views/DTE_Affiliation/affiliation-registration/affiliation-registration.component';
 import { AHInfraDepartmentWiseComponent } from './Views/TabDetail/ahinfra-department-wise/ahinfra-department-wise.component';
 import { PreviewAHInfraDepartmentWiseComponent } from './Views/PreviewTabs/preview-ahinfra-department-wise/preview-ahinfra-department-wise.component';
+import { AffiliationAddCourseComponent } from './Views/DTE_Affiliation/affiliation-add-course/affiliation-add-course.component';
+import { AffiliationOtherDetailsComponent } from './Views/DTE_Affiliation/affiliation-other-details/affiliation-other-details.component';
+import { PreviewDTEAffiliationCourseComponent } from './Views/PreviewTabs/preview-dteaffiliation-course/preview-dteaffiliation-course.component';
+import { PreviewDTEAffiliationOtherDetailsComponent } from './Views/PreviewTabs/preview-dteaffiliation-other-details/preview-dteaffiliation-other-details.component';
+import { DTEAffiliationDetailsComponent } from './Views/DTEAffiliationDetails/dteaffiliation-details/dteaffiliation-details.component';
+import { DTEAffiliationSummaryComponent } from './Views/DTEAffiliationView/dteaffiliation-summary/dteaffiliation-summary.component';
 
 
  
@@ -846,6 +852,13 @@ import { PreviewAHInfraDepartmentWiseComponent } from './Views/PreviewTabs/previ
     AffiliationRegistrationComponent,
     AHInfraDepartmentWiseComponent,
     PreviewAHInfraDepartmentWiseComponent
+    AffiliationRegistrationComponent,
+    AffiliationAddCourseComponent,
+    AffiliationOtherDetailsComponent,
+    PreviewDTEAffiliationCourseComponent,
+    PreviewDTEAffiliationOtherDetailsComponent,
+    DTEAffiliationDetailsComponent,
+    DTEAffiliationSummaryComponent
   ],
   imports: [
     CommonModule,

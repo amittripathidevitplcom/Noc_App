@@ -48,6 +48,7 @@ export class NodalSecretaryApplicationListMGOneComponent implements OnInit {
   }
 
   async GetLOIApplicationList(RoleId: number, UserID: number, Status: string) {
+    debugger;
     try {
       let ActionName = '';
       ActionName = Status == 'Completed' ? 'Forward' : Status == 'Pending' ? 'Apply LOI,Forward,ReSubmit Application' : '';
@@ -55,6 +56,7 @@ export class NodalSecretaryApplicationListMGOneComponent implements OnInit {
       this.loaderService.requestStarted();
       await this.mg1DocumentScrutinyService.GetLOIApplicationList(RoleId, UserID, Status, ActionName)
         .then((data: any) => {
+          debugger;
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];

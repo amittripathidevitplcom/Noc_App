@@ -250,6 +250,13 @@ import { MgOneNocCompletedReportComponent } from './Views/Medical Group 1/NOC/mg
 import { GenerateOrderMGOneComponent } from './Views/Medical Group 1/NOC/generate-order-mgone/generate-order-mgone.component';
 import { AHInfraDepartmentWiseComponent } from './Views/TabDetail/ahinfra-department-wise/ahinfra-department-wise.component';
 
+import { AffiliationRegistrationComponent } from './Views/DTE_Affiliation/affiliation-registration/affiliation-registration.component';
+import { AffiliationAddCourseComponent } from './Views/DTE_Affiliation/affiliation-add-course/affiliation-add-course.component';
+import { AffiliationOtherDetailsComponent } from './Views/DTE_Affiliation/affiliation-other-details/affiliation-other-details.component';
+import { PreviewDTEAffiliationCourseComponent } from './Views/PreviewTabs/preview-dteaffiliation-course/preview-dteaffiliation-course.component';
+import { PreviewDTEAffiliationOtherDetailsComponent } from './Views/PreviewTabs/preview-dteaffiliation-other-details/preview-dteaffiliation-other-details.component';
+import { DTEAffiliationDetailsComponent } from './Views/DTEAffiliationDetails/dteaffiliation-details/dteaffiliation-details.component';
+import { DTEAffiliationSummaryComponent } from './Views/DTEAffiliationView/dteaffiliation-summary/dteaffiliation-summary.component';
 const routes: Routes = [
   {
     path: 'home', component: HomeComponent
@@ -990,7 +997,7 @@ const routes: Routes = [
       },
       {
         path: 'legalentitydepartmentwise', component: LegalEntityDepartmentWiseComponent
-      },
+      },      
       {
         path: 'nocformatmaster', component: NOCFormatMasterComponent
       },
@@ -1001,6 +1008,42 @@ const routes: Routes = [
       {
         path: 'nocdentalchairsreportmgone/:DepartmentID/:CollegeID/:NOCID/:Status', component: DentalChairsMgoneNocComponent
       },
+      {
+        path: 'affiliationregistration', component: AffiliationRegistrationComponent
+      },
+      //{
+      //  path: 'affiliationaddcoures', component: AffiliationAddCourseComponent
+      //},
+      //{
+      //  path: 'affiliationotherdetails', component: AffiliationOtherDetailsComponent
+      //},
+      //{
+      //  path: 'previewdTEaffiliationcourse', component: PreviewDTEAffiliationCourseComponent
+      //},
+      //{
+      //  path: 'previewdteaffiliationOtherDetails', component: PreviewDTEAffiliationOtherDetailsComponent
+      //},
+      {
+        path: 'dteaffiliationdetails/:DepartmentID/:DTE_ARId', component: DTEAffiliationDetailsComponent,
+        pathMatch: 'full'
+      },
+      {
+        path: 'dteaffiliationsummary/:DepartmentID/:DTE_ARId', component: DTEAffiliationSummaryComponent,
+        pathMatch: 'full'
+      },
+      {
+        path: 'mgonenoccompleteapplicationlist',component: MgOneNocCompletedReportComponent,
+        pathMatch: 'full'
+      },
+      {
+        path: 'mgonenocapplicationlist/:Status', component: MgoneNocapplicationListComponent
+      },{
+        path: 'mgonenocapplicationlist', component: MgoneNocapplicationListComponent
+      },
+      {
+        path: 'mgonedocumentScrutinyNodalOfficer/:DepartmentID/:CollegeID/:ApplyNOCID/:ApplicationNoYear/:ApplicationNoID/:Status', component: MGOneDocumentScrutinyNodalOfficerComponent
+      },
+      
       {
         path: 'ahinfradepartmentwise', component: AHInfraDepartmentWiseComponent
       },
@@ -1035,6 +1078,7 @@ const routes: Routes = [
   {
     path: 'applicationpdf/:CollegeID/:DepartmentID/:Status', component: ApplicationPDFComponent
   },
+  
   {
     path: '**', component: PageNotFoundComponent
   }

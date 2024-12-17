@@ -113,7 +113,7 @@ export class MgoneNocapplicationListComponent {
   get form_CommitteeMember() { return this.CommitteeMemberDetails.controls; }
 
 
-  async GetApplyNOCApplicationListByRole() {
+  async GetApplyNOCApplicationListByRole() {   
     try {
       this.loaderService.requestStarted();
       await this.mgoneNOCService.GetNOCApplicationList(this.sSOLoginDataModel.UserID, this.sSOLoginDataModel.RoleID, 'Pending')
@@ -123,6 +123,7 @@ export class MgoneNocapplicationListComponent {
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
           this.ApplyNocDetails = data['Data'][0]['data'];
+          console.log(this.ApplyNocDetails);
         }, error => console.error(error));
     }
     catch (Ex) {
@@ -377,9 +378,9 @@ export class MgoneNocapplicationListComponent {
     this.request_MemberList.ApplicationCommitteeList = newArr;
   }
 
-  async ApplicationPreview_OnClick(DepartmentID: number, CollegeID: number, ApplyNOCID: number, ApplicationNo: string, Status: string) {
+  async ApplicationPreview_OnClick(DepartmentID: number, CollegeID: number, ApplyNOCID: number, ApplicationNo: string, Status: string) {   
     if (DepartmentID = 5) {
-      this.routers.navigate(['/mgoneappnocviewByNodal' + "/" + encodeURI(this.commonMasterService.Encrypt(DepartmentID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(CollegeID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(ApplyNOCID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(ApplicationNo.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(Status.toString()))]);
+      this.routers.navigate(['/mgonedocumentScrutinyNodalOfficer' + "/" + encodeURI(this.commonMasterService.Encrypt(DepartmentID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(CollegeID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(ApplyNOCID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(ApplicationNo.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(Status.toString()))]);
     }
   }
 
