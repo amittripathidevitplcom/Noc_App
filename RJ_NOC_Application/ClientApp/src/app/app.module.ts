@@ -851,7 +851,7 @@ import { DTEAffiliationSummaryComponent } from './Views/DTEAffiliationView/dteaf
     GenerateOrderMGOneComponent,
     AffiliationRegistrationComponent,
     AHInfraDepartmentWiseComponent,
-    PreviewAHInfraDepartmentWiseComponent
+    PreviewAHInfraDepartmentWiseComponent,
     AffiliationRegistrationComponent,
     AffiliationAddCourseComponent,
     AffiliationOtherDetailsComponent,
