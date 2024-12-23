@@ -340,7 +340,7 @@ export class LandDetailsComponent implements OnInit {
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
-          this.UnitOfLand = data['Data'][0]['Name'];
+          this.UnitOfLand = data['Data']['Name'];
         }, error => console.error(error));
     }
     catch (Ex) {

@@ -100,6 +100,7 @@ export class RoomDetailsComponent implements OnInit {
   public SelectedApplyNOCID: number = 0;
   public UnitType: string = 'sq. ft';
   public SearchRecordID: string = '';
+  public AHDepartmentList: any = [];
   constructor(private roomDetailsService: RoomDetailsService, private toastr: ToastrService, private loaderService: LoaderService,
     private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private collegeService: CollegeService,
     private routers: Router, private _fb: FormBuilder, private fileUploadService: FileUploadService, private clipboard: Clipboard) { }
@@ -152,12 +153,15 @@ export class RoomDetailsComponent implements OnInit {
     await this.GetCollageDetails();
     await this.LoadMaster();
     await this.GetRoomDetailAllList();
-
+    await this.GetAHFacilityDepartmentList();
 
   }
   get form() { return this.RoomDetailsForm.controls; }
 
-
+  timeValidator(control: any): { [key: string]: boolean } | null {
+    const timeRegex = /^(0?[1-9]|1[0-2]):[0-5][0-9]\s?(AM|PM)$/i;
+    return timeRegex.test(control.value) ? null : { invalidTime: true };
+  }
   async LoadMaster() {
     this.courseDataList = [];
     try {
@@ -738,6 +742,115 @@ export class RoomDetailsComponent implements OnInit {
       }, 200);
     }
   }
+
+  async GetAHFacilityDepartmentList() {
+
+    try {
+      this.loaderService.requestStarted();
+      await this.commonMasterService.GetAHFacilityDepartmentList(0, this.SelectedCollageID)
+        .then(async (data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.AHDepartmentList = data['Data'];
+          for (var i = 0; i < this.AHDepartmentList.length; i++) {
+            for (var j = 0; j < this.AHDepartmentList[i].AHFacilityDepartmentList.length; j++) {
+              await this.ShowHideRow(i, j, this.AHDepartmentList[i].AHFacilityDepartmentList[j].ID);
+            }
+          }
+
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  async ShowHideRow(Departidx: number, idx: number, ID: number) {
+    var GetChild = this.AHDepartmentList[Departidx].AHFacilityDepartmentList.filter((x: { ParentID: number }) => x.ParentID == ID);
+    if (GetChild.length > 0) {
+      for (var j = 0; j < this.AHDepartmentList[Departidx].AHFacilityDepartmentList.length; j++) {
+        if (this.AHDepartmentList[Departidx].AHFacilityDepartmentList[j].ParentID == ID && this.AHDepartmentList[Departidx].AHFacilityDepartmentList[idx].Value == 'Yes') {
+          this.AHDepartmentList[Departidx].AHFacilityDepartmentList[j].IsHide = false;
+        }
+        else if (this.AHDepartmentList[Departidx].AHFacilityDepartmentList[j].ParentID == ID && this.AHDepartmentList[Departidx].AHFacilityDepartmentList[idx].Value != 'Yes') {
+          this.AHDepartmentList[Departidx].AHFacilityDepartmentList[j].IsHide = true;
+          this.AHDepartmentList[Departidx].AHFacilityDepartmentList[j].Value = '';
+
+        }
+      }
+    }
+  }
+  async ResetControlMGONE() {
+    for (var i = 0; i < this.AHDepartmentList.length; i++) {
+      for (var j = 0; j < this.AHDepartmentList[i].AHFacilityDepartmentList.length; j++) {
+        this.AHDepartmentList[i].AHFacilityDepartmentList[j].Value = '';
+        this.AHDepartmentList[i].AHFacilityDepartmentList[j].Value_Dis_FileName = '';
+        this.AHDepartmentList[i].AHFacilityDepartmentList[j].ValuePath = '';
+      }
+    }
+  }
+  async SaveDataMGONE() {
+    this.isSubmitted = true;
+    try {
+      for (var i = 0; i < this.AHDepartmentList.length; i++) {
+        for (var j = 0; j < this.AHDepartmentList[i].AHFacilityDepartmentList.length; j++) {
+          if (this.AHDepartmentList[i].AHFacilityDepartmentList[j].IsMandatory) {
+            var GetChild = this.AHDepartmentList[i].AHFacilityDepartmentList.filter((x: { ParentID: number }) => x.ParentID == this.AHDepartmentList[i].AHFacilityDepartmentList[j].ID);
+            if (this.AHDepartmentList[i].AHFacilityDepartmentList[j].Value == '' && this.AHDepartmentList[i].AHFacilityDepartmentList[j].ParentID == 0) {
+              return;
+            }
+            else if (this.AHDepartmentList[i].AHFacilityDepartmentList[j].ControlType == 'Text' && this.AHDepartmentList[i].AHFacilityDepartmentList[j].Value < this.AHDepartmentList[i].AHFacilityDepartmentList[j].MinQty && this.AHDepartmentList[i].AHFacilityDepartmentList[j].ParentID == 0) {
+              return;
+            }
+            else if (this.AHDepartmentList[i].AHFacilityDepartmentList[j].ControlType == 'DropDown' && this.AHDepartmentList[i].AHFacilityDepartmentList[j].ParentID == 0 && this.AHDepartmentList[i].AHFacilityDepartmentList[j].Value == 'Yes') {
+              if (GetChild.length > 0) {
+                for (var k = 0; k < GetChild.length; k++) {
+                  if (GetChild[k].Value == '') {
+                    return;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+      this.loaderService.requestStarted();
+      this.AHDepartmentList[0].CollegeID = this.SelectedCollageID;
+      await this.commonMasterService.SaveAHDepartmentInfrastructure(this.AHDepartmentList)
+        .then(async (data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          if (this.State == 0) {
+            //console.log(data['Data']);
+            this.toastr.success(this.SuccessMessage);
+            //window.location.reload();
+            await this.GetAHFacilityDepartmentList();
+          }
+          else if (this.State == 2) {
+            this.toastr.warning(this.ErrorMessage)
+          }
+          else {
+            this.toastr.error(this.ErrorMessage)
+          }
+        }, error => {
+          this.toastr.warning("Unable to connect to server .!");
+        })
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
 }
 
 

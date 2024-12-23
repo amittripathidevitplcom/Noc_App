@@ -1,5 +1,6 @@
 import { DocumentScrutiny_ActionModule} from '../Models/LandDetailDataModel'
 export class HostelDataModel extends DocumentScrutiny_ActionModule {
+  public HostelTypeID: number = 0;
   public HostelCategoryID: number = 0;
   public HostelDetailID: number = 0;
   public IsHostel: string = '';
@@ -42,6 +43,7 @@ export class HostelDataModel extends DocumentScrutiny_ActionModule {
 
 
   public HostelCategory: string = '';
+  public HostelCategoryType: string = '';
   public CityID: number = 0;
   public CityName: string = '';
   public BuiltUpArea?: string = '';

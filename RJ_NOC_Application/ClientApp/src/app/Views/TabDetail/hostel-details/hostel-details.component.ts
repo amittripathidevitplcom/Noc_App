@@ -23,6 +23,7 @@ import jsPDF from 'jspdf'
 import autoTable from 'jspdf-autotable'
 import { style } from '@angular/animations';
 import { CollegeService } from '../../../services/collegedetailsform/College/college.service';
+import { debug } from 'console';
 
 
 @Injectable()
@@ -131,6 +132,7 @@ export class HostelDetailsComponent implements OnInit {
   public MaxFromDate: Date = new Date();
   public MinToDate: Date = new Date();
   public HostelCategoryList: any = [];
+  public HostelTypeList: any = [];
 
 
   closeResult: string | undefined;
@@ -154,6 +156,7 @@ export class HostelDetailsComponent implements OnInit {
     this.HostelForm = this.formBuilder.group(
       {
         rbHostelCampus: ['', Validators.required],
+        ddlHostelTypeID: [''],
         ddlHostelCategoryID: ['', [DropdownValidators]],
         txtHostelName: ['', Validators.required],
         txtContactPersonName: ['', Validators.required],
@@ -230,6 +233,7 @@ export class HostelDetailsComponent implements OnInit {
 
     // load
     //await this.GetCollageDetails();
+    await this.GetHostelType();
     await this.GetHostelCategory();
     await this.GetDivisionList();
     await this.GetHostelDetailList_DepartmentCollegeWise(this.SelectedDepartmentID, this.SelectedCollageID, 0)
@@ -586,11 +590,24 @@ export class HostelDetailsComponent implements OnInit {
   async SaveData() {
     debugger;
     try {
+      if (this.SelectedDepartmentID == 5) {
+        debugger;
+        if (this.request.HostelTypeID > 0) {
+          this.HostelForm.get('ddlHostelTypeID')?.clearValidators();
+
+          this.HostelForm.get('ddlHostelTypeID')?.updateValueAndValidity();
+        }
+        else {
+          this.HostelForm.get('ddlHostelTypeID')?.setValidators(DropdownValidators);
+
+          this.HostelForm.get('ddlHostelTypeID')?.updateValueAndValidity();
+        }
+      }
       this.isFormValid = this.ValidateForm();
       if (this.HostelForm.invalid) {
         this.isFormValid = false;
         console.log(this.HostelForm);
-      }
+      }      
 
       if (!this.isFormValid) {
         return;
@@ -599,6 +616,7 @@ export class HostelDetailsComponent implements OnInit {
         this.isFormValid = false;
         this.toastr.error('please add atleast one hostel block details');
       }
+      
       //loding
       this.loaderService.requestStarted();
       //some data
@@ -821,7 +839,7 @@ export class HostelDetailsComponent implements OnInit {
       this.loaderService.requestStarted();
       await this.hostelDetailService.GetHostelDetailList_DepartmentCollegeWise(this.SelectedDepartmentID, this.SelectedCollageID, HostelDetailID)
         .then(async (data: any) => {
-
+          debugger;
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
@@ -843,6 +861,7 @@ export class HostelDetailsComponent implements OnInit {
           await this.IsHostelCampusOrNot(false);
           this.request.HostelCategory = data['Data'][0]['HostelCategory'];
           this.request.HostelCategoryID = data['Data'][0]['HostelCategoryID'];
+          this.request.HostelTypeID = data['Data'][0]['HostelTypeID'];
           this.request.HostelName = data['Data'][0]['HostelName'];
           //this.request.AddressLine1 = data['Data'][0]['AddressLine1'];
           //this.request.AddressLine2 = data['Data'][0]['AddressLine2'];
@@ -890,7 +909,33 @@ export class HostelDetailsComponent implements OnInit {
       }, 200);
     }
   }
-
+  async GetHostelType() {
+    try {
+      // loading
+      this.loaderService.requestStarted();
+      // get
+      await this.commonMasterService.GetCommonMasterList_DepartmentAndTypeWise(this.SelectedDepartmentID, "HostelType")
+        .then((data: any) => {
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          // data
+          this.HostelTypeList = data['Data'];
+          //msg
+          if (this.State != 0) {
+            this.toastr.error(this.ErrorMessage);
+          }
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
   async GetHostelCategory() {
     try {
       // loading
@@ -1132,7 +1177,7 @@ export class HostelDetailsComponent implements OnInit {
       this.loaderService.requestStarted();
       await this.hostelDetailService.GetHostelDetailList_DepartmentCollegeWise(this.SelectedDepartmentID, this.SelectedCollageID, HostelDetailID)
         .then((data: any) => {
-
+          debugger;
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];

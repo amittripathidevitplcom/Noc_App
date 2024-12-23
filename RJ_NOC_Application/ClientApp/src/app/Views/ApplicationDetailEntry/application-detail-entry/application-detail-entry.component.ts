@@ -712,7 +712,8 @@ export class ApplicationDetailEntryComponent implements OnInit {
     }
     //Medical Group 1
     if (this.SelectedDepartmentID == 5) {
-      if (this.CheckTabsEntryData['LandInformation'] > 0 && this.CheckTabsEntryData['RequiredDocument'] > 0)//&& this.CheckTabsEntryData['BuildingDocuments'] > 0 && this.CheckTabsEntryData['HospitalDetails'] > 0
+      console.log(this.CheckTabsEntryData);
+      if (this.CheckTabsEntryData['CourseDetails'] > 0 && this.CheckTabsEntryData['LandInformation'] > 0 && this.CheckTabsEntryData['BuildingDocuments'] > 0 && this.CheckTabsEntryData['RoomDetails'] > 0 && this.CheckTabsEntryData['Facility'] > 0 && this.CheckTabsEntryData['RequiredDocument'] > 0 && this.CheckTabsEntryData['HospitalDetails'] > 0 && this.CheckTabsEntryData['HostelDetails'] > 0 && this.CheckTabsEntryData['StaffDetails'] > 0 )
       {
         this.IsShowDraftFinalSubmit = false;
       }

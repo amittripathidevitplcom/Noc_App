@@ -16,7 +16,7 @@
             <input class="form-check-input" type="radio" name="rbIsHostel" id="rbIsHostelYes" value="Yes" [ngModelOptions]="{standalone: true}" [(ngModel)]="request.IsHostel">
             <label class="form-check-label" for="rbIsHostelYes">Yes</label>
           </div>
-          <div class="form-check form-check-inline">
+          <div class="form-check form-check-inline" *ngIf="hostelDataModel.length==0">
             <input class="form-check-input" type="radio" name="rbIsHostel" id="rbIsHostelNo" value="No" [ngModelOptions]="{standalone: true}" [(ngModel)]="request.IsHostel">
             <label class="form-check-label" for="rbIsHostelNo">No</label>
           </div>
@@ -42,6 +42,16 @@
             </div>
           </div>
           <div class="row">
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="SelectedDepartmentID==5">
+              <label class="form-label">Hostel Type <span style="color:red;">*</span></label>
+              <select class="form-select" id="ddlHostelTypeID" name="ddlHostelTypeID" [(ngModel)]="request.HostelTypeID" formControlName="ddlHostelTypeID">
+                <option value="0">--Select--</option>
+                <option *ngFor="let item of HostelTypeList" value="{{item.ID}}">{{item.Name}}</option>
+              </select>
+              <div *ngIf="isSubmitted&&Hform.ddlHostelTypeID.errors" class="text-danger">
+                <p *ngIf="!Hform.ddlHostelTypeID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
+              </div>
+            </div>
             <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
               <label class="form-label">Hostel Category <span style="color:red;">*</span></label>
               <select class="form-select" id="ddlHostelCategoryID" name="ddlHostelCategoryID" [(ngModel)]="request.HostelCategoryID" formControlName="ddlHostelCategoryID">
@@ -52,6 +62,7 @@
                 <p *ngIf="!Hform.ddlHostelCategoryID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
               </div>
             </div>
+
             <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
               <label class="form-label">Hostel Name <span style="color:red;">*</span></label>
               <input type="text" class="form-control" id="txtHostelName" name="txtHostelName" [(ngModel)]="request.HostelName" autocomplete="off"
@@ -449,6 +460,7 @@
                   <th>Hostel Name</th>
                   <th>Contact Person Name</th>
                   <th>Contact Person No.</th>
+                  <th *ngIf="SelectedDepartmentID==5">Hostel Type</th>
                   <th>Hostel Category</th>
                   <th>Action</th>
                 </tr>
@@ -460,6 +472,7 @@
                   <td>{{row.HostelName}}</td>
                   <td>{{row.ContactPersonName}}</td>
                   <td>{{row.ContactPersonNo}}</td>
+                  <td *ngIf="SelectedDepartmentID==5">{{row.HostelCategoryType}}</td>
                   <td>{{row.HostelCategory}}</td>
                   <td>
                     <button type="button" class="btn btn-sm btn-primary" title="Edit" (click)="EditItem(row.HostelDetailID)" [hidden]="QueryStringStatus=='R'&&row.Action=='Yes'" [attr.disabled]="isDisabled ? true : null"><i class="fa fa-edit"></i></button>
@@ -491,6 +504,10 @@
       <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3">
         <label><b>Is Hostel In Campus</b>: &nbsp;&nbsp; </label>
         <input class="form-control disabled" disabled value="{{viewhostel.IsHostelCampus}}" />
+      </div>
+      <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3" *ngIf="SelectedDepartmentID==5">
+        <label><b>Hostel Type</b>: &nbsp;&nbsp; </label>
+        <input class="form-control disabled" disabled value="{{viewhostel.HostelCategoryType}}" />
       </div>
       <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3">
         <label><b>Hostel Category</b>: &nbsp;&nbsp; </label>

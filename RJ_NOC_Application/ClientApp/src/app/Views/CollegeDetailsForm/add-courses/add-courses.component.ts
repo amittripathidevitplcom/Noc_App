@@ -258,6 +258,7 @@ export class AddCoursesComponent implements OnInit {
 
 
   async ddlCourse_change($event: any, SeletedCourseID: any) {
+    debugger;
     this.request.CourseID = SeletedCourseID;
     this.request.SelectedSubjectDetails = [];
     try {

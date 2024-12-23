@@ -32,8 +32,8 @@
         <div class="col-md-12">
 
           <mat-tab-group mat-align-tabs="center" class="tabUl1 d-block w-100" [selectedIndex]="selectedIndex" #tabs (selectedTabChange)="onTabChange($event)">
-
-            <mat-tab *ngIf="SelectedDepartmentID!=4 &&  SelectedDepartmentID!=5">
+            <!--&&  SelectedDepartmentID!=5-->
+            <mat-tab *ngIf="SelectedDepartmentID!=4">
               <ng-template mat-tab-label>
                 <i class="fa fa-home icon" aria-hidden="true"></i>
                 <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['CourseDetails']>0"></i>
@@ -103,7 +103,8 @@
             </mat-tab>
 
 
-            <mat-tab *ngIf="(this.SelectedDepartmentID!= 5 && this.SelectedDepartmentID!= 11 && IsAHDegreeCollege==false)">
+            <mat-tab *ngIf="(this.SelectedDepartmentID!= 11 && IsAHDegreeCollege==false)">
+              <!--this.SelectedDepartmentID!= 5 &&-->
               <ng-template mat-tab-label>
                 <i class="fa fa-home icon" aria-hidden="true"></i>
                 <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['RoomDetails']>0"></i>
@@ -137,7 +138,8 @@
 
 
             <!--Facility-->
-            <mat-tab *ngIf="SelectedDepartmentID!=5">
+            <mat-tab>
+              <!--*ngIf="SelectedDepartmentID!=5"-->
               <ng-template mat-tab-label>
                 <i class="fa fa-list-alt icon" aria-hidden="true"></i>
                 <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['Facility']>0"></i>
@@ -264,7 +266,7 @@
               <app-paramedical-hospital-detail></app-paramedical-hospital-detail>
             </mat-tab>
 
-            <mat-tab *ngIf="SelectedDepartmentID==6 || SelectedDepartmentID==3 || SelectedDepartmentID==4 || SelectedDepartmentID==11">
+            <mat-tab *ngIf="SelectedDepartmentID==6 || SelectedDepartmentID==3 || SelectedDepartmentID==4 || SelectedDepartmentID==5 || SelectedDepartmentID==11">
               <ng-template mat-tab-label>
                 <i class="fa fa-bed icon" aria-hidden="true"></i>
                 <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['HostelDetails']>0"></i>
@@ -272,7 +274,8 @@
                 <span>Hostel Details</span>
               </ng-template>
               <app-hostel-details></app-hostel-details>
-            </mat-tab>
+            </mat-tab>          
+
 
             <mat-tab *ngIf="SelectedDepartmentID==2 && IsAHDegreeCollege==false">
               <ng-template mat-tab-label>
@@ -298,6 +301,15 @@
             </mat-tab>
 
             <mat-tab *ngIf="SelectedDepartmentID==5 && CollegeLevel_MGOne=='PG'">
+              <ng-template mat-tab-label>
+                <i class="fa fa-users icon" aria-hidden="true"></i>
+                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['StaffDetails']>0"></i>
+                <span class="badge pulse" *ngIf="CheckTabsEntryData['StaffDetails']==0"></span>
+                <span>Staff Details</span>
+              </ng-template>
+              <app-staff-details></app-staff-details>
+            </mat-tab>
+            <mat-tab *ngIf="SelectedDepartmentID==5 && CollegeLevel_MGOne=='UG'">
               <ng-template mat-tab-label>
                 <i class="fa fa-users icon" aria-hidden="true"></i>
                 <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['StaffDetails']>0"></i>

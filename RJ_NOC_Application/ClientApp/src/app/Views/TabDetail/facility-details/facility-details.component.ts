@@ -179,6 +179,7 @@ export class FacilityDetailsComponent implements OnInit {
       }
       this.request.FacilitiesID = SeletedFacilitiesID;
       var IsYesNoOption = this.FacilitiesData.find((x: { FID: number; }) => x.FID == this.request.FacilitiesID).IsYesNoOption;
+      this.request.FacilitiesName = this.FacilitiesData.find((x: { FID: number; }) => x.FID == this.request.FacilitiesID)?.FacilitiesName;
       if (IsYesNoOption == "No") {
         this.isInputOptionType = true;
         this.request.IsAvailable = '';
@@ -330,6 +331,7 @@ export class FacilityDetailsComponent implements OnInit {
   }
 
   async SaveData() {
+    debugger;
     this.isFormValid = true;
     this.request.CollegeID = this.SelectedCollageID;
 
@@ -356,6 +358,16 @@ export class FacilityDetailsComponent implements OnInit {
       this.FacilitiesForm.get('txtNoOf')?.setValidators([Validators.required, Validators.min(1)]);
       if (this.FacilitiesNames.includes('Number of chairs and tables in the Lecture / Examination Hall') && this.SelectedDepartmentID == 2) {
         this.FacilitiesForm.get('txtMinSize')?.clearValidators();
+      }
+      if (this.request.FacilitiesName == 'Library Area' && this.SelectedDepartmentID == 5) {
+        this.FacilitiesForm.get('txtNoOf')?.clearValidators();
+        this.FacilitiesForm.get('txtMinSize')?.clearValidators();
+        this.FacilitiesForm.get('fileUploadImage')?.clearValidators();
+      }
+      if (this.request.FacilitiesName == 'Library Working Hours' || this.request.FacilitiesName == 'Library Student Reading Room' || this.request.FacilitiesName =='Library No Of Books' && this.SelectedDepartmentID == 5) {
+        this.FacilitiesForm.get('txtNoOf')?.clearValidators();
+        this.FacilitiesForm.get('txtMinSize')?.clearValidators();
+        this.FacilitiesForm.get('fileUploadImage')?.clearValidators();        
       }
       else {
         this.FacilitiesForm.get('txtMinSize')?.setValidators([Validators.required, Validators.min(0), Validators.max(100000000)]);
@@ -420,6 +432,8 @@ export class FacilityDetailsComponent implements OnInit {
     this.loaderService.requestStarted();
     this.isLoading = true;
     try {
+      //console.log(this.request);
+     // console.log(this.files);
       await this.facilityDetailsService.SaveData(this.request, this.files)
         .then(async (data: any) => {
           this.State = data['State'];
@@ -509,6 +523,7 @@ export class FacilityDetailsComponent implements OnInit {
   }
 
   async Edit_OnClick(FacilityDetailID: number) {
+    debugger;
     this.isSubmitted = false;
     try {
       this.loaderService.requestStarted();
@@ -520,14 +535,14 @@ export class FacilityDetailsComponent implements OnInit {
           this.request.FacilitiesID = data['Data'][0]["FacilitiesID"];
           this.ddlFacilities_change(null, this.request.FacilitiesID);
           this.request.NoOf = data['Data'][0]["NoOf"];
-          this.request.FacilitiesUrl = data['Data'][0]["FacilitiesUrl"];
-          this.ResetFile((data['Data'][0]["FacilitiesUrl"] != '' ? true : false), data['Data'][0]["FacilitiesUrl"], data['Data'][0]["FacilitiesUrlPath"], data['Data'][0]["FacilitiesUrl_Dis_FileName"]);
+          this.request.FacilitiesUrl = data['Data'][0]["FacilitiesUrl"];          
+            this.ResetFile((data['Data'][0]["FacilitiesUrl"] != '' ? true : false), data['Data'][0]["FacilitiesUrl"], data['Data'][0]["FacilitiesUrlPath"], data['Data'][0]["FacilitiesUrl_Dis_FileName"]);         
           this.request.MinSize = data['Data'][0]["MinSize"];
           this.request.IsAvailable = data['Data'][0]["IsAvailable"];
           this.request.AmountOrOtherSource = data['Data'][0]["AmountOrOtherSource"];
 
           this.isDisabledGrid = true;
-          this.isValidFacilitiesUrl = true;
+          this.isValidFacilitiesUrl = true;          
           const btnSave = document.getElementById('btnSave')
           if (btnSave) btnSave.innerHTML = "Update";
           const btnReset = document.getElementById('btnReset')
