@@ -430,6 +430,7 @@ import { PreviewDTEAffiliationCourseComponent } from './Views/PreviewTabs/previe
 import { PreviewDTEAffiliationOtherDetailsComponent } from './Views/PreviewTabs/preview-dteaffiliation-other-details/preview-dteaffiliation-other-details.component';
 import { DTEAffiliationDetailsComponent } from './Views/DTEAffiliationDetails/dteaffiliation-details/dteaffiliation-details.component';
 import { DTEAffiliationSummaryComponent } from './Views/DTEAffiliationView/dteaffiliation-summary/dteaffiliation-summary.component';
+import { MGOneInfraDepartmentWiseComponent } from './Views/TabDetail/mgone-infra-department-wise/mgone-infra-department-wise.component';
 
 
  
@@ -858,7 +859,8 @@ import { DTEAffiliationSummaryComponent } from './Views/DTEAffiliationView/dteaf
     PreviewDTEAffiliationCourseComponent,
     PreviewDTEAffiliationOtherDetailsComponent,
     DTEAffiliationDetailsComponent,
-    DTEAffiliationSummaryComponent
+    DTEAffiliationSummaryComponent,
+    MGOneInfraDepartmentWiseComponent
   ],
   imports: [
     CommonModule,

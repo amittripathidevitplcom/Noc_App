@@ -90,7 +90,8 @@
             </mat-tab>
 
             <!--Building Documents-->
-            <mat-tab *ngIf="IsAHDegreeCollege==false">
+            <mat-tab>
+              <!--*ngIf="IsAHDegreeCollege==false"-->
               <ng-template mat-tab-label>
                 <i class="fa fa-building-o icon" aria-hidden="true"></i>
                 <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['BuildingDocuments']>0"></i>
@@ -163,7 +164,7 @@
               <ng-template mat-tab-label>
                 <i class="fa fa-file-text-o icon" aria-hidden="true"></i>
                 <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['RequiredDocument']>0"></i>
-                <span class="badge pulse" *ngIf="CheckTabsEntryData['RequiredDocument']==0"></span>
+                <span class="badge pulse" *ngIf="CheckTabsEntryData['RequiredDocument']==0 && this.SelectedDepartmentID!= 6"></span>
                 <span>Required Document</span>
               </ng-template>
               <app-required-document></app-required-document>
@@ -175,7 +176,7 @@
               <ng-template mat-tab-label>
                 <i class="fa fa-files-o icon" aria-hidden="true"></i>
                 <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['OtherDocument']>0"></i>
-                <span class="badge pulse" *ngIf="CheckTabsEntryData['OtherDocument']==0"></span>
+                <span class="badge pulse" *ngIf="CheckTabsEntryData['OtherDocument']==0 && this.SelectedDepartmentID!= 6"></span>
                 <span *ngIf="SelectedDepartmentID !=9">Other Document</span>
                 <span *ngIf="SelectedDepartmentID ==9">Other Additional Document</span>
               </ng-template>
@@ -216,13 +217,13 @@
               <app-staff-details></app-staff-details>
             </mat-tab>
 
-            
+
             <!--Animal Husbandry Department-->
             <mat-tab *ngIf="SelectedDepartmentID==2 && IsAHDegreeCollege">
               <ng-template mat-tab-label>
-                <i class="fa fa-address-card-o icon" aria-hidden="true" ></i>
-                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['DepartmentWiseInfrastructure']>0"></i>
-                <span class="badge pulse" *ngIf="CheckTabsEntryData['DepartmentWiseInfrastructure']==0"></span>
+                <i class="fa fa-address-card-o icon" aria-hidden="true"></i>
+                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['DepartmentWiseInfrastructure']==17"></i>
+                <span class="badge pulse" *ngIf="CheckTabsEntryData['DepartmentWiseInfrastructure']!=17"></span>
                 <span>Department Wise Infrastructure</span>
               </ng-template>
               <app-ahinfra-department-wise></app-ahinfra-department-wise>
@@ -305,6 +306,15 @@
               </ng-template>
               <app-staff-details></app-staff-details>
             </mat-tab>
+            <mat-tab *ngIf="SelectedDepartmentID==5">
+              <ng-template mat-tab-label>
+                <i class="fa fa-address-card-o icon" aria-hidden="true"></i>
+                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['DepartmentWiseInfrastructure']==17"></i>
+                <span class="badge pulse" *ngIf="CheckTabsEntryData['DepartmentWiseInfrastructure']!=17"></span>
+                <span>Department Wise Infrastructure</span>
+              </ng-template>
+              <app-mgone-infra-department-wise></app-mgone-infra-department-wise>
+            </mat-tab>
 
             <mat-tab *ngIf="SelectedDepartmentID==5  && CollegeLevel_MGOne !='PG'">
               <ng-template mat-tab-label>
@@ -320,7 +330,7 @@
               <ng-template mat-tab-label>
                 <i class="fa fa-align-justify icon" aria-hidden="true"></i>
                 <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['CourtOrder']>0"></i>
-                <span class="badge pulse" *ngIf="CheckTabsEntryData['CourtOrder']==0"></span>
+                <span class="badge pulse" *ngIf="CheckTabsEntryData['CourtOrder']==0 && this.SelectedDepartmentID!= 6"></span>
                 <span>Court Order</span>
               </ng-template>
               <app-court-order></app-court-order>

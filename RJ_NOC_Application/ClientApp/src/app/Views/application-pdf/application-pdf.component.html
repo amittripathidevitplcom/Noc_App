@@ -1123,16 +1123,18 @@ font-size: 18px;">
                     <th>Is Available(Y/N)</th>
                     <th>No of </th>
                     <th>Minimum Size</th>
+                    <th *ngIf="SelectedDepartmentID==2">Amount Or Other Sources</th>
                     <!--<th>Image/File</th>-->
                   </tr>
                   <tr *ngFor="let item of FacilitiesDataAllList ; let indexOfelement=index;">
                     <td> {{indexOfelement+1}}</td>
                     <td>{{item.FacilitiesName}}</td>
                     <td>{{item.IsAvailable}}</td>
-                    <td>{{item.NoOf}}</td>
+                    <td>{{item.NoOf==0?'N/A':item.NoOf}}</td>
                     <td>
-                      {{item.MinSize}}
+                      {{item.MinSize==0?'N/A':item.MinSize}}
                     </td>
+                    <td *ngIf="SelectedDepartmentID==2">{{item.AmountOrOtherSource==''?'N/A':item.AmountOrOtherSource}}</td>
                     <!--<td>
                                         <a *ngIf="!item.FacilitiesUrl.includes('.pdf')" data-fancybox="gallery" href="{{item.FacilitiesUrlPath}}" data-caption="Image 10" title="click here to zoom">
                                           <img src="{{item.FacilitiesUrlPath}}" alt="Facilities" style="    width: 50px !important;
@@ -1399,17 +1401,18 @@ font-size: 18px;">
                     <td>
                       {{item.NoofBooks}}
                     </td>
-                    <td *ngIf="SelectedDepartmentID==2 && IsAHDegreeCollege">
+                    <td *ngIf="SelectedDepartmentID==2 && IsAHDegreeCollege && item.CourseName=='Library'">
                       Floor Area of Library:{{item.FloorAreaofLibrary}} &nbsp;&nbsp;
                       Seating capacity for reading:{{item.SeatingCapacity}}<br />
                       Whether Internet facility is available:{{item.InternetFacility}}&nbsp;&nbsp;
                       Counter for sale of reprints:{{item.CounterforSale}}<br />
                       Computer print outs of abstracts:{{item.ComputerPrint}}&nbsp;&nbsp;
                       Registers Maintained:{{item.RegistersMaintained}}<br />
-                      Professional:{{item.Professional}}&nbsp;&nbsp;
+                      Professional No of books:{{item.Professional}}&nbsp;&nbsp;
                       No. of Periodicals available/ subscribing:{{item.PeriodicalsNo}}<br />
                       No of Journals available/ subscribing:{{item.JournalsNo}}&nbsp;&nbsp;
-                      Other:{{item.Other}}
+                      Other No of books:{{item.Other}}
+                      Timing of Library:{{item.LibraryTiming}}
                     </td>
                     <!--<td>
                                         <a *ngIf="!item.ImageFilePath.includes('.pdf') && item.ImageFilePath!='N/A'" data-fancybox="gallery" href="{{item.ImageFilePath}}" data-caption="Image 10" title="click here to zoom">
@@ -1436,7 +1439,7 @@ font-size: 18px;">
         <!--Staff Details-->
         <div class="card-body">
           <div class="row">
-            <div class="table-responsive" *ngIf="(StaffDetaillst.length>0 && CollegeType_IsExisting) || SelectedDepartmentID==4">
+            <div class="table-responsive" *ngIf="(StaffDetaillst.length>0 && CollegeType_IsExisting) || SelectedDepartmentID==4 || SelectedDepartmentID==2">
               <table class="table table-hover table-striped" id="StaffDetails" #content>
                 <thead>
                   <tr>
@@ -1470,6 +1473,12 @@ font-size: 18px;">
                       Gender:- {{item.Gender}}<br />
                       <span *ngIf="SelectedDepartmentID ==2"> DepartmentName:- {{item.DepartmentName}}<br /></span>
                       <span *ngIf="SelectedDepartmentID ==2"> NET Qualified:- {{item.NETQualified}}<br /></span>
+                      <span *ngIf="SelectedDepartmentID ==2"> State Veterinary Council Registration No.? :- {{item.HaveCouncilRegistration}}<br /></span>
+
+                      <span *ngIf="SelectedDepartmentID ==2 && item.HaveCouncilRegistration=='Yes'"> Veterinary Council Registration No.:- {{item.CouncilRegistrationNo}}<br /></span>
+                      <span *ngIf="SelectedDepartmentID ==2 && item.HaveCouncilRegistration=='Yes'"> Copies of State Veterinary Council Registration Certificate :-  <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.CouncilRegCertificate.includes('.pdf')" data-fancybox="gallery" href="{{item.CouncilRegCertificatePath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a><br /></span>
+                      <span *ngIf="SelectedDepartmentID ==2"> Appointment Letter :-   <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.AppointmentLetter.includes('.pdf')" data-fancybox="gallery" href="{{item.AppointmentLetterPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a><br /></span>
+                      <span *ngIf="SelectedDepartmentID ==2">Statement of salary paid to the teachers and employees including bank statement :-   <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.StaffBankStatement.includes('.pdf')" data-fancybox="gallery" href="{{item.StaffBankStatementPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a></span>
                     </td>
                     <td>
                       Date of Birth:- {{item.DateOfBirth | date:'dd-MM-yyyy'}}<br />
@@ -1733,6 +1742,7 @@ font-size: 18px;">
                       Contact Person Name:- {{row.ContactPersonName}}<br />
                       Contact Person No.:- {{row.ContactPersonNo}}<br />
                       Distance of College (KM):- {{row.DistanceOfCollege}}<br />
+                      <span *ngIf="SelectedDepartmentID==6"> Hostel Built-Up Area(sq. ft):- {{row.BuiltUpArea}}<br /></span>
                       Rural/Urban:- {{row.IsRuralUrban}}<br />
                       Address:- {{row.AddressLine1}},{{row.AddressLine2}},{{row.DivisionName}},{{row.DistrictName}},{{row.TehsilName}},{{row.PanchyatSamitiName}}{{row.CityName}}<br />
                       <span *ngIf="row.IsHostelCampus !='No'">Hostel Type:- {{row.HostelType}}<br /></span>

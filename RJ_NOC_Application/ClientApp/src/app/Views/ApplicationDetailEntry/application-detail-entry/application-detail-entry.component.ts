@@ -185,6 +185,8 @@ export class ApplicationDetailEntryComponent implements OnInit {
     }
   }
   isCheck30Female: boolean = false;
+
+  public CheckAHStaff: any = [];
   async DraftFinalSubmit(IsDraftSubmited: any) {
     debugger;
     if (confirm("Are you satisfied with the data that are showing in the View Application?")) {
@@ -200,12 +202,15 @@ export class ApplicationDetailEntryComponent implements OnInit {
         var DCPendingPoint = "";
         if (this.SelectedDepartmentID != 5) {
           await this.commonMasterService.Check30Female(this.SelectedCollageID)
-            .then((data: any) => {
+            .then(async (data: any) => {
               this.State = data['State'];
               this.SuccessMessage = data['SuccessMessage'];
               this.ErrorMessage = data['ErrorMessage'];
               data = JSON.parse(JSON.stringify(data));
-              debugger;
+
+
+
+
               if (!this.State) {
                 TotalDuplicateAadhaar = data['Data'][0]['data'][0]['TotalDuplicateAadhar'];
                 TotalDuplicateAadhaarNo = data['Data'][0]['data'][0]['DuplicateAadhars'];
@@ -247,7 +252,7 @@ export class ApplicationDetailEntryComponent implements OnInit {
                   }
                 }
                 if (data['Data'][0]['data'][0]['PendingOtherInformation'] > 0) {
-                  this.toastr.error("Enter All Other Information Details.")
+                  this.toastr.error(this.SelectedDepartmentID == 6 ?"Enter All Clinical Details.": "Enter All Other Information Details.")
                   DCPendingPoint += "Enter All Other Information Details." + "\n";
                   this.isCheck30Female = true;
                   if (this.SelectedDepartmentID != 3) {
@@ -304,7 +309,7 @@ export class ApplicationDetailEntryComponent implements OnInit {
                     this.isCheck30Female = true;
                     return;
                   }
-                  if (data['Data'][0]['data'][0]['ICARDetails'] =='') {
+                  if (data['Data'][0]['data'][0]['ICARDetails'] == '') {
                     this.toastr.error('Please update your ICAR details in College')
                     this.isCheck30Female = true;
                     return;
@@ -436,8 +441,41 @@ export class ApplicationDetailEntryComponent implements OnInit {
                     this.isCheck30Female = true;
                     return;
                   }
-                  
+
                 }
+
+
+                if (this.SelectedDepartmentID == 2 && this.IsAHDegreeCollege) {
+                  await this.commonMasterService.CheckAHStaff(this.SelectedCollageID)
+                    .then((data: any) => {
+                      data = JSON.parse(JSON.stringify(data));
+                      this.State = data['State'];
+                      this.SuccessMessage = data['SuccessMessage'];
+                      this.ErrorMessage = data['ErrorMessage'];
+                      this.CheckAHStaff = data['Data'][0]['data'];
+                      for (var i = 0; i < this.CheckAHStaff.length; i++) {
+                        if (this.CheckAHStaff[i].IsValidMinProfessor == '0' || this.CheckAHStaff[i].IsValidMinProfessor == 0
+                          || this.CheckAHStaff[i].IsValidMinAssistantProfessor == '0' || this.CheckAHStaff[i].IsValidMinAssistantProfessor == 0 ||
+                          this.CheckAHStaff[i].IsValidMinAssociateProfessor == '0' || this.CheckAHStaff[i].IsValidMinAssociateProfessor == 0
+                        ) {
+                          this.toastr.warning('Add ' + this.CheckAHStaff[i].MinProfessor + ' Professor, ' + this.CheckAHStaff[i].MinAssistantProfessor + ' Assistant Professor, ' + this.CheckAHStaff[i].MinAssociateProfessor + ' Associate Professor in ' + this.CheckAHStaff[i].DepartmentName)
+                          this.isCheck30Female = true;
+                          return;
+                        }
+                        //if (this.CheckAHStaff[i].IsValidMinAssistantProfessor == '0' || this.CheckAHStaff[i].IsValidMinAssistantProfessor == 0) {
+                        //  this.toastr.warning('Add ' + this.CheckAHStaff[i].MinAssistantProfessor + ' Professor in ' + this.CheckAHStaff[i].DepartmentName)
+                        //  this.isCheck30Female = true;
+                        //  return;
+                        //}
+                        //if (this.CheckAHStaff[i].IsValidMinAssociateProfessor == '0' || this.CheckAHStaff[i].IsValidMinAssociateProfessor == 0) {
+                        //  this.toastr.warning('Add ' + this.CheckAHStaff[i].MinAssociateProfessor + ' Professor in ' + this.CheckAHStaff[i].DepartmentName)
+                        //  this.isCheck30Female = true;
+                        //  return;
+                        //}
+                      }
+                    }, error => console.error(error));
+                }
+
               }
               else {
                 this.toastr.error(this.ErrorMessage)
@@ -586,7 +624,7 @@ export class ApplicationDetailEntryComponent implements OnInit {
     try {
       this.veterinaryHospitalComponent.GetSeatInformationByCourse();
     }
-    catch (Ex) { } 
+    catch (Ex) { }
     try {
       this.clinicalFacilityComponent.GetAllClinicalFacilityList();
     }
@@ -628,12 +666,12 @@ export class ApplicationDetailEntryComponent implements OnInit {
       }
 
       else if (this.IsAHDegreeCollege == true && this.CollegeType_IsExisting == false) {
-        if (this.CheckTabsEntryData['LandInformation'] > 0 && this.CheckTabsEntryData['Facility'] > 0 && this.CheckTabsEntryData['RequiredDocument'] > 0 && this.CheckTabsEntryData['OtherInformation'] > 0) {
+        if (this.CheckTabsEntryData['LandInformation'] > 0 && this.CheckTabsEntryData['Facility'] > 0 && this.CheckTabsEntryData['RequiredDocument'] > 0 && this.CheckTabsEntryData['OtherInformation'] > 0 && this.CheckTabsEntryData['StaffDetails'] > 0 && this.CheckTabsEntryData['DepartmentWiseInfrastructure'] ==17 &&  this.CheckTabsEntryData['BuildingDocuments'] > 0) {
           this.IsShowDraftFinalSubmit = false;
         }
       }
       else if (this.IsAHDegreeCollege == true && this.CollegeType_IsExisting == true) {
-        if (this.CheckTabsEntryData['LandInformation'] > 0 && this.CheckTabsEntryData['OLDNOCDetails'] > 0 && this.CheckTabsEntryData['Facility'] > 0 && this.CheckTabsEntryData['RequiredDocument'] > 0 && this.CheckTabsEntryData['OtherInformation'] > 0) {
+        if (this.CheckTabsEntryData['LandInformation'] > 0 && this.CheckTabsEntryData['OLDNOCDetails'] > 0 && this.CheckTabsEntryData['Facility'] > 0 && this.CheckTabsEntryData['RequiredDocument'] > 0 && this.CheckTabsEntryData['OtherInformation'] > 0 && this.CheckTabsEntryData['StaffDetails'] > 0 && this.CheckTabsEntryData['DepartmentWiseInfrastructure'] == 17 && this.CheckTabsEntryData['BuildingDocuments'] > 0) {
           this.IsShowDraftFinalSubmit = false;
         }
       }
@@ -725,17 +763,17 @@ export class ApplicationDetailEntryComponent implements OnInit {
     //Tech Education
     if (this.SelectedDepartmentID == 6) {
       if (this.CollegeType_IsExisting == true) {
-        if (this.CheckTabsEntryData['LandInformation'] > 0 && this.CheckTabsEntryData['Facility'] > 0 && this.CheckTabsEntryData['RequiredDocument'] > 0 && this.CheckTabsEntryData['RoomDetails'] > 0 && this.CheckTabsEntryData['OtherInformation'] > 0 && this.CheckTabsEntryData['BuildingDocuments'] > 0 && this.CheckTabsEntryData['StaffDetails'] > 0 && this.CheckTabsEntryData['OLDNOCDetails'] > 0 && this.CheckTabsEntryData['AcademicInformation'] > 0) {
+        if (this.CheckTabsEntryData['LandInformation'] > 0 && this.CheckTabsEntryData['Facility'] > 0 && this.CheckTabsEntryData['RoomDetails'] > 0 && this.CheckTabsEntryData['OtherInformation'] > 0 && this.CheckTabsEntryData['BuildingDocuments'] > 0 && this.CheckTabsEntryData['StaffDetails'] > 0 && this.CheckTabsEntryData['OLDNOCDetails'] > 0 && this.CheckTabsEntryData['AcademicInformation'] > 0 && this.CheckTabsEntryData['HospitalDetails'] > 0) {
           this.IsShowDraftFinalSubmit = false;
         }
       }
       else {
-        if (this.CheckTabsEntryData['LandInformation'] > 0 && this.CheckTabsEntryData['Facility'] > 0 && this.CheckTabsEntryData['RequiredDocument'] > 0 && this.CheckTabsEntryData['RoomDetails'] > 0 && this.CheckTabsEntryData['OtherInformation'] > 0 && this.CheckTabsEntryData['BuildingDocuments'] > 0 && this.CheckTabsEntryData['HostelDetails'] > 0) {
+        if (this.CheckTabsEntryData['LandInformation'] > 0 && this.CheckTabsEntryData['Facility'] > 0 && this.CheckTabsEntryData['RoomDetails'] > 0 && this.CheckTabsEntryData['OtherInformation'] > 0 && this.CheckTabsEntryData['BuildingDocuments'] > 0 && this.CheckTabsEntryData['HostelDetails'] > 0 && this.CheckTabsEntryData['HospitalDetails'] > 0) {
           this.IsShowDraftFinalSubmit = false;
         }
       }
     }
-    if (this.SelectedDepartmentID == 11) {     
+    if (this.SelectedDepartmentID == 11) {
       if (this.CollegeType_IsExisting == true) {
         console.log(this.CheckTabsEntryData);
         if (this.CheckTabsEntryData['LandInformation'] > 0 && this.CheckTabsEntryData['Facility'] > 0 && this.CheckTabsEntryData['RequiredDocument'] > 0 &&

@@ -13,7 +13,7 @@
             <tr *ngFor="let items of item.AHFacilityDepartmentList; let idxx =index" [hidden]="items.IsHide">
               <td style="width:5%">{{idxx+1}}</td>
               <td style="width:60%;">
-                {{items.Name}}<span class="text-danger" *ngIf="items.IsMandatory">*</span>
+                <div style="max-width: auto; white-space: normal;">{{items.Name}}<span class="text-danger" *ngIf="items.IsMandatory">*</span></div>
               </td>
               <td>
                 <a *ngIf="items.ControlType=='UploadFile'" class="bi bi-file-earmark-pdf-fill"  data-fancybox="gallery" href="{{items.ValuePath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>

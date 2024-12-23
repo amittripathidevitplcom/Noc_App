@@ -2,3 +2,6 @@
   margin-bottom: 15px;
   height: calc(100% - 15px);
 }
+.sideBars {
+    z-index:999 !important;
+}

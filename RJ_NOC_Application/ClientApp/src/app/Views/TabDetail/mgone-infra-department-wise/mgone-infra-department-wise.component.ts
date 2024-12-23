@@ -9,11 +9,11 @@ import { debug } from 'console';
 
 
 @Component({
-  selector: 'app-ahinfra-department-wise',
-  templateUrl: './ahinfra-department-wise.component.html',
-  styleUrls: ['./ahinfra-department-wise.component.css']
+  selector: 'app-mgone-infra-department-wise',
+  templateUrl: './mgone-infra-department-wise.component.html',
+  styleUrls: ['./mgone-infra-department-wise.component.css']
 })
-export class AHInfraDepartmentWiseComponent implements OnInit {
+export class MGOneInfraDepartmentWiseComponent implements OnInit {
 
   public State: number = -1;
   public SuccessMessage: any = [];
@@ -24,7 +24,7 @@ export class AHInfraDepartmentWiseComponent implements OnInit {
   public SelectedCollageID: number = 0;
   public SelectedDepartmentID: number = 0;
   public SelectedApplyNOCID: number = 0;
-  public AHDepartmentList: any = [];
+  public MGOneDepartmentList: any = [];
   public isSubmitted: boolean = false;
   public SearchRecordID: string = '';
   constructor(private routers: Router, private fileUploadService: FileUploadService, private toastr: ToastrService, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private loaderService: LoaderService) { }
@@ -50,20 +50,21 @@ export class AHInfraDepartmentWiseComponent implements OnInit {
       this.routers.navigate(['/draftapplicationlist']);
     }
 
-    await this.GetAHFacilityDepartmentList();
+    await this.GetMGOneFacilityDepartmentList();
 
   }
-  async GetAHFacilityDepartmentList() {
+  async GetMGOneFacilityDepartmentList() {
 
     try {
       this.loaderService.requestStarted();
-      await this.commonMasterService.GetAHFacilityDepartmentList(0, this.SelectedCollageID)
+      await this.commonMasterService.GetMGOneFacilityDepartmentList(0, this.SelectedCollageID)
         .then(async (data: any) => {
           data = JSON.parse(JSON.stringify(data));
-          this.AHDepartmentList = data['Data'];
-          for (var i = 0; i < this.AHDepartmentList.length; i++) {
-            for (var j = 0; j < this.AHDepartmentList[i].AHFacilityDepartmentList.length; j++) {
-              await this.ShowHideRow(i, j, this.AHDepartmentList[i].AHFacilityDepartmentList[j].ID);
+          debugger;
+          this.MGOneDepartmentList = data['Data'];
+          for (var i = 0; i < this.MGOneDepartmentList.length; i++) {
+            for (var j = 0; j < this.MGOneDepartmentList[i].MGOneFacilityDepartmentList.length; j++) {
+              await this.ShowHideRow(i, j, this.MGOneDepartmentList[i].MGOneFacilityDepartmentList[j].ID);
             }
           }
 
@@ -139,9 +140,9 @@ export class AHInfraDepartmentWiseComponent implements OnInit {
     try {
       debugger;
       this.loaderService.requestStarted();
-      this.AHDepartmentList[DepartIndex].AHFacilityDepartmentList[ItemIndex].Value = fileName;
-      this.AHDepartmentList[DepartIndex].AHFacilityDepartmentList[ItemIndex].Value_Dis_FileName = dis_Name;
-      this.AHDepartmentList[DepartIndex].AHFacilityDepartmentList[ItemIndex].ValuePath = filePath;
+      this.MGOneDepartmentList[DepartIndex].MGOneFacilityDepartmentList[ItemIndex].Value = fileName;
+      this.MGOneDepartmentList[DepartIndex].MGOneFacilityDepartmentList[ItemIndex].Value_Dis_FileName = dis_Name;
+      this.MGOneDepartmentList[DepartIndex].MGOneFacilityDepartmentList[ItemIndex].ValuePath = filePath;
       this.file = document.getElementById('UploadFile_' + DepartIndex + ItemIndex);
       this.file.value = '';
     }
@@ -189,41 +190,41 @@ export class AHInfraDepartmentWiseComponent implements OnInit {
 
   async ResetControl(i: number) {
     /*for (var i = 0; i < this.AHDepartmentList.length; i++) {*/
-      for (var j = 0; j < this.AHDepartmentList[i].AHFacilityDepartmentList.length; j++) {
-        this.AHDepartmentList[i].AHFacilityDepartmentList[j].Value = '';
-        this.AHDepartmentList[i].AHFacilityDepartmentList[j].Value_Dis_FileName = '';
-        this.AHDepartmentList[i].AHFacilityDepartmentList[j].ValuePath = '';
-      }
-   /* }*/
+    for (var j = 0; j < this.MGOneDepartmentList[i].MGOneFacilityDepartmentList.length; j++) {
+      this.MGOneDepartmentList[i].MGOneFacilityDepartmentList[j].Value = '';
+      this.MGOneDepartmentList[i].MGOneFacilityDepartmentList[j].Value_Dis_FileName = '';
+      this.MGOneDepartmentList[i].MGOneFacilityDepartmentList[j].ValuePath = '';
+    }
+    /* }*/
   }
   async SaveData(i: number) {
-    this.AHDepartmentList[i].isSubmitted = true;
+    this.MGOneDepartmentList[i].isSubmitted = true;
     try {
-     /* for (var i = 0; i < this.AHDepartmentList.length; i++) {*/
-        for (var j = 0; j < this.AHDepartmentList[i].AHFacilityDepartmentList.length; j++) {
-          if (this.AHDepartmentList[i].AHFacilityDepartmentList[j].IsMandatory) {
-            var GetChild = this.AHDepartmentList[i].AHFacilityDepartmentList.filter((x: { ParentID: number }) => x.ParentID == this.AHDepartmentList[i].AHFacilityDepartmentList[j].ID);
-            if (this.AHDepartmentList[i].AHFacilityDepartmentList[j].Value == '' && this.AHDepartmentList[i].AHFacilityDepartmentList[j].ParentID == 0) {
-              return;
-            }
-            else if (this.AHDepartmentList[i].AHFacilityDepartmentList[j].ControlType == 'Text' && this.AHDepartmentList[i].AHFacilityDepartmentList[j].Value < this.AHDepartmentList[i].AHFacilityDepartmentList[j].MinQty && this.AHDepartmentList[i].AHFacilityDepartmentList[j].ParentID == 0) {
-              return;
-            }
-            else if (this.AHDepartmentList[i].AHFacilityDepartmentList[j].ControlType == 'DropDown' && this.AHDepartmentList[i].AHFacilityDepartmentList[j].ParentID == 0 && this.AHDepartmentList[i].AHFacilityDepartmentList[j].Value == 'Yes') {
-              if (GetChild.length > 0) {
-                for (var k = 0; k < GetChild.length; k++) {
-                  if (GetChild[k].Value == '') {
-                    return;
-                  }
+      /* for (var i = 0; i < this.AHDepartmentList.length; i++) {*/
+      for (var j = 0; j < this.MGOneDepartmentList[i].MGOneFacilityDepartmentList.length; j++) {
+        if (this.MGOneDepartmentList[i].MGOneFacilityDepartmentList[j].IsMandatory) {
+          var GetChild = this.MGOneDepartmentList[i].MGOneFacilityDepartmentList.filter((x: { ParentID: number }) => x.ParentID == this.MGOneDepartmentList[i].MGOneFacilityDepartmentList[j].ID);
+          if (this.MGOneDepartmentList[i].MGOneFacilityDepartmentList[j].Value == '' && this.MGOneDepartmentList[i].MGOneFacilityDepartmentList[j].ParentID == 0) {
+            return;
+          }
+          else if (this.MGOneDepartmentList[i].MGOneFacilityDepartmentList[j].ControlType == 'Text' && this.MGOneDepartmentList[i].MGOneFacilityDepartmentList[j].Value < this.MGOneDepartmentList[i].MGOneFacilityDepartmentList[j].MinQty && this.MGOneDepartmentList[i].MGOneFacilityDepartmentList[j].ParentID == 0) {
+            return;
+          }
+          else if (this.MGOneDepartmentList[i].MGOneFacilityDepartmentList[j].ControlType == 'DropDown' && this.MGOneDepartmentList[i].MGOneFacilityDepartmentList[j].ParentID == 0 && this.MGOneDepartmentList[i].MGOneFacilityDepartmentList[j].Value == 'Yes') {
+            if (GetChild.length > 0) {
+              for (var k = 0; k < GetChild.length; k++) {
+                if (GetChild[k].Value == '') {
+                  return;
                 }
               }
             }
           }
+        }
         /*}*/
       }
       this.loaderService.requestStarted();
-      this.AHDepartmentList[i].CollegeID = this.SelectedCollageID;
-      await this.commonMasterService.SaveAHDepartmentInfrastructure(this.AHDepartmentList[i])
+      this.MGOneDepartmentList[i].CollegeID = this.SelectedCollageID;
+      await this.commonMasterService.SaveMGOneDepartmentInfrastructure(this.MGOneDepartmentList[i])
         .then(async (data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
@@ -233,7 +234,7 @@ export class AHInfraDepartmentWiseComponent implements OnInit {
             //console.log(data['Data']);
             this.toastr.success(this.SuccessMessage);
             //window.location.reload();
-            await this.GetAHFacilityDepartmentList();
+            await this.GetMGOneFacilityDepartmentList();
           }
           else if (this.State == 2) {
             this.toastr.warning(this.ErrorMessage)
@@ -256,15 +257,15 @@ export class AHInfraDepartmentWiseComponent implements OnInit {
   }
 
   async ShowHideRow(Departidx: number, idx: number, ID: number) {
-    var GetChild = this.AHDepartmentList[Departidx].AHFacilityDepartmentList.filter((x: { ParentID: number }) => x.ParentID == ID);
+    var GetChild = this.MGOneDepartmentList[Departidx].MGOneFacilityDepartmentList.filter((x: { ParentID: number }) => x.ParentID == ID);
     if (GetChild.length > 0) {
-      for (var j = 0; j < this.AHDepartmentList[Departidx].AHFacilityDepartmentList.length; j++) {
-        if (this.AHDepartmentList[Departidx].AHFacilityDepartmentList[j].ParentID == ID && this.AHDepartmentList[Departidx].AHFacilityDepartmentList[idx].Value == 'Yes') {
-          this.AHDepartmentList[Departidx].AHFacilityDepartmentList[j].IsHide = false;
+      for (var j = 0; j < this.MGOneDepartmentList[Departidx].MGOneFacilityDepartmentList.length; j++) {
+        if (this.MGOneDepartmentList[Departidx].MGOneFacilityDepartmentList[j].ParentID == ID && this.MGOneDepartmentList[Departidx].MGOneFacilityDepartmentList[idx].Value == 'Yes') {
+          this.MGOneDepartmentList[Departidx].MGOneFacilityDepartmentList[j].IsHide = false;
         }
-        else if (this.AHDepartmentList[Departidx].AHFacilityDepartmentList[j].ParentID == ID && this.AHDepartmentList[Departidx].AHFacilityDepartmentList[idx].Value != 'Yes') {
-          this.AHDepartmentList[Departidx].AHFacilityDepartmentList[j].IsHide = true;
-          this.AHDepartmentList[Departidx].AHFacilityDepartmentList[j].Value = '';
+        else if (this.MGOneDepartmentList[Departidx].MGOneFacilityDepartmentList[j].ParentID == ID && this.MGOneDepartmentList[Departidx].MGOneFacilityDepartmentList[idx].Value != 'Yes') {
+          this.MGOneDepartmentList[Departidx].MGOneFacilityDepartmentList[j].IsHide = true;
+          this.MGOneDepartmentList[Departidx].MGOneFacilityDepartmentList[j].Value = '';
 
         }
       }

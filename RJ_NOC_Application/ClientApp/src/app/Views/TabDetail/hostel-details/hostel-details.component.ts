@@ -645,7 +645,7 @@ export class HostelDetailsComponent implements OnInit {
     }
     //this.routers.navigate(['/addcollege']);
   }
-
+  public LessBuiltUpArea: boolean = false;
   ValidateForm(): boolean {
     this.isFormValid = true;
     this.isSubmitted = true;
@@ -653,7 +653,15 @@ export class HostelDetailsComponent implements OnInit {
     this.IsPanchyatSamitiRequried = false;
     this.CssClass_TextDangerWidth = '';
     this.CssClass_TextDangerLength = '';
-
+    if (this.SelectedDepartmentID == 6) {
+      if (this.request.BuiltUpArea == '') {
+        this.isFormValid = false;
+      }
+      if ( Number(this.request.BuiltUpArea) < 21100) {
+        this.LessBuiltUpArea = true;
+        this.isFormValid = false;
+      }
+    }
     if (this.request.HostelType == 'Rent' && this.request.IsHostelCampus=='No') {
       if (this.request.OwnerName == '' || this.request.OwnerContactNo == '' || this.request.FromDate == '' || this.request.ToDate == '') {
         this.isOwnerName = this.request.OwnerName == '' ? true : false;

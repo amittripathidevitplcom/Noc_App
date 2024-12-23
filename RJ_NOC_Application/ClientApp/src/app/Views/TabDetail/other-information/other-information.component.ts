@@ -157,6 +157,7 @@ export class OtherInformationComponent implements OnInit {
         ddlCounterforSale: [''],
         ddlComputerPrint: [''],
         ddlRegistersMaintained: [''],
+        txtLibraryTiming: [''],
 
       })
 
@@ -572,6 +573,9 @@ export class OtherInformationComponent implements OnInit {
           this.isformvalid = false;
         }
         if (this.request.RegistersMaintained == '') {
+          this.isformvalid = false;
+        }
+        if (this.request.LibraryTiming == '') {
           this.isformvalid = false;
         }
       }

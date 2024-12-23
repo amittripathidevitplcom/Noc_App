@@ -73,8 +73,8 @@
               <label class="form-label">Address Line 2 <!--<span style="color:red;">*</span>--></label>
               <input type="text" class="form-control" id="txtAddressLine2" name="txtAddressLine2" [attr.disabled]="IsDisabledAddress ? true : null" [(ngModel)]="request.AddressLine2" formControlName="txtAddressLine2" (keypress)="alphanumbersOnly($event)">
               <!--<div *ngIf="isSubmitted&&Hform.txtAddressLine2.errors" class="text-danger">
-              <p *ngIf="Hform.txtAddressLine2.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-            </div>-->
+      <p *ngIf="Hform.txtAddressLine2.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+    </div>-->
             </div>
             <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
               <label class="form-label">Select Area <span style="color:red;">*</span></label>
@@ -180,6 +180,13 @@
               <div *ngIf="isSubmitted&&Hform.txtCollegeDistance.errors" class="text-danger">
                 <p *ngIf="Hform.txtCollegeDistance.errors.required"> This field is required .!</p>
               </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="SelectedDepartmentID==6">
+              <label>Hostel Built-Up Area(sq. ft) <span style="color:red;">*</span></label>
+              <input type="text" class="form-control" id="txtBuiltUpArea" name="txtBuiltUpArea" [(ngModel)]="request.BuiltUpArea" (keypress)="numberOnly($event)" autocomplete="off"
+                     [ngModelOptions]="{standalone: true}">
+              <p *ngIf="isSubmitted&& request.BuiltUpArea==''" class="text-danger"> This field is required .!</p>
+              <p *ngIf="isSubmitted&& LessBuiltUpArea"  class="text-danger"> Minimum 21,100 sq.ft</p>
             </div>
             <div class="col-md-11 text-end"></div>
           </div>
@@ -544,6 +551,10 @@
       <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3">
         <label><b>Distance of College (KM)</b>:&nbsp;&nbsp; </label>
         <input class="form-control disabled" disabled value="{{viewhostel.DistanceOfCollege}}" />
+      </div>
+      <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3" *ngIf="SelectedDepartmentID==6">
+        <label><b>Hostel Built-Up Area(sq. ft)</b>:&nbsp;&nbsp; </label>
+        <input class="form-control disabled" disabled value="{{viewhostel.BuiltUpArea}}" />
       </div>
       <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3">
         <label><b>Type</b>:&nbsp;&nbsp; </label>

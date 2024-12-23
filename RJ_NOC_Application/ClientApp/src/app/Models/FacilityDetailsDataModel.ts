@@ -23,6 +23,7 @@ export class FacilityDetailsDataModel {
   public C_Remark: string = '';
   public S_Action: string = '';
   public S_Remark: string = '';
+  public AmountOrOtherSource?: string = '';
 }
 
 

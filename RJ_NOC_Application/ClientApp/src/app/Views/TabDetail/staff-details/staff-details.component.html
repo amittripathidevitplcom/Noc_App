@@ -46,7 +46,7 @@
           </select>
           <p *ngIf="isSubmitted&&request.TeachingType=='Teaching'&&request.SubjectID<=0  && (SelectedDepartmentID !=4 && SelectedDepartmentID !=11 && SelectedDepartmentID !=9&& (SelectedDepartmentID !=2 && !IsAHDegreeCollege))" class="text-danger"> This field is required .!</p>
         </div>
-
+        <!--AH Degree College-->
         <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="SelectedDepartmentID ==2 && IsAHDegreeCollege">
           <label>Department <span style="color:red;">*</span></label>
           <select id="ddldepartmentId" name="ddldepartmentId" class="form-control" formControlName="ddldepartmentId" [(ngModel)]="request.AHDepartmentID">
@@ -67,6 +67,76 @@
           </select>
           <p *ngIf="isSubmitted&&SelectedDepartmentID ==2 && IsAHDegreeCollege&&request.NETQualified==''" class="text-danger"> This field is required .!</p>
         </div>
+
+        <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="SelectedDepartmentID ==2 && IsAHDegreeCollege">
+          <label for="">State Veterinary Council Registration No.? <span style="color:red">*</span></label>
+          <select class="form-select" id="ddlHaveCouncilRegistration" [(ngModel)]="request.HaveCouncilRegistration" formControlName="ddlHaveCouncilRegistration">
+            <option value="" disabled>--Select--</option>
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+          </select>
+          <p *ngIf="isSubmitted&&SelectedDepartmentID ==2 && IsAHDegreeCollege && request.HaveCouncilRegistration==''" class="text-danger"> This field is required .!</p>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="SelectedDepartmentID ==2 && IsAHDegreeCollege && request.HaveCouncilRegistration=='Yes'">
+          <label>Veterinary Council Registration No.<span style="color:red;">*</span></label>
+          <input type="text" id="txtCouncilRegistrationNo" name="txtCouncilRegistrationNo" class="form-control" formControlName="txtCouncilRegistrationNo" [(ngModel)]="request.CouncilRegistrationNo" />
+          <p *ngIf="isSubmitted&&SelectedDepartmentID ==2 && IsAHDegreeCollege&&request.HaveCouncilRegistration=='Yes' && txtCouncilRegistrationNo==''" class="text-danger"> This field is required .!</p>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="SelectedDepartmentID ==2 && IsAHDegreeCollege && request.HaveCouncilRegistration=='Yes'">
+          <label>
+            Copies of State Veterinary Council Registration Certificate <span style="color:red;">*</span>
+          </label>
+          <div class="d-flex">
+            <input type="file" name="fCouncilRegCertificate" style="display:none" id="fCouncilRegCertificate" class="form-control" formControlName="fCouncilRegCertificate" (change)="ValidateDocumentImage($event,'CouncilRegCertificate')" />
+            <label class="btn upload" for="fCouncilRegCertificate">
+              <span class="filename">Choose file</span>
+              {{request.CouncilRegCertificate === '' ? 'No File Choosen' : request.CouncilRegCertificate_Dis}}
+            </label>
+            <div class="btn-group" *ngIf="request.CouncilRegCertificate != '' ">
+              <a class="btn btn-outline-primary" target="_blank" href="{{request.CouncilRegCertificatePath}}"><i class="fa fa-eye"></i></a>
+              <button type="button" class="btn btn-outline-danger" (click)="DeleteImage(request.CouncilRegCertificate,'CouncilRegCertificate')"><i class="fa fa-trash-o"></i></button>
+            </div>
+          </div>
+          <p class="text-danger" *ngIf="isSubmitted&&SelectedDepartmentID ==2 && IsAHDegreeCollege&& request.CouncilRegCertificate ==''"> This field is required .!</p>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="SelectedDepartmentID ==2 && IsAHDegreeCollege">
+          <label>
+            Appointment Letter <span style="color:red;">*</span>
+          </label>
+          <div class="d-flex">
+            <input type="file" name="fAppointmentLetter" style="display:none" id="fAppointmentLetter" class="form-control" formControlName="fAppointmentLetter" (change)="ValidateDocumentImage($event,'AppointmentLetter')" />
+            <label class="btn upload" for="fAppointmentLetter">
+              <span class="filename">Choose file</span>
+              {{request.AppointmentLetter === '' ? 'No File Choosen' : request.AppointmentLetter_Dis}}
+            </label>
+            <div class="btn-group" *ngIf="request.AppointmentLetter != '' ">
+              <a class="btn btn-outline-primary" target="_blank" href="{{request.AppointmentLetterPath}}"><i class="fa fa-eye"></i></a>
+              <button type="button" class="btn btn-outline-danger" (click)="DeleteImage(request.AppointmentLetter,'AppointmentLetter')"><i class="fa fa-trash-o"></i></button>
+            </div>
+          </div>
+          <p class="text-danger" *ngIf="isSubmitted&&SelectedDepartmentID ==2 && IsAHDegreeCollege&& request.AppointmentLetter ==''"> This field is required .!</p>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="SelectedDepartmentID ==2 && IsAHDegreeCollege">
+          <label>
+            Statement of salary paid to the teachers and employees including bank statement <span style="color:red;">*</span>
+          </label>
+          <div class="d-flex">
+            <input type="file" name="fStaffBankStatement" style="display:none" id="fStaffBankStatement" class="form-control" formControlName="fStaffBankStatement" (change)="ValidateDocumentImage($event,'StaffBankStatement')" />
+            <label class="btn upload" for="fStaffBankStatement">
+              <span class="filename">Choose file</span>
+              {{request.StaffBankStatement === '' ? 'No File Choosen' : request.StaffBankStatement_Dis}}
+            </label>
+            <div class="btn-group" *ngIf="request.StaffBankStatement != '' ">
+              <a class="btn btn-outline-primary" target="_blank" href="{{request.StaffBankStatementPath}}"><i class="fa fa-eye"></i></a>
+              <button type="button" class="btn btn-outline-danger" (click)="DeleteImage(request.StaffBankStatement,'StaffBankStatement')"><i class="fa fa-trash-o"></i></button>
+            </div>
+          </div>
+          <p class="text-danger" *ngIf="isSubmitted&&SelectedDepartmentID ==2 && IsAHDegreeCollege&& request.StaffBankStatement ==''"> This field is required .!</p>
+        </div>
+
+
+        <!--AH Degree College-->
+
       </div>
       <div class="row">
         <div class="col-md-4 mb-3">
@@ -89,8 +159,8 @@
             <p *ngIf="!form.ddlRoleId.errors.DropdownValidators"> This field is required .!</p>
           </div>
           <!--<div *ngIf="isRole" class="text-danger">
-      <p *ngIf="isRole"> This field is required .!</p>
-    </div>-->
+            <p *ngIf="isRole"> This field is required .!</p>
+          </div>-->
         </div>
         <div class="col-md-4 mb-3" *ngIf="(DesignationName=='Technician'|| DesignationName=='Lecturer'|| DesignationName=='Assistant Professor')&& SelectedDepartmentID ==9">
           <label>{{DesignationName=='Technician'?'Paramedical Counsil Registered Number':DesignationName=='Lecturer'|| DesignationName=='Assistant Professor'?'RMC Registered Number':''}} <span style="color:red;">*</span></label>
@@ -277,12 +347,12 @@
         </div>
 
         <!--<div class="col-md-4 mb-3" *ngIf="request.TeachingType=='Teaching'">
-    <label>Specialization Subject <span style="color:red;">*</span></label>
-    <input type="text" id="txtSpecializationSubject" name="txtSpecializationSubject" [(ngModel)]="request.SpecializationSubject" class="form-control" formControlName="txtSpecializationSubject" (keypress)="alphaOnly($event)" />
-    <div *ngIf="isSpecializationSubject" class="text-danger">
-      <p *ngIf="isSpecializationSubject"> This field is required .!</p>
-    </div>
-  </div>-->
+          <label>Specialization Subject <span style="color:red;">*</span></label>
+          <input type="text" id="txtSpecializationSubject" name="txtSpecializationSubject" [(ngModel)]="request.SpecializationSubject" class="form-control" formControlName="txtSpecializationSubject" (keypress)="alphaOnly($event)" />
+          <div *ngIf="isSpecializationSubject" class="text-danger">
+            <p *ngIf="isSpecializationSubject"> This field is required .!</p>
+          </div>
+        </div>-->
         <div class="col-md-4 mb-3" *ngIf="ESIStaffShowHide">
           <label>ESI Number <span style="color:red;">*</span></label>
           <input type="text" id="txtESIDetails" name="txtESINumber" class="form-control" formControlName="txtESINumber" [(ngModel)]="request.ESINumber" (keypress)="alphaNumricOnly($event)" />
@@ -293,8 +363,8 @@
 
 
           <!--<div *ngIf="isSubmitted&&TotalStaffDetail > 10&&(request.ESINumber=='' ||request.ESINumber==null)" class="text-danger">
-      <p *ngIf="isSubmitted&&TotalStaffDetail > 10&&(request.ESINumber=='' ||request.ESINumber==null)"> This field is required .!</p>
-    </div>-->
+            <p *ngIf="isSubmitted&&TotalStaffDetail > 10&&(request.ESINumber=='' ||request.ESINumber==null)"> This field is required .!</p>
+          </div>-->
 
         </div>
         <div class="col-md-4 mb-3">
@@ -355,7 +425,7 @@
           <p *ngIf="isSubmitted&&request.TeachingType=='Teaching'&&(request.ResearchGuide==null||request.ResearchGuide==''||request.ResearchGuide==undefined)" class="text-danger">  This field is required .!</p>
         </div>
 
-         <!--Only for paramedical department-->
+        <!--Only for paramedical department-->
         <div class="col-md-4 mb-3" *ngIf="SelectedDepartmentID==9">
           <label class="form-label" style="margin-right:15px">Detail of Job <span style="color:red;">*</span>:</label>
           <div class="clearfix"></div>
@@ -573,6 +643,7 @@
                       <p class="m-0"><b>Designation : </b>{{item.RoleName}}</p>
                       <!--<p class="m-0" *ngIf="item.TeachingType=='NonTeaching'"><b>Designation : </b>{{item.RoleMapping}}</p>-->
                       <p class="m-0"><b>Course : </b>NA</p>
+                      p>
                       <p class="m-0" *ngIf="item.TeachingType=='Teaching'"><b>Subject : </b>{{item.SubjectName}}</p>
                       <p class="m-0"><b>Staff Status : </b> {{item.StaffStatus}}</p>
                       <p class="m-0"><b>SALARY : </b>{{item.Salary}}</p>

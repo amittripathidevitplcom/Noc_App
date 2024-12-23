@@ -44,6 +44,7 @@ export class HostelDataModel extends DocumentScrutiny_ActionModule {
   public HostelCategory: string = '';
   public CityID: number = 0;
   public CityName: string = '';
+  public BuiltUpArea?: string = '';
 }
 
 export class HostelDetailsDataModel_Hostel {

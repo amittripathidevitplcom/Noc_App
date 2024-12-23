@@ -36,7 +36,7 @@
 
 
 
-        <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="isInputOptionType">
+        <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="isInputOptionType" [hidden]="showhideno">
           <label>No. of <span style="color:red;">*</span></label>
           <input type="number" class="form-control" id="txtNoOf" name="txtNoOf" maxlength="3" [(ngModel)]="request.NoOf" formControlName="txtNoOf" min="1" (keypress)="numberOnly($event)">
           <div *ngIf="isSubmitted&&form.txtNoOf.errors" class="text-danger">
@@ -44,7 +44,7 @@
             <p *ngIf="form.txtNoOf.errors.min">No of greater than zero .!</p>
           </div>
         </div>
-        <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="isInputOptionType && request.FacilitiesID!=20 &&request.FacilitiesID!=79">
+        <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="isInputOptionType && !showhideno">
 
           <label *ngIf="SelectedDepartmentID!=2">Minimum Size ({{Unit}})<span style="color:red;">*</span></label>
           <label *ngIf="SelectedDepartmentID==2">Size ({{Unit}})<span style="color:red;">*</span></label>
@@ -56,6 +56,15 @@
             <p *ngIf="form.txtMinSize.errors.max">Minimum size is too big !</p>
           </div>
         </div>
+
+        <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="isInputOptionType && showhideno">
+          <label *ngIf="!FacilitiesNames.includes('(in Rs.) other sources')">Amount ({{Unit}})<span style="color:red;">*</span></label>
+          <label *ngIf="FacilitiesNames.includes('(in Rs.) other sources')">Other Sources<span style="color:red;">*</span></label>
+          <input type="text" class="form-control" id="txtAmountOrOtherSource" name="txtAmountOrOtherSource" [(ngModel)]="request.AmountOrOtherSource" [ngModelOptions]="{standalone: true}" autocomplete="off">
+          <p *ngIf="isSubmitted&&isInputOptionType&&request.AmountOrOtherSource==''" class="text-danger">This field is required .!</p>
+        </div>
+
+
         <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="request.IsAvailable=='Yes' || isInputOptionType==true">
           <label for="fileUploadImage" class="form-label">Upload {{SelectedDepartmentID==4?'Order/':''}}Facility Image (Only pdf/jpeg/jpg file.)(Min.Size 100KB)(Max.Size 2MB)<span style="color:red;">*</span></label>
           <div class="d-flex">
@@ -115,6 +124,7 @@
                         <th>No of </th>
                         <th *ngIf="SelectedDepartmentID!=2">Minimum Size</th>
                         <th *ngIf="SelectedDepartmentID==2">Size</th>
+                        <th *ngIf="SelectedDepartmentID==2">Amount Or Other Sources</th>
                         <th>Facility Image</th>
                         <th>Action</th>
                       </tr>
@@ -124,8 +134,9 @@
                         <td>{{idx+1}}</td>
                         <td>{{row.FacilitiesName}}</td>
                         <td>{{row.IsAvailable}}</td>
-                        <td>{{row.NoOf}}</td>
-                        <td>{{row.MinSize}}</td>
+                        <td>{{row.NoOf==0?'N/A':row.NoOf}}</td>
+                        <td>{{row.MinSize==0?'N/A':row.MinSize}}</td>
+                        <td *ngIf="SelectedDepartmentID==2">{{row.AmountOrOtherSource==''?'N/A':row.AmountOrOtherSource}}</td>
                         <td><a *ngIf="row.FacilitiesUrl!=''" target="_blank" href="{{row.FacilitiesUrlPath}}"><i class="fa fa-eye"></i></a></td>
                         <td>
                           <div class="d-flex">

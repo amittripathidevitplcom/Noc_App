@@ -1,10 +1,7 @@
 
-<div class="card tabCard1 mb-0" *ngFor="let item of AHDepartmentList; let idx =index">
+<div class="card tabCard1 mb-0" *ngFor="let item of MGOneDepartmentList; let idx =index">
   <div class="card-header d-flex justify-content-between align-items-center">
     <b>{{idx+1}}.&nbsp;<i class="bi bi-table"></i> {{item.DepartmentName}}</b>
-    <!--<b>
-      {{idx+1}}.&nbsp;<i class="bi bi-building-add"></i>&nbsp;{{item.DepartmentName}}
-    </b>-->
     <div class="d-flex d-flex justify-content-end align-items-center">
       <button class="btn btn-outline-dark btn-sm ms-3" type="button" onclick="js_FilterCollapse(this)"><i class="fa fa-plus"></i></button>
     </div>
@@ -14,10 +11,12 @@
       <div class="table-responsive">
         <table class="table">
           <tbody>
-            <tr *ngFor="let items of item.AHFacilityDepartmentList; let idxx =index"  [hidden]="items.IsHide">
+            <tr *ngFor="let items of item.MGOneFacilityDepartmentList; let idxx =index" [hidden]="items.IsHide">
               <td style="width:2%"><b>•</b></td>
               <td style="width:60%;">
-                <div style="max-width: auto; white-space: normal;">{{items.Name}}<span class="text-danger" *ngIf="items.IsMandatory">*</span></div>
+
+                <div style="max-width: auto; white-space: normal;" *ngIf="items.ControlType=='Heading'"><b>{{items.Name}}</b><span class="text-danger" *ngIf="items.IsMandatory">*</span></div>
+                <div style="max-width: auto; white-space: normal;" *ngIf="items.ControlType!='Heading'">&nbsp;&nbsp;&nbsp;{{items.Name}}<span class="text-danger" *ngIf="items.IsMandatory">*</span></div>
               </td>
               <td>
                 <select class="form-select" *ngIf="items.ControlType=='DropDown'" [(ngModel)]="items.Value" (change)="ShowHideRow(idx,idxx,items.ID)">
@@ -25,7 +24,7 @@
                   <option value="Yes">Yes</option>
                   <option value="No">No</option>
                 </select>
-                <input type="text" class="form-control" *ngIf="items.ControlType=='Text'" [(ngModel)]="items.Value"/>
+                <input type="text" class="form-control" *ngIf="items.ControlType=='Text'" [(ngModel)]="items.Value" />
                 <div class="d-flex" *ngIf="items.ControlType=='UploadFile'">
                   <input type="file" name="UploadFile_{{idx}}{{idxx}}" style="display:none" id="UploadFile_{{idx}}{{idxx}}" class="form-control" (change)="ValidateDocumentImage($event,idx,idxx)" />
                   <label class="btn upload" for="UploadFile_{{idx}}{{idxx}}">
@@ -58,10 +57,3 @@
     </div>
   </div>
 </div>
-
-<!--<div class="col-12  text-end saveCancelBtn mt-3">
-  <button type="button" (click)="SaveData()" class="btn btn-primary">Save</button>
-  <button type="button" class="btn btn-danger" (click)="ResetControl()" aria-label="Close">Cancel</button>
-</div>-->
-
-

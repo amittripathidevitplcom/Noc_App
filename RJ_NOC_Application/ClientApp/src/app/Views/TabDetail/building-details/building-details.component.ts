@@ -484,56 +484,56 @@ export class BuildingDetailsComponent implements OnInit {
       return
     }
 
-    if (this.SelectedDepartmentID == 6) {
-      if (this.buildingdetails.TotalProjectCost == '' || this.buildingdetails.TotalProjectCost == '0' || this.buildingdetails.TotalProjectCost == null) {
-        this.ImageValidate = 'This field is required .!';
-        return
-      }
-      if (this.buildingdetails.SourceCostAmount == '' || this.buildingdetails.SourceCostAmount == '0' || this.buildingdetails.SourceCostAmount == null) {
-        this.ImageValidate = 'This field is required .!';
-        return
-      }
-      if (this.buildingdetails.AmountDeposited == '' || this.buildingdetails.AmountDeposited == '0' || this.buildingdetails.AmountDeposited == null) {
-        this.ImageValidate = 'This field is required .!';
-        return
-      }
-      if (this.buildingdetails.OtherFixedAssetsAndSecurities == '' || this.buildingdetails.OtherFixedAssetsAndSecurities == '0' || this.buildingdetails.OtherFixedAssetsAndSecurities == null) {
-        this.ImageValidate = 'This field is required .!';
-        return
-      }
-      if (this.buildingdetails.GATEYearBalanceSecret == '' || this.buildingdetails.GATEYearBalanceSecret == '0' || this.buildingdetails.GATEYearBalanceSecret == null) {
-        this.ImageValidate = 'This field is required .!';
-        return
-      }
-      if (this.buildingdetails.OtherFinancialResources == '' || this.buildingdetails.OtherFinancialResources == '0' || this.buildingdetails.OtherFinancialResources == null) {
-        this.ImageValidate = 'This field is required .!';
-        return
-      }
-      if (this.buildingdetails.TotalProjectCostFileUpload == '') {
-        this.ImageValidate = 'This field is required .!';
-        return
-      }
-      if (this.buildingdetails.SourceCostAmountFileUpload == '') {
-        this.ImageValidate = 'This field is required .!';
-        return
-      }
-      if (this.buildingdetails.AmountDepositedFileUpload == '') {
-        this.ImageValidate = 'This field is required .!';
-        return
-      }
-      if (this.buildingdetails.OtherFixedAssetsAndSecuritiesFileUpload == '') {
-        this.ImageValidate = 'This field is required .!';
-        return
-      }
-      if (this.buildingdetails.GATEYearBalanceSecretFileUpload == '') {
-        this.ImageValidate = 'This field is required .!';
-        return
-      }
-      if (this.buildingdetails.OtherFinancialResourcesFileUpload == '') {
-        this.ImageValidate = 'This field is required .!';
-        return
-      }
-    }
+    //if (this.SelectedDepartmentID == 6) {
+    //  if (this.buildingdetails.TotalProjectCost == '' || this.buildingdetails.TotalProjectCost == '0' || this.buildingdetails.TotalProjectCost == null) {
+    //    this.ImageValidate = 'This field is required .!';
+    //    return
+    //  }
+    //  if (this.buildingdetails.SourceCostAmount == '' || this.buildingdetails.SourceCostAmount == '0' || this.buildingdetails.SourceCostAmount == null) {
+    //    this.ImageValidate = 'This field is required .!';
+    //    return
+    //  }
+    //  if (this.buildingdetails.AmountDeposited == '' || this.buildingdetails.AmountDeposited == '0' || this.buildingdetails.AmountDeposited == null) {
+    //    this.ImageValidate = 'This field is required .!';
+    //    return
+    //  }
+    //  if (this.buildingdetails.OtherFixedAssetsAndSecurities == '' || this.buildingdetails.OtherFixedAssetsAndSecurities == '0' || this.buildingdetails.OtherFixedAssetsAndSecurities == null) {
+    //    this.ImageValidate = 'This field is required .!';
+    //    return
+    //  }
+    //  if (this.buildingdetails.GATEYearBalanceSecret == '' || this.buildingdetails.GATEYearBalanceSecret == '0' || this.buildingdetails.GATEYearBalanceSecret == null) {
+    //    this.ImageValidate = 'This field is required .!';
+    //    return
+    //  }
+    //  if (this.buildingdetails.OtherFinancialResources == '' || this.buildingdetails.OtherFinancialResources == '0' || this.buildingdetails.OtherFinancialResources == null) {
+    //    this.ImageValidate = 'This field is required .!';
+    //    return
+    //  }
+    //  if (this.buildingdetails.TotalProjectCostFileUpload == '') {
+    //    this.ImageValidate = 'This field is required .!';
+    //    return
+    //  }
+    //  if (this.buildingdetails.SourceCostAmountFileUpload == '') {
+    //    this.ImageValidate = 'This field is required .!';
+    //    return
+    //  }
+    //  if (this.buildingdetails.AmountDepositedFileUpload == '') {
+    //    this.ImageValidate = 'This field is required .!';
+    //    return
+    //  }
+    //  if (this.buildingdetails.OtherFixedAssetsAndSecuritiesFileUpload == '') {
+    //    this.ImageValidate = 'This field is required .!';
+    //    return
+    //  }
+    //  if (this.buildingdetails.GATEYearBalanceSecretFileUpload == '') {
+    //    this.ImageValidate = 'This field is required .!';
+    //    return
+    //  }
+    //  if (this.buildingdetails.OtherFinancialResourcesFileUpload == '') {
+    //    this.ImageValidate = 'This field is required .!';
+    //    return
+    //  }
+    //}
     const TotalRequriedDoc = this.buildingdetails.lstBuildingDocDetails.filter((x: { FileName: string, IsMandatory: boolean }) => x.FileName == '' && x.IsMandatory == true);
     if (TotalRequriedDoc.length > 0) {
       this.isFormValid = false;

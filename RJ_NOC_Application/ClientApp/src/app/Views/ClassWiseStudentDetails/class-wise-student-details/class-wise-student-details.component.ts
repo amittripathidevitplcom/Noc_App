@@ -72,10 +72,9 @@ export class ClassWiseStudentDetailsComponent implements OnInit {
     private collegeService: CollegeService) { }
 
   async ngOnInit() {
-
     this.request.ClassWiseStudentDetails = [];
     this.SelectedDepartmentID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DepartmentID')?.toString()));
-
+    this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     this.SearchRecordID = this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString());
     if (this.SearchRecordID.length > 20) {
       await this.commonMasterService.GetCollegeID_SearchRecordIDWise(this.SearchRecordID)

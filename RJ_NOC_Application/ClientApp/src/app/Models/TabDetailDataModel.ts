@@ -139,6 +139,19 @@ export class StaffDetailDataModel {
   public DetailofJob?: string = '';
   public AHDepartmentID?: number = 0;
   public NETQualified?: string = '';
+
+
+  public HaveCouncilRegistration?: string = '';
+  public CouncilRegistrationNo?: string = '';
+  public CouncilRegCertificate?: string = '';
+  public CouncilRegCertificatePath?: string = '';
+  public CouncilRegCertificate_Dis?: string = '';
+  public AppointmentLetter?: string = '';
+  public AppointmentLetterPath?: string = '';
+  public AppointmentLetter_Dis?: string = '';
+  public StaffBankStatement?: string = '';
+  public StaffBankStatementPath?: string = '';
+  public StaffBankStatement_Dis?: string = '';
 }
 export class EducationalQualificationDetails_StaffDetail {
   public EducationalQualificationID: number = 0;

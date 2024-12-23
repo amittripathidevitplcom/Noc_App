@@ -165,13 +165,13 @@
               <p *ngIf="isSubmitted&&!ShowHideLabData && ShowHideBook && SelectedDepartmentID==2 && IsAHDegreeCollege && request.FloorAreaofLibrary==''" class="text-danger">This field is required .!</p>
             </div>
             <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-              <label>Professional<span style="color:red;">*</span></label>
+              <label>Professional No of books<span style="color:red;">*</span></label>
               <input type="text" class="form-control" id="txtProfessional" [(ngModel)]="request.Professional" name="txtProfessional"
                      formControlName="txtProfessional" (keypress)="numberOnly($event)">
               <p *ngIf="isSubmitted&&!ShowHideLabData && ShowHideBook && SelectedDepartmentID==2 && IsAHDegreeCollege && request.Professional==''" class="text-danger">This field is required .!</p>
             </div>
             <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-              <label>Other<span style="color:red;">*</span></label>
+              <label>Other No of books<span style="color:red;">*</span></label>
               <input type="text" class="form-control" id="txtOther" [(ngModel)]="request.Other" name="txtOther"
                      formControlName="txtOther" (keypress)="numberOnly($event)">
               <p *ngIf="isSubmitted&&!ShowHideLabData && ShowHideBook && SelectedDepartmentID==2 && IsAHDegreeCollege && request.Other==''" class="text-danger">This field is required .!</p>
@@ -193,6 +193,12 @@
               <input type="text" class="form-control" id="txtSeatingCapacity" [(ngModel)]="request.SeatingCapacity" name="txtSeatingCapacity"
                      formControlName="txtSeatingCapacity" (keypress)="numberOnly($event)">
               <p *ngIf="isSubmitted&&!ShowHideLabData && ShowHideBook && SelectedDepartmentID==2 && IsAHDegreeCollege && request.SeatingCapacity==''" class="text-danger">This field is required .!</p>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <label>Timing of Library<span style="color:red;">*</span></label>
+              <input type="text" class="form-control" id="txtLibraryTiming" [(ngModel)]="request.LibraryTiming" name="txtLibraryTiming"
+                     formControlName="txtLibraryTiming">
+              <p *ngIf="isSubmitted&&!ShowHideLabData && ShowHideBook && SelectedDepartmentID==2 && IsAHDegreeCollege && request.LibraryTiming==''" class="text-danger">This field is required .!</p>
             </div>
             <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
               <label>
@@ -407,7 +413,7 @@
                           <div class="d-flex">
 
                             <a [attr.disabled]="isDisabledGrid ? true : null" href="javascript:void(0)" *ngIf="row.DepartmentID==3 && row.CourseName=='Laboratory'" class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-backdrop="false" data-bs-target="#ViewLandDetailDocument" (click)="ViewLabDetails()"><i class="fa fa-eye"></i></a>
-                            <button type="button" class="btn btn-sm btn-info" title="View" (click)="ViewAHLibrary(row.CollegeWiseOtherInfoID,mymodal)"><i class="fa fa-eye"></i></button>
+                            <button type="button" class="btn btn-sm btn-info" *ngIf="SelectedDepartmentID==2 && IsAHDegreeCollege && row.CourseName=='Library'" title="View" (click)="ViewAHLibrary(row.CollegeWiseOtherInfoID,mymodal)"><i class="fa fa-eye"></i></button>
                             <button type="button" (click)="Edit_OnClick(row.CollegeWiseOtherInfoID)" [hidden]="QueryStringStatus=='R'&&row.Action=='Yes'" [attr.disabled]="isDisabledGrid ? true : null" title="Edit" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></button>
                             <button *ngIf="isDeleteButton" type="button" class="btn btn-sm btn-danger" [hidden]="QueryStringStatus=='R'" title="Delete" (click)="Delete_OnClick(row.CollegeWiseOtherInfoID)" [attr.disabled]="isDisabledGrid ? true : null"><i class="fa fa-trash"></i></button>
 
@@ -542,7 +548,7 @@
           </div>
           <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
             <label>
-              Professional
+              Professional No of books
             </label>
             <input value="{{CollegeWiseAHOtherDetails.Professional}}" class="form-control disabled" disabled />
           </div>
@@ -559,9 +565,15 @@
             <input value="{{CollegeWiseAHOtherDetails.JournalsNo}}" class="form-control disabled" disabled />
           </div>      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
             <label>
-              Other
+              Other  No of books
             </label>
             <input value="{{CollegeWiseAHOtherDetails.Other}}" class="form-control disabled" disabled />
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+            <label>
+              Timing of Library
+            </label>
+            <input value="{{CollegeWiseAHOtherDetails.LibraryTiming}}" class="form-control disabled" disabled />
           </div>
         </div>
       </div>

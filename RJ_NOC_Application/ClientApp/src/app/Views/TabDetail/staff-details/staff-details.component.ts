@@ -98,7 +98,7 @@ export class StaffDetailsComponent implements OnInit {
   public SelectedApplyNOCID: number = 0;
   public SearchRecordID: string = '';
   public DesignationName: string = '';
-  constructor( private collegeService: CollegeService,private loaderService: LoaderService, private toastr: ToastrService, private staffDetailService: StaffDetailService, private fileUploadService: FileUploadService
+  constructor(private collegeService: CollegeService, private loaderService: LoaderService, private toastr: ToastrService, private staffDetailService: StaffDetailService, private fileUploadService: FileUploadService
     , private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private formBuilder: FormBuilder, private modalService: NgbModal) {
 
   }
@@ -144,6 +144,11 @@ export class StaffDetailsComponent implements OnInit {
         rddetailofjob: ['', Validators.required],
         ddldepartmentId: [''],
         ddlNETQualified: [''],
+        ddlHaveCouncilRegistration: [''],
+        txtCouncilRegistrationNo: [''],
+        fAppointmentLetter: [''],
+        fCouncilRegCertificate: [''],
+        fStaffBankStatement: [''],
       });
     this.StaffEducationDetailForm = this.formBuilder.group(
       {
@@ -541,6 +546,22 @@ export class StaffDetailsComponent implements OnInit {
         this.request.UploadDocumentPath = filePath;
         this.request.UploadDocument_Dis_FileName = dis_Name;
       }
+      if (Type == 'CouncilRegCertificate' || Type == 'All') {
+        this.request.CouncilRegCertificate = fileName;
+        this.request.CouncilRegCertificatePath = filePath;
+        this.request.CouncilRegCertificate_Dis = dis_Name;
+      }
+      if (Type == 'AppointmentLetter' || Type == 'All') {
+        this.request.AppointmentLetter = fileName;
+        this.request.AppointmentLetterPath = filePath;
+        this.request.AppointmentLetter_Dis = dis_Name;
+      }
+      if (Type == 'StaffBankStatement' || Type == 'All') {
+        this.request.StaffBankStatement = fileName;
+        this.request.StaffBankStatement = fileName;
+        this.request.StaffBankStatementPath = filePath;
+        this.request.StaffBankStatement_Dis = dis_Name;
+      }
     }
     catch (ex) { }
     finally {
@@ -591,6 +612,28 @@ export class StaffDetailsComponent implements OnInit {
         this.request.UploadDocumentPath = filePath;
         this.request.UploadDocument_Dis_FileName = dis_Name;
         this.file = document.getElementById('UploadDocument');
+        this.file.value = '';
+      }
+      if (Type == 'CouncilRegCertificate' || Type == 'All') {
+        this.request.CouncilRegCertificate = fileName;
+        this.request.CouncilRegCertificatePath = filePath;
+        this.request.CouncilRegCertificate_Dis = dis_Name;
+        this.file = document.getElementById('fCouncilRegCertificate');
+        this.file.value = '';
+      }
+      if (Type == 'AppointmentLetter' || Type == 'All') {
+        this.request.AppointmentLetter = fileName;
+        this.request.AppointmentLetterPath = filePath;
+        this.request.AppointmentLetter_Dis = dis_Name;
+        this.file = document.getElementById('fAppointmentLetter');
+        this.file.value = '';
+      }
+      if (Type == 'StaffBankStatement' || Type == 'All') {
+        this.request.StaffBankStatement = fileName;
+        this.request.StaffBankStatement = fileName;
+        this.request.StaffBankStatementPath = filePath;
+        this.request.StaffBankStatement_Dis = dis_Name;
+        this.file = document.getElementById('fStaffBankStatement');
         this.file.value = '';
       }
     }
@@ -671,11 +714,27 @@ export class StaffDetailsComponent implements OnInit {
 
       }
       if (this.SelectedDepartmentID == 2) {
-        if (this.request.AHDepartmentID == undefined || this.request.AHDepartmentID ==0) {
+        if (this.request.AHDepartmentID == undefined || this.request.AHDepartmentID == 0) {
           this.FormValid = false;
         }
         if (this.request.NETQualified == '') {
           this.FormValid = false;
+        }
+        if (this.request.HaveCouncilRegistration == '') {
+          this.FormValid = false;
+        }
+        if (this.request.AppointmentLetter == '') {
+          this.FormValid = false;
+        }
+        if (this.request.StaffBankStatement == '') {
+          this.FormValid = false;
+        }
+        if (this.request.HaveCouncilRegistration == 'Yes') {
+          if (this.request.CouncilRegistrationNo == '') {
+            this.FormValid = false;
+          } if (this.request.CouncilRegCertificate == '') {
+            this.FormValid = false;
+          }
         }
       }
       if (this.request.TeachingType == 'Teaching') {
@@ -1485,7 +1544,7 @@ export class StaffDetailsComponent implements OnInit {
     if (DesignationID <= 0) {
       return;
     }
-    this.DesignationName = this.RoleData.find((x: { RoleID: number; }) => x.RoleID == DesignationID)?.RoleName;    
+    this.DesignationName = this.RoleData.find((x: { RoleID: number; }) => x.RoleID == DesignationID)?.RoleName;
   }
 
 

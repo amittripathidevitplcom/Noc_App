@@ -361,15 +361,15 @@
       <div class="card-body">
         <div class="row">
           <div class="col-lg-3 col-md-3 col-sm-4 col-12 mb-3">
-            <label for="txtTotalProjectCost" class="form-label">Total Project Cost<span style="color:red;">*</span> </label>
+            <label for="txtTotalProjectCost" class="form-label">Total Project Cost</label>
             <input type="text" autocomplete="off" class="form-control" id="txtTotalProjectCost" name="txtTotalProjectCost" [(ngModel)]="buildingdetails.TotalProjectCost" formControlName="txtTotalProjectCost" (keypress)="numbersOnly($event)">
 
-            <div *ngIf="isSubmitted" class="text-danger">
+            <!--<div *ngIf="isSubmitted" class="text-danger">
               <p *ngIf="buildingdetails.TotalProjectCost =='' || buildingdetails.TotalProjectCost =='0'"> This field is required .!</p>
-            </div>
+            </div>-->
           </div>
           <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-            <label for="TotalProjectCostFileUpload" class="form-label">Upload Total Project Cost Document<span style="color:red;">*</span></label>
+            <label for="TotalProjectCostFileUpload" class="form-label">Upload Total Project Cost Document</label>
             <div class="d-flex">
               <input type="file" class="form-control" id="TotalProjectCostFileUpload" style="display:none" formControlName="TotalProjectCostFileUpload" (change)="DescriptionValidateUploadImage($event,'TotalProjectCostFileUpload')" #TotalProjectCostFileUpload />
               <label class="btn upload" for="TotalProjectCostFileUpload">
@@ -381,21 +381,21 @@
                 <button type="button" class="btn btn-outline-danger" (click)="DescriptionDeleteImage('TotalProjectCostFileUpload')"><i class="fa fa-trash-o"></i></button>
               </div>
             </div>
-            <p *ngIf="isSubmitted&&buildingdetails.TotalProjectCostFileUpload ==''" class="text-danger"><i aria-hidden="true"></i> {{ImageValidate}}</p>
+            <!--<p *ngIf="isSubmitted&&buildingdetails.TotalProjectCostFileUpload ==''" class="text-danger"><i aria-hidden="true"></i> {{ImageValidate}}</p>-->
             <div *ngIf="isValidTotalProjectCostFileUpload" class="text-danger">
               <p *ngIf="isValidTotalProjectCostFileUpload"> {{ImageValidationMessage}}</p>
             </div>
           </div>
           <div class="col-lg-3 col-md-3 col-sm-4 col-12 mb-3">
-            <label for="txtSourceCostAmount" class="form-label">Source Cost Amount<span style="color:red;">*</span> </label>
+            <label for="txtSourceCostAmount" class="form-label">Source Cost Amount </label>
             <input type="text" autocomplete="off" class="form-control" id="txtSourceCostAmount" name="txtSourceCostAmount" [(ngModel)]="buildingdetails.SourceCostAmount" formControlName="txtSourceCostAmount" (keypress)="numbersOnly($event)">
 
-            <div *ngIf="isSubmitted" class="text-danger">
+            <!--<div *ngIf="isSubmitted" class="text-danger">
               <p *ngIf="buildingdetails.SourceCostAmount =='' || buildingdetails.SourceCostAmount =='0'"> This field is required .!</p>
-            </div>
+            </div>-->
           </div>
           <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-            <label for="SourceCostAmountFileUpload" class="form-label">Upload Source Cost Amount Document<span style="color:red;">*</span></label>
+            <label for="SourceCostAmountFileUpload" class="form-label">Upload Source Cost Amount Document</label>
             <div class="d-flex">
               <input type="file" class="form-control" id="SourceCostAmountFileUpload" style="display:none" formControlName="SourceCostAmountFileUpload" (change)="DescriptionValidateUploadImage($event,'SourceCostAmountFileUpload')" #SourceCostAmountFileUpload />
               <label class="btn upload" for="SourceCostAmountFileUpload">
@@ -407,7 +407,7 @@
                 <button type="button" class="btn btn-outline-danger" (click)="DescriptionDeleteImage('SourceCostAmountFileUpload')"><i class="fa fa-trash-o"></i></button>
               </div>
             </div>
-            <p *ngIf="isSubmitted&&buildingdetails.SourceCostAmountFileUpload ==''" class="text-danger"><i aria-hidden="true"></i> {{ImageValidate}}</p>
+            <!--<p *ngIf="isSubmitted&&buildingdetails.SourceCostAmountFileUpload ==''" class="text-danger"><i aria-hidden="true"></i> {{ImageValidate}}</p>-->
             <div *ngIf="isValidSourceCostAmountFileUpload" class="text-danger">
               <p *ngIf="isValidSourceCostAmountFileUpload"> {{ImageValidationMessage}}</p>
             </div>
@@ -415,15 +415,15 @@
         </div>
         <div class="row">
           <div class="col-lg-3 col-md-3 col-sm-4 col-12 mb-3">
-            <label for="txtAmountDeposited" class="form-label">Amount deposited in the Bank near the institution<span style="color:red;">*</span> </label>
+            <label for="txtAmountDeposited" class="form-label">Amount deposited in the Bank near the institution</label>
             <input type="text" autocomplete="off" class="form-control" id="txtAmountDeposited" name="txtAmountDeposited" [(ngModel)]="buildingdetails.AmountDeposited" formControlName="txtAmountDeposited" (keypress)="numbersOnly($event)">
 
-            <div *ngIf="isSubmitted" class="text-danger">
+            <!--<div *ngIf="isSubmitted" class="text-danger">
               <p *ngIf="buildingdetails.AmountDeposited =='' || buildingdetails.AmountDeposited =='0'"> This field is required .!</p>
-            </div>
+            </div>-->
           </div>
           <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-            <label for="AmountDepositedFileUpload" class="form-label">Upload Amount Deposited Document<span style="color:red;">*</span></label>
+            <label for="AmountDepositedFileUpload" class="form-label">Upload Amount Deposited Document</label>
             <div class="d-flex">
               <input type="file" class="form-control" id="AmountDepositedFileUpload" style="display:none" formControlName="AmountDepositedFileUpload" (change)="DescriptionValidateUploadImage($event,'AmountDepositedFileUpload')" #AmountDepositedFileUpload />
               <label class="btn upload" for="AmountDepositedFileUpload">
@@ -435,21 +435,21 @@
                 <button type="button" class="btn btn-outline-danger" (click)="DescriptionDeleteImage('AmountDepositedFileUpload')"><i class="fa fa-trash-o"></i></button>
               </div>
             </div>
-            <p *ngIf="isSubmitted&&buildingdetails.AmountDepositedFileUpload ==''" class="text-danger"><i aria-hidden="true"></i> {{ImageValidate}}</p>
+            <!--<p *ngIf="isSubmitted&&buildingdetails.AmountDepositedFileUpload ==''" class="text-danger"><i aria-hidden="true"></i> {{ImageValidate}}</p>-->
             <div *ngIf="isValidAmountDepositedFileUpload" class="text-danger">
               <p *ngIf="isValidAmountDepositedFileUpload"> {{ImageValidationMessage}}</p>
             </div>
           </div>
           <div class="col-lg-3 col-md-3 col-sm-4 col-12 mb-3">
-            <label for="txtOtherFixedAssetsAndSecurities" class="form-label">Other fixed assets/securities of the organization<span style="color:red;">*</span> </label>
+            <label for="txtOtherFixedAssetsAndSecurities" class="form-label">Other fixed assets/securities of the organization </label>
             <input type="text" autocomplete="off" class="form-control" id="txtOtherFixedAssetsAndSecurities" name="txtOtherFixedAssetsAndSecurities" [(ngModel)]="buildingdetails.OtherFixedAssetsAndSecurities" formControlName="txtOtherFixedAssetsAndSecurities" (keypress)="numbersOnly($event)">
 
-            <div *ngIf="isSubmitted" class="text-danger">
+            <!--<div *ngIf="isSubmitted" class="text-danger">
               <p *ngIf="buildingdetails.OtherFixedAssetsAndSecurities =='' || buildingdetails.OtherFixedAssetsAndSecurities =='0'"> This field is required .!</p>
-            </div>
+            </div>-->
           </div>
           <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-            <label for="OtherFixedAssetsAndSecuritiesFileUpload" class="form-label">Upload Other Fixed Assets/Securities Document<span style="color:red;">*</span></label>
+            <label for="OtherFixedAssetsAndSecuritiesFileUpload" class="form-label">Upload Other Fixed Assets/Securities Document</label>
             <div class="d-flex">
               <input type="file" class="form-control" id="OtherFixedAssetsAndSecuritiesFileUpload" style="display:none" formControlName="OtherFixedAssetsAndSecuritiesFileUpload" (change)="DescriptionValidateUploadImage($event,'OtherFixedAssetsAndSecuritiesFileUpload')" #OtherFixedAssetsAndSecuritiesFileUpload />
               <label class="btn upload" for="OtherFixedAssetsAndSecuritiesFileUpload">
@@ -461,7 +461,7 @@
                 <button type="button" class="btn btn-outline-danger" (click)="DescriptionDeleteImage('OtherFixedAssetsAndSecuritiesFileUpload')"><i class="fa fa-trash-o"></i></button>
               </div>
             </div>
-            <p *ngIf="isSubmitted&&buildingdetails.OtherFixedAssetsAndSecuritiesFileUpload ==''" class="text-danger"><i aria-hidden="true"></i> {{ImageValidate}}</p>
+            <!--<p *ngIf="isSubmitted&&buildingdetails.OtherFixedAssetsAndSecuritiesFileUpload ==''" class="text-danger"><i aria-hidden="true"></i> {{ImageValidate}}</p>-->
             <div *ngIf="isValidOtherFixedAssetsAndSecuritiesFileUpload" class="text-danger">
               <p *ngIf="isValidOtherFixedAssetsAndSecuritiesFileUpload"> {{ImageValidationMessage}}</p>
             </div>
@@ -469,15 +469,15 @@
         </div>
         <div class="row">
           <div class="col-lg-3 col-md-3 col-sm-4 col-12 mb-3">
-            <label for="txtGATEYearBalanceSecret" class="form-label">GATE year balance secret of the organization<span style="color:red;">*</span> </label>
+            <label for="txtGATEYearBalanceSecret" class="form-label">GATE year balance secret of the organization</label>
             <input type="text" autocomplete="off" class="form-control" id="txtGATEYearBalanceSecret" name="txtGATEYearBalanceSecret" [(ngModel)]="buildingdetails.GATEYearBalanceSecret" formControlName="txtGATEYearBalanceSecret" (keypress)="numbersOnly($event)">
 
-            <div *ngIf="isSubmitted" class="text-danger">
+            <!--<div *ngIf="isSubmitted" class="text-danger">
               <p *ngIf="buildingdetails.GATEYearBalanceSecret =='' || buildingdetails.GATEYearBalanceSecret =='0'"> This field is required .!</p>
-            </div>
+            </div>-->
           </div>
           <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-            <label for="GATEYearBalanceSecretFileUpload" class="form-label">Upload GATE Year Balance Secret Document<span style="color:red;">*</span></label>
+            <label for="GATEYearBalanceSecretFileUpload" class="form-label">Upload GATE Year Balance Secret Document</label>
             <div class="d-flex">
               <input type="file" class="form-control" id="GATEYearBalanceSecretFileUpload" style="display:none" formControlName="GATEYearBalanceSecretFileUpload" (change)="DescriptionValidateUploadImage($event,'GATEYearBalanceSecretFileUpload')" #GATEYearBalanceSecretFileUpload />
               <label class="btn upload" for="GATEYearBalanceSecretFileUpload">
@@ -489,21 +489,21 @@
                 <button type="button" class="btn btn-outline-danger" (click)="DescriptionDeleteImage('GATEYearBalanceSecretFileUpload')"><i class="fa fa-trash-o"></i></button>
               </div>
             </div>
-            <p *ngIf="isSubmitted&&buildingdetails.GATEYearBalanceSecretFileUpload ==''" class="text-danger"><i aria-hidden="true"></i> {{ImageValidate}}</p>
+            <!--<p *ngIf="isSubmitted&&buildingdetails.GATEYearBalanceSecretFileUpload ==''" class="text-danger"><i aria-hidden="true"></i> {{ImageValidate}}</p>-->
             <div *ngIf="isValidGATEYearBalanceSecretFileUpload" class="text-danger">
               <p *ngIf="isValidGATEYearBalanceSecretFileUpload"> {{ImageValidationMessage}}</p>
             </div>
           </div>
           <div class="col-lg-3 col-md-3 col-sm-4 col-12 mb-3">
-            <label for="txtOtherFinancialResources" class="form-label">Other financial resources<span style="color:red;">*</span> </label>
+            <label for="txtOtherFinancialResources" class="form-label">Other financial resources</label>
             <input type="text" autocomplete="off" class="form-control" id="txtOtherFinancialResources" name="txtOtherFinancialResources" [(ngModel)]="buildingdetails.OtherFinancialResources" formControlName="txtOtherFinancialResources" (keypress)="numbersOnly($event)">
 
-            <div *ngIf="isSubmitted" class="text-danger">
+            <!--<div *ngIf="isSubmitted" class="text-danger">
               <p *ngIf="buildingdetails.OtherFinancialResources =='' || buildingdetails.OtherFinancialResources =='0'"> This field is required .!</p>
-            </div>
+            </div>-->
           </div>
           <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-            <label for="OtherFinancialResourcesFileUpload" class="form-label">Upload Other Financial Resources Document<span style="color:red;">*</span></label>
+            <label for="OtherFinancialResourcesFileUpload" class="form-label">Upload Other Financial Resources Document</label>
             <div class="d-flex">
               <input type="file" class="form-control" id="OtherFinancialResourcesFileUpload" style="display:none" formControlName="OtherFinancialResourcesFileUpload" (change)="DescriptionValidateUploadImage($event,'OtherFinancialResourcesFileUpload')" #OtherFinancialResourcesFileUpload />
               <label class="btn upload" for="OtherFinancialResourcesFileUpload">
@@ -515,7 +515,7 @@
                 <button type="button" class="btn btn-outline-danger" (click)="DescriptionDeleteImage('OtherFinancialResourcesFileUpload')"><i class="fa fa-trash-o"></i></button>
               </div>
             </div>
-            <p *ngIf="isSubmitted&&buildingdetails.OtherFinancialResourcesFileUpload ==''" class="text-danger"><i aria-hidden="true"></i> {{ImageValidate}}</p>
+            <!--<p *ngIf="isSubmitted&&buildingdetails.OtherFinancialResourcesFileUpload ==''" class="text-danger"><i aria-hidden="true"></i> {{ImageValidate}}</p>-->
             <div *ngIf="isValidOtherFinancialResourcesFileUpload" class="text-danger">
               <p *ngIf="isValidOtherFinancialResourcesFileUpload"> {{ImageValidationMessage}}</p>
             </div>

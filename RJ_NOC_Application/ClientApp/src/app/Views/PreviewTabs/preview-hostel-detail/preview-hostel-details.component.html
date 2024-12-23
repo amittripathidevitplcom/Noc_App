@@ -126,6 +126,10 @@
             <label><b>Distance of College (KM)</b>:&nbsp;&nbsp; </label>
             <input class="form-control disabled" disabled value="{{request.DistanceOfCollege}}" />
           </div>
+          <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3" *ngIf="SelectedDepartmentID==6">
+            <label><b>Hostel Built-Up Area(sq. ft)</b>:&nbsp;&nbsp; </label>
+            <input class="form-control disabled" disabled value="{{request.BuiltUpArea}}" />
+          </div>
           <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3" [hidden]="request.IsHostelCampus!='No'">
             <label><b>Type</b>:&nbsp;&nbsp; </label>
             <input class="form-control disabled" disabled value="{{request.HostelType}}" />

@@ -42,6 +42,7 @@ export class OtherInformationDataModel {
   public CounterforSale: string = '';
   public ComputerPrint: string = '';
   public RegistersMaintained: string = '';
+  public LibraryTiming: string = '';
 
 
 }

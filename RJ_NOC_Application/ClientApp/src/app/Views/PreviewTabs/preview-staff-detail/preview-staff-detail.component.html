@@ -91,6 +91,27 @@
             <label><b>NET Qualified :</b></label>
             <input class="form-control disabled" disabled value="{{request.NETQualified}}" />
           </div>
+          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="SelectedDepartmentID ==2 && IsAHDegreeCollege">
+            <label><b>State Veterinary Council Registration No.? : </b></label>
+            <input class="form-control disabled" disabled value="{{request.HaveCouncilRegistration}}" />
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="SelectedDepartmentID ==2 && IsAHDegreeCollege && request.HaveCouncilRegistration=='Yes'">
+            <label><b>Veterinary Council Registration No. :</b></label>
+            <input class="form-control disabled" disabled value="{{request.CouncilRegistrationNo}}" />
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="SelectedDepartmentID ==2 && IsAHDegreeCollege&& request.HaveCouncilRegistration=='Yes'">
+            <label><b>Copies of State Veterinary Council Registration Certificate :</b></label>
+            <a class="bi bi-file-earmark-pdf-fill" *ngIf="request.CouncilRegCertificate.includes('.pdf')" data-fancybox="gallery" href="{{request.CouncilRegCertificatePath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="SelectedDepartmentID ==2 && IsAHDegreeCollege">
+            <label><b> Appointment Letter :</b></label>
+            <a class="bi bi-file-earmark-pdf-fill" *ngIf="request.AppointmentLetter.includes('.pdf')" data-fancybox="gallery" href="{{request.AppointmentLetterPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="SelectedDepartmentID ==2 && IsAHDegreeCollege">
+            <label><b>Statement of salary paid to the teachers and employees including bank statement :</b></label>
+            <a class="bi bi-file-earmark-pdf-fill" *ngIf="request.StaffBankStatement.includes('.pdf')" data-fancybox="gallery" href="{{request.StaffBankStatementPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+          </div>
+
         </div>
         <div class="row">
           <div class="col-md-4 mb-3">

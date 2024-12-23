@@ -1564,6 +1564,17 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
+  public async GetMGOneFacilityDepartmentList(DepartmentID: number, CollegeID: number) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl_CommonMaster + "/GetMGOneFacilityDepartmentList/" + DepartmentID + "/" + CollegeID)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
   public async GetAHDepartmentList() {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -1575,11 +1586,30 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
+  public async GetMGOneDepartmentList() {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl_CommonMaster + "/GetMGOneDepartmentList")
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
 
   public async SaveAHDepartmentInfrastructure(request: any) {
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
 
     return await this.http.post(this.APIUrl_CommonMaster + "/SaveAHDepartmentInfrastructure", request, httpOptions)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+  public async SaveMGOneDepartmentInfrastructure(request: any) {
+    const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
+
+    return await this.http.post(this.APIUrl_CommonMaster + "/SaveMGOneDepartmentInfrastructure", request, httpOptions)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();
@@ -1624,6 +1654,14 @@ export class CommonMasterService {
       })
     };
     return await this.http.get(this.APIUrl_CommonMaster + "/Get_DTEAffiliationFeeDetailsList")
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+
+  public async CheckAHStaff(CollegeID: number) {
+    const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
+    return await this.http.get(this.APIUrl_CommonMaster + '/CheckAHStaff/' + CollegeID, httpOptions)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();

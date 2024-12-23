@@ -167,8 +167,16 @@ export class FacilityDetailsComponent implements OnInit {
     }
   }
 
+  public showhideno: boolean = false;
+  public FacilitiesNames: string = '';
   async ddlFacilities_change($event: any, SeletedFacilitiesID: any) {
     try {
+      this.showhideno = false;
+       this.FacilitiesNames = this.FacilitiesData.find((x: { FID: number; }) => x.FID == this.request.FacilitiesID)?.FacilitiesName;
+      if (this.FacilitiesNames.includes('Number of chairs and tables in the Lecture / Examination Hall') || this.FacilitiesNames.includes('Central Instrumentation Facility (CIF)') || this.FacilitiesNames.includes('Sources of Finance for establishment of the College (in Rs.)') ) {
+        this.showhideno = true;
+        this.request.NoOf = 0;
+      }
       this.request.FacilitiesID = SeletedFacilitiesID;
       var IsYesNoOption = this.FacilitiesData.find((x: { FID: number; }) => x.FID == this.request.FacilitiesID).IsYesNoOption;
       if (IsYesNoOption == "No") {
@@ -346,7 +354,7 @@ export class FacilityDetailsComponent implements OnInit {
       this.FacilitiesForm.get('ddlIsAvailable')?.clearValidators();
 
       this.FacilitiesForm.get('txtNoOf')?.setValidators([Validators.required, Validators.min(1)]);
-      if (this.request.FacilitiesID == 20 && this.SelectedDepartmentID==2) {
+      if (this.FacilitiesNames.includes('Number of chairs and tables in the Lecture / Examination Hall') && this.SelectedDepartmentID == 2) {
         this.FacilitiesForm.get('txtMinSize')?.clearValidators();
       }
       else {
@@ -363,7 +371,17 @@ export class FacilityDetailsComponent implements OnInit {
     this.FacilitiesForm.get('txtNoOf')?.updateValueAndValidity();
     this.FacilitiesForm.get('txtMinSize')?.updateValueAndValidity();
 
-
+    if (this.showhideno) {
+      this.FacilitiesForm.get('txtNoOf')?.clearValidators();
+      this.FacilitiesForm.get('txtMinSize')?.clearValidators();
+      this.FacilitiesForm.get('txtNoOf')?.updateValueAndValidity();
+      this.FacilitiesForm.get('txtMinSize')?.updateValueAndValidity();
+      if (this.request.AmountOrOtherSource == '') {
+        this.isFormValid = false;
+      }
+      this.request.NoOf = 0;
+    }
+    console.log(this.FacilitiesForm.invalid);
     if (this.FacilitiesForm.invalid) {
       this.isFormValid = false;
 
@@ -372,9 +390,11 @@ export class FacilityDetailsComponent implements OnInit {
     //  this.NoOfZero = true;
     //  this.isFormValid = false;
     //}
-    if (this.WidthMin > this.request.MinSize) {
-      this.CssClass_TextDangerWidth = 'text-danger';
-      this.isFormValid = false;
+    if (!this.showhideno) {
+      if (this.WidthMin > this.request.MinSize) {
+        this.CssClass_TextDangerWidth = 'text-danger';
+        this.isFormValid = false;
+      }
     }
     if (this.request.IsAvailable == 'Yes' || this.isInputOptionType == true) {
       if (this.request.FacilitiesUrl == '') {
@@ -504,6 +524,7 @@ export class FacilityDetailsComponent implements OnInit {
           this.ResetFile((data['Data'][0]["FacilitiesUrl"] != '' ? true : false), data['Data'][0]["FacilitiesUrl"], data['Data'][0]["FacilitiesUrlPath"], data['Data'][0]["FacilitiesUrl_Dis_FileName"]);
           this.request.MinSize = data['Data'][0]["MinSize"];
           this.request.IsAvailable = data['Data'][0]["IsAvailable"];
+          this.request.AmountOrOtherSource = data['Data'][0]["AmountOrOtherSource"];
 
           this.isDisabledGrid = true;
           this.isValidFacilitiesUrl = true;

@@ -18,7 +18,7 @@
                 <th>No of books</th>
                 <th>Upload Image</th>
                 <th>Book's Details Document</th>
-                <th  *ngIf="SelectedDepartmentID==2">
+                <th *ngIf="SelectedDepartmentID==2">
                   Action
                 </th>
               </tr>
@@ -55,7 +55,7 @@
                   <label *ngIf="item.BookImageFilePath=='N/A'">{{item.BookImageFilePath}}</label>
                   <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.BookImageFilePath.includes('.pdf') && item.BookImageFilePath!='N/A'" data-fancybox="gallery" href="{{item.BookImageFilePath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
                 </td>
-                <td *ngIf="SelectedDepartmentID==2">
+                <td *ngIf="SelectedDepartmentID==2 && item.CourseName=='Library'">
                   <button type="button" class="btn btn-sm btn-info" title="View" (click)="ViewAHLibrary(item.CollegeWiseOtherInfoID,AHLibrarymodal)"><i class="fa fa-eye"></i></button>
                 </td>
               </tr>
@@ -118,7 +118,7 @@
           </div>
           <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
             <label>
-              Professional
+              Professional  No of books
             </label>
             <input value="{{CollegeWiseAHOtherDetails.Professional}}" class="form-control disabled" disabled />
           </div>
@@ -133,11 +133,18 @@
               No of Journals available/ subscribing
             </label>
             <input value="{{CollegeWiseAHOtherDetails.JournalsNo}}" class="form-control disabled" disabled />
-          </div>      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
             <label>
-              Other
+              Other  No of books
             </label>
             <input value="{{CollegeWiseAHOtherDetails.Other}}" class="form-control disabled" disabled />
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+            <label>
+              Timing of Library
+            </label>
+            <input value="{{CollegeWiseAHOtherDetails.LibraryTiming}}" class="form-control disabled" disabled />
           </div>
         </div>
       </div>

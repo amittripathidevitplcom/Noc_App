@@ -106,7 +106,7 @@ button, input[type='button'], input[type='submit'], a {
   width: 70px;
   transition: all .2s;
   padding: 0px;
-  z-index: 99999;
+  z-index: 999;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -906,7 +906,7 @@ ol.breadcrumb {
     left: -250px;
     align-items: flex-start;
     transition: all .2s;
-    z-index: 9999999;
+    z-index: 999;
   }
 
   .ShowSideBar {
