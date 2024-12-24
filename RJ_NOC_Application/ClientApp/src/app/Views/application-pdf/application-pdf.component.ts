@@ -187,6 +187,7 @@ export class ApplicationPDFComponent implements OnInit {
       await this.GetOtherDocuments();
       if (this.SelectedDepartmentID == 6) {
         await this.GetHospitalRelatedDocuments();
+       
       }
       if (this.SelectedDepartmentID == 9) {
         await this.GetAllClinicalFacilityList();
@@ -194,6 +195,10 @@ export class ApplicationPDFComponent implements OnInit {
 
       if (this.SelectedDepartmentID == 2) {
         await this.GetAHFacilityDepartmentList();
+      }
+      if (this.SelectedDepartmentID == 5) {
+        await this.GetMGOneFacilityDepartmentList();
+        await this.GetMGOneClinicLabList();
       }
       
     }
@@ -404,6 +409,11 @@ export class ApplicationPDFComponent implements OnInit {
       pDFData.push({ "ContentName": "#ApplyNOCDetails" })
       if (this.SelectedDepartmentID == 9) {
         pDFData.push({ "ContentName": "#clinicalFacility" })
+      }
+      if (this.SelectedDepartmentID == 5) {
+        pDFData.push({ "ContentName": "#MGOneDepartmentList" })
+        pDFData.push({ "ContentName": "#MGOneClinicalList" })
+        pDFData.push({ "ContentName": "#StaffDetails" })
       }
       for (var i = 0; i < pDFData.length; i++) {
 
@@ -1846,5 +1856,53 @@ export class ApplicationPDFComponent implements OnInit {
       }
     }
   }
+
+  public MGOneDepartmentList: any = [];
+  async GetMGOneFacilityDepartmentList() {
+
+    try {
+      this.loaderService.requestStarted();
+      await this.commonMasterService.GetMGOneFacilityDepartmentList(0, this.SelectedCollageID)
+        .then(async (data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.MGOneDepartmentList = data['Data'];
+          for (var i = 0; i < this.MGOneDepartmentList.length; i++) {
+            for (var j = 0; j < this.MGOneDepartmentList[i].MGOneFacilityDepartmentList.length; j++) {
+              await this.ShowHideRow(i, j, this.MGOneDepartmentList[i].MGOneFacilityDepartmentList[j].ID);
+            }
+          }
+
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  public MGOneClinicalList: any = [];
+  async GetMGOneClinicLabList() {
+
+    try {
+      this.loaderService.requestStarted();
+      await this.commonMasterService.GetMGOneClinicalLabDetails(this.SelectedCollageID)
+        .then(async (data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.MGOneClinicalList = data['Data'];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
 }
 

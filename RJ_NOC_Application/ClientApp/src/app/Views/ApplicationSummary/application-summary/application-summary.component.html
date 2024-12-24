@@ -251,6 +251,30 @@
         </div>
       </div>
     </div>
+    <div class="col-md-12" *ngIf="(SelectedDepartmentID==5)">
+      <div class="card mb-0">
+        <div class="card-header">
+          <b><i class="bi bi-table"></i>Department Wise Infrasturcture</b>
+        </div>
+        <div class="card-body">
+          <div class="col-md-12">
+            <app-preview-mgone-infrastructure></app-preview-mgone-infrastructure>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-12" *ngIf="(SelectedDepartmentID==5)">
+      <div class="card mb-0">
+        <div class="card-header">
+          <b><i class="bi bi-table"></i>Clinical Lab</b>
+        </div>
+        <div class="card-body">
+          <div class="col-md-12">
+            <app-preview-mgone-clinical-lab></app-preview-mgone-clinical-lab>
+          </div>
+        </div>
+      </div>
+    </div>
     <div class="col-md-12" *ngIf="CollegeType_IsExisting && (SelectedDepartmentID!=5 && SelectedDepartmentID!=11) && IsAHDegreeCollege==false">
       <div class="card mb-0">
         <div class="card-header">

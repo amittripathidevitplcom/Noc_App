@@ -607,7 +607,7 @@ export class HostelDetailsComponent implements OnInit {
       if (this.HostelForm.invalid) {
         this.isFormValid = false;
         console.log(this.HostelForm);
-      }      
+      }
 
       if (!this.isFormValid) {
         return;
@@ -616,7 +616,7 @@ export class HostelDetailsComponent implements OnInit {
         this.isFormValid = false;
         this.toastr.error('please add atleast one hostel block details');
       }
-      
+
       //loding
       this.loaderService.requestStarted();
       //some data
@@ -675,12 +675,12 @@ export class HostelDetailsComponent implements OnInit {
       if (this.request.BuiltUpArea == '') {
         this.isFormValid = false;
       }
-      if ( Number(this.request.BuiltUpArea) < 21100) {
+      if (Number(this.request.BuiltUpArea) < 21100) {
         this.LessBuiltUpArea = true;
         this.isFormValid = false;
       }
     }
-    if (this.request.HostelType == 'Rent' && this.request.IsHostelCampus=='No') {
+    if (this.request.HostelType == 'Rent' && this.request.IsHostelCampus == 'No') {
       if (this.request.OwnerName == '' || this.request.OwnerContactNo == '' || this.request.FromDate == '' || this.request.ToDate == '') {
         this.isOwnerName = this.request.OwnerName == '' ? true : false;
         this.isOwnerContactNo = this.request.OwnerContactNo == '' ? true : false;
@@ -779,7 +779,7 @@ export class HostelDetailsComponent implements OnInit {
   async GetHostelDetailList_DepartmentCollegeWise(DepartmentID: number, CollegeID: number, HostelDetailID: number) {
     try {
       this.loaderService.requestStarted();
-      await this.hostelDetailService.GetHostelDetailList_DepartmentCollegeWise(DepartmentID, CollegeID, HostelDetailID, this.SelectedApplyNOCID > 0 ? this.SelectedApplyNOCID:0)
+      await this.hostelDetailService.GetHostelDetailList_DepartmentCollegeWise(DepartmentID, CollegeID, HostelDetailID, this.SelectedApplyNOCID > 0 ? this.SelectedApplyNOCID : 0)
         .then((data: any) => {
 
           data = JSON.parse(JSON.stringify(data));
@@ -922,9 +922,9 @@ export class HostelDetailsComponent implements OnInit {
           // data
           this.HostelTypeList = data['Data'];
           //msg
-          if (this.State != 0) {
-            this.toastr.error(this.ErrorMessage);
-          }
+          //if (this.State != 0) {
+          //this.toastr.error(this.ErrorMessage);
+          //}
         }, error => console.error(error));
     }
     catch (Ex) {

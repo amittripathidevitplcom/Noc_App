@@ -490,6 +490,17 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
+  public async OtherInformationList_CourseID(CourseID: number, CollegeID: number, OtherInformationID: number = 0) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl_CommonMaster + "/OtherInformationList_CourseID/" + CourseID + "/" + CollegeID + "/" + OtherInformationID )
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
   public async GetOtherInformationSize(OtherInformationID: number) {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -1614,6 +1625,14 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
+  public async SaveMGOneClinicalLabDetails(request: any) {
+    const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
+
+    return await this.http.post(this.APIUrl_CommonMaster + "/SaveMGOneClinicalLabDetails", request, httpOptions)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
   public async GetStartDateEndDateDepartmentwise(DepartmentID: number) {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -1662,6 +1681,13 @@ export class CommonMasterService {
   public async CheckAHStaff(CollegeID: number) {
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
     return await this.http.get(this.APIUrl_CommonMaster + '/CheckAHStaff/' + CollegeID, httpOptions)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+  public async GetMGOneClinicalLabDetails(CollegeID: number) {
+    const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
+    return await this.http.get(this.APIUrl_CommonMaster + '/GetMGOneClinicalLabDetails/' + CollegeID, httpOptions)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();

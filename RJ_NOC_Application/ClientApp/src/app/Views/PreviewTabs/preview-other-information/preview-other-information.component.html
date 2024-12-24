@@ -11,7 +11,8 @@
             <thead>
               <tr>
                 <th>Sr. No.</th>
-                <th>Course Name</th>
+                <th *ngIf="SelectedDepartmentID==6">Course Name</th>
+                <th>{{SelectedDepartmentID==6?'Clinical Name':'Course Name'}}</th>
                 <th>No. of Rooms</th>
                 <th>Minimum Size ({{SelectedDepartmentID==4?'sq. meter':'sq. ft'}})</th>
                 <th>No of Computers</th>
@@ -26,7 +27,9 @@
             <tbody>
               <tr *ngFor="let item of OtherInformation ; let indexOfelement=index;">
                 <td> {{indexOfelement+1}}</td>
-                <td>
+                <td  *ngIf="SelectedDepartmentID==6">
+                  {{item.NewCourseName}}
+                </td>      <td>
                   {{item.CourseName}}
                 </td>
                 <td>

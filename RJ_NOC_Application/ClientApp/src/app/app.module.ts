@@ -431,6 +431,10 @@ import { PreviewDTEAffiliationOtherDetailsComponent } from './Views/PreviewTabs/
 import { DTEAffiliationDetailsComponent } from './Views/DTEAffiliationDetails/dteaffiliation-details/dteaffiliation-details.component';
 import { DTEAffiliationSummaryComponent } from './Views/DTEAffiliationView/dteaffiliation-summary/dteaffiliation-summary.component';
 import { MGOneInfraDepartmentWiseComponent } from './Views/TabDetail/mgone-infra-department-wise/mgone-infra-department-wise.component';
+import { ClinicalDetailsMGThreeComponent } from './Views/TabDetail/clinical-details-mgthree/clinical-details-mgthree.component';
+import { MGOneClinicalLabDetailComponent } from './Views/TabDetail/mgone-clinical-lab-detail/mgone-clinical-lab-detail.component';
+import { PreviewMGOneInfrastructureComponent } from './Views/PreviewTabs/preview-mgone-infrastructure/preview-mgone-infrastructure.component';
+import { PreviewMGOneClinicalLabComponent } from './Views/PreviewTabs/preview-mgone-clinical-lab/preview-mgone-clinical-lab.component';
 
 
  
@@ -860,7 +864,11 @@ import { MGOneInfraDepartmentWiseComponent } from './Views/TabDetail/mgone-infra
     PreviewDTEAffiliationOtherDetailsComponent,
     DTEAffiliationDetailsComponent,
     DTEAffiliationSummaryComponent,
-    MGOneInfraDepartmentWiseComponent
+    MGOneInfraDepartmentWiseComponent,
+    ClinicalDetailsMGThreeComponent,
+    MGOneClinicalLabDetailComponent,
+    PreviewMGOneInfrastructureComponent,
+    PreviewMGOneClinicalLabComponent
   ],
   imports: [
     CommonModule,

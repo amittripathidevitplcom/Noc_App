@@ -2,10 +2,20 @@
 <div class="card tabCard1 mb-0">
   <div class="card-header d-flex align-items-center justify-content-between flex-wrap">
     <b><i class="bi bi-table"></i>&nbsp;Court Order</b>
-
   </div>
-  <form [formGroup]="courtOrderForm" class="form-horizontal">
-    <div class="card-body">
+
+  <div class="card-body">
+    <div class="row" *ngIf="SelectedDepartmentID==6">
+      <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+        <label for="ddlAnyCase" class="form-label">Has college/Institute filed any case in Court..?<span style="color:red;">*</span></label>
+        <select class="form-select" id="ddlAnyCase" name="ddlAnyCase" 
+                [(ngModel)]="AnyCase">
+          <option value="">--Select--</option>
+          <option value="Yes">Yes</option>
+        </select>
+      </div>
+    </div>
+    <form [formGroup]="courtOrderForm" class="form-horizontal" *ngIf="AnyCase=='Yes'">
       <div class="row">
         <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
           <label for="ddlCourtName" class="form-label">Court Name<span style="color:red;">*</span></label>
@@ -66,8 +76,9 @@
           <button type="submit" class="btn btn-danger ms-2" id="btnReset" name="btnReset" (click)="ResetControl()">Reset</button>
         </div>
       </div>
-    </div>
-  </form>
+    </form>
+  </div>
+
 
   <div class="card mb-0" *ngIf="courtOrderList.length>0">
     <div class="card-header d-xxl-flex d-xl-flex d-md-flex d-sm-block justify-content-between align-items-center">

@@ -1,4 +1,4 @@
-import {  Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { CourtOrderDataModel, CourtOrderSearchFilterDataModel } from '../../../Models/TabDetailDataModel';
@@ -34,6 +34,7 @@ export class CourtOrderComponent {
   searchText: string = '';
   public isFormValid: boolean = false;
   public fileValidationMessage: string = '';
+  public AnyCase: string = '';
 
   public isPrint: boolean = true;
   public CurrentPageName: any = "";
@@ -76,9 +77,12 @@ export class CourtOrderComponent {
       this.SelectedCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
     }
 
-   
+
 
     this.sSOLoginDataModel = JSON.parse(String(localStorage.getItem('SSOLoginUser')));
+    if (this.SelectedDepartmentID != 6) {
+      this.AnyCase == 'Yes';
+    }
 
     this.GetAllCourOrderList();
   }
@@ -90,7 +94,7 @@ export class CourtOrderComponent {
       this.fileValidationMessage = 'This field is required .!';
       return
     }
-    
+
     this.request.DepartmentID = this.SelectedDepartmentID;
     this.request.CollegeID = this.SelectedCollageID;
     this.request.UserID = this.sSOLoginDataModel.UserID;
@@ -160,7 +164,7 @@ export class CourtOrderComponent {
                 if (Type == 'FileUpload') {
                   this.request.OrderDocumentName = data['Data'][0]["FileName"];
                   this.request.OrderDocumentName_DisName = data['Data'][0]["Dis_FileName"];
-                  this.request.OrderDocumentNamePath = data['Data'][0]["FilePath"];                 
+                  this.request.OrderDocumentNamePath = data['Data'][0]["FilePath"];
                 }
               }
               if (this.State == 1) {
@@ -176,12 +180,12 @@ export class CourtOrderComponent {
           else {
             this.toastr.warning('Select Only jpg/jpeg/pdf');
             // type validation
-            this.fileValidationMessage='Select Only jpg/jpeg/pdf';
+            this.fileValidationMessage = 'Select Only jpg/jpeg/pdf';
             return
           }
         }
       }
-      
+
     }
     catch (Ex) {
       console.log(Ex);
@@ -231,6 +235,7 @@ export class CourtOrderComponent {
   async ResetControl() {
     try {
       this.loaderService.requestStarted();
+      this.AnyCase = '';
       const txtOrderName = document.getElementById('txtOrderName')
       if (txtOrderName) txtOrderName.focus();
       this.isSubmitted = false;
@@ -264,7 +269,7 @@ export class CourtOrderComponent {
       this.searchrequest.DepartmentID = this.SelectedDepartmentID;
       this.searchrequest.CollegeID = this.SelectedCollageID;
       this.searchrequest.UserID = this.sSOLoginDataModel.UserID;
-      
+
       await this.courtOrderService.GetCourtOrderData(this.searchrequest)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
@@ -285,6 +290,7 @@ export class CourtOrderComponent {
   }
   async Edit_OnClick(CourtOrderID: number) {
     this.isSubmitted = false;
+    this.AnyCase = 'Yes'
     try {
       this.loaderService.requestStarted();
       this.searchrequest.DepartmentID = this.SelectedDepartmentID;
@@ -296,7 +302,7 @@ export class CourtOrderComponent {
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.request = data['Data'][0]['data'][0];
-          
+
           const btnSave = document.getElementById('btnSave')
           if (btnSave) btnSave.innerHTML = "Update";
           const btnReset = document.getElementById('btnReset')

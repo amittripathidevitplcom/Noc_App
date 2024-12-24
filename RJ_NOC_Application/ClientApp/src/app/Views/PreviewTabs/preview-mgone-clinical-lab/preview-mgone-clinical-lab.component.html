@@ -1,0 +1,31 @@
+
+<div class="card tabCard1 mb-0">
+  <div class="card-header d-flex justify-content-between align-items-center">
+    <b><i class="bi bi-table"></i> Test</b>
+  </div>
+  <div class="card-body">
+    <div class="row">
+      <div class="table-responsive">
+        <table class="table">
+          <tbody>
+            <tr *ngFor="let items of MGOneClinicalList; let idxx =index">
+              <td style="width:2%"><b>•</b></td>
+              <td style="width:60%;">
+                <div style="max-width: auto; white-space: normal;" *ngIf="items.ControlType=='Heading'"><b>{{items.Name}}</b><span class="text-danger" *ngIf="items.IsMandatory">*</span></div>
+                <div style="max-width: auto; white-space: normal;" *ngIf="items.ControlType!='Heading'">&nbsp;&nbsp;&nbsp;{{items.Name}}<span class="text-danger" *ngIf="items.IsMandatory">*</span></div>
+              </td>
+              <td>
+                <a *ngIf="items.ControlType=='UploadFile'" class="bi bi-file-earmark-pdf-fill" data-fancybox="gallery" href="{{items.ValuePath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                <input disabled type="text" class="form-control" *ngIf="items.ControlType=='Text' || items.ControlType=='DropDown'" [(ngModel)]="items.Value" />
+              </td>
+              <td>
+                {{items.Unit}}
+              </td>
+            </tr>
+            
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
