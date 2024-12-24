@@ -36,7 +36,7 @@
 
 
 
-        <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="isInputOptionType" [hidden]="showhideno">
+        <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="isInputOptionType && request.FacilitiesName !='Library Area'" [hidden]="showhideno">
           <label>No. of <span style="color:red;">*</span></label>
           <input type="number" class="form-control" id="txtNoOf" name="txtNoOf" maxlength="3" [(ngModel)]="request.NoOf" formControlName="txtNoOf" min="1" (keypress)="numberOnly($event)">
           <div *ngIf="isSubmitted&&form.txtNoOf.errors" class="text-danger">
@@ -44,7 +44,7 @@
             <p *ngIf="form.txtNoOf.errors.min">No of greater than zero .!</p>
           </div>
         </div>
-        <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="isInputOptionType && !showhideno">
+        <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="isInputOptionType && !showhideno && request.FacilitiesName !='Library Working Hours' && request.FacilitiesName !='Library Student Reading Room'&& request.FacilitiesName !='Library No Of Books'">
 
           <label *ngIf="SelectedDepartmentID!=2">Minimum Size ({{Unit}})<span style="color:red;">*</span></label>
           <label *ngIf="SelectedDepartmentID==2">Size ({{Unit}})<span style="color:red;">*</span></label>
@@ -65,7 +65,7 @@
         </div>
 
 
-        <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="request.IsAvailable=='Yes' || isInputOptionType==true">
+        <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="request.IsAvailable=='Yes' || isInputOptionType==true" [hidden]="request.FacilitiesName=='Library Working Hours'">
           <label for="fileUploadImage" class="form-label">Upload {{SelectedDepartmentID==4?'Order/':''}}Facility Image (Only pdf/jpeg/jpg file.)(Min.Size 100KB)(Max.Size 2MB)<span style="color:red;">*</span></label>
           <div class="d-flex">
 

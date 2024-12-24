@@ -1586,6 +1586,18 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
+  public async GetMGOneClassRoomDepartmentList(DepartmentID: number, CollegeID: number) {
+    debugger;
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl_CommonMaster + "/GetMGOneClassRoomDepartmentList/" + DepartmentID + "/" + CollegeID)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
   public async GetAHDepartmentList() {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -1629,6 +1641,14 @@ export class CommonMasterService {
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
 
     return await this.http.post(this.APIUrl_CommonMaster + "/SaveMGOneClinicalLabDetails", request, httpOptions)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+  public async SaveMGOneDepartmentClassRoom(request: any) {
+    const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
+
+    return await this.http.post(this.APIUrl_CommonMaster + "/SaveMGOneDepartmentClassRoom", request, httpOptions)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();

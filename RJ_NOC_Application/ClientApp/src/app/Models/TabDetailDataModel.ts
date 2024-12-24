@@ -152,6 +152,7 @@ export class StaffDetailDataModel {
   public StaffBankStatement?: string = '';
   public StaffBankStatementPath?: string = '';
   public StaffBankStatement_Dis?: string = '';
+  public MgoneDepartmentID?: number = 0;
 }
 export class EducationalQualificationDetails_StaffDetail {
   public EducationalQualificationID: number = 0;

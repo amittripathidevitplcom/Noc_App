@@ -130,6 +130,18 @@
         </div>
       </div>
     </div>
+    <div class="col-md-12" *ngIf="this.SelectedDepartmentID==5">      
+      <div class="card mb-0">
+        <div class="card-header">
+          <b><i class="bi bi-table"></i>Staff Details </b>
+        </div>
+        <div class="card-body">
+          <div class="col-md-12">
+            <app-preview-mg-one-staff-details></app-preview-mg-one-staff-details>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <div class="col-md-12" *ngIf="(this.SelectedDepartmentID!= 5 && this.SelectedDepartmentID!= 11 && IsAHDegreeCollege==false)">
       <div class="card mb-0">

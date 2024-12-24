@@ -194,6 +194,7 @@ export class StaffDetailsComponent implements OnInit {
     await this.GetQualificationList_DepartmentAndTypeWise();
     await this.GetStaffDetailList_DepartmentCollegeWise(this.SelectedDepartmentID, this.SelectedCollageID, 0);
     await this.GetAHDepartmentList();
+    await this.GetMgoneDepartmentList();
     this.loaderService.requestEnded();
   }
   get form() { return this.StaffDetailForm.controls; }
@@ -646,6 +647,7 @@ export class StaffDetailsComponent implements OnInit {
   }
 
   async SaveData() {
+    debugger;
     try {
       debugger;
       this.isRoleMapping = false;
@@ -663,6 +665,7 @@ export class StaffDetailsComponent implements OnInit {
         this.StaffDetailForm.get('rddetailofjob')?.clearValidators();
       }
       this.StaffDetailForm.get('rddetailofjob')?.updateValueAndValidity();
+
       if (this.SelectedDepartmentID != 4) {
         if (this.request.AadhaarCard == '') {
           this.isAadhaarCard = true;
@@ -700,7 +703,7 @@ export class StaffDetailsComponent implements OnInit {
         }
       }
       if (this.request.TeachingType == 'Teaching' && this.IsCourseLevel == 'Yes') {
-        if (this.SelectedDepartmentID != 4 && this.SelectedDepartmentID != 11 && this.SelectedDepartmentID != 9 && (this.SelectedDepartmentID != 2 && !this.IsAHDegreeCollege)) {
+        if (this.SelectedDepartmentID != 4 && this.SelectedDepartmentID != 11 && this.SelectedDepartmentID != 9 && this.SelectedDepartmentID != 5 && (this.SelectedDepartmentID != 2 && !this.IsAHDegreeCollege)) {
           if (this.request.SubjectID == 0) {
             this.isSubject = true;
             this.FormValid = false;
@@ -713,10 +716,17 @@ export class StaffDetailsComponent implements OnInit {
         }
 
       }
+      if (this.SelectedDepartmentID==5) {
+        if (this.request.MgoneDepartmentID == undefined || this.request.MgoneDepartmentID == 0) {
+          this.FormValid = false;
+        }
+      }
+
       if (this.SelectedDepartmentID == 2) {
         if (this.request.AHDepartmentID == undefined || this.request.AHDepartmentID == 0) {
           this.FormValid = false;
         }
+        
         if (this.request.NETQualified == '') {
           this.FormValid = false;
         }
@@ -737,6 +747,7 @@ export class StaffDetailsComponent implements OnInit {
           }
         }
       }
+
       if (this.request.TeachingType == 'Teaching') {
         if (this.request.Email == '' || this.request.Email == null) {
           this.FormValid = false;
@@ -1563,6 +1574,29 @@ export class StaffDetailsComponent implements OnInit {
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
           this.AHDepartmentList = data['Data'][0];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  public MgoneDepartmentList: any = [];
+  async GetMgoneDepartmentList() {
+    try {
+      this.loaderService.requestStarted();
+      await this.commonMasterService.GetMGOneDepartmentList()
+        .then((data: any) => {
+
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.MgoneDepartmentList = data['Data'][0];
         }, error => console.error(error));
     }
     catch (Ex) {
