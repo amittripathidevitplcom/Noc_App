@@ -91,7 +91,7 @@
             </div>
           </button>
 
-          <button (click)="GetUserManualDocumentMasterList(5)" class=" service-item style-3 nav-link" id="v-pills-d4-tab" data-bs-toggle="pill" data-bs-target="#v-pills-d4" type="button" role="tab" aria-controls="v-pills-d4" aria-selected="false">
+          <button (click)="GetUserManualDocumentMasterList(6)" class=" service-item style-3 nav-link" id="v-pills-d4-tab" data-bs-toggle="pill" data-bs-target="#v-pills-d4" type="button" role="tab" aria-controls="v-pills-d4" aria-selected="false">
             <div class="service-icon">
               <img src="../../../assets/images/4.png" />
             </div>
@@ -128,7 +128,7 @@
           </button>
 
 
-          <button (click)="GetUserManualDocumentMasterList(6)" class=" service-item style-3 nav-link" id="v-pills-d7-tab" data-bs-toggle="pill" data-bs-target="#v-pills-d7" type="button" role="tab" aria-controls="v-pills-d7" aria-selected="false">
+          <button (click)="GetUserManualDocumentMasterList(5)" class=" service-item style-3 nav-link" id="v-pills-d7-tab" data-bs-toggle="pill" data-bs-target="#v-pills-d7" type="button" role="tab" aria-controls="v-pills-d7" aria-selected="false">
             <div class="service-icon">
               <img src="../../../assets/images/5.png" />
             </div>
@@ -222,12 +222,26 @@
             </div>
           </div>
           <div class="tab-pane fade" id="v-pills-d4" role="tabpanel" aria-labelledby="v-pills-d4-tab" tabindex="0">
+            <div class="d-flex justify-content-start mb-3 contactMarquee">
+              <marquee direction="left" onmouseover="this.stop();" onmouseout="this.start();" scrollamount="5">
+                <ul class="d-flex align-items-center flex-wrap">
+                  <li>
+                    <p class="mb-4 blinkText" *ngFor="let row of DCE_HomePage_IncreaseDateData_Top ;let idx=index;">
+                      {{row.Content}}
+                    </p>
+                  </li>
+                </ul>
+              </marquee>
+            </div>
             <div class="d-flex justify-content-start mb-3">
               <img src="../../../assets/images/4.png" height="80" width="80"
                    alt="icon">
               <h5 class="position-relative ms-2 mt-3">Department of Medical, <br />Health & Family Welfare</h5>
             </div>
-            <p class="mb-4">समस्त महाविद्यालयों/इंस्टिट्यूट/डिप्लोमा (पूर्व संचालित एवं नवीन संचालित) को सूचित किया जाता है की NOC लेने हेतु RajNOC पोर्टल पर ऑनलाइन आवेदन शीघ्र आमंत्रित किये जायेंगे।</p>
+            <!--<p class="mb-4">समस्त महाविद्यालयों/इंस्टिट्यूट/डिप्लोमा (पूर्व संचालित एवं नवीन संचालित) को सूचित किया जाता है की NOC लेने हेतु RajNOC पोर्टल पर ऑनलाइन आवेदन शीघ्र आमंत्रित किये जायेंगे।</p>-->
+            <p class="mb-4" *ngFor="let row of DCE_HomePage_IncreaseDateData_Bottom ;let idx=index;">
+              {{row.Content}}
+            </p>
 
             <div class="buttons mt-2 mb-4">
               <a href="https://sso.rajasthan.gov.in/signin?ru=UNOC" target="_blank" class="btncomn">Login to SSO</a>

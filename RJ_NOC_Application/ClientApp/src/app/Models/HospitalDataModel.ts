@@ -220,5 +220,117 @@ export class HospitalParentNotDataModel {// not have parent
   public CityID_Owner: number = 0;
   public CityName_Owner: string = '';
 }
+export class MGThreeHospitalDataModel {
+  public CollegeID: number = 0;
+  public IsHillytribalArea: string = '';
+  public IsInstitutionParentHospital: string = '';
+  public HospitalStatus: string = '';
+  public HospitalName: string = '';
+  public RegistrationNo: string = '';
+  public HospitalContactNo: string = '';
+  public HospitalEmailID: string = '';
+  public AddressLine1: string = null;
+  public AddressLine2: string = null;
+  public RuralUrban: number = null;
+  public DivisionID: number = 0;
+  public DistrictID: number = 0;
+  public TehsilID: number = 0;
+  public CityID: number = 0;
+  public PanchayatSamitiID: number = 0;
+  public CityTownVillage: string = null;
+  public Pincode: number = null;
+  public OwnerName: string = '';
+  public SocietyMemberID: number = 0;
 
+
+  public HospitalMOU: string = '';
+  public Dis_HospitalMOU: string = '';
+  public HospitalMOUPath: string = '';
+  public BedCapacity: number = null;
+
+  public MedicalBeds: number = null;
+  public SurgicalBeds: number = null;
+  public ObstetricsBeds: number = null;
+  public PediatricsBeds: number = null;
+  public OrthoBeds: number = null;
+  public EmergencyMedicineBeds: number = null;
+  public PsychiatryBeds: number = null;
+
+
+  public NumberofDeliveries: number = null;
+  public CollegeDistance: number = null;
+
+  public BedOccupancy: string = '';
+  public Dis_BedOccupancy: string = '';
+  public BedOccupancyPath: string = '';
+  public FireNOC: string = '';
+  public Dis_FireNOC: string = '';
+  public FireNOCPath: string = '';
+  public PollutionCertificate: string = '';
+  public Dis_PollutionCertificate: string = '';
+  public PollutionCertificatePath: string = '';
+
+  public ClinicalEstablishment: string = '';
+  public Dis_ClinicalEstablishment: string = '';
+  public ClinicalEstablishmentPath: string = '';
+  public NABH: string = '';
+  public Dis_NABH: string = '';
+  public NABHPath: string = '';
+  public UndertakingNotAffiliated: string = '';
+  public Dis_UndertakingNotAffiliated: string = '';
+  public UndertakingNotAffiliatedPath: string = '';
+  public StaffInformation: string = '';
+  public Dis_StaffInformation: string = '';
+  public StaffInformationPath: string = '';
+
+  public MGThreeAffiliatedHospitalList: MGThreeAffiliatedHospitalDataModel[] = [];
+}
+
+export class MGThreeAffiliatedHospitalDataModel {
+  public CollegeID: number = 0;
+  public AffiliatedHospitalName: string = '';
+  public AffiliationReason: string = '';
+  public SpecialtyAffiliation: string = '';
+  public OwnerName: string = '';
+  public BedCapacity: number = null;
+  public NumberDeliveries: number = null;
+  public CollegeDistance: number = null;
+
+  public HospitalMOU: string = '';
+  public Dis_HospitalMOU: string = '';
+  public HospitalMOUPath: string = '';
+
+  public MedicalBeds: number = null;
+  public SurgicalBeds: number = null;
+  public ObstetricsBeds: number = null;
+  public PediatricsBeds: number = null;
+  public OrthoBeds: number = null;
+  public PsychiatryBeds: number = null;
+
+
+  public BedOccupancy: string = '';
+  public Dis_BedOccupancy: string = '';
+  public BedOccupancyPath: string = '';
+
+
+  public FireNOC: string = '';
+  public Dis_FireNOC: string = '';
+  public FireNOCPath: string = '';
+  public PollutionCertificate: string = '';
+  public Dis_PollutionCertificate: string = '';
+  public PollutionCertificatePath: string = '';
+
+  public ClinicalEstablishment: string = '';
+  public Dis_ClinicalEstablishment: string = '';
+  public ClinicalEstablishmentPath: string = '';
+  public NABH: string = '';
+  public Dis_NABH: string = '';
+  public NABHPath: string = '';
+  public UndertakingNotAffiliated: string = '';
+  public Dis_UndertakingNotAffiliated: string = '';
+  public UndertakingNotAffiliatedPath: string = '';
+  public StaffInformation: string = '';
+  public Dis_StaffInformation: string = '';
+  public StaffInformationPath: string = '';
+}
 

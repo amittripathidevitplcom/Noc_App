@@ -65,4 +65,15 @@ export class HospitalDetailService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
+
+
+
+  public async SaveMGThreeHospitalData(request: any) {
+    const headers = { 'content-type': 'application/json' }
+    const body = JSON.stringify(request);
+    return await this.http.post(this.APIUrl + "/SaveMGThreeHospitalData", body, { 'headers': headers })
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
 }
