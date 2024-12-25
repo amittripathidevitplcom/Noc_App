@@ -633,6 +633,17 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
+  public async GetlstMGOneIstheCampusUnitaryChk(SelectedDepartmentID: number) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl_CommonMaster + "/GetlstMGOneIstheCampusUnitaryChk/" + SelectedDepartmentID)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
   public async GetBuildingUploadDetails(DepartmentId: number) {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -1586,8 +1597,7 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-  public async GetMGOneClassRoomDepartmentList(DepartmentID: number, CollegeID: number) {
-    debugger;
+  public async GetMGOneClassRoomDepartmentList(DepartmentID: number, CollegeID: number) {    
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'

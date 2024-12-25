@@ -646,10 +646,8 @@ export class StaffDetailsComponent implements OnInit {
     }
   }
 
-  async SaveData() {
-    debugger;
-    try {
-      debugger;
+  async SaveData() {    
+    try {      
       this.isRoleMapping = false;
       this.isSpecializationSubject = false;
       this.FormValid = true;

@@ -654,9 +654,8 @@
                     <td>
                       <p class="m-0"><b>Designation : </b>{{item.RoleName}}</p>
                       <!--<p class="m-0" *ngIf="item.TeachingType=='NonTeaching'"><b>Designation : </b>{{item.RoleMapping}}</p>-->
-                      <p class="m-0"><b>Course : </b>NA</p>
-                      p>
-                      <p class="m-0" *ngIf="item.TeachingType=='Teaching'"><b>Subject : </b>{{item.SubjectName}}</p>
+                      <p class="m-0"><b>Course : </b>NA</p>                     
+                      <p class="m-0" *ngIf="item.TeachingType=='Teaching' && SelectedDepartmentID !=5"><b>Subject : </b>{{item.SubjectName}}</p>
                       <p class="m-0"><b>Staff Status : </b> {{item.StaffStatus}}</p>
                       <p class="m-0"><b>SALARY : </b>{{item.Salary}}</p>
 

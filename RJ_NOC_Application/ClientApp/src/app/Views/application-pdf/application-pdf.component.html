@@ -849,7 +849,7 @@ font-size: 18px;">
 
 
         <!--Course Details-->
-        <div class="card-body" *ngIf="SelectedDepartmentID!=4 && SelectedDepartmentID!=5">
+        <div class="card-body" *ngIf="SelectedDepartmentID!=4">
           <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12 col-12">
               <div class="table-responsive" *ngIf="AllCourseList.length>0">
@@ -868,7 +868,7 @@ font-size: 18px;">
                       <th>Department</th>
                       <th>College Name</th>
                       <th>Course</th>
-                      <th *ngIf="this.SelectedDepartmentID !=2&&this.SelectedDepartmentID !=6&&this.SelectedDepartmentID !=11">Stream</th>
+                      <th *ngIf="this.SelectedDepartmentID !=2&&this.SelectedDepartmentID !=5&&this.SelectedDepartmentID !=6&&this.SelectedDepartmentID !=11">Stream</th>
                       <th style="width: 250px !important" *ngIf="this.SelectedDepartmentID !=2&&this.SelectedDepartmentID !=6&&this.SelectedDepartmentID !=11">Subject</th>
                       <th *ngIf="this.SelectedDepartmentID !=3 && CollegeType_IsExisting&&this.SelectedDepartmentID !=11">Seat</th>
                       <th *ngIf="this.SelectedDepartmentID ==3">No Of Enrolled Students</th>
@@ -882,7 +882,7 @@ font-size: 18px;">
                       <td>{{row.DepartmentName}}</td>
                       <td>{{row.CollageName}}</td>
                       <td>{{row.CourseName}}</td>
-                      <td *ngIf="this.SelectedDepartmentID !=2&&this.SelectedDepartmentID !=6&&this.SelectedDepartmentID !=11">{{row.StreamName}}</td>
+                      <td *ngIf="this.SelectedDepartmentID !=2&&this.SelectedDepartmentID !=5&&this.SelectedDepartmentID !=6&&this.SelectedDepartmentID !=11">{{row.StreamName}}</td>
                       <td style="    width: 250px !important" *ngIf="this.SelectedDepartmentID !=2&&this.SelectedDepartmentID !=6&&this.SelectedDepartmentID !=11">{{row.SubjectDetails}}</td>
                       <td *ngIf="this.SelectedDepartmentID !=3 && CollegeType_IsExisting&&this.SelectedDepartmentID !=11">{{row.Dis_Sits}}</td>
                       <td *ngIf="this.SelectedDepartmentID ==3">{{row.NoOfEnrolledStudents}}</td>
@@ -1103,8 +1103,37 @@ font-size: 18px;">
             </div>
           </div>
         </div>
+        <!--MG One Class Room Details-->
+        <div class="card-body" *ngIf="SelectedDepartmentID==5">
+          <div class="row">
+            <div class="table-responsive" *ngIf="MGOneDepartmentList.length>0">
+              <table class="table table-bordered table-hover table-striped" id="MGOneDepartmentList" #content>
+                <thead>
+                  <tr>
+                    <td style="font-weight: 800; font-size: 18px;" colspan="2">
+                      <b><i class="bi bi-table"></i>&nbsp;MG One Class Room Details</b>
+                    </td>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>
+                      <span *ngFor="let items of MGOneDepartmentList; let idxx =index">
+                        {{idxx+1}} {{items.Name}}  :    <a *ngIf="items.ControlType=='UploadFile'" class="bi bi-file-earmark-pdf-fill" data-fancybox="gallery" href="{{items.ValuePath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                        <label type="text" *ngIf="items.ControlType=='Text' || items.ControlType=='DropDown'">{{ items.Value}}</label>
+                        {{items.Unit}}
+                        <br />
+                      </span>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
         <!--Facility Details-->
-        <div class="card-body" *ngIf="SelectedDepartmentID!=5">
+        <!--*ngIf="SelectedDepartmentID!=5-->
+        <div class="card-body">
           <div class="row">
             <div class="table-responsive" *ngIf="FacilitiesDataAllList.length>0">
               <table class="table table-bordered table-hover table-striped" id="FacilityDetails" #content>
@@ -1443,7 +1472,7 @@ font-size: 18px;">
         <!--Staff Details-->
         <div class="card-body">
           <div class="row">
-            <div class="table-responsive" *ngIf="(StaffDetaillst.length>0 && CollegeType_IsExisting) || SelectedDepartmentID==4 || SelectedDepartmentID==2">
+            <div class="table-responsive" *ngIf="(StaffDetaillst.length>0 && CollegeType_IsExisting) || SelectedDepartmentID==4 || SelectedDepartmentID==2|| SelectedDepartmentID==5">
               <table class="table table-hover table-striped" id="StaffDetails" #content>
                 <thead>
                   <tr>
@@ -1475,6 +1504,7 @@ font-size: 18px;">
                       Qualification:- {{item.HighestQualificationName}}<br />
                       Type:- {{item.TeachingType}}<br />
                       Gender:- {{item.Gender}}<br />
+                      <span *ngIf="SelectedDepartmentID ==5"> DepartmentName:- {{item.MGOneDepartmentName}}<br /></span>
                       <span *ngIf="SelectedDepartmentID ==2"> DepartmentName:- {{item.DepartmentName}}<br /></span>
                       <span *ngIf="SelectedDepartmentID ==2"> NET Qualified:- {{item.NETQualified}}<br /></span>
                       <span *ngIf="SelectedDepartmentID ==2"> State Veterinary Council Registration No.? :- {{item.HaveCouncilRegistration}}<br /></span>
@@ -1493,7 +1523,7 @@ font-size: 18px;">
                     <td>
                       Designation:- {{item.RoleName}}<br />
                       <span *ngIf="(item.RoleName=='Technician'|| item.RoleName=='Lecturer'|| item.RoleName=='Assistant Professor')&& SelectedDepartmentID ==9">{{item.RoleName=='Technician'?'Paramedical Counsil Registered Number':item.RoleName=='Lecturer'|| item.RoleName=='Assistant Professor'?'RMC Registered Number':''}} :- {{item.DesignationRegistrationNo}} </span><br />
-                      <span *ngIf="item.TeachingType=='Teaching'">Subject :- {{item.SubjectName}}</span><br />
+                      <span *ngIf="item.TeachingType=='Teaching' && SelectedDepartmentID !=5">Subject :- {{item.SubjectName}}</span><br />
                       Staff Status:- {{item.StaffStatus}}<br />
                       Annual Salary:- {{item.Salary}}<br />
                     </td>
@@ -3554,7 +3584,7 @@ font-size: 18px;">
                 <tbody>
                   <tr>
                     <td>
-                      <span *ngFor="let items of MGOneClinicalList; let idxx =index" >
+                      <span *ngFor="let items of MGOneClinicalList; let idxx =index">
                         {{idxx+1}} {{items.Name}}  :    <a *ngIf="items.ControlType=='UploadFile'" class="bi bi-file-earmark-pdf-fill" data-fancybox="gallery" href="{{items.ValuePath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
                         <label type="text" *ngIf="items.ControlType=='Text' || items.ControlType=='DropDown'">{{ items.Value}}</label>
                         {{items.Unit}}

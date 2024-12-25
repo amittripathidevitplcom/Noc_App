@@ -34,7 +34,7 @@
                     <th>Name Of Person</th>
                     <th>Mobile No.</th>
                     <th>Highest Qualification</th>
-                    <th>Subject</th>
+                    <th *ngIf="SelectedDepartmentID !=5" >Subject</th>
                     <th>Designation</th>
                     <!--<th>Date of Birth</th>-->
                     <th>Action</th>
@@ -47,7 +47,7 @@
                     <td>{{item.PersonName}}</td>
                     <td>{{item.MobileNo}}</td>
                     <td>{{item.HighestQualificationName}}</td>
-                    <td>{{item.SubjectName}}</td>
+                    <td *ngIf="SelectedDepartmentID !=5">{{item.SubjectName}}</td>
                     <td>{{item.RoleName}}</td>
                     <!--<td>{{item.DateOfBirth}}</td>-->
                     <td>
@@ -79,13 +79,17 @@
             <label class="form-label" style="margin-right:15px"><b> Type :</b></label>
             <input class="form-control disabled" disabled value="{{request.TeachingType}}" />
           </div>
-          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="request.TeachingType=='Teaching' && SelectedDepartmentID !=4&& SelectedDepartmentID !=2">
+          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="request.TeachingType=='Teaching' && SelectedDepartmentID !=4&& SelectedDepartmentID !=2&& SelectedDepartmentID !=5">
             <label><b>Subject :</b></label>
             <input class="form-control disabled" disabled value="{{request.SubjectName}}" />
           </div>
           <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="SelectedDepartmentID ==2 && IsAHDegreeCollege">
             <label><b>DepartmentName :</b></label>
             <input class="form-control disabled" disabled value="{{request.DepartmentName}}" />
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="SelectedDepartmentID ==5">
+            <label><b>DepartmentName :</b></label>
+            <input class="form-control disabled" disabled value="{{request.MGOneDepartmentName}}" />
           </div>
           <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="SelectedDepartmentID ==2 && IsAHDegreeCollege">
             <label><b>NET Qualified :</b></label>
@@ -166,7 +170,7 @@
             <label><b>Total Number of Experience (Year) :</b></label>
             <input class="form-control disabled" disabled value="{{request.NumberofExperience}}" />
           </div>
-          <div class="col-md-4 mb-3" *ngIf="request.TeachingType=='Teaching' && SelectedDepartmentID !=4&& SelectedDepartmentID !=2">
+          <div class="col-md-4 mb-3" *ngIf="request.TeachingType=='Teaching' && SelectedDepartmentID !=4&& SelectedDepartmentID !=2&& SelectedDepartmentID !=5">
             <label><b>Specialization Subject :</b></label>
             <input class="form-control disabled" disabled value="{{request.SpecializationSubject}}" />
           </div>

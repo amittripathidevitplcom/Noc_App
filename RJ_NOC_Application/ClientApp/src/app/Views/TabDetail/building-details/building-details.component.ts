@@ -60,6 +60,7 @@ export class BuildingDetailsComponent implements OnInit {
   IsRural: boolean = false;
   isCheckedBuildingType: boolean = false;
   IsPanchayatSamitirequried: boolean = false;
+ 
   IsTehsilrequired: boolean = false;
   public OwnBuildingFileUpload: boolean = false;
   public FireNOCFileUpload: boolean = false;
@@ -116,10 +117,13 @@ export class BuildingDetailsComponent implements OnInit {
   public MaxDate: Date = new Date();
   public Owin_RentDocTitle: any = '';
   public buildAddressShowHide: boolean = true;
+  public MGOneIsThecampusUnitaryShowHide: boolean = true;
+  public MGOneIsThecampusDistanceShowHide: boolean = true;
   public CityID: number = 0;
   public CityName: string = '';
   public CityList: any = [];
-
+  public lstMGOneIstheCampusUnitaryChk: any = [];
+  IsThecampusUnitary: boolean = false;
 
   public QueryStringStatus: any = '';
   public SelectedApplyNOCID: number = 0;
@@ -138,8 +142,8 @@ export class BuildingDetailsComponent implements OnInit {
     this.Owin_RentDocTitle = 'Certificate of Own Building in own land in same campus Order No. & Order Date :'
     this.buildingdetailsForm = this.formBuilder.group(
       {
-        rdBuildingType: ['', Validators.required],
-        txtOwnerName: [''],
+        rdBuildingType: ['', Validators.required],        
+        txtOwnerName: [''],     
         txtAddressLine1_Owner: ['', Validators.required],
         txtAddressLine2_Owner: [''],
         rbRuralUrban_Owner: ['', Validators.required],
@@ -189,8 +193,9 @@ export class BuildingDetailsComponent implements OnInit {
         OtherFinancialResourcesFileUpload: [''],
         txtOwnBuildingUpload: [''],
         Rentvaliditydate: [''],
-
         txtsearchText: [''],
+        txtdistance: [''],
+        rdMGOneIstheCampusUnitary: [''],
       })
 
     //this.buildingdetails.CollegeID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
@@ -241,6 +246,7 @@ export class BuildingDetailsComponent implements OnInit {
     this.buildingdetails.lstBuildingDocDetails = [];
     await this.GetCollegeBasicDetails();
     this.GetBuildingTypeCheck();
+    await this.GetlstMGOneIstheCampusUnitaryChk();
     this.GetBuildingUploadDetails(this.SelectedDepartmentID);
     this.GetDivisionList();
     this.GetAllBuildingDetailsList();
@@ -264,9 +270,7 @@ export class BuildingDetailsComponent implements OnInit {
     }
     return true;
   }
-
   async changeBuildingType(BuildingType: any, IsChanged: boolean) {
-    debugger;
     if (BuildingType == 'Owned') {
       this.RentAggrementDocShow = false;
       this.buildAddressShowHide = true;
@@ -285,7 +289,7 @@ export class BuildingDetailsComponent implements OnInit {
         this.buildingdetails.RuralUrban = this.holddata.RuralUrban;
         await this.IsRuralOrUrban(this.buildingdetails.RuralUrban == 'Rural' ? true : false, '');
         this.buildingdetails.DivisionID = this.holddata.DivisionID;
-        await this.FillDivisionRelatedDDL(null,this.buildingdetails.DivisionID);
+        await this.FillDivisionRelatedDDL(null, this.buildingdetails.DivisionID);
         this.buildingdetails.DistrictID = this.holddata.DistrictID;
         await this.FillDistrictRelatedDDL(null, this.buildingdetails.DistrictID);
         this.buildingdetails.TehsilID = this.holddata.TehsilID;
@@ -312,6 +316,15 @@ export class BuildingDetailsComponent implements OnInit {
       }
     }
   }
+  async changeMGOneIstheCampusUnitaryType(MGOneIstheCampusUnitaryName: any) {    
+    if (MGOneIstheCampusUnitaryName == 'No') {
+      this.MGOneIsThecampusDistanceShowHide = false;   
+      }
+    else {
+      this.MGOneIsThecampusDistanceShowHide = true;
+      this.IsThecampusUnitary = false;
+    }
+  }
   async GetBuildingTypeCheck() {
     try {
       this.loaderService.requestStarted();
@@ -321,7 +334,31 @@ export class BuildingDetailsComponent implements OnInit {
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
-          this.lstBuildingTypeChk = data['Data'];
+          this.lstBuildingTypeChk = data['Data'];          
+          console.log(this.lstBuildingTypeChk);
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  async GetlstMGOneIstheCampusUnitaryChk() {
+    try {
+      this.loaderService.requestStarted();
+      await this.commonMasterService.GetlstMGOneIstheCampusUnitaryChk(this.SelectedDepartmentID)
+        .then((data: any) => {
+          debugger;
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.lstMGOneIstheCampusUnitaryChk = data['Data'];
+          this.MGOneIsThecampusUnitaryShowHide = false;
           console.log(this.lstBuildingTypeChk);
         }, error => console.error(error));
     }
@@ -361,6 +398,7 @@ export class BuildingDetailsComponent implements OnInit {
     }
   }
   async SaveData() {
+    debugger;
     this.IstxtBuildingHostel = false;
     this.isValidOwnBuildingFileUpload = false;
     this.isValidRentAgreementFileUpload = false;
@@ -426,6 +464,22 @@ export class BuildingDetailsComponent implements OnInit {
       this.buildingdetailsForm.get('txtOrderNo')?.updateValueAndValidity();
       this.buildingdetailsForm.get('txtOrderDate')?.updateValueAndValidity();
       this.buildingdetailsForm.get('txtExpiringOn')?.updateValueAndValidity();
+    }
+
+    if (this.SelectedDepartmentID == 5) {
+      console.log(this.MGOneIsThecampusDistanceShowHide);
+      if (this.buildingdetails.MGOneIstheCampusUnitaryID > 0) {
+        if (this.buildingdetails.Distance > 0) {
+          this.IsThecampusUnitary = false;
+        } else {
+          this.IsThecampusUnitary = true;
+        }     
+       
+      }
+      else {
+        this.IsThecampusUnitary = true;               
+      }
+      
     }
 
     if (this.buildingdetailsForm.invalid) {
@@ -628,6 +682,8 @@ export class BuildingDetailsComponent implements OnInit {
           this.buildingdetails.SchoolBuildingDetailsID = data['Data'][0]['data']['Table'][0]["SchoolBuildingDetailsID"];
           this.GetBuildingTypeCheck();
           this.buildingdetails.BuildingTypeID = data['Data'][0]['data']['Table'][0]["BuildingTypeID"];
+          this.buildingdetails.MGOneIstheCampusUnitaryID = data['Data'][0]['data']['Table'][0]["MGOneIstheCampusUnitaryID"];
+          this.buildingdetails.Distance = data['Data'][0]['data']['Table'][0]["Distance"];
           this.holddata.AddressLine1 = data['Data'][0]['data']['Table'][0]["AddressLine1"];
           this.holddata.AddressLine2 = data['Data'][0]['data']['Table'][0]["AddressLine2"];
           this.holddata.RuralUrban = data['Data'][0]['data']['Table'][0]["RuralUrban"];

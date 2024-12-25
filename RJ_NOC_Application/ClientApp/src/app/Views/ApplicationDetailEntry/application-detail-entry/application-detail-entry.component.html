@@ -113,7 +113,15 @@
               </ng-template>
               <app-room-details></app-room-details>
             </mat-tab>
-
+            <mat-tab *ngIf="SelectedDepartmentID==5">
+              <ng-template mat-tab-label>
+                <i class="fa fa-align-justify icon" aria-hidden="true"></i>
+                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['MGOneClassRoom']>0"></i>
+                <span class="badge pulse" *ngIf="CheckTabsEntryData['MGOneClassRoom']==0"></span>
+                <span>Class Room Details</span>
+              </ng-template>
+              <app-mgone-class-room-details></app-mgone-class-room-details>
+            </mat-tab>
             <mat-tab *ngIf="SelectedDepartmentID==11">
               <ng-template mat-tab-label>
                 <i class="fa fa-home icon" aria-hidden="true"></i>
@@ -386,15 +394,7 @@
               </ng-template>
               <app-clinical-facility></app-clinical-facility>
             </mat-tab>
-            <mat-tab *ngIf="SelectedDepartmentID==5">
-              <ng-template mat-tab-label>
-                <i class="fa fa-align-justify icon" aria-hidden="true"></i>
-                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['ClinicalFacility']>0"></i>
-                <span class="badge pulse" *ngIf="CheckTabsEntryData['ClinicalFacility']==0"></span>
-                <span>Class Room Details</span>
-              </ng-template>
-              <app-mgone-class-room-details></app-mgone-class-room-details>
-            </mat-tab>
+
 
           </mat-tab-group>
         </div>

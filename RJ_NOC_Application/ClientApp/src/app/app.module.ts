@@ -437,7 +437,7 @@ import { PreviewMGOneInfrastructureComponent } from './Views/PreviewTabs/preview
 import { PreviewMGOneClinicalLabComponent } from './Views/PreviewTabs/preview-mgone-clinical-lab/preview-mgone-clinical-lab.component';
 import { MGThreeHospitalComponent } from './Views/TabDetail/mgthree-hospital/mgthree-hospital.component';
 import { MGOneClassRoomDetailsComponent } from './Views/TabDetail/mgone-class-room-details/mgone-class-room-details.component';
-import { PreviewMgOneStaffDetailsComponent } from './Views/PreviewTabs/preview-mg-one-staff-details/preview-mg-one-staff-details.component';
+import { PreviewMgOneClassRoomDetailsComponent } from './Views/PreviewTabs/preview-mg-one-class-room-details/preview-mg-one-class-room-details.component';
 
 
  
@@ -874,9 +874,9 @@ import { PreviewMgOneStaffDetailsComponent } from './Views/PreviewTabs/preview-m
     PreviewMGOneClinicalLabComponent,
     MGOneInfraDepartmentWiseComponent,
     MGOneClassRoomDetailsComponent,
-    PreviewMgOneStaffDetailsComponent
     PreviewMGOneClinicalLabComponent,
-    MGThreeHospitalComponent
+    MGThreeHospitalComponent,
+    PreviewMgOneClassRoomDetailsComponent,
   ],
   imports: [
     CommonModule,

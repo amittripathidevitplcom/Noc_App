@@ -50,10 +50,10 @@ export class MGOneClassRoomDetailsComponent implements OnInit {
       this.routers.navigate(['/draftapplicationlist']);
     }
 
-    await this.GetMGOneFacilityDepartmentList();
+    await this.GetMGOneClassRoomDepartmentList();
 
   }
-  async GetMGOneFacilityDepartmentList() {
+  async GetMGOneClassRoomDepartmentList() {
 
     try {
       this.loaderService.requestStarted();
@@ -132,8 +132,7 @@ export class MGOneClassRoomDetailsComponent implements OnInit {
 
 
   ResetFiles(DepartIndex: number, ItemIndex: number, isShow: boolean, fileName: string, filePath: string, dis_Name: string) {
-    try {
-      debugger;
+    try {     
       this.loaderService.requestStarted();
       this.MGOneDepartmentList[DepartIndex].MGOneFacilityDepartmentList[ItemIndex].Value = fileName;
       this.MGOneDepartmentList[DepartIndex].MGOneFacilityDepartmentList[ItemIndex].Value_Dis_FileName = dis_Name;
@@ -183,29 +182,34 @@ export class MGOneClassRoomDetailsComponent implements OnInit {
     }
   }
 
-  async ResetControl(i: number) {
+  
+
+  
+
+  
+  async ResetControl() {
     /*for (var i = 0; i < this.AHDepartmentList.length; i++) {*/
-    for (var j = 0; j < this.MGOneDepartmentList[i].MGOneFacilityDepartmentList.length; j++) {
-      this.MGOneDepartmentList[i].MGOneFacilityDepartmentList[j].Value = '';
-      this.MGOneDepartmentList[i].MGOneFacilityDepartmentList[j].Value_Dis_FileName = '';
-      this.MGOneDepartmentList[i].MGOneFacilityDepartmentList[j].ValuePath = '';
+    for (var j = 0; j < this.MGOneDepartmentList.length; j++) {
+      this.MGOneDepartmentList[j].Value = '';
+      this.MGOneDepartmentList[j].Value_Dis_FileName = '';
+      this.MGOneDepartmentList[j].ValuePath = '';
     }
     /* }*/
   }
-  async SaveData(i: number) {
-    this.MGOneDepartmentList[i].isSubmitted = true;
+  async SaveData() {
+    this.isSubmitted = true;
     try {
       /* for (var i = 0; i < this.AHDepartmentList.length; i++) {*/
-      for (var j = 0; j < this.MGOneDepartmentList[i].MGOneFacilityDepartmentList.length; j++) {
-        if (this.MGOneDepartmentList[i].MGOneFacilityDepartmentList[j].IsMandatory) {
-          var GetChild = this.MGOneDepartmentList[i].MGOneFacilityDepartmentList.filter((x: { ParentID: number }) => x.ParentID == this.MGOneDepartmentList[i].MGOneFacilityDepartmentList[j].ID);
-          if (this.MGOneDepartmentList[i].MGOneFacilityDepartmentList[j].Value == '' && this.MGOneDepartmentList[i].MGOneFacilityDepartmentList[j].ParentID == 0) {
+      for (var j = 0; j < this.MGOneDepartmentList.length; j++) {
+        if (this.MGOneDepartmentList[j].IsMandatory) {
+          var GetChild = this.MGOneDepartmentList.filter((x: { ParentID: number }) => x.ParentID == this.MGOneDepartmentList[j].ID);
+          if (this.MGOneDepartmentList[j].Value == '' && this.MGOneDepartmentList[j].ParentID == 0) {
             return;
           }
-          else if (this.MGOneDepartmentList[i].MGOneFacilityDepartmentList[j].ControlType == 'Text' && this.MGOneDepartmentList[i].MGOneFacilityDepartmentList[j].Value < this.MGOneDepartmentList[i].MGOneFacilityDepartmentList[j].MinQty && this.MGOneDepartmentList[i].MGOneFacilityDepartmentList[j].ParentID == 0) {
+          else if (this.MGOneDepartmentList[j].ControlType == 'Text' && this.MGOneDepartmentList[j].Value < this.MGOneDepartmentList[j].MinQty && this.MGOneDepartmentList[j].ParentID == 0) {
             return;
           }
-          else if (this.MGOneDepartmentList[i].MGOneFacilityDepartmentList[j].ControlType == 'DropDown' && this.MGOneDepartmentList[i].MGOneFacilityDepartmentList[j].ParentID == 0 && this.MGOneDepartmentList[i].MGOneFacilityDepartmentList[j].Value == 'Yes') {
+          else if (this.MGOneDepartmentList[j].ControlType == 'DropDown' && this.MGOneDepartmentList[j].ParentID == 0 && this.MGOneDepartmentList[j].Value == 'Yes') {
             if (GetChild.length > 0) {
               for (var k = 0; k < GetChild.length; k++) {
                 if (GetChild[k].Value == '') {
@@ -218,8 +222,8 @@ export class MGOneClassRoomDetailsComponent implements OnInit {
         /*}*/
       }
       this.loaderService.requestStarted();
-      this.MGOneDepartmentList[i].CollegeID = this.SelectedCollageID;
-      await this.commonMasterService.SaveMGOneDepartmentInfrastructure(this.MGOneDepartmentList[i])
+      this.MGOneDepartmentList[0].CollegeID = this.SelectedCollageID;
+      await this.commonMasterService.SaveMGOneDepartmentClassRoom(this.MGOneDepartmentList)
         .then(async (data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
@@ -229,7 +233,7 @@ export class MGOneClassRoomDetailsComponent implements OnInit {
             //console.log(data['Data']);
             this.toastr.success(this.SuccessMessage);
             //window.location.reload();
-            await this.GetMGOneFacilityDepartmentList();
+            await this.GetMGOneClassRoomDepartmentList();
           }
           else if (this.State == 2) {
             this.toastr.warning(this.ErrorMessage)
@@ -252,19 +256,21 @@ export class MGOneClassRoomDetailsComponent implements OnInit {
   }
 
   async ShowHideRow(Departidx: number, idx: number, ID: number) {
-    var GetChild = this.MGOneDepartmentList[Departidx].MGOneFacilityDepartmentList.filter((x: { ParentID: number }) => x.ParentID == ID);
+    var GetChild = this.MGOneDepartmentList.filter((x: { ParentID: number }) => x.ParentID == ID);
     if (GetChild.length > 0) {
-      for (var j = 0; j < this.MGOneDepartmentList[Departidx].MGOneFacilityDepartmentList.length; j++) {
-        if (this.MGOneDepartmentList[Departidx].MGOneFacilityDepartmentList[j].ParentID == ID && this.MGOneDepartmentList[Departidx].MGOneFacilityDepartmentList[idx].Value == 'Yes') {
-          this.MGOneDepartmentList[Departidx].MGOneFacilityDepartmentList[j].IsHide = false;
+      for (var j = 0; j < this.MGOneDepartmentList.length; j++) {
+        if (this.MGOneDepartmentList[j].ParentID == ID && this.MGOneDepartmentList[idx].Value == 'Yes') {
+          this.MGOneDepartmentList[j].IsHide = false;
         }
-        else if (this.MGOneDepartmentList[Departidx].MGOneFacilityDepartmentList[j].ParentID == ID && this.MGOneDepartmentList[Departidx].MGOneFacilityDepartmentList[idx].Value != 'Yes') {
-          this.MGOneDepartmentList[Departidx].MGOneFacilityDepartmentList[j].IsHide = true;
-          this.MGOneDepartmentList[Departidx].MGOneFacilityDepartmentList[j].Value = '';
-
+        else if (this.MGOneDepartmentList[j].ParentID == ID && this.MGOneDepartmentList[idx].Value != 'Yes') {
+          this.MGOneDepartmentList[j].IsHide = true;
+          this.MGOneDepartmentList[j].Value = '';
         }
       }
     }
   }
+
+
+
 }
 

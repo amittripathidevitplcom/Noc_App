@@ -199,6 +199,7 @@ export class ApplicationPDFComponent implements OnInit {
       if (this.SelectedDepartmentID == 5) {
         await this.GetMGOneFacilityDepartmentList();
         await this.GetMGOneClinicLabList();
+        await this.GetMGOneClassRoomDepartmentList();
       }
       
     }
@@ -1885,7 +1886,6 @@ export class ApplicationPDFComponent implements OnInit {
   }
   public MGOneClinicalList: any = [];
   async GetMGOneClinicLabList() {
-
     try {
       this.loaderService.requestStarted();
       await this.commonMasterService.GetMGOneClinicalLabDetails(this.SelectedCollageID)
@@ -1904,5 +1904,26 @@ export class ApplicationPDFComponent implements OnInit {
     }
   }
 
+  async GetMGOneClassRoomDepartmentList() {
+
+    try {
+      this.loaderService.requestStarted();
+      await this.commonMasterService.GetMGOneClassRoomDepartmentList(0, this.SelectedCollageID)
+        .then(async (data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          debugger;
+          this.MGOneDepartmentList = data['Data'];
+
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
 }
 

@@ -495,8 +495,7 @@ export class AddCoursesComponent implements OnInit {
     if (btnReset) btnReset.innerHTML = "Reset";
 
   }
-  async Edit_OnClick(CollegeWiseCourseID: number) {
-    debugger;
+  async Edit_OnClick(CollegeWiseCourseID: number) {   
     this.isSubmitted = false;
     try {
       this.loaderService.requestStarted();
@@ -505,10 +504,8 @@ export class AddCoursesComponent implements OnInit {
           data = JSON.parse(JSON.stringify(data));
           this.request.CollegeWiseCourseID = CollegeWiseCourseID;
           this.request.DepartmentID = data['Data'][0]["DepartmentID"];
-
           this.request.CollegeID = data['Data'][0]["CollegeID"];
           await this.ddlCollege_change(this.request.CollegeID);
-
           if (this.request.DepartmentID == EnumDepartment.CollegeEducation) {
             this.request.StreamID = data['Data'][0]["StreamID"];
             await this.ddlStream_change(this.request.StreamID);
@@ -518,7 +515,7 @@ export class AddCoursesComponent implements OnInit {
           this.request.CourseLevelID = data['Data'][0]["CourseLevelID"];
           console.log(this.request.CourseLevelID);
           if (this.request.DepartmentID == EnumDepartment.CollegeEducation || this.request.DepartmentID == EnumDepartment.Animal_Husbandry
-            || this.request.DepartmentID == EnumDepartment.MedicalGroup3 || this.request.DepartmentID == EnumDepartment.Bed_CollegeEducation || this.request.DepartmentID == EnumDepartment.ParaMedical || this.request.DepartmentID == EnumDepartment.Agriculture) {
+            || this.request.DepartmentID == EnumDepartment.MedicalGroup3 || this.request.DepartmentID == EnumDepartment.Bed_CollegeEducation || this.request.DepartmentID == EnumDepartment.ParaMedical || this.request.DepartmentID == EnumDepartment.Agriculture || this.request.DepartmentID == EnumDepartment.MedicalGroup1) {
             await this.ddlCourseLevel_change(this.request.CourseLevelID);
           }
 

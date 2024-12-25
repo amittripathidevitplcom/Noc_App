@@ -356,6 +356,9 @@ export class BuildingDetailsDataModel {
   public Dis_OtherFinancialResourcesFileUpload: string = '';
   public OtherFinancialResourcesFileUploadPath: string = '';
   public Rentvaliditydate: string = '';
+  public MGOneIstheCampusUnitaryID: number = 0;
+  public MGOneIstheCampusUnitaryName?: string = '';
+  public Distance: number = 0;
   public lstBuildingDocDetails: DocuemntBuildingDetailsDataModel[] = [];
 
   public C_Action: string = '';
