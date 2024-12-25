@@ -436,6 +436,8 @@ import { MGOneClinicalLabDetailComponent } from './Views/TabDetail/mgone-clinica
 import { PreviewMGOneInfrastructureComponent } from './Views/PreviewTabs/preview-mgone-infrastructure/preview-mgone-infrastructure.component';
 import { PreviewMGOneClinicalLabComponent } from './Views/PreviewTabs/preview-mgone-clinical-lab/preview-mgone-clinical-lab.component';
 import { MGThreeHospitalComponent } from './Views/TabDetail/mgthree-hospital/mgthree-hospital.component';
+import { MGOneClassRoomDetailsComponent } from './Views/TabDetail/mgone-class-room-details/mgone-class-room-details.component';
+import { PreviewMgOneStaffDetailsComponent } from './Views/PreviewTabs/preview-mg-one-staff-details/preview-mg-one-staff-details.component';
 
 
  
@@ -869,6 +871,10 @@ import { MGThreeHospitalComponent } from './Views/TabDetail/mgthree-hospital/mgt
     ClinicalDetailsMGThreeComponent,
     MGOneClinicalLabDetailComponent,
     PreviewMGOneInfrastructureComponent,
+    PreviewMGOneClinicalLabComponent,
+    MGOneInfraDepartmentWiseComponent,
+    MGOneClassRoomDetailsComponent,
+    PreviewMgOneStaffDetailsComponent
     PreviewMGOneClinicalLabComponent,
     MGThreeHospitalComponent
   ],

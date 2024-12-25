@@ -409,7 +409,7 @@ export class FacilityDetailsComponent implements OnInit {
       }
     }
     if (this.request.IsAvailable == 'Yes' || this.isInputOptionType == true) {
-      if (this.request.FacilitiesUrl == '') {
+      if (this.request.FacilitiesUrl == '' && this.request.FacilitiesName != 'Library Working Hours') {
         this.ImageValidate = 'This field is required .!';
         this.isFormValid = false;
       }
