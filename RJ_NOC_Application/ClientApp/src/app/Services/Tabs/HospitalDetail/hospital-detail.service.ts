@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { GlobalConstants } from '../../../Common/GlobalConstants';
@@ -72,6 +72,14 @@ export class HospitalDetailService {
     const headers = { 'content-type': 'application/json' }
     const body = JSON.stringify(request);
     return await this.http.post(this.APIUrl + "/SaveMGThreeHospitalData", body, { 'headers': headers })
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+
+  public async GetMGThreeHospitalDetailList_DepartmentCollegeWise(DepartmentID: number, CollegeID: number, HospitalID: number, ApplyNOCID: number = 0) {
+    const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
+    return await this.http.get(this.APIUrl + '/GetMGThreeHospitalDetailList_DepartmentCollegeWise/' + DepartmentID + "/" + CollegeID + "/" + HospitalID + "/" + ApplyNOCID, httpOptions)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();

@@ -209,6 +209,8 @@
               <div *ngIf="isSubmitted&&form.txtCollegeDistance.errors" class="text-danger">
                 <p *ngIf="form.txtCollegeDistance.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
               </div>
+              <p *ngIf="request.IsHillytribalArea=='No' && request.CollegeDistance>30" class="text-danger">distance with in 30km </p>
+              <p *ngIf="request.IsHillytribalArea=='Yes' && request.CollegeDistance>50" class="text-danger">distance with in 50km </p>
             </div>
             <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
               <label>MOU between Parental hospital & All the members of Trust/ Society/Company (MoU For 30 years minimum) <span style="color:red;">*</span></label>
@@ -489,6 +491,8 @@
                 <div *ngIf="isAffiliatedSubmitted&&affiliatedform.txtAffiliatedCollegeDistance.errors" class="text-danger">
                   <p *ngIf="affiliatedform.txtAffiliatedCollegeDistance.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
                 </div>
+                <p *ngIf="request.IsHillytribalArea=='No' && Affiliatedrequest.CollegeDistance>30" class="text-danger">distance with in 30km </p>
+                <p *ngIf="request.IsHillytribalArea=='Yes' && Affiliatedrequest.CollegeDistance>50" class="text-danger">distance with in 50km </p>
               </div>
               <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                 <label>MOU with affiliated hospitals<span style="color:red;">*</span></label>
@@ -750,6 +754,38 @@
         </div>
       </div>
     </form>
+
+
+    <div class="clearfix"></div>
+    <div class="card">
+      <div class="card-header">
+        <b>Hospital Details</b>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="table-responsive">
+              <table class="table table-hover table-striped">
+                <thead>
+                  <tr>
+                    <th>S.No.</th>
+                    <th>Is the institute situated in Hilly/tribal  Area ?</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of HospitalList let idx =index">
+                    <td>{{idx+1}}</td>
+                    <td>{{item.IsHillytribalArea}}</td>
+                    <td></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 
 </div>

@@ -47,6 +47,7 @@ export class MGThreeHospitalComponent {
   public SearchRecordID: string = '';
   public SelectedCollageID: number = 0;
   public SelectedDepartmentID: number = 0;
+  public SelectedApplyNOCID: number = 0;
   constructor(private TrusteeGeneralInfoService: TrusteeGeneralInfoService, private modalService: NgbModal, private hospitalDetailService: HospitalDetailService, private toastr: ToastrService, private loaderService: LoaderService, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private fileUploadService: FileUploadService, private societyService: SocityService) {
   }
   async ngOnInit() {
@@ -125,6 +126,7 @@ export class MGThreeHospitalComponent {
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     this.SelectedDepartmentID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DepartmentID')?.toString()));
     this.SearchRecordID = this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString());
+    this.SelectedApplyNOCID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplyNOCID')?.toString()));
     if (this.SearchRecordID.length > 20) {
       await this.commonMasterService.GetCollegeID_SearchRecordIDWise(this.SearchRecordID)
         .then((data: any) => {
@@ -141,6 +143,7 @@ export class MGThreeHospitalComponent {
     }
 
     await this.LoadMaster();
+    await this.GetMGThreeHospitalDetailList_DepartmentCollegeWise(this.SelectedDepartmentID, this.SelectedCollageID,0);
   }
   get form() { return this.HospitalForm.controls; }
   get affiliatedform() { return this.AffiliatedHospitalForm.controls; }
@@ -507,6 +510,12 @@ export class MGThreeHospitalComponent {
       if (this.AffiliatedHospitalForm.invalid) {
         return;
       }
+      if (this.request.IsHillytribalArea == 'No' && this.Affiliatedrequest.CollegeDistance > 30) {
+        return;
+      }
+      if (this.request.IsHillytribalArea == 'Yes' && this.Affiliatedrequest.CollegeDistance > 50) {
+        return;
+      }
 
       this.loaderService.requestStarted();
       if (this.CurrentIndex != -1) {
@@ -639,7 +648,6 @@ export class MGThreeHospitalComponent {
   public isSubmitted: boolean = false
   public isformvalid: boolean = true;
   async SaveData() {
-    debugger;
     this.isSubmitted = true;
     this.isformvalid = true;
     if (this.request.IsHillytribalArea == 'Yes' && this.request.IsInstitutionParentHospital == '') {
@@ -648,10 +656,10 @@ export class MGThreeHospitalComponent {
     if (((this.request.IsHillytribalArea == 'Yes' && this.request.IsInstitutionParentHospital == 'Yes') || this.request.IsHillytribalArea == 'No') && this.request.HospitalStatus == '') {
       this.isformvalid = false;
     }
-    if (((this.request.IsHillytribalArea == 'Yes' && this.request.IsInstitutionParentHospital == 'Yes') || this.request.IsHillytribalArea == 'No') &&this.request.HospitalStatus == 'Own' && this.request.OwnerName=='') {
+    if (((this.request.IsHillytribalArea == 'Yes' && this.request.IsInstitutionParentHospital == 'Yes') || this.request.IsHillytribalArea == 'No') && this.request.HospitalStatus == 'Own' && this.request.OwnerName == '') {
       this.isformvalid = false;
     }
-    if (((this.request.IsHillytribalArea == 'Yes' && this.request.IsInstitutionParentHospital == 'Yes') || this.request.IsHillytribalArea == 'No') &&this.request.HospitalStatus == 'Parental' && this.request.SocietyMemberID<=0) {
+    if (((this.request.IsHillytribalArea == 'Yes' && this.request.IsInstitutionParentHospital == 'Yes') || this.request.IsHillytribalArea == 'No') && this.request.HospitalStatus == 'Parental' && this.request.SocietyMemberID <= 0) {
       this.isformvalid = false;
     }
     if (this.request.IsHillytribalArea == 'Yes' && this.request.IsInstitutionParentHospital == 'No') {
@@ -734,14 +742,26 @@ export class MGThreeHospitalComponent {
         this.HospitalForm.get('ddlCityID')?.updateValueAndValidity();
       }
     }
+    if (this.request.IsHillytribalArea == 'No' && this.request.CollegeDistance > 30) {
+      return;
+    }
+    if (this.request.IsHillytribalArea == 'Yes' && this.request.CollegeDistance > 50) {
+      return;
+    }
     if (this.HospitalForm.invalid) {
       this.isformvalid = false;
+    }
+    if (this.request.IsHillytribalArea == 'Yes' && this.request.IsInstitutionParentHospital == 'No') {
+      if (this.request.MGThreeAffiliatedHospitalList.length <= 0) {
+        this.toastr.warning('Please add one Affiliated Hospital');
+        return;
+      }
     }
     console.log(this.HospitalForm);
     if (!this.isformvalid) {
       return
     }
-// save data
+    // save data
     try {
       this.loaderService.requestStarted();
       await this.hospitalDetailService.SaveMGThreeHospitalData(this.request)
@@ -781,5 +801,29 @@ export class MGThreeHospitalComponent {
   }
   async OnChangeInstitutionParentHospital() {
     this.request.HospitalStatus = '';
+  }
+
+  public HospitalList: any = [];
+  async GetMGThreeHospitalDetailList_DepartmentCollegeWise(DepartmentID: number, CollegeID: number, HospitalID: number) {
+    try {
+      this.loaderService.requestStarted();
+      await this.hospitalDetailService.GetMGThreeHospitalDetailList_DepartmentCollegeWise(DepartmentID, CollegeID, HospitalID, this.SelectedApplyNOCID > 0 ? this.SelectedApplyNOCID : 0)
+        .then((data: any) => {
+
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.HospitalList = data['Data'];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
   }
 }
