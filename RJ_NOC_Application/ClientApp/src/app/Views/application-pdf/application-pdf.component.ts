@@ -413,6 +413,7 @@ export class ApplicationPDFComponent implements OnInit {
       }
       if (this.SelectedDepartmentID == 5) {
         pDFData.push({ "ContentName": "#MGOneDepartmentList" })
+        pDFData.push({ "ContentName": "#MGOneClassRoomDepartmentList" })
         pDFData.push({ "ContentName": "#MGOneClinicalList" })
         pDFData.push({ "ContentName": "#StaffDetails" })
       }
@@ -1817,7 +1818,6 @@ export class ApplicationPDFComponent implements OnInit {
 
   public AHDepartmentList: any = [];
   async GetAHFacilityDepartmentList() {
-
     try {
       this.loaderService.requestStarted();
       await this.commonMasterService.GetAHFacilityDepartmentList(0, this.SelectedCollageID)
@@ -1860,7 +1860,6 @@ export class ApplicationPDFComponent implements OnInit {
 
   public MGOneDepartmentList: any = [];
   async GetMGOneFacilityDepartmentList() {
-
     try {
       this.loaderService.requestStarted();
       await this.commonMasterService.GetMGOneFacilityDepartmentList(0, this.SelectedCollageID)
@@ -1869,7 +1868,7 @@ export class ApplicationPDFComponent implements OnInit {
           this.MGOneDepartmentList = data['Data'];
           for (var i = 0; i < this.MGOneDepartmentList.length; i++) {
             for (var j = 0; j < this.MGOneDepartmentList[i].MGOneFacilityDepartmentList.length; j++) {
-              await this.ShowHideRow(i, j, this.MGOneDepartmentList[i].MGOneFacilityDepartmentList[j].ID);
+              //await this.ShowHideRow(i, j, this.MGOneDepartmentList[i].MGOneFacilityDepartmentList[j].ID);
             }
           }
 
@@ -1903,7 +1902,7 @@ export class ApplicationPDFComponent implements OnInit {
       }, 200);
     }
   }
-
+  public MGOneClassRoomDepartmentList: any = [];
   async GetMGOneClassRoomDepartmentList() {
 
     try {
@@ -1911,8 +1910,8 @@ export class ApplicationPDFComponent implements OnInit {
       await this.commonMasterService.GetMGOneClassRoomDepartmentList(0, this.SelectedCollageID)
         .then(async (data: any) => {
           data = JSON.parse(JSON.stringify(data));
-          debugger;
-          this.MGOneDepartmentList = data['Data'];
+          
+          this.MGOneClassRoomDepartmentList = data['Data'];
 
         }, error => console.error(error));
     }
