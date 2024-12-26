@@ -1106,8 +1106,8 @@ font-size: 18px;">
         <!--MG One Class Room Details-->
         <div class="card-body" *ngIf="SelectedDepartmentID==5">
           <div class="row">
-            <div class="table-responsive" *ngIf="MGOneDepartmentList.length>0">
-              <table class="table table-bordered table-hover table-striped" id="MGOneDepartmentList" #content>
+            <div class="table-responsive" *ngIf="MGOneClassRoomDepartmentList.length>0">
+              <table class="table table-bordered table-hover table-striped" id="MGOneClassRoomDepartmentList" #content>
                 <thead>
                   <tr>
                     <td style="font-weight: 800; font-size: 18px;" colspan="2">
@@ -1118,7 +1118,7 @@ font-size: 18px;">
                 <tbody>
                   <tr>
                     <td>
-                      <span *ngFor="let items of MGOneDepartmentList; let idxx =index">
+                      <span *ngFor="let items of MGOneClassRoomDepartmentList; let idxx =index">
                         {{idxx+1}} {{items.Name}}  :    <a *ngIf="items.ControlType=='UploadFile'" class="bi bi-file-earmark-pdf-fill" data-fancybox="gallery" href="{{items.ValuePath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
                         <label type="text" *ngIf="items.ControlType=='Text' || items.ControlType=='DropDown'">{{ items.Value}}</label>
                         {{items.Unit}}
