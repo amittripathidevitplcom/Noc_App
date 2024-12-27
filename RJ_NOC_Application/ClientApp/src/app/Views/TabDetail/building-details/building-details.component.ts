@@ -194,6 +194,8 @@ export class BuildingDetailsComponent implements OnInit {
         txtsearchText: [''],
         txtdistance: [''],
         rdMGOneIstheCampusUnitary: [''],
+        txtNameoftheAuthority: ['', Validators.required],
+        txtAuthorityDateApproval: ['', Validators.required]
       })
 
     //this.buildingdetails.CollegeID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
@@ -383,7 +385,8 @@ export class BuildingDetailsComponent implements OnInit {
     this.CssClass_TextDangerLength = '';
     this.isSubmitted = true;
     this.isFormValid = true;
-    if (this.SelectedDepartmentID == 6) {
+    if (this.SelectedDepartmentID == 6)
+    {
       this.buildingdetailsForm.get('txtFireNOCOrderNumber')?.setValidators([Validators.required]);
       this.buildingdetailsForm.get('txtFromDate')?.setValidators([Validators.required]);
       this.buildingdetailsForm.get('txtToDate')?.setValidators([Validators.required]);
@@ -438,6 +441,17 @@ export class BuildingDetailsComponent implements OnInit {
       if (this.buildingdetails.MGOneIstheCampusUnitary == 'No' && this.buildingdetails.Distance < 0) {
         this.isFormValid = false;
       }
+    }
+    if (this.SelectedDepartmentID == 5) {
+      this.buildingdetailsForm.get('txtNameoftheAuthority')?.setValidators([Validators.required]);
+      this.buildingdetailsForm.get('txtAuthorityDateApproval')?.setValidators([Validators.required]);
+      this.buildingdetailsForm.get('txtNameoftheAuthority')?.updateValueAndValidity();
+      this.buildingdetailsForm.get('txtAuthorityDateApproval')?.updateValueAndValidity();
+    } else {
+      this.buildingdetailsForm.get('txtNameoftheAuthority')?.clearValidators();
+      this.buildingdetailsForm.get('txtAuthorityDateApproval')?.clearValidators();
+      this.buildingdetailsForm.get('txtNameoftheAuthority')?.updateValueAndValidity();
+      this.buildingdetailsForm.get('txtAuthorityDateApproval')?.updateValueAndValidity();   
     }
 
     if (this.buildingdetailsForm.invalid) {
@@ -642,6 +656,8 @@ export class BuildingDetailsComponent implements OnInit {
           this.buildingdetails.BuildingTypeID = data['Data'][0]['data']['Table'][0]["BuildingTypeID"];
           this.buildingdetails.MGOneIstheCampusUnitary = data['Data'][0]['data']['Table'][0]["MGOneIstheCampusUnitary"];
           this.buildingdetails.Distance = data['Data'][0]['data']['Table'][0]["Distance"];
+          this.buildingdetails.NameoftheAuthority = data['Data'][0]['data']['Table'][0]["NameoftheAuthority"];
+          this.buildingdetails.AuthorityDateApproval = data['Data'][0]['data']['Table'][0]["AuthorityDateApproval"];
           this.holddata.AddressLine1 = data['Data'][0]['data']['Table'][0]["AddressLine1"];
           this.holddata.AddressLine2 = data['Data'][0]['data']['Table'][0]["AddressLine2"];
           this.holddata.RuralUrban = data['Data'][0]['data']['Table'][0]["RuralUrban"];
@@ -723,8 +739,7 @@ export class BuildingDetailsComponent implements OnInit {
           this.buildingdetails.OtherFinancialResourcesFileUploadPath = data['Data'][0]['data']['Table'][0]["OtherFinancialResourcesFileUploadPath"];
           this.buildingdetails.Dis_OtherFinancialResourcesFileUpload = data['Data'][0]['data']['Table'][0]["Dis_OtherFinancialResourcesFileUpload"];
           this.buildingdetails.Rentvaliditydate = data['Data'][0]['data']['Table'][0]["Rentvaliditydate"];
-          this.buildingdetails.IsApproved = data['Data'][0]['data']['Table'][0]["IsApproved"];
-          debugger;
+          this.buildingdetails.IsApproved = data['Data'][0]['data']['Table'][0]["IsApproved"];         
           this.buildingdetails.lstBuildingDocDetails = data['Data'][0]['data']['Table1'];
 
           this.isDisabledGrid = true;
@@ -891,6 +906,9 @@ export class BuildingDetailsComponent implements OnInit {
     this.buildingdetails.CityTownVillage = '';
     this.buildingdetails.ContactNo = '';
     this.buildingdetails.Rentvaliditydate = '';
+    this.buildingdetails.NameoftheAuthority = '';
+    this.buildingdetails.AuthorityDateApproval = '';
+
     this.OwnBuildingFileUpload = false;
     this.RentAggrementDocShow = false;
     this.isValidRentAgreementFileUpload = false;
