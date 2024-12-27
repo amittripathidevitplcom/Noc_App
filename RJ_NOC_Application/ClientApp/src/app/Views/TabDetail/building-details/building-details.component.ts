@@ -49,7 +49,7 @@ export class BuildingDetailsComponent implements OnInit {
   public DistrictList_Owner: any = [];
   public UserID: number = 0;
   public TehsilList_Owner: any = [];
-    public PanchyatSamitiList_Owner: any = [];
+  public PanchyatSamitiList_Owner: any = [];
 
   public ParliamentAreaList: any = [];
   public AssembelyAreaList: any = [];
@@ -60,7 +60,7 @@ export class BuildingDetailsComponent implements OnInit {
   IsRural: boolean = false;
   isCheckedBuildingType: boolean = false;
   IsPanchayatSamitirequried: boolean = false;
- 
+
   IsTehsilrequired: boolean = false;
   public OwnBuildingFileUpload: boolean = false;
   public FireNOCFileUpload: boolean = false;
@@ -117,8 +117,6 @@ export class BuildingDetailsComponent implements OnInit {
   public MaxDate: Date = new Date();
   public Owin_RentDocTitle: any = '';
   public buildAddressShowHide: boolean = true;
-  public MGOneIsThecampusUnitaryShowHide: boolean = true;
-  public MGOneIsThecampusDistanceShowHide: boolean = true;
   public CityID: number = 0;
   public CityName: string = '';
   public CityList: any = [];
@@ -142,8 +140,8 @@ export class BuildingDetailsComponent implements OnInit {
     this.Owin_RentDocTitle = 'Certificate of Own Building in own land in same campus Order No. & Order Date :'
     this.buildingdetailsForm = this.formBuilder.group(
       {
-        rdBuildingType: ['', Validators.required],        
-        txtOwnerName: [''],     
+        rdBuildingType: ['', Validators.required],
+        txtOwnerName: [''],
         txtAddressLine1_Owner: ['', Validators.required],
         txtAddressLine2_Owner: [''],
         rbRuralUrban_Owner: ['', Validators.required],
@@ -155,7 +153,7 @@ export class BuildingDetailsComponent implements OnInit {
         txtCityTownVillage_Owner: ['', Validators.required],
         txtPincode_Owner: ['', [Validators.required]],
         txtContactNo_Owner: ['', [Validators.required, Validators.pattern("^[0-9]*$"), Validators.minLength(10), Validators.maxLength(10)]],
-       // txtBuildingHostelQuartersRoadArea: ['', [Validators.required, Validators.min(1)]],
+        // txtBuildingHostelQuartersRoadArea: ['', [Validators.required, Validators.min(1)]],
         txtBuildingHostelQuartersRoadArea: [''],
         txtFromDate: ['', Validators.required],//, Validators.required
         txtFireNOCOrderNumber: ['', Validators.required],//, Validators.required
@@ -246,7 +244,6 @@ export class BuildingDetailsComponent implements OnInit {
     this.buildingdetails.lstBuildingDocDetails = [];
     await this.GetCollegeBasicDetails();
     this.GetBuildingTypeCheck();
-    await this.GetlstMGOneIstheCampusUnitaryChk();
     this.GetBuildingUploadDetails(this.SelectedDepartmentID);
     this.GetDivisionList();
     this.GetAllBuildingDetailsList();
@@ -316,15 +313,7 @@ export class BuildingDetailsComponent implements OnInit {
       }
     }
   }
-  async changeMGOneIstheCampusUnitaryType(MGOneIstheCampusUnitaryName: any) {    
-    if (MGOneIstheCampusUnitaryName == 'No') {
-      this.MGOneIsThecampusDistanceShowHide = false;   
-      }
-    else {
-      this.MGOneIsThecampusDistanceShowHide = true;
-      this.IsThecampusUnitary = false;
-    }
-  }
+
   async GetBuildingTypeCheck() {
     try {
       this.loaderService.requestStarted();
@@ -334,7 +323,7 @@ export class BuildingDetailsComponent implements OnInit {
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
-          this.lstBuildingTypeChk = data['Data'];          
+          this.lstBuildingTypeChk = data['Data'];
           console.log(this.lstBuildingTypeChk);
         }, error => console.error(error));
     }
@@ -347,30 +336,7 @@ export class BuildingDetailsComponent implements OnInit {
       }, 200);
     }
   }
-  async GetlstMGOneIstheCampusUnitaryChk() {
-    try {
-      this.loaderService.requestStarted();
-      await this.commonMasterService.GetlstMGOneIstheCampusUnitaryChk(this.SelectedDepartmentID)
-        .then((data: any) => {
-          debugger;
-          data = JSON.parse(JSON.stringify(data));
-          this.State = data['State'];
-          this.SuccessMessage = data['SuccessMessage'];
-          this.ErrorMessage = data['ErrorMessage'];
-          this.lstMGOneIstheCampusUnitaryChk = data['Data'];
-          this.MGOneIsThecampusUnitaryShowHide = false;
-          console.log(this.lstBuildingTypeChk);
-        }, error => console.error(error));
-    }
-    catch (Ex) {
-      console.log(Ex);
-    }
-    finally {
-      setTimeout(() => {
-        this.loaderService.requestEnded();
-      }, 200);
-    }
-  }
+
   async GetBuildingUploadDetails(SelectedDepartmentID: number) {
     try {
 
@@ -398,7 +364,6 @@ export class BuildingDetailsComponent implements OnInit {
     }
   }
   async SaveData() {
-    debugger;
     this.IstxtBuildingHostel = false;
     this.isValidOwnBuildingFileUpload = false;
     this.isValidRentAgreementFileUpload = false;
@@ -467,19 +432,12 @@ export class BuildingDetailsComponent implements OnInit {
     }
 
     if (this.SelectedDepartmentID == 5) {
-      console.log(this.MGOneIsThecampusDistanceShowHide);
-      if (this.buildingdetails.MGOneIstheCampusUnitaryID > 0) {
-        if (this.buildingdetails.Distance > 0) {
-          this.IsThecampusUnitary = false;
-        } else {
-          this.IsThecampusUnitary = true;
-        }     
-       
+      if (this.buildingdetails.MGOneIstheCampusUnitary == '') {
+        this.isFormValid = false;
       }
-      else {
-        this.IsThecampusUnitary = true;               
+      if (this.buildingdetails.MGOneIstheCampusUnitary == 'No' && this.buildingdetails.Distance < 0) {
+        this.isFormValid = false;
       }
-      
     }
 
     if (this.buildingdetailsForm.invalid) {
@@ -529,7 +487,7 @@ export class BuildingDetailsComponent implements OnInit {
       this.ImageValidate = 'This field is required .!';
       return
     }
-    if (this.buildingdetails.FireNOCFileUpload == '' && !this.IsGovtCollege && this.SelectedDepartmentID==6) {
+    if (this.buildingdetails.FireNOCFileUpload == '' && !this.IsGovtCollege && this.SelectedDepartmentID == 6) {
       this.ImageValidate = 'This field is required .!';
       return
     }
@@ -682,7 +640,7 @@ export class BuildingDetailsComponent implements OnInit {
           this.buildingdetails.SchoolBuildingDetailsID = data['Data'][0]['data']['Table'][0]["SchoolBuildingDetailsID"];
           this.GetBuildingTypeCheck();
           this.buildingdetails.BuildingTypeID = data['Data'][0]['data']['Table'][0]["BuildingTypeID"];
-          this.buildingdetails.MGOneIstheCampusUnitaryID = data['Data'][0]['data']['Table'][0]["MGOneIstheCampusUnitaryID"];
+          this.buildingdetails.MGOneIstheCampusUnitary = data['Data'][0]['data']['Table'][0]["MGOneIstheCampusUnitary"];
           this.buildingdetails.Distance = data['Data'][0]['data']['Table'][0]["Distance"];
           this.holddata.AddressLine1 = data['Data'][0]['data']['Table'][0]["AddressLine1"];
           this.holddata.AddressLine2 = data['Data'][0]['data']['Table'][0]["AddressLine2"];
@@ -705,7 +663,7 @@ export class BuildingDetailsComponent implements OnInit {
           this.changeBuildingType(data['Data'][0]['data']['Table'][0]["BuildingTypeName"], false);
           this.buildingdetails.OwnerName = data['Data'][0]['data']['Table'][0]["OwnerName"];
 
-         
+
           this.buildingdetails.ContactNo = data['Data'][0]['data']['Table'][0]["ContactNo"];
 
           this.buildingdetails.OwnBuildingOrderNo = data['Data'][0]['data']['Table'][0]["OwnBuildingOrderNo"];
@@ -845,7 +803,7 @@ export class BuildingDetailsComponent implements OnInit {
   async GetAllBuildingDetailsList() {
     try {
       this.loaderService.requestStarted();
-      await this.buildingDetailsMasterService.GetAllBuildingDetailsList(this.UserID, this.buildingdetails.CollegeID, this.SelectedApplyNOCID > 0 ? this.SelectedApplyNOCID:0)
+      await this.buildingDetailsMasterService.GetAllBuildingDetailsList(this.UserID, this.buildingdetails.CollegeID, this.SelectedApplyNOCID > 0 ? this.SelectedApplyNOCID : 0)
         .then((data: any) => {
 
           data = JSON.parse(JSON.stringify(data));
@@ -873,6 +831,10 @@ export class BuildingDetailsComponent implements OnInit {
     this.isSubmitted = false;
     this.buildingdetails.SchoolBuildingDetailsID = 0;
     this.buildingdetails.BuildingTypeID = null;
+    this.buildingdetails.MGOneIstheCampusUnitary = '';
+    this.buildingdetails.Distance = 0;
+    this.buildingdetails.MGOneIstheCampusUnitaryName = '';
+
     this.buildingdetails.OwnerName = '';
     this.buildingdetails.AddressLine1 = '';
     this.buildingdetails.AddressLine2 = '';
@@ -1646,7 +1608,7 @@ export class BuildingDetailsComponent implements OnInit {
         .then(async (data: any) => {
           debugger;
           data = JSON.parse(JSON.stringify(data));
-          if (data['Data'][0]['data'][0]['ManagementType'] == 'Government' && this.SelectedDepartmentID==4) {
+          if (data['Data'][0]['data'][0]['ManagementType'] == 'Government' && this.SelectedDepartmentID == 4) {
             this.IsGovtCollege = true;
           }
           else {

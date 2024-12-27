@@ -19,23 +19,19 @@
             <p *ngIf="form.rdBuildingType.errors.required"> This field is required .!</p>
           </div>
         </div>
-        <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" [hidden]="MGOneIsThecampusUnitaryShowHide">
+        <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="SelectedDepartmentID==5">
           <label for="MGOneIstheCampusUnitary" class="form-label d-block" style="margin-right:15px">Is The campus Unitary<span style="color:red;">*</span> : </label>
-          <div class="form-check form-check-inline" *ngFor="let item of lstMGOneIstheCampusUnitaryChk">
-
-            <input class="form-check-input" type="radio" name="rdMGOneIstheCampusUnitary" formControlName="rdMGOneIstheCampusUnitary" id="rdMGOneIstheCampusUnitary_{{item.MGOneIstheCampusUnitaryID}}" value="{{item.MGOneIstheCampusUnitaryID}}" [value]="item.MGOneIstheCampusUnitaryID" [(ngModel)]="buildingdetails.MGOneIstheCampusUnitaryID" (change)="changeMGOneIstheCampusUnitaryType(item.MGOneIstheCampusUnitaryName)">
-            <label class="form-check-label" for="txtMGOneIstheCampusUnitary">{{item.MGOneIstheCampusUnitaryName}}</label>
-          </div>
-          <div *ngIf="isSubmitted&&IsThecampusUnitary" class="text-danger">
-            <p *ngIf="isSubmitted&&IsThecampusUnitary"><i aria-hidden="true"></i>This field is required .!</p>
-          </div>         
+          <select class="form-select" id="rdMGOneIstheCampusUnitary" name="rdMGOneIstheCampusUnitary" [(ngModel)]="buildingdetails.MGOneIstheCampusUnitary" formControlName="rdMGOneIstheCampusUnitary">
+            <option value="">--Select--</option>
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+          </select>
+          <p *ngIf="isSubmitted&&SelectedDepartmentID==5&&buildingdetails.MGOneIstheCampusUnitary==''">This field is required .!</p>
         </div>
-        <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" [hidden]="MGOneIsThecampusDistanceShowHide">
+        <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="buildingdetails.MGOneIstheCampusUnitary=='No'">
           <label class="form-label">Distance <span style="color:red;">*</span></label>
           <input type="text" class="form-control" id="txtdistance" name="txtdistance" [(ngModel)]="buildingdetails.Distance" formControlName="txtdistance" maxlength="5" (keypress)="numberOnly($event)">
-          <div *ngIf="isSubmitted&&IsThecampusUnitary" class="text-danger">
-            <p *ngIf="isSubmitted&&IsThecampusUnitary"><i aria-hidden="true"></i>This field is required .!</p>
-          </div>
+          <p *ngIf="isSubmitted&&buildingdetails.MGOneIstheCampusUnitary=='No'&&buildingdetails.Distance<=0" class="text-danger"><i aria-hidden="true"></i>This field is required .!</p>
         </div>
 
 
@@ -160,9 +156,9 @@
           <input type="text" id="txtBuildingHostelQuartersRoadArea" class="form-control" [(ngModel)]="buildingdetails.BuildingHostelQuartersRoadArea" formControlName="txtBuildingHostelQuartersRoadArea" (keypress)="numbersOnly($event)" maxlength="5" />
           <p *ngIf="IstxtBuildingHostel" class="text-danger"><i aria-hidden="true"></i>Enter the Building/Hostel/Quarters/Road Area(A1) .!</p>
           <!--<div *ngIf="isSubmitted&&form.txtBuildingHostelQuartersRoadArea.errors" class="text-danger">
-      <p *ngIf="form.txtBuildingHostelQuartersRoadArea.errors.required">This field is required .!</p>
-      <p *ngIf="form.txtBuildingHostelQuartersRoadArea.errors.min">This field is required .!</p>
-    </div>-->
+            <p *ngIf="form.txtBuildingHostelQuartersRoadArea.errors.required">This field is required .!</p>
+            <p *ngIf="form.txtBuildingHostelQuartersRoadArea.errors.min">This field is required .!</p>
+          </div>-->
         </div>
 
 
@@ -616,14 +612,14 @@
             <th>Owner Name</th>
             <th>Full Address</th>
             <!--<th>Address Line1</th>
-  <th>Address Line2</th>
-  <th>Rural Urban</th>
-  <th>DivisionName</th>
-  <th>DistrictName</th>
-  <th>TehsilName</th>
-  <th>PanchyatSamitiName</th>
-  <th>CityTownVillage</th>
-  <th>Pincode</th>-->
+            <th>Address Line2</th>
+            <th>Rural Urban</th>
+            <th>DivisionName</th>
+            <th>DistrictName</th>
+            <th>TehsilName</th>
+            <th>PanchyatSamitiName</th>
+            <th>CityTownVillage</th>
+            <th>Pincode</th>-->
             <th>ContactNo</th>
             <th>Constructed Building Area</th>
             <th>Own/Rented Order No</th>
@@ -667,14 +663,14 @@
             <td *ngIf="item.BuildingTypeName == 'Owned'">N/A</td>
             <td>{{item.FullAddress}}</td>
             <!--<td>{{item.AddressLine1}}</td>
-  <td>{{item.AddressLine2}}</td>
-  <td>{{item.RuralUrban}}</td>
-  <td>{{item.Division_English}}</td>
-  <td>{{item.District_Eng}}</td>
-  <td>{{item.TehsilName}}</td>
-  <td>{{item.PanchyatSamitiName}}</td>
-  <td>{{item.CityTownVillage}}</td>
-  <td>{{item.Pincode}}</td>-->
+            <td>{{item.AddressLine2}}</td>
+            <td>{{item.RuralUrban}}</td>
+            <td>{{item.Division_English}}</td>
+            <td>{{item.District_Eng}}</td>
+            <td>{{item.TehsilName}}</td>
+            <td>{{item.PanchyatSamitiName}}</td>
+            <td>{{item.CityTownVillage}}</td>
+            <td>{{item.Pincode}}</td>-->
             <td>{{item.ContactNo}}</td>
             <td>{{item.BuildingHostelQuartersRoadArea}}</td>
             <td>{{item.OwnBuildingOrderNo}}</td>
