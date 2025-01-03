@@ -27,6 +27,14 @@
             <th *ngIf="SelectedDepartmentID ==5">Distance</th>
             <th *ngIf="SelectedDepartmentID ==5">Name of the Authority</th>
             <th *ngIf="SelectedDepartmentID ==5">Authority Approval Date</th>
+            <th *ngIf="SelectedDepartmentID ==5">Residential Building Type</th>
+            <th *ngIf="SelectedDepartmentID ==5">Is The campus Unitary(Residential)</th>
+            <th *ngIf="SelectedDepartmentID ==5">Distance (Residential)</th>
+            <th *ngIf="SelectedDepartmentID ==5">Rural Urban (Residential)</th>            
+            <th *ngIf="SelectedDepartmentID ==5">Authority Date of Approval</th>
+            <th *ngIf="SelectedDepartmentID ==5">Drainage & sewage disposal</th>
+            <th *ngIf="SelectedDepartmentID ==5">Building Use/ Occupancy Certificate:</th>
+            <th *ngIf="SelectedDepartmentID ==5">Pollution Certificate:</th>
             <th>Action</th>
           </tr>
         </thead>
@@ -46,6 +54,22 @@
             <td *ngIf="SelectedDepartmentID ==5">{{item.Distance}}</td>
             <td *ngIf="SelectedDepartmentID ==5">{{item.NameoftheAuthority}}</td>
             <td *ngIf="SelectedDepartmentID ==5">{{item.AuthorityDateApproval}}</td>
+            <td *ngIf="SelectedDepartmentID ==5">{{item.ResidentialBuildingName}}</td>
+            <td *ngIf="SelectedDepartmentID ==5">{{item.MGOneResidentialIstheCampusUnitary}}</td>
+            <td *ngIf="SelectedDepartmentID ==5">{{item.ResidentialDistance}}</td>
+            <td *ngIf="SelectedDepartmentID ==5">{{item.ResidentialRuralUrban}}</td>            
+            <td *ngIf="SelectedDepartmentID ==5">{{item.AuthorityDateApproval}}</td>
+            <td *ngIf="SelectedDepartmentID ==5">{{item.AuthorityDateApproval}}</td>
+            <td *ngIf="SelectedDepartmentID ==5">{{item.MGOneDrainage}}</td>
+            <td *ngIf="SelectedDepartmentID ==5">
+              Approved by: Name of Authority:-{{item.BuildingUseNameoftheAuthority}}<br />
+              Order No:-{{item.BuildingUseOrderNo}}<br />
+              Date:-{{item.BuildingUseDateApproval}}
+            </td>
+            <td *ngIf="SelectedDepartmentID ==5">
+              Date:-{{item.PollutionDateApproval}}<br />
+              Valid Up To:-{{item.ValidDateApproval}}<br />             
+            </td>
             <td>
               <div class="d-flex">
                 <button type="button" class="btn btn-sm btn-info" title="View" (click)="ViewBuildingDetails(mymodal,item.SchoolBuildingDetailsID)"><i class="fa fa-eye"></i></button>
@@ -173,6 +197,99 @@
             </div>
             <div class="card" *ngIf="SelectedDepartmentID ==5">
               <div class="card-header d-flex justify-content-between align-items-center">
+                <b><i class="fa fa-filter"></i>&nbsp;Residential Building Details: </b>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="buildingdetails.BuildingTypeName!='Owned'">
+                    <label class="form-label"><b>Residential Building Type :</b></label>
+                    <input class="form-control disabled" disabled value="{{buildingdetails.ResidentialBuildingName}}" />
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="buildingdetails.BuildingTypeName!='Owned'">
+                    <label class="form-label"><b>Is The campus Unitary(Residential):</b></label>
+                    <input class="form-control disabled" disabled value="{{buildingdetails.MGOneResidentialIstheCampusUnitary}}" />
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="buildingdetails.BuildingTypeName!='Owned'">
+                    <label class="form-label"><b>Distance:</b></label>
+                    <input class="form-control disabled" disabled value="{{buildingdetails.ResidentialDistance}}" />
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="buildingdetails.BuildingTypeName!='Owned'">
+                    <label class="form-label"> <b>Address Line 1 :</b></label>
+                    <input class="form-control disabled" disabled value="{{buildingdetails.ResidentialAddressLine1}}" />
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="buildingdetails.BuildingTypeName!='Owned'">
+                    <label class="form-label"><b>AAddress Line 2 :</b></label>
+                    <input class="form-control disabled" disabled value="{{buildingdetails.ResidentialAddressLine2}}" />
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="buildingdetails.BuildingTypeName!='Owned'">
+                    <label class="form-label"><b>Rural/Urban:</b></label>
+                    <input class="form-control disabled" disabled value="{{buildingdetails.ResidentialRuralUrban}}" />
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="buildingdetails.BuildingTypeName!='Owned'">
+                    <label class="form-label"><b>Division :</b></label>
+                    <input class="form-control disabled" disabled value="{{buildingdetails.ResDivision_English}}" />
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="buildingdetails.BuildingTypeName!='Owned'">
+                    <label class="form-label"><b>District :</b></label>
+                    <input class="form-control disabled" disabled value="{{buildingdetails.ResDistrict_Eng}}" />
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="buildingdetails.BuildingTypeName!='Owned'">
+                    <label class="form-label"><b>Tehsil :</b></label>
+                    <input class="form-control disabled" disabled value="{{buildingdetails.ResTehsilName}}" />
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="buildingdetails.ResidentialRuralUrban == 'Rural' && buildingdetails.BuildingTypeName!='Owned'">
+                    <label class="form-label"><b>Panchayat Samiti :</b></label>
+                    <input class="form-control disabled" disabled value="{{buildingdetails.ResPanchyatSamitiName}}" />
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="buildingdetails.ResidentialRuralUrban == 'Urban' && buildingdetails.BuildingTypeName!='Owned'">
+                    <label class="form-label"><b>City :</b></label>
+                    <input class="form-control disabled" disabled value="{{buildingdetails.ResCity_English}}" />
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="buildingdetails.BuildingTypeName!='Owned'">
+                    <label class="form-label"><b>City/Town/Village :</b></label>
+                    <input class="form-control disabled" disabled value="{{buildingdetails.ResidentialCityTownVillage}}" />
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="buildingdetails.BuildingTypeName!='Owned'">
+                    <label class="form-label"><b>Contact No :</b></label>
+                    <input class="form-control disabled" disabled value="{{buildingdetails.ResidentialContactNo}}" />
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="buildingdetails.BuildingTypeName!='Owned'">
+                    <label class="form-label"><b>Pincode :</b></label>
+                    <input class="form-control disabled" disabled value="{{buildingdetails.ResidentialPincode}}" />
+                  </div>
+
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="SelectedDepartmentID ==2">
+                    <label><b>Upload Land Title Certificate :</b></label>
+                    <a *ngIf="!buildingdetails.OwnBuildingFileUpload.includes('.pdf')" data-fancybox="gallery" href="{{buildingdetails.ResidentialbuildingOtherDoc1FileUploadPath}}" data-caption="Image 10" title="click here to zoom">
+                      <img src="{{buildingdetails.ResidentialbuildingOtherDoc1FileUploadPath}}" alt="Building Document" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                    </a>
+                    <a class="bi bi-file-earmark-pdf-fill" *ngIf="buildingdetails.OwnBuildingFileUpload.includes('.pdf')" data-fancybox="gallery" href="{{buildingdetails.ResidentialbuildingOtherDoc1FileUploadPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="SelectedDepartmentID ==2">
+                    <label><b>Upload Land Document :</b></label>
+                    <a *ngIf="!buildingdetails.OwnBuildingFileUpload.includes('.pdf')" data-fancybox="gallery" href="{{buildingdetails.ResidentialbuildingOtherDoc2FileUploadPath}}" data-caption="Image 10" title="click here to zoom">
+                      <img src="{{buildingdetails.ResidentialbuildingOtherDoc2FileUploadPath}}" alt="Building Document" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                    </a>
+                    <a class="bi bi-file-earmark-pdf-fill" *ngIf="buildingdetails.OwnBuildingFileUpload.includes('.pdf')" data-fancybox="gallery" href="{{buildingdetails.ResidentialbuildingOtherDoc2FileUploadPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                  </div>
+
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="buildingdetails.BuildingTypeName!='Owned'">
+                    <label><b>Upload Registered Rent Agreement/Lease Deed :</b></label>
+                    <a *ngIf="!buildingdetails.RentAgreementFileUpload.includes('.pdf') && buildingdetails.RentAgreementFileUploadPath!='N/A'" data-fancybox="gallery" href="{{buildingdetails.ResidentialRentAgreementFileUploadPath}}" data-caption="Image 10" title="click here to zoom">
+                      <img src="{{buildingdetails.ResidentialRentAgreementFileUploadPath}}" alt="Building Document" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                    </a>
+                    <label *ngIf="buildingdetails.RentAgreementFileUploadPath=='N/A'">{{buildingdetails.ResidentialRentAgreementFileUploadPath}}</label>
+                    <a class="bi bi-file-earmark-pdf-fill" *ngIf="buildingdetails.RentAgreementFileUpload.includes('.pdf') && buildingdetails.ResidentialRentAgreementFileUploadPath!='N/A'" data-fancybox="gallery" href="{{buildingdetails.ResidentialRentAgreementFileUploadPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="buildingdetails.BuildingTypeName!='Owned'">
+                    <label class="form-label"><b>Rent Valid Up To :</b></label>
+                    <input class="form-control disabled" disabled value="{{buildingdetails.ResidentialRentvaliditydate | date:'dd-MM-yyyy'}}" />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="card" *ngIf="SelectedDepartmentID ==5">
+              <div class="card-header d-flex justify-content-between align-items-center">
                 <b><i class="fa fa-filter"></i>&nbsp;Building Plan Approval From The Competent Authority: </b>
               </div>
               <div class="card-body">
@@ -184,6 +301,83 @@
                   <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                     <label class="form-label"><b>Authority Approval Date:</b></label>
                     <input class="form-control disabled" disabled value="{{buildingdetails.AuthorityDateApproval}}" />
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="buildingdetails.BuildingTypeName!='Owned'">
+                    <label><b>Upload Building Plan Approval :</b></label>
+                    <a *ngIf="!buildingdetails.RentAgreementFileUpload.includes('.pdf') && buildingdetails.AuthoritybuildingOtherDoc1FileUploadPath!='N/A'" data-fancybox="gallery" href="{{buildingdetails.AuthoritybuildingOtherDoc1FileUploadPath}}" data-caption="Image 10" title="click here to zoom">
+                      <img src="{{buildingdetails.AuthoritybuildingOtherDoc1FileUploadPath}}" alt="Building Document" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                    </a>
+                    <label *ngIf="buildingdetails.AuthoritybuildingOtherDoc1FileUploadPath=='N/A'">{{buildingdetails.AuthoritybuildingOtherDoc1FileUploadPath}}</label>
+                    <a class="bi bi-file-earmark-pdf-fill" *ngIf="buildingdetails.RentAgreementFileUpload.includes('.pdf') && buildingdetails.AuthoritybuildingOtherDoc1FileUploadPath!='N/A'" data-fancybox="gallery" href="{{buildingdetails.AuthoritybuildingOtherDoc1FileUploadPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="card" *ngIf="SelectedDepartmentID ==5">
+              <div class="card-header d-flex justify-content-between align-items-center">
+                <b><i class="fa fa-filter"></i>&nbsp;Drainage & sewage disposal:</b>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                    <label class="form-label"><b>Drainage & Sewage:</b></label>
+                    <input class="form-control disabled" disabled value="{{buildingdetails.MGOneDrainage}}" />
+                  </div>
+                 
+                </div>
+              </div>
+            </div>
+            <div class="card" *ngIf="SelectedDepartmentID ==5">
+              <div class="card-header d-flex justify-content-between align-items-center">
+                <b><i class="fa fa-filter"></i>&nbsp;Building Use/ Occupancy Certificate:</b>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                    <label class="form-label"><b>Approved by: Name of Authority:</b></label>
+                    <input class="form-control disabled" disabled value="{{buildingdetails.BuildingUseNameoftheAuthority}}" />
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                    <label class="form-label"><b>Order No:</b></label>
+                    <input class="form-control disabled" disabled value="{{buildingdetails.BuildingUseOrderNo}}" />
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                    <label class="form-label"><b>Date:</b></label>
+                    <input class="form-control disabled" disabled value="{{buildingdetails.BuildingUseDateApproval}}" />
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="buildingdetails.BuildingTypeName!='Owned'">
+                    <label><b>Upload Occupancy Certificate:</b></label>
+                    <a *ngIf="!buildingdetails.RentAgreementFileUpload.includes('.pdf') && buildingdetails.buildingUseOtherDoc1FileUploadPath!='N/A'" data-fancybox="gallery" href="{{buildingdetails.buildingUseOtherDoc1FileUploadPath}}" data-caption="Image 10" title="click here to zoom">
+                      <img src="{{buildingdetails.buildingUseOtherDoc1FileUploadPath}}" alt="Building Document" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                    </a>
+                    <label *ngIf="buildingdetails.buildingUseOtherDoc1FileUploadPath=='N/A'">{{buildingdetails.buildingUseOtherDoc1FileUploadPath}}</label>
+                    <a class="bi bi-file-earmark-pdf-fill" *ngIf="buildingdetails.RentAgreementFileUpload.includes('.pdf') && buildingdetails.buildingUseOtherDoc1FileUploadPath!='N/A'" data-fancybox="gallery" href="{{buildingdetails.buildingUseOtherDoc1FileUploadPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="card" *ngIf="SelectedDepartmentID ==5">
+              <div class="card-header d-flex justify-content-between align-items-center">
+                <b><i class="fa fa-filter"></i>&nbsp;Pollution Certificate:</b>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                    <label class="form-label"><b>From Date:</b></label>
+                    <input class="form-control disabled" disabled value="{{buildingdetails.PollutionDateApproval}}" />
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                    <label class="form-label"><b>valid Up To:</b></label>
+                    <input class="form-control disabled" disabled value="{{buildingdetails.ValidDateApproval}}" />
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="buildingdetails.BuildingTypeName!='Owned'">
+                    <label><b>Upload Pollution Certificate:</b></label>
+                    <a *ngIf="!buildingdetails.RentAgreementFileUpload.includes('.pdf') && buildingdetails.PollutionbuildingOtherDoc1FileUploadPath!='N/A'" data-fancybox="gallery" href="{{buildingdetails.buildingUseOtherDoc1FileUploadPath}}" data-caption="Image 10" title="click here to zoom">
+                      <img src="{{buildingdetails.PollutionbuildingOtherDoc1FileUploadPath}}" alt="Building Document" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                    </a>
+                    <label *ngIf="buildingdetails.PollutionbuildingOtherDoc1FileUploadPath=='N/A'">{{buildingdetails.PollutionbuildingOtherDoc1FileUploadPath}}</label>
+                    <a class="bi bi-file-earmark-pdf-fill" *ngIf="buildingdetails.RentAgreementFileUpload.includes('.pdf') && buildingdetails.PollutionbuildingOtherDoc1FileUploadPath!='N/A'" data-fancybox="gallery" href="{{buildingdetails.PollutionbuildingOtherDoc1FileUploadPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
                   </div>
                 </div>
               </div>

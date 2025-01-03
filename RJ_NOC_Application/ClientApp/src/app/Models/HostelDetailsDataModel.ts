@@ -17,7 +17,7 @@ export class HostelDataModel extends DocumentScrutiny_ActionModule {
   public RentDocument_Dis_FileName: string = '';
   public ContactPersonNo: string = '';
   public FromDate: string = '';
-  public ToDate: string = '';
+  public ToDate: string = '';  
   public HostelDetails: HostelDetailsDataModel_Hostel[] = [];
 
   //Address
@@ -47,6 +47,12 @@ export class HostelDataModel extends DocumentScrutiny_ActionModule {
   public CityID: number = 0;
   public CityName: string = '';
   public BuiltUpArea?: string = '';
+  public Furnished: string = '';
+  public Toilet: string = '';
+  public Mess: string = '';
+  public Hygiene: string = '';
+  public Commonroom: string = '';
+  public Visitor: string = '';
 }
 
 export class HostelDetailsDataModel_Hostel {

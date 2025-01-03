@@ -96,7 +96,7 @@
                 <i class="fa fa-building-o icon" aria-hidden="true"></i>
                 <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['BuildingDocuments']>0"></i>
                 <span class="badge pulse" *ngIf="CheckTabsEntryData['BuildingDocuments']==0"></span>
-                <span>Building Documents</span>
+                <span>{{SelectedDepartmentID==5?'Building Details':'Building Documents'}}</span>                
               </ng-template>
 
               <app-building-details></app-building-details>
@@ -156,15 +156,25 @@
 
 
             <!--Facility-->
-            <mat-tab>
+            <mat-tab *ngIf="SelectedDepartmentID!=5">
               <!--*ngIf="SelectedDepartmentID!=5"-->
               <ng-template mat-tab-label>
                 <i class="fa fa-list-alt icon" aria-hidden="true"></i>
                 <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['Facility']>0"></i>
                 <span class="badge pulse" *ngIf="CheckTabsEntryData['Facility']==0"></span>
-                <span>Facility</span>
+                <span>{{SelectedDepartmentID==5?'Medical College Facilities':'Facility'}}</span>
               </ng-template>
               <app-facility-details></app-facility-details>
+            </mat-tab>
+            <mat-tab *ngIf="SelectedDepartmentID==5">
+              <!--*ngIf="SelectedDepartmentID!=5"-->
+              <ng-template mat-tab-label>
+                <i class="fa fa-list-alt icon" aria-hidden="true"></i>
+                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['Facility']>0"></i>
+                <span class="badge pulse" *ngIf="CheckTabsEntryData['Facility']==0"></span>
+                <span>{{SelectedDepartmentID==5?'Medical College Facilities':'Facility'}}</span>
+              </ng-template>
+              <app-mgone-facilities></app-mgone-facilities>
             </mat-tab>
 
 
@@ -372,7 +382,7 @@
                 <i class="fa fa-address-card-o icon" aria-hidden="true"></i>
                 <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['ClinicalLab']>=0"></i>
                 <span class="badge pulse" *ngIf="CheckTabsEntryData['ClinicalLab']==0"></span>
-                <span>Clinical Lab</span>
+                <span>Clinical Material Facilities</span>
               </ng-template>
               <app-mgone-clinical-lab-detail></app-mgone-clinical-lab-detail>
             </mat-tab>

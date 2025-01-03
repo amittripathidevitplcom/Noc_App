@@ -440,6 +440,7 @@ import { MGOneClassRoomDetailsComponent } from './Views/TabDetail/mgone-class-ro
 import { PreviewMgOneClassRoomDetailsComponent } from './Views/PreviewTabs/preview-mg-one-class-room-details/preview-mg-one-class-room-details.component';
 import { PreviewMGThreeHospitalDetailsComponent } from './Views/PreviewTabs/preview-mgthree-hospital-details/preview-mgthree-hospital-details.component';
 import { MGoneFacilityEachComponent } from './Views/TabDetail/mgone-facility-each/mgone-facility-each.component';
+import { MGOneFacilitiesComponent } from './Views/TabDetail/mgone-facilities/mgone-facilities.component';
 
 
  
@@ -881,6 +882,7 @@ import { MGoneFacilityEachComponent } from './Views/TabDetail/mgone-facility-eac
     PreviewMgOneClassRoomDetailsComponent,
     PreviewMGThreeHospitalDetailsComponent,
     MGoneFacilityEachComponent,
+    MGOneFacilitiesComponent,
   ],
   imports: [
     CommonModule,

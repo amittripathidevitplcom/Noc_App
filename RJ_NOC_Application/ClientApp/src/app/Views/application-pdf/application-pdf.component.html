@@ -1063,6 +1063,12 @@ font-size: 18px;">
                     <th>Sr. No</th>
                     <th>Building Details</th>
                     <th>Personal Info</th>
+                    <th *ngIf="SelectedDepartmentID ==5">Residential Building Info</th>
+                    <th *ngIf="SelectedDepartmentID ==5">Building Plan Approval From The Competent Authority</th>
+                    <th *ngIf="SelectedDepartmentID ==5">Drainage & sewage disposal</th>
+                    <th *ngIf="SelectedDepartmentID ==5">Building Use/ Occupancy Certificate</th>
+                    <th *ngIf="SelectedDepartmentID ==5">Pollution Certificate</th>
+
                     <th> {{SelectedDepartmentID ==6?'Name of Owner':'Own/Rent Order No. & Order Date'}} </th>
                     <th>Fire NOC Validity</th>
                     <th>Building Safety Certificate Order No. & Order Date</th>
@@ -1083,6 +1089,34 @@ font-size: 18px;">
                       Total Constructed Building Area:- {{item.BuildingHostelQuartersRoadArea}} Sq.Meter<br />
                       Rent Valid Up To:- {{item.Rentvaliditydate}}<br />
                     </td>
+                    <td *ngIf="SelectedDepartmentID ==5">
+                      Building Type:{{item.ResidentialBuildingName}}<br />
+                      Owner Name:- {{item.MGOneResidentialIstheCampusUnitary}}<br />
+                      Rural/Urban:- {{item.ResidentialRuralUrban}}<br />
+                      Address:- {{item.ResidentialAddressLine1}},{{item.ResidentialAddressLine2}},{{item.ResDivision_English}},{{item.ResDistrict_Eng}},{{item.ResTehsilName}},{{item.ResPanchyatSamitiName}},{{item.ResCity_English}}<br />
+                      City/Town/Village:- {{item.ResidentialCityTownVillage}}<br />
+                      ContactNo:- {{item.ResidentialContactNo}}<br />
+                      Pincode:- {{item.ResidentialPincode}}<br />
+                      Total Constructed Area:- {{item.ResidentialBuildingHostelQuartersRoadArea}} Sq.Meter<br />
+                      Rent Valid Up To:- {{item.ResidentialRentvaliditydate}}<br />
+                    </td>
+                    <td *ngIf="SelectedDepartmentID ==5">
+                      Name of the Authority:{{item.NameoftheAuthority}}<br />
+                      Authority Approval Date:- {{item.AuthorityDateApproval}}<br />                     
+                    </td>
+                    <td *ngIf="SelectedDepartmentID ==5">
+                      Drainage & sewage:- {{item.MGOneDrainage}}<br />                      
+                    </td>
+                    <td *ngIf="SelectedDepartmentID ==5">
+                      Approved by: Name of Authority:- {{item.BuildingUseNameoftheAuthority}}<br />
+                      Order No:- {{item.BuildingUseOrderNo}}<br />
+                      Date:- {{item.BuildingUseDateApproval}}<br />                      
+                    </td>
+                    <td *ngIf="SelectedDepartmentID ==5">
+                      From Date:- {{item.PollutionDateApproval}}<br />
+                      valid Up To:- {{item.ValidDateApproval}}<br />
+                      Date:- {{item.BuildingUseDateApproval}}<br />                      
+                    </td>
                     <td>
                       Order No:- {{item.OwnBuildingOrderNo}}<br />
                       Order Date:- {{item.OwnBuildingOrderDate}}<br />
@@ -1102,7 +1136,7 @@ font-size: 18px;">
                       Distance:-{{item.Distance}}<br />
                       Name of the Authority:-{{item.NameoftheAuthority}}<br />
                       Authority Approval Date:-{{item.AuthorityDateApproval}}
-                    </td>                   
+                    </td>
                   </tr>
 
                 </tbody>

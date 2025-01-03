@@ -1201,7 +1201,7 @@ export class ApplicationPDFComponent implements OnInit {
       this.loaderService.requestStarted();
       await this.buildingDetailsMasterService.GetAllBuildingDetailsList(0, this.SelectedCollageID)
         .then((data: any) => {
-
+          debugger;
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
