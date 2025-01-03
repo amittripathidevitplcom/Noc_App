@@ -30,7 +30,7 @@
 
       <div class="row" *ngIf="(request.IsHillytribalArea=='Yes' && request.IsInstitutionParentHospital=='Yes') || request.IsHillytribalArea=='No'">
         <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-          <label for="employeeName" class="form-label" style="margin-right:15px">Hospital Status <span style="color:red;">*</span> <br /><span> (Please tick-   Own/Parental) (Not mandotary for TSP area)</span> </label>
+          <label for="employeeName" class="form-label" style="margin-right:15px">Hospital Status <span style="color:red;">*</span> <br /></label>
           <div class="clearfix"></div>
           <div class="form-check form-check-inline">
             <input class="form-check-input" type="radio" name="rbHospitalStatus" id="OwnParentHospital" value="Own" [(ngModel)]="request.HospitalStatus" formControlName="rbHospitalStatus">
@@ -225,9 +225,9 @@
                   <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('HospitalMOU',request.HospitalMOU)"><i class="fa fa-trash-o"></i></button>
                 </div>
               </div>
-              <div *ngIf="isSubmitted&&form.fHospitalMOU.errors" class="text-danger">
-                <p *ngIf="form.fHospitalMOU.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-              </div>
+
+              <p *ngIf="isSubmitted&&request.HospitalMOU==''" class="text-danger">This field is required .!</p>
+
             </div>
 
             <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
@@ -246,9 +246,7 @@
                   <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('BedOccupancy',request.BedOccupancy)"><i class="fa fa-trash-o"></i></button>
                 </div>
               </div>
-              <div *ngIf="isSubmitted&&form.fBedOccupancy.errors" class="text-danger">
-                <p *ngIf="form.fBedOccupancy.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-              </div>
+              <p *ngIf="isSubmitted&&request.BedOccupancy==''" class="text-danger">This field is required .!</p>
             </div>
 
             <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
@@ -267,9 +265,7 @@
                   <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('FireNOC',request.FireNOC)"><i class="fa fa-trash-o"></i></button>
                 </div>
               </div>
-              <div *ngIf="isSubmitted&&form.fFireNOC.errors" class="text-danger">
-                <p *ngIf="form.fFireNOC.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-              </div>
+              <p *ngIf="isSubmitted&&request.FireNOC==''" class="text-danger">This field is required .!</p>
             </div>
             <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
               <label>
@@ -287,9 +283,7 @@
                   <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('PollutionCertificate',request.PollutionCertificate)"><i class="fa fa-trash-o"></i></button>
                 </div>
               </div>
-              <div *ngIf="isSubmitted&&form.fPollutionCertificate.errors" class="text-danger">
-                <p *ngIf="form.fPollutionCertificate.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-              </div>
+              <p *ngIf="isSubmitted&&request.PollutionCertificate==''" class="text-danger">This field is required .!</p>
             </div>
             <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
               <label>
@@ -306,9 +300,7 @@
                   <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('ClinicalEstablishment',request.ClinicalEstablishment)"><i class="fa fa-trash-o"></i></button>
                 </div>
               </div>
-              <div *ngIf="isSubmitted&&form.fClinicalEstablishment.errors" class="text-danger">
-                <p *ngIf="form.fClinicalEstablishment.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-              </div>
+              <p *ngIf="isSubmitted&&request.ClinicalEstablishment==''" class="text-danger">This field is required .!</p>
             </div>
             <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
               <label>
@@ -341,9 +333,7 @@
                   <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('UndertakingNotAffiliated',request.UndertakingNotAffiliated)"><i class="fa fa-trash-o"></i></button>
                 </div>
               </div>
-              <div *ngIf="isSubmitted&&form.fUndertakingNotAffiliated.errors" class="text-danger">
-                <p *ngIf="form.fUndertakingNotAffiliated.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-              </div>
+              <p *ngIf="isSubmitted&&request.UndertakingNotAffiliated==''" class="text-danger">This field is required .!</p>
             </div>
             <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
               <label>
@@ -360,9 +350,7 @@
                   <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('StaffInformation',request.StaffInformation)"><i class="fa fa-trash-o"></i></button>
                 </div>
               </div>
-              <div *ngIf="isSubmitted&&form.fStaffInformation.errors" class="text-danger">
-                <p *ngIf="form.fStaffInformation.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-              </div>
+              <p *ngIf="isSubmitted&&request.StaffInformation==''" class="text-danger">This field is required .!</p>
             </div>
           </div>
 
@@ -434,319 +422,343 @@
 
       </div>
 
-      <form class="form-horizontal" [formGroup]="AffiliatedHospitalForm">
-        <div class="card" *ngIf="request.IsHillytribalArea=='Yes' || request.IsHillytribalArea=='No'">
-          <div class="card-header">
-            <b>
-              <i class="bi bi-table"></i>&nbsp;Details of Affiliated Hospitals
-            </b>
+      <div class="row">
+        <form class="form-horizontal" [formGroup]="AffiliatedHospitalForm">
+          <div class="card" *ngIf="request.IsHillytribalArea=='Yes' || request.IsHillytribalArea=='No'">
+            <div class="card-header">
+              <b>
+                <i class="bi bi-table"></i>&nbsp;Details of Affiliated Hospitals
+              </b>
+            </div>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
+                  <label for="ddlIsAnyAffiliatedHospital" class="form-label" style="margin-right:15px"> Do you have any affiliated hospital?<span style="color:red;">*</span> </label>
+                  <select class="form-select" id="ddlIsAnyAffiliatedHospital" name="ddlIsAnyAffiliatedHospital" [(ngModel)]="request.IsAnyAffiliatedHospital" formControlName="ddlIsAnyAffiliatedHospital">
+                    <option value="">--Select--</option>
+                    <option value="Yes">Yes</option>
+                    <option value="No">No</option>
+                  </select>
+                </div>
+              </div>
+              <div class="row" *ngIf="request.IsAnyAffiliatedHospital=='Yes'">
+                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                  <label>Name of Affiliated Hospitals<span style="color:red;">*</span></label>
+                  <input type="text" class="form-control" name="txtAffiliatedHospitalName" maxlength="300" id="txtAffiliatedHospitalName" [(ngModel)]="Affiliatedrequest.AffiliatedHospitalName" formControlName="txtAffiliatedHospitalName" (keypress)="alphaOnly($event)" autocomplete="off" />
+                  <div *ngIf="isAffiliatedSubmitted&&affiliatedform.txtAffiliatedHospitalName.errors" class="text-danger">
+                    <p *ngIf="affiliatedform.txtAffiliatedHospitalName.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                  </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                  <label>Reason for affiliation<span style="color:red;">*</span></label>
+                  <select id="ddlAffiliationReason" name="ddlAffiliationReason" class="form-control" [(ngModel)]="Affiliatedrequest.AffiliationReason" formControlName="ddlAffiliationReason">
+                    <option value="0" disabled>--Select--</option>
+                    <option *ngFor="let item of ReasonForAffiliation"
+                            value="{{item.ID}}">
+                      {{item.Name}}
+                    </option>
+                  </select>
+                  <div *ngIf="isAffiliatedSubmitted&&affiliatedform.ddlAffiliationReason.errors" class="text-danger">
+                    <p *ngIf="!affiliatedform.ddlAffiliationReason.DropdownValidators"><i aria-hidden="true"></i> This field is required .!</p>
+                  </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                  <label>If it is affiliated on Specialty ground, please mention the field of specialty. </label>
+                  <input type="text" class="form-control" name="txtSpecialtyAffiliation" maxlength="300" id="txtSpecialtyAffiliation" [(ngModel)]="Affiliatedrequest.SpecialtyAffiliation" formControlName="txtSpecialtyAffiliation" (keypress)="alphaOnly($event)" autocomplete="off" />
+
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                  <label>Name of Owner<span style="color:red;">*</span></label>
+                  <input type="text" class="form-control" name="txtAffiliatedNameofOwner" maxlength="300" id="txtAffiliatedNameofOwner" [(ngModel)]="Affiliatedrequest.OwnerName" formControlName="txtAffiliatedNameofOwner" (keypress)="alphaOnly($event)" autocomplete="off" />
+                  <div *ngIf="isAffiliatedSubmitted&&affiliatedform.txtAffiliatedNameofOwner.errors" class="text-danger">
+                    <p *ngIf="affiliatedform.txtAffiliatedNameofOwner.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                  </div>
+                </div>
+              </div>
+              <div class="row" *ngIf="request.IsAnyAffiliatedHospital=='Yes'">
+                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                  <label class="form-label">Bed Capacity <span style="color:red;">*</span></label>
+                  <input type="text" class="form-control" id="txtAffiliatedBedCapacity" name="txtAffiliatedBedCapacity" [(ngModel)]="Affiliatedrequest.BedCapacity" formControlName="txtAffiliatedBedCapacity" (keypress)="NumberOnly($event)" maxlength="6">
+                  <div *ngIf="isAffiliatedSubmitted&&affiliatedform.txtAffiliatedBedCapacity.errors" class="text-danger">
+                    <p *ngIf="affiliatedform.txtAffiliatedBedCapacity.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                  </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                  <label class="form-label">Number of deliveries per month as per Record of last one year<span style="color:red;">*</span></label>
+                  <input type="text" class="form-control" id="txtAffiliatedNumberofdeliveries" name="txtAffiliatedNumberofdeliveries" [(ngModel)]="Affiliatedrequest.NumberDeliveries" formControlName="txtAffiliatedNumberofdeliveries" (keypress)="NumberOnly($event)" maxlength="6">
+                  <div *ngIf="isAffiliatedSubmitted&&affiliatedform.txtAffiliatedNumberofdeliveries.errors" class="text-danger">
+                    <p *ngIf="affiliatedform.txtAffiliatedNumberofdeliveries.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                  </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                  <label class="form-label">Distance from College<span style="color:red;">*</span></label>
+                  <input type="text" class="form-control" id="txtAffiliatedCollegeDistance" name="txtAffiliatedCollegeDistance" [(ngModel)]="Affiliatedrequest.CollegeDistance" formControlName="txtAffiliatedCollegeDistance" (keypress)="NumberOnly($event)" maxlength="6">
+                  <div *ngIf="isAffiliatedSubmitted&&affiliatedform.txtAffiliatedCollegeDistance.errors" class="text-danger">
+                    <p *ngIf="affiliatedform.txtAffiliatedCollegeDistance.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                  </div>
+                  <p *ngIf="request.IsHillytribalArea=='No' && Affiliatedrequest.CollegeDistance>30" class="text-danger">distance with in 30km </p>
+                  <p *ngIf="request.IsHillytribalArea=='Yes' && Affiliatedrequest.CollegeDistance>50" class="text-danger">distance with in 50km </p>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                  <label>MOU with affiliated hospitals<span style="color:red;">*</span></label>
+                  <div class="d-flex">
+                    <input type="file" class="form-control" id="fAffiliatedHospitalMOU" style="display:none" formControlName="fAffiliatedHospitalMOU" (change)="onFilechange($event,'AffiliatedHospitalMOU')" #fAffiliatedHospitalMOU />
+                    <label class="btn upload" for="fAffiliatedHospitalMOU">
+                      <span class="filename">Choose file</span>
+                      {{Affiliatedrequest.HospitalMOU === '' ? 'No File Choosen' : Affiliatedrequest.Dis_HospitalMOU}}
+                    </label>
+                    <div class="btn-group" *ngIf="Affiliatedrequest.HospitalMOU!=''">
+                      <a class="btn btn-outline-primary" target="_blank" href="{{Affiliatedrequest.HospitalMOUPath}}"><i class="fa fa-eye"></i></a>
+                      <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('AffiliatedHospitalMOU',Affiliatedrequest.HospitalMOU)"><i class="fa fa-trash-o"></i></button>
+                    </div>
+                  </div>
+                  <div *ngIf="isAffiliatedSubmitted&&affiliatedform.fAffiliatedHospitalMOU.errors" class="text-danger">
+                    <p *ngIf="affiliatedform.fAffiliatedHospitalMOU.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                  </div>
+                </div>
+
+                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                  <label>
+                    Bed Occupancy (Certificate by Concern CMHO (With name and seal)
+                    <span style="color:red;">*</span>
+                  </label>
+                  <div class="d-flex">
+                    <input type="file" class="form-control" id="fAffiliatedBedOccupancy" style="display:none" formControlName="fAffiliatedBedOccupancy" (change)="onFilechange($event,'AffiliatedBedOccupancy')" #fAffiliatedBedOccupancy />
+                    <label class="btn upload" for="fAffiliatedBedOccupancy">
+                      <span class="filename">Choose file</span>
+                      {{Affiliatedrequest.BedOccupancy === '' ? 'No File Choosen' : Affiliatedrequest.Dis_BedOccupancy}}
+                    </label>
+                    <div class="btn-group" *ngIf="Affiliatedrequest.BedOccupancy!=''">
+                      <a class="btn btn-outline-primary" target="_blank" href="{{Affiliatedrequest.BedOccupancyPath}}"><i class="fa fa-eye"></i></a>
+                      <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('AffiliatedBedOccupancy',Affiliatedrequest.BedOccupancy)"><i class="fa fa-trash-o"></i></button>
+                    </div>
+                  </div>
+                  <div *ngIf="isAffiliatedSubmitted&&affiliatedform.fAffiliatedBedOccupancy.errors" class="text-danger">
+                    <p *ngIf="affiliatedform.fAffiliatedBedOccupancy.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                  </div>
+                </div>
+
+                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                  <label>
+                    Fire NOC
+                    <span style="color:red;">*</span>
+                  </label>
+                  <div class="d-flex">
+                    <input type="file" class="form-control" id="fAffiliatedFireNOC" style="display:none" formControlName="fAffiliatedFireNOC" (change)="onFilechange($event,'AffiliatedFireNOC')" #fAffiliatedFireNOC />
+                    <label class="btn upload" for="fAffiliatedFireNOC">
+                      <span class="filename">Choose file</span>
+                      {{Affiliatedrequest.FireNOC === '' ? 'No File Choosen' : Affiliatedrequest.Dis_FireNOC}}
+                    </label>
+                    <div class="btn-group" *ngIf="Affiliatedrequest.FireNOC!=''">
+                      <a class="btn btn-outline-primary" target="_blank" href="{{Affiliatedrequest.FireNOCPath}}"><i class="fa fa-eye"></i></a>
+                      <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('AffiliatedFireNOC',Affiliatedrequest.FireNOC)"><i class="fa fa-trash-o"></i></button>
+                    </div>
+                  </div>
+                  <div *ngIf="isAffiliatedSubmitted&&affiliatedform.fAffiliatedFireNOC.errors" class="text-danger">
+                    <p *ngIf="affiliatedform.fAffiliatedFireNOC.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                  </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                  <label>
+                    Pollution Certificate/ Bio Medical waste Certificate
+                    <span style="color:red;">*</span>
+                  </label>
+                  <div class="d-flex">
+                    <input type="file" class="form-control" id="fAffiliatedPollutionCertificate" style="display:none" formControlName="fAffiliatedPollutionCertificate" (change)="onFilechange($event,'AffiliatedPollutionCertificate')" #fAffiliatedPollutionCertificate />
+                    <label class="btn upload" for="fAffiliatedPollutionCertificate">
+                      <span class="filename">Choose file</span>
+                      {{Affiliatedrequest.PollutionCertificate === '' ? 'No File Choosen' : Affiliatedrequest.Dis_PollutionCertificate}}
+                    </label>
+                    <div class="btn-group" *ngIf="Affiliatedrequest.PollutionCertificate!=''">
+                      <a class="btn btn-outline-primary" target="_blank" href="{{Affiliatedrequest.PollutionCertificatePath}}"><i class="fa fa-eye"></i></a>
+                      <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('AffiliatedPollutionCertificate',Affiliatedrequest.PollutionCertificate)"><i class="fa fa-trash-o"></i></button>
+                    </div>
+                  </div>
+                  <div *ngIf="isAffiliatedSubmitted&&affiliatedform.fAffiliatedPollutionCertificate.errors" class="text-danger">
+                    <p *ngIf="affiliatedform.fAffiliatedPollutionCertificate.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                  </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                  <label>
+                    Clinical Establishment certificate and Registration Number<span style="color:red;">*</span>
+                  </label>
+                  <div class="d-flex">
+                    <input type="file" class="form-control" id="fAffiliatedClinicalEstablishment" style="display:none" formControlName="fAffiliatedClinicalEstablishment" (change)="onFilechange($event,'AffiliatedClinicalEstablishment')" #fAffiliatedClinicalEstablishment />
+                    <label class="btn upload" for="fAffiliatedClinicalEstablishment">
+                      <span class="filename">Choose file</span>
+                      {{Affiliatedrequest.ClinicalEstablishment === '' ? 'No File Choosen' : Affiliatedrequest.Dis_ClinicalEstablishment}}
+                    </label>
+                    <div class="btn-group" *ngIf="Affiliatedrequest.ClinicalEstablishment!=''">
+                      <a class="btn btn-outline-primary" target="_blank" href="{{Affiliatedrequest.ClinicalEstablishmentPath}}"><i class="fa fa-eye"></i></a>
+                      <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('AffiliatedClinicalEstablishment',Affiliatedrequest.ClinicalEstablishment)"><i class="fa fa-trash-o"></i></button>
+                    </div>
+                  </div>
+                  <div *ngIf="isAffiliatedSubmitted&&affiliatedform.fAffiliatedClinicalEstablishment.errors" class="text-danger">
+                    <p *ngIf="affiliatedform.fAffiliatedClinicalEstablishment.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                  </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                  <label>
+                    NABH (if available)
+                  </label>
+                  <div class="d-flex">
+                    <input type="file" class="form-control" id="fAffiliatedNABH" style="display:none" formControlName="fAffiliatedNABH" (change)="onFilechange($event,'AffiliatedNABH')" #fAffiliatedNABH />
+                    <label class="btn upload" for="fAffiliatedNABH">
+                      <span class="filename">Choose file</span>
+                      {{Affiliatedrequest.NABH === '' ? 'No File Choosen' : Affiliatedrequest.Dis_NABH}}
+                    </label>
+                    <div class="btn-group" *ngIf="Affiliatedrequest.NABH!=''">
+                      <a class="btn btn-outline-primary" target="_blank" href="{{Affiliatedrequest.NABHPath}}"><i class="fa fa-eye"></i></a>
+                      <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('AffiliatedNABH',Affiliatedrequest.NABH)"><i class="fa fa-trash-o"></i></button>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                  <label>
+                    Undertaking for not affiliated with other institute as a parent hospital or as an affiliated Hospital. <span style="color:red;">*</span>
+                  </label>
+                  <div class="d-flex">
+                    <input type="file" class="form-control" id="fAffiliatedUndertakingNotAffiliated" style="display:none" formControlName="fAffiliatedUndertakingNotAffiliated" (change)="onFilechange($event,'AffiliatedUndertakingNotAffiliated')" #fAffiliatedUndertakingNotAffiliated />
+                    <label class="btn upload" for="fAffiliatedUndertakingNotAffiliated">
+                      <span class="filename">Choose file</span>
+                      {{Affiliatedrequest.UndertakingNotAffiliated === '' ? 'No File Choosen' : Affiliatedrequest.Dis_UndertakingNotAffiliated}}
+                    </label>
+                    <div class="btn-group" *ngIf="Affiliatedrequest.UndertakingNotAffiliated!=''">
+                      <a class="btn btn-outline-primary" target="_blank" href="{{Affiliatedrequest.UndertakingNotAffiliatedPath}}"><i class="fa fa-eye"></i></a>
+                      <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('AffiliatedUndertakingNotAffiliated',Affiliatedrequest.UndertakingNotAffiliated)"><i class="fa fa-trash-o"></i></button>
+                    </div>
+                  </div>
+                  <div *ngIf="isAffiliatedSubmitted&&affiliatedform.fAffiliatedUndertakingNotAffiliated.errors" class="text-danger">
+                    <p *ngIf="affiliatedform.fAffiliatedUndertakingNotAffiliated.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                  </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                  <label>
+                    Staff information <span style="color:red;">*</span>
+                  </label>
+                  <div class="d-flex">
+                    <input type="file" class="form-control" id="fAffiliatedStaffInformation" style="display:none" formControlName="fAffiliatedStaffInformation" (change)="onFilechange($event,'AffiliatedStaffInformation')" #fAffiliatedStaffInformation />
+                    <label class="btn upload" for="fAffiliatedStaffInformation">
+                      <span class="filename">Choose file</span>
+                      {{Affiliatedrequest.StaffInformation === '' ? 'No File Choosen' : Affiliatedrequest.Dis_StaffInformation}}
+                    </label>
+                    <div class="btn-group" *ngIf="Affiliatedrequest.StaffInformation!=''">
+                      <a class="btn btn-outline-primary" target="_blank" href="{{Affiliatedrequest.StaffInformationPath}}"><i class="fa fa-eye"></i></a>
+                      <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('AffiliatedStaffInformation',Affiliatedrequest.StaffInformation)"><i class="fa fa-trash-o"></i></button>
+                    </div>
+                  </div>
+                  <div *ngIf="isAffiliatedSubmitted&&affiliatedform.fAffiliatedStaffInformation.errors" class="text-danger">
+                    <p *ngIf="affiliatedform.fAffiliatedStaffInformation.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                  </div>
+                </div>
+              </div>
+              <div class="row" *ngIf="request.IsAnyAffiliatedHospital=='Yes'">
+                <div class="card">
+                  <div class="card-header">
+                    <b>
+                      <i class="bi bi-table"></i>&nbsp; Distribution of beds in different areas
+                    </b>
+                  </div>
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                        <label>Medical <span style="color:red;">*</span></label>
+                        <input class="form-control" type="text" [(ngModel)]="Affiliatedrequest.MedicalBeds" name="txtAffiliatedMedicalBeds" id="txtAffiliatedMedicalBeds" formControlName="txtAffiliatedMedicalBeds" (keypress)="NumberOnly($event)" maxlength="5" />
+                        <div *ngIf="isAffiliatedSubmitted&&affiliatedform.txtAffiliatedMedicalBeds.errors" class="text-danger">
+                          <p *ngIf="affiliatedform.txtAffiliatedMedicalBeds.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                        </div>
+                      </div>
+                      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                        <label>Surgery  <span style="color:red;">*</span></label>
+                        <input class="form-control" type="text" [(ngModel)]="Affiliatedrequest.SurgicalBeds" name="txtAffiliatedSurgicalBeds" id="txtAffiliatedSurgicalBeds" formControlName="txtAffiliatedSurgicalBeds" (keypress)="NumberOnly($event)" maxlength="5" />
+                        <div *ngIf="isAffiliatedSubmitted&&affiliatedform.txtAffiliatedSurgicalBeds.errors" class="text-danger">
+                          <p *ngIf="affiliatedform.txtAffiliatedSurgicalBeds.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                        </div>
+                      </div>
+                      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                        <label>Obstetrics  <span style="color:red;">*</span></label>
+                        <input class="form-control" type="text" [(ngModel)]="Affiliatedrequest.ObstetricsBeds" name="txtAffiliatedObstetricsBeds" id="txtAffiliatedObstetricsBeds" formControlName="txtAffiliatedObstetricsBeds" (keypress)="NumberOnly($event)" maxlength="5" />
+                        <div *ngIf="isAffiliatedSubmitted&&affiliatedform.txtAffiliatedObstetricsBeds.errors" class="text-danger">
+                          <p *ngIf="affiliatedform.txtAffiliatedObstetricsBeds.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                        </div>
+                      </div>
+                      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                        <label>Pediatrics <span style="color:red;">*</span></label>
+                        <input class="form-control" type="text" [(ngModel)]="Affiliatedrequest.PediatricsBeds" name="txtAffiliatedPediatricsBeds" id="txtAffiliatedPediatricsBeds" formControlName="txtAffiliatedPediatricsBeds" (keypress)="NumberOnly($event)" maxlength="5" />
+                        <div *ngIf="isAffiliatedSubmitted&&affiliatedform.txtAffiliatedPediatricsBeds.errors" class="text-danger">
+                          <p *ngIf="affiliatedform.txtAffiliatedPediatricsBeds.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                        </div>
+                      </div>
+                      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                        <label>Orthopedics <span style="color:red;">*</span></label>
+                        <input class="form-control" type="text" [(ngModel)]="Affiliatedrequest.OrthoBeds" name="txtAffiliatedOrthoBeds" id="txtAffiliatedOrthoBeds" formControlName="txtAffiliatedOrthoBeds" (keypress)="NumberOnly($event)" maxlength="5" />
+                        <div *ngIf="isAffiliatedSubmitted&&affiliatedform.txtAffiliatedOrthoBeds.errors" class="text-danger">
+                          <p *ngIf="affiliatedform.txtAffiliatedOrthoBeds.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                        </div>
+                      </div>
+                      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                        <label>Psychiatry  <span style="color:red;">*</span></label>
+                        <input class="form-control" type="text" [(ngModel)]="Affiliatedrequest.PsychiatryBeds" name="txtAffiliatedPsychiatryBeds" id="txtAffiliatedPsychiatryBeds" formControlName="txtAffiliatedPsychiatryBeds" (keypress)="NumberOnly($event)" maxlength="5" />
+                        <div *ngIf="isAffiliatedSubmitted&&affiliatedform.txtAffiliatedPsychiatryBeds.errors" class="text-danger">
+                          <p *ngIf="affiliatedform.txtAffiliatedPsychiatryBeds.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                        </div>
+                      </div>
+                      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                        <label>Emergency medicine<span style="color:red;">*</span></label>
+                        <input class="form-control" type="text" [(ngModel)]="Affiliatedrequest.EmergencyMedicineBeds" name="txtAffiliatedEmergencyMedicineBeds" id="txtAffiliatedEmergencyMedicineBeds" formControlName="txtAffiliatedEmergencyMedicineBeds" (keypress)="NumberOnly($event)" maxlength="5" />
+                        <div *ngIf="isAffiliatedSubmitted&&affiliatedform.txtAffiliatedEmergencyMedicineBeds.errors" class="text-danger">
+                          <p *ngIf="affiliatedform.txtAffiliatedEmergencyMedicineBeds.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+              <div class="row text-end" *ngIf="request.IsAnyAffiliatedHospital=='Yes'">
+                <div class="col-lg-12 col-md-12 col-sm-6 col-12 mb-3">
+                  <button class="btn btn-primary" id="btnAddAffiliated" style="margin-top:27px" (click)="AddAffiliatedHospital()"><i class="fa fa-plus"></i> Add</button>&nbsp;&nbsp;
+                  <button type="button" class="btn btn-danger" style="margin-top:27px" (click)="ResetAffiliatedDetails()"> Reset</button>
+                </div>
+              </div>
+              <div class="row" *ngIf="request.IsAnyAffiliatedHospital=='Yes'">
+                <div class="table-responsive" *ngIf="request.MGThreeAffiliatedHospitalList.length>0">
+                  <table class="table table-bordered table-hover table-striped">
+                    <thead>
+                      <tr>
+                        <th>Sr. No.</th>
+                        <th>Name of Affiliated Hospitals</th>
+                        <th>Reason for affiliation</th>
+                        <th>Name of Owner</th>
+                        <th>Bed Capacity </th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let row of request.MGThreeAffiliatedHospitalList; let indexOfelement=index;">
+                        <td> {{indexOfelement+1}}</td>
+                        <td> {{row.AffiliatedHospitalName}}</td>
+                        <td> {{row.AffiliationReason}}</td>
+                        <td> {{row.OwnerName}}</td>
+                        <td> {{row.BedCapacity}}</td>
+                        <td>
+                          <button type="button" id="btnEdit_{{indexOfelement}}" class="btn btn-primary" title="Edit" (click)="EditAffiliatedHospitalDetail(indexOfelement)" [attr.disabled]="isDisabledGrid ? true : null"><i class="fa fa-edit"></i></button>
+                          <button class="btn btn-danger" type="button" (click)="DeleteAffiliatedHospital(indexOfelement)" [attr.disabled]="isDisabledGrid ? true : null"><i class="fa fa-trash-o"></i></button>
+                        </td>
+
+                      </tr>
+                      <tr *ngIf="request.MGThreeAffiliatedHospitalList.length<=0">
+                        <td colspan="12" style="color:red">No Data Found.!</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
           </div>
-          <div class="card-body">
-            <div class="row">
-              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                <label>Name of Affiliated Hospitals<span style="color:red;">*</span></label>
-                <input type="text" class="form-control" name="txtAffiliatedHospitalName" maxlength="300" id="txtAffiliatedHospitalName" [(ngModel)]="Affiliatedrequest.AffiliatedHospitalName" formControlName="txtAffiliatedHospitalName" (keypress)="alphaOnly($event)" autocomplete="off" />
-                <div *ngIf="isAffiliatedSubmitted&&affiliatedform.txtAffiliatedHospitalName.errors" class="text-danger">
-                  <p *ngIf="affiliatedform.txtAffiliatedHospitalName.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-                </div>
-              </div>
-              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                <label>Reason for affiliation<span style="color:red;">*</span></label>
-                <input type="text" class="form-control" name="txtAffiliationReason" maxlength="300" id="txtAffiliationReason" [(ngModel)]="Affiliatedrequest.AffiliationReason" formControlName="txtAffiliationReason" (keypress)="alphaOnly($event)" autocomplete="off" />
-                <div *ngIf="isAffiliatedSubmitted&&affiliatedform.txtAffiliationReason.errors" class="text-danger">
-                  <p *ngIf="affiliatedform.txtAffiliationReason.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-                </div>
-              </div>
-              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                <label>If it is affiliated on Specialty ground, please mention the field of specialty. </label>
-                <input type="text" class="form-control" name="txtSpecialtyAffiliation" maxlength="300" id="txtSpecialtyAffiliation" [(ngModel)]="Affiliatedrequest.SpecialtyAffiliation" formControlName="txtSpecialtyAffiliation" (keypress)="alphaOnly($event)" autocomplete="off" />
-
-              </div>
-              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                <label>Name of Owner<span style="color:red;">*</span></label>
-                <input type="text" class="form-control" name="txtAffiliatedNameofOwner" maxlength="300" id="txtAffiliatedNameofOwner" [(ngModel)]="Affiliatedrequest.OwnerName" formControlName="txtAffiliatedNameofOwner" (keypress)="alphaOnly($event)" autocomplete="off" />
-                <div *ngIf="isAffiliatedSubmitted&&affiliatedform.txtAffiliatedNameofOwner.errors" class="text-danger">
-                  <p *ngIf="affiliatedform.txtAffiliatedNameofOwner.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                <label class="form-label">Bed Capacity <span style="color:red;">*</span></label>
-                <input type="text" class="form-control" id="txtAffiliatedBedCapacity" name="txtAffiliatedBedCapacity" [(ngModel)]="Affiliatedrequest.BedCapacity" formControlName="txtAffiliatedBedCapacity" (keypress)="NumberOnly($event)" maxlength="6">
-                <div *ngIf="isAffiliatedSubmitted&&affiliatedform.txtAffiliatedBedCapacity.errors" class="text-danger">
-                  <p *ngIf="affiliatedform.txtAffiliatedBedCapacity.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-                </div>
-              </div>
-              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                <label class="form-label">Number of deliveries per month as per Record of last one year<span style="color:red;">*</span></label>
-                <input type="text" class="form-control" id="txtAffiliatedNumberofdeliveries" name="txtAffiliatedNumberofdeliveries" [(ngModel)]="Affiliatedrequest.NumberDeliveries" formControlName="txtAffiliatedNumberofdeliveries" (keypress)="NumberOnly($event)" maxlength="6">
-                <div *ngIf="isAffiliatedSubmitted&&affiliatedform.txtAffiliatedNumberofdeliveries.errors" class="text-danger">
-                  <p *ngIf="affiliatedform.txtAffiliatedNumberofdeliveries.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-                </div>
-              </div>
-              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                <label class="form-label">Distance from College<span style="color:red;">*</span></label>
-                <input type="text" class="form-control" id="txtAffiliatedCollegeDistance" name="txtAffiliatedCollegeDistance" [(ngModel)]="Affiliatedrequest.CollegeDistance" formControlName="txtAffiliatedCollegeDistance" (keypress)="NumberOnly($event)" maxlength="6">
-                <div *ngIf="isAffiliatedSubmitted&&affiliatedform.txtAffiliatedCollegeDistance.errors" class="text-danger">
-                  <p *ngIf="affiliatedform.txtAffiliatedCollegeDistance.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-                </div>
-                <p *ngIf="request.IsHillytribalArea=='No' && Affiliatedrequest.CollegeDistance>30" class="text-danger">distance with in 30km </p>
-                <p *ngIf="request.IsHillytribalArea=='Yes' && Affiliatedrequest.CollegeDistance>50" class="text-danger">distance with in 50km </p>
-              </div>
-              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                <label>MOU with affiliated hospitals<span style="color:red;">*</span></label>
-                <div class="d-flex">
-                  <input type="file" class="form-control" id="fAffiliatedHospitalMOU" style="display:none" formControlName="fAffiliatedHospitalMOU" (change)="onFilechange($event,'AffiliatedHospitalMOU')" #fAffiliatedHospitalMOU />
-                  <label class="btn upload" for="fAffiliatedHospitalMOU">
-                    <span class="filename">Choose file</span>
-                    {{Affiliatedrequest.HospitalMOU === '' ? 'No File Choosen' : Affiliatedrequest.Dis_HospitalMOU}}
-                  </label>
-                  <div class="btn-group" *ngIf="Affiliatedrequest.HospitalMOU!=''">
-                    <a class="btn btn-outline-primary" target="_blank" href="{{Affiliatedrequest.HospitalMOUPath}}"><i class="fa fa-eye"></i></a>
-                    <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('AffiliatedHospitalMOU',Affiliatedrequest.HospitalMOU)"><i class="fa fa-trash-o"></i></button>
-                  </div>
-                </div>
-                <div *ngIf="isAffiliatedSubmitted&&affiliatedform.fAffiliatedHospitalMOU.errors" class="text-danger">
-                  <p *ngIf="affiliatedform.fAffiliatedHospitalMOU.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-                </div>
-              </div>
-
-              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                <label>
-                  Bed Occupancy (Certificate by Concern CMHO (With name and seal)
-                  <span style="color:red;">*</span>
-                </label>
-                <div class="d-flex">
-                  <input type="file" class="form-control" id="fAffiliatedBedOccupancy" style="display:none" formControlName="fAffiliatedBedOccupancy" (change)="onFilechange($event,'AffiliatedBedOccupancy')" #fAffiliatedBedOccupancy />
-                  <label class="btn upload" for="fAffiliatedBedOccupancy">
-                    <span class="filename">Choose file</span>
-                    {{Affiliatedrequest.BedOccupancy === '' ? 'No File Choosen' : Affiliatedrequest.Dis_BedOccupancy}}
-                  </label>
-                  <div class="btn-group" *ngIf="Affiliatedrequest.BedOccupancy!=''">
-                    <a class="btn btn-outline-primary" target="_blank" href="{{Affiliatedrequest.BedOccupancyPath}}"><i class="fa fa-eye"></i></a>
-                    <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('AffiliatedBedOccupancy',Affiliatedrequest.BedOccupancy)"><i class="fa fa-trash-o"></i></button>
-                  </div>
-                </div>
-                <div *ngIf="isAffiliatedSubmitted&&affiliatedform.fAffiliatedBedOccupancy.errors" class="text-danger">
-                  <p *ngIf="affiliatedform.fAffiliatedBedOccupancy.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-                </div>
-              </div>
-
-              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                <label>
-                  Fire NOC
-                  <span style="color:red;">*</span>
-                </label>
-                <div class="d-flex">
-                  <input type="file" class="form-control" id="fAffiliatedFireNOC" style="display:none" formControlName="fAffiliatedFireNOC" (change)="onFilechange($event,'AffiliatedFireNOC')" #fAffiliatedFireNOC />
-                  <label class="btn upload" for="fAffiliatedFireNOC">
-                    <span class="filename">Choose file</span>
-                    {{Affiliatedrequest.FireNOC === '' ? 'No File Choosen' : Affiliatedrequest.Dis_FireNOC}}
-                  </label>
-                  <div class="btn-group" *ngIf="Affiliatedrequest.FireNOC!=''">
-                    <a class="btn btn-outline-primary" target="_blank" href="{{Affiliatedrequest.FireNOCPath}}"><i class="fa fa-eye"></i></a>
-                    <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('AffiliatedFireNOC',Affiliatedrequest.FireNOC)"><i class="fa fa-trash-o"></i></button>
-                  </div>
-                </div>
-                <div *ngIf="isAffiliatedSubmitted&&affiliatedform.fAffiliatedFireNOC.errors" class="text-danger">
-                  <p *ngIf="affiliatedform.fAffiliatedFireNOC.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-                </div>
-              </div>
-              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                <label>
-                  Pollution Certificate/ Bio Medical waste Certificate
-                  <span style="color:red;">*</span>
-                </label>
-                <div class="d-flex">
-                  <input type="file" class="form-control" id="fAffiliatedPollutionCertificate" style="display:none" formControlName="fAffiliatedPollutionCertificate" (change)="onFilechange($event,'AffiliatedPollutionCertificate')" #fAffiliatedPollutionCertificate />
-                  <label class="btn upload" for="fAffiliatedPollutionCertificate">
-                    <span class="filename">Choose file</span>
-                    {{Affiliatedrequest.PollutionCertificate === '' ? 'No File Choosen' : Affiliatedrequest.Dis_PollutionCertificate}}
-                  </label>
-                  <div class="btn-group" *ngIf="Affiliatedrequest.PollutionCertificate!=''">
-                    <a class="btn btn-outline-primary" target="_blank" href="{{Affiliatedrequest.PollutionCertificatePath}}"><i class="fa fa-eye"></i></a>
-                    <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('AffiliatedPollutionCertificate',Affiliatedrequest.PollutionCertificate)"><i class="fa fa-trash-o"></i></button>
-                  </div>
-                </div>
-                <div *ngIf="isAffiliatedSubmitted&&affiliatedform.fAffiliatedPollutionCertificate.errors" class="text-danger">
-                  <p *ngIf="affiliatedform.fAffiliatedPollutionCertificate.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-                </div>
-              </div>
-              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                <label>
-                  Clinical Establishment certificate and Registration Number<span style="color:red;">*</span>
-                </label>
-                <div class="d-flex">
-                  <input type="file" class="form-control" id="fAffiliatedClinicalEstablishment" style="display:none" formControlName="fAffiliatedClinicalEstablishment" (change)="onFilechange($event,'AffiliatedClinicalEstablishment')" #fAffiliatedClinicalEstablishment />
-                  <label class="btn upload" for="fAffiliatedClinicalEstablishment">
-                    <span class="filename">Choose file</span>
-                    {{Affiliatedrequest.ClinicalEstablishment === '' ? 'No File Choosen' : Affiliatedrequest.Dis_ClinicalEstablishment}}
-                  </label>
-                  <div class="btn-group" *ngIf="Affiliatedrequest.ClinicalEstablishment!=''">
-                    <a class="btn btn-outline-primary" target="_blank" href="{{Affiliatedrequest.ClinicalEstablishmentPath}}"><i class="fa fa-eye"></i></a>
-                    <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('AffiliatedClinicalEstablishment',Affiliatedrequest.ClinicalEstablishment)"><i class="fa fa-trash-o"></i></button>
-                  </div>
-                </div>
-                <div *ngIf="isAffiliatedSubmitted&&affiliatedform.fAffiliatedClinicalEstablishment.errors" class="text-danger">
-                  <p *ngIf="affiliatedform.fAffiliatedClinicalEstablishment.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-                </div>
-              </div>
-              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                <label>
-                  NABH (if available)
-                </label>
-                <div class="d-flex">
-                  <input type="file" class="form-control" id="fAffiliatedNABH" style="display:none" formControlName="fAffiliatedNABH" (change)="onFilechange($event,'AffiliatedNABH')" #fAffiliatedNABH />
-                  <label class="btn upload" for="fAffiliatedNABH">
-                    <span class="filename">Choose file</span>
-                    {{Affiliatedrequest.NABH === '' ? 'No File Choosen' : Affiliatedrequest.Dis_NABH}}
-                  </label>
-                  <div class="btn-group" *ngIf="Affiliatedrequest.NABH!=''">
-                    <a class="btn btn-outline-primary" target="_blank" href="{{Affiliatedrequest.NABHPath}}"><i class="fa fa-eye"></i></a>
-                    <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('AffiliatedNABH',Affiliatedrequest.NABH)"><i class="fa fa-trash-o"></i></button>
-                  </div>
-                </div>
-              </div>
-              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                <label>
-                  Undertaking for not affiliated with other institute as a parent hospital or as an affiliated Hospital. <span style="color:red;">*</span>
-                </label>
-                <div class="d-flex">
-                  <input type="file" class="form-control" id="fAffiliatedUndertakingNotAffiliated" style="display:none" formControlName="fAffiliatedUndertakingNotAffiliated" (change)="onFilechange($event,'AffiliatedUndertakingNotAffiliated')" #fAffiliatedUndertakingNotAffiliated />
-                  <label class="btn upload" for="fAffiliatedUndertakingNotAffiliated">
-                    <span class="filename">Choose file</span>
-                    {{Affiliatedrequest.UndertakingNotAffiliated === '' ? 'No File Choosen' : Affiliatedrequest.Dis_UndertakingNotAffiliated}}
-                  </label>
-                  <div class="btn-group" *ngIf="Affiliatedrequest.UndertakingNotAffiliated!=''">
-                    <a class="btn btn-outline-primary" target="_blank" href="{{Affiliatedrequest.UndertakingNotAffiliatedPath}}"><i class="fa fa-eye"></i></a>
-                    <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('AffiliatedUndertakingNotAffiliated',Affiliatedrequest.UndertakingNotAffiliated)"><i class="fa fa-trash-o"></i></button>
-                  </div>
-                </div>
-                <div *ngIf="isAffiliatedSubmitted&&affiliatedform.fAffiliatedUndertakingNotAffiliated.errors" class="text-danger">
-                  <p *ngIf="affiliatedform.fAffiliatedUndertakingNotAffiliated.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-                </div>
-              </div>
-              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                <label>
-                  Staff information <span style="color:red;">*</span>
-                </label>
-                <div class="d-flex">
-                  <input type="file" class="form-control" id="fAffiliatedStaffInformation" style="display:none" formControlName="fAffiliatedStaffInformation" (change)="onFilechange($event,'AffiliatedStaffInformation')" #fAffiliatedStaffInformation />
-                  <label class="btn upload" for="fAffiliatedStaffInformation">
-                    <span class="filename">Choose file</span>
-                    {{Affiliatedrequest.StaffInformation === '' ? 'No File Choosen' : Affiliatedrequest.Dis_StaffInformation}}
-                  </label>
-                  <div class="btn-group" *ngIf="Affiliatedrequest.StaffInformation!=''">
-                    <a class="btn btn-outline-primary" target="_blank" href="{{Affiliatedrequest.StaffInformationPath}}"><i class="fa fa-eye"></i></a>
-                    <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('AffiliatedStaffInformation',Affiliatedrequest.StaffInformation)"><i class="fa fa-trash-o"></i></button>
-                  </div>
-                </div>
-                <div *ngIf="isAffiliatedSubmitted&&affiliatedform.fAffiliatedStaffInformation.errors" class="text-danger">
-                  <p *ngIf="affiliatedform.fAffiliatedStaffInformation.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <div class="card">
-                <div class="card-header">
-                  <b>
-                    <i class="bi bi-table"></i>&nbsp; Distribution of beds in different areas
-                  </b>
-                </div>
-                <div class="card-body">
-                  <div class="row">
-                    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                      <label>Medical <span style="color:red;">*</span></label>
-                      <input class="form-control" type="text" [(ngModel)]="Affiliatedrequest.MedicalBeds" name="txtAffiliatedMedicalBeds" id="txtAffiliatedMedicalBeds" formControlName="txtAffiliatedMedicalBeds" (keypress)="NumberOnly($event)" maxlength="5" />
-                      <div *ngIf="isAffiliatedSubmitted&&affiliatedform.txtAffiliatedMedicalBeds.errors" class="text-danger">
-                        <p *ngIf="affiliatedform.txtAffiliatedMedicalBeds.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-                      </div>
-                    </div>
-                    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                      <label>Surgery  <span style="color:red;">*</span></label>
-                      <input class="form-control" type="text" [(ngModel)]="Affiliatedrequest.SurgicalBeds" name="txtAffiliatedSurgicalBeds" id="txtAffiliatedSurgicalBeds" formControlName="txtAffiliatedSurgicalBeds" (keypress)="NumberOnly($event)" maxlength="5" />
-                      <div *ngIf="isAffiliatedSubmitted&&affiliatedform.txtAffiliatedSurgicalBeds.errors" class="text-danger">
-                        <p *ngIf="affiliatedform.txtAffiliatedSurgicalBeds.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-                      </div>
-                    </div>
-                    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                      <label>Obstetrics  <span style="color:red;">*</span></label>
-                      <input class="form-control" type="text" [(ngModel)]="Affiliatedrequest.ObstetricsBeds" name="txtAffiliatedObstetricsBeds" id="txtAffiliatedObstetricsBeds" formControlName="txtAffiliatedObstetricsBeds" (keypress)="NumberOnly($event)" maxlength="5" />
-                      <div *ngIf="isAffiliatedSubmitted&&affiliatedform.txtAffiliatedObstetricsBeds.errors" class="text-danger">
-                        <p *ngIf="affiliatedform.txtAffiliatedObstetricsBeds.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-                      </div>
-                    </div>
-                    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                      <label>Pediatrics <span style="color:red;">*</span></label>
-                      <input class="form-control" type="text" [(ngModel)]="Affiliatedrequest.PediatricsBeds" name="txtAffiliatedPediatricsBeds" id="txtAffiliatedPediatricsBeds" formControlName="txtAffiliatedPediatricsBeds" (keypress)="NumberOnly($event)" maxlength="5" />
-                      <div *ngIf="isAffiliatedSubmitted&&affiliatedform.txtAffiliatedPediatricsBeds.errors" class="text-danger">
-                        <p *ngIf="affiliatedform.txtAffiliatedPediatricsBeds.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-                      </div>
-                    </div>
-                    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                      <label>Orthopedics <span style="color:red;">*</span></label>
-                      <input class="form-control" type="text" [(ngModel)]="Affiliatedrequest.OrthoBeds" name="txtAffiliatedOrthoBeds" id="txtAffiliatedOrthoBeds" formControlName="txtAffiliatedOrthoBeds" (keypress)="NumberOnly($event)" maxlength="5" />
-                      <div *ngIf="isAffiliatedSubmitted&&affiliatedform.txtAffiliatedOrthoBeds.errors" class="text-danger">
-                        <p *ngIf="affiliatedform.txtAffiliatedOrthoBeds.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-                      </div>
-                    </div>
-                    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                      <label>Psychiatry  <span style="color:red;">*</span></label>
-                      <input class="form-control" type="text" [(ngModel)]="Affiliatedrequest.PsychiatryBeds" name="txtAffiliatedPsychiatryBeds" id="txtAffiliatedPsychiatryBeds" formControlName="txtAffiliatedPsychiatryBeds" (keypress)="NumberOnly($event)" maxlength="5" />
-                      <div *ngIf="isAffiliatedSubmitted&&affiliatedform.txtAffiliatedPsychiatryBeds.errors" class="text-danger">
-                        <p *ngIf="affiliatedform.txtAffiliatedPsychiatryBeds.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-            </div>
-            <div class="row text-end">
-              <div class="col-lg-12 col-md-12 col-sm-6 col-12 mb-3">
-                <button class="btn btn-primary" id="btnAddAffiliated" style="margin-top:27px" (click)="AddAffiliatedHospital()"><i class="fa fa-plus"></i> Add</button>&nbsp;&nbsp;
-                <button type="button" class="btn btn-danger" style="margin-top:27px" (click)="ResetAffiliatedDetails()"> Reset</button>
-              </div>
-            </div>
-            <div class="row">
-              <div class="table-responsive" *ngIf="request.MGThreeAffiliatedHospitalList.length>0">
-                <table class="table table-bordered table-hover table-striped">
-                  <thead>
-                    <tr>
-                      <th>Sr. No.</th>
-                      <th>Name of Affiliated Hospitals</th>
-                      <th>Reason for affiliation</th>
-                      <th>Name of Owner</th>
-                      <th>Bed Capacity </th>
-                      <th>Action</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr *ngFor="let row of request.MGThreeAffiliatedHospitalList; let indexOfelement=index;">
-                      <td> {{indexOfelement+1}}</td>
-                      <td> {{row.AffiliatedHospitalName}}</td>
-                      <td> {{row.AffiliationReason}}</td>
-                      <td> {{row.OwnerName}}</td>
-                      <td> {{row.BedCapacity}}</td>
-                      <td>
-                        <button type="button" id="btnEdit_{{indexOfelement}}" class="btn btn-primary" title="Edit" (click)="EditAffiliatedHospitalDetail(indexOfelement)" [attr.disabled]="isDisabledGrid ? true : null"><i class="fa fa-edit"></i></button>
-                        <button class="btn btn-danger" type="button" (click)="DeleteAffiliatedHospital(indexOfelement)" [attr.disabled]="isDisabledGrid ? true : null"><i class="fa fa-trash-o"></i></button>
-                      </td>
-
-                    </tr>
-                    <tr *ngIf="request.MGThreeAffiliatedHospitalList.length<=0">
-                      <td colspan="12" style="color:red">No Data Found.!</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-
-        </div>
-      </form>
-
+        </form>
+      </div>
       <div class="row text-end">
         <div class="col-lg-12 col-md-12 col-sm-6 col-12 mb-3">
           <button class="btn btn-primary" id="btnAddAffiliated" style="margin-top:27px" (click)="SaveData()">Save</button>&nbsp;&nbsp;
@@ -757,7 +769,7 @@
 
 
     <div class="clearfix"></div>
-    <div class="card">
+    <div class="card" *ngIf="HospitalList.length>0">
       <div class="card-header">
         <b>Hospital Details</b>
       </div>
@@ -777,7 +789,14 @@
                   <tr *ngFor="let item of HospitalList let idx =index">
                     <td>{{idx+1}}</td>
                     <td>{{item.IsHillytribalArea}}</td>
-                    <td></td>
+                    <td>
+                      <div class="d-flex">
+                        <a href="javascript:void(0)" class="btn btn-sm btn-info" (click)="EditHospital(item.HospitalID)"><i class="fa fa-edit"></i></a>
+                        <button type="button" class="btn btn-sm btn-info" title="View" (click)="ViewHospitalDetail(mymodal,item.HospitalID)"><i class="fa fa-eye"></i></button>
+                        <button type="button" class="btn btn-danger" (click)="DeleteHospitalDetail(item.HospitalID)"><i class="fa fa-trash-o"></i></button>
+                      </div>
+
+                    </td>
                   </tr>
                 </tbody>
               </table>
@@ -789,3 +808,344 @@
   </div>
 
 </div>
+<ng-template #mymodal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title" style="font-size: 17px; font-weight: 600 !important;">Hospital Details</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <i class="fa fa-close"></i>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="card-body">
+      <div class="row">
+        <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
+          <label for="ddlIsHillytribalArea"  style="margin-right:15px"> Is the institute situated in Hilly/tribal  Area ? </label>
+          <input type="text" class="form-control disabled" [(ngModel)]="viewrequest.IsHillytribalArea" disabled />
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3" *ngIf="viewrequest.IsHillytribalArea=='Yes'">
+          <label for="ddlIsInstitutionParentHospital"  style="margin-right:15px"> Whether the institution has a Own/parent hospital or not</label>
+          <input type="text" class="form-control disabled" [(ngModel)]="viewrequest.IsInstitutionParentHospital" disabled />
+        </div>
+      </div>
+
+      <div class="row" *ngIf="(viewrequest.IsHillytribalArea=='Yes' && viewrequest.IsInstitutionParentHospital=='Yes') || viewrequest.IsHillytribalArea=='No'">
+        <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+          <label for="employeeName"  style="margin-right:15px">Hospital Status <span style="color:red;">*</span> <br /></label>
+          <input type="text" class="form-control disabled" [(ngModel)]="viewrequest.HospitalStatus" disabled />
+        </div>
+      </div>
+      <div class="card" *ngIf="(viewrequest.IsHillytribalArea=='Yes' && viewrequest.IsInstitutionParentHospital=='Yes') || viewrequest.IsHillytribalArea=='No'">
+        <div class="card-header">
+          <b>
+            <i class="bi bi-table"></i>&nbsp;Own/Parent Hospital Details
+          </b>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <label>Name of Own/Parent Hospital<span style="color:red;">*</span></label>
+              <input type="text" class="form-control disabled" [(ngModel)]="viewrequest.HospitalName" disabled />
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <label>Registration No.</label>
+              <input type="text" class="form-control disabled" [(ngModel)]="viewrequest.RegistrationNo" disabled />
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <label>Name of Owner </label>
+              <input type="text" class="form-control disabled" [(ngModel)]="viewrequest.OwnerName" disabled />
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <label>Hospital Contact No.</label>
+              <input type="text" class="form-control disabled" [(ngModel)]="viewrequest.HospitalContactNo" disabled />
+
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <label>Hospital Email ID </label>
+              <input type="text" class="form-control disabled" [(ngModel)]="viewrequest.HospitalEmailID" disabled />
+            </div>
+            <!-- address -->
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <label >Address Line 1 </label>
+              <input type="text" class="form-control disabled" [(ngModel)]="viewrequest.AddressLine1" disabled />
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <label >Address Line 2</label>
+              <input type="text" class="form-control disabled" [(ngModel)]="viewrequest.AddressLine2" disabled />
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <label >Area </label>
+              <input type="text" class="form-control disabled" value="{{viewrequest.RuralUrban==1?'Rural':'Urban'}}" disabled />
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <label >Division </label>
+              <input type="text" class="form-control disabled" [(ngModel)]="viewrequest.DivisionName" disabled />
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <label >District </label>
+              <input type="text" class="form-control disabled" [(ngModel)]="viewrequest.DistrictName" disabled />
+
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <label >Tehsil </label>
+              <input type="text" class="form-control disabled" [(ngModel)]="viewrequest.TehsilName" disabled />
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="viewrequest.RuralUrban==2">
+              <label for="ddlCityID" >City</label>
+              <input type="text" class="form-control disabled" [(ngModel)]="viewrequest.CityName" disabled />
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="request.RuralUrban==1">
+              <label >Panchayat Samiti</label>
+              <input type="text" class="form-control disabled" [(ngModel)]="viewrequest.PanchayatSamitiName" disabled />
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <label >City/Town/Village</label>
+              <input type="text" class="form-control disabled" [(ngModel)]="viewrequest.CityTownVillage" disabled />
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <label >Pincode</label>
+              <input type="text" class="form-control disabled" [(ngModel)]="viewrequest.Pincode" disabled />
+            </div>
+            <!-- end -->
+          </div>
+          <div class="row">
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <label >Bed Capacity </label>
+              <input type="text" class="form-control disabled" [(ngModel)]="viewrequest.BedCapacity" disabled />
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <label >Number of deliveries per month (Record of last one year)</label>
+              <input type="text" class="form-control disabled" [(ngModel)]="viewrequest.NumberofDeliveries" disabled />
+
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <label >Distance from College</label>
+              <input type="text" class="form-control disabled" [(ngModel)]="viewrequest.CollegeDistance" disabled />
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <label>MOU between Parental hospital & All the members of Trust/ Society/Company (MoU For 30 years minimum)</label>
+              <a class="bi bi-file-earmark-pdf-fill" *ngIf="viewrequest.HospitalMOU.includes('.pdf')" data-fancybox="gallery" href="{{HospitalData.HospitalMOUPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <label>
+                Bed Occupancy (Certificate by Concern CMHO (With name and seal)
+              </label>
+              <a class="bi bi-file-earmark-pdf-fill" *ngIf="viewrequest.BedOccupancy.includes('.pdf')" data-fancybox="gallery" href="{{HospitalData.BedOccupancyPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+            </div>
+
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <label>
+                Fire NOC
+              </label>
+              <a class="bi bi-file-earmark-pdf-fill" *ngIf="viewrequest.FireNOC.includes('.pdf')" data-fancybox="gallery" href="{{HospitalData.FireNOCPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <label>
+                Pollution Certificate/ Bio Medical waste Certificate
+              </label>
+              <a class="bi bi-file-earmark-pdf-fill" *ngIf="viewrequest.PollutionCertificate.includes('.pdf')" data-fancybox="gallery" href="{{HospitalData.PollutionCertificatePath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <label>
+                Clinical Establishment certificate and Registration Number
+              </label>
+              <a class="bi bi-file-earmark-pdf-fill" *ngIf="viewrequest.ClinicalEstablishment.includes('.pdf')" data-fancybox="gallery" href="{{HospitalData.ClinicalEstablishmentPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <label>
+                NABH (if available)
+              </label>
+              <a class="bi bi-file-earmark-pdf-fill" *ngIf="viewrequest.NABH.includes('.pdf')" data-fancybox="gallery" href="{{HospitalData.NABHPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <label>
+                Undertaking for not affiliated with other institute as a parent hospital or as an affiliated Hospital.
+              </label>
+              <a class="bi bi-file-earmark-pdf-fill" *ngIf="viewrequest.UndertakingNotAffiliated.includes('.pdf')" data-fancybox="gallery" href="{{HospitalData.UndertakingNotAffiliatedPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <label>
+                Staff information
+              </label>
+              <a class="bi bi-file-earmark-pdf-fill" *ngIf="viewrequest.StaffInformation.includes('.pdf')" data-fancybox="gallery" href="{{HospitalData.StaffInformationPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="card">
+              <div class="card-header">
+                <b>
+                  <i class="bi bi-table"></i>&nbsp; Distribution of beds in different areas
+                </b>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                    <label>Medical </label>
+                    <input type="text" class="form-control disabled" [(ngModel)]="viewrequest.MedicalBeds" disabled />
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                    <label>Surgery</label>
+                    <input type="text" class="form-control disabled" [(ngModel)]="viewrequest.SurgicalBeds" disabled />
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                    <label>Obstetrics  </label>
+                    <input type="text" class="form-control disabled" [(ngModel)]="viewrequest.ObstetricsBeds" disabled />
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                    <label>Pediatrics </label>
+                    <input type="text" class="form-control disabled" [(ngModel)]="viewrequest.PediatricsBeds" disabled />
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                    <label>Orthopedics</label>
+                    <input type="text" class="form-control disabled" [(ngModel)]="viewrequest.OrthoBeds" disabled />
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                    <label>Psychiatry </label>
+                    <input type="text" class="form-control disabled" [(ngModel)]="viewrequest.PsychiatryBeds" disabled />
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                    <label>Emergency medicine</label>
+                    <input type="text" class="form-control disabled" [(ngModel)]="viewrequest.EmergencyMedicineBeds" disabled />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="card" *ngIf="(viewrequest.IsHillytribalArea=='Yes' || viewrequest.IsHillytribalArea=='No') && viewrequest.MGThreeAffiliatedHospitalList.length>0">
+          <div class="card-header">
+            <b>
+              <i class="bi bi-table"></i>&nbsp;Details of Affiliated Hospitals
+            </b>
+          </div>
+          <div class="card-body">
+            <div class="col-12" *ngFor="let item of viewrequest.MGThreeAffiliatedHospitalList">
+              <div class="row">
+                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                  <label>Name of Affiliated Hospitals</label>
+                  <input type="text" class="form-control disabled" [(ngModel)]="item.AffiliatedHospitalName" disabled />
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                  <label>Reason for affiliation</label>
+                  <input type="text" class="form-control disabled" [(ngModel)]="item.AffiliationReasonName" disabled />
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                  <label>If it is affiliated on Specialty ground, please mention the field of specialty. </label>
+                  <input type="text" class="form-control disabled" [(ngModel)]="item.SpecialtyAffiliation" disabled />
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                  <label>Name of Owner</label>
+                  <input type="text" class="form-control disabled" [(ngModel)]="item.OwnerName" disabled />
+                </div>
+              </div>
+              <div class="row" >
+                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                  <label >Bed Capacity </label>
+                  <input type="text" class="form-control disabled" [(ngModel)]="item.BedCapacity" disabled />
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                  <label >Number of deliveries per month as per Record of last one year</label>
+                  <input type="text" class="form-control disabled" [(ngModel)]="item.NumberDeliveries" disabled />
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                  <label >Distance from College</label>
+                  <input type="text" class="form-control disabled" [(ngModel)]="item.CollegeDistance" disabled />
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                  <label>MOU with affiliated hospitals</label>
+                  <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.HospitalMOU.includes('.pdf')" data-fancybox="gallery" href="{{item.HospitalMOUPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                  <label>
+                    Bed Occupancy (Certificate by Concern CMHO (With name and seal)
+                  </label>
+                  <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.BedOccupancy.includes('.pdf')" data-fancybox="gallery" href="{{item.BedOccupancyPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                </div>
+
+                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                  <label>
+                    Fire NOC
+                  </label>
+                  <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.FireNOC.includes('.pdf')" data-fancybox="gallery" href="{{item.FireNOCPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                  <label>
+                    Pollution Certificate/ Bio Medical waste Certificate
+                  </label>
+                  <a class="bi bi-file-earmark-pdf-fill" *ngIf="viewrequest.PollutionCertificate.includes('.pdf')" data-fancybox="gallery" href="{{HospitalData.PollutionCertificatePath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                  <label>
+                    Clinical Establishment certificate and Registration Number
+                  </label>
+                  <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.ClinicalEstablishment.includes('.pdf')" data-fancybox="gallery" href="{{item.ClinicalEstablishmentPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                  <label>
+                    NABH (if available)
+                  </label>
+                  <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.NABH.includes('.pdf')" data-fancybox="gallery" href="{{item.NABHPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                  <label>
+                    Undertaking for not affiliated with other institute as a parent hospital or as an affiliated Hospital.
+                  </label>
+                  <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.UndertakingNotAffiliated.includes('.pdf')" data-fancybox="gallery" href="{{item.UndertakingNotAffiliatedPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                  <label>
+                    Staff information
+                  </label>
+                  <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.StaffInformation.includes('.pdf')" data-fancybox="gallery" href="{{item.StaffInformationPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                </div>
+              </div>
+              <div class="row">
+                <div class="card">
+                  <div class="card-header">
+                    <b>
+                      <i class="bi bi-table"></i>&nbsp; Distribution of beds in different areas
+                    </b>
+                  </div>
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                        <label>Medical </label>
+                        <input type="text" class="form-control disabled" [(ngModel)]="item.MedicalBeds" disabled />
+                      </div>
+                      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                        <label>Surgery  </label>
+                        <input type="text" class="form-control disabled" [(ngModel)]="item.SurgicalBeds" disabled />
+                      </div>
+                      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                        <label>Obstetrics  </label>
+                        <input type="text" class="form-control disabled" [(ngModel)]="item.ObstetricsBeds" disabled />
+                      </div>
+                      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                        <label>Pediatrics </label>
+                        <input type="text" class="form-control disabled" [(ngModel)]="item.PediatricsBeds" disabled />
+                      </div>
+                      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                        <label>Orthopedics </label>
+                        <input type="text" class="form-control disabled" [(ngModel)]="item.OrthoBeds" disabled />
+                      </div>
+                      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                        <label>Psychiatry  </label>
+                        <input type="text" class="form-control disabled" [(ngModel)]="item.PsychiatryBeds" disabled />
+                      </div>
+                      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                        <label>Emergency medicine</label>
+                        <input type="text" class="form-control disabled" [(ngModel)]="item.EmergencyMedicineBeds" disabled />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>

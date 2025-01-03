@@ -232,7 +232,7 @@
     <div class="card-body">
       <div class="row">
         <div class="col-lg-3 col-md-3 col-sm-4 col-12 mb-3">
-          <label for="txtOwnBuildingOrderNo" class="form-label">Order No<span style="color:red;" *ngIf="!IsGovtCollege">*</span> </label>
+          <label for="txtOwnBuildingOrderNo" class="form-label">{{SelectedDepartmentID==6?'Name of Owner':'Order No'}}<span style="color:red;" *ngIf="!IsGovtCollege">*</span> </label>
           <input type="text" autocomplete="off" class="form-control" id="txtOwnBuildingOrderNo" name="txtOwnBuildingOrderNo" [(ngModel)]="buildingdetails.OwnBuildingOrderNo" formControlName="txtOwnBuildingOrderNo">
 
           <div *ngIf="isSubmitted&&form.txtOwnBuildingOrderNo.errors" class="text-danger">
@@ -240,7 +240,7 @@
           </div>
         </div>
 
-        <div class="col-lg-3 col-md-3 col-sm-4 col-12 mb-3">
+        <div class="col-lg-3 col-md-3 col-sm-4 col-12 mb-3" *ngIf="SelectedDepartmentID!=6">
           <label for="txtOwnBuildingOrderDate">Order Date<span *ngIf="!IsGovtCollege" style="color:red;">*</span></label>
           <input class="form-control" type="date" id="txtOwnBuildingOrderDate" [(ngModel)]="buildingdetails.OwnBuildingOrderDate" formControlName="txtOwnBuildingOrderDate" max="{{MaxDate | date:'yyyy-MM-dd'}}" onkeypress="return false;" />
           <div *ngIf="isSubmitted&&form.txtOwnBuildingOrderDate.errors" class="text-danger">
@@ -622,8 +622,8 @@
             <th>Pincode</th>-->
             <th>ContactNo</th>
             <th>Constructed Building Area</th>
-            <th>Own/Rented Order No</th>
-            <th>Own/Rented Order Date</th>
+            <th>{{SelectedDepartmentID ==6?'Name of Owner':'Own/Rented Order No'}}</th>
+            <th *ngIf="SelectedDepartmentID !=6">Own/Rented Order Date</th>
             <th>Fire NOC Order No</th>
             <th>From Date</th>
             <th>To Date</th>
@@ -674,7 +674,7 @@
             <td>{{item.ContactNo}}</td>
             <td>{{item.BuildingHostelQuartersRoadArea}}</td>
             <td>{{item.OwnBuildingOrderNo}}</td>
-            <td>{{item.OwnBuildingOrderDate}}</td>
+            <td *ngIf="SelectedDepartmentID !=6">{{item.OwnBuildingOrderDate}}</td>
             <td>{{item.FireNOCOrderNumber}}</td>
             <td>{{item.FromDate}}</td>
             <td>{{item.ToDate}}</td>

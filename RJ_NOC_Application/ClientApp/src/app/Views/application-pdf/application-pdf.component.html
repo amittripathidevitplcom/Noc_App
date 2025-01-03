@@ -1063,7 +1063,7 @@ font-size: 18px;">
                     <th>Sr. No</th>
                     <th>Building Details</th>
                     <th>Personal Info</th>
-                    <th>Own/Rent Order No. & Order Date </th>
+                    <th> {{SelectedDepartmentID ==6?'Name of Owner':'Own/Rent Order No. & Order Date'}} </th>
                     <th>Fire NOC Validity</th>
                     <th>Building Safety Certificate Order No. & Order Date</th>
                   </tr>
@@ -1165,12 +1165,12 @@ font-size: 18px;">
                     </td>
                     <td *ngIf="SelectedDepartmentID==2">{{item.AmountOrOtherSource==''?'N/A':item.AmountOrOtherSource}}</td>
                     <!--<td>
-                                  <a *ngIf="!item.FacilitiesUrl.includes('.pdf')" data-fancybox="gallery" href="{{item.FacilitiesUrlPath}}" data-caption="Image 10" title="click here to zoom">
-                                    <img src="{{item.FacilitiesUrlPath}}" alt="Facilities" style="    width: 50px !important;
-              height: 50px !important;" class="img-thumbnail" />
-                                  </a>
-                                  <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.FacilitiesUrl.includes('.pdf')" data-fancybox="gallery" href="{{item.FacilitiesUrlPath}}" data-caption="Image 10" title="click here to zoom" style="    font-size: 25px"></a>
-                                </td>-->
+                                        <a *ngIf="!item.FacilitiesUrl.includes('.pdf')" data-fancybox="gallery" href="{{item.FacilitiesUrlPath}}" data-caption="Image 10" title="click here to zoom">
+                                          <img src="{{item.FacilitiesUrlPath}}" alt="Facilities" style="    width: 50px !important;
+                    height: 50px !important;" class="img-thumbnail" />
+                                        </a>
+                                        <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.FacilitiesUrl.includes('.pdf')" data-fancybox="gallery" href="{{item.FacilitiesUrlPath}}" data-caption="Image 10" title="click here to zoom" style="    font-size: 25px"></a>
+                                      </td>-->
                   </tr>
                 </tbody>
               </table>
@@ -1369,12 +1369,12 @@ font-size: 18px;">
                     <td> {{item.Length*item.Width}}</td>
                     <td> {{item.StudentCapacity}}</td>
                     <!--<td>
-                                  <a *ngIf="!item.ImageFilePath.includes('.pdf')" data-fancybox="gallery" href="{{item.ImageFilePath}}" data-caption="Image 10" title="click here to zoom">
-                                    <img src="{{item.ImageFilePath}}" alt="Image/File" style="    width: 50px !important;
-              height: 50px !important;" class="img-thumbnail" />
-                                  </a>
-                                  <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.ImageFilePath.includes('.pdf')" data-fancybox="gallery" href="{{item.ImageFilePath}}" data-caption="Image 10" title="click here to zoom" style="    font-size: 25px"></a>
-                                </td>-->
+                                        <a *ngIf="!item.ImageFilePath.includes('.pdf')" data-fancybox="gallery" href="{{item.ImageFilePath}}" data-caption="Image 10" title="click here to zoom">
+                                          <img src="{{item.ImageFilePath}}" alt="Image/File" style="    width: 50px !important;
+                    height: 50px !important;" class="img-thumbnail" />
+                                        </a>
+                                        <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.ImageFilePath.includes('.pdf')" data-fancybox="gallery" href="{{item.ImageFilePath}}" data-caption="Image 10" title="click here to zoom" style="    font-size: 25px"></a>
+                                      </td>-->
                   </tr>
 
                 </tbody>
@@ -1448,21 +1448,21 @@ font-size: 18px;">
                       Timing of Library:{{item.LibraryTiming}}
                     </td>
                     <!--<td>
-                                  <a *ngIf="!item.ImageFilePath.includes('.pdf') && item.ImageFilePath!='N/A'" data-fancybox="gallery" href="{{item.ImageFilePath}}" data-caption="Image 10" title="click here to zoom">
-                                    <img src="{{item.ImageFilePath}}" alt="Image File" style="    width: 50px !important;
-              height: 50px !important;" class="img-thumbnail" />
-                                  </a>
-                                  <label *ngIf="item.ImageFilePath=='N/A'">{{item.ImageFilePath}}</label>
-                                  <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.ImageFilePath.includes('.pdf') && item.ImageFilePath!='N/A'" data-fancybox="gallery" href="{{item.ImageFilePath}}" data-caption="Image 10" title="click here to zoom" style="    font-size: 25px"></a>
-                                </td>
-                                <td>
-                                  <a *ngIf="!item.BookImageFilePath.includes('.pdf') && item.BookImageFilePath!='N/A'" data-fancybox="gallery" href="{{item.BookImageFilePath}}" data-caption="Image 10" title="click here to zoom">
-                                    <img src="{{item.BookImageFilePath}}" alt="Image File" style="    width: 50px !important;
-              height: 50px !important;" class="img-thumbnail" />
-                                  </a>
-                                  <label *ngIf="item.BookImageFilePath=='N/A'">{{item.BookImageFilePath}}</label>
-                                  <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.BookImageFilePath.includes('.pdf') && item.BookImageFilePath!='N/A'" data-fancybox="gallery" href="{{item.BookImageFilePath}}" data-caption="Image 10" title="click here to zoom" style="    font-size: 25px"></a>
-                                </td>-->
+                                        <a *ngIf="!item.ImageFilePath.includes('.pdf') && item.ImageFilePath!='N/A'" data-fancybox="gallery" href="{{item.ImageFilePath}}" data-caption="Image 10" title="click here to zoom">
+                                          <img src="{{item.ImageFilePath}}" alt="Image File" style="    width: 50px !important;
+                    height: 50px !important;" class="img-thumbnail" />
+                                        </a>
+                                        <label *ngIf="item.ImageFilePath=='N/A'">{{item.ImageFilePath}}</label>
+                                        <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.ImageFilePath.includes('.pdf') && item.ImageFilePath!='N/A'" data-fancybox="gallery" href="{{item.ImageFilePath}}" data-caption="Image 10" title="click here to zoom" style="    font-size: 25px"></a>
+                                      </td>
+                                      <td>
+                                        <a *ngIf="!item.BookImageFilePath.includes('.pdf') && item.BookImageFilePath!='N/A'" data-fancybox="gallery" href="{{item.BookImageFilePath}}" data-caption="Image 10" title="click here to zoom">
+                                          <img src="{{item.BookImageFilePath}}" alt="Image File" style="    width: 50px !important;
+                    height: 50px !important;" class="img-thumbnail" />
+                                        </a>
+                                        <label *ngIf="item.BookImageFilePath=='N/A'">{{item.BookImageFilePath}}</label>
+                                        <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.BookImageFilePath.includes('.pdf') && item.BookImageFilePath!='N/A'" data-fancybox="gallery" href="{{item.BookImageFilePath}}" data-caption="Image 10" title="click here to zoom" style="    font-size: 25px"></a>
+                                      </td>-->
                   </tr>
                 </tbody>
               </table>
@@ -1655,22 +1655,19 @@ font-size: 18px;">
                 </thead>
                 <tbody>
                   <tr>
-                    <th rowspan="2">Sr.No.</th>
-                    <th rowspan="2">Course</th>
-                    <th rowspan="2">NOC Type</th>
-                    <th rowspan="2">NOC Issue Year</th>
-                    <th rowspan="2" *ngIf="SelectedDepartmentID !=11">Issued for Year</th>
-                    <th rowspan="2">NOC No</th>
-                    <th rowspan="2">NOC Received On</th>
+                    <th>Sr.No.</th>
+                    <th>Course</th>
+                    <th>NOC Type</th>
+                    <th>NOC Issue Year</th>
+                    <th *ngIf="SelectedDepartmentID !=11">Issued for Year</th>
+                    <th>NOC No</th>
+                    <th>NOC Received On</th>
                     <!--<th>NOC Expire Date</th>-->
-                    <th rowspan="2" *ngIf="SelectedDepartmentID !=11">Subject Details</th>
-                    <th *ngIf="SelectedDepartmentID==11" colspan="3">First NCTE Recognition</th>
-                    <th *ngIf="SelectedDepartmentID==11" colspan="3">Revised/Latest Recognition</th>
-                    <th *ngIf="SelectedDepartmentID==11" colspan="3">First State NOC</th>
-                    <th *ngIf="SelectedDepartmentID==11" colspan="3">Revised/Latest State NOC</th>
-                  </tr>
-                  <tr>
-
+                    <th *ngIf="SelectedDepartmentID !=11">Subject Details</th>
+                    <th *ngIf="SelectedDepartmentID==11">First NCTE Recognition</th>
+                    <th *ngIf="SelectedDepartmentID==11">Revised/Latest Recognition</th>
+                    <th *ngIf="SelectedDepartmentID==11">First State NOC</th>
+                    <th *ngIf="SelectedDepartmentID==11">Revised/Latest State NOC</th>
                     <th *ngIf="SelectedDepartmentID==11">Order No</th>
                     <th *ngIf="SelectedDepartmentID==11">Date</th>
                     <th *ngIf="SelectedDepartmentID==11">Upload</th>
@@ -1695,9 +1692,6 @@ font-size: 18px;">
 
                     <!--<td>{{row.NOCExpireDate | date:'dd-MM-yyyy'}}</td>-->
                     <td *ngIf="SelectedDepartmentID !=11">
-
-
-                      et
                       <span *ngFor="let item of OldNocSubjectlst let idxe=index">
                         <span *ngIf="row.OldNocID == item.OldNocID">
 
@@ -1800,14 +1794,14 @@ font-size: 18px;">
         </div>
         <!--Hospital Details-->
         <!--Hospital Details-->
-        <div class="card-body" *ngIf="SelectedDepartmentID==6 || SelectedDepartmentID==5">
+        <div class="card-body" *ngIf="SelectedDepartmentID==5">
           <div class="row">
             <div class="table-responsive">
               <div *ngFor="let row of HospitalAllDatalst;let idx=index;">
                 <table class="table table-hover table-striped-columns text-left" id="HospitalDetailInfo" #content>
                   <thead>
                     <tr>
-                      <td colspan="3" style="font-weight:800; font-size:18px;"><b><i class="bi bi-table"></i>&nbsp;Hospital Detail : - {{row.HospitalName}}</b></td>
+                      <td colspan="4" style="font-weight:800; font-size:18px;"><b><i class="bi bi-table"></i>&nbsp;Hospital Detail : - {{row.HospitalName}}</b></td>
                     </tr>
                   </thead>
                   <tbody>
@@ -1880,7 +1874,7 @@ font-size: 18px;">
                   </tbody>
                   <tbody>
                     <tr>
-                      <td colspan="3" style="font-weight:800; font-size:18px;"><b><i class="bi bi-table"></i>&nbsp;Pollution Detail : -</b></td>
+                      <td colspan="4" style="font-weight:800; font-size:18px;"><b><i class="bi bi-table"></i>&nbsp;Pollution Detail : -</b></td>
                     </tr>
                     <tr>
                       <td>
@@ -1900,31 +1894,88 @@ font-size: 18px;">
 
                   <tbody>
                     <tr>
-                      <td colspan="3" style="font-weight:800; font-size:18px;"><b><i class="bi bi-table"></i>&nbsp;Distribution of beds in different areas : -</b></td>
+                      <td colspan="4" style="font-weight:800; font-size:18px;"><b><i class="bi bi-table"></i>&nbsp;Distribution of beds in different areas : -</b></td>
+                    </tr>
+                    <tr>
+                      <td colspan="4" style="font-weight:400; font-size:14px;"><b><i class="bi bi-table"></i>&nbsp;Medicine & Allied : -</b></td>
                     </tr>
                     <tr>
                       <td>
-                        <label>Medical :-{{row.MedicalBeds}}</label>
+                        <label>General Medicine  :-{{row.GeneralMedicinebed}}</label>
+
                       </td>
                       <td>
-                        <label>Surgical :-{{row.SurgicalBeds}}</label>
+                        <label>Paediatrics  :-{{row.PaediatricsBed}}</label>
                       </td>
                       <td>
-                        <label>Obst. & Gynaecology :-{{row.ObstAndGynaecologyBeds}}</label>
+                        <label>Skin and V.D. :-{{row.SkinandVDBed}} </label>
                       </td>
                       <td>
-                        <label>Pediatrics :{{row.PediatricsBeds}}</label>
+                        <label>Psychiatry  :-{{row.PsychiatryBed}}</label>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td colspan="4" style="font-weight:400; font-size:14px;"><b><i class="bi bi-table"></i>&nbsp;General Surgery : -</b></td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <label>General Surgery (including 10% Paediatric Surgery)  :-{{row.GeneralSurgeryBed}}</label>
+                      </td>
+                      <td>
+                        <label>Orthopaedics  :-{{row.SurgeryOrthopaedicsBed}}</label>
+                      </td>
+                      <td>
+                        <label>Ophthalmology  :-{{row.SurgeryOphthalmologyBed}}</label>
+                      </td>
+                      <td>
+                        <label>Otorhinolaryngology (ENT)  :-{{row.SurgeryOtorhinolaryngologyBed}}</label>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td colspan="4" style="font-weight:400; font-size:14px;"><b><i class="bi bi-table"></i>&nbsp;OBG : -</b></td>
+                    </tr>
+                    <tr>
+                      <td colspan="4">
+                        <label>Obstetrics and Gynaecology :-{{row.ObstetricsGynaecologyBed}}</label>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td colspan="4" style="font-weight:400; font-size:14px;"><b><i class="bi bi-table"></i>&nbsp;ICU : -</b></td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <label>ICU :-{{row.ICUBed}}</label>
+                      </td>
+                      <td>
+                        <label>ICCU :-{{row.ICCUBed}}</label>
+                      </td>
+                      <td>
+                        <label>RICU :-{{row.RICUBed}}</label>
+                      </td>
+                      <td>
+                        <label>SICU :-{{row.SICUBed}}</label>
                       </td>
                     </tr>
                     <tr>
                       <td>
-                        <label>Ortho :-{{row.OrthoBeds}}</label>
+                        <label>NICU :-{{row.NICUBed}}</label>
                       </td>
                       <td>
-                        <label>Bed Occupancy of the Hospital in percentege :-{{row.OccupancyPercentegeBeds}}</label>
+                        <label>PICU & Critical Care Burns ICU :-{{row.PICUBed}}</label>
+                      </td>
+                      <td colspan="2">
+                        <label>Grand Total :-{{row.ICUGrandTotalBed}}</label>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td colspan="4" style="font-weight:400; font-size:14px;"><b><i class="bi bi-table"></i>&nbsp; OT & ICU : -</b></td>
+                    </tr>
+                    <tr>
+                      <td colspan="3">
+                        <label>ICU [ICCUICU/Intensive Respiratory Care Unit/ PICU/NICU/Critical Care Burns Unit/Post-op Surgical Care Unit Obstetric HDU/ ICU :-{{row.OTICUBed}}</label>
                       </td>
                       <td>
-                        <label>Affiliation of psychiatric hospital beds :{{row.AffiliationPsychiatricBeds}}</label>
+                        <label>Casualty Beds :-{{row.CasualtyBeds}}</label>
                       </td>
                     </tr>
                   </tbody>
@@ -1933,7 +1984,7 @@ font-size: 18px;">
                     <tr>
                       <td>&nbsp;Super specialty hospital details :- </td>
                     </tr>
-                    <tr colspan="3" style="font-weight:800; font-size:18px;">Cardio Thoracic Nursing : - </tr>
+                    <tr colspan="4" style="font-weight:800; font-size:18px;">Cardio Thoracic Nursing : - </tr>
                     <tr>
                       <td>
                         <label>Total Beds :-{{row.CardioThoracicTotalBeds}}</label>
@@ -1948,7 +1999,7 @@ font-size: 18px;">
                         <label>ICU Beds :{{row.CardioThoracicICUBeds}}</label>
                       </td>
                     </tr>
-                    <tr colspan="3" style="font-weight:800; font-size:18px;">Critical Care Nursing :- </tr>
+                    <tr colspan="4" style="font-weight:800; font-size:18px;">Critical Care Nursing :- </tr>
                     <tr>
                       <td>
                         <label>Total Beds :-{{row.CriticalCareNursingTotalBeds}}</label>
@@ -1960,7 +2011,7 @@ font-size: 18px;">
                         <label>ICU Beds :{{row.CriticalCareNursingICUBeds}}</label>
                       </td>
                     </tr>
-                    <tr colspan="3" style="font-weight:800; font-size:18px;">Midwifery Nursing :- </tr>
+                    <tr colspan="4" style="font-weight:800; font-size:18px;">Midwifery Nursing :- </tr>
                     <tr>
                       <td>
                         <label>Total Beds :-{{row.MidwiferyNursingTotalBeds}}</label>
@@ -1978,13 +2029,13 @@ font-size: 18px;">
                         <label>Level III Neonatal Beds :{{row.LevelIIINeonatalBeds}}</label>
                       </td>
                     </tr>
-                    <tr colspan="3" style="font-weight:800; font-size:18px;">Neuro Science Nursing :- </tr>
+                    <tr colspan="4" style="font-weight:800; font-size:18px;">Neuro Science Nursing :- </tr>
                     <tr>
                       <td>
                         <label>Total Beds :-{{row.NeuroScienceNursingTotalBeds}}</label>
                       </td>
                     </tr>
-                    <tr colspan="3" style="font-weight:800; font-size:18px;">Oncology Nursing :- </tr>
+                    <tr colspan="4" style="font-weight:800; font-size:18px;">Oncology Nursing :- </tr>
                     <tr>
                       <td>
                         <label>Total Beds :-{{row.OncologyNursingTotalBeds}}</label>
@@ -2007,7 +2058,7 @@ font-size: 18px;">
                         <label>Diagnostic Beds :{{row.OncologyNursingDiagnosticBeds}}</label>
                       </td>
                     </tr>
-                    <tr colspan="3" style="font-weight:800; font-size:18px;">Orthopaedic & Rehabilitation Nursing:- </tr>
+                    <tr colspan="4" style="font-weight:800; font-size:18px;">Orthopaedic & Rehabilitation Nursing:- </tr>
                     <tr>
                       <td>
                         <label>Total Beds :-{{row.OrthopaedicRehabilitationNursingTotalBeds}}</label>
@@ -2019,7 +2070,7 @@ font-size: 18px;">
                         <label>Rehabilitation Beds :{{row.OrthopaedicRehabilitationNursingRehabilitationBeds}}</label>
                       </td>
                     </tr>
-                    <tr colspan="3" style="font-weight:800; font-size:18px;">Psychiatric Nursing:- </tr>
+                    <tr colspan="4" style="font-weight:800; font-size:18px;">Psychiatric Nursing:- </tr>
                     <tr>
                       <td>
                         <label>Total Beds :-{{row.PsychiatricNursingTotalBeds}}</label>
@@ -2042,7 +2093,7 @@ font-size: 18px;">
                         <label>De-Addiction Beds :-{{row.PsychiatricNursingDeAddictionBeds}}</label>
                       </td>
                     </tr>
-                    <tr colspan="3" style="font-weight:800; font-size:18px;">Neonatal Nursing :- </tr>
+                    <tr colspan="4" style="font-weight:800; font-size:18px;">Neonatal Nursing :- </tr>
                     <tr>
                       <td>
                         <label>Total Beds :-{{row.NeonatalNursingTotalBeds}}</label>
@@ -2054,7 +2105,7 @@ font-size: 18px;">
                         <label>NICU Beds  :{{row.NeonatalNursingNICUBeds}}</label>
                       </td>
                     </tr>
-                    <tr colspan="3" style="font-weight:800; font-size:18px;">Operation Room Nursing :- </tr>
+                    <tr colspan="4" style="font-weight:800; font-size:18px;">Operation Room Nursing :- </tr>
                     <tr>
                       <td>
                         <label>Total Beds :-{{row.OperationRoomNursingTotalBeds}}</label>
@@ -2083,7 +2134,7 @@ font-size: 18px;">
                         <label>ENT and Neuro Beds  :{{row.OperationRoomNursingENTAndNeuroBeds}}</label>
                       </td>
                     </tr>
-                    <tr colspan="3" style="font-weight:800; font-size:18px;">Emergency and Disaster Nursing :- </tr>
+                    <tr colspan="4" style="font-weight:800; font-size:18px;">Emergency and Disaster Nursing :- </tr>
                     <tr>
                       <td>
                         <label>Total Beds :-{{row.EmergencyAndDisasterNursingTotalBeds}}</label>
@@ -2099,7 +2150,7 @@ font-size: 18px;">
 
                   <tbody>
                     <tr>
-                      <td colspan="3" style="font-weight:800; font-size:18px;"><b><i class="bi bi-table"></i>&nbsp;Manage by :- </b></td>
+                      <td colspan="4" style="font-weight:800; font-size:18px;"><b><i class="bi bi-table"></i>&nbsp;Manage by :- </b></td>
                     </tr>
                     <tr>
                       <td>
@@ -2143,7 +2194,7 @@ font-size: 18px;">
 
                   <tbody>
                     <tr>
-                      <td colspan="3" style="font-weight:800; font-size:18px;"><b><i class="bi bi-table"></i>&nbsp;Owner : - </b></td>
+                      <td colspan="4" style="font-weight:800; font-size:18px;"><b><i class="bi bi-table"></i>&nbsp;Owner : - </b></td>
                     </tr>
                     <tr>
                       <td>
@@ -2187,7 +2238,7 @@ font-size: 18px;">
 
                   <tbody>
                     <tr>
-                      <td colspan="3" style="font-weight:800; font-size:18px;"><b><i class="bi bi-table"></i>&nbsp;Other :- </b></td>
+                      <td colspan="4" style="font-weight:800; font-size:18px;"><b><i class="bi bi-table"></i>&nbsp;Other :- </b></td>
                     </tr>
                     <tr>
                       <td>
@@ -2239,6 +2290,210 @@ font-size: 18px;">
           </div>
         </div>
 
+        <!--Hospital Details-->
+        <div class="card-body" *ngIf="SelectedDepartmentID==6">
+          <div class="row">
+            <div class="table-responsive">
+              <div>
+                <table class="table table-hover table-striped-columns text-left" id="MGThreeHospitalDetailInfo" #content>
+                  <thead>
+                    <tr>
+                      <td colspan="4" style="font-weight:800; font-size:18px;"><b><i class="bi bi-table"></i>&nbsp;Hospital Detail </b></td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let row of MGThreeHospitalDatalst;let idx=index;">
+                      <td>
+                        <label>Is the institute situated in Hilly/tribal Area? :-{{row.IsHillytribalArea}}</label>
+                        <br />
+                        <span *ngIf="row.IsHillytribalArea=='Yes'">Whether the institution has a Own/parent hospital or not : {{row.IsInstitutionParentHospital}}</span>
+                        <br />
+                        <span *ngIf="(row.IsHillytribalArea=='Yes' && row.IsInstitutionParentHospital=='Yes') || row.IsHillytribalArea=='No'">Hospital Status :-{{row.HospitalStatus}}</span>
+                        <br />
+                        <span *ngIf="(row.IsHillytribalArea=='Yes' && row.IsInstitutionParentHospital=='Yes') || row.IsHillytribalArea=='No'" style="font-weight:400; font-size:14px;"><b>&nbsp;Own/Parent Hospital Details</b>  <br /></span>
+                        <span *ngIf="(row.IsHillytribalArea=='Yes' && row.IsInstitutionParentHospital=='Yes') || row.IsHillytribalArea=='No'">
+                          <br />
+                          <label>Name of Own/Parent Hospital :-{{row.HospitalName}}</label>
+                          <br />
+                          <label>Registration No. :-{{row.RegistrationNo}}</label>
+                          <br />
+                          <label>Name of Owner :-{{row.OwnerName}}</label>
+                          <br />
+                          <label>Hospital Contact No. :-{{row.HospitalContactNo}}</label>
+                          <br />
+                          <label>Hospital Email ID :-{{row.HospitalEmailID}}</label>
+                          <br />
+                          <label>Address Line 1 :-{{row.AddressLine1}}</label>
+                          <br />
+                          <label>Address Line 2 :-{{row.AddressLine2}}</label>
+                          <br />
+                          <label>Area :-{{row.RuralUrban==1?'Rural':'Urban'}}</label>
+                          <br />
+                          <label>Division :-{{row.DivisionName}}</label>
+                          <br />
+                          <label>District :-{{row.DistrictName}}</label>
+                          <br />
+                          <label>Tehsil :-{{row.TehsilName}}</label>
+                          <br />
+                          <label *ngIf="row.RuralUrban==2">City :-{{row.CityName}}</label>
+                          <label *ngIf="row.RuralUrban==1">Panchayat Samiti :-{{row.PanchayatSamitiName}}</label>
+                          <br />
+                          <label>City/Town/Village :-{{row.CityTownVillage}}</label>
+                          <br />
+                          <label>Pincode :-{{row.Pincode}}</label>
+                          <br />
+                          <label>Bed Capacity :-{{row.BedCapacity}}</label>
+                          <br />
+                          <label>
+                            Number of deliveries per month <br />
+                            (Record of last one year) :-{{row.NumberofDeliveries}}
+                          </label>
+                          <br />
+                          <label>Distance from College :-{{row.CollegeDistance}}</label>
+                          <br />
+                          <label>
+                            MOU between Parental hospital & All the members of Trust/ Society/Company (MoU For 30 years minimum) :-     {{row.HospitalMOU!=''?'Yes':'No'}}
+                            <a class="bi bi-file-earmark-pdf-fill" *ngIf="row.HospitalMOU.includes('.pdf')" data-fancybox="gallery" href="{{row.HospitalMOUPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                          </label>
+                          <br />
+                          <label>
+                            Bed Occupancy (Certificate by Concern CMHO (With name and seal) :-{{row.BedOccupancy!=''?'Yes':'No'}}
+                            <a class="bi bi-file-earmark-pdf-fill" *ngIf="row.BedOccupancy.includes('.pdf')" data-fancybox="gallery" href="{{row.BedOccupancyPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                          </label>
+                          <br />
+                          <label>
+                            Fire NOC :-{{row.HospitalMOU!=''?'Yes':'No'}}
+                            <a class="bi bi-file-earmark-pdf-fill" *ngIf="row.FireNOC.includes('.pdf')" data-fancybox="gallery" href="{{row.FireNOCPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                          </label>
+                          <br />
+                          <label>
+                            Pollution Certificate/ Bio Medical waste Certificate :-{{row.PollutionCertificate!=''?'Yes':'No'}}
+                            <a class="bi bi-file-earmark-pdf-fill" *ngIf="row.PollutionCertificate.includes('.pdf')" data-fancybox="gallery" href="{{row.PollutionCertificatePath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                          </label>
+                          <br />
+                          <label>
+                            Clinical Establishment certificate and Registration Number :-{{row.ClinicalEstablishment!=''?'Yes':'No'}}
+                            <a class="bi bi-file-earmark-pdf-fill" *ngIf="row.ClinicalEstablishment.includes('.pdf')" data-fancybox="gallery" href="{{row.ClinicalEstablishmentPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                          </label>
+                          <br />
+                          <label>
+                            NABH (if available) :-{{row.NABH!=''?'Yes':'No'}}
+                            <a class="bi bi-file-earmark-pdf-fill" *ngIf="row.NABH.includes('.pdf')" data-fancybox="gallery" href="{{row.NABHPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                          </label>
+                          <br />
+                          <label>
+                            Undertaking for not affiliated with other institute as a parent hospital or as an affiliated Hospital. :-{{row.UndertakingNotAffiliated!=''?'Yes':'No'}}
+                            <a class="bi bi-file-earmark-pdf-fill" *ngIf="row.UndertakingNotAffiliated.includes('.pdf')" data-fancybox="gallery" href="{{row.UndertakingNotAffiliatedPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                          </label>
+                          <br />
+                          <label>
+                            Staff information :-{{row.StaffInformation!=''?'Yes':'No'}}
+                            <a class="bi bi-file-earmark-pdf-fill" *ngIf="row.StaffInformation.includes('.pdf')" data-fancybox="gallery" href="{{row.StaffInformationPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                          </label>
+                        </span>
+                        <span *ngIf="(row.IsHillytribalArea=='Yes' && row.IsInstitutionParentHospital=='Yes') || row.IsHillytribalArea=='No'" style="font-weight:400; font-size:14px;"><b>&nbsp;Distribution of beds in different areas</b>  <br /></span>
+                        <span *ngIf="(row.IsHillytribalArea=='Yes' && row.IsInstitutionParentHospital=='Yes') || row.IsHillytribalArea=='No'">
+                          <br />
+                          <label>Medical :-{{row.MedicalBeds}}</label>
+                          <br />
+                          <label>Surgery:-{{row.SurgicalBeds}}</label>
+                          <br />
+                          <label>Obstetrics:-{{row.ObstetricsBeds}}</label>
+                          <br />
+                          <label>Pediatrics:-{{row.PediatricsBeds}}</label>
+                          <br />
+                          <label>Orthopedics :-{{row.OrthoBeds}}</label>
+                          <br />
+                          <label>Psychiatry:-{{row.PsychiatryBeds}}</label>
+                          <br />
+                          <label>Emergency medicine:-{{row.EmergencyMedicineBeds}}</label>
+                        </span>
+                        <span style="font-weight:400; font-size:14px;" *ngIf="(row.IsHillytribalArea=='Yes' || row.IsHillytribalArea=='No') && row.MGThreeAffiliatedHospitalList!=null">
+                          <br /><b>&nbsp;Details of Affiliated Hospitals</b>
+                        </span>
+                        <span *ngFor="let item of row.MGThreeAffiliatedHospitalList">
+                          <br />
+                          <label>Name of Affiliated Hospitals :-{{item.AffiliatedHospitalName}}</label>
+                          <br />
+
+                          <label>Reason for affiliation :-{{item.AffiliationReasonName}}</label><br />
+
+                          <label>If it is affiliated on Specialty ground, please mention the field of specialty. :-{{item.SpecialtyAffiliation}}</label>
+                          <br />
+                          <label>Name of Owner :-{{item.OwnerName}}</label>
+                          <br />
+                          <label>Bed Capacity :-{{item.BedCapacity}}</label>
+                          <br />
+                          <label>Number of deliveries per month as per Record of last one year :-{{item.NumberDeliveries}}</label>
+                          <br />
+                          <label>Distance from College :-{{item.CollegeDistance}}</label>
+                          <br />
+                          <label>
+                            MOU with affiliated hospitals :-{{item.HospitalMOU!=''?'Yes':'No'}}
+                            <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.HospitalMOU.includes('.pdf')" data-fancybox="gallery" href="{{item.HospitalMOUPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                          </label>
+                          <br />
+                          <label>
+                            Bed Occupancy (Certificate by Concern CMHO (With name and seal) :-{{item.BedOccupancy!=''?'Yes':'No'}}
+                            <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.BedOccupancy.includes('.pdf')" data-fancybox="gallery" href="{{item.BedOccupancyPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                          </label>
+                          <br />
+                          <label>
+                            Fire NOC :-{{item.FireNOC!=''?'Yes':'No'}}
+                            <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.FireNOC.includes('.pdf')" data-fancybox="gallery" href="{{item.FireNOCPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                          </label>
+                          <br />
+                          <label>
+                            Pollution Certificate/ Bio Medical waste Certificate :-{{item.PollutionCertificate!=''?'Yes':'No'}}
+                            <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.PollutionCertificate.includes('.pdf')" data-fancybox="gallery" href="{{item.PollutionCertificatePath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                          </label>
+                          <br />
+                          <label>
+                            Clinical Establishment certificate and Registration Number :-{{item.HospitalMOU!=''?'Yes':'No'}}
+                            <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.ClinicalEstablishment.includes('.pdf')" data-fancybox="gallery" href="{{item.ClinicalEstablishmentPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                          </label>
+                          <br />
+                          <label>
+                            NABH (if available) :-{{item.NABH!=''?'Yes':'No'}}
+                            <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.NABH.includes('.pdf')" data-fancybox="gallery" href="{{item.NABHPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                          </label>
+                          <br />
+                          <label>
+                            Undertaking for not affiliated with other institute as a parent hospital or as an affiliated Hospital. :-{{item.UndertakingNotAffiliated!=''?'Yes':'No'}}
+                            <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.UndertakingNotAffiliated.includes('.pdf')" data-fancybox="gallery" href="{{item.UndertakingNotAffiliatedPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                          </label>
+                          <br />
+                          <label>
+                            Staff information :-{{item.StaffInformation!=''?'Yes':'No'}}
+                            <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.StaffInformation.includes('.pdf')" data-fancybox="gallery" href="{{item.StaffInformationPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                          </label>
+                          <br />
+                          <span style="font-weight:400; font-size:14px;"><b>&nbsp;Distribution of beds in different areas</b>  <br /></span>
+                          <span>
+                            <br />
+                            <label>Medical :-{{item.MedicalBeds}}</label>
+                            <br />
+                            <label>Surgery:-{{item.SurgicalBeds}}</label>
+                            <br />
+                            <label>Obstetrics:-{{item.ObstetricsBeds}}</label>
+                            <br />
+                            <label>Pediatrics:-{{item.PediatricsBeds}}</label>
+                            <br />
+                            <label>Orthopedics :-{{item.OrthoBeds}}</label>
+                            <br />
+                            <label>Psychiatry:-{{item.PsychiatryBeds}}</label>
+                            <br />
+                            <label>Emergency medicine:-{{item.EmergencyMedicineBeds}}</label>
+                          </span>
+                        </span>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
 
         <!--Para-Medical Hospital Details-->
         <div class="card-body" *ngIf="SelectedDepartmentID==9">
@@ -2247,8 +2502,8 @@ font-size: 18px;">
               <table class="table table-hover table-striped-columns text-left" id="ParaHospitalDetailInfo" #content>
                 <thead>
                   <!--<tr *ngIf="HospitalData.ParentHospitalID==2">
-              <td colspan="3" style="font-weight:800; font-size:18px;"><b><i class="bi bi-table"></i>&nbsp;Which affiliated hospitals would the organization like to associate with for clinical training</b></td>
-            </tr>-->
+                    <td colspan="3" style="font-weight:800; font-size:18px;"><b><i class="bi bi-table"></i>&nbsp;Which affiliated hospitals would the organization like to associate with for clinical training</b></td>
+                  </tr>-->
                   <tr>
                     <td colspan="3" style="font-weight:800; font-size:18px;"><b><i class="bi bi-table"></i>&nbsp;Hospital Detail</b></td>
                   </tr>
@@ -2343,6 +2598,7 @@ font-size: 18px;">
                     </td>
                     <td>
                       <label>Hospital Reg. No. :{{ParaHospitallst.HospitalRegNo}}</label>
+                      gN
                     </td>
                   </tr>
                 </tbody>
@@ -2353,18 +2609,15 @@ font-size: 18px;">
                 </thead>
                 <tbody>
                   <!--<tr *ngFor="let item of ParamedicalHospitalBedValidationList ; let idx =index">
-              <td>
-                <label>
-                  {{item.ColumnName}} :- {{item.Istextordropdown==2?item.ColumnValue==1?'Yes':'No':item.ColumnValue}}
-                </label>
-              </td>
-            </tr>-->
+                    <td>
+                      <label>
+                        {{item.ColumnName}} :- {{item.Istextordropdown==2?item.ColumnValue==1?'Yes':'No':item.ColumnValue}}
+                      </label>
+                    </td>
+                  </tr>-->
                 </tbody>
                 <thead *ngIf="IsShowSuperSpecialtyHospital">
-                  al
-                  t:
                   <tr>
-                    t:
                     <td colspan="3" style="font-weight:800; font-size:18px;"><b><i class="bi bi-table"></i>&nbsp;Super specialty hospital details</b></td>
                   </tr>
                 </thead>
@@ -3439,7 +3692,7 @@ font-size: 18px;">
         </div>
 
         <!--Offline Court Order Details-->
-        <div class="card-body" *ngIf="SelectedDepartmentID==9">
+        <div class="card-body" *ngIf="SelectedDepartmentID==9 || SelectedDepartmentID==6">
           <div class="row">
             <div class="table-responsive" *ngIf="courtOrderDataList.length>0">
               <table class="table table-hover table-striped-columns" id="courtOrder" #content>

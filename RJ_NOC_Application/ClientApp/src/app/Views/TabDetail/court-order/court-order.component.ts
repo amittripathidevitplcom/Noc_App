@@ -56,6 +56,7 @@ export class CourtOrderComponent {
         txtCivilPetitionNo: ['', Validators.required],
         ddlCourtName: ['', Validators.required],
         OrderDocumentName: [''],
+        fPetitionDocument: [''],
       })
   }
 
@@ -94,7 +95,10 @@ export class CourtOrderComponent {
       this.fileValidationMessage = 'This field is required .!';
       return
     }
-
+    if (this.SelectedDepartmentID == 6) {
+      this.courtOrderForm.get('txtOrderName')?.clearValidators();
+      this.courtOrderForm.get('txtOrderName')?.updateValueAndValidity();
+    }
     this.request.DepartmentID = this.SelectedDepartmentID;
     this.request.CollegeID = this.SelectedCollageID;
     this.request.UserID = this.sSOLoginDataModel.UserID;
@@ -130,108 +134,6 @@ export class CourtOrderComponent {
 
   }
 
-  async ValidateUploadImage(event: any, Type: string) {
-    try {
-      this.fileValidationMessage = '';
-      this.loaderService.requestStarted();
-      this.file = event.target.files[0];
-      if (this.file) {
-        if (Type == 'FileUpload') {
-          if (this.file.type == 'image/jpeg' || this.file.type == 'image/jpg' || this.file.type == 'application/pdf') {
-            //size validation
-            if (this.file.size > 2000000) {
-              this.fileValidationMessage = 'Select less then 2MB File';
-              this.toastr.error('Select less then 2MB File')
-              this.request.OrderDocumentName = '';
-              this.request.OrderDocumentNamePath = '';
-              this.request.OrderDocumentName_DisName = '';
-              return
-            }
-            else if (this.file.size < 499000) {
-              this.fileValidationMessage = 'Select more then 499kb File';
-              this.toastr.error('Select more then 499kb File')
-              this.request.OrderDocumentName = '';
-              this.request.OrderDocumentNamePath = '';
-              this.request.OrderDocumentName_DisName = '';
-              return
-            }
-
-            await this.fileUploadService.UploadDocument(this.file).then((data: any) => {
-              this.State = data['State'];
-              this.SuccessMessage = data['SuccessMessage'];
-              this.ErrorMessage = data['ErrorMessage'];
-              if (this.State == 0) {
-                if (Type == 'FileUpload') {
-                  this.request.OrderDocumentName = data['Data'][0]["FileName"];
-                  this.request.OrderDocumentName_DisName = data['Data'][0]["Dis_FileName"];
-                  this.request.OrderDocumentNamePath = data['Data'][0]["FilePath"];
-                }
-              }
-              if (this.State == 1) {
-                this.toastr.error(this.ErrorMessage)
-              }
-              else if (this.State == 2) {
-                this.toastr.warning(this.ErrorMessage)
-              }
-            });
-            this.file = document.getElementById('OrderDocumentName');
-            this.file.value = '';
-          }
-          else {
-            this.toastr.warning('Select Only jpg/jpeg/pdf');
-            // type validation
-            this.fileValidationMessage = 'Select Only jpg/jpeg/pdf';
-            return
-          }
-        }
-      }
-
-    }
-    catch (Ex) {
-      console.log(Ex);
-    }
-    finally {
-      setTimeout(() => {
-        this.loaderService.requestEnded();
-      }, 200);
-    }
-    this.file = document.getElementById('OrderDocument');
-    this.file.value = '';
-
-  }
-  async DeleteImage(file: string) {
-    try {
-
-      if (confirm("Are you sure you want to delete this ?")) {
-        this.loaderService.requestStarted();
-        // delete from server folder
-        await this.fileUploadService.DeleteDocument(file).then((data: any) => {
-          this.State = data['State'];
-          this.SuccessMessage = data['SuccessMessage'];
-          this.ErrorMessage = data['ErrorMessage'];
-          if (this.State == 0) {
-            this.request.OrderDocumentName = '';
-            this.request.OrderDocumentNamePath = '';
-            this.request.OrderDocumentName_DisName = '';
-          }
-          if (this.State == 1) {
-            this.toastr.error(this.ErrorMessage)
-          }
-          else if (this.State == 2) {
-            this.toastr.warning(this.ErrorMessage)
-          }
-        });
-      }
-    }
-    catch (Ex) {
-      console.log(Ex);
-    }
-    finally {
-      setTimeout(() => {
-        this.loaderService.requestEnded();
-      }, 200);
-    }
-  }
   async ResetControl() {
     try {
       this.loaderService.requestStarted();
@@ -248,6 +150,9 @@ export class CourtOrderComponent {
       this.request.OrderDocumentName = '';
       this.request.OrderDocumentNamePath = '';
       this.request.OrderDocumentName_DisName = '';
+      this.request.PetitionDocument = '';
+      this.request.PetitionDocumentPath = '';
+      this.request.PetitionDocument_DisName = '';
 
       const btnSave = document.getElementById('btnSave')
       if (btnSave) btnSave.innerHTML = "Save";
@@ -435,5 +340,113 @@ export class CourtOrderComponent {
       }, 200);
     }
 
+  }
+
+
+  async ValidateUploadImage(event: any, Type: string) {
+    try {
+      this.loaderService.requestStarted();
+      this.file = event.target.files[0];
+      if (this.file) {
+        // (Type != 'ConsentForm' && (this.file.type === 'image/jpeg' || this.file.type === 'image/jpg')) ||
+        if (this.file.type === 'application/pdf') {
+          //size validation
+          if (this.file.size > 2000000) {
+            this.toastr.warning('Please select less then 2 MB file');
+            this.ResetFileAndValidation(Type, '', '', '');
+            return
+          }
+          if (this.file.size < 100000) {
+            this.toastr.warning('Please select grater then 100 KB file');
+            this.ResetFileAndValidation(Type, '', '', '');
+            return
+          }
+        }
+        else {// type validation
+          this.toastr.warning('Please select only pdf file');
+          this.ResetFileAndValidation(Type, '', '', '');
+          return
+        }
+        // upload to server folder
+        this.fileUploadService.UploadDocument(this.file).then((data: any) => {
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          if (this.State == 0) {
+            this.ResetFileAndValidation(Type, data['Data'][0]["FileName"], data['Data'][0]["Dis_FileName"], data['Data'][0]["FilePath"]);
+          }
+          if (this.State == 1) {
+            this.toastr.error(this.ErrorMessage)
+          }
+          else if (this.State == 2) {
+            this.toastr.warning(this.ErrorMessage)
+          }
+        });
+      }
+      else {
+        this.ResetFileAndValidation(Type, '', '', '');
+      }
+    }
+    catch (ex) { console.log(ex) }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+  ResetFileAndValidation(type: string, name: string, dis_name: string, path: string) {
+    //event.target.value = '';
+    try {
+      this.loaderService.requestStarted();
+      if (type == 'OrderDocument') {
+        this.request.OrderDocumentName = name;
+        this.request.OrderDocumentName_DisName = dis_name;
+        this.request.OrderDocumentNamePath = path;
+        this.file = document.getElementById('OrderDocumentName');
+        this.file.value = '';
+      }
+      if (type == 'PetitionDocument') {
+        this.request.PetitionDocument = name;
+        this.request.PetitionDocument_DisName = dis_name;
+        this.request.PetitionDocumentPath = path;
+        this.file = document.getElementById('fPetitionDocument');
+        this.file.value = '';
+      }
+    }
+    catch (ex) { console.log(ex) }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+  async DeleteImage(Type: string, filename: string) {
+    let path: string = '';
+    try {
+      this.loaderService.requestStarted();
+      // delete from server folder
+      this.fileUploadService.DeleteDocument(filename).then((data: any) => {
+        this.State = data['State'];
+        this.SuccessMessage = data['SuccessMessage'];
+        this.ErrorMessage = data['ErrorMessage'];
+        if (this.State == 0) {
+          this.ResetFileAndValidation(Type, '', '', '');
+        }
+        if (this.State == 1) {
+          this.toastr.error(this.ErrorMessage)
+        }
+        else if (this.State == 2) {
+          this.toastr.warning(this.ErrorMessage)
+        }
+      });
+    }
+    catch (ex) { console.log(ex) }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
   }
 }

@@ -48,6 +48,7 @@ export class MGThreeHospitalComponent {
   public SelectedCollageID: number = 0;
   public SelectedDepartmentID: number = 0;
   public SelectedApplyNOCID: number = 0;
+  public ReasonForAffiliation: any = [];
   constructor(private TrusteeGeneralInfoService: TrusteeGeneralInfoService, private modalService: NgbModal, private hospitalDetailService: HospitalDetailService, private toastr: ToastrService, private loaderService: LoaderService, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private fileUploadService: FileUploadService, private societyService: SocityService) {
   }
   async ngOnInit() {
@@ -72,7 +73,7 @@ export class MGThreeHospitalComponent {
         txtCityTownVillage: ['', Validators.required],
         txtPincode: ['', [Validators.required, Validators.pattern(this.PinNoRegex)]],
         ddlSocietyMemberName: [''],
-        fHospitalMOU: ['', Validators.required],
+        fHospitalMOU: [''],
         txtBedCapacity: ['', Validators.required],
 
         txtMedicalBeds: ['', [Validators.required]],
@@ -86,19 +87,20 @@ export class MGThreeHospitalComponent {
         txtNumberofdeliveries: ['', [Validators.required]],
         txtCollegeDistance: ['', [Validators.required]],
 
-        fBedOccupancy: ['', Validators.required],
-        fFireNOC: ['', Validators.required],
-        fPollutionCertificate: ['', Validators.required],
-        fClinicalEstablishment: ['', Validators.required],
+        fBedOccupancy: [''],
+        fFireNOC: [''],
+        fPollutionCertificate: [''],
+        fClinicalEstablishment: [''],
         fNABH: [''],
-        fUndertakingNotAffiliated: ['', Validators.required],
-        fStaffInformation: ['', Validators.required],
+        fUndertakingNotAffiliated: [''],
+        fStaffInformation: [''],
       });
     this.AffiliatedHospitalForm = this.formBuilder.group(
       {
         txtAffiliatedHospitalName: ['', Validators.required],
-        txtAffiliationReason: ['', Validators.required],
+        ddlAffiliationReason: ['', DropdownValidators],
         txtSpecialtyAffiliation: [''],
+        ddlIsAnyAffiliatedHospital: [''],
         txtAffiliatedNameofOwner: ['', Validators.required],
 
         fAffiliatedHospitalMOU: ['', Validators.required],
@@ -110,6 +112,7 @@ export class MGThreeHospitalComponent {
         txtAffiliatedPediatricsBeds: ['', [Validators.required]],
         txtAffiliatedOrthoBeds: ['', [Validators.required]],
         txtAffiliatedPsychiatryBeds: ['', [Validators.required]],
+        txtAffiliatedEmergencyMedicineBeds: ['', [Validators.required]],
 
         txtAffiliatedNumberofdeliveries: ['', [Validators.required]],
         txtAffiliatedCollegeDistance: ['', [Validators.required]],
@@ -143,7 +146,7 @@ export class MGThreeHospitalComponent {
     }
 
     await this.LoadMaster();
-    await this.GetMGThreeHospitalDetailList_DepartmentCollegeWise(this.SelectedDepartmentID, this.SelectedCollageID,0);
+    await this.GetMGThreeHospitalDetailList_DepartmentCollegeWise(this.SelectedDepartmentID, this.SelectedCollageID, 0);
   }
   get form() { return this.HospitalForm.controls; }
   get affiliatedform() { return this.AffiliatedHospitalForm.controls; }
@@ -194,6 +197,14 @@ export class MGThreeHospitalComponent {
           this.ErrorMessage = data['ErrorMessage'];
           this.lstSocietyMemberName = data['Data'][0]['data'];
         }, error => console.error(error));
+      await this.commonMasterService.GetCommonMasterList_DepartmentAndTypeWise(6, 'ReasonForAffiliation')
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.ReasonForAffiliation = data['Data'];
+        }, error => console.error(error));
     }
     catch (Ex) {
       console.log(Ex);
@@ -206,6 +217,10 @@ export class MGThreeHospitalComponent {
   }
   async FillDivisionRelatedDDL(event: any, SelectedDivisionID: string) {
     try {
+      this.DistrictList = [];
+      this.TehsilList = [];
+      this.CityList = [];
+      this.PanchyatSamitiList = [];
       this.loaderService.requestStarted();
       const divisionId = Number(SelectedDivisionID);
       if (divisionId <= 0) {
@@ -237,6 +252,9 @@ export class MGThreeHospitalComponent {
       if (districtId <= 0) {
         return;
       }
+      this.TehsilList = [];
+      this.CityList = [];
+      this.PanchyatSamitiList = [];
       // Tehsil list
       await this.commonMasterService.GetTehsilByDistrictId(districtId)
         .then((data: any) => {
@@ -540,6 +558,7 @@ export class MGThreeHospitalComponent {
           PediatricsBeds: this.Affiliatedrequest.PediatricsBeds,
           OrthoBeds: this.Affiliatedrequest.OrthoBeds,
           PsychiatryBeds: this.Affiliatedrequest.PsychiatryBeds,
+          EmergencyMedicineBeds: this.Affiliatedrequest.EmergencyMedicineBeds,
           BedOccupancy: this.Affiliatedrequest.BedOccupancy,
           Dis_BedOccupancy: this.Affiliatedrequest.Dis_BedOccupancy,
           BedOccupancyPath: this.Affiliatedrequest.BedOccupancyPath,
@@ -596,8 +615,9 @@ export class MGThreeHospitalComponent {
     this.Affiliatedrequest.SurgicalBeds = this.request.MGThreeAffiliatedHospitalList[idx].SurgicalBeds;
     this.Affiliatedrequest.ObstetricsBeds = this.request.MGThreeAffiliatedHospitalList[idx].ObstetricsBeds;
     this.Affiliatedrequest.PediatricsBeds = this.request.MGThreeAffiliatedHospitalList[idx].PediatricsBeds;
-    this.Affiliatedrequest.OrthoBeds = this.request.MGThreeAffiliatedHospitalList[idx].PsychiatryBeds;
-    this.Affiliatedrequest.PsychiatryBeds = this.request.MGThreeAffiliatedHospitalList[idx].OrthoBeds;
+    this.Affiliatedrequest.OrthoBeds = this.request.MGThreeAffiliatedHospitalList[idx].OrthoBeds;
+    this.Affiliatedrequest.PsychiatryBeds = this.request.MGThreeAffiliatedHospitalList[idx].PsychiatryBeds;
+    this.Affiliatedrequest.EmergencyMedicineBeds = this.request.MGThreeAffiliatedHospitalList[idx].EmergencyMedicineBeds;
     this.Affiliatedrequest.BedOccupancy = this.request.MGThreeAffiliatedHospitalList[idx].BedOccupancy;
     this.Affiliatedrequest.Dis_BedOccupancy = this.request.MGThreeAffiliatedHospitalList[idx].Dis_BedOccupancy;
     this.Affiliatedrequest.BedOccupancyPath = this.request.MGThreeAffiliatedHospitalList[idx].BedOccupancyPath;
@@ -656,6 +676,41 @@ export class MGThreeHospitalComponent {
     if (((this.request.IsHillytribalArea == 'Yes' && this.request.IsInstitutionParentHospital == 'Yes') || this.request.IsHillytribalArea == 'No') && this.request.HospitalStatus == '') {
       this.isformvalid = false;
     }
+    if (((this.request.IsHillytribalArea == 'Yes' && this.request.IsInstitutionParentHospital == 'Yes') || this.request.IsHillytribalArea == 'No')) {
+      var TotalBed =
+        Number(this.request.MedicalBeds) +
+        Number(this.request.SurgicalBeds) +
+        Number(this.request.ObstetricsBeds) + Number(this.request.PediatricsBeds) + Number(this.request.OrthoBeds)
+        + Number(this.request.PsychiatryBeds) + Number(this.request.EmergencyMedicineBeds);
+      if (TotalBed < 100) {
+        this.toastr.warning('100 bed manadatory for own/parent hospital');
+        return;
+      }
+    }
+    if ((this.request.IsHillytribalArea == 'Yes' && this.request.IsInstitutionParentHospital == 'Yes') || this.request.IsHillytribalArea == 'No') {
+      if (this.request.HospitalMOU == '') {
+        this.isformvalid = false;
+      }
+      if (this.request.BedOccupancy == '') {
+        this.isformvalid = false;
+      }
+      if (this.request.FireNOC == '') {
+        this.isformvalid = false;
+      }
+      if (this.request.PollutionCertificate == '') {
+        this.isformvalid = false;
+      }
+      if (this.request.ClinicalEstablishment == '') {
+        this.isformvalid = false;
+      }
+      if (this.request.UndertakingNotAffiliated == '') {
+        this.isformvalid = false;
+      }
+      if (this.request.StaffInformation == '') {
+        this.isformvalid = false;
+      }
+    }
+
     if (((this.request.IsHillytribalArea == 'Yes' && this.request.IsInstitutionParentHospital == 'Yes') || this.request.IsHillytribalArea == 'No') && this.request.HospitalStatus == 'Own' && this.request.OwnerName == '') {
       this.isformvalid = false;
     }
@@ -685,8 +740,8 @@ export class MGThreeHospitalComponent {
       this.HospitalForm.get('txtCityTownVillage')?.updateValueAndValidity();
       this.HospitalForm.get('txtPincode')?.clearValidators();
       this.HospitalForm.get('txtPincode')?.updateValueAndValidity();
-      this.HospitalForm.get('fHospitalMOU')?.clearValidators();
-      this.HospitalForm.get('fHospitalMOU')?.updateValueAndValidity();
+      //this.HospitalForm.get('fHospitalMOU')?.clearValidators();
+      //this.HospitalForm.get('fHospitalMOU')?.updateValueAndValidity();
       this.HospitalForm.get('txtBedCapacity')?.clearValidators();
       this.HospitalForm.get('txtBedCapacity')?.updateValueAndValidity();
       this.HospitalForm.get('txtMedicalBeds')?.clearValidators();
@@ -707,18 +762,18 @@ export class MGThreeHospitalComponent {
       this.HospitalForm.get('ddlTehsilID')?.updateValueAndValidity();
       this.HospitalForm.get('ddlTehsilID')?.clearValidators();
       this.HospitalForm.get('ddlTehsilID')?.updateValueAndValidity();
-      this.HospitalForm.get('fBedOccupancy')?.clearValidators();
-      this.HospitalForm.get('fBedOccupancy')?.updateValueAndValidity();
-      this.HospitalForm.get('fFireNOC')?.clearValidators();
-      this.HospitalForm.get('fFireNOC')?.updateValueAndValidity();
-      this.HospitalForm.get('fPollutionCertificate')?.clearValidators();
-      this.HospitalForm.get('fPollutionCertificate')?.updateValueAndValidity();
-      this.HospitalForm.get('fClinicalEstablishment')?.clearValidators();
-      this.HospitalForm.get('fClinicalEstablishment')?.updateValueAndValidity();
-      this.HospitalForm.get('fUndertakingNotAffiliated')?.clearValidators();
-      this.HospitalForm.get('fUndertakingNotAffiliated')?.updateValueAndValidity();
-      this.HospitalForm.get('fStaffInformation')?.clearValidators();
-      this.HospitalForm.get('fStaffInformation')?.updateValueAndValidity();
+      //this.HospitalForm.get('fBedOccupancy')?.clearValidators();
+      //this.HospitalForm.get('fBedOccupancy')?.updateValueAndValidity();
+      //this.HospitalForm.get('fFireNOC')?.clearValidators();
+      //this.HospitalForm.get('fFireNOC')?.updateValueAndValidity();
+      //this.HospitalForm.get('fPollutionCertificate')?.clearValidators();
+      //this.HospitalForm.get('fPollutionCertificate')?.updateValueAndValidity();
+      //this.HospitalForm.get('fClinicalEstablishment')?.clearValidators();
+      //this.HospitalForm.get('fClinicalEstablishment')?.updateValueAndValidity();
+      //this.HospitalForm.get('fUndertakingNotAffiliated')?.clearValidators();
+      //this.HospitalForm.get('fUndertakingNotAffiliated')?.updateValueAndValidity();
+      //this.HospitalForm.get('fStaffInformation')?.clearValidators();
+      //this.HospitalForm.get('fStaffInformation')?.updateValueAndValidity();
       this.HospitalForm.get('txtCollegeDistance')?.clearValidators();
       this.HospitalForm.get('txtCollegeDistance')?.updateValueAndValidity();
       this.HospitalForm.get('txtNumberofdeliveries')?.clearValidators();
@@ -757,6 +812,19 @@ export class MGThreeHospitalComponent {
         return;
       }
     }
+    //var TotalBed = Number(this.request.MedicalBeds) + Number(this.request.SurgicalBeds) + Number(this.request.ObstetricsBeds)
+    //  + Number(this.request.PediatricsBeds) + Number(this.request.OrthoBeds)
+    //  + Number(this.request.PsychiatryBeds) + Number(this.request.EmergencyMedicineBeds);
+    //for (var i = 0; i < this.request.MGThreeAffiliatedHospitalList.length; i++) {
+    //  var TotalAffBed = Number(this.request.MGThreeAffiliatedHospitalList[i].MedicalBeds) + Number(this.request.MGThreeAffiliatedHospitalList[i].SurgicalBeds) + Number(this.request.MGThreeAffiliatedHospitalList[i].ObstetricsBeds)
+    //    + Number(this.request.MGThreeAffiliatedHospitalList[i].PediatricsBeds) + Number(this.request.MGThreeAffiliatedHospitalList[i].OrthoBeds)
+    //    + Number(this.request.MGThreeAffiliatedHospitalList[i].PsychiatryBeds) + Number(this.request.MGThreeAffiliatedHospitalList[i].EmergencyMedicineBeds);
+    //  TotalBed = TotalBed + TotalAffBed;
+    //}
+    //if (TotalBed < 180) {
+    //  this.toastr.warning('Total 180 bed requried');
+    //  return;
+    //}
     console.log(this.HospitalForm);
     if (!this.isformvalid) {
       return
@@ -772,7 +840,8 @@ export class MGThreeHospitalComponent {
           //console.log(this.State);
 
           if (!this.State) {
-            this.toastr.success(this.SuccessMessage)
+            this.toastr.success(this.SuccessMessage);
+            await this.GetMGThreeHospitalDetailList_DepartmentCollegeWise(this.SelectedDepartmentID, this.SelectedCollageID, 0);
             // reset
             this.ResetDetails();
           }
@@ -826,4 +895,107 @@ export class MGThreeHospitalComponent {
       }, 200);
     }
   }
+
+  async EditHospital(HospitalID: number) {
+    try {
+      this.loaderService.requestStarted();
+      await this.hospitalDetailService.GetMGThreeHospitalDetailList_DepartmentCollegeWise(this.SelectedDepartmentID, this.SelectedCollageID, HospitalID, this.SelectedApplyNOCID > 0 ? this.SelectedApplyNOCID : 0)
+        .then(async (data: any) => {
+
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          if (data['Data'].length > 0) {
+            this.request = data['Data'][0];
+            await this.FillDivisionRelatedDDL(null, this.request.DivisionID.toString());
+            await this.FillDistrictRelatedDDL(null, this.request.DistrictID.toString());
+            if (this.request.MGThreeAffiliatedHospitalList.length > 0) {
+              this.request.IsAnyAffiliatedHospital = 'Yes';
+            }
+            else {
+              this.request.IsAnyAffiliatedHospital = '';
+            }
+          }
+        }, error => console.error(error));
+    }
+    catch (ex) { console.log(ex) }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+
+
+  async DeleteHospitalDetail(HospitalID: number) {
+    this.isSubmitted = false;
+    try {
+      if (confirm("Are you sure you want to delete this ?")) {
+        this.loaderService.requestStarted();
+        await this.hospitalDetailService.DeleteHospitalDetail(HospitalID)
+          .then(async (data: any) => {
+            this.State = data['State'];
+            this.SuccessMessage = data['SuccessMessage'];
+            this.ErrorMessage = data['ErrorMessage'];
+            if (this.State == 0) {
+              this.toastr.success(this.SuccessMessage)
+              await this.GetMGThreeHospitalDetailList_DepartmentCollegeWise(this.SelectedDepartmentID, this.SelectedCollageID, 0);
+            }
+            else {
+              this.toastr.error(this.ErrorMessage)
+            }
+          })
+      }
+    }
+    catch (ex) { }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+  closeResult: string | undefined;
+  modalReference: NgbModalRef | undefined;
+  public viewrequest: any = {};
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return `with: ${reason}`;
+    }
+  }
+  async ViewHospitalDetail(content: any, HospitalID: number) {
+    this.viewrequest = {};
+    this.modalService.open(content, { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' }).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+    try {
+      this.loaderService.requestStarted();
+      await this.hospitalDetailService.GetMGThreeHospitalDetailList_DepartmentCollegeWise(this.SelectedDepartmentID, this.SelectedCollageID, HospitalID, this.SelectedApplyNOCID > 0 ? this.SelectedApplyNOCID : 0)
+        .then((data: any) => {
+
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.viewrequest = data['Data'][0];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
 }

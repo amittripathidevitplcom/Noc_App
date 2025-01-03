@@ -50,7 +50,7 @@
               <p *ngIf="form.txtWidth_Room.errors.min">Width will be greater than zero .!</p>
             </div>
             <div *ngIf="request.CourseID>0">
-              <p *ngIf="WidthMin>0" class="{{request.Width >= WidthMin_Dis ? '' : CssClass_TextDangerWidth}}">Please Enter Min size : {{WidthMin_Dis}} {{UnitType}}</p>
+              <p *ngIf="WidthMin>0 &&  SelectedDepartmentID != 6" class="{{request.Width >= WidthMin_Dis ? '' : CssClass_TextDangerWidth}}">Please Enter Min size : {{WidthMin_Dis}} {{UnitType}}</p>
             </div>
           </div>
           <div class="col-md-2 mb-2">
@@ -62,7 +62,7 @@
               <p *ngIf="form.txtLength_Room.errors.min">Length will be greater than zero .!</p>
             </div>
             <div *ngIf="request.CourseID>0">
-              <p *ngIf="LengthMin>0" class="{{request.Length >= LengthMin_Dis ? '' : CssClass_TextDangerLength}}">Please Enter Min size : {{LengthMin_Dis}} {{UnitType}}</p>
+              <p *ngIf="LengthMin>0&& SelectedDepartmentID != 6" class="{{request.Length >= LengthMin_Dis ? '' : CssClass_TextDangerLength}}">Please Enter Min size : {{LengthMin_Dis}} {{UnitType}}</p>
             </div>
           </div>
 
@@ -70,6 +70,7 @@
           <div class="col-md-2 mb-2">
             <label>Room Size ({{UnitType}})<span style="color:red;">*</span></label>
             <input type="text" class="form-control" value="{{request.Length * request.Width}}" disabled>
+            <p *ngIf="isSubmitted && SelectedDepartmentID == 6 && (request.Length * request.Width)<(LengthMin_Dis*WidthMin_Dis)" class="text-danger">Minimum Room Size Required : {{LengthMin_Dis*WidthMin_Dis}} Sq.Feet</p>
             <p *ngIf="isSubmitted && SelectedDepartmentID == 9 && request.StudentCapacity<26 && (request.Length * request.Width)<450" class="text-danger">Minimum Room Size Required : 450 Sq.Feet</p>
             <p *ngIf="isSubmitted && SelectedDepartmentID == 9 && request.StudentCapacity>25 && (request.Length * request.Width)<600" class="text-danger">Minimum Room Size Required : 600 Sq.Feet</p>
           </div>

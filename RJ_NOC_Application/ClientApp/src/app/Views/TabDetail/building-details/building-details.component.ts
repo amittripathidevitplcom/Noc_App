@@ -231,6 +231,11 @@ export class BuildingDetailsComponent implements OnInit {
       this.RangeType = 'in Sq. Meter';
       this.Owin_RentDocTitle = '';
     }
+    else if (this.SelectedDepartmentID == 6) {
+      this.SampleDocument = '';
+      this.RangeType = 'in Sq. Ft'
+      this.Owin_RentDocTitle = 'Ownership Documents';
+    }
     else if (this.SelectedDepartmentID == 1) {
       this.SampleDocument = '';
       this.RangeType = 'in hectare';
@@ -390,6 +395,8 @@ export class BuildingDetailsComponent implements OnInit {
       this.buildingdetailsForm.get('txtFireNOCOrderNumber')?.updateValueAndValidity();
       this.buildingdetailsForm.get('txtFromDate')?.updateValueAndValidity();
       this.buildingdetailsForm.get('txtToDate')?.updateValueAndValidity();
+      this.buildingdetailsForm.get('txtOwnBuildingOrderDate')?.clearValidators();
+      this.buildingdetailsForm.get('txtOwnBuildingOrderDate')?.updateValueAndValidity();
     }
     else {
       this.buildingdetailsForm.get('txtFireNOCOrderNumber')?.clearValidators();

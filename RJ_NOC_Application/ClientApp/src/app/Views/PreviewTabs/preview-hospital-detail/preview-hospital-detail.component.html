@@ -241,34 +241,132 @@
                 </b>
               </div>
               <div class="card-body">
-                <div class="row">
-                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                    <label><b>Medical :</b></label>
-                    <input class="form-control disabled" disabled value="{{HospitalData.MedicalBeds}}" />
+                <div class="card">
+                  <div class="card-header">
+                    <b>
+                      &nbsp; Medicine & Allied
+                    </b>
                   </div>
-                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                    <label><b>Surgical :</b></label>
-                    <input class="form-control disabled" disabled value="{{HospitalData.SurgicalBeds}}" />
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                        <label>General Medicine </label>
+                        <input class="form-control disabled" disabled value="{{HospitalData.GeneralMedicinebed}}" />
+
+                      </div>
+                      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                        <label>Paediatrics </label>
+                        <input class="form-control disabled" disabled value="{{HospitalData.PaediatricsBed}}" />
+                      </div>
+                      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                        <label>Skin and V.D. </label>
+                        <input class="form-control disabled" disabled value="{{HospitalData.SkinandVDBed}}" />
+                      </div>
+                      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                        <label>Psychiatry </label>
+                        <input class="form-control disabled" disabled value="{{HospitalData.PsychiatryBed}}" />
+                      </div>
+                    </div>
                   </div>
-                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                    <label><b>Obst. & Gynaecology :</b></label>
-                    <input class="form-control disabled" disabled value="{{HospitalData.ObstAndGynaecologyBeds}}" />
+                </div>
+                <div class="card">
+                  <div class="card-header">
+                    <b>
+                      &nbsp; Surgery & Allied
+                    </b>
                   </div>
-                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                    <label><b>Pediatrics :</b></label>
-                    <input class="form-control disabled" disabled value="{{HospitalData.PediatricsBeds}}" />
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                        <label>General Surgery (including 10% Paediatric Surgery) </label>
+                        <input class="form-control disabled" disabled value="{{HospitalData.GeneralSurgeryBed}}" />
+                      </div>
+                      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                        <label>Orthopaedics </label>
+                        <input class="form-control disabled" disabled value="{{HospitalData.SurgeryOrthopaedicsBed}}" />
+                      </div>
+                      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                        <label>Ophthalmology </label>
+                        <input class="form-control disabled" disabled value="{{HospitalData.SurgeryOphthalmologyBed}}" />
+                      </div>
+                      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                        <label>Otorhinolaryngology (ENT) </label>
+                        <input class="form-control disabled" disabled value="{{HospitalData.SurgeryOtorhinolaryngologyBed}}" />
+                      </div>
+                    </div>
                   </div>
-                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                    <label><b>Ortho :</b></label>
-                    <input class="form-control disabled" disabled value="{{HospitalData.OrthoBeds}}" />
+                </div>
+                <div class="card">
+                  <div class="card-header">
+                    <b>
+                      &nbsp; OBG
+                    </b>
                   </div>
-                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                    <label><b>Bed Occupancy of the Hospital in percentege :</b></label>
-                    <input class="form-control disabled" disabled value="{{HospitalData.OccupancyPercentegeBeds}}" />
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                        <label>Obstetrics and Gynaecology</label>
+                        <input class="form-control disabled" disabled value="{{HospitalData.ObstetricsGynaecologyBed}}" />
+                      </div>
+                    </div>
                   </div>
-                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                    <label><b>Affiliation of psychiatric hospital beds :</b></label>
-                    <input class="form-control disabled" disabled value="{{HospitalData.AffiliationPsychiatricBeds}}" />
+                </div>
+                <div class="card">
+                  <div class="card-header">
+                    <b>
+                      &nbsp; ICU
+                    </b>
+                  </div>
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                        <label>ICU</label>
+                        <input class="form-control disabled" disabled value="{{HospitalData.ICUBed}}" />
+                      </div>
+                      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                        <label>ICCU</label>
+                        <input class="form-control disabled" disabled value="{{HospitalData.ICCUBed}}" />
+                      </div>
+                      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                        <label>RICU</label>
+                        <input class="form-control disabled" disabled value="{{HospitalData.RICUBed}}" />
+                      </div>
+                      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                        <label>SICU</label>
+                        <input class="form-control disabled" disabled value="{{HospitalData.SICUBed}}" />
+                      </div>
+                      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                        <label>NICU</label>
+                        <input class="form-control disabled" disabled value="{{HospitalData.NICUBed}}" />
+                      </div>
+                      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                        <label>PICU & Critical Care Burns ICU</label>
+                        <input class="form-control disabled" disabled value="{{HospitalData.PICUBed}}" />
+                      </div>
+                      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                        <label>Grand Total</label>
+                        <input class="form-control disabled" disabled value="{{HospitalData.ICUGrandTotalBed}}" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="card">
+                  <div class="card-header">
+                    <b>
+                      &nbsp; OT & ICU
+                    </b>
+                  </div>
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
+                        <label>ICU [ICCUICU/Intensive Respiratory Care Unit/ PICU/NICU/Critical Care Burns Unit/Post-op Surgical Care Unit Obstetric HDU/ ICU</label>
+                        <input class="form-control disabled" disabled value="{{HospitalData.OTICUBed}}" />
+                      </div>
+                      <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
+                        <label>Casualty Beds</label>
+                        <input class="form-control disabled" disabled value="{{HospitalData.CasualtyBeds}}" />
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>

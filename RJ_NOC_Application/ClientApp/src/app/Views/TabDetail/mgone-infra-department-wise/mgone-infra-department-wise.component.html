@@ -12,11 +12,11 @@
         <table class="table">
           <tbody>
             <tr *ngFor="let items of item.MGOneFacilityDepartmentList; let idxx =index" [hidden]="items.IsHide">
-              <td style="width:2%"><b>•</b></td>
+              <!--<td style="width:2%"><b>•</b></td>-->
               <td style="width:60%;">
 
-                <div style="max-width: auto; white-space: normal;" *ngIf="items.ControlType=='Heading'"><b>{{items.Name}}</b><span class="text-danger" *ngIf="items.IsMandatory">*</span></div>
-                <div style="max-width: auto; white-space: normal;" *ngIf="items.ControlType!='Heading'">&nbsp;&nbsp;&nbsp;{{items.Name}}<span class="text-danger" *ngIf="items.IsMandatory">*</span></div>
+                <div style="max-width: auto; white-space: normal;" *ngIf="items.ControlType=='Heading'"><b>•&nbsp;</b><b>{{items.Name}}</b><span class="text-danger" *ngIf="items.IsMandatory">*</span></div>
+                <div style="max-width: auto; white-space: normal;" *ngIf="items.ControlType!='Heading'">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{items.Name}}<span class="text-danger" *ngIf="items.IsMandatory">*</span></div>
               </td>
               <td>
                 <select class="form-select" *ngIf="items.ControlType=='DropDown'" [(ngModel)]="items.Value" (change)="ShowHideRow(idx,idxx,items.ID)">

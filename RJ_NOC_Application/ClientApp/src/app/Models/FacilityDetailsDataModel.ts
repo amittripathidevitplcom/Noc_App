@@ -27,3 +27,20 @@ export class FacilityDetailsDataModel {
 }
 
 
+export class MGOneFacilityEachDataModel {
+  public CollegeID: number = 0;
+  public ID: number = 0;
+  public Name: string = "";
+  public Code: string = "";
+  public MinSize: number = 0;
+  public MinCapacity: number = 0;
+  public MinRequired: number = 0;
+  public Unit: string = "";
+  public Capacity: number = null;
+  public Size: number = null;
+  public Showbutton: boolean = false;
+  public IsSubmitted: boolean = false;
+  public OrderBy: number = 0;
+}
+
+

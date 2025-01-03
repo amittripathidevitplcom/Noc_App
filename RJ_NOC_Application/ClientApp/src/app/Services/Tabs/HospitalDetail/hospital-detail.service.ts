@@ -84,4 +84,12 @@ export class HospitalDetailService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
+
+  public async DeleteHospitalDetail(HospitalID: number) {
+    const headers = { 'content-type': 'application/json' }
+    return await this.http.post(this.APIUrl + "/DeleteHospitalDetail/" + HospitalID, { 'headers': headers })
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
 }

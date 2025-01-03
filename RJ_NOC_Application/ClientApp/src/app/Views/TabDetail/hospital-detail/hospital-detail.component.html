@@ -295,64 +295,242 @@
             </b>
           </div>
           <div class="card-body">
-            <div class="row">
-              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                <label>Medical <span style="color:red;">*</span></label>
-                <input class="form-control" type="text" [(ngModel)]="request.MedicalBeds" name="txtMedicalBeds" id="txtMedicalBeds" formControlName="txtMedicalBeds" (keypress)="NumberOnly($event)" maxlength="5" />
-                <div *ngIf="isSubmitted&&form.txtMedicalBeds.errors" class="text-danger">
-                  <p *ngIf="form.txtMedicalBeds.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-                  <p *ngIf="form.txtMedicalBeds.errors.min"><i aria-hidden="true"></i> Enter Value 30 or more</p>
-                </div>
+            <div class="card">
+              <div class="card-header">
+                <b>
+                  &nbsp; Medicine & Allied
+                </b>
               </div>
-              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                <label>Surgical <span style="color:red;">*</span></label>
-                <input class="form-control" type="text" [(ngModel)]="request.SurgicalBeds" name="txtSurgicalBeds" id="txtSurgicalBeds" formControlName="txtSurgicalBeds" (keypress)="NumberOnly($event)" maxlength="5" />
-                <div *ngIf="isSubmitted&&form.txtSurgicalBeds.errors" class="text-danger">
-                  <p *ngIf="form.txtSurgicalBeds.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-                  <p *ngIf="form.txtSurgicalBeds.errors.min"><i aria-hidden="true"></i> Enter Value 30 or more</p>
-                </div>
-              </div>
-              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                <label>Obst. & Gynaecology <span style="color:red;">*</span></label>
-                <input class="form-control" type="text" [(ngModel)]="request.ObstAndGynaecologyBeds" name="txtObstAndGynaecologyBeds" id="txtObstAndGynaecologyBeds" formControlName="txtObstAndGynaecologyBeds" (keypress)="NumberOnly($event)" maxlength="5" />
-                <div *ngIf="isSubmitted&&form.txtObstAndGynaecologyBeds.errors" class="text-danger">
-                  <p *ngIf="form.txtObstAndGynaecologyBeds.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-                  <p *ngIf="form.txtObstAndGynaecologyBeds.errors.min"><i aria-hidden="true"></i> Enter Value 30 or more</p>
-                </div>
-              </div>
-              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                <label>Pediatrics <span style="color:red;">*</span></label>
-                <input class="form-control" type="text" [(ngModel)]="request.PediatricsBeds" name="txtPediatricsBeds" id="txtPediatricsBeds" formControlName="txtPediatricsBeds" (keypress)="NumberOnly($event)" maxlength="5" />
-                <div *ngIf="isSubmitted&&form.txtPediatricsBeds.errors" class="text-danger">
-                  <p *ngIf="form.txtPediatricsBeds.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-                  <p *ngIf="form.txtPediatricsBeds.errors.min"><i aria-hidden="true"></i> Enter Value 20 or more</p>
-                </div>
-              </div>
-              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                <label>Ortho <span style="color:red;">*</span></label>
-                <input class="form-control" type="text" [(ngModel)]="request.OrthoBeds" name="txtOrthoBeds" id="txtOrthoBeds" formControlName="txtOrthoBeds" (keypress)="NumberOnly($event)" maxlength="5" />
-                <div *ngIf="isSubmitted&&form.txtOrthoBeds.errors" class="text-danger">
-                  <p *ngIf="form.txtOrthoBeds.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-                  <p *ngIf="form.txtOrthoBeds.errors.min"><i aria-hidden="true"></i> Enter Value 10 or more</p>
-                </div>
-              </div>
-              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                <label>Bed Occupancy of the Hospital in percentege <span style="color:red;">*</span></label>
-                <input class="form-control" type="text" [(ngModel)]="request.OccupancyPercentegeBeds" name="txtOccupancyPercentegeBeds" id="txtOccupancyPercentegeBeds" formControlName="txtOccupancyPercentegeBeds" (keypress)="NumberOnly($event)" maxlength="5" />
-                <div *ngIf="isSubmitted&&form.txtOccupancyPercentegeBeds.errors" class="text-danger">
-                  <p *ngIf="form.txtOccupancyPercentegeBeds.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-                  <p *ngIf="form.txtOccupancyPercentegeBeds.errors.min"><i aria-hidden="true"></i> Enter Value 75 or more</p>
-                </div>
-              </div>
-              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                <label>Affiliation of psychiatric hospital beds <span style="color:red;">*</span></label>
-                <input class="form-control" type="text" [(ngModel)]="request.AffiliationPsychiatricBeds" name="txtAffiliationPsychiatricBeds" id="txtAffiliationPsychiatricBeds" formControlName="txtAffiliationPsychiatricBeds" (keypress)="NumberOnly($event)" maxlength="5" />
-                <div *ngIf="isSubmitted&&form.txtAffiliationPsychiatricBeds.errors" class="text-danger">
-                  <p *ngIf="form.txtAffiliationPsychiatricBeds.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-                  <p *ngIf="form.txtAffiliationPsychiatricBeds.errors.min"><i aria-hidden="true"></i> Enter Value 50 or more</p>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                    <label>General Medicine <span style="color:red;">*</span></label>
+                    <input class="form-control" type="text" [(ngModel)]="request.GeneralMedicinebed" name="txtGeneralMedicine" id="txtGeneralMedicine" formControlName="txtGeneralMedicine" (keypress)="NumberOnly($event)" maxlength="5" />
+                    <div *ngIf="isSubmitted&&form.txtGeneralMedicine.errors" class="text-danger">
+                      <p *ngIf="form.txtGeneralMedicine.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                    <label>Paediatrics <span style="color:red;">*</span></label>
+                    <input class="form-control" type="text" [(ngModel)]="request.PaediatricsBed" name="txtPaediatricsBed" id="txtPaediatricsBed" formControlName="txtPaediatricsBed" (keypress)="NumberOnly($event)" maxlength="5" />
+                    <div *ngIf="isSubmitted&&form.txtPaediatricsBed.errors" class="text-danger">
+                      <p *ngIf="form.txtPaediatricsBed.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                    <label>Skin and V.D. <span style="color:red;">*</span></label>
+                    <input class="form-control" type="text" [(ngModel)]="request.SkinandVDBed" name="txtSkinandVDBed" id="txtSkinandVDBed" formControlName="txtSkinandVDBed" (keypress)="NumberOnly($event)" maxlength="5" />
+                    <div *ngIf="isSubmitted&&form.txtSkinandVDBed.errors" class="text-danger">
+                      <p *ngIf="form.txtSkinandVDBed.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                    <label>Psychiatry <span style="color:red;">*</span></label>
+                    <input class="form-control" type="text" [(ngModel)]="request.PsychiatryBed" name="txtPsychiatryBed" id="txtPsychiatryBed" formControlName="txtPsychiatryBed" (keypress)="NumberOnly($event)" maxlength="5" />
+                    <div *ngIf="isSubmitted&&form.txtPsychiatryBed.errors" class="text-danger">
+                      <p *ngIf="form.txtPsychiatryBed.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
+            <div class="card">
+              <div class="card-header">
+                <b>
+                  &nbsp; Surgery & Allied
+                </b>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                    <label>General Surgery (including 10% Paediatric Surgery) <span style="color:red;">*</span></label>
+                    <input class="form-control" type="text" [(ngModel)]="request.GeneralSurgeryBed" name="txtGeneralSurgery" id="txtGeneralSurgery" formControlName="txtGeneralSurgery" (keypress)="NumberOnly($event)" maxlength="5" />
+                    <div *ngIf="isSubmitted&&form.txtGeneralSurgery.errors" class="text-danger">
+                      <p *ngIf="form.txtGeneralSurgery.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                    <label>Orthopaedics <span style="color:red;">*</span></label>
+                    <input class="form-control" type="text" [(ngModel)]="request.SurgeryOrthopaedicsBed" name="txtSurgeryOrthopaedicsBed" id="txtSurgeryOrthopaedicsBed" formControlName="txtSurgeryOrthopaedicsBed" (keypress)="NumberOnly($event)" maxlength="5" />
+                    <div *ngIf="isSubmitted&&form.txtSurgeryOrthopaedicsBed.errors" class="text-danger">
+                      <p *ngIf="form.txtSurgeryOrthopaedicsBed.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                    <label>Ophthalmology <span style="color:red;">*</span></label>
+                    <input class="form-control" type="text" [(ngModel)]="request.SurgeryOphthalmologyBed" name="txtSurgeryOphthalmologyBed" id="txtSurgeryOphthalmologyBed" formControlName="txtSurgeryOphthalmologyBed" (keypress)="NumberOnly($event)" maxlength="5" />
+                    <div *ngIf="isSubmitted&&form.txtSurgeryOphthalmologyBed.errors" class="text-danger">
+                      <p *ngIf="form.txtSurgeryOphthalmologyBed.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                    <label>Otorhinolaryngology (ENT) <span style="color:red;">*</span></label>
+                    <input class="form-control" type="text" [(ngModel)]="request.SurgeryOtorhinolaryngologyBed" name="txtSurgeryOtorhinolaryngologyBed" id="txtSurgeryOtorhinolaryngologyBed" formControlName="txtSurgeryOtorhinolaryngologyBed" (keypress)="NumberOnly($event)" maxlength="5" />
+                    <div *ngIf="isSubmitted&&form.txtSurgeryOtorhinolaryngologyBed.errors" class="text-danger">
+                      <p *ngIf="form.txtSurgeryOtorhinolaryngologyBed.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-header">
+                <b>
+                  &nbsp; OBG
+                </b>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                    <label>Obstetrics and Gynaecology<span style="color:red;">*</span></label>
+                    <input class="form-control" type="text" [(ngModel)]="request.ObstetricsGynaecologyBed" name="txtObstetricsGynaecologyBed" id="txtObstetricsGynaecologyBed" formControlName="txtObstetricsGynaecologyBed" (keypress)="NumberOnly($event)" maxlength="5" />
+                    <div *ngIf="isSubmitted&&form.txtObstetricsGynaecologyBed.errors" class="text-danger">
+                      <p *ngIf="form.txtObstetricsGynaecologyBed.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-header">
+                <b>
+                  &nbsp; ICU
+                </b>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                    <label>ICU<span style="color:red;">*</span></label>
+                    <input class="form-control" type="text" [(ngModel)]="request.ICUBed" name="txtICUBed" id="txtICUBed" formControlName="txtICUBed" (keypress)="NumberOnly($event)" maxlength="5" (change)="ICUGrandTotalBed()"/>
+                    <div *ngIf="isSubmitted&&form.txtICUBed.errors" class="text-danger">
+                      <p *ngIf="form.txtICUBed.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                    <label>ICCU<span style="color:red;">*</span></label>
+                    <input class="form-control" type="text" [(ngModel)]="request.ICCUBed" name="txtICCUBed" id="txtICCUBed" formControlName="txtICCUBed" (keypress)="NumberOnly($event)" maxlength="5" (change)="ICUGrandTotalBed()"/>
+                    <div *ngIf="isSubmitted&&form.txtICCUBed.errors" class="text-danger">
+                      <p *ngIf="form.txtICCUBed.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                    <label>RICU<span style="color:red;">*</span></label>
+                    <input class="form-control" type="text" [(ngModel)]="request.RICUBed" name="txtRICUBed" id="txtRICUBed" formControlName="txtRICUBed" (keypress)="NumberOnly($event)" maxlength="5" (change)="ICUGrandTotalBed()"/>
+                    <div *ngIf="isSubmitted&&form.txtRICUBed.errors" class="text-danger">
+                      <p *ngIf="form.txtRICUBed.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                    <label>SICU<span style="color:red;">*</span></label>
+                    <input class="form-control" type="text" [(ngModel)]="request.SICUBed" name="txtSICUBed" id="txtSICUBed" formControlName="txtSICUBed" (keypress)="NumberOnly($event)" maxlength="5" (change)="ICUGrandTotalBed()"/>
+                    <div *ngIf="isSubmitted&&form.txtSICUBed.errors" class="text-danger">
+                      <p *ngIf="form.txtSICUBed.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                    <label>NICU<span style="color:red;">*</span></label>
+                    <input class="form-control" type="text" [(ngModel)]="request.NICUBed" name="txtNICUBed" id="txtNICUBed" formControlName="txtNICUBed" (keypress)="NumberOnly($event)" maxlength="5" (change)="ICUGrandTotalBed()"/>
+                    <div *ngIf="isSubmitted&&form.txtNICUBed.errors" class="text-danger">
+                      <p *ngIf="form.txtNICUBed.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                    <label>PICU & Critical Care Burns ICU<span style="color:red;">*</span></label>
+                    <input class="form-control" type="text" [(ngModel)]="request.PICUBed" name="txtPICUBed" id="txtPICUBed" formControlName="txtPICUBed" (keypress)="NumberOnly($event)" maxlength="5" (change)="ICUGrandTotalBed()"/>
+                    <div *ngIf="isSubmitted&&form.txtPICUBed.errors" class="text-danger">
+                      <p *ngIf="form.txtPICUBed.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                    <label>Grand Total</label>
+                    <input class="form-control disabled" type="text" [(ngModel)]="request.ICUGrandTotalBed" name="txtICUGrandTotalBed" id="txtICUGrandTotalBed" formControlName="txtICUGrandTotalBed" (keypress)="NumberOnly($event)" disabled maxlength="10" />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-header">
+                <b>
+                  &nbsp; OT & ICU
+                </b>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
+                    <label>ICU [ICCUICU/Intensive Respiratory Care Unit/ PICU/NICU/Critical Care Burns Unit/Post-op Surgical Care Unit Obstetric HDU/ ICU<span style="color:red;">*</span></label>
+                    <input class="form-control" type="text" [(ngModel)]="request.OTICUBed" name="txtOTICUBed" id="txtOTICUBed" formControlName="txtOTICUBed" (keypress)="NumberOnly($event)" maxlength="5" />
+                    <div *ngIf="isSubmitted&&form.txtOTICUBed.errors" class="text-danger">
+                      <p *ngIf="form.txtOTICUBed.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                    </div>
+                  </div>
+                  <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
+                    <label>Casualty Beds<span style="color:red;">*</span></label>
+                    <input class="form-control" type="text" [(ngModel)]="request.CasualtyBeds" name="txtCasualtyBeds" id="txtCasualtyBeds" formControlName="txtCasualtyBeds" (keypress)="NumberOnly($event)" maxlength="5" />
+                    <div *ngIf="isSubmitted&&form.txtCasualtyBeds.errors" class="text-danger">
+                      <p *ngIf="form.txtCasualtyBeds.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!--<div class="row">
+    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+      <label>Medical <span style="color:red;">*</span></label>
+      <input class="form-control" type="text" [(ngModel)]="request.MedicalBeds" name="txtMedicalBeds" id="txtMedicalBeds" formControlName="txtMedicalBeds" (keypress)="NumberOnly($event)" maxlength="5" />
+      <div *ngIf="isSubmitted&&form.txtMedicalBeds.errors" class="text-danger">
+        <p *ngIf="form.txtMedicalBeds.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+        <p *ngIf="form.txtMedicalBeds.errors.min"><i aria-hidden="true"></i> Enter Value 30 or more</p>
+      </div>
+    </div>
+    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+      <label>Surgical <span style="color:red;">*</span></label>
+      <input class="form-control" type="text" [(ngModel)]="request.SurgicalBeds" name="txtSurgicalBeds" id="txtSurgicalBeds" formControlName="txtSurgicalBeds" (keypress)="NumberOnly($event)" maxlength="5" />
+      <div *ngIf="isSubmitted&&form.txtSurgicalBeds.errors" class="text-danger">
+        <p *ngIf="form.txtSurgicalBeds.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+        <p *ngIf="form.txtSurgicalBeds.errors.min"><i aria-hidden="true"></i> Enter Value 30 or more</p>
+      </div>
+    </div>
+    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+      <label>Obst. & Gynaecology <span style="color:red;">*</span></label>
+      <input class="form-control" type="text" [(ngModel)]="request.ObstAndGynaecologyBeds" name="txtObstAndGynaecologyBeds" id="txtObstAndGynaecologyBeds" formControlName="txtObstAndGynaecologyBeds" (keypress)="NumberOnly($event)" maxlength="5" />
+      <div *ngIf="isSubmitted&&form.txtObstAndGynaecologyBeds.errors" class="text-danger">
+        <p *ngIf="form.txtObstAndGynaecologyBeds.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+        <p *ngIf="form.txtObstAndGynaecologyBeds.errors.min"><i aria-hidden="true"></i> Enter Value 30 or more</p>
+      </div>
+    </div>
+    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+      <label>Pediatrics <span style="color:red;">*</span></label>
+      <input class="form-control" type="text" [(ngModel)]="request.PediatricsBeds" name="txtPediatricsBeds" id="txtPediatricsBeds" formControlName="txtPediatricsBeds" (keypress)="NumberOnly($event)" maxlength="5" />
+      <div *ngIf="isSubmitted&&form.txtPediatricsBeds.errors" class="text-danger">
+        <p *ngIf="form.txtPediatricsBeds.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+        <p *ngIf="form.txtPediatricsBeds.errors.min"><i aria-hidden="true"></i> Enter Value 20 or more</p>
+      </div>
+    </div>
+    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+      <label>Ortho <span style="color:red;">*</span></label>
+      <input class="form-control" type="text" [(ngModel)]="request.OrthoBeds" name="txtOrthoBeds" id="txtOrthoBeds" formControlName="txtOrthoBeds" (keypress)="NumberOnly($event)" maxlength="5" />
+      <div *ngIf="isSubmitted&&form.txtOrthoBeds.errors" class="text-danger">
+        <p *ngIf="form.txtOrthoBeds.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+        <p *ngIf="form.txtOrthoBeds.errors.min"><i aria-hidden="true"></i> Enter Value 10 or more</p>
+      </div>
+    </div>
+    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+      <label>Bed Occupancy of the Hospital in percentege <span style="color:red;">*</span></label>
+      <input class="form-control" type="text" [(ngModel)]="request.OccupancyPercentegeBeds" name="txtOccupancyPercentegeBeds" id="txtOccupancyPercentegeBeds" formControlName="txtOccupancyPercentegeBeds" (keypress)="NumberOnly($event)" maxlength="5" />
+      <div *ngIf="isSubmitted&&form.txtOccupancyPercentegeBeds.errors" class="text-danger">
+        <p *ngIf="form.txtOccupancyPercentegeBeds.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+        <p *ngIf="form.txtOccupancyPercentegeBeds.errors.min"><i aria-hidden="true"></i> Enter Value 75 or more</p>
+      </div>
+    </div>
+    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+      <label>Affiliation of psychiatric hospital beds <span style="color:red;">*</span></label>
+      <input class="form-control" type="text" [(ngModel)]="request.AffiliationPsychiatricBeds" name="txtAffiliationPsychiatricBeds" id="txtAffiliationPsychiatricBeds" formControlName="txtAffiliationPsychiatricBeds" (keypress)="NumberOnly($event)" maxlength="5" />
+      <div *ngIf="isSubmitted&&form.txtAffiliationPsychiatricBeds.errors" class="text-danger">
+        <p *ngIf="form.txtAffiliationPsychiatricBeds.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+        <p *ngIf="form.txtAffiliationPsychiatricBeds.errors.min"><i aria-hidden="true"></i> Enter Value 50 or more</p>
+      </div>
+    </div>
+  </div>-->
           </div>
         </div>
 
@@ -1058,7 +1236,7 @@
                         {{row.HospitalDistance}}
                       </td>
                       <td>
-                        {{row.OccupancyPercentegeBeds}}
+                        <!--{{row.OccupancyPercentegeBeds}}-->
                       </td>
                       <td>
                         <div class="d-flex">
@@ -1260,6 +1438,7 @@
                       {{requestNot.ParentNotDocument === '' ? 'No File Choosen' : requestNot.Dis_ParentNotDocument}}
                     </label>
                     <div class="btn-group" *ngIf="requestNot.ParentNotDocument!=''">
+                      nt
                       <a class="btn btn-outline-primary" target="_blank" href="{{requestNot.ParentNotDocumentPath}}"><i class="fa fa-eye"></i></a>
                       <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('ParentNotDocument')"><i class="fa fa-trash-o"></i></button>
                     </div>
@@ -1362,64 +1541,242 @@
                   </b>
                 </div>
                 <div class="card-body">
-                  <div class="row">
-                    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                      <label>Medical <span style="color:red;">*</span></label>
-                      <input class="form-control" type="text" [(ngModel)]="requestNot.MedicalBeds" name="txtMedicalBeds" id="txtMedicalBeds" formControlName="txtMedicalBeds" (keypress)="NumberOnly($event)" maxlength="5" />
-                      <div *ngIf="isSubmitted_ParentNot&&form_ParentNot.txtMedicalBeds.errors" class="text-danger">
-                        <p *ngIf="form_ParentNot.txtMedicalBeds.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-                        <p *ngIf="form_ParentNot.txtMedicalBeds.errors.min"><i aria-hidden="true"></i> Enter Value 30 or more</p>
-                      </div>
+                  <div class="card">
+                    <div class="card-header">
+                      <b>
+                        &nbsp; Medicine & Allied
+                      </b>
                     </div>
-                    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                      <label>Surgical <span style="color:red;">*</span></label>
-                      <input class="form-control" type="text" [(ngModel)]="requestNot.SurgicalBeds" name="txtSurgicalBeds" id="txtSurgicalBeds" formControlName="txtSurgicalBeds" (keypress)="NumberOnly($event)" maxlength="5" />
-                      <div *ngIf="isSubmitted_ParentNot&&form_ParentNot.txtSurgicalBeds.errors" class="text-danger">
-                        <p *ngIf="form_ParentNot.txtSurgicalBeds.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-                        <p *ngIf="form_ParentNot.txtSurgicalBeds.errors.min"><i aria-hidden="true"></i> Enter Value 30 or more</p>
-                      </div>
-                    </div>
-                    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                      <label>Obst. & Gynaecology <span style="color:red;">*</span></label>
-                      <input class="form-control" type="text" [(ngModel)]="requestNot.ObstAndGynaecologyBeds" name="txtObstAndGynaecologyBeds" id="txtObstAndGynaecologyBeds" formControlName="txtObstAndGynaecologyBeds" (keypress)="NumberOnly($event)" maxlength="5" />
-                      <div *ngIf="isSubmitted_ParentNot&&form_ParentNot.txtObstAndGynaecologyBeds.errors" class="text-danger">
-                        <p *ngIf="form_ParentNot.txtObstAndGynaecologyBeds.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-                        <p *ngIf="form_ParentNot.txtObstAndGynaecologyBeds.errors.min"><i aria-hidden="true"></i> Enter Value 30 or more</p>
-                      </div>
-                    </div>
-                    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                      <label>Pediatrics <span style="color:red;">*</span></label>
-                      <input class="form-control" type="text" [(ngModel)]="requestNot.PediatricsBeds" name="txtPediatricsBeds" id="txtPediatricsBeds" formControlName="txtPediatricsBeds" (keypress)="NumberOnly($event)" maxlength="5" />
-                      <div *ngIf="isSubmitted_ParentNot&&form_ParentNot.txtPediatricsBeds.errors" class="text-danger">
-                        <p *ngIf="form_ParentNot.txtPediatricsBeds.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-                        <p *ngIf="form_ParentNot.txtPediatricsBeds.errors.min"><i aria-hidden="true"></i> Enter Value 20 or more</p>
-                      </div>
-                    </div>
-                    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                      <label>Ortho <span style="color:red;">*</span></label>
-                      <input class="form-control" type="text" [(ngModel)]="requestNot.OrthoBeds" name="txtOrthoBeds" id="txtOrthoBeds" formControlName="txtOrthoBeds" (keypress)="NumberOnly($event)" maxlength="5" />
-                      <div *ngIf="isSubmitted_ParentNot&&form_ParentNot.txtOrthoBeds.errors" class="text-danger">
-                        <p *ngIf="form_ParentNot.txtOrthoBeds.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-                        <p *ngIf="form_ParentNot.txtOrthoBeds.errors.min"><i aria-hidden="true"></i> Enter Value 10 or more</p>
-                      </div>
-                    </div>
-                    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                      <label>Bed Occupancy of the Hospital in percentege <span style="color:red;">*</span></label>
-                      <input class="form-control" type="text" [(ngModel)]="requestNot.OccupancyPercentegeBeds" name="txtOccupancyPercentegeBeds" id="txtOccupancyPercentegeBeds" formControlName="txtOccupancyPercentegeBeds" (keypress)="NumberOnly($event)" maxlength="5" />
-                      <div *ngIf="isSubmitted_ParentNot&&form_ParentNot.txtOccupancyPercentegeBeds.errors" class="text-danger">
-                        <p *ngIf="form_ParentNot.txtOccupancyPercentegeBeds.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-                        <p *ngIf="form_ParentNot.txtOccupancyPercentegeBeds.errors.min"><i aria-hidden="true"></i> Enter Value 75 or more</p>
-                      </div>
-                    </div>
-                    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                      <label>Affiliation of psychiatric hospital beds <span style="color:red;">*</span></label>
-                      <input class="form-control" type="text" [(ngModel)]="requestNot.AffiliationPsychiatricBeds" name="txtAffiliationPsychiatricBeds" id="txtAffiliationPsychiatricBeds" formControlName="txtAffiliationPsychiatricBeds" (keypress)="NumberOnly($event)" maxlength="5" />
-                      <div *ngIf="isSubmitted_ParentNot&&form_ParentNot.txtAffiliationPsychiatricBeds.errors" class="text-danger">
-                        <p *ngIf="form_ParentNot.txtAffiliationPsychiatricBeds.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-                        <p *ngIf="form_ParentNot.txtAffiliationPsychiatricBeds.errors.min"><i aria-hidden="true"></i> Enter Value 50 or more</p>
+                    <div class="card-body">
+                      <div class="row">
+                        <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                          <label>General Medicine <span style="color:red;">*</span></label>
+                          <input class="form-control" type="text" [(ngModel)]="requestNot.GeneralMedicinebed" name="txtGeneralMedicine" id="txtGeneralMedicine" formControlName="txtGeneralMedicine" (keypress)="NumberOnly($event)" maxlength="5" />
+                          <div *ngIf="isSubmitted_ParentNot&&form_ParentNot.txtGeneralMedicine.errors" class="text-danger">
+                            <p *ngIf="form_ParentNot.txtGeneralMedicine.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                          </div>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                          <label>Paediatrics <span style="color:red;">*</span></label>
+                          <input class="form-control" type="text" [(ngModel)]="requestNot.PaediatricsBed" name="txtPaediatricsBed" id="txtPaediatricsBed" formControlName="txtPaediatricsBed" (keypress)="NumberOnly($event)" maxlength="5" />
+                          <div *ngIf="isSubmitted_ParentNot&&form_ParentNot.txtPaediatricsBed.errors" class="text-danger">
+                            <p *ngIf="form_ParentNot.txtPaediatricsBed.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                          </div>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                          <label>Skin and V.D. <span style="color:red;">*</span></label>
+                          <input class="form-control" type="text" [(ngModel)]="requestNot.SkinandVDBed" name="txtSkinandVDBed" id="txtSkinandVDBed" formControlName="txtSkinandVDBed" (keypress)="NumberOnly($event)" maxlength="5" />
+                          <div *ngIf="isSubmitted_ParentNot&&form_ParentNot.txtSkinandVDBed.errors" class="text-danger">
+                            <p *ngIf="form_ParentNot.txtSkinandVDBed.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                          </div>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                          <label>Psychiatry <span style="color:red;">*</span></label>
+                          <input class="form-control" type="text" [(ngModel)]="requestNot.PsychiatryBed" name="txtPsychiatryBed" id="txtPsychiatryBed" formControlName="txtPsychiatryBed" (keypress)="NumberOnly($event)" maxlength="5" />
+                          <div *ngIf="isSubmitted_ParentNot&&form_ParentNot.txtPsychiatryBed.errors" class="text-danger">
+                            <p *ngIf="form_ParentNot.txtPsychiatryBed.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
+                  <div class="card">
+                    <div class="card-header">
+                      <b>
+                        &nbsp; Surgery & Allied
+                      </b>
+                    </div>
+                    <div class="card-body">
+                      <div class="row">
+                        <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                          <label>General Surgery (including 10% Paediatric Surgery) <span style="color:red;">*</span></label>
+                          <input class="form-control" type="text" [(ngModel)]="requestNot.GeneralSurgeryBed" name="txtGeneralSurgery" id="txtGeneralSurgery" formControlName="txtGeneralSurgery" (keypress)="NumberOnly($event)" maxlength="5" />
+                          <div *ngIf="isSubmitted_ParentNot&&form_ParentNot.txtGeneralSurgery.errors" class="text-danger">
+                            <p *ngIf="form_ParentNot.txtGeneralSurgery.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                          </div>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                          <label>Orthopaedics <span style="color:red;">*</span></label>
+                          <input class="form-control" type="text" [(ngModel)]="requestNot.SurgeryOrthopaedicsBed" name="txtSurgeryOrthopaedicsBed" id="txtSurgeryOrthopaedicsBed" formControlName="txtSurgeryOrthopaedicsBed" (keypress)="NumberOnly($event)" maxlength="5" />
+                          <div *ngIf="isSubmitted_ParentNot&&form_ParentNot.txtSurgeryOrthopaedicsBed.errors" class="text-danger">
+                            <p *ngIf="form_ParentNot.txtSurgeryOrthopaedicsBed.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                          </div>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                          <label>Ophthalmology <span style="color:red;">*</span></label>
+                          <input class="form-control" type="text" [(ngModel)]="requestNot.SurgeryOphthalmologyBed" name="txtSurgeryOphthalmologyBed" id="txtSurgeryOphthalmologyBed" formControlName="txtSurgeryOphthalmologyBed" (keypress)="NumberOnly($event)" maxlength="5" />
+                          <div *ngIf="isSubmitted_ParentNot&&form_ParentNot.txtSurgeryOphthalmologyBed.errors" class="text-danger">
+                            <p *ngIf="form_ParentNot.txtSurgeryOphthalmologyBed.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                          </div>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                          <label>Otorhinolaryngology (ENT) <span style="color:red;">*</span></label>
+                          <input class="form-control" type="text" [(ngModel)]="requestNot.SurgeryOtorhinolaryngologyBed" name="txtSurgeryOtorhinolaryngologyBed" id="txtSurgeryOtorhinolaryngologyBed" formControlName="txtSurgeryOtorhinolaryngologyBed" (keypress)="NumberOnly($event)" maxlength="5" />
+                          <div *ngIf="isSubmitted_ParentNot&&form_ParentNot.txtSurgeryOtorhinolaryngologyBed.errors" class="text-danger">
+                            <p *ngIf="form_ParentNot.txtSurgeryOtorhinolaryngologyBed.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="card">
+                    <div class="card-header">
+                      <b>
+                        &nbsp; OBG
+                      </b>
+                    </div>
+                    <div class="card-body">
+                      <div class="row">
+                        <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                          <label>Obstetrics and Gynaecology<span style="color:red;">*</span></label>
+                          <input class="form-control" type="text" [(ngModel)]="requestNot.ObstetricsGynaecologyBed" name="txtObstetricsGynaecologyBed" id="txtObstetricsGynaecologyBed" formControlName="txtObstetricsGynaecologyBed" (keypress)="NumberOnly($event)" maxlength="5" />
+                          <div *ngIf="isSubmitted_ParentNot&&form_ParentNot.txtObstetricsGynaecologyBed.errors" class="text-danger">
+                            <p *ngIf="form_ParentNot.txtObstetricsGynaecologyBed.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="card">
+                    <div class="card-header">
+                      <b>
+                        &nbsp; ICU
+                      </b>
+                    </div>
+                    <div class="card-body">
+                      <div class="row">
+                        <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                          <label>ICU<span style="color:red;">*</span></label>
+                          <input class="form-control" type="text" [(ngModel)]="requestNot.ICUBed" name="txtICUBed" id="txtICUBed" formControlName="txtICUBed" (keypress)="NumberOnly($event)" maxlength="5" (change)="ParentNotICUGrandTotalBed()"/>
+                          <div *ngIf="isSubmitted_ParentNot&&form_ParentNot.txtICUBed.errors" class="text-danger">
+                            <p *ngIf="form_ParentNot.txtICUBed.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                          </div>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                          <label>ICCU<span style="color:red;">*</span></label>
+                          <input class="form-control" type="text" [(ngModel)]="requestNot.ICCUBed" name="txtICCUBed" id="txtICCUBed" formControlName="txtICCUBed" (keypress)="NumberOnly($event)" maxlength="5" (change)="ParentNotICUGrandTotalBed()"/>
+                          <div *ngIf="isSubmitted_ParentNot&&form_ParentNot.txtICCUBed.errors" class="text-danger">
+                            <p *ngIf="form_ParentNot.txtICCUBed.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                          </div>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                          <label>RICU<span style="color:red;">*</span></label>
+                          <input class="form-control" type="text" [(ngModel)]="requestNot.RICUBed" name="txtRICUBed" id="txtRICUBed" formControlName="txtRICUBed" (keypress)="NumberOnly($event)" maxlength="5" (change)="ParentNotICUGrandTotalBed()"/>
+                          <div *ngIf="isSubmitted_ParentNot&&form_ParentNot.txtRICUBed.errors" class="text-danger">
+                            <p *ngIf="form_ParentNot.txtRICUBed.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                          </div>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                          <label>SICU<span style="color:red;">*</span></label>
+                          <input class="form-control" type="text" [(ngModel)]="requestNot.SICUBed" name="txtSICUBed" id="txtSICUBed" formControlName="txtSICUBed" (keypress)="NumberOnly($event)" maxlength="5" (change)="ParentNotICUGrandTotalBed()"/>
+                          <div *ngIf="isSubmitted_ParentNot&&form_ParentNot.txtSICUBed.errors" class="text-danger">
+                            <p *ngIf="form_ParentNot.txtSICUBed.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                          </div>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                          <label>NICU<span style="color:red;">*</span></label>
+                          <input class="form-control" type="text" [(ngModel)]="requestNot.NICUBed" name="txtNICUBed" id="txtNICUBed" formControlName="txtNICUBed" (keypress)="NumberOnly($event)" maxlength="5" (change)="ParentNotICUGrandTotalBed()"/>
+                          <div *ngIf="isSubmitted_ParentNot&&form_ParentNot.txtNICUBed.errors" class="text-danger">
+                            <p *ngIf="form_ParentNot.txtNICUBed.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                          </div>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                          <label>PICU & Critical Care Burns ICU<span style="color:red;">*</span></label>
+                          <input class="form-control" type="text" [(ngModel)]="requestNot.PICUBed" name="txtPICUBed" id="txtPICUBed" formControlName="txtPICUBed" (keypress)="NumberOnly($event)" maxlength="5" (change)="ParentNotICUGrandTotalBed()"/>
+                          <div *ngIf="isSubmitted_ParentNot&&form_ParentNot.txtPICUBed.errors" class="text-danger">
+                            <p *ngIf="form_ParentNot.txtPICUBed.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                          </div>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                          <label>Grand Total</label>
+                          <input class="form-control disabled" type="text" [(ngModel)]="requestNot.ICUGrandTotalBed" name="txtICUGrandTotalBed" id="txtICUGrandTotalBed" formControlName="txtICUGrandTotalBed" (keypress)="NumberOnly($event)" disabled maxlength="10" />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="card">
+                    <div class="card-header">
+                      <b>
+                        &nbsp; OT & ICU
+                      </b>
+                    </div>
+                    <div class="card-body">
+                      <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
+                          <label>ICU [ICCUICU/Intensive Respiratory Care Unit/ PICU/NICU/Critical Care Burns Unit/Post-op Surgical Care Unit Obstetric HDU/ ICU<span style="color:red;">*</span></label>
+                          <input class="form-control" type="text" [(ngModel)]="requestNot.OTICUBed" name="txtOTICUBed" id="txtOTICUBed" formControlName="txtOTICUBed" (keypress)="NumberOnly($event)" maxlength="5" />
+                          <div *ngIf="isSubmitted_ParentNot&&form_ParentNot.txtOTICUBed.errors" class="text-danger">
+                            <p *ngIf="form_ParentNot.txtOTICUBed.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                          </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
+                          <label>Casualty Beds<span style="color:red;">*</span></label>
+                          <input class="form-control" type="text" [(ngModel)]="requestNot.CasualtyBeds" name="txtCasualtyBeds" id="txtCasualtyBeds" formControlName="txtCasualtyBeds" (keypress)="NumberOnly($event)" maxlength="5" />
+                          <div *ngIf="isSubmitted_ParentNot&&form_ParentNot.txtCasualtyBeds.errors" class="text-danger">
+                            <p *ngIf="form_ParentNot.txtCasualtyBeds.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!--<div class="row">
+    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+      <label>Medical <span style="color:red;">*</span></label>
+      <input class="form-control" type="text" [(ngModel)]="requestNot.MedicalBeds" name="txtMedicalBeds" id="txtMedicalBeds" formControlName="txtMedicalBeds" (keypress)="NumberOnly($event)" maxlength="5" />
+      <div *ngIf="isSubmitted_ParentNot&&form_ParentNot.txtMedicalBeds.errors" class="text-danger">
+        <p *ngIf="form_ParentNot.txtMedicalBeds.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+        <p *ngIf="form_ParentNot.txtMedicalBeds.errors.min"><i aria-hidden="true"></i> Enter Value 30 or more</p>
+      </div>
+    </div>
+    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+      <label>Surgical <span style="color:red;">*</span></label>
+      <input class="form-control" type="text" [(ngModel)]="requestNot.SurgicalBeds" name="txtSurgicalBeds" id="txtSurgicalBeds" formControlName="txtSurgicalBeds" (keypress)="NumberOnly($event)" maxlength="5" />
+      <div *ngIf="isSubmitted_ParentNot&&form_ParentNot.txtSurgicalBeds.errors" class="text-danger">
+        <p *ngIf="form_ParentNot.txtSurgicalBeds.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+        <p *ngIf="form_ParentNot.txtSurgicalBeds.errors.min"><i aria-hidden="true"></i> Enter Value 30 or more</p>
+      </div>
+    </div>
+    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+      <label>Obst. & Gynaecology <span style="color:red;">*</span></label>
+      <input class="form-control" type="text" [(ngModel)]="requestNot.ObstAndGynaecologyBeds" name="txtObstAndGynaecologyBeds" id="txtObstAndGynaecologyBeds" formControlName="txtObstAndGynaecologyBeds" (keypress)="NumberOnly($event)" maxlength="5" />
+      <div *ngIf="isSubmitted_ParentNot&&form_ParentNot.txtObstAndGynaecologyBeds.errors" class="text-danger">
+        <p *ngIf="form_ParentNot.txtObstAndGynaecologyBeds.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+        <p *ngIf="form_ParentNot.txtObstAndGynaecologyBeds.errors.min"><i aria-hidden="true"></i> Enter Value 30 or more</p>
+      </div>
+    </div>
+    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+      <label>Pediatrics <span style="color:red;">*</span></label>
+      <input class="form-control" type="text" [(ngModel)]="requestNot.PediatricsBeds" name="txtPediatricsBeds" id="txtPediatricsBeds" formControlName="txtPediatricsBeds" (keypress)="NumberOnly($event)" maxlength="5" />
+      <div *ngIf="isSubmitted_ParentNot&&form_ParentNot.txtPediatricsBeds.errors" class="text-danger">
+        <p *ngIf="form_ParentNot.txtPediatricsBeds.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+        <p *ngIf="form_ParentNot.txtPediatricsBeds.errors.min"><i aria-hidden="true"></i> Enter Value 20 or more</p>
+      </div>
+    </div>
+    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+      <label>Ortho <span style="color:red;">*</span></label>
+      <input class="form-control" type="text" [(ngModel)]="requestNot.OrthoBeds" name="txtOrthoBeds" id="txtOrthoBeds" formControlName="txtOrthoBeds" (keypress)="NumberOnly($event)" maxlength="5" />
+      <div *ngIf="isSubmitted_ParentNot&&form_ParentNot.txtOrthoBeds.errors" class="text-danger">
+        <p *ngIf="form_ParentNot.txtOrthoBeds.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+        <p *ngIf="form_ParentNot.txtOrthoBeds.errors.min"><i aria-hidden="true"></i> Enter Value 10 or more</p>
+      </div>
+    </div>
+    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+      <label>Bed Occupancy of the Hospital in percentege <span style="color:red;">*</span></label>
+      <input class="form-control" type="text" [(ngModel)]="requestNot.OccupancyPercentegeBeds" name="txtOccupancyPercentegeBeds" id="txtOccupancyPercentegeBeds" formControlName="txtOccupancyPercentegeBeds" (keypress)="NumberOnly($event)" maxlength="5" />
+      <div *ngIf="isSubmitted_ParentNot&&form_ParentNot.txtOccupancyPercentegeBeds.errors" class="text-danger">
+        <p *ngIf="form_ParentNot.txtOccupancyPercentegeBeds.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+        <p *ngIf="form_ParentNot.txtOccupancyPercentegeBeds.errors.min"><i aria-hidden="true"></i> Enter Value 75 or more</p>
+      </div>
+    </div>
+    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+      <label>Affiliation of psychiatric hospital beds <span style="color:red;">*</span></label>
+      <input class="form-control" type="text" [(ngModel)]="requestNot.AffiliationPsychiatricBeds" name="txtAffiliationPsychiatricBeds" id="txtAffiliationPsychiatricBeds" formControlName="txtAffiliationPsychiatricBeds" (keypress)="NumberOnly($event)" maxlength="5" />
+      <div *ngIf="isSubmitted_ParentNot&&form_ParentNot.txtAffiliationPsychiatricBeds.errors" class="text-danger">
+        <p *ngIf="form_ParentNot.txtAffiliationPsychiatricBeds.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+        <p *ngIf="form_ParentNot.txtAffiliationPsychiatricBeds.errors.min"><i aria-hidden="true"></i> Enter Value 50 or more</p>
+      </div>
+    </div>
+  </div>-->
                 </div>
               </div>
               <div class="card">
@@ -1956,34 +2313,132 @@
             </b>
           </div>
           <div class="card-body">
-            <div class="row">
-              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                <label><b>Medical :</b></label>
-                <input class="form-control disabled" disabled value="{{HospitalData.MedicalBeds}}" />
+            <div class="card">
+              <div class="card-header">
+                <b>
+                  &nbsp; Medicine & Allied
+                </b>
               </div>
-              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                <label><b>Surgical :</b></label>
-                <input class="form-control disabled" disabled value="{{HospitalData.SurgicalBeds}}" />
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                    <label>General Medicine </label>
+                    <input class="form-control disabled" disabled value="{{HospitalData.GeneralMedicinebed}}" />
+                 
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                    <label>Paediatrics </label>
+                    <input class="form-control disabled" disabled value="{{HospitalData.PaediatricsBed}}" />
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                    <label>Skin and V.D. </label>
+                    <input class="form-control disabled" disabled value="{{HospitalData.SkinandVDBed}}" />
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                    <label>Psychiatry </label>
+                    <input class="form-control disabled" disabled value="{{HospitalData.PsychiatryBed}}" />
+                  </div>
+                </div>
               </div>
-              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                <label><b>Obst. & Gynaecology :</b></label>
-                <input class="form-control disabled" disabled value="{{HospitalData.ObstAndGynaecologyBeds}}" />
+            </div>
+            <div class="card">
+              <div class="card-header">
+                <b>
+                  &nbsp; Surgery & Allied
+                </b>
               </div>
-              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                <label><b>Pediatrics :</b></label>
-                <input class="form-control disabled" disabled value="{{HospitalData.PediatricsBeds}}" />
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                    <label>General Surgery (including 10% Paediatric Surgery) </label>
+                    <input class="form-control disabled" disabled value="{{HospitalData.GeneralSurgeryBed}}" />
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                    <label>Orthopaedics </label>
+                    <input class="form-control disabled" disabled value="{{HospitalData.SurgeryOrthopaedicsBed}}" />
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                    <label>Ophthalmology </label>
+                    <input class="form-control disabled" disabled value="{{HospitalData.SurgeryOphthalmologyBed}}" />
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                    <label>Otorhinolaryngology (ENT) </label>
+                    <input class="form-control disabled" disabled value="{{HospitalData.SurgeryOtorhinolaryngologyBed}}" />
+                  </div>
+                </div>
               </div>
-              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                <label><b>Ortho :</b></label>
-                <input class="form-control disabled" disabled value="{{HospitalData.OrthoBeds}}" />
+            </div>
+            <div class="card">
+              <div class="card-header">
+                <b>
+                  &nbsp; OBG
+                </b>
               </div>
-              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                <label><b>Bed Occupancy of the Hospital in percentege :</b></label>
-                <input class="form-control disabled" disabled value="{{HospitalData.OccupancyPercentegeBeds}}" />
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                    <label>Obstetrics and Gynaecology</label>
+                    <input class="form-control disabled" disabled value="{{HospitalData.ObstetricsGynaecologyBed}}" />
+                  </div>
+                </div>
               </div>
-              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                <label><b>Affiliation of psychiatric hospital beds :</b></label>
-                <input class="form-control disabled" disabled value="{{HospitalData.AffiliationPsychiatricBeds}}" />
+            </div>
+            <div class="card">
+              <div class="card-header">
+                <b>
+                  &nbsp; ICU
+                </b>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                    <label>ICU</label>
+                    <input class="form-control disabled" disabled value="{{HospitalData.ICUBed}}" />
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                    <label>ICCU</label>
+                    <input class="form-control disabled" disabled value="{{HospitalData.ICCUBed}}" />
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                    <label>RICU</label>
+                    <input class="form-control disabled" disabled value="{{HospitalData.RICUBed}}" />
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                    <label>SICU</label>
+                    <input class="form-control disabled" disabled value="{{HospitalData.SICUBed}}" />
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                    <label>NICU</label>
+                    <input class="form-control disabled" disabled value="{{HospitalData.NICUBed}}" />
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                    <label>PICU & Critical Care Burns ICU</label>
+                    <input class="form-control disabled" disabled value="{{HospitalData.PICUBed}}" />
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                    <label>Grand Total</label>
+                    <input class="form-control disabled" disabled value="{{HospitalData.ICUGrandTotalBed}}" />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-header">
+                <b>
+                  &nbsp; OT & ICU
+                </b>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
+                    <label>ICU [ICCUICU/Intensive Respiratory Care Unit/ PICU/NICU/Critical Care Burns Unit/Post-op Surgical Care Unit Obstetric HDU/ ICU</label>
+                    <input class="form-control disabled" disabled value="{{HospitalData.OTICUBed}}" />
+                  </div>
+                  <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
+                    <label>Casualty Beds</label>
+                    <input class="form-control disabled" disabled value="{{HospitalData.CasualtyBeds}}" />
+                  </div>
+                </div>
               </div>
             </div>
           </div>

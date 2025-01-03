@@ -382,12 +382,12 @@ export class RoomDetailsComponent implements OnInit {
 
     //}
     //console.log(this.WidthMin);
-    if (Number(this.request.Width) < Number(this.WidthMin)) {
+    if ((Number(this.request.Width) < Number(this.WidthMin)) && this.SelectedDepartmentID!=6) {
       this.CssClass_TextDangerWidth = 'text-danger';
       this.toastr.warning('Please Enter Min Width size : ' + this.WidthMin);
       this.isformvalid = false;
     }
-    if (Number(this.request.Length) < Number(this.LengthMin)) {
+    if ((Number(this.request.Length) < Number(this.LengthMin)) && this.SelectedDepartmentID != 6) {
       this.CssClass_TextDangerLength = 'text-danger';
       this.toastr.warning('Please Enter Min Length size : ' + this.LengthMin);
       //this.toastr.warning('Please Enter Min size : ' + this.WidthMin + ' sq.ft');
@@ -427,8 +427,8 @@ export class RoomDetailsComponent implements OnInit {
     if (this.SelectedDepartmentID == 6) {
       let ReqSize = 900;
 
-      if ((this.request.Length * this.request.Width) < 900) {
-        this.toastr.error('Minimum Room Size Required : 900 Sq.Feet');
+      if ((this.request.Length * this.request.Width) < (Number(this.WidthMin) * Number(this.LengthMin))) {
+        //this.toastr.error('Minimum Room Size Required : 900 Sq.Feet');
         this.isformvalid = false;
       }
     }

@@ -187,7 +187,7 @@ export class ApplicationPDFComponent implements OnInit {
       await this.GetOtherDocuments();
       if (this.SelectedDepartmentID == 6) {
         await this.GetHospitalRelatedDocuments();
-       
+        await this.GetMGThreeHospitalDetailList_DepartmentCollegeWise();
       }
       if (this.SelectedDepartmentID == 9) {
         await this.GetAllClinicalFacilityList();
@@ -371,7 +371,7 @@ export class ApplicationPDFComponent implements OnInit {
       
       pDFData.push({ "ContentName": "#OtherDocumentDetails" })
       if (this.SelectedDepartmentID == 6) {
-        pDFData.push({ "ContentName": "#OtherHospitalRealtedDocumentDetails" })
+        //pDFData.push({ "ContentName": "#OtherHospitalRealtedDocumentDetails" })
       }
 
       if (this.SelectedDepartmentID == 3) {
@@ -391,11 +391,15 @@ export class ApplicationPDFComponent implements OnInit {
       }
       if (this.SelectedDepartmentID == 3 || this.SelectedDepartmentID == 6 || this.SelectedDepartmentID == 4) {
         pDFData.push({ "ContentName": "#HostelDetial" })
-        pDFData.push({ "ContentName": "#HospitalDetailInfo" })
+        //pDFData.push({ "ContentName": "#HospitalDetailInfo" })
 
       }
-      if (this.SelectedDepartmentID == 6 || this.SelectedDepartmentID == 5) {
+      if (this.SelectedDepartmentID == 5) {
         pDFData.push({ "ContentName": "#HospitalDetailInfo" })
+      }
+      if (this.SelectedDepartmentID == 6) {
+        pDFData.push({ "ContentName": "#MGThreeHospitalDetailInfo" })
+        pDFData.push({ "ContentName": "#courtOrder" })
       }
       if (this.SelectedDepartmentID == 9) {
         pDFData.push({ "ContentName": "#ParaHospitalDetailInfo" })
@@ -1913,6 +1917,32 @@ export class ApplicationPDFComponent implements OnInit {
           
           this.MGOneClassRoomDepartmentList = data['Data'];
 
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+
+
+  public MGThreeHospitalDatalst: any = [];
+  async GetMGThreeHospitalDetailList_DepartmentCollegeWise() {
+    try {
+      this.loaderService.requestStarted();
+      await this.hospitalDetailService.GetMGThreeHospitalDetailList_DepartmentCollegeWise(this.SelectedDepartmentID, this.SelectedCollageID, 0, 0)
+        .then((data: any) => {
+
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.MGThreeHospitalDatalst = data['Data'];
         }, error => console.error(error));
     }
     catch (Ex) {

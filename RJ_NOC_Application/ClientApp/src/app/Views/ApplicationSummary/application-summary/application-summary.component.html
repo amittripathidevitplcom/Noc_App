@@ -330,9 +330,20 @@
 
 
 
+  <div class="col-md-12" *ngIf="SelectedDepartmentID==6">
+    <div class="card mb-0">
+      <div class="card-header">
+        <b><i class="bi bi-table"></i>Hospital Details</b>
+      </div>
+      <div class="card-body">
+        <div class="col-md-12">
+          <app-preview-mgthree-hospital-details></app-preview-mgthree-hospital-details>
+        </div>
+      </div>
+    </div>
+  </div>
 
-
-  <div class="col-md-12" *ngIf="SelectedDepartmentID==6 || SelectedDepartmentID==5">
+  <div class="col-md-12" *ngIf="SelectedDepartmentID==5">
     <div class="card mb-0">
       <div class="card-header">
         <b><i class="bi bi-table"></i>Hospital Details</b>
@@ -405,6 +416,18 @@
       </div>
     </div>
   </div>
+  <div class="col-md-12" *ngIf="SelectedDepartmentID==9 ||SelectedDepartmentID==6">
+    <div class="card mb-0">
+      <div class="card-header">
+        <b><i class="bi bi-table"></i>Court Order Details</b>
+      </div>
+      <div class="card-body">
+        <div class="col-md-12">
+          <app-preview-court-order></app-preview-court-order>
+        </div>
+      </div>
+    </div>
+  </div>
   <div class="col-md-12" *ngIf="SelectedDepartmentID==1">
     <div class="card mb-0">
       <div class="card-header">
@@ -454,18 +477,7 @@
     </div>
   </div>
 
-  <div class="col-md-12" *ngIf="SelectedDepartmentID==9">
-    <div class="card mb-0">
-      <div class="card-header">
-        <b><i class="bi bi-table"></i>Court Order Details</b>
-      </div>
-      <div class="card-body">
-        <div class="col-md-12">
-          <app-preview-court-order></app-preview-court-order>
-        </div>
-      </div>
-    </div>
-  </div>
+
 
 
   <div class="col-md-12" *ngIf="SelectedDepartmentID==9">

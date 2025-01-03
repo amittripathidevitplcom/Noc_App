@@ -140,6 +140,30 @@ export class HospitalDataModel {
   public CityName_Other: string = '';
 
 
+  public GeneralMedicinebed: number = null;
+  public PaediatricsBed: number = null;
+  public SkinandVDBed: number = null;
+  public PsychiatryBed: number = null;
+
+  public GeneralSurgeryBed: number = null;
+  public SurgeryOrthopaedicsBed: number = null;
+  public SurgeryOphthalmologyBed: number = null;
+  public SurgeryOtorhinolaryngologyBed: number = null;
+
+  public ObstetricsGynaecologyBed: number = null;
+
+  public ICUBed: number = null;
+  public ICCUBed: number = null;
+  public RICUBed: number = null;
+
+  public SICUBed: number = null;
+  public NICUBed: number = null;
+  public PICUBed: number = null;
+  public ICUGrandTotalBed: number = 0;
+
+  public OTICUBed: number = null;
+  public CasualtyBeds: number = null;
+
 }
 export class HospitalParentNotDataModel {// not have parent
   public ParentHospitalID: number = 0;
@@ -219,6 +243,31 @@ export class HospitalParentNotDataModel {// not have parent
 
   public CityID_Owner: number = 0;
   public CityName_Owner: string = '';
+
+
+  public GeneralMedicinebed: number = null;
+  public PaediatricsBed: number = null;
+  public SkinandVDBed: number = null;
+  public PsychiatryBed: number = null;
+
+  public GeneralSurgeryBed: number = null;
+  public SurgeryOrthopaedicsBed: number = null;
+  public SurgeryOphthalmologyBed: number = null;
+  public SurgeryOtorhinolaryngologyBed: number = null;
+
+  public ObstetricsGynaecologyBed: number = null;
+
+  public ICUBed: number = null;
+  public ICCUBed: number = null;
+  public RICUBed: number = null;
+
+  public SICUBed: number = null;
+  public NICUBed: number = null;
+  public PICUBed: number = null;
+  public ICUGrandTotalBed: number = 0;
+
+  public OTICUBed: number = null;
+  public CasualtyBeds: number = null;
 }
 export class MGThreeHospitalDataModel {
   public CollegeID: number = 0;
@@ -282,6 +331,7 @@ export class MGThreeHospitalDataModel {
   public StaffInformation: string = '';
   public Dis_StaffInformation: string = '';
   public StaffInformationPath: string = '';
+  public IsAnyAffiliatedHospital: string = '';
 
   public MGThreeAffiliatedHospitalList: MGThreeAffiliatedHospitalDataModel[] = [];
 }
@@ -289,7 +339,8 @@ export class MGThreeHospitalDataModel {
 export class MGThreeAffiliatedHospitalDataModel {
   public CollegeID: number = 0;
   public AffiliatedHospitalName: string = '';
-  public AffiliationReason: string = '';
+  public AffiliationReason: number = 0;
+ // public AffiliationReasonName: string = '';
   public SpecialtyAffiliation: string = '';
   public OwnerName: string = '';
   public BedCapacity: number = null;
@@ -306,6 +357,7 @@ export class MGThreeAffiliatedHospitalDataModel {
   public PediatricsBeds: number = null;
   public OrthoBeds: number = null;
   public PsychiatryBeds: number = null;
+  public EmergencyMedicineBeds: number = null;
 
 
   public BedOccupancy: string = '';

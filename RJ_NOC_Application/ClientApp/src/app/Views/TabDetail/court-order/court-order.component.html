@@ -12,6 +12,7 @@
                 [(ngModel)]="AnyCase">
           <option value="">--Select--</option>
           <option value="Yes">Yes</option>
+          <option value="No">No</option>
         </select>
       </div>
     </div>
@@ -30,13 +31,27 @@
           </div>
         </div>
         <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-          <label class="form-label">Civil Petition No <span style="color:red;">*</span></label>
+          <label class="form-label">{{SelectedDepartmentID==6?'Writ':'Civil'}} Petition No <span style="color:red;">*</span></label>
           <input type="text" class="form-control" id="txtCivilPetitionNo" name="txtCivilPetitionNo" [(ngModel)]="request.CivilPetitionNo" formControlName="txtCivilPetitionNo" />
           <div *ngIf="isSubmitted&&form.txtCivilPetitionNo.errors" class="text-danger">
             <p *ngIf="form.txtCivilPetitionNo.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
           </div>
         </div>
         <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+          <label class="form-label">Upload the Petition Document</label>
+          <div class="d-flex">
+            <input type="file" style="display:none;" class="form-control" id="fPetitionDocument" name="fPetitionDocument" (change)="ValidateUploadImage($event,'PetitionDocument')" formControlName="fPetitionDocument">
+            <label class="btn upload" for="fPetitionDocument">
+              <span class="filename">Choose file</span>
+              {{request.PetitionDocument === '' ? 'No File Choosen' : request.PetitionDocument_DisName}}
+            </label>
+            <div class="btn-group" *ngIf="request.PetitionDocument != ''">
+              <a class="btn btn-outline-primary" target="_blank" href="{{request.PetitionDocumentPath}}"><i class="fa fa-eye"></i></a>
+              <button type="button" class="btn btn-outline-danger" (click)="DeleteImage(request.PetitionDocument,'PetitionDocument')"><i class="fa fa-trash-o"></i></button>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="SelectedDepartmentID!=6">
           <label class="form-label">Order Name <span style="color:red;">*</span></label>
           <input type="text" class="form-control" id="txtOrderName" name="txtOrderName" [(ngModel)]="request.OrderName" formControlName="txtOrderName" />
           <div *ngIf="isSubmitted&&form.txtOrderName.errors" class="text-danger">
@@ -55,19 +70,17 @@
         <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
           <label class="form-label">Upload the Order Document<span style="color:red;">*</span></label>
           <div class="d-flex">
-            <input type="file" style="display:none;" class="form-control" id="OrderDocumentName" name="OrderDocumentName" (change)="ValidateUploadImage($event,'FileUpload')" formControlName="OrderDocumentName">
+            <input type="file" style="display:none;" class="form-control" id="OrderDocumentName" name="OrderDocumentName" (change)="ValidateUploadImage($event,'OrderDocument')" formControlName="OrderDocumentName">
             <label class="btn upload" for="OrderDocumentName">
               <span class="filename">Choose file</span>
               {{request.OrderDocumentName === '' ? 'No File Choosen' : request.OrderDocumentName_DisName}}
             </label>
             <div class="btn-group" *ngIf="request.OrderDocumentName != ''">
               <a class="btn btn-outline-primary" target="_blank" href="{{request.OrderDocumentNamePath}}"><i class="fa fa-eye"></i></a>
-              <button type="button" class="btn btn-outline-danger" (click)="DeleteImage(request.OrderDocumentName)"><i class="fa fa-trash-o"></i></button>
+              <button type="button" class="btn btn-outline-danger" (click)="DeleteImage(request.OrderDocumentName,'OrderDocument')"><i class="fa fa-trash-o"></i></button>
             </div>
           </div>
-          <div *ngIf="fileValidationMessage!=''" class="text-danger">
-            <p><i aria-hidden="true"></i>{{fileValidationMessage}}</p>
-          </div>
+          <p *ngIf="isSubmitted&&request.OrderDocumentName==''" class="text-danger"> This field is required .!</p>
         </div>
       </div>
       <div class="row">
@@ -102,10 +115,11 @@
             <tr>
               <th>Sr. No</th>
               <th>Court Name</th>
-              <th>Civil Petition No</th>
-              <th>Order Name</th>
+              <th>{{SelectedDepartmentID==6?'Writ':'Civil'}} Petition No</th>
+              <th *ngIf="SelectedDepartmentID!=6">Order Name</th>
+              <th *ngIf="SelectedDepartmentID==6">Petition Document</th>
               <th>Order Date</th>
-              <th>Upload Document</th>
+              <th>Order Document</th>
               <th>Action</th>
             </tr>
           </thead>
@@ -114,7 +128,8 @@
               <td>{{idx+1}}</td>
               <td>{{item.CourtName}}</td>
               <td>{{item.CivilPetitionNo}}</td>
-              <td>{{item.OrderName}}</td>
+              <td *ngIf="SelectedDepartmentID!=6">{{item.OrderName}}</td>
+              <td *ngIf="SelectedDepartmentID==6"><a target="_blank" href="{{item.PetitionDocumentPath}}" title="View File"><i class="fa fa-eye"></i></a></td>
               <td>{{item.OrderDate}}</td>
               <td>
                 <a target="_blank" href="{{item.OrderDocumentNamePath}}" title="View File"><i class="fa fa-eye"></i></a>

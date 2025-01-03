@@ -20,8 +20,8 @@
             <th>ContactNo</th>
             <th>From Date</th>
             <th>To Date</th>
-            <th>Order No</th>
-            <th>Order Date</th>
+            <th>{{SelectedDepartmentID ==6?'Name of Owner':'Own/Rented Order No'}}</th>
+            <th *ngIf="SelectedDepartmentID !=6">Order Date</th>
             <th>Expiring On</th>
             <th>Action</th>
           </tr>
@@ -36,7 +36,7 @@
             <td>{{item.FromDate | date:'dd-MM-yyyy'}}</td>
             <td>{{item.ToDate | date:'dd-MM-yyyy'}}</td>
             <td>{{item.OrderNo}}</td>
-            <td>{{item.OrderDate | date:'dd-MM-yyyy'}}</td>
+            <td *ngIf="SelectedDepartmentID !=6">{{item.OrderDate | date:'dd-MM-yyyy'}}</td>
             <td>{{item.ExpiringOn | date:'dd-MM-yyyy'}}</td>
             <td>
               <div class="d-flex">
@@ -162,11 +162,11 @@
               <div class="card-body">
                 <div class="row">
                   <div class="col-lg-3 col-md-3 col-sm-4 col-12 mb-3">
-                    <label class="form-label"><b>Order No :</b></label>
+                    <label class="form-label"><b>{{SelectedDepartmentID ==6?'Name of Owner':'Own/Rented Order No'}} :</b></label>
                     <input class="form-control disabled" disabled value="{{buildingdetails.OwnBuildingOrderNo}}" />
                   </div>
 
-                  <div class="col-lg-3 col-md-3 col-sm-4 col-12 mb-3">
+                  <div class="col-lg-3 col-md-3 col-sm-4 col-12 mb-3" *ngIf="SelectedDepartmentID !=6">
                     <label class="form-label"><b>Order Date :</b></label>
                     <input class="form-control disabled" disabled value="{{buildingdetails.OwnBuildingOrderDate | date:'dd-MM-yyyy'}}" />
                   </div>

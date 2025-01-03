@@ -267,6 +267,7 @@ export class ApplyNocParameterComponent implements OnInit {
       await this.GetDTE_StreamMasterDataList();
       await this.GetDTE_CourseLevelMasterList();
       await this.GetCollegeDeficiency();
+      await this.MedicalGroup3CourseList(collegeID);
     }
     else {
       this.routers.navigate(['/applynocapplicationdetail']);
@@ -943,6 +944,7 @@ export class ApplyNocParameterComponent implements OnInit {
           this.isShowPriceDetails = false;
           this.request.ApplyNocLateFeeDetailList = [];
         }
+        debugger;
         await this.CalculateAllAmount();
         return;
       }
@@ -2781,6 +2783,7 @@ export class ApplyNocParameterComponent implements OnInit {
 
   async CalculateAllAmount() {
     try {
+      debugger;
       this.request.ApplyNocParameterMasterListDataModel = this.ApplyNocParameterMasterList_ddl;
 
       let totalFeeList = this.request.ApplyNocParameterMasterListDataModel?.filter((element: any) => { return element.IsChecked == true; });
@@ -2788,7 +2791,13 @@ export class ApplyNocParameterComponent implements OnInit {
       this.request.TotalFeeAmount = 0;
       this.request.TotalDefaulterCollegePenalty = 0;
       for (let i = 0; i < totalFeeList.length; i++) {
-        this.request.TotalFeeAmount += totalFeeList[i].FeeAmount;
+        if (this.SelectedDepartmentID == 6 && totalFeeList[i].ApplyNocID == 1) {
+          var totalfee = Number(this.TotalCourseGroupthree) * Number(totalFeeList[i].FeeAmount);
+          this.request.TotalFeeAmount += totalfee;
+        }
+        else {
+          this.request.TotalFeeAmount += totalFeeList[i].FeeAmount;
+        }
       }
       //for Dec New Subject
       if (this.ApplyNocParameterMasterList_NewCourse?.ApplyNocParameterCourseList != null) {
@@ -4323,4 +4332,28 @@ export class ApplyNocParameterComponent implements OnInit {
       }, 200);
     }
   }
+
+  public MedicalGroup3Courselst: any = [];
+  public TotalCourseGroupthree: number = 0;
+  async MedicalGroup3CourseList(collegeID: number) {
+    this.MedicalGroup3Courselst = [];
+    try {
+      this.loaderService.requestStarted();
+      await this.commonMasterService.GetCourseList_CollegeWise(collegeID)
+        .then(async (data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.MedicalGroup3Courselst = data['Data'];
+          this.TotalCourseGroupthree = this.MedicalGroup3Courselst.length;
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
 }

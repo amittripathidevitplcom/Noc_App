@@ -171,6 +171,7 @@ export class SubjectWiseStaticReportDCEComponent implements OnInit {
   async GetSubjectWiseStaticReportList() {
     try {
       this.loaderService.requestStarted();
+      this.request.SessionID = this.sSOLoginDataModel.SessionID;
       await this.dceDocumentScrutinyService.GetSubjectWiseStaticReport(this.request)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));

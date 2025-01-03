@@ -147,13 +147,34 @@ export class HospitalDetailComponent implements OnInit {
         txtManageByPhone: ['', [Validators.required, Validators.pattern(this.LandLineRegex)]],
         txtOwnerName: ['', Validators.required],
         txtOwnerPhone: ['', [Validators.required, Validators.pattern(this.LandLineRegex)]],
-        txtMedicalBeds: ['', [Validators.required, Validators.min(30)]],
-        txtSurgicalBeds: ['', [Validators.required, Validators.min(30)]],
-        txtObstAndGynaecologyBeds: ['', [Validators.required, Validators.min(30)]],
-        txtPediatricsBeds: ['', [Validators.required, Validators.min(20)]],
-        txtOrthoBeds: ['', [Validators.required, Validators.min(10)]],
-        txtOccupancyPercentegeBeds: ['', [Validators.required, Validators.min(75)]],
-        txtAffiliationPsychiatricBeds: ['', [Validators.required, Validators.min(50)]],
+        txtGeneralMedicine: ['', [Validators.required]],
+        txtPaediatricsBed: ['', [Validators.required]],
+        txtSkinandVDBed: ['', [Validators.required]],
+        txtPsychiatryBed: ['', [Validators.required]],
+
+        txtGeneralSurgery: ['', [Validators.required]],
+        txtSurgeryOrthopaedicsBed: ['', [Validators.required]],
+        txtSurgeryOphthalmologyBed: ['', [Validators.required]],
+        txtSurgeryOtorhinolaryngologyBed: ['', [Validators.required]],
+
+        txtObstetricsGynaecologyBed: ['', [Validators.required]],
+
+        txtICUBed: ['', [Validators.required]],
+        txtICCUBed: ['', [Validators.required]],
+        txtRICUBed: ['', [Validators.required]],
+        txtSICUBed: ['', [Validators.required]],
+        txtNICUBed: ['', [Validators.required]],
+        txtPICUBed: ['', [Validators.required]],
+        txtOTICUBed: ['', [Validators.required]],
+        txtCasualtyBeds: ['', [Validators.required]],
+        txtICUGrandTotalBed: [{ value: '', disabled: true }],
+        //txtMedicalBeds: ['', [Validators.required, Validators.min(30)]],
+        //txtSurgicalBeds: ['', [Validators.required, Validators.min(30)]],
+        //txtObstAndGynaecologyBeds: ['', [Validators.required, Validators.min(30)]],
+        //txtPediatricsBeds: ['', [Validators.required, Validators.min(20)]],
+        //txtOrthoBeds: ['', [Validators.required, Validators.min(10)]],
+        //txtOccupancyPercentegeBeds: ['', [Validators.required, Validators.min(75)]],
+        //txtAffiliationPsychiatricBeds: ['', [Validators.required, Validators.min(50)]],
         rbParentHospitalRelatedToOtherID: [''],
         txtInstitutionName: ['', Validators.required],
         txtOrganizationPhone: ['', [Validators.required, Validators.pattern("^[6-9][0-9]{9}$")]], //, Validators.pattern(this.LandLineRegex)
@@ -271,13 +292,34 @@ export class HospitalDetailComponent implements OnInit {
         txtManageByPhone: ['', [Validators.required, Validators.pattern(this.LandLineRegex)]],
         txtOwnerName: ['', Validators.required],
         txtOwnerPhone: ['', [Validators.required, Validators.pattern(this.LandLineRegex)]],
-        txtMedicalBeds: ['', [Validators.required, Validators.min(30)]],
-        txtSurgicalBeds: ['', [Validators.required, Validators.min(30)]],
-        txtObstAndGynaecologyBeds: ['', [Validators.required, Validators.min(30)]],
-        txtPediatricsBeds: ['', [Validators.required, Validators.min(20)]],
-        txtOrthoBeds: ['', [Validators.required, Validators.min(10)]],
-        txtOccupancyPercentegeBeds: ['', [Validators.required, Validators.min(75)]],
-        txtAffiliationPsychiatricBeds: ['', [Validators.required, Validators.min(50)]],
+        //txtMedicalBeds: ['', [Validators.required, Validators.min(30)]],
+        //txtSurgicalBeds: ['', [Validators.required, Validators.min(30)]],
+        //txtObstAndGynaecologyBeds: ['', [Validators.required, Validators.min(30)]],
+        //txtPediatricsBeds: ['', [Validators.required, Validators.min(20)]],
+        //txtOrthoBeds: ['', [Validators.required, Validators.min(10)]],
+        //txtOccupancyPercentegeBeds: ['', [Validators.required, Validators.min(75)]],
+        //txtAffiliationPsychiatricBeds: ['', [Validators.required, Validators.min(50)]],
+        txtGeneralMedicine: ['', [Validators.required]],
+        txtPaediatricsBed: ['', [Validators.required]],
+        txtSkinandVDBed: ['', [Validators.required]],
+        txtPsychiatryBed: ['', [Validators.required]],
+
+        txtGeneralSurgery: ['', [Validators.required]],
+        txtSurgeryOrthopaedicsBed: ['', [Validators.required]],
+        txtSurgeryOphthalmologyBed: ['', [Validators.required]],
+        txtSurgeryOtorhinolaryngologyBed: ['', [Validators.required]],
+
+        txtObstetricsGynaecologyBed: ['', [Validators.required]],
+
+        txtICUBed: ['', [Validators.required]],
+        txtICCUBed: ['', [Validators.required]],
+        txtRICUBed: ['', [Validators.required]],
+        txtSICUBed: ['', [Validators.required]],
+        txtNICUBed: ['', [Validators.required]],
+        txtPICUBed: ['', [Validators.required]],
+        txtOTICUBed: ['', [Validators.required]],
+        txtCasualtyBeds: ['', [Validators.required]],
+        txtICUGrandTotalBed: [{ value: '', disabled: true }],
         rbAffiliatedHospitalAffiliationToOtherID: ['', Validators.required],
         fParentNotDocument: [''],
         fConsentForm: [''],
@@ -1024,6 +1066,7 @@ export class HospitalDetailComponent implements OnInit {
   }
 
   async SaveDataOfParent() {
+    this.request.CollegeID = this.QueryStringCollegeID;
     this.isHospitalrequried = false;
     this.isFormValid = true;
     this.isSubmitted = true;
@@ -2130,5 +2173,14 @@ export class HospitalDetailComponent implements OnInit {
 
       }, 200);
     }
+  }
+
+  async ICUGrandTotalBed() {
+    this.request.ICUGrandTotalBed = Number(this.request.ICUBed) + Number(this.request.ICCUBed) + Number(this.request.RICUBed) + Number(this.request.SICUBed)
+      + Number(this.request.NICUBed) + Number(this.request.PICUBed);
+  }
+  async ParentNotICUGrandTotalBed() {
+    this.requestNot.ICUGrandTotalBed = Number(this.requestNot.ICUBed) + Number(this.requestNot.ICCUBed) + Number(this.requestNot.RICUBed) + Number(this.requestNot.SICUBed)
+      + Number(this.requestNot.NICUBed) + Number(this.requestNot.PICUBed);
   }
 }

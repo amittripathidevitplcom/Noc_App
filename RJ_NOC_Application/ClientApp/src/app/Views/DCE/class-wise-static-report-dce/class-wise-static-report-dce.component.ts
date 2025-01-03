@@ -172,6 +172,7 @@ export class ClassWiseStaticReportDCEComponent implements OnInit {
   async GetClassWiseStaticReportList() {
     try {
       this.loaderService.requestStarted();
+      this.request.SessionID = this.sSOLoginDataModel.SessionID;
       await this.dceDocumentScrutinyService.GetClassWiseStaticReport(this.request)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));

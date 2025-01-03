@@ -388,6 +388,7 @@ export class SearchFilterDataModel {
   public DistrictID: number = 0;
   public SubdivisionID: number = 0;
   public TehsilID: number = 0;
+  public SessionID?: number = 0;
   public ParliamentAreaID: number = 0;
   public CollegeName: string = '';
 }
@@ -404,6 +405,9 @@ export class CourtOrderDataModel {
   public OrderDocumentName: string = '';
   public OrderDocumentNamePath: string = '';
   public OrderDocumentName_DisName: string = '';
+  public PetitionDocument: string = '';
+  public PetitionDocumentPath: string = '';
+  public PetitionDocument_DisName: string = '';
 }
 export class CourtOrderSearchFilterDataModel {
   public UserID: number = 0;

@@ -168,6 +168,18 @@
             </mat-tab>
 
 
+            <mat-tab *ngIf="SelectedDepartmentID==5">
+              <!---->
+              <ng-template mat-tab-label>
+                <i class="fa fa-list-alt icon" aria-hidden="true"></i>
+                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['Facility']>0"></i>
+                <span class="badge pulse" *ngIf="CheckTabsEntryData['Facility']==0"></span>
+                <span>Facility</span>
+              </ng-template>
+              <app-mgone-facility-each></app-mgone-facility-each>
+            </mat-tab>
+
+
             <!--activitydetails-->
             <mat-tab *ngIf="SelectedDepartmentID==3">
               <ng-template mat-tab-label>
