@@ -359,6 +359,9 @@ export class BuildingDetailsDataModel {
   public MGOneIstheCampusUnitary: string = '';
   public MGOneIstheCampusUnitaryName?: string = '';
   public Distance: number = 0;
+  public NameoftheAuthority: string = '';
+  public AuthorityDateApproval: string = '';
+
   public lstBuildingDocDetails: DocuemntBuildingDetailsDataModel[] = [];
 
   public C_Action: string = '';

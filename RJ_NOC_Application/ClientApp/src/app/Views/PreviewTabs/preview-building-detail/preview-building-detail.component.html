@@ -23,6 +23,10 @@
             <th>{{SelectedDepartmentID ==6?'Name of Owner':'Own/Rented Order No'}}</th>
             <th *ngIf="SelectedDepartmentID !=6">Order Date</th>
             <th>Expiring On</th>
+            <th *ngIf="SelectedDepartmentID ==5">Is The Campus Unitary</th>
+            <th *ngIf="SelectedDepartmentID ==5">Distance</th>
+            <th *ngIf="SelectedDepartmentID ==5">Name of the Authority</th>
+            <th *ngIf="SelectedDepartmentID ==5">Authority Approval Date</th>
             <th>Action</th>
           </tr>
         </thead>
@@ -38,6 +42,10 @@
             <td>{{item.OrderNo}}</td>
             <td *ngIf="SelectedDepartmentID !=6">{{item.OrderDate | date:'dd-MM-yyyy'}}</td>
             <td>{{item.ExpiringOn | date:'dd-MM-yyyy'}}</td>
+            <td *ngIf="SelectedDepartmentID ==5">{{item.MGOneIstheCampusUnitaryName}}</td>
+            <td *ngIf="SelectedDepartmentID ==5">{{item.Distance}}</td>
+            <td *ngIf="SelectedDepartmentID ==5">{{item.NameoftheAuthority}}</td>
+            <td *ngIf="SelectedDepartmentID ==5">{{item.AuthorityDateApproval}}</td>
             <td>
               <div class="d-flex">
                 <button type="button" class="btn btn-sm btn-info" title="View" (click)="ViewBuildingDetails(mymodal,item.SchoolBuildingDetailsID)"><i class="fa fa-eye"></i></button>
@@ -71,7 +79,16 @@
                 <label class="form-label"><b>Building Category  :</b> </label>
                 <input class="form-control disabled" disabled value="{{buildingdetails.BuildingTypeName}}" />
               </div>
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="SelectedDepartmentID ==5">
+                <label class="form-label"><b>Is The Campus Unitary:</b> </label>
+                <input class="form-control disabled" disabled value="{{buildingdetails.MGOneIstheCampusUnitary}}" />
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="SelectedDepartmentID ==5">
+                <label class="form-label"><b>Distance:</b> </label>
+                <input class="form-control disabled" disabled value="{{buildingdetails.Distance}}" />
+              </div>
             </div>
+
             <div class="row">
               <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="buildingdetails.BuildingTypeName!='Owned'">
                 <label class="form-label"><b>Owner Name :</b></label>
@@ -152,6 +169,23 @@
               <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="buildingdetails.BuildingTypeName!='Owned'">
                 <label class="form-label"><b>Rent Valid Up To :</b></label>
                 <input class="form-control disabled" disabled value="{{buildingdetails.Rentvaliditydate | date:'dd-MM-yyyy'}}" />
+              </div>
+            </div>
+            <div class="card" *ngIf="SelectedDepartmentID ==5">
+              <div class="card-header d-flex justify-content-between align-items-center">
+                <b><i class="fa fa-filter"></i>&nbsp;Building Plan Approval From The Competent Authority: </b>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                    <label class="form-label"><b>Name of the Authority:</b></label>
+                    <input class="form-control disabled" disabled value="{{buildingdetails.NameoftheAuthority}}" />
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                    <label class="form-label"><b>Authority Approval Date:</b></label>
+                    <input class="form-control disabled" disabled value="{{buildingdetails.AuthorityDateApproval}}" />
+                  </div>
+                </div>
               </div>
             </div>
             <div class="card">
@@ -369,7 +403,7 @@
               </div>
             </div>
           </div>
-        </div>
+          </div>
       </div>
     </ng-template>
   </div>

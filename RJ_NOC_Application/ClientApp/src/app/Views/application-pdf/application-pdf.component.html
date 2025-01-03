@@ -1066,6 +1066,7 @@ font-size: 18px;">
                     <th> {{SelectedDepartmentID ==6?'Name of Owner':'Own/Rent Order No. & Order Date'}} </th>
                     <th>Fire NOC Validity</th>
                     <th>Building Safety Certificate Order No. & Order Date</th>
+                    <th *ngIf="SelectedDepartmentID ==5">Is The Campus Unitary & Distance & Name of the Authority & Date</th>                    
                   </tr>
                   <tr *ngFor="let item of lstBuildingDetails let idx=index;">
                     <td>{{idx+1}}</td>
@@ -1096,6 +1097,12 @@ font-size: 18px;">
                       Order Date:- {{item.OrderDate}}<br />
                       Expiring On:- {{item.ExpiringOn}}<br />
                     </td>
+                    <td *ngIf="SelectedDepartmentID ==5">
+                      Is The Campus Unitary:- {{item.MGOneIstheCampusUnitaryName}} <br />
+                      Distance:-{{item.Distance}}<br />
+                      Name of the Authority:-{{item.NameoftheAuthority}}<br />
+                      Authority Approval Date:-{{item.AuthorityDateApproval}}
+                    </td>                   
                   </tr>
 
                 </tbody>
