@@ -1737,4 +1737,11 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
+  public async GetWorkflowPermissions(DepartmentID: number, RoleID: number) {
+    const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
+    return await this.http.get(this.APIUrl_CommonMaster + '/GetWorkflowPermissions/' + DepartmentID + "/" + RoleID, httpOptions)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
 }

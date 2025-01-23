@@ -12,6 +12,7 @@ import { AbstractControl, FormControl, FormGroup, Validators, FormArray } from '
 import { ApplyNOCApplicationService } from '../../../Services/ApplyNOCApplicationList/apply-nocapplication.service';
 import { DocumentScrutinyDataModel } from '../../../Models/DocumentScrutinyDataModel';
 import { MedicalDocumentScrutinyService } from '../../../Services/MedicalDocumentScrutiny/medical-document-scrutiny.service';
+import { DocumentScrutinyComponent } from '../../DCE/document-scrutiny/document-scrutiny.component';
 
 @Component({
   selector: 'app-document-scrutiny-legal-entity',
@@ -20,10 +21,12 @@ import { MedicalDocumentScrutinyService } from '../../../Services/MedicalDocumen
 })
 export class DocumentScrutinyLegalEntityComponent implements OnInit {
 
-  constructor(private medicalDocumentScrutinyService: MedicalDocumentScrutinyService, private applyNOCApplicationService: ApplyNOCApplicationService, private legalEntityListService: LegalEntityService, private toastr: ToastrService, private loaderService: LoaderService, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private collegeService: CollegeService, private sSOLoginService: SSOLoginService) { }
-
+  constructor(private dcedocumentscrutiny: DocumentScrutinyComponent,private medicalDocumentScrutinyService: MedicalDocumentScrutinyService, private applyNOCApplicationService: ApplyNOCApplicationService, private legalEntityListService: LegalEntityService, private toastr: ToastrService, private loaderService: LoaderService, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private collegeService: CollegeService, private sSOLoginService: SSOLoginService) { }
+  public isSubmitted: boolean = false;
+  public QueryStringStatus: any = '';
   public State: number = -1;
   public SuccessMessage: any = [];
+
   public ErrorMessage: any = [];
   public isLoading: boolean = false;
 
@@ -39,6 +42,7 @@ export class DocumentScrutinyLegalEntityComponent implements OnInit {
   public TrusteeMemberProofDocPathfileExt: any = [];
   public PresidentAadhaarProofDocPathfileExt: any = [];
   public SocietyPanProofDocPathfileExt: any = [];
+  public isDisabledAction: boolean = false;
 
   // sso ligin
   sSOLoginDataModel = new SSOLoginDataModel();
@@ -66,6 +70,7 @@ export class DocumentScrutinyLegalEntityComponent implements OnInit {
     this.SelectedDepartmentID = this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DepartmentID')?.toString())
     this.SelectedCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()))
     this.SelectedApplyNOCID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplyNOCID')?.toString()))
+    this.QueryStringStatus = this.router.snapshot.paramMap.get('Status')?.toString();
     //
     this.ModifyBy = 1;
     // get college list
@@ -89,8 +94,11 @@ export class DocumentScrutinyLegalEntityComponent implements OnInit {
               this.legalEntityMemberDetailData = data['Data'][0]['legalEntity']['MemberDetails'];
             }
             this.FinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
-
             this.dsrequest.FinalRemark = this.FinalRemarks.find((x: { RoleIDS: number; }) => x.RoleIDS == this.sSOLoginDataModel.RoleID)?.Remark;
+            this.dsrequest.ActionID = this.FinalRemarks.find((x: { RoleIDS: number; }) => x.RoleIDS == this.sSOLoginDataModel.RoleID)?.ActionID;
+            if (this.dsrequest.ActionID == 2) {
+              this.isDisabledAction = true;
+            }
           }
         }, (error: any) => console.error(error));
     }
@@ -109,39 +117,81 @@ export class DocumentScrutinyLegalEntityComponent implements OnInit {
     await this.legalEntityMemberDetailData.forEach((i: { Action: string, Remark: string }) => {
       i.Action = ActionType;
       i.Remark = '';
+      if (ActionType == 'No') {
+        this.dsrequest.ActionID = 2;
+        this.isDisabledAction = true;
+      }
+      else {
+        this.dsrequest.ActionID = 0;
+        this.isDisabledAction = false;
+      }
     })
   }
   async selectInstituteAll(ActionType: string) {
     await this.legalEntityInstituteDetailData.forEach((i: { Action: string, Remark: string }) => {
       i.Action = ActionType;
       i.Remark = '';
+      if (ActionType == 'No') {
+        this.dsrequest.ActionID = 2;
+        this.isDisabledAction = true;
+      }
+      else {
+        this.dsrequest.ActionID = 0;
+        this.isDisabledAction = false;
+      }
     })
   }
 
 
   ClickMemberOnAction(idx: number) {
+    var Count = 0;
     for (var i = 0; i < this.legalEntityMemberDetailData.length; i++) {
       if (i == idx) {
         this.legalEntityMemberDetailData[i].Remark = '';
       }
+      if (this.legalEntityMemberDetailData[i].Action == 'No') {
+        Count++;
+      }
     }
+    if (Count > 0) {
+      this.dsrequest.ActionID = 2;
+      this.isDisabledAction = true;
+    }
+    else {
+      this.dsrequest.ActionID = 0;
+      this.isDisabledAction = false;
+    }
+
   }
   ClickInstituteOnAction(idx: number) {
+    var Count = 0;
     for (var i = 0; i < this.legalEntityInstituteDetailData.length; i++) {
       if (i == idx) {
         this.legalEntityInstituteDetailData[i].Remark = '';
       }
+      if (this.legalEntityInstituteDetailData[i].Action == 'No') {
+        Count++;
+      }
+    }
+    if (Count > 0) {
+      this.dsrequest.ActionID = 2;
+      this.isDisabledAction = true;
+    }
+    else {
+      this.dsrequest.ActionID = 0;
+      this.isDisabledAction = false;
     }
   }
 
   async SubmitLegalEntity_Onclick() {
+    this.isSubmitted = true;
     this.dsrequest.DepartmentID = this.SelectedDepartmentID;
     this.dsrequest.CollegeID = this.SelectedCollageID;
     this.dsrequest.ApplyNOCID = this.SelectedApplyNOCID;
     this.dsrequest.UserID = this.sSOLoginDataModel.UserID;
     this.dsrequest.RoleID = this.sSOLoginDataModel.RoleID;
     this.dsrequest.TabName = 'Legal Entity';
-    this.dsrequest.DocumentScrutinyDetail=[];
+    this.dsrequest.DocumentScrutinyDetail = [];
     this.isRemarkValid = false;
     this.isFormvalid = true;
     for (var i = 0; i < this.legalEntityMemberDetailData.length; i++) {
@@ -170,7 +220,10 @@ export class DocumentScrutinyLegalEntityComponent implements OnInit {
         }
       }
     }
-    if (this.dsrequest.FinalRemark == '') {
+    if (this.dsrequest.ActionID <= 0) {
+      this.isFormvalid = false;
+    }
+    if (this.dsrequest.FinalRemark == '' || this.dsrequest.FinalRemark == undefined) {
       this.isRemarkValid = true;
       this.isFormvalid = false;
     }
@@ -241,4 +294,12 @@ export class DocumentScrutinyLegalEntityComponent implements OnInit {
       }, 200);
     }
   }
+
+
+  ViewTaril(ID: number, ActionType: string) {
+    this.dcedocumentscrutiny.ViewTarilCommon(ID, ActionType);
+  }
+
+
+
 }

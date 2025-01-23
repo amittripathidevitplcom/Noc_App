@@ -178,6 +178,14 @@
                 </select>
               </div>
 
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label for="ddlIsDefaulter" class="form-label">Is Defaulter:</label>
+                <select class="form-select" id="ddlIsDefaulter" name="ddlIsDefaulter" [(ngModel)]="request.IsDefaulter">
+                  <option value="0">All</option>
+                  <option value="1">Yes</option>
+                  <option value="2">No</option>
+                </select>
+              </div>
 
 
 
@@ -216,6 +224,7 @@
                   <th>Status</th>
                   <th *ngIf="QueryStringStatus=='Submit'">Application Level</th>
                   <th *ngIf="QueryStringStatus=='Submit'">Next User Name</th>
+                  <th *ngIf="QueryStringStatus=='Submit'">Pending Days</th>
                   <th>District Name</th>
                   <th>Tehsil Name</th>
                   <th>Nodal College Name</th>
@@ -242,6 +251,7 @@
                   <td>{{row.Status}}</td>
                   <td *ngIf="QueryStringStatus=='Submit'">{{row.RoleName}}</td>
                   <th *ngIf="QueryStringStatus=='Submit'">{{row.NextUser}}</th>
+                  <th *ngIf="QueryStringStatus=='Submit'">{{row.PendingDays}}</th>
                   <td>{{row.DistrictName}}</td>
                   <td>{{row.TehsilName}}</td>
 

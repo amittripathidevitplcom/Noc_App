@@ -212,7 +212,8 @@ button, input[type='button'], input[type='submit'], a {
 }
 
   .sideBars .dropdown-item:hover {
-    background: #f1894e;
+    /*background: #f1894e;*/
+    background: #f8a544;
   }
 
 

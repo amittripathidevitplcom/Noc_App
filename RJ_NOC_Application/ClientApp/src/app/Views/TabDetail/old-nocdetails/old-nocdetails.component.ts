@@ -288,7 +288,7 @@ export class OldNOCDetailsComponent implements OnInit {
               return element.Name == "NOC";
             });
           }
-          else if (this.SelectedDepartmentID != 3 && this.SelectedDepartmentID != 9 && this.SelectedDepartmentID != 1) {
+          else if (this.SelectedDepartmentID != 3 && this.SelectedDepartmentID != 9 && this.SelectedDepartmentID != 1&& this.SelectedDepartmentID != 11) {
             this.lstNOCType = this.lstNOCType.filter((element: any) => {
               return element.Name == "PNOC";
             });

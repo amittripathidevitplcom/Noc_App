@@ -914,7 +914,7 @@
     </div>
   </div>
 
-  <div class="row" *ngIf="(this.sSOLoginDataModel.DepartmentID==6 || this.sSOLoginDataModel.DepartmentID==9)  && this.sSOLoginDataModel.RoleID==5">
+  <div class="row" *ngIf="(this.sSOLoginDataModel.DepartmentID==9)  && this.sSOLoginDataModel.RoleID==5">
     <div class="col-lg-3 col-md-4 col-sm-6 col-12">
       <div class="card staticsCards">
         <div class="card-header text-center text-white" style="background: rgba(0, 0, 0, 0.2) !important;"><h5>Document Scrutiny</h5></div>
@@ -1069,6 +1069,38 @@
   </div>
 
   <!--Registrar Committee-->
+  <!--Medical Group 3 DashBoard start-->
+  <div class="row" *ngIf="this.sSOLoginDataModel.DepartmentID==6">
+    <div class="card">
+      <div class="card-header d-flex justify-content-between align-items-center">
+        <b><i class="bi bi-table"></i>&nbsp; NOC Applications ({{sSOLoginDataModel.SessionName}}) </b>
+      </div>
+      <div class="card-body">
+        <div class="row" *ngIf="this.sSOLoginDataModel.RoleID==5">
+          <div class="col-lg-3 col-md-4 col-sm-6 col-12">
+            <div class="card staticsCards">
+              <div class="card-header text-center text-white" style="background: rgba(0, 0, 0, 0.2) !important;"><h5>Application Scrutiny</h5></div>
+              <div class="card-body">
+                <div class="d-flex justify-content-between">
+                  <div class="dashCardContent text-start">
+                    <h4>Pending</h4>
+                    <h2>
+                      <a href="/applicationslist/Pending" style="background: none;">{{dashboardDataModel.Pending}}</a>
+                    </h2>
+                  </div>
+                  <div class="dashCardContent">
+                    <h4>Completed</h4>
+                    <a href="/applicationslist/Completed" style="background: none;"><h2>{{dashboardDataModel.Completed}}</h2></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--Medical Group 3 DashBoard End-->
   <!-- Animal Husbinadry Dashboard-->
 
   <div class="row" *ngIf="this.sSOLoginDataModel.DepartmentID==2 &&(this.sSOLoginDataModel.RoleID ==12  || this.sSOLoginDataModel.RoleID ==13 || this.sSOLoginDataModel.RoleID ==6 || this.sSOLoginDataModel.RoleID ==14 ||  this.sSOLoginDataModel.RoleID ==15 || this.sSOLoginDataModel.RoleID ==25)">

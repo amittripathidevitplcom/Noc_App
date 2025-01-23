@@ -1,7 +1,7 @@
 
 <div class="card tabCard1 mb-0" *ngFor="let item of AHDepartmentList; let idx =index">
   <div class="card-header d-flex justify-content-between align-items-center">
-    <b>{{idx+1}}.&nbsp;<i class="bi bi-table"></i> {{item.DepartmentName}}</b>
+    <b>{{idx+1}}.&nbsp;<i class="bi bi-table"></i> {{item.DepartmentName}} <span class="text-danger" *ngIf="item.IsManadatory">*</span></b>
     <!--<b>
       {{idx+1}}.&nbsp;<i class="bi bi-building-add"></i>&nbsp;{{item.DepartmentName}}
     </b>-->

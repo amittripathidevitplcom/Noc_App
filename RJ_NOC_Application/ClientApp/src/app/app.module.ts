@@ -440,6 +440,8 @@ import { MGOneClassRoomDetailsComponent } from './Views/TabDetail/mgone-class-ro
 import { PreviewMgOneClassRoomDetailsComponent } from './Views/PreviewTabs/preview-mg-one-class-room-details/preview-mg-one-class-room-details.component';
 import { PreviewMGThreeHospitalDetailsComponent } from './Views/PreviewTabs/preview-mgthree-hospital-details/preview-mgthree-hospital-details.component';
 import { MGoneFacilityEachComponent } from './Views/TabDetail/mgone-facility-each/mgone-facility-each.component';
+import { MGThreeApplicationsListComponent } from './Views/DocumentScrutinyTab/mgthree-applications-list/mgthree-applications-list.component';
+import { ApplicationForwardGThreeComponent } from './Views/DocumentScrutinyTab/application-forward-gthree/application-forward-gthree.component';
 
 
  
@@ -881,6 +883,8 @@ import { MGoneFacilityEachComponent } from './Views/TabDetail/mgone-facility-eac
     PreviewMgOneClassRoomDetailsComponent,
     PreviewMGThreeHospitalDetailsComponent,
     MGoneFacilityEachComponent,
+    MGThreeApplicationsListComponent,
+    ApplicationForwardGThreeComponent,
   ],
   imports: [
     CommonModule,

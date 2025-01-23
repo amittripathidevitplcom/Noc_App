@@ -1113,7 +1113,13 @@ export class ApplyNocParameterComponent implements OnInit {
         // and total fee
         this.request.TotalFeeAmount = 0;
         for (let i = 0; i < totalFeeList.length; i++) {
-          this.request.TotalFeeAmount += totalFeeList[i].FeeAmount;
+          if (this.SelectedDepartmentID == 6 && totalFeeList[i].ApplyNocID == 1) {
+            var totalfee = Number(this.TotalCourseGroupthree) * Number(totalFeeList[i].FeeAmount);
+            this.request.TotalFeeAmount += totalfee;
+          }
+          else {
+            this.request.TotalFeeAmount += totalFeeList[i].FeeAmount;
+          }
         }
         //for Dec New Subject
         if (this.ApplyNocParameterMasterList_NewCourse?.ApplyNocParameterCourseList != null) {
@@ -1137,8 +1143,6 @@ export class ApplyNocParameterComponent implements OnInit {
           //this.request.TotalFeeAmount
           //this.request.TotalFeeAmount += this.calcuatePNOCSubjectFees();
         }
-
-
 
         this.request.TotalNocFee = this.request.TotalFeeAmount;
         if (this.request.ApplyNocLateFeeDetailList.length > 0) {
@@ -2819,7 +2823,7 @@ export class ApplyNocParameterComponent implements OnInit {
       //DEC NOC
       if (this.ApplyNocParameterMasterList_PNOCOfSubject?.ApplyNocParameterCourseList != null) {
 
-        this.request.TotalFeeAmount += this.calcuatePNOCSubjectFees();
+        //this.request.TotalFeeAmount += this.calcuatePNOCSubjectFees();
       }
 
       this.request.TotalNocFee = this.request.TotalFeeAmount;

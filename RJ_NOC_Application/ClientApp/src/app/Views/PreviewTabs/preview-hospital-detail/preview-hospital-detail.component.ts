@@ -136,10 +136,10 @@ export class PreviewHospitalDetailComponent implements OnInit {
             this.LegalEntityDataModel = JSON.parse(JSON.stringify(data['Data']));
           }
           if (this.State == 1) {
-            this.toastr.error(this.ErrorMessage)
+           // this.toastr.error(this.ErrorMessage)
           }
           else if (this.State == 2) {
-            this.toastr.warning(this.SuccessMessage)
+          // this.toastr.warning(this.SuccessMessage)
           }
         })
     }

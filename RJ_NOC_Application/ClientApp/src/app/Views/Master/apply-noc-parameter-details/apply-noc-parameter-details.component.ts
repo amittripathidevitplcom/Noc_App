@@ -89,9 +89,6 @@ export class ApplyNocParameterDetailsComponent implements OnInit {
           // data
           if (this.State == 0) {
             this.ApplyNocApplicationList = data['Data'];
-            console.log('Deepaklist');
-            console.log(this.ApplyNocApplicationList);
-            console.log('Deepaklist');
           }
           else {
             this.toastr.error(this.ErrorMessage);

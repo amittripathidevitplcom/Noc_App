@@ -187,6 +187,8 @@ export class ApplicationDetailEntryComponent implements OnInit {
   isCheck30Female: boolean = false;
 
   public CheckAHStaff: any = [];
+  public RequriedAHStaff: any = [];
+  public RequriedAHFacility: any = [];
   async DraftFinalSubmit(IsDraftSubmited: any) {
     debugger;
     if (confirm("Are you satisfied with the data that are showing in the View Application?")) {
@@ -243,7 +245,7 @@ export class ApplicationDetailEntryComponent implements OnInit {
                     }
                   }
                 }
-                if (data['Data'][0]['data'][0]['PendingFacilities'] > 0) {
+                if (data['Data'][0]['data'][0]['PendingFacilities'] > 0 && (!this.IsAHDegreeCollege && this.SelectedDepartmentID!=2)) {
                   this.toastr.error("Enter All Facilities Details.")
                   DCPendingPoint += "Enter All Facilities Details." + "\n";
                   this.isCheck30Female = true;
@@ -452,7 +454,25 @@ export class ApplicationDetailEntryComponent implements OnInit {
                       this.State = data['State'];
                       this.SuccessMessage = data['SuccessMessage'];
                       this.ErrorMessage = data['ErrorMessage'];
-                      this.CheckAHStaff = data['Data'][0]['data'];
+                      
+                      this.CheckAHStaff = data['Data'][0]['data']['Table'];
+                      this.RequriedAHStaff = data['Data'][0]['data']['Table1'];
+                      this.RequriedAHFacility = data['Data'][0]['data']['Table2'];
+                      for (var i = 0; i < this.RequriedAHStaff.length; i++) {
+                        if (Number(this.RequriedAHStaff[i].TotalStaff) < Number(this.RequriedAHStaff[i].MinRequired)) {
+                          this.toastr.warning('Add ' + this.RequriedAHStaff[i].MinRequired + ' ' + this.RequriedAHStaff[i].DesignationName);
+                          this.isCheck30Female = true;
+                          return;
+                        }
+                      }
+                      for (var i = 0; i < this.RequriedAHFacility.length; i++) {
+                        if (Number(this.RequriedAHFacility[i].TotalFacility) <=0) {
+                          this.toastr.warning('Add ' + this.RequriedAHFacility[i].FacilitiesName +' in facilities');
+                          this.isCheck30Female = true;
+                          return;
+                        }
+                      }
+
                       for (var i = 0; i < this.CheckAHStaff.length; i++) {
                         if (this.CheckAHStaff[i].IsValidMinProfessor == '0' || this.CheckAHStaff[i].IsValidMinProfessor == 0
                           || this.CheckAHStaff[i].IsValidMinAssistantProfessor == '0' || this.CheckAHStaff[i].IsValidMinAssistantProfessor == 0 ||
@@ -666,12 +686,12 @@ export class ApplicationDetailEntryComponent implements OnInit {
       }
 
       else if (this.IsAHDegreeCollege == true && this.CollegeType_IsExisting == false) {
-        if (this.CheckTabsEntryData['LandInformation'] > 0 && this.CheckTabsEntryData['Facility'] > 0 && this.CheckTabsEntryData['RequiredDocument'] > 0 && this.CheckTabsEntryData['OtherInformation'] > 0 && this.CheckTabsEntryData['StaffDetails'] > 0 && this.CheckTabsEntryData['DepartmentWiseInfrastructure'] ==17 &&  this.CheckTabsEntryData['BuildingDocuments'] > 0) {
+        if (this.CheckTabsEntryData['LandInformation'] > 0 && this.CheckTabsEntryData['Facility'] > 0 && this.CheckTabsEntryData['RequiredDocument'] > 0 && this.CheckTabsEntryData['OtherInformation'] > 0 && this.CheckTabsEntryData['StaffDetails'] > 0 && this.CheckTabsEntryData['DepartmentWiseInfrastructure'] >0 && this.CheckTabsEntryData['BuildingDocuments'] > 0) {
           this.IsShowDraftFinalSubmit = false;
         }
       }
       else if (this.IsAHDegreeCollege == true && this.CollegeType_IsExisting == true) {
-        if (this.CheckTabsEntryData['LandInformation'] > 0 && this.CheckTabsEntryData['OLDNOCDetails'] > 0 && this.CheckTabsEntryData['Facility'] > 0 && this.CheckTabsEntryData['RequiredDocument'] > 0 && this.CheckTabsEntryData['OtherInformation'] > 0 && this.CheckTabsEntryData['StaffDetails'] > 0 && this.CheckTabsEntryData['DepartmentWiseInfrastructure'] == 17 && this.CheckTabsEntryData['BuildingDocuments'] > 0) {
+        if (this.CheckTabsEntryData['LandInformation'] > 0 && this.CheckTabsEntryData['OLDNOCDetails'] > 0 && this.CheckTabsEntryData['Facility'] > 0 && this.CheckTabsEntryData['RequiredDocument'] > 0 && this.CheckTabsEntryData['OtherInformation'] > 0 && this.CheckTabsEntryData['StaffDetails'] > 0 && this.CheckTabsEntryData['DepartmentWiseInfrastructure'] >0 && this.CheckTabsEntryData['BuildingDocuments'] > 0) {
           this.IsShowDraftFinalSubmit = false;
         }
       }
@@ -713,8 +733,7 @@ export class ApplicationDetailEntryComponent implements OnInit {
     //Medical Group 1
     if (this.SelectedDepartmentID == 5) {
       console.log(this.CheckTabsEntryData);
-      if (this.CheckTabsEntryData['CourseDetails'] > 0 && this.CheckTabsEntryData['LandInformation'] > 0 && this.CheckTabsEntryData['BuildingDocuments'] > 0 && this.CheckTabsEntryData['RoomDetails'] > 0 && this.CheckTabsEntryData['Facility'] > 0 && this.CheckTabsEntryData['RequiredDocument'] > 0 && this.CheckTabsEntryData['HospitalDetails'] > 0 && this.CheckTabsEntryData['HostelDetails'] > 0 && this.CheckTabsEntryData['StaffDetails'] > 0 )
-      {
+      if (this.CheckTabsEntryData['CourseDetails'] > 0 && this.CheckTabsEntryData['LandInformation'] > 0 && this.CheckTabsEntryData['BuildingDocuments'] > 0 && this.CheckTabsEntryData['RoomDetails'] > 0 && this.CheckTabsEntryData['Facility'] > 0 && this.CheckTabsEntryData['RequiredDocument'] > 0 && this.CheckTabsEntryData['HospitalDetails'] > 0 && this.CheckTabsEntryData['HostelDetails'] > 0 && this.CheckTabsEntryData['StaffDetails'] > 0) {
         this.IsShowDraftFinalSubmit = false;
       }
     }

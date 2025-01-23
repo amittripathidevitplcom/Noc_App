@@ -80,3 +80,12 @@ export class ApplicationPenaltyDataModel {
   public CreatedBy: number = 0;
 
 }
+
+export class CommonDataModel_ApplicationListFilter {
+  public RoleID: number = 0;
+  public UserID: number = 0;
+  public DepartmentID: number = 0;
+  public SessionYear: number = 0;
+  public Status: string = '';
+  public ActionName: string = '';
+    }

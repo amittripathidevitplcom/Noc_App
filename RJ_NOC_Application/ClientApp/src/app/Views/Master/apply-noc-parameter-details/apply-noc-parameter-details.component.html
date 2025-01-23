@@ -156,9 +156,11 @@
                     Final Submit
                   </a>-->
                   <a class="dropdown-item list-group-item list-group-item-action list-group-item-danger" href="javascript:void(0)"
-                     *ngIf="item.IsMakePayment==true && item.IsFinalSubmit==false && item.IsOpenNOCApplication==true&&item.IsOpenDefaulter==false&& item.IsDefaulter==false" title="Final Submit Application" (click)="FinalSubmitApplyNocApplication_click(item)">
+                     *ngIf="item.IsMakePayment==true && item.IsFinalSubmit==false && item.IsOpenNOCApplication==true&&item.IsOpenDefaulter==false&& item.IsDefaulter==false  && ((item.DepartmentID==2 && item.GeoTagging=='Completed') || item.DepartmentID!=2)" title="Final Submit Application" (click)="FinalSubmitApplyNocApplication_click(item)">
                     Final Submit
                   </a>
+                  <span class="dropdown-item list-group-item list-group-item-action list-group-item-danger disabled"
+                        *ngIf="(item.DepartmentID==2 && item.GeoTagging=='Pending' && item.IsMakePayment==true && item.IsFinalSubmit==false)" disabled>Complete your geo tag and final submit application</span>
                 </li>
                 <li>
                   <a class="dropdown-item list-group-item list-group-item-action list-group-item-danger" href="javascript:void(0)"

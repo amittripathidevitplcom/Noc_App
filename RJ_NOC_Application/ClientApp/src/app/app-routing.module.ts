@@ -257,6 +257,8 @@ import { PreviewDTEAffiliationCourseComponent } from './Views/PreviewTabs/previe
 import { PreviewDTEAffiliationOtherDetailsComponent } from './Views/PreviewTabs/preview-dteaffiliation-other-details/preview-dteaffiliation-other-details.component';
 import { DTEAffiliationDetailsComponent } from './Views/DTEAffiliationDetails/dteaffiliation-details/dteaffiliation-details.component';
 import { DTEAffiliationSummaryComponent } from './Views/DTEAffiliationView/dteaffiliation-summary/dteaffiliation-summary.component';
+import { MGThreeApplicationsListComponent } from './Views/DocumentScrutinyTab/mgthree-applications-list/mgthree-applications-list.component';
+import { ApplicationForwardGThreeComponent } from './Views/DocumentScrutinyTab/application-forward-gthree/application-forward-gthree.component';
 const routes: Routes = [
   {
     path: 'home', component: HomeComponent
@@ -517,6 +519,9 @@ const routes: Routes = [
       },
       {
         path: 'appnocpreview/:DepartmentID/:CollegeID/:ApplyNOCID/:ApplicationNoYear/:ApplicationNoID', component: ApplyNOCPreviewComponent
+      },
+      {
+        path: 'documentscrutinymgthree/:DepartmentID/:CollegeID/:ApplyNOCID/:ApplicationNoYear/:ApplicationNoID/:Status', component: ApplyNOCPreviewComponent
       },
       {
         path: 'applynocjointsec/:DepartmentID/:CollegeID/:ApplyNOCID', component: ApplyNOCJointSecPreviewComponent
@@ -997,7 +1002,7 @@ const routes: Routes = [
       },
       {
         path: 'legalentitydepartmentwise', component: LegalEntityDepartmentWiseComponent
-      },      
+      },
       {
         path: 'nocformatmaster', component: NOCFormatMasterComponent
       },
@@ -1032,20 +1037,26 @@ const routes: Routes = [
         pathMatch: 'full'
       },
       {
-        path: 'mgonenoccompleteapplicationlist',component: MgOneNocCompletedReportComponent,
+        path: 'mgonenoccompleteapplicationlist', component: MgOneNocCompletedReportComponent,
         pathMatch: 'full'
       },
       {
         path: 'mgonenocapplicationlist/:Status', component: MgoneNocapplicationListComponent
-      },{
+      }, {
         path: 'mgonenocapplicationlist', component: MgoneNocapplicationListComponent
       },
       {
         path: 'mgonedocumentScrutinyNodalOfficer/:DepartmentID/:CollegeID/:ApplyNOCID/:ApplicationNoYear/:ApplicationNoID/:Status', component: MGOneDocumentScrutinyNodalOfficerComponent
       },
-      
+
       {
         path: 'ahinfradepartmentwise', component: AHInfraDepartmentWiseComponent
+      },
+      {
+        path: 'applicationslist/:Status', component: MGThreeApplicationsListComponent
+      },
+      {
+        path: 'applicationforward/:DepartmentID/:CollegeID/:ApplyNOCID/:Status', component: ApplicationForwardGThreeComponent
       },
     ]
     // ,canActivate: [SkipLocationChangeGuard],
@@ -1078,7 +1089,7 @@ const routes: Routes = [
   {
     path: 'applicationpdf/:CollegeID/:DepartmentID/:Status', component: ApplicationPDFComponent
   },
-  
+
   {
     path: '**', component: PageNotFoundComponent
   }

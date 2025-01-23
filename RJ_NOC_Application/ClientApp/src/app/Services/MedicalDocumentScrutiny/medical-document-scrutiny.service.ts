@@ -219,4 +219,15 @@ export class MedicalDocumentScrutinyService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
+  public async GetApplyNOCApplicationList(request:any) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.post(this.APIUrl + "/GetApplyNOCApplicationList", request, httpOptions)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
 }

@@ -1,0 +1,97 @@
+<div class="card tabCard1 mb-0">
+  <div class="card-header">
+    <b><i class="bi bi-table"></i>&nbsp;Application List</b>
+  </div>
+  <div class="card-body">
+    <div class="clearfix"></div>
+    <div class="card">
+      <div class="card-header">
+        <b>Application List</b>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="table-responsive">
+              <table class="table table-hover table-striped">
+                <thead>
+                  <tr>
+                    <th>S.No.</th>
+                    <th>Department Name</th>
+                    <th>College Name</th>
+                    <th>Application No.</th>
+                    <th>Action</th>
+
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of ApplyNocDetails let idx =index">
+                    <td>{{idx+1}}</td>
+                    <td>{{item.DepartmentName}}</td>
+                    <td>{{item.CollegeName}}</td>
+                    <td>{{item.ApplicationNo}}</td>
+                    <td>
+                      <a href="javascript:void(0)" title="Application Preview" (click)="ApplicationPreview_OnClick(item.DepartmentID,item.CollegeID)" class="btn btn-sm btn-secondary">
+                        <i class="fa fa-eye"></i>
+                      </a>
+                      <span *ngFor="let witem of WorkflowPermissionslst let idxx =index">
+                        <a *ngIf="witem.PermissionCode=='DocumentScrutiny'" (click)="ApplicationForward(item.DepartmentID,item.CollegeID,item.ApplyNOCID)" href="javascript:void(0)" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></a>
+                        <a *ngIf="witem.PermissionCode=='Forward'" href="javascript:void(0)" (click)="DocumentScrutiny(item.DepartmentID,item.CollegeID,item.ApplyNOCID,item.ApplicationNo)" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></a>
+                      </span>
+                      &nbsp;<button type="button" class="btn btn-sm btn-info" title="View Application trail" (click)="GetApplicationTrail(mymodal,item.ApplyNOCID)"><i class="fa fa-list"></i></button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td colspan="20" *ngIf="ApplyNocDetails.length<=0" style="color:red"> No Data Found.!</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<ng-template #mymodal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title" style="font-size: 17px; font-weight: 600 !important;">Application Trail</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <i class="fa fa-close"></i>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="card">
+      <div class="card-header">
+        <b>Application Trail</b>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="table-responsive">
+            <table class="table table-hover table-striped-columns">
+              <thead>
+                <tr>
+                  <th>Sr.No.</th>
+                  <th>User Name</th>
+                  <th>Next User & Role</th>
+                  <th>Action</th>
+                  <th>Action Date</th>
+                  <th>Remark</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of ApplicationTrailList let idx =index">
+                  <td>{{idx+1}}</td>
+                  <td>{{item.ActionUser}}</td>
+                  <td>{{item.NextUserName}} ({{item.NextRoleName}})</td>
+                  <td>{{item.ActionName}}</td>
+                  <td>{{item.ActionDate}}</td>
+                  <td>{{item.Remark}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
