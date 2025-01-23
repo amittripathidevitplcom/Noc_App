@@ -8,7 +8,7 @@
       </b>
     </div>
     <div class="card-body">
-      <div class="row">
+      <div class="row" *ngIf="SelectedDepartmentID!=5">
         <div class="col-md-4 mb-3">
           <label for="rbIsHostel" class="form-label" style="margin-right:15px">Is Hostel <span style="color:red;">*</span> </label>
           <div class="clearfix"></div>
@@ -23,7 +23,7 @@
         </div>
       </div>
       <form [formGroup]="HostelForm" class="form-horizontal">
-        <div [hidden]="request.IsHostel!='Yes'">
+        <div [hidden]="request.IsHostel!='Yes' && SelectedDepartmentID!=5">
           <div class="row mb-2">
             <div class="col-md-4 mb-3">
               <label for="rbHostelCampus" class="form-label" style="margin-right:15px">Is Hostel In Campus <span style="color:red;">*</span> </label>
@@ -62,6 +62,60 @@
                 <p *ngIf="!Hform.ddlHostelCategoryID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
               </div>
             </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="SelectedDepartmentID==5">
+              <label for="MGOneFurnished" class="form-label d-block" style="margin-right:15px">Furnished<span style="color:red;">*</span> : </label>
+              <select class="form-select" id="Furnished" name="Furnished" [(ngModel)]="request.Furnished" formControlName="Furnished">
+                <option value="">--Select--</option>
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+              </select>
+              <p *ngIf="isSubmitted&&SelectedDepartmentID==5&&request.Furnished==''" class="text-danger">This field is required .!</p>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="SelectedDepartmentID==5">
+              <label for="MGOneToilet" class="form-label d-block" style="margin-right:15px">Toilet<span style="color:red;">*</span> : </label>
+              <select class="form-select" id="Toilet" name="Toilet" [(ngModel)]="request.Toilet" formControlName="Toilet">
+                <option value="">--Select--</option>
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+              </select>
+              <p *ngIf="isSubmitted&&SelectedDepartmentID==5&&request.Toilet==''" class="text-danger">This field is required .!</p>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="SelectedDepartmentID==5">
+              <label for="MGOneMess" class="form-label d-block" style="margin-right:15px">Mess<span style="color:red;">*</span> : </label>
+              <select class="form-select" id="Mess" name="Mess" [(ngModel)]="request.Mess" formControlName="Mess">
+                <option value="">--Select--</option>
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+              </select>
+              <p *ngIf="isSubmitted&&SelectedDepartmentID==5&&request.Mess==''" class="text-danger">This field is required .!</p>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="SelectedDepartmentID==5">
+              <label for="MGOneHygiene" class="form-label d-block" style="margin-right:15px">Hygiene of Hostel campus<span style="color:red;">*</span> : </label>
+              <select class="form-select" id="Hygiene" name="Hygiene" [(ngModel)]="request.Hygiene" formControlName="Hygiene">
+                <option value="">--Select--</option>
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+              </select>
+              <p *ngIf="isSubmitted&&SelectedDepartmentID==5&&request.Hygiene==''" class="text-danger">This field is required .!</p>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="SelectedDepartmentID==5">
+              <label for="MGOneCommonroom" class="form-label d-block" style="margin-right:15px">Common room<span style="color:red;">*</span> : </label>
+              <select class="form-select" id="Commonroom" name="Commonroom" [(ngModel)]="request.Commonroom" formControlName="Commonroom">
+                <option value="">--Select--</option>
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+              </select>
+              <p *ngIf="isSubmitted&&SelectedDepartmentID==5&&request.Commonroom==''" class="text-danger">This field is required .!</p>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="SelectedDepartmentID==5">
+              <label for="MGOneVisitor" class="form-label d-block" style="margin-right:15px">Visitor room/Recreation room with TV/Music/Indoor Games<span style="color:red;">*</span> : </label>
+              <select class="form-select" id="Visitor" name="Visitor" [(ngModel)]="request.Visitor" formControlName="Visitor">
+                <option value="">--Select--</option>
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+              </select>
+              <p *ngIf="isSubmitted&&SelectedDepartmentID==5&&request.Visitor==''" class="text-danger">This field is required .!</p>
+            </div>
 
             <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
               <label class="form-label">Hostel Name <span style="color:red;">*</span></label>
@@ -84,8 +138,8 @@
               <label class="form-label">Address Line 2 <!--<span style="color:red;">*</span>--></label>
               <input type="text" class="form-control" id="txtAddressLine2" name="txtAddressLine2" [attr.disabled]="IsDisabledAddress ? true : null" [(ngModel)]="request.AddressLine2" formControlName="txtAddressLine2" (keypress)="alphanumbersOnly($event)">
               <!--<div *ngIf="isSubmitted&&Hform.txtAddressLine2.errors" class="text-danger">
-      <p *ngIf="Hform.txtAddressLine2.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-    </div>-->
+            <p *ngIf="Hform.txtAddressLine2.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+          </div>-->
             </div>
             <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
               <label class="form-label">Select Area <span style="color:red;">*</span></label>
@@ -197,7 +251,14 @@
               <input type="text" class="form-control" id="txtBuiltUpArea" name="txtBuiltUpArea" [(ngModel)]="request.BuiltUpArea" (keypress)="numberOnly($event)" autocomplete="off"
                      [ngModelOptions]="{standalone: true}">
               <p *ngIf="isSubmitted&& request.BuiltUpArea==''" class="text-danger"> This field is required .!</p>
-              <p *ngIf="isSubmitted&& LessBuiltUpArea"  class="text-danger"> Minimum 21,100 sq.ft</p>
+              <p *ngIf="isSubmitted&& LessBuiltUpArea" class="text-danger"> Minimum 21,100 sq.ft</p>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="SelectedDepartmentID==5">
+              <label>Hostel Built Area(sq. ft) <span style="color:red;">*</span></label>
+              <input type="text" class="form-control" id="txtBuiltUpArea" name="txtBuiltUpArea" [(ngModel)]="request.BuiltUpArea" (keypress)="numberOnly($event)" autocomplete="off"
+                     [ngModelOptions]="{standalone: true}">
+              <p *ngIf="isSubmitted&& request.BuiltUpArea==''" class="text-danger"> This field is required .!</p>
+              <p *ngIf="isSubmitted&& LessBuiltUpArea" class="text-danger"> Minimum 21,100 sq.ft</p>
             </div>
             <div class="col-md-11 text-end"></div>
           </div>
@@ -345,15 +406,15 @@
 
 
                 <!--<div class="col-md-3 mb-2">
-          <label>Length (In Feet) <span style="color:red;">*</span></label>
-          <input type="text" class="form-control" id="txtLength" name="txtLength"
-                 [(ngModel)]="hosteldetail.Length" formControlName="txtLength" min="0" (keypress)="numberOnly($event)" maxlength="5">-->
+            <label>Length (In Feet) <span style="color:red;">*</span></label>
+            <input type="text" class="form-control" id="txtLength" name="txtLength"
+                   [(ngModel)]="hosteldetail.Length" formControlName="txtLength" min="0" (keypress)="numberOnly($event)" maxlength="5">-->
                 <!--<p *ngIf="LengthMin>0" class="{{hosteldetail.Length >= LengthMin ? '' : CssClass_TextDangerLength}}">
-            Please Enter Length More than or Equal to {{LengthMin}} ft
-          </p>-->
+              Please Enter Length More than or Equal to {{LengthMin}} ft
+            </p>-->
                 <!--<div *ngIf="isHostelSubmitted&&form.txtLength.errors" class="text-danger">
-            <p *ngIf="form.txtLength.errors.required">This field is required .!</p>
-          </div>-->
+              <p *ngIf="form.txtLength.errors.required">This field is required .!</p>
+            </div>-->
                 <!--<p *ngIf="WidthMin>0" class="{{hosteldetail.Length >= LengthMin ? '' : CssClass_TextDangerWidth}}">Please Enter Min size : {{LengthMin}} sq. ft</p>-->
                 <!--</div>-->
 
@@ -362,9 +423,15 @@
                   <input type="text" class="form-control" id="txtStudentCapacity" name="txtStudentCapacity"
                          [(ngModel)]="hosteldetail.StudentCapacity" formControlName="txtStudentCapacity" min="0" (keypress)="numberOnly($event)" maxlength="9">
                   <div *ngIf="isHostelSubmitted&&form.txtStudentCapacity.errors" class="text-danger">
-                    <p *ngIf="form.txtStudentCapacity.errors.required">This field is required .!</p>
+                    <p *ngIf="form.txtStudentCapacity.errors.required">d"
+This field is required .!
+                    </p>
+                    d"
                   </div>
+                  d"
                 </div>
+
+                v
 
                 <div class="col-md-3 mb-2">
                   <label>Image <span style="color:red;">*</span></label>
@@ -417,7 +484,7 @@
 
                           <!--<td>{{row.Length}}</td>-->
                           <td>
-                            
+
 
                             <a *ngIf="row.ImageFileName!=''" target="_blank" href="{{row.ImageFilePath}}"><i class="fa fa-paperclip"></i></a>
                           </td>
@@ -436,12 +503,13 @@
 
         </div>
       </form>
-    <div class="card-footer text-end" *ngIf="request.IsHostel=='Yes'">
-      <button class="btn btn-primary" type="button" id="btnSave" (click)="SaveData()"> {{request.HostelDetailID>0?'Update':'Save'}}</button>
-      <button type="button" class="btn btn-danger" (click)="ResetControl()"> Reset</button>
-    </div>
+      <!--*ngIf="request.IsHostel=='Yes' && SelectedDepartmentID!=5"-->
+      <div class="card-footer text-end" [hidden]="request.IsHostel!='Yes' && SelectedDepartmentID!=5">
+        <button class="btn btn-primary" type="button" id="btnSave" (click)="SaveData()"> {{request.HostelDetailID>0?'Update':'Save'}}</button>
+        <button type="button" class="btn btn-danger" (click)="ResetControl()"> Reset</button>
+      </div>
 
-  </div>
+    </div>
   </div>
   <div class="card" *ngIf="hostelDataModel.length>0">
     <div class="card-header">

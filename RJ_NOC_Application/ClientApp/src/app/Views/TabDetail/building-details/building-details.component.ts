@@ -126,6 +126,18 @@ export class BuildingDetailsComponent implements OnInit {
   public QueryStringStatus: any = '';
   public SelectedApplyNOCID: number = 0;
   public SearchRecordID: string = '';
+  public ResidentialDivisionList: any = [];
+  public ResidentialDistrictList_Owner: any = [];
+  public ResidentialTehsilList_Owner: any = [];
+  public ResidentialCityList: any = [];
+  public ResidentialPanchyatSamitiList_Owner: any = [];
+  public ResidentialbuildAddressShowHide: boolean = true;
+  IsRural_ResidentialOwner: boolean = true;
+  IsRuralResidential: boolean = false;
+  public ResidentialRentAggrementDocShow: boolean = false;
+  public lstResidentialBuildingTypeChk: any = [];
+  public onChangeEvent: string=''
+  public onBuildingChangeEvent: string=''
   constructor(private buildingDetailsMasterService: BuildingDetailsMasterService, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService,
     private fileUploadService: FileUploadService, private toastr: ToastrService, private loaderService: LoaderService, private router: ActivatedRoute,
     private routers: Router, private cdRef: ChangeDetectorRef, private clipboard: Clipboard) { }
@@ -141,7 +153,7 @@ export class BuildingDetailsComponent implements OnInit {
     this.buildingdetailsForm = this.formBuilder.group(
       {
         rdBuildingType: ['', Validators.required],
-        txtOwnerName: [''],
+        txtOwnerName: ['', Validators.required],
         txtAddressLine1_Owner: ['', Validators.required],
         txtAddressLine2_Owner: [''],
         rbRuralUrban_Owner: ['', Validators.required],
@@ -194,8 +206,39 @@ export class BuildingDetailsComponent implements OnInit {
         txtsearchText: [''],
         txtdistance: [''],
         rdMGOneIstheCampusUnitary: [''],
+
+        //residantel
+        ResidentialBuildingTypeID: ['', Validators.required],
+        rdMGOneResidentialIstheCampusUnitary: [''],
+        txtResidentialdistance: [''],
+        txtResidentialOwnerName: ['', Validators.required],
+        txtResidentialAddressLine1_Owner: ['', Validators.required],
+        txtResidentialAddressLine2_Owner: ['', Validators.required],
+        rbResidentialRuralUrban_Owner: ['', Validators.required],
+        ddlResidentialDivisionID_Owner: ['', [DropdownValidators]],
+        ddlResidentialDistrictID_Owner: ['', [DropdownValidators]],
+        ddlResidentialTehsilID_Owner: ['', [DropdownValidators]],
+        ddlResidentialCityID: ['', [DropdownValidators]],
+        ddlResidentialPanchayatSamitiID_Owner: [''],
+        txtResidentialCityTownVillage_Owner: ['', Validators.required],
+        txtResidentialContactNo_Owner: ['', Validators.required],
+        txtResidentialPincode_Owner: ['', Validators.required],
+        txtResidentialBuildingHostelQuartersRoadArea: [''],
+        txtResidentialbuildingOtherDoc1FileUpload: [''],
+        txtResidentialbuildingOtherDoc2FileUpload: [''],
+        txtResidentialRentAgreementFileUpload: [''],
+        ResidentialRentvaliditydate: [''],
         txtNameoftheAuthority: ['', Validators.required],
-        txtAuthorityDateApproval: ['', Validators.required]
+        txtAuthorityDateApproval: ['', Validators.required],
+        txtAuthoritybuildingOtherDoc1FileUpload: [''],
+        rdMGOneDrainage: [''],
+        txtBuildingUseNameoftheAuthority: ['', Validators.required],
+        txtBuildingUseOrderNo: ['', Validators.required],
+        txtBuildingUseDateApproval: ['', Validators.required],
+        txtbuildingUseOtherDoc1FileUpload: [''],
+        txtPollutionFromDateApproval: ['', Validators.required],
+        txtvalidDateApproval: ['', Validators.required],
+        txtPollutionbuildingOtherDoc1FileUpload: [''],
       })
 
     //this.buildingdetails.CollegeID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
@@ -251,8 +294,10 @@ export class BuildingDetailsComponent implements OnInit {
     this.buildingdetails.lstBuildingDocDetails = [];
     await this.GetCollegeBasicDetails();
     this.GetBuildingTypeCheck();
+    this.GetResidentialBuildingTypeCheck();
     this.GetBuildingUploadDetails(this.SelectedDepartmentID);
     this.GetDivisionList();
+    await this.GetResidentialDivisionList();
     this.GetAllBuildingDetailsList();
     //this.CollegeAddressOnAutoPopulateOnPageload();
     this.ActiveStatus = true;
@@ -275,6 +320,7 @@ export class BuildingDetailsComponent implements OnInit {
     return true;
   }
   async changeBuildingType(BuildingType: any, IsChanged: boolean) {
+    this.onBuildingChangeEvent = BuildingType;
     if (BuildingType == 'Owned') {
       this.RentAggrementDocShow = false;
       this.buildAddressShowHide = true;
@@ -331,6 +377,7 @@ export class BuildingDetailsComponent implements OnInit {
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
           this.lstBuildingTypeChk = data['Data'];
+
           console.log(this.lstBuildingTypeChk);
         }, error => console.error(error));
     }
@@ -371,6 +418,7 @@ export class BuildingDetailsComponent implements OnInit {
     }
   }
   async SaveData() {
+    debugger;
     this.IstxtBuildingHostel = false;
     this.isValidOwnBuildingFileUpload = false;
     this.isValidRentAgreementFileUpload = false;
@@ -390,8 +438,7 @@ export class BuildingDetailsComponent implements OnInit {
     this.CssClass_TextDangerLength = '';
     this.isSubmitted = true;
     this.isFormValid = true;
-    if (this.SelectedDepartmentID == 6)
-    {
+    if (this.SelectedDepartmentID == 6) {
       this.buildingdetailsForm.get('txtFireNOCOrderNumber')?.setValidators([Validators.required]);
       this.buildingdetailsForm.get('txtFromDate')?.setValidators([Validators.required]);
       this.buildingdetailsForm.get('txtToDate')?.setValidators([Validators.required]);
@@ -450,18 +497,63 @@ export class BuildingDetailsComponent implements OnInit {
       }
     }
     if (this.SelectedDepartmentID == 5) {
-      this.buildingdetailsForm.get('txtNameoftheAuthority')?.setValidators([Validators.required]);
-      this.buildingdetailsForm.get('txtAuthorityDateApproval')?.setValidators([Validators.required]);
-      this.buildingdetailsForm.get('txtNameoftheAuthority')?.updateValueAndValidity();
-      this.buildingdetailsForm.get('txtAuthorityDateApproval')?.updateValueAndValidity();
-    } else {
+      if (this.buildingdetails.MGOneResidentialIstheCampusUnitary == '') {
+        this.isFormValid = false;
+      }
+      if (this.buildingdetails.MGOneResidentialIstheCampusUnitary == 'No' && this.buildingdetails.ResidentialDistance < 0) {
+        this.isFormValid = false;
+      }
+      if (this.buildingdetails.MGOneDrainage == '') {
+        this.isFormValid = false;
+      }
+    }
+    if (this.SelectedDepartmentID != 5) {
+      this.buildingdetailsForm.get('ResidentialBuildingTypeID')?.clearValidators();
+      this.buildingdetailsForm.get('txtResidentialOwnerName')?.clearValidators();
+      this.buildingdetailsForm.get('txtResidentialAddressLine1_Owner')?.clearValidators();   
+      this.buildingdetailsForm.get('txtResidentialAddressLine2_Owner')?.clearValidators();
+      this.buildingdetailsForm.get('rbResidentialRuralUrban_Owner')?.clearValidators();
+      this.buildingdetailsForm.get('ddlResidentialDivisionID_Owner')?.clearValidators();
+      this.buildingdetailsForm.get('ddlResidentialDistrictID_Owner')?.clearValidators();
+      this.buildingdetailsForm.get('ddlResidentialTehsilID_Owner')?.clearValidators();
+      this.buildingdetailsForm.get('ddlResidentialCityID')?.clearValidators();
+      this.buildingdetailsForm.get('txtResidentialCityTownVillage_Owner')?.clearValidators();
+      this.buildingdetailsForm.get('txtResidentialContactNo_Owner')?.clearValidators();
+      this.buildingdetailsForm.get('txtResidentialPincode_Owner')?.clearValidators();
       this.buildingdetailsForm.get('txtNameoftheAuthority')?.clearValidators();
       this.buildingdetailsForm.get('txtAuthorityDateApproval')?.clearValidators();
+      this.buildingdetailsForm.get('txtBuildingUseNameoftheAuthority')?.clearValidators();
+      this.buildingdetailsForm.get('txtBuildingUseOrderNo')?.clearValidators();
+      this.buildingdetailsForm.get('txtBuildingUseDateApproval')?.clearValidators();
+      this.buildingdetailsForm.get('txtPollutionFromDateApproval')?.clearValidators();
+      this.buildingdetailsForm.get('txtvalidDateApproval')?.clearValidators();
+      
+      
+      
+      this.buildingdetailsForm.get('ResidentialBuildingTypeID')?.updateValueAndValidity();
+      this.buildingdetailsForm.get('txtResidentialOwnerName')?.updateValueAndValidity();
+      this.buildingdetailsForm.get('txtResidentialAddressLine1_Owner')?.updateValueAndValidity();
+      this.buildingdetailsForm.get('txtResidentialAddressLine2_Owner')?.updateValueAndValidity();
+      this.buildingdetailsForm.get('rbResidentialRuralUrban_Owner')?.updateValueAndValidity();
+      this.buildingdetailsForm.get('ddlResidentialDivisionID_Owner')?.updateValueAndValidity();
+      this.buildingdetailsForm.get('ddlResidentialDistrictID_Owner')?.updateValueAndValidity();
+      this.buildingdetailsForm.get('ddlResidentialTehsilID_Owner')?.updateValueAndValidity();
+      this.buildingdetailsForm.get('ddlResidentialCityID')?.updateValueAndValidity();
+      this.buildingdetailsForm.get('txtResidentialCityTownVillage_Owner')?.updateValueAndValidity();
+      this.buildingdetailsForm.get('txtResidentialContactNo_Owner')?.updateValueAndValidity();
+      this.buildingdetailsForm.get('txtResidentialPincode_Owner')?.updateValueAndValidity();
       this.buildingdetailsForm.get('txtNameoftheAuthority')?.updateValueAndValidity();
-      this.buildingdetailsForm.get('txtAuthorityDateApproval')?.updateValueAndValidity();   
+      this.buildingdetailsForm.get('txtAuthorityDateApproval')?.updateValueAndValidity();
+      this.buildingdetailsForm.get('txtBuildingUseNameoftheAuthority')?.updateValueAndValidity();
+      this.buildingdetailsForm.get('txtBuildingUseOrderNo')?.updateValueAndValidity();
+      this.buildingdetailsForm.get('txtBuildingUseDateApproval')?.updateValueAndValidity();
+      this.buildingdetailsForm.get('txtPollutionFromDateApproval')?.updateValueAndValidity();
+      this.buildingdetailsForm.get('txtvalidDateApproval')?.updateValueAndValidity();      
+         
     }
 
     if (this.buildingdetailsForm.invalid) {
+      console.log(this.buildingdetailsForm);
       this.isFormValid = false;
     }
     if (this.buildingdetails.RuralUrban == 'Rural') {
@@ -475,6 +567,20 @@ export class BuildingDetailsComponent implements OnInit {
         this.isFormValid = false;
       }
     }
+    if (this.SelectedDepartmentID == 5) {
+      if (this.buildingdetails.ResidentialRuralUrban == 'Rural') {
+        if (this.buildingdetails.ResidentialPanchayatSamitiID == 0) {
+          this.IsPanchayatSamitirequried = true;
+          this.isFormValid = false;
+        }
+      }
+      else {
+        if (this.buildingdetails.ResidentialCityID == 0) {
+          this.isFormValid = false;
+        }
+      }
+    }
+    
     if (this.buildingdetails.BuildingHostelQuartersRoadArea <= 0 || (this.buildingdetails.BuildingHostelQuartersRoadArea).toString() == "") {
       this.IstxtBuildingHostel = true;
       return;
@@ -504,6 +610,33 @@ export class BuildingDetailsComponent implements OnInit {
         return;
       }
     }
+    if (this.SelectedDepartmentID==5) {
+      if (this.ResidentialRentAggrementDocShow) {
+        if (this.buildingdetails.ResidentialRentAgreementFileUpload == '') {
+          this.ImageValidate = 'This field is required .!';
+          return
+        }
+        if (this.buildingdetails.ResidentialRentvaliditydate == '') {
+          return;
+        }  
+            
+      }
+      if (this.buildingdetails.AuthoritybuildingOtherDoc1FileUpload == '') {
+        this.ImageValidate = 'This field is required .!';
+        return
+      }
+      if (this.buildingdetails.buildingUseOtherDoc1FileUpload == '') {
+        this.ImageValidate = 'This field is required .!';
+        return
+      }
+      if (this.buildingdetails.PollutionbuildingOtherDoc1FileUpload == '') {
+        this.ImageValidate = 'This field is required .!';
+        return
+      }
+
+      
+    }
+    
     if (this.buildingdetails.OwnBuildingFileUpload == '' && !this.IsGovtCollege) {
       this.ImageValidate = 'This field is required .!';
       return
@@ -663,8 +796,6 @@ export class BuildingDetailsComponent implements OnInit {
           this.buildingdetails.BuildingTypeID = data['Data'][0]['data']['Table'][0]["BuildingTypeID"];
           this.buildingdetails.MGOneIstheCampusUnitary = data['Data'][0]['data']['Table'][0]["MGOneIstheCampusUnitary"];
           this.buildingdetails.Distance = data['Data'][0]['data']['Table'][0]["Distance"];
-          this.buildingdetails.NameoftheAuthority = data['Data'][0]['data']['Table'][0]["NameoftheAuthority"];
-          this.buildingdetails.AuthorityDateApproval = data['Data'][0]['data']['Table'][0]["AuthorityDateApproval"];
           this.holddata.AddressLine1 = data['Data'][0]['data']['Table'][0]["AddressLine1"];
           this.holddata.AddressLine2 = data['Data'][0]['data']['Table'][0]["AddressLine2"];
           this.holddata.RuralUrban = data['Data'][0]['data']['Table'][0]["RuralUrban"];
@@ -708,6 +839,70 @@ export class BuildingDetailsComponent implements OnInit {
           this.buildingdetails.Dis_buildingOtherDoc2FileUpload = data['Data'][0]['data']['Table'][0]["Dis_OtherDoc2FileUpload"];
           this.buildingdetails.buildingOtherDoc2FileUploadPath = data['Data'][0]['data']['Table'][0]["OtherDoc2FileUploadPath"];
 
+          if (this.SelectedDepartmentID == 5) {
+            this.GetResidentialBuildingTypeCheck();
+            this.buildingdetails.ResidentialBuildingTypeID = data['Data'][0]['data']['Table'][0]["ResidentialBuildingTypeID"];
+            this.buildingdetails.ResidentialBuildingName = data['Data'][0]['data']['Table'][0]["ResidentialBuildingName"];
+            this.buildingdetails.MGOneResidentialIstheCampusUnitary = data['Data'][0]['data']['Table'][0]["MGOneResidentialIstheCampusUnitary"];
+            this.buildingdetails.ResidentialDistance = data['Data'][0]['data']['Table'][0]["ResidentialDistance"];
+            this.holddata.ResidentialAddressLine1 = data['Data'][0]['data']['Table'][0]["ResidentialAddressLine1"];
+            this.holddata.ResidentialAddressLine2 = data['Data'][0]['data']['Table'][0]["ResidentialAddressLine2"];
+            this.holddata.ResidentialRuralUrban = data['Data'][0]['data']['Table'][0]["ResidentialRuralUrban"];
+            this.holddata.ResidentialDivisionID = data['Data'][0]['data']['Table'][0]["ResidentialDivisionID"];
+            await this.FillResidentialDivisionRelatedDDL(null, this.holddata.ResidentialDivisionID);
+            this.holddata.ResidentialDistrictID = data['Data'][0]['data']['Table'][0]["ResidentialDistrictID"];
+            await this.FillResidentialDistrictRelatedDDL(null, this.holddata.ResidentialDistrictID);
+            this.holddata.ResidentialTehsilID = data['Data'][0]['data']['Table'][0]["ResidentialTehsilID"];
+            if (this.holddata.ResidentialRuralUrban == 'Rural') {
+              this.IsRuralResidential = true;
+              this.holddata.ResidentialPanchayatSamitiID = data['Data'][0]['data']['Table'][0]["ResidentialPanchayatSamitiID"];
+            }
+            else {
+              this.IsRuralResidential = false;
+              this.holddata.ResidentialCityID = data['Data'][0]['data']['Table'][0]["ResidentialCityID"];
+            }
+            this.holddata.ResidentialCityTownVillage = data['Data'][0]['data']['Table'][0]["ResidentialCityTownVillage"];
+            this.holddata.ResidentialPincode = data['Data'][0]['data']['Table'][0]["ResidentialPincode"];
+            this.changeResidentialBuildingType(data['Data'][0]['data']['Table'][0]["ResidentialBuildingName"], false);
+            this.buildingdetails.ResidentialOwnerName = data['Data'][0]['data']['Table'][0]["ResidentialOwnerName"];
+            this.buildingdetails.ResidentialContactNo = data['Data'][0]['data']['Table'][0]["ResidentialContactNo"];
+            this.buildingdetails.ResidentialbuildingOtherDoc1FileUpload = data['Data'][0]['data']['Table'][0]["ResidentialbuildingOtherDoc1FileUpload"];
+            this.buildingdetails.ResidentialDis_buildingOtherDoc1FileUpload = data['Data'][0]['data']['Table'][0]["ResidentialDis_buildingOtherDoc1FileUpload"];
+            this.buildingdetails.ResidentialbuildingOtherDoc1FileUploadPath = data['Data'][0]['data']['Table'][0]["ResidentialbuildingOtherDoc1FileUploadPath"];
+            this.buildingdetails.ResidentialbuildingOtherDoc2FileUpload = data['Data'][0]['data']['Table'][0]["ResidentialbuildingOtherDoc2FileUpload"];
+            this.buildingdetails.ResidentialDis_buildingOtherDoc2FileUpload = data['Data'][0]['data']['Table'][0]["ResidentialDis_buildingOtherDoc2FileUpload"];
+            this.buildingdetails.ResidentialbuildingOtherDoc2FileUploadPath = data['Data'][0]['data']['Table'][0]["ResidentialbuildingOtherDoc2FileUploadPath"];
+            this.buildingdetails.ResidentialRentAgreementFileUpload = data['Data'][0]['data']['Table'][0]["ResidentialRentAgreementFileUpload"];
+            this.buildingdetails.ResidentialDis_RentAgreementFileUpload = data['Data'][0]['data']['Table'][0]["ResidentialDis_RentAgreementFileUpload"];
+            this.buildingdetails.ResidentialRentAgreementFileUploadPath = data['Data'][0]['data']['Table'][0]["ResidentialRentAgreementFileUploadPath"];
+            this.buildingdetails.AuthoritybuildingOtherDoc1FileUpload = data['Data'][0]['data']['Table'][0]["AuthoritybuildingOtherDoc1FileUpload"];
+            this.buildingdetails.AuthorityDis_buildingOtherDoc1FileUpload = data['Data'][0]['data']['Table'][0]["AuthorityDis_buildingOtherDoc1FileUpload"];
+            this.buildingdetails.AuthoritybuildingOtherDoc1FileUploadPath = data['Data'][0]['data']['Table'][0]["AuthoritybuildingOtherDoc1FileUploadPath"];
+            this.buildingdetails.MGOneDrainage = data['Data'][0]['data']['Table'][0]["MGOneDrainage"];
+            this.buildingdetails.BuildingUseNameoftheAuthority = data['Data'][0]['data']['Table'][0]["BuildingUseNameoftheAuthority"];
+            this.buildingdetails.NameoftheAuthority = data['Data'][0]['data']['Table'][0]["NameoftheAuthority"];
+            this.buildingdetails.AuthorityDateApproval = data['Data'][0]['data']['Table'][0]["AuthorityDateApproval"];
+            this.buildingdetails.BuildingUseOrderNo = data['Data'][0]['data']['Table'][0]["BuildingUseOrderNo"];
+            this.buildingdetails.BuildingUseDateApproval = data['Data'][0]['data']['Table'][0]["BuildingUseDateApproval"];
+            this.buildingdetails.buildingUseOtherDoc1FileUpload = data['Data'][0]['data']['Table'][0]["buildingUseOtherDoc1FileUpload"];
+            this.buildingdetails.Dis_buildingUseOtherDoc1FileUpload = data['Data'][0]['data']['Table'][0]["Dis_buildingUseOtherDoc1FileUpload"];
+            this.buildingdetails.buildingUseOtherDoc1FileUploadPath = data['Data'][0]['data']['Table'][0]["buildingUseOtherDoc1FileUploadPath"];
+            this.buildingdetails.PollutionDateApproval = data['Data'][0]['data']['Table'][0]["PollutionDateApproval"];
+            this.buildingdetails.ValidDateApproval = data['Data'][0]['data']['Table'][0]["ValidDateApproval"];
+            this.buildingdetails.PollutionbuildingOtherDoc1FileUpload = data['Data'][0]['data']['Table'][0]["PollutionbuildingOtherDoc1FileUpload"];
+            this.buildingdetails.PollutionDis_buildingOtherDoc1FileUpload = data['Data'][0]['data']['Table'][0]["PollutionDis_buildingOtherDoc1FileUpload"];
+            this.buildingdetails.PollutionbuildingOtherDoc1FileUploadPath = data['Data'][0]['data']['Table'][0]["PollutionbuildingOtherDoc1FileUploadPath"];
+            this.buildingdetails.ResidentialRentvaliditydate = data['Data'][0]['data']['Table'][0]["ResidentialRentvaliditydate"];
+          }
+          
+
+
+
+
+
+
+
+
           this.buildingdetails.FireNOCOrderNumber = data['Data'][0]['data']['Table'][0]["FireNOCOrderNumber"];
           this.buildingdetails.FromDate = data['Data'][0]['data']['Table'][0]["FromDate"];
           this.buildingdetails.ToDate = data['Data'][0]['data']['Table'][0]["ToDate"];
@@ -746,7 +941,8 @@ export class BuildingDetailsComponent implements OnInit {
           this.buildingdetails.OtherFinancialResourcesFileUploadPath = data['Data'][0]['data']['Table'][0]["OtherFinancialResourcesFileUploadPath"];
           this.buildingdetails.Dis_OtherFinancialResourcesFileUpload = data['Data'][0]['data']['Table'][0]["Dis_OtherFinancialResourcesFileUpload"];
           this.buildingdetails.Rentvaliditydate = data['Data'][0]['data']['Table'][0]["Rentvaliditydate"];
-          this.buildingdetails.IsApproved = data['Data'][0]['data']['Table'][0]["IsApproved"];         
+          this.buildingdetails.IsApproved = data['Data'][0]['data']['Table'][0]["IsApproved"];
+          debugger;
           this.buildingdetails.lstBuildingDocDetails = data['Data'][0]['data']['Table1'];
 
           this.isDisabledGrid = true;
@@ -913,9 +1109,48 @@ export class BuildingDetailsComponent implements OnInit {
     this.buildingdetails.CityTownVillage = '';
     this.buildingdetails.ContactNo = '';
     this.buildingdetails.Rentvaliditydate = '';
-    this.buildingdetails.NameoftheAuthority = '';
-    this.buildingdetails.AuthorityDateApproval = '';
-
+    this.buildingdetails.ResidentialBuildingTypeID = null;
+    this.buildingdetails.MGOneResidentialIstheCampusUnitary = '';
+    this.buildingdetails.ResidentialOwnerName = '';
+    this.buildingdetails.ResidentialAddressLine1 = '';
+    this.buildingdetails.ResidentialAddressLine2 = '';
+    this.buildingdetails.ResidentialRuralUrban = '';
+    this.buildingdetails.ResidentialDistance = 0;
+    this.buildingdetails.ResidentialDivisionID = 0;
+    this.buildingdetails.ResidentialDistrictID = 0;
+    this.buildingdetails.ResidentialTehsilID = 0;
+    this.buildingdetails.ResidentialCityID = 0;
+    this.buildingdetails.ResidentialPanchayatSamitiID = 0;
+    this.buildingdetails.ResidentialCityTownVillage = '';
+    this.buildingdetails.ResidentialContactNo = '';
+    this.buildingdetails.ResidentialPincode = '';
+    this.buildingdetails.ResidentialBuildingHostelQuartersRoadArea = 0;
+    this.buildingdetails.ResidentialRentvaliditydate = '';
+    this.buildingdetails.ResidentialbuildingOtherDoc1FileUpload = '';
+    this.buildingdetails.ResidentialDis_buildingOtherDoc1FileUpload = '';
+    this.buildingdetails.ResidentialbuildingOtherDoc1FileUploadPath = '';
+    this.buildingdetails.ResidentialbuildingOtherDoc2FileUpload = '';
+    this.buildingdetails.ResidentialDis_buildingOtherDoc2FileUpload = '';
+    this.buildingdetails.ResidentialbuildingOtherDoc2FileUploadPath = '';
+    this.buildingdetails.ResidentialRentAgreementFileUpload = '';
+    this.buildingdetails.ResidentialDis_RentAgreementFileUpload = '';
+    this.buildingdetails.ResidentialRentAgreementFileUploadPath = '';
+    this.buildingdetails.AuthoritybuildingOtherDoc1FileUpload = '';
+    this.buildingdetails.AuthorityDis_buildingOtherDoc1FileUpload = '';
+    this.buildingdetails.AuthoritybuildingOtherDoc1FileUploadPath = '';
+    this.buildingdetails.MGOneDrainage = '';
+    this.buildingdetails.BuildingUseNameoftheAuthority = '';
+    this.buildingdetails.BuildingUseOrderNo = '';
+    this.buildingdetails.BuildingUseDateApproval = '';
+    this.buildingdetails.buildingUseOtherDoc1FileUpload = '';
+    this.buildingdetails.Dis_buildingUseOtherDoc1FileUpload = '';
+    this.buildingdetails.buildingUseOtherDoc1FileUploadPath = '';
+    this.buildingdetails.PollutionDateApproval = '';
+    this.buildingdetails.ValidDateApproval = '';
+    this.buildingdetails.PollutionbuildingOtherDoc1FileUpload = '';
+    this.buildingdetails.PollutionDis_buildingOtherDoc1FileUpload = '';
+    this.buildingdetails.PollutionbuildingOtherDoc1FileUploadPath = '';
+    this.buildingdetails.ResidentialBuildingName = '';
     this.OwnBuildingFileUpload = false;
     this.RentAggrementDocShow = false;
     this.isValidRentAgreementFileUpload = false;
@@ -1324,6 +1559,30 @@ export class BuildingDetailsComponent implements OnInit {
         this.file = document.getElementById('txtbuildingOtherDoc2');
         this.file.value = '';
       }
+      else if (Type == 'ResidentialbuildingOtherDoc1FileUpload' || Type == 'All') {
+        // this.isValidbuildingOtherDoc1FileUpload = isShow;
+        this.buildingdetails.ResidentialbuildingOtherDoc1FileUpload = '';
+        this.buildingdetails.ResidentialDis_buildingOtherDoc1FileUpload = '';
+        this.buildingdetails.ResidentialbuildingOtherDoc1FileUploadPath = '';
+        this.file = document.getElementById('txtResidentialbuildingOtherDoc1');
+        this.file.value = '';
+      }
+      else if (Type == 'ResidentialbuildingOtherDoc2FileUpload' || Type == 'All') {
+        // this.isValidbuildingOtherDoc1FileUpload = isShow;
+        this.buildingdetails.ResidentialbuildingOtherDoc2FileUpload = '';
+        this.buildingdetails.ResidentialDis_buildingOtherDoc2FileUpload = '';
+        this.buildingdetails.ResidentialbuildingOtherDoc2FileUploadPath = '';
+        this.file = document.getElementById('txtResidentialbuildingOtherDoc2');
+        this.file.value = '';
+      }
+      else if (Type == 'ResidentialRentAgreementFileUpload' || Type == 'All') {
+        // this.isValidbuildingOtherDoc1FileUpload = isShow;
+        this.buildingdetails.ResidentialRentAgreementFileUpload = '';
+        this.buildingdetails.ResidentialDis_RentAgreementFileUpload = '';
+        this.buildingdetails.ResidentialRentAgreementFileUploadPath = '';
+        this.file = document.getElementById('txtResidentialRentAgreementFileUpload');
+        this.file.value = '';
+      }
     }
     catch (Ex) {
       console.log(Ex);
@@ -1373,6 +1632,24 @@ export class BuildingDetailsComponent implements OnInit {
       this.buildingdetails.buildingOtherDoc2FileUpload = fileName;
       this.buildingdetails.Dis_buildingOtherDoc2FileUpload = dis_Name;
       this.buildingdetails.buildingOtherDoc2FileUploadPath = filePath;
+    }
+    else if (Type == 'ResidentialbuildingOtherDoc1FileUpload') {
+      this.isValidbuildingOtherDoc1FileUpload = isShow;
+      this.buildingdetails.ResidentialbuildingOtherDoc1FileUpload = fileName;
+      this.buildingdetails.ResidentialDis_buildingOtherDoc1FileUpload = dis_Name;
+      this.buildingdetails.ResidentialbuildingOtherDoc1FileUploadPath = filePath;
+    }
+    else if (Type == 'ResidentialbuildingOtherDoc2FileUpload') {
+      this.isValidbuildingOtherDoc2FileUpload = isShow;
+      this.buildingdetails.ResidentialbuildingOtherDoc2FileUpload = fileName;
+      this.buildingdetails.ResidentialDis_buildingOtherDoc2FileUpload = dis_Name;
+      this.buildingdetails.ResidentialbuildingOtherDoc2FileUploadPath = filePath;
+    }
+    else if (Type == 'ResidentialRentAgreementFileUpload') {
+      this.isValidRentAgreementFileUpload = isShow;
+      this.buildingdetails.ResidentialRentAgreementFileUpload = fileName;
+      this.buildingdetails.ResidentialDis_RentAgreementFileUpload = dis_Name;
+      this.buildingdetails.ResidentialRentAgreementFileUploadPath = filePath;
     }
   }
 
@@ -1649,5 +1926,260 @@ export class BuildingDetailsComponent implements OnInit {
         this.loaderService.requestEnded();
       }, 200);
     }
+  }
+  async changeResidentialBuildingType(BuildingType: any, IsChanged: boolean) {
+    this.onChangeEvent = BuildingType;
+    if (BuildingType == 'Owned') {     
+      this.ResidentialRentAggrementDocShow = false;
+      this.ResidentialbuildAddressShowHide = true;
+      //this.IsRural = false;      
+      this.BulidingResidentialCollegeAddressOnAutoPopulateOnPageload();
+    }
+    //if (IsChanged == true) {
+    //  this.ResidentialRentAggrementDocShow = true;
+    //  this.ResidentialbuildAddressShowHide = false;
+    //}
+    else {
+      this.ResidentialRentAggrementDocShow = true;
+      this.ResidentialbuildAddressShowHide = false;
+
+      this.Owin_RentDocTitle = 'Certificate of Land & Rented Building in same "Tehsil" Order No. & Order Date : '
+
+      if (this.buildingdetails.SchoolBuildingDetailsID > 0 && !IsChanged) {
+        this.buildingdetails.ResidentialAddressLine1 = this.holddata.ResidentialAddressLine1;
+        this.buildingdetails.ResidentialAddressLine2 = this.holddata.ResidentialAddressLine2;
+        this.buildingdetails.ResidentialRuralUrban = this.holddata.ResidentialRuralUrban;
+        await this.IsRuralOrUrban(this.buildingdetails.ResidentialRuralUrban == 'Rural' ? true : false, '');
+        this.buildingdetails.ResidentialDivisionID = this.holddata.ResidentialDivisionID;
+        await this.FillDivisionRelatedDDL(null, this.buildingdetails.ResidentialDivisionID);
+        this.buildingdetails.ResidentialDistrictID = this.holddata.ResidentialDistrictID;
+        await this.FillDistrictRelatedDDL(null, this.buildingdetails.ResidentialDistrictID);
+        this.buildingdetails.ResidentialTehsilID = this.holddata.ResidentialTehsilID;
+        this.buildingdetails.ResidentialCityID = this.holddata.ResidentialCityID;
+        this.buildingdetails.ResidentialPanchayatSamitiID = this.holddata.ResidentialPanchayatSamitiID;
+        this.buildingdetails.ResidentialCityTownVillage = this.holddata.ResidentialCityTownVillage;
+        this.buildingdetails.ResidentialPincode = this.holddata.ResidentialPincode;
+      }
+      else {
+        this.buildingdetails.ResidentialAddressLine1 = '';
+        this.buildingdetails.ResidentialAddressLine2 = '';
+        this.buildingdetails.ResidentialRuralUrban = '';
+        this.buildingdetails.ResidentialDivisionID = 0;
+        this.buildingdetails.ResidentialDistrictID = 0;
+        this.buildingdetails.ResidentialTehsilID = 0;
+        this.buildingdetails.ResidentialCityID = 0;
+        this.buildingdetails.ResidentialPanchayatSamitiID = 0;
+        this.buildingdetails.ResidentialCityTownVillage = '';
+        this.buildingdetails.ResidentialPincode = '';
+        this.ResidentialDistrictList_Owner = [];
+        this.ResidentialTehsilList_Owner = [];
+        this.ResidentialPanchyatSamitiList_Owner = [];
+        this.ResidentialCityList = [];
+      }
+    }
+  }
+  async FillResidentialDivisionRelatedDDL(event: any, SeletedValueResidentialDivision: any) {
+    debugger;
+    this.ResidentialDistrictList_Owner = [];
+    this.buildingdetails.ResidentialDistrictID = 0;
+    this.ResidentialTehsilList_Owner = [];
+    this.buildingdetails.ResidentialTehsilID = 0;
+    this.ResidentialCityList = [];
+    this.buildingdetails.ResidentialCityID = 0;
+    this.ResidentialPanchyatSamitiList_Owner = [];
+    this.buildingdetails.ResidentialPanchayatSamitiID = 0;
+    this.buildingdetails.ResidentialDivisionID = SeletedValueResidentialDivision;
+    try {
+      this.loaderService.requestStarted();
+      await this.commonMasterService.GetDistrictByDivsionId(this.buildingdetails.ResidentialDivisionID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.ResidentialDistrictList_Owner = data['Data'];
+
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  async BulidingResidentialCollegeAddressOnAutoPopulateOnPageload() {
+    try {
+      this.loaderService.requestStarted();
+      this.buildingdetails.ResidentialAddressLine1 = this.BuildingCollegeAddress[0]["ResidentialAddressLine1"];
+      this.buildingdetails.ResidentialAddressLine2 = this.BuildingCollegeAddress[0]["ResidentialAddressLine2"];
+      this.buildingdetails.ResidentialRuralUrban = this.BuildingCollegeAddress[0]["ResidentialRuralUrban"];
+      this.buildingdetails.ResidentialDivisionID = this.BuildingCollegeAddress[0]["ResidentialDivisionID"];
+      //console.log(this.buildingdetails.ResidentialDivisionID);
+      await this.FillResidentialDivisionRelatedDDL(null, this.buildingdetails.ResidentialDivisionID);
+      this.buildingdetails.ResidentialDistrictID = this.BuildingCollegeAddress[0]["ResidentialDistrictID"];
+      //console.log(this.buildingdetails.ResidentialDistrictID);
+      await this.FillResidentialDistrictRelatedDDL(null, this.buildingdetails.ResidentialDistrictID);
+      this.buildingdetails.ResidentialTehsilID = this.BuildingCollegeAddress[0]["ResidentialTehsilID"];
+      if (this.buildingdetails.ResidentialRuralUrban == 'Rural') {
+        this.IsRuralResidential = true;
+        this.buildingdetails.ResidentialPanchayatSamitiID = this.BuildingCollegeAddress[0]["ResidentialPanchayatSamitiID"];
+      }
+      else {
+        this.IsRuralResidential = false;
+        this.buildingdetails.ResidentialCityID = this.BuildingCollegeAddress[0]["ResidentialCityID"];
+      }
+      this.buildingdetails.ResidentialCityTownVillage = this.BuildingCollegeAddress[0]["ResidentialCityTownVillage"];
+      this.buildingdetails.ResidentialContactNo = this.BuildingCollegeAddress[0]["ResidentialContactNo"];
+      this.buildingdetails.ResidentialPincode = this.BuildingCollegeAddress[0]["ResidentialPincode"];
+    }
+    catch (ex) { console.log(ex) }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  async FillResidentialDistrictRelatedDDL(event: any, SeletedValueResidentialDistrict: any) {
+    debugger;
+    // this.buildingdetails.DistrictID = SeletedValueDistrict;
+    try {
+      this.loaderService.requestStarted();
+      // Tehsil list
+      await this.commonMasterService.GetTehsilByDistrictId(SeletedValueResidentialDistrict)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.ResidentialTehsilList_Owner = data['Data'];
+        }, error => console.error(error));
+      // PanchyatSamiti list
+      await this.commonMasterService.GetPanchyatSamitiByDistrictId(SeletedValueResidentialDistrict)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.ResidentialPanchyatSamitiList_Owner = data['Data'];
+
+        }, error => console.error(error));
+      //city list
+      await this.commonMasterService.GetCityByDistrict(SeletedValueResidentialDistrict)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.ResidentialCityList = data['Data'][0]['data'];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  async GetResidentialDivisionList() {
+    try {
+
+      this.loaderService.requestStarted();
+      await this.commonMasterService.GetDivisionList()
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.ResidentialDivisionList = data['Data'];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  async GetResidentialBuildingTypeCheck() {
+    try {
+      this.loaderService.requestStarted();
+      await this.commonMasterService.GetBuildingTypeCheck(this.SelectedDepartmentID)
+        .then((data: any) => {
+          debugger;
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.lstResidentialBuildingTypeChk = data['Data'];
+          console.log('Tested');
+          console.log(this.lstResidentialBuildingTypeChk);
+          console.log('Tested');
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  async changecampusType(changecampusType1: any) {
+    //debugger;
+    //console.log(this.onChangeEvent);
+    if (this.onChangeEvent == 'Owned' && changecampusType1 == 'No') {
+      this.ResidentialRentAggrementDocShow = true;
+      this.ResidentialbuildAddressShowHide = false;      
+    }
+    if (this.onChangeEvent == 'Lease' && changecampusType1 == 'No') {
+
+      this.ResidentialRentAggrementDocShow = true;
+      this.ResidentialbuildAddressShowHide = false;
+    }
+    if (this.onChangeEvent == 'Lease' && changecampusType1 == 'Yes') {
+
+      this.ResidentialRentAggrementDocShow = true;
+      this.ResidentialbuildAddressShowHide = false;
+    }
+    if (this.onChangeEvent == 'Owned' && changecampusType1 == 'Yes') {
+
+      this.ResidentialRentAggrementDocShow = false;
+      this.ResidentialbuildAddressShowHide = true;
+    }
+    
+  }
+  async changeBuildingStatus(changecampusType1: any) {
+    //debugger;
+    //console.log(this.onChangeEvent);
+    if (this.onBuildingChangeEvent == 'Owned' && changecampusType1 == 'No') {
+      this.RentAggrementDocShow = true;
+      this.buildAddressShowHide = false;
+      
+    }
+    if (this.onBuildingChangeEvent == 'Lease' && changecampusType1 == 'No') {
+
+      this.RentAggrementDocShow = true;
+      this.buildAddressShowHide = false;
+      
+    }
+    if (this.onBuildingChangeEvent == 'Lease' && changecampusType1 == 'Yes') {
+
+      this.RentAggrementDocShow = true;
+      this.buildAddressShowHide = false;
+     
+    }
+    if (this.onBuildingChangeEvent == 'Owned' && changecampusType1 == 'Yes') {
+      this.RentAggrementDocShow = false;
+      this.buildAddressShowHide = true;      
+    }
+    
   }
 }

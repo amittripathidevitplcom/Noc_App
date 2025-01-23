@@ -121,7 +121,8 @@
       <!--*ngIf="IsAHDegreeCollege==false"-->
       <div class="card mb-0">
         <div class="card-header">
-          <b><i class="bi bi-table"></i>  Building Documents </b>
+         
+          <b><i class="bi bi-table"></i> <span>{{SelectedDepartmentID==5?'Building Details':'Building Documents '}}</span>  </b>
         </div>
         <div class="card-body">
           <div class="col-md-12">
@@ -313,7 +314,7 @@
     </div>
 
 
-    <div class="col-md-12" *ngIf="SelectedDepartmentID==6 || SelectedDepartmentID==3 || SelectedDepartmentID==4 || SelectedDepartmentID==11">
+    <div class="col-md-12" *ngIf="SelectedDepartmentID==6 || SelectedDepartmentID==3 || SelectedDepartmentID==4 || SelectedDepartmentID==11|| SelectedDepartmentID==5">
       <div class="card mb-0">
         <div class="card-header">
           <b><i class="bi bi-table"></i>Hostel Details</b>

@@ -12,6 +12,7 @@
               <tr>
                 <th>S.No.</th>
                 <th>Is Hostel Campus</th>
+                <th *ngIf="SelectedDepartmentID==5">Hostel Type</th>
                 <th>Hostel Name</th>
                 <th>Contact Person Name</th>
                 <th>Contact Person No.</th>
@@ -23,6 +24,7 @@
               <tr *ngFor="let row of hostelDataModel let idx=index;">
                 <td>{{idx+1}}</td>
                 <td>{{row.IsHostelCampus}}</td>
+                <td *ngIf="SelectedDepartmentID==5">{{row.HostelCategoryType}}</td>
                 <td>{{row.HostelName}}</td>
                 <td>{{row.ContactPersonName}}</td>
                 <td>{{row.ContactPersonNo}}</td>

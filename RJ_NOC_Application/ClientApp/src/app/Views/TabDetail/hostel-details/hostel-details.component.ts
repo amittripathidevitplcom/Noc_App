@@ -179,6 +179,12 @@ export class HostelDetailsComponent implements OnInit {
         ddlCityID: ['', [DropdownValidators]],
         txtCityTownVillage: ['', Validators.required],
         txtPincode: ['', [Validators.required, Validators.pattern(this.PinNoRegex)]],
+        Furnished:[''],
+        Toilet:[''],
+        Mess:[''],
+        Hygiene:[''],
+        Commonroom:[''],
+        Visitor:[''],       
 
       })
 
@@ -587,14 +593,11 @@ export class HostelDetailsComponent implements OnInit {
       }, 200);
     }
   }
-  async SaveData() {
-    debugger;
+  async SaveData() {    
     try {
-      if (this.SelectedDepartmentID == 5) {
-        debugger;
+      if (this.SelectedDepartmentID == 5) {       
         if (this.request.HostelTypeID > 0) {
           this.HostelForm.get('ddlHostelTypeID')?.clearValidators();
-
           this.HostelForm.get('ddlHostelTypeID')?.updateValueAndValidity();
         }
         else {
@@ -602,6 +605,27 @@ export class HostelDetailsComponent implements OnInit {
 
           this.HostelForm.get('ddlHostelTypeID')?.updateValueAndValidity();
         }
+      }
+      if (this.SelectedDepartmentID == 5) {
+        if (this.request.Furnished == '') {
+          this.isFormValid = false;
+        }
+        if (this.request.Toilet == '') {
+          this.isFormValid = false;
+        }
+        if (this.request.Mess == '') {
+          this.isFormValid = false;
+        }
+        if (this.request.Hygiene == '') {
+          this.isFormValid = false;
+        }
+        if (this.request.Commonroom == '') {
+          this.isFormValid = false;
+        }
+        if (this.request.Visitor == '') {
+          this.isFormValid = false;
+        }
+       
       }
       this.isFormValid = this.ValidateForm();
       if (this.HostelForm.invalid) {
@@ -838,8 +862,7 @@ export class HostelDetailsComponent implements OnInit {
       this.isDisabled = false;
       this.loaderService.requestStarted();
       await this.hostelDetailService.GetHostelDetailList_DepartmentCollegeWise(this.SelectedDepartmentID, this.SelectedCollageID, HostelDetailID)
-        .then(async (data: any) => {
-          debugger;
+        .then(async (data: any) => {         
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
@@ -863,6 +886,12 @@ export class HostelDetailsComponent implements OnInit {
           this.request.HostelCategoryID = data['Data'][0]['HostelCategoryID'];
           this.request.HostelTypeID = data['Data'][0]['HostelTypeID'];
           this.request.HostelName = data['Data'][0]['HostelName'];
+          this.request.Furnished = data['Data'][0]['Furnished'];
+          this.request.Toilet = data['Data'][0]['Toilet'];
+          this.request.Mess = data['Data'][0]['Mess'];
+          this.request.Hygiene = data['Data'][0]['Hygiene'];
+          this.request.Commonroom = data['Data'][0]['Commonroom'];
+          this.request.Visitor = data['Data'][0]['Visitor'];         
           //this.request.AddressLine1 = data['Data'][0]['AddressLine1'];
           //this.request.AddressLine2 = data['Data'][0]['AddressLine2'];
           //this.request.IsRuralUrban = data['Data'][0]['IsRuralUrban'];

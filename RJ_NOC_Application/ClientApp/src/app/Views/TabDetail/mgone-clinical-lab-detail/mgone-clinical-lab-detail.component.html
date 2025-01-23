@@ -35,7 +35,7 @@
                 </div>
                 <p *ngIf="isSubmitted&&items.Value==''&& items.IsMandatory" class="text-danger"><i aria-hidden="true"></i>This field is required .!</p>
                 <p *ngIf="isSubmitted&&items.ControlType=='Text'&&items.Value<items.MinQty" class="text-danger"><i aria-hidden="true"></i>{{items.MinQty}} {{items.Unit}} required .!</p>
-                <a class="text-primay" *ngIf="items.ControlType=='UploadFile' && items.Name.includes('Appendix')" target="_blank" href="{{items.Annexure}}">(Download {{items.Name}})</a>
+                <a class="text-primay" *ngIf="items.ControlType=='UploadFile'" target="_blank" href="{{items.Annexure}}">(Download {{items.Name}})</a>
               </td>
               <td>
                 {{items.Unit}}

@@ -442,6 +442,7 @@ import { PreviewMGThreeHospitalDetailsComponent } from './Views/PreviewTabs/prev
 import { MGoneFacilityEachComponent } from './Views/TabDetail/mgone-facility-each/mgone-facility-each.component';
 import { MGThreeApplicationsListComponent } from './Views/DocumentScrutinyTab/mgthree-applications-list/mgthree-applications-list.component';
 import { ApplicationForwardGThreeComponent } from './Views/DocumentScrutinyTab/application-forward-gthree/application-forward-gthree.component';
+import { MGOneFacilitiesComponent } from './Views/TabDetail/mgone-facilities/mgone-facilities.component';
 
 
  
@@ -883,6 +884,7 @@ import { ApplicationForwardGThreeComponent } from './Views/DocumentScrutinyTab/a
     PreviewMgOneClassRoomDetailsComponent,
     PreviewMGThreeHospitalDetailsComponent,
     MGoneFacilityEachComponent,
+    MGOneFacilitiesComponent,
     MGThreeApplicationsListComponent,
     ApplicationForwardGThreeComponent,
   ],

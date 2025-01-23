@@ -1,14 +1,14 @@
 
 <div class="card tabCard1 mb-0">
   <div class="card-header d-flex justify-content-between align-items-center">
-    <b><i class="bi bi-table"></i>Class Room Details</b>
+    <b><i class="bi bi-table"></i>Facility Details</b>
   </div>
   <div class="card-body">
     <div class="row">
       <div class="table-responsive">
         <table class="table">
           <tbody>
-            <tr *ngFor="let items of MGOneDepartmentList; let idxx =index">
+            <tr *ngFor="let items of MGOneFacilityList; let idxx =index" [hidden]="items.IsHide">
               <td style="width:2%"><b>•</b></td>
               <td style="width:60%;">
 
@@ -16,13 +16,13 @@
                 <div style="max-width: auto; white-space: normal;" *ngIf="items.ControlType!='Heading'">&nbsp;&nbsp;&nbsp;{{items.Name}}<span class="text-danger" *ngIf="items.IsMandatory">*</span></div>
               </td>
               <td>
-                <select class="form-select" *ngIf="items.ControlType=='DropDown'" [(ngModel)]="items.Value" (change)="ShowHideRow(idx,idxx,items.ID)">
+                <select class="form-select" *ngIf="items.ControlType=='DropDown'" [(ngModel)]="items.Value" (change)="ShowHideRow(idxx,items.ID)">
                   <option value="" disabled selected>--Select--</option>
                   <option value="Yes">Yes</option>
                   <option value="No">No</option>
                 </select>
                 <input type="text" class="form-control" *ngIf="items.ControlType=='Text'" [(ngModel)]="items.Value" />
-                <input type="time" class="form-control" *ngIf="items.ControlType=='time'" [(ngModel)]="items.Value" />
+                <input type="date" class="form-control" *ngIf="items.ControlType=='date'" [(ngModel)]="items.Value" />
                 <div class="d-flex" *ngIf="items.ControlType=='UploadFile'">
                   <input type="file" name="UploadFile_{{idx}}{{idxx}}" style="display:none" id="UploadFile_{{idx}}{{idxx}}" class="form-control" (change)="ValidateDocumentImage($event,idx,idxx)" />
                   <label class="btn upload" for="UploadFile_{{idx}}{{idxx}}">

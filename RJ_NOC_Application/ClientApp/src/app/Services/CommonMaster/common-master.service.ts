@@ -1722,6 +1722,27 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
+  
+  public async GetMGOneFacilityList(DepartmentID: number, CollegeID: number) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl_CommonMaster + "/GetMGOneFacilityList/" + DepartmentID + "/" + CollegeID)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+  public async SaveMGOneFacility(request: any) {
+    const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
+
+    return await this.http.post(this.APIUrl_CommonMaster + "/SaveMGOneFacility", request, httpOptions)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+  
   public async GetMGoneFacilityEach(CollegeID: number) {
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
     return await this.http.get(this.APIUrl_CommonMaster + '/GetMGoneFacilityEach/' + CollegeID, httpOptions)
