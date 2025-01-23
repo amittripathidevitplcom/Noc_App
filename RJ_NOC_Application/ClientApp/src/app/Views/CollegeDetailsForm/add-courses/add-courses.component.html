@@ -146,7 +146,7 @@
       <p *ngIf="form.ddlSubject.errors.required">This field is required .!</p>
     </div>
   </div>-->
-            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3 multipleSelectsOverflow" [hidden]="(request.DepartmentID==2 || request.DepartmentID==11|| request.DepartmentID==9 ||  request.DepartmentID==6)">
+            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3 multipleSelectsOverflow" [hidden]="(request.DepartmentID==2 || request.DepartmentID==11|| request.DepartmentID==9 ||  request.DepartmentID==6||  request.DepartmentID==5)">
               <label for="ddlSubject" class="form-label">Subject <span *ngIf="this.request.DepartmentID !=9" style="color:red">*</span></label>
               <ng-multiselect-dropdown [placeholder]="'--Select--'" formControlName="ddlSubject" id="ddlSubject"
                                        [settings]="dropdownSettings"
@@ -228,7 +228,7 @@
                 <th>College Name</th>
                 <th>Course</th>
                 <th *ngIf="this.request.DepartmentID !=2 &&this.request.DepartmentID !=5 && this.request.DepartmentID !=9&& this.request.DepartmentID !=6&& this.request.DepartmentID !=11">Stream</th>
-                <th style="width:250px !important" *ngIf="this.request.DepartmentID !=2 && this.request.DepartmentID !=9&& this.request.DepartmentID !=6&& this.request.DepartmentID !=11">Subject</th>
+                <th style="width:250px !important" *ngIf="this.request.DepartmentID !=2 && this.request.DepartmentID !=9&&this.request.DepartmentID !=5&& this.request.DepartmentID !=6&& this.request.DepartmentID !=11">Subject</th>
 
                 <th *ngIf="this.request.DepartmentID !=3 && CollegeStatus != 'New'&& this.request.DepartmentID !=11">Seat</th> 
                 <th *ngIf="this.request.DepartmentID ==3">No Of Enrolled Students</th>
@@ -246,7 +246,7 @@
                 <td>{{row.CollageName}}</td>
                 <td >{{row.CourseName}}</td>
                 <td *ngIf="this.request.DepartmentID !=2&&this.request.DepartmentID !=5&& this.request.DepartmentID !=9 && this.request.DepartmentID !=6&& this.request.DepartmentID !=11">{{row.StreamName}}</td>
-                <td style="width:250px !important" *ngIf="this.request.DepartmentID !=2&& this.request.DepartmentID !=9&& this.request.DepartmentID !=6&& this.request.DepartmentID !=11">{{row.SubjectDetails}}</td>
+                <td style="width:250px !important" *ngIf="this.request.DepartmentID !=2&& this.request.DepartmentID !=9&& this.request.DepartmentID !=6&& this.request.DepartmentID !=5 && this.request.DepartmentID !=11">{{row.SubjectDetails}}</td>
                 <td *ngIf="this.request.DepartmentID !=3 && CollegeStatus != 'New'&& this.request.DepartmentID !=11">{{row.Dis_Sits}}</td>
                 <td *ngIf="this.request.DepartmentID ==3">{{row.NoOfEnrolledStudents}}</td>
                 <td *ngIf="this.request.DepartmentID ==11">{{row.FinancialYearName}}</td>

@@ -227,6 +227,9 @@ export class HostelDetailsComponent implements OnInit {
     }
     this.SelectedApplyNOCID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplyNOCID')?.toString()));
     this.QueryStringStatus = this.router.snapshot.paramMap.get('Status')?.toString();
+    if (this.SelectedDepartmentID == 5) {
+      this.request.IsHostel = 'Yes';
+    }
     this.LoadMaster();
     //if (this.SelectedDepartmentID != 4) {
     //  this.isHostel = true;
@@ -239,6 +242,7 @@ export class HostelDetailsComponent implements OnInit {
 
     // load
     //await this.GetCollageDetails();
+
     await this.GetHostelType();
     await this.GetHostelCategory();
     await this.GetDivisionList();

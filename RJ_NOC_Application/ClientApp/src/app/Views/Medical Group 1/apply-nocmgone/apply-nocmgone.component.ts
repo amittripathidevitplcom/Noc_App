@@ -254,7 +254,7 @@ export class ApplyNOCMGOneComponent implements OnInit {
       this.request.DocumentType = 'ApplyNOCMgOne';
       this.applyrequest.CollegeID = this.SelectedCollageID;
       this.applyrequest.ApplicationTypeID = 0;
-      if (confirm("Are you satisfied with the data that are showing in the View Application? Apply NOC After Not  Edit Your Application Profile.")) {
+      if (confirm("Are you satisfied with the data that are showing in the View Application? Apply Essentiality After Not  Edit Your Application Profile.")) {
 
         this.loaderService.requestStarted();
 

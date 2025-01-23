@@ -16,7 +16,7 @@
 </div>
 <div class="container-fluid mainContents">
   <div class="card tabCard1 mb-0">
-    <div class="row m-2" *ngIf="PageStatus=='Yes'">
+    <div class="row m-2" *ngIf="PageStatus=='Pending'||PageStatus=='Revert'||PageStatus=='RBHM'">
       <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="IsSummaryReport==true||IsMeetingNotice==true">
         <label for="ddlAction" class="form-label" *ngIf="IsSummaryReport==true">Upload Summary Report<span style="color:red;">*</span></label>
         <label for="ddlAction" class="form-label" *ngIf="IsMeetingNotice==true">Upload Meeting Notice<span style="color:red;">*</span></label>
@@ -87,7 +87,7 @@
         </div>
       </div>
     </div>
-    <div class="row  m-2" *ngIf="PageStatus=='Yes'">
+    <div class="row  m-2" *ngIf="PageStatus=='Pending'||PageStatus=='Revert'||PageStatus=='RBHM'">
       <div class="col-lg-12 col-md-12 col-sm-12 col-12 mb-3">
         <label>Remarks  <span style="color:red;">*</span></label>
         <textarea id="CheckFinalRemark" class="form-control" [(ngModel)]="CheckFinalRemark"></textarea>
@@ -97,7 +97,7 @@
       </div>
 
     </div>
-    <div class="row  m-2" *ngIf="PageStatus=='Yes'">
+    <div class="row  m-2" *ngIf="PageStatus=='Pending'||PageStatus=='Revert'||PageStatus=='RBHM'">
       <div class="col-md-12">
         <button type="button" class="btn btn-primary" (click)="DocumentScrutiny()" title="Submit">Submit</button>
       </div>
@@ -122,6 +122,7 @@
                 <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-3" *ngIf="this.nocWorkFlowDock.SummaryReport!=''">
                   <label>Summary Report  :<b>Available</b>  </label><a class="btn btn-outline-primary" style="margin-left: 15px;" target="_blank" href="{{nocWorkFlowDock.SummaryReportPath}}" title="View Document"><i class="fa fa-eye"></i></a>
                 </div>
+                <!--<b>{{nocWorkFlowDock.ProposedMeetingDate.replace("T", " ")}}</b>-->
                 <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-3" *ngIf="this.nocWorkFlowDock.MeetingScheduleDate!=''">
                   <label>Meeting Schedule Date  :</label><b>{{nocWorkFlowDock.MeetingScheduleDate.replace("T", " ")}}</b>
                 </div>
@@ -585,5 +586,48 @@
       </div>
     </div>
   </ng-template>
+  <!--Modal Start For OTP-->
+  <div class="modal" id="ModalOtpVerify" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-md modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Aadhaar OTP Verification</h5>
+          <button type="button" class="btn btn-danger" aria-label="Close" (click)="CloseOTPModel()"><span aria-hidden="true">&times;</span></button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-12 mb-3">
+              <p>You have received a OTP Verification Message on Registered Mobile No.</p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-12 mb-3">
+              <label class="mb-2" for="EnterOTP">Enter OTP</label>
+              <input type="text" class="form-control" id="EnterOTP" [(ngModel)]="UserOTP" autocomplete="off" (keypress)="numberOnly($event)" maxlength="6" />
+              <div *ngIf="isUserOTP" class="text-danger">
+                <p *ngIf="isUserOTP">This field is required .!</p>
+              </div>
+              <div *ngIf="isValidUserOTP" class="text-danger">
+                <p *ngIf="isValidUserOTP">Please Enter Correct OTP .!</p>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-12 mb-3 d-flex justify-content-center align-items-center">
+              <span *ngIf="ShowTimer">Please Wait..{{DisplayTimer}}</span>
+              <button [attr.disabled]="isTimerDisabled ? true : null" type="button" id="ResendOTP" (click)="ResendOTP()" class="btn btn-link">Resend OTP</button>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-sm btn-secondary" aria-label="Close" (click)="CloseOTPModel()"><span aria-hidden="true">Cancel</span></button>
+          <button type="button" (click)="VerifyOTP()" class="btn btn-sm btn-primary">Submit</button>
+        </div>
+      </div>
+      <app-loader></app-loader>
+    </div>
+  </div>
+
+  <!--END MODAL-->
 
 </div>

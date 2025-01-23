@@ -950,7 +950,7 @@
       </form>
       <div *ngIf="request.DepartmentID==5">
         <div class="card-header border-top d-flex justify-content-between align-items-center">
-          <b>Other Information <span style="color:red;">*</span></b>
+          <b>Other Medical Institute run by Society <span style="color:red;">*</span></b>
         </div>
         <div class="card-body">
           <div class="row">
@@ -984,7 +984,7 @@
               <p *ngIf="isSubmitted&&request.DepartmentID==5&&request.SocietyIncome==0" class="text-danger"><i aria-hidden="true"></i> Society Income grater then zero .!</p>
             </div>
             <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-              <label class="form-label">Total Project Cost<span style="color:red;">*</span></label>
+              <label class="form-label">Total Project Cost(in lakhs)<span style="color:red;">*</span></label>
               <input type="text" class="form-control" maxlength="10" id="txtTotalProjectCost" name="txtTotalProjectCost" [(ngModel)]="request.TotalProjectCost" (keypress)="numberOnly($event)" [ngModelOptions]="{standalone: true}">
               <p *ngIf="isSubmitted&&request.DepartmentID==5&&(request.TotalProjectCost==null||request.TotalProjectCost.toString()=='')" class="text-danger"><i aria-hidden="true"></i> This field is required .!</p>
               <p *ngIf="isSubmitted&&request.DepartmentID==5&&request.TotalProjectCost==0" class="text-danger"><i aria-hidden="true"></i> Total Project Cost grater then zero .!</p>
@@ -992,7 +992,7 @@
 
 
             <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-              <label class="form-label">Funding Sources<span style="color:red;">*</span></label>
+              <label class="form-label">Funding Source for Establishment of College <span style="color:red;">*</span></label>
               <div class="d-flex">
                 <input type="file" style="display:none;" class="form-control" id="fFundingSources" name="fHospitalDocument" [ngModelOptions]="{standalone: true}" (change)="onFilechange($event,'FundingSources')">
                 <label class="btn upload" for="fFundingSources">

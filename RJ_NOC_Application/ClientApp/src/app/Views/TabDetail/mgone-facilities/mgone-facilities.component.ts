@@ -79,7 +79,8 @@ export class MGOneFacilitiesComponent implements OnInit {
 
 
   public file: any = '';
-  async ValidateDocumentImage(event: any, DepartIndex: number, ItemIndex: number) {
+  async ValidateDocumentImage(event: any, ItemIndex: number) {
+    debugger;
     if (event.target.files && event.target.files[0]) {
       if (event.target.files[0].type === 'application/pdf') {
         if (event.target.files[0].size > 2000000) {
@@ -107,7 +108,7 @@ export class MGOneFacilitiesComponent implements OnInit {
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
           if (this.State == 0) {
-            this.ResetFiles(DepartIndex, ItemIndex, true, data['Data'][0]["FileName"], data['Data'][0]["FilePath"], data['Data'][0]["Dis_FileName"]);
+            this.ResetFiles(ItemIndex, true, data['Data'][0]["FileName"], data['Data'][0]["FilePath"], data['Data'][0]["Dis_FileName"]);
           }
           if (this.State == 1) {
             this.toastr.error(this.ErrorMessage)
@@ -126,19 +127,21 @@ export class MGOneFacilitiesComponent implements OnInit {
 
     }
     else {
-      this.ResetFiles(DepartIndex, ItemIndex, false, '', '', '');
+      this.ResetFiles(ItemIndex, false, '', '', '');
     }
   }
 
 
 
-  ResetFiles(DepartIndex: number, ItemIndex: number, isShow: boolean, fileName: string, filePath: string, dis_Name: string) {
+  ResetFiles(ItemIndex: number, isShow: boolean, fileName: string, filePath: string, dis_Name: string) {
+    debugger;
     try {
+      debugger;
       this.loaderService.requestStarted();
-      this.MGOneFacilityList[DepartIndex].MGOneFacilityDepartmentList[ItemIndex].Value = fileName;
-      this.MGOneFacilityList[DepartIndex].MGOneFacilityDepartmentList[ItemIndex].Value_Dis_FileName = dis_Name;
-      this.MGOneFacilityList[DepartIndex].MGOneFacilityDepartmentList[ItemIndex].ValuePath = filePath;
-      this.file = document.getElementById('UploadFile_' + DepartIndex + ItemIndex);
+      this.MGOneFacilityList[ItemIndex].Value = fileName;
+      this.MGOneFacilityList[ItemIndex].Value_Dis_FileName = dis_Name;
+      this.MGOneFacilityList[ItemIndex].ValuePath = filePath;
+      this.file = document.getElementById('UploadFile_' + ItemIndex);
       this.file.value = '';
     }
     catch (ex) { }
@@ -151,7 +154,7 @@ export class MGOneFacilitiesComponent implements OnInit {
 
 
 
-  async DeleteImage(file: string, DepartIndex: number, ItemIndex: number) {
+  async DeleteImage(file: string, ItemIndex: number) {
     try {
       if (confirm("Are you sure you want to delete this ?")) {
         this.loaderService.requestStarted();
@@ -162,7 +165,7 @@ export class MGOneFacilitiesComponent implements OnInit {
           this.ErrorMessage = data['ErrorMessage'];
           //
           if (this.State == 0) {
-            this.ResetFiles(DepartIndex, ItemIndex, true, '', '', '');
+            this.ResetFiles(ItemIndex, true, '', '', '');
           }
           if (this.State == 1) {
             this.toastr.error(this.ErrorMessage)
@@ -271,7 +274,14 @@ export class MGOneFacilitiesComponent implements OnInit {
       }
     }
   }
+  numberOnly(event: any): boolean {
+    const charCode = (event.which) ? event.which : event.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+      return false;
+    }
+    return true;
 
+  }
 
 
 }

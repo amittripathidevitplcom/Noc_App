@@ -3,7 +3,7 @@
 
 <div class="card">
   <div class="card-header d-flex justify-content">
-    Apply NOC
+    Apply Essentiality
   </div>
   <div class="card-body">
     <div class="row">
@@ -41,7 +41,7 @@
           <ol class="text-danger">
             <li>Submit your application with appropriate option like- new course, new subject, tnoc, pnoc.</li>
             <li>Once the application is submitted you have to print challan or download.</li>
-            <li>Once you did the payment you need to upload proof of payment (receipt) from applied noc, <a href="#"> Upload Reciept</a></li>
+            <li>Once you did the payment you need to upload proof of payment (receipt) from applied Essentiality, <a href="#"> Upload Reciept</a></li>
             <!--<li>Note: here only those subjects or courses will be visible for which draft is complete.</li>
             <li *ngIf="SelectedDepartmentID !=2">If NOC is for name change, location change, merger, coed to girl please fill details in <a href="#">College Amendment</a></li>-->
           </ol>
@@ -51,7 +51,7 @@
 
   </div>
   <div class="card-footer text-end">
-    <button type="button" class="btn btn-primary" (click)="SaveApplyNoc_click()">Apply Noc</button>
+    <button type="button" class="btn btn-primary" (click)="SaveApplyNoc_click()">Apply Essentiality</button>
     <button type="button" class="btn btn-danger" aria-label="Reset">Reset</button>
     <a class="btn btn-info" href="/applicationsummary/{{SelectedDepartmentID}}/{{SelectedCollageID}}" target="_blank" aria-label="Preview Application" *ngIf="request.CollegeID>0">Preview Application</a>
   </div>

@@ -423,16 +423,10 @@
                   <input type="text" class="form-control" id="txtStudentCapacity" name="txtStudentCapacity"
                          [(ngModel)]="hosteldetail.StudentCapacity" formControlName="txtStudentCapacity" min="0" (keypress)="numberOnly($event)" maxlength="9">
                   <div *ngIf="isHostelSubmitted&&form.txtStudentCapacity.errors" class="text-danger">
-                    <p *ngIf="form.txtStudentCapacity.errors.required">d"
-This field is required .!
+                    <p *ngIf="form.txtStudentCapacity.errors.required">This field is required .!
                     </p>
-                    d"
                   </div>
-                  d"
                 </div>
-
-                v
-
                 <div class="col-md-3 mb-2">
                   <label>Image <span style="color:red;">*</span></label>
                   <div class="d-flex">

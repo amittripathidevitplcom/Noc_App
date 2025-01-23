@@ -34,22 +34,24 @@
                     <td>{{item.ApplicationNo}}</td>
                     <!--<td>{{item.ApplicationTypeName}}</td>-->
                   <td *ngIf="this.sSOLoginDataModel.RoleID!=16&&IsCommitteType==false">
-                    <a href="javascript:void(0)" *ngIf="item.IsCommitteeCreated==true&&item.IsProvideMeetingDate==false&&item.IsRejected==false&&item.IsGenerateNoc==false&& item.IsApproveNoc==false" (click)="ApplicationPreview_OnClick(item.DepartmentID,item.CollegeID,item.ApplyNOCID,item.ApplicationNo,'Yes')" class="btn btn-sm btn-info"><i class="fa fa-eye"></i></a>
+                    <a href="javascript:void(0)" *ngIf="item.IsCommitteeCreated==true&&item.IsProvideMeetingDate==false&&item.IsRejected==false&&item.IsGenerateNoc==false&& item.IsApproveNoc==false" (click)="ApplicationPreview_OnClick(item.DepartmentID,item.CollegeID,item.ApplyNOCID,item.ApplicationNo)" class="btn btn-sm btn-info"><i class="fa fa-eye"></i></a>
                     &nbsp;<button type="button" *ngIf="item.IsRejected==true" class="btn btn-sm btn-danger" title="Reject" (click)="NOCApproved_Rejected_Model(ReleceNOC,item.ApplyNOCID,item.CollegeID,item.ApplicationNo,'Reject',item.NOCFileName)">Reject Application</button>
-                          <button *ngIf="item.IsApproveNoc==true" type="button" class="btn btn-primary" style="margin-left:10px;" title="NOC Approve" (click)="NOCApproved_Rejected_Model(ReleceNOC,item.ApplyNOCID,item.CollegeID,item.ApplicationNo,'Approved',item.NOCFileName)">Approved NOC</button>
+                          <button *ngIf="item.IsApproveNoc==true" type="button" class="btn btn-primary" style="margin-left:10px;" title="NOC Approve" (click)="NOCApproved_Rejected_Model(ReleceNOC,item.ApplyNOCID,item.CollegeID,item.ApplicationNo,'Approved',item.NOCFileName,item.DepartmentID,item.IsProvideMeetingDate)">Approved NOC</button>
                     &nbsp;<button *ngIf="item.NOCFilePath=='' && item.IsGenerateNoc==true" type="button" id="btnGenratePDF" class="btn btn-primary" (click)="GenratePDF(item.ApplyNOCID,item.CollegeID)" title="Genrate Darft PDF">Genrate PDF</button>
+
+                    &nbsp;<a *ngIf="item.NOCFilePath != ''" href="{{item.NOCFilePath}}" target="_blank" class="btn btn-sm btn-info" title="View Genrated PDF"><i class="fa fa-eye"></i></a>
                     <!--<button type="button" *ngIf="IsCommitteType==true && item.IsCommitteeCreated==true&&item.IsGenerateOrdersforInspection==false" class="btn btn-sm btn-primary" title="Generate Orders for Inspection" (click)="GenerateOrdersforInspection(item.DepartmentID,item.CollegeID,item.ApplyNOCID,item.ApplicationNo)">Generate Orders for Inspection</button>
   &nbsp;<button type="button" *ngIf="IsCommitteType==true" class="btn btn-sm btn-primary" title="Assign Commitee" (click)="OpenAsignCommitteePopUP(mymodalAsignCommittee,item.ApplyNOCID,item.DepartmentID,item.CollegeID,item.ApplicationNo)"><i class="fa fa-users"></i></button>-->
                     <a href="javascript:void(0)" *ngIf="item.IsProvideMeetingDate==true" (click)="OpenAsignMeetingDatePopUP(mymodalMeetingScheduleDate,item.ApplyNOCID,item.DepartmentID,item.CollegeID)" class="btn btn-sm btn-info"><i class="fa fa-calendar-times-o"></i></a>
                     &nbsp;<button type="button" class="btn btn-sm btn-info" title="View" (click)="GetApplicationTrail(mymodal,item.ApplyNOCID)"><i class="fa fa-bars"></i></button>
                   </td>
                     <td *ngIf="this.sSOLoginDataModel.RoleID==16">
-                      <a href="javascript:void(0)" *ngIf="item.InspectionReportSubmitted==true" (click)="ApplicationPreview_OnClick(item.DepartmentID,item.CollegeID,item.ApplyNOCID,item.ApplicationNo,'Yes')" class="btn btn-sm btn-info"><i class="fa fa-eye"></i></a>
+                      <a href="javascript:void(0)" *ngIf="item.InspectionReportSubmitted==true" (click)="ApplicationPreview_OnClick(item.DepartmentID,item.CollegeID,item.ApplyNOCID,item.ApplicationNo)" class="btn btn-sm btn-info"><i class="fa fa-eye"></i></a>
                       &nbsp;<a href="javascript:void(0)" (click)="ReportFormatGenerated_OnClick(item.DepartmentID,item.CollegeID,item.ApplyNOCID,item.ApplicationNo)" class="btn btn-sm btn-info">Inspection Report</a>
                       &nbsp;<button type="button" class="btn btn-sm btn-info" title="View" (click)="GetApplicationTrail(mymodal,item.ApplyNOCID)"><i class="fa fa-bars"></i></button>
                     </td>
                     <td *ngIf="IsCommitteType==true">
-                      <a href="javascript:void(0)" *ngIf="item.IsCommitteeCreated==true&&item.IsGenerateOrdersforInspection==true" (click)="ApplicationPreview_OnClick(item.DepartmentID,item.CollegeID,item.ApplyNOCID,item.ApplicationNo,'Yes')" class="btn btn-sm btn-info"><i class="fa fa-eye"></i></a>
+                      <a href="javascript:void(0)" *ngIf="item.IsCommitteeCreated==true&&item.IsGenerateOrdersforInspection==true" (click)="ApplicationPreview_OnClick(item.DepartmentID,item.CollegeID,item.ApplyNOCID,item.ApplicationNo)" class="btn btn-sm btn-info"><i class="fa fa-eye"></i></a>
                       &nbsp;<button type="button" *ngIf="item.IsCommitteeCreated==true&&item.IsGenerateOrdersforInspection==false" class="btn btn-sm btn-primary" title="Generate Orders for Inspection" (click)="GenerateOrdersforInspection(item.DepartmentID,item.CollegeID,item.ApplyNOCID,item.ApplicationNo)">Generate Orders for Inspection</button>
                       &nbsp;<button type="button" class="btn btn-sm btn-primary" title="Assign Commitee" (click)="OpenAsignCommitteePopUP(mymodalAsignCommittee,item.ApplyNOCID,item.DepartmentID,item.CollegeID,item.ApplicationNo)"><i class="fa fa-users"></i></button>
                       &nbsp;<button type="button" class="btn btn-sm btn-info" title="View" (click)="GetApplicationTrail(mymodal,item.ApplyNOCID)"><i class="fa fa-bars"></i></button>
@@ -71,7 +73,7 @@
   <!--Modal Start For Assign Commettiee-->
   <ng-template #mymodalAsignCommittee let-modal>
     <div class="modal-header">
-      <h4 class="modal-title" id="modal-basic-title" style="font-size: 17px; font-weight: 600 !important;">Assign  Committee (ApplicationNo : {{ApplicationNo}})</h4>
+      <h4 class="modal-title" id="modal-basic-title" style="font-size: 17px; font-weight: 600 !important;">Committee Formation For Physical Inspection (ApplicationNo : {{ApplicationNo}})</h4>
       <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
         <i class="fa fa-close"></i>
       </button>
@@ -154,9 +156,10 @@
                   </div>
                 </div>
               </div>
+              <!--<span style="color:red;">*</span>-->
               <div class="row">
                 <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
-                  <label class="form-label">Recommendation Report of Committee Member<span style="color:red;">*</span></label>
+                  <label class="form-label">Recommendation For Committee Member</label>
                   <div class="d-flex">
                     <input type="file" style="display:none;" class="form-control" id="fCommitteeMemberDocument" name="fCommitteeMemberDocument" (change)="onFilechange($event)" formControlName="fCommitteeMemberDocument">
                     <label class="btn upload" for="fCommitteeMemberDocument">
@@ -168,9 +171,9 @@
                       <button type="button" class="btn btn-outline-danger" (click)="DeleteImage(request_MemberList.CommitteeDocument)"><i class="fa fa-trash-o"></i></button>
                     </div>
                   </div>
-                  <div *ngIf="isSubmitted && request_MemberList.CommitteeDocument==''" class="text-danger">
-                    <p class="text-danger"><i aria-hidden="true"></i> This field is required .!</p>
-                  </div>
+                  <!--<div *ngIf="isSubmitted && request_MemberList.CommitteeDocument==''" class="text-danger">
+        <p class="text-danger"><i aria-hidden="true"></i> This field is required .!</p>
+      </div>-->
                 </div>
               </div>
             </div>
@@ -273,7 +276,7 @@
           <b>Application No. ({{selectedApplicationNo}})</b>
         </div>
         <div class="card-body">
-          <div class="row">
+          <!--<div class="row">
             <div class="table-responsive">
               <table class="table table-hover table-striped-columns">
                 <thead>
@@ -295,8 +298,26 @@
                 </tbody>
               </table>
             </div>
-          </div>
-          <div class="row m-2" *ngIf="this.btntext == 'Approved'">
+          </div>-->
+          <div class="row m-2" *ngIf="this.btntext == 'Approved'">           
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="IsProvideMeetingDate==true">
+              <label for="ddlAction" class="form-label">Upload Meeting Notice<span style="color:red;">*</span>
+              </label>
+              <div class="d-flex">
+                <input type="file" style="display:none;" class="form-control" id="ffFiledoc" name="ffFiledoc" (change)="onFilechangeMeeting($event,'Meeting Notice')" >
+                <label class="btn upload" for="ffFiledoc">
+                  <span class="filename">Choose file</span>
+                  {{MeetingNoticeFiledoc === '' ? 'No File Choosen' : MeetingNoticeFiledoc_Dis_FileName}}
+                </label>
+                <div class="btn-group" *ngIf="isShowMeetingNoticeFile">
+                  <a class="btn btn-outline-primary" target="_blank" href="{{MeetingNoticeFiledocPath}}"><i class="fa fa-eye"></i></a>
+                  <button type="button" class="btn btn-outline-danger" (click)="DeleteImageMeeting(MeetingNoticeFiledoc,'Meeting Notice')"><i class="fa fa-trash-o"></i></button>
+                </div>
+              </div>
+              <div *ngIf="MeetingNoticeFileValidationMessage!=''" class="text-danger">
+                <p> {{MeetingNoticeFileValidationMessage}}</p>
+              </div>
+            </div>
             <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
               <label for="ddlAction" class="form-label">Action On Application<span style="color:red;">*</span></label>
               <select class="form-select" (change)="OnChangeCurrentAction()" [(ngModel)]="ActionID">
@@ -379,7 +400,7 @@
           </div>
           <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12 col-12 mb-3 d-flex justify-content-center align-items-center">
-              <span *ngIf="ShowTimer">Please Wait.. {{DisplayTimer}}</span>
+              <span *ngIf="ShowTimer">Please Wait..{{DisplayTimer}}</span>
               <button [attr.disabled]="isTimerDisabled ? true : null" type="button" id="ResendOTP" (click)="ResendOTP()" class="btn btn-link">Resend OTP</button>
             </div>
           </div>

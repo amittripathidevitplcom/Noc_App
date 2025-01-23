@@ -25,14 +25,13 @@ import { LegalEntityDataModel } from '../../../../Models/LegalEntityDataModel';
 import { MGOneDocumentScrutinyService } from '../../../../Services/MGOneDocumentScrutiny/mgonedocument-scrutiny.service';
 import { HospitalDetailService } from '../../../../Services/Tabs/HospitalDetail/hospital-detail.service';
 import { FileUploadService } from '../../../../Services/FileUpload/file-upload.service';
-import { AadharServiceDetails } from '../../../../Services/AadharServiceDetails/aadhar-service-details.service';
-import { AadharServiceDataModel } from '../../../../Models/AadharServiceDataModel';
+
 @Component({
-  selector: 'app-mgone-document-scrutiny-nodal-officer',
-  templateUrl: './mgone-document-scrutiny-nodal-officer.component.html',
-  styleUrls: ['./mgone-document-scrutiny-nodal-officer.component.css']
+  selector: 'app-mgone-forward-inpection-report-osd',
+  templateUrl: './mgone-forward-inpection-report-osd.component.html',
+  styleUrls: ['./mgone-forward-inpection-report-osd.component.css']
 })
-export class MGOneDocumentScrutinyNodalOfficerComponent {
+export class MGOneForwardInpectionReportOSDComponent {
 
   @ViewChild('TarilMymodal') tarilMymodal: TemplateRef<any> | undefined;
   public State: number = -1;
@@ -69,6 +68,7 @@ export class MGOneDocumentScrutinyNodalOfficerComponent {
   public ShowHideNextRoleNextUser: boolean = true;
   public isActionTypeValid: boolean = false;
   public isNextActionValid: boolean = false;
+  public ShowHideMeetingDateTime: boolean = false;
 
   buildingdetails: any = {};
 
@@ -156,6 +156,8 @@ export class MGOneDocumentScrutinyNodalOfficerComponent {
   public MOMFiledoc_Dis_FileName: string = '';
   public MOMFiledocPath: string = '';
   public MOMFileValidationMessage: string = '';
+  public ProposedMeetingDate: string = '';
+  public ProposedMeetingTime: string = '';
 
   public file!: File;
   public SummaryReport: string = '';
@@ -163,28 +165,10 @@ export class MGOneDocumentScrutinyNodalOfficerComponent {
   public MOMDocument: string = '';
   public nocWorkFlowDock: any;
   LegalEntityDataModel = new LegalEntityDataModel();
-  //OTP Variable
-  AadharRequest = new AadharServiceDataModel();
-  public TransactionNo: string = '';
-  public UserOTP: string = '';
-  public CustomOTP: string = '123456';// bypass otp
-  public isUserOTP: boolean = false;
-  public isValidUserOTP: boolean = false;
-  public ShowTimer: boolean = false;
-  public isTimerDisabled: boolean = false;
-  public StartTimer: any;
-  public DisplayTimer: string = '';
-  AadhaarNo: string = '';
-  //NOC Variable
-  public selectedApplicationNo: string = '';
-  public selectedFileName: string = '';
-  public NOCFilePath: string = '';
-  public btntext: string = 'Approved';
-  public ActionType: string = '';
-
+  public isProposedMeetingDateValid: boolean = false;
+  public isProposedMeetingTimeValid: boolean = false;
   constructor(private toastr: ToastrService, private loaderService: LoaderService, private mg1DocumentScrutinyService: MGOneDocumentScrutinyService,
-    private landDetailsService: LandDetailsService, private mgoneNOCService: MGoneNOCService, private socityService: SocityService, private TrusteeGeneralInfoService: TrusteeGeneralInfoService, private buildingDetailsMasterService: BuildingDetailsMasterService, private hospitalDetailService: HospitalDetailService, private router: ActivatedRoute, private routers: Router, private modalService: NgbModal, private collegeService: CollegeService, private fileUploadService: FileUploadService, private commonMasterService: CommonMasterService,
-    private aadharServiceDetails: AadharServiceDetails
+    private landDetailsService: LandDetailsService, private mgoneNOCService: MGoneNOCService, private socityService: SocityService, private TrusteeGeneralInfoService: TrusteeGeneralInfoService, private buildingDetailsMasterService: BuildingDetailsMasterService, private hospitalDetailService: HospitalDetailService, private router: ActivatedRoute, private routers: Router, private modalService: NgbModal, private collegeService: CollegeService, private fileUploadService: FileUploadService, private commonMasterService: CommonMasterService
   ) { }
 
   async ngOnInit() {
@@ -751,6 +735,7 @@ export class MGOneDocumentScrutinyNodalOfficerComponent {
   public isNextRoleIDValid: boolean = false;
   public isNextUserIdValid: boolean = false;
   async DocumentScrutiny() {
+    debugger;
     this.isFormvalid = true;
     this.isNextUserIdValid = false;
     this.isNextRoleIDValid = false;
@@ -793,6 +778,13 @@ export class MGOneDocumentScrutinyNodalOfficerComponent {
         this.MOMFileValidationMessage = 'This field is required .!';
         this.isFormvalid = false;
       }
+      //if (this.sSOLoginDataModel.RoleID == 27 && this.PageStatus == 'FBJSDS' && this.ActionID==84) {
+      //  if (this.ProposedMeetingDate == '' && this.ProposedMeetingTime == '') {
+      //    this.isProposedMeetingDateValid = true;
+      //    this.isProposedMeetingTimeValid = true;
+      //    this.isFormvalid = false;
+      //  }
+      //}
 
       if (!this.isFormvalid) {
         return;
@@ -913,23 +905,48 @@ export class MGOneDocumentScrutinyNodalOfficerComponent {
           if (data['Data'].length > 0) {
             this.WorkFlowActionList = data['Data'];
             //remove duplicate actions
-            if (this.sSOLoginDataModel.RoleID == 27 || this.sSOLoginDataModel.RoleID == 6) {
-              const allowedActions = ['Forward', 'Revert To Deputy Secretary After Review','Provide Essentiality Certficate'];
-              this.WorkFlowActionList = this.WorkFlowActionList.filter((x: { ActionName: string }) =>
-                allowedActions.includes(x.ActionName))              
-              //this.WorkFlowActionList = this.WorkFlowActionList.filter((x: { ActionName: string
-              //  ; }) => x.ActionName == 'Forward');
+            if (this.sSOLoginDataModel.RoleID == 6 && this.PageStatus == 'FBC') {
+              this.WorkFlowActionList = this.WorkFlowActionList.filter((x: {
+                ActionName: string
+                ;
+              }) => x.ActionName == 'Forward Inspection Report');
             }
-            if (this.sSOLoginDataModel.RoleID == 40) {
-              const allowedActions = ['Forward MOM','Revert to Principal Secretary'];
-              this.WorkFlowActionList = this.WorkFlowActionList.filter((x: { ActionName: string }) =>
-                allowedActions.includes(x.ActionName))              
+            if (this.sSOLoginDataModel.RoleID == 39 || (this.sSOLoginDataModel.RoleID == 6 && this.PageStatus == 'FBOSD')) {
+              this.WorkFlowActionList = this.WorkFlowActionList.filter((x: {
+                ActionName: string
+                ;
+              }) => x.ActionName == 'Forward Summary Report');
             }
-            //if (this.sSOLoginDataModel.RoleID == 27 && this.PageStatus=='RBHM') {
-            //  const allowedActions = ['Revert To Deputy Secretary After Review'];
-            //  this.WorkFlowActionList = this.WorkFlowActionList.filter((x: { ActionName: string }) =>
-            //    allowedActions.includes(x.ActionName))              
-            //}
+            if (this.sSOLoginDataModel.RoleID == 6 && this.PageStatus == 'FBDF') {
+              const allowedActions = ['Forward Meeting Proposal', 'Forward MOM'];
+              this.WorkFlowActionList = this.WorkFlowActionList.filter((x: { ActionName: string }) =>
+                allowedActions.includes(x.ActionName)
+              );
+              //this.WorkFlowActionList = this.WorkFlowActionList.filter((x: {
+              //  ActionName: string
+              //  ;
+              //}) => x.ActionName == 'Forward Meeting Proposal');
+            }
+            if (this.sSOLoginDataModel.RoleID == 27 && this.PageStatus == 'FBJSDS') {
+              const allowedActions = ['Provide Date & Time For Meeting', 'Forward MOM', 'Reject and Forward'];
+              this.WorkFlowActionList = this.WorkFlowActionList.filter((x: { ActionName: string }) =>
+                allowedActions.includes(x.ActionName)
+              );
+              //this.WorkFlowActionList = this.WorkFlowActionList.filter((x: {
+              //  ActionName: string
+              //  ;
+              //}) => x.ActionName == 'Provide Date & Time For Meeting');
+            }
+            if (this.sSOLoginDataModel.RoleID == 6 && this.PageStatus == 'RBPS') {              
+              const allowedActions = ['Inform Meeting Proposal','Revert to Dealing Officer'];
+              this.WorkFlowActionList = this.WorkFlowActionList.filter((x: { ActionName: string }) =>
+                allowedActions.includes(x.ActionName)
+              );
+              //this.WorkFlowActionList = this.WorkFlowActionList.filter((x: {
+              //  ActionName: string
+              //  ;
+              //}) => x.ActionName == 'Inform Meeting Proposal');
+            }
             //this.WorkFlowActionList = [...new Map(this.WorkFlowActionList.map(item =>
             //  [item['ActionName'], item])).values()];
 
@@ -956,13 +973,21 @@ export class MGOneDocumentScrutinyNodalOfficerComponent {
   }
 
   OnChangeCurrentAction() {
+    debugger;
     var IsNextAction = this.WorkFlowActionList.find((x: { ActionID: number; }) => x.ActionID == this.ActionID)?.IsNextAction;
+    //var ActionID = this.WorkFlowActionList.find((x: { ActionID: number; }) => x.ActionID == this.ActionID)?.ActionID;
+    //console.log(ActionID);
     if (IsNextAction == true) {
       this.ShowHideNextRoleNextUser = true;
     }
     else {
       this.ShowHideNextRoleNextUser = false;
     }
+    //if (ActionID == 84) {
+    //  this.ShowHideMeetingDateTime = true;
+    //} else {
+    //  this.ShowHideMeetingDateTime = false;
+    //}
   }
 
 
@@ -1098,282 +1123,5 @@ export class MGOneDocumentScrutinyNodalOfficerComponent {
       this.files = document.getElementById('fFiledoc');
     }
     this.files.value = '';
-  }
-  async VerifyOTP() {
-    debugger;
-    try {
-      this.isUserOTP = false;
-      this.isValidUserOTP = false;
-      this.loaderService.requestStarted();
-      if (this.UserOTP != undefined && this.UserOTP != null) {
-        if ((this.UserOTP.length == 6 && this.UserOTP != '0') || this.UserOTP == '123456') {
-          this.AadharRequest.AadharNo = this.AadhaarNo;
-          this.AadharRequest.OTP = this.UserOTP;
-          this.AadharRequest.TransactionNo = this.TransactionNo;
-          await this.aadharServiceDetails.ValidateAadharOTP_Esign(this.AadharRequest)
-            .then(async (data: any) => {
-              debugger;
-              data = JSON.parse(JSON.stringify(data));
-              if (data[0].status == "0") {
-                debugger;
-                await this.EsignPDF();
-                //await this.FinalNOCRejectRelese(this.ActionType);
-                this.modalService.dismissAll('After Success');
-                const display = document.getElementById('ModalOtpVerify')
-                if (display) display.style.display = "block";
-                this.toastr.success("OTP send Successfully");
-                this.timer(1);
-
-              }
-              else {
-                if (this.UserOTP == this.CustomOTP) {
-                  debugger;
-                  await this.EsignPDF();
-                }
-                else {
-                  this.toastr.success("Invalid OTP!");
-                  this.isValidUserOTP = true;
-                  return;
-                }
-              }
-            }, error => console.error(error));
-        }
-        else {
-          this.isValidUserOTP = true;
-          return;
-        }
-      }
-      else {
-        this.isUserOTP = true;
-        return;
-      }
-
-    }
-    catch (Ex) {
-      console.log(Ex);
-    }
-    finally {
-      setTimeout(() => {
-        this.loaderService.requestEnded();
-      }, 200);
-    }
-  }
-  async EsignPDF() {
-    debugger;
-    try {
-      this.loaderService.requestStarted();
-      if (this.selectedFileName != undefined && this.selectedFileName != null) {
-        //console.log(this.selectedFileName);
-        //console.log(this.TransactionNo);
-        //console.log(this.sSOLoginDataModel.DepartmentID);
-
-        await this.aadharServiceDetails.eSignPDF(this.selectedFileName, this.TransactionNo, this.sSOLoginDataModel.DepartmentID, 0)
-          .then(async (data: any) => {
-            debugger;
-            data = JSON.parse(JSON.stringify(data));
-            if (data[0].status == "0") {
-             // await this.FinalNOCRejectRelese(this.ActionType);
-              //this.toastr.success(data[0].message);
-            }
-            else {
-              if (this.UserOTP == this.CustomOTP) {
-                //await this.FinalNOCRejectRelese(this.ActionType);
-                //this.toastr.success(data[0].message);
-              }
-              else {
-                this.toastr.warning(data[0].message);
-              }
-            }
-          }, error => console.error(error));
-      }
-      else {
-        this.toastr.warning("File Name is null.please try again.");
-      }
-    }
-    catch (Ex) {
-      console.log(Ex);
-    }
-    finally {
-      setTimeout(() => {
-        this.loaderService.requestEnded();
-      }, 200);
-    }
-  }
-  timer(minute: number) {
-    clearInterval(this.StartTimer);
-    this.ShowTimer = true;
-    this.isTimerDisabled = true;
-    // let minute = 1;
-    let seconds: number = minute * 60;
-    let textSec: any = "0";
-    let statSec: number = 60;
-
-    const prefix = minute < 10 ? "0" : "";
-
-    this.StartTimer = setInterval(() => {
-
-      seconds--;
-      if (statSec != 0) statSec--;
-      else statSec = 59;
-
-      if (statSec < 10) {
-        textSec = "0" + statSec;
-      } else textSec = statSec;
-
-      this.DisplayTimer = `${prefix}${Math.floor(seconds / 60)}:${textSec}`;
-
-      if (seconds == 0) {
-        this.ShowTimer = false;
-        this.isTimerDisabled = false;
-        clearInterval(this.StartTimer);
-      }
-    }, 1000);
-  }
-  async ResendOTP() {
-    try {
-      this.loaderService.requestStarted();
-      if (this.AadhaarNo != undefined) {
-        if (this.AadhaarNo.length > 12) {
-          this.AadharRequest.AadharID = this.AadhaarNo;
-          await this.aadharServiceDetails.GetAadharByVID(this.AadharRequest)
-            .then((data: any) => {
-              data = JSON.parse(JSON.stringify(data));
-              if (data[0].status == "0") {
-                this.AadhaarNo = data[0].data;
-              }
-              else {
-                this.AadhaarNo = '';
-              }
-            }, error => console.error(error));
-        }
-        console.log(this.AadhaarNo);
-        if (this.AadhaarNo.length == 12) {
-          this.AadharRequest.AadharNo = this.AadhaarNo;
-          this.AadharRequest.TransactionNo = '';
-          await this.aadharServiceDetails.SendOtpByAadharNo_Esign(this.AadharRequest)
-            .then((data: any) => {
-              if (data[0].status == "0") {
-                this.TransactionNo = data[0].data;
-                this.modalService.dismissAll('After Success');
-                const display = document.getElementById('ModalOtpVerify')
-                if (display) display.style.display = "block";
-                this.toastr.success("OTP send Successfully");
-                this.timer(1);
-              }
-              else {
-                if (data[0].status == "1" && data[0].message == "Server IP address is not whiteListed") {
-                  this.toastr.warning("Server IP address is not whiteListed");
-                }
-                else {
-                  this.toastr.warning(data[0].message);
-                }
-
-              }
-            }, error => console.error(error));
-        }
-        else {
-          this.toastr.warning("Aadhaar No. is not correct.please contact to admin department.");
-          return;
-        }
-      }
-      else {
-        this.toastr.warning("Aadhaar number is not registered in the SSO you are using. Please update your Aadhaar number in your SSO and then login.");
-        return;
-      }
-    }
-    catch (Ex) {
-      console.log(Ex);
-    }
-    finally {
-      setTimeout(() => {
-        this.loaderService.requestEnded();
-      }, 200);
-    }
-  }
-  async SendOTP() {
-    debugger;
-    try {
-      this.loaderService.requestStarted();
-      if (this.AadhaarNo != undefined) {
-        if (this.AadhaarNo.length > 12) {
-          this.AadharRequest.AadharID = this.AadhaarNo;
-          await this.aadharServiceDetails.GetAadharByVID(this.AadharRequest)
-            .then((data: any) => {
-              data = JSON.parse(JSON.stringify(data));
-              if (data[0].status == "0") {
-                this.AadhaarNo = data[0].data;
-              }
-              else {
-                this.AadhaarNo = '';
-              }
-            }, error => console.error(error));
-        }
-        console.log(this.AadhaarNo);
-        if (this.AadhaarNo.length == 12) {
-          this.AadharRequest.AadharNo = this.AadhaarNo;
-          this.AadharRequest.TransactionNo = '';
-          await this.aadharServiceDetails.SendOtpByAadharNo_Esign(this.AadharRequest)
-            .then((data: any) => {
-              debugger;
-              if (data[0].status == "0") {
-                this.TransactionNo = data[0].data;
-                this.modalService.dismissAll('After Success');
-                const display = document.getElementById('ModalOtpVerify')
-                if (display) display.style.display = "block";
-                this.toastr.success("OTP send Successfully");
-                this.timer(1);
-              }
-              else {
-                if (data[0].status == "1" && data[0].message == "Server IP address is not whiteListed") {
-                  this.toastr.warning("Server IP address is not whiteListed");
-                }
-                else {
-                  this.TransactionNo = data[0].data;
-                  this.modalService.dismissAll('After Success');
-                  const display = document.getElementById('ModalOtpVerify')
-                  if (display) display.style.display = "block";
-                  this.toastr.success("OTP send Successfully");
-                  this.timer(1);
-
-                  this.toastr.warning(data[0].message);
-                }
-
-              }
-            }, error => console.error(error));
-        }
-        else {
-          this.toastr.warning("Aadhaar No. is not correct.please contact to admin department.");
-          return;
-        }
-      }
-      else {
-        this.toastr.warning("Aadhaar number is not registered in the SSO you are using. Please update your Aadhaar number in your SSO and then login.");
-        return;
-      }
-    }
-    catch (Ex) {
-      console.log(Ex);
-    }
-    finally {
-      setTimeout(() => {
-        this.loaderService.requestEnded();
-      }, 200);
-    }
-  }
-  CloseOTPModel() {
-    const display = document.getElementById('ModalOtpVerify');
-    if (display) display.style.display = 'none';
-    this.UserOTP == '';
-    this.TransactionNo == '';
-    this.isUserOTP == false;
-    this.isValidUserOTP == false;
-    this.isValidUserOTP == false;
-  }
-  numberOnly(event: any): boolean {
-    const charCode = (event.which) ? event.which : event.keyCode;
-    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
-      return false;
-    }
-    return true;
   }
 }

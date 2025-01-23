@@ -251,7 +251,7 @@
             </select>
             <p *ngIf="isSubmitted&&SelectedDepartmentID==5&&buildingdetails.MGOneResidentialIstheCampusUnitary==''"><span style="color:red;">This field is required .!</span></p>
           </div>
-          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="buildingdetails.MGOneResidentialIstheCampusUnitary=='No'">
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" [hidden]="ResidentialbuildAddressShowHide">
             <label class="form-label">Distance <span style="color:red;">*</span></label>
             <input type="text" class="form-control" id="txtResidentialdistance" name="txtResidentialdistance" [(ngModel)]="buildingdetails.ResidentialDistance" formControlName="txtResidentialdistance" maxlength="5" (keypress)="numberOnly($event)">
             <p *ngIf="isSubmitted&&buildingdetails.MGOneResidentialIstheCampusUnitary=='No'&&buildingdetails.ResidentialDistance<=0" class="text-danger"><i aria-hidden="true"></i>This field is required .!</p>
@@ -646,7 +646,7 @@
       <div class="card-body">
         <div class="row">
           <div class="col-lg-3 col-md-3 col-sm-4 col-12 mb-3">
-            <label for="txtFireNOCOrderNumber" class="form-label">Order No <span *ngIf="SelectedDepartmentID==6" style="color:red;">*</span></label>
+            <label for="txtFireNOCOrderNumber" class="form-label">Order No <span *ngIf="SelectedDepartmentID==6||SelectedDepartmentID==5" style="color:red;">*</span></label>
             <input type="text" autocomplete="off" class="form-control" id="txtFireNOCOrderNumber" name="txtFireNOCOrderNumber" [(ngModel)]="buildingdetails.FireNOCOrderNumber" formControlName="txtFireNOCOrderNumber">
 
             <div *ngIf="isSubmitted&&form.txtFireNOCOrderNumber.errors" class="text-danger">
@@ -654,7 +654,7 @@
             </div>
           </div>
           <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-            <label for="">From Date <span *ngIf="SelectedDepartmentID==6" style="color:red;">*</span></label>
+            <label for="">From Date <span *ngIf="SelectedDepartmentID==6||SelectedDepartmentID==5" style="color:red;">*</span></label>
             <input class="form-control" type="date" id="txtFromDate" placeholder="Enter From Date" [(ngModel)]="buildingdetails.FromDate" formControlName="txtFromDate" max="{{MaxDate | date:'yyyy-MM-dd'}}" onkeypress="return false;" />
             <div *ngIf="isSubmitted&&form.txtFromDate.errors" class="text-danger">
               <p *ngIf="form.txtFromDate.errors.required"> This field is required .!</p>
@@ -662,14 +662,14 @@
           </div>
 
           <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-            <label for="">To Date <span *ngIf="SelectedDepartmentID==6" style="color:red;">*</span></label>
+            <label for="">To Date <span *ngIf="SelectedDepartmentID==6||SelectedDepartmentID==5" style="color:red;">*</span></label>
             <input class="form-control" type="date" id="txtToDate" placeholder="Enter To Date" [(ngModel)]="buildingdetails.ToDate" formControlName="txtToDate" min="{{MaxDate | date:'yyyy-MM-dd'}}" onkeypress="return false;" />
             <div *ngIf="isSubmitted&&form.txtToDate.errors" class="text-danger">
               <p *ngIf="form.txtToDate.errors.required"> This field is required .!</p>
             </div>
           </div>
           <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-            <label for="txtFireNOCUpload" class="form-label">Upload Fire NOC Document <span *ngIf="SelectedDepartmentID==6" style="color:red;">*</span></label>
+            <label for="txtFireNOCUpload" class="form-label">Upload Fire NOC Document <span *ngIf="SelectedDepartmentID==6||SelectedDepartmentID==5" style="color:red;">*</span></label>
             <div class="d-flex">
               <input type="file" class="form-control" id="txtFireNOCUpload" style="display:none" formControlName="txtFireNOCUpload" (change)="ValidateUploadImage($event,'FireNOCFileUpload')" #txtFireNOCUpload />
               <label class="btn upload" for="txtFireNOCUpload">

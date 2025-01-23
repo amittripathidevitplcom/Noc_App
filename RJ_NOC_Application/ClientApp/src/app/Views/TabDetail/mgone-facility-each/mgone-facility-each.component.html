@@ -15,13 +15,13 @@
               {{item.Name}}&nbsp;{{item.OrderBy}}
             </td>
             <td>
-              <label class="d-block" id="basic-addon1">Capacity:</label>
+              <label class="d-block" id="basic-addon1">Student Capacity:</label>
               <input type="text" maxlength="10" class="form-control"  value="{{item.Capacity>0?item.Capacity:''}}" id="txtCapacity{{idx}}" (keypress)="numbersOnly($event)" name="txtCapacity{{idx}}" [(ngModel)]="item.Capacity" autocomplete="off">
               <p class="text-danger" *ngIf="item.IsSubmitted&&(item.Capacity==null || item.Capacity<0)"> This field is required .!</p>
               <p class="text-danger" *ngIf="item.IsSubmitted&&item.Capacity<item.MinCapacity">Min Capacity {{item.MinCapacity}}</p>
             </td>
             <td>
-              <label *ngIf="item.Code=='LectureTheatre'" class="d-block" id="basic-addon1">Size:</label>
+              <label *ngIf="item.Code=='LectureTheatre'" class="d-block" id="basic-addon1">Size ({{item.Unit}}):</label>
               <input *ngIf="item.Code=='LectureTheatre'" type="text" maxlength="10" class="form-control" value="{{item.Size>0?item.Size:''}}" id="txtSize{{idx}}" (keypress)="numbersOnly($event)" name="txtSize{{idx}}" [(ngModel)]="item.Size" autocomplete="off">
               <p class="text-danger" *ngIf="item.IsSubmitted&&(item.Size<0 ||item.Size==null) && item.Code=='LectureTheatre'"> This field is required .!</p>
               <p class="text-danger" *ngIf="item.IsSubmitted&&item.Size<item.MinSize && item.Code=='LectureTheatre'">Min Size {{item.MinSize}} {{item.Unit}}</p>

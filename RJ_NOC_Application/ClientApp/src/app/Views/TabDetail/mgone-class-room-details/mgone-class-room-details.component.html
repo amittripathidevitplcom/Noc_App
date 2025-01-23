@@ -9,11 +9,11 @@
         <table class="table">
           <tbody>
             <tr *ngFor="let items of MGOneDepartmentList; let idxx =index">
-              <td style="width:2%"><b>•</b></td>
+              <!--<td style="width:2%"><b>•</b></td>-->
               <td style="width:60%;">
 
-                <div style="max-width: auto; white-space: normal;" *ngIf="items.ControlType=='Heading'"><b>{{items.Name}}</b><span class="text-danger" *ngIf="items.IsMandatory">*</span></div>
-                <div style="max-width: auto; white-space: normal;" *ngIf="items.ControlType!='Heading'">&nbsp;&nbsp;&nbsp;{{items.Name}}<span class="text-danger" *ngIf="items.IsMandatory">*</span></div>
+                <div style="max-width: auto; white-space: normal;" *ngIf="items.ControlType=='Heading'"><b>•&nbsp;</b><b>{{items.Name}}</b><span class="text-danger" *ngIf="items.IsMandatory">*</span></div>
+                <div style="max-width: auto; white-space: normal;" *ngIf="items.ControlType!='Heading'">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{items.Name}}<span class="text-danger" *ngIf="items.IsMandatory">*</span></div>
               </td>
               <td>
                 <select class="form-select" *ngIf="items.ControlType=='DropDown'" [(ngModel)]="items.Value" (change)="ShowHideRow(idx,idxx,items.ID)">
@@ -21,22 +21,23 @@
                   <option value="Yes">Yes</option>
                   <option value="No">No</option>
                 </select>
-                <input type="text" class="form-control" *ngIf="items.ControlType=='Text'" [(ngModel)]="items.Value" />
+                <!--<input type="number" class="form-control" *ngIf="items.ControlType=='number'"  [(ngModel)]="items.Value" />-->
+                <input type="text" class="form-control" *ngIf="items.ControlType=='Text'"maxlength="4" (keypress)="numberOnly($event)" [(ngModel)]="items.Value" />
                 <input type="time" class="form-control" *ngIf="items.ControlType=='time'" [(ngModel)]="items.Value" />
                 <div class="d-flex" *ngIf="items.ControlType=='UploadFile'">
-                  <input type="file" name="UploadFile_{{idx}}{{idxx}}" style="display:none" id="UploadFile_{{idx}}{{idxx}}" class="form-control" (change)="ValidateDocumentImage($event,idx,idxx)" />
-                  <label class="btn upload" for="UploadFile_{{idx}}{{idxx}}">
+                  <input type="file" name="UploadFile_{{idxx}}" style="display:none" id="UploadFile_{{idxx}}" class="form-control" (change)="ValidateDocumentImage($event,idxx)" />
+                  <label class="btn upload" for="UploadFile_{{idxx}}">
                     <span class="filename">Choose file</span>
                     {{items.Value === '' ? 'No File Choosen' : items.Value_Dis_FileName}}
                   </label>
                   <div class="btn-group" *ngIf="items.Value!=''">
                     <a class="btn btn-outline-primary" target="_blank" href="{{items.ValuePath}}"><i class="fa fa-eye"></i></a>
-                    <button type="button" class="btn btn-outline-danger" (click)="DeleteImage(items.Value,idx,idxx)"><i class="fa fa-trash-o"></i></button>
+                    <button type="button" class="btn btn-outline-danger" (click)="DeleteImage(items.Value,idxx)"><i class="fa fa-trash-o"></i></button>
                   </div>
                 </div>
                 <p *ngIf="isSubmitted&&items.Value==''&& items.IsMandatory" class="text-danger"><i aria-hidden="true"></i>This field is required .!</p>
                 <p *ngIf="isSubmitted&&items.ControlType=='Text'&&items.Value<items.MinQty" class="text-danger"><i aria-hidden="true"></i>{{items.MinQty}} {{items.Unit}} required .!</p>
-                <a class="text-primay" *ngIf="items.ControlType=='UploadFile' && items.Name.includes('Appendix')" target="_blank" href="{{items.Annexure}}">(Download {{items.Name}})</a>
+                <a class="text-primay" *ngIf="items.ControlType=='UploadFile'" target="_blank" href="{{items.Annexure}}">(Download {{items.Name}})</a>
               </td>
               <td>
                 {{items.Unit}}

@@ -257,6 +257,7 @@ import { PreviewDTEAffiliationCourseComponent } from './Views/PreviewTabs/previe
 import { PreviewDTEAffiliationOtherDetailsComponent } from './Views/PreviewTabs/preview-dteaffiliation-other-details/preview-dteaffiliation-other-details.component';
 import { DTEAffiliationDetailsComponent } from './Views/DTEAffiliationDetails/dteaffiliation-details/dteaffiliation-details.component';
 import { DTEAffiliationSummaryComponent } from './Views/DTEAffiliationView/dteaffiliation-summary/dteaffiliation-summary.component';
+import { MGOneForwardInpectionReportOSDComponent } from './Views/Medical Group 1/NOC/mgone-forward-inpection-report-osd/mgone-forward-inpection-report-osd.component';
 import { MGThreeApplicationsListComponent } from './Views/DocumentScrutinyTab/mgthree-applications-list/mgthree-applications-list.component';
 import { ApplicationForwardGThreeComponent } from './Views/DocumentScrutinyTab/application-forward-gthree/application-forward-gthree.component';
 const routes: Routes = [
@@ -593,6 +594,9 @@ const routes: Routes = [
 
       {
         path: 'checklistpreview/:DepartmentID/:CollegeID/:ApplyNOCID', component: DocumentScrutinyCheckListDetailsComponent
+      },
+      {
+        path: 'nocchecklistmgone/:DepartmentID/:CollegeID/:ApplyNOCID/:ApplicationNoYear/:ApplicationNoID', component: NoccheckListMgoneComponent
       },
       {
         path: 'jointapplicationlist', component: JointApplicationListComponent
@@ -1048,6 +1052,10 @@ const routes: Routes = [
       {
         path: 'mgonedocumentScrutinyNodalOfficer/:DepartmentID/:CollegeID/:ApplyNOCID/:ApplicationNoYear/:ApplicationNoID/:Status', component: MGOneDocumentScrutinyNodalOfficerComponent
       },
+      {
+        path: 'mgoneforwardnnpectionreportosd/:DepartmentID/:CollegeID/:ApplyNOCID/:ApplicationNoYear/:ApplicationNoID/:Status', component: MGOneForwardInpectionReportOSDComponent
+      },
+      
 
       {
         path: 'ahinfradepartmentwise', component: AHInfraDepartmentWiseComponent

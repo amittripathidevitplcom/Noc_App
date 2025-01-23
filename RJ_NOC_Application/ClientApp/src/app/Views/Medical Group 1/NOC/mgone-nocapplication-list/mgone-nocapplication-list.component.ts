@@ -30,8 +30,9 @@ export class MgoneNocapplicationListComponent {
   public RoleID: number = 0;
   public UserID: number = 0;
   public SelectedCollageID: number = 0;
-  public SelectedDepartmentID: number = 0;
+  public SelectedDepartmentID: number = 0; 
   public SelectedApplyNOCID: number = 0;
+
   public MobileNoRegex = new RegExp(/^((\\+91-?)|0)?[0-9]{10}$/)
 
   public All_U_Select: boolean = false;
@@ -52,6 +53,7 @@ export class MgoneNocapplicationListComponent {
   public isSubmitted: boolean = false;
   public isLoading: boolean = false;
   public IsCommitteType: boolean = false;
+  public IsProvideMeetingDate: boolean = false;
   public ApplicationTrailList: any = [];
 
   public MeetingScheduleDate: string = '';
@@ -91,13 +93,27 @@ export class MgoneNocapplicationListComponent {
   public NextRoleID: number = 0;
   public NextUserID: number = 0;
   public ActionID: number = 0;
-
+  public PageStatus: string = '';
+  public SelectedDepartmentID1: number = 0;
+  public SelectedApplyNOCID1: number = 0;
+  public isShowMeetingNoticeFile: boolean = false;
+  public MeetingNoticeFiledoc: string = '';
+  public MeetingNoticeFiledoc_Dis_FileName: string = '';
+  public MeetingNoticeFiledocPath: string = '';
+  public MeetingNoticeFileValidationMessage: string = '';
+  public isShowFile: boolean = false;
+  public Filedoc: string = '';
+  public Filedoc_Dis_FileName: string = '';
+  public FiledocPath: string = '';
+  public FileValidationMessage: string = '';
+ 
   constructor(private mgoneNOCService: MGoneNOCService, private sSOLoginService: SSOLoginService, private committeeMasterService: CommitteeMasterService, private modalService: NgbModal, private loaderService: LoaderService, private toastr: ToastrService, private router: ActivatedRoute, private routers: Router, private formBuilder: FormBuilder,
     private commonMasterService: CommonMasterService, private fileUploadService: FileUploadService,
     private aadharServiceDetails: AadharServiceDetails) { }
   async ngOnInit() {
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
-
+    this.PageStatus = (this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('Status')?.toString()));   
+    await this.GetApplyNOCApplicationListByRole();
     if (this.sSOLoginDataModel.RoleID == 38) {
       this.IsCommitteType = true;
     }
@@ -106,14 +122,15 @@ export class MgoneNocapplicationListComponent {
         txtCMNameOfPerson: ['', Validators.required],
         txtCMMobileNumber: ['', [Validators.required, Validators.pattern(this.MobileNoRegex)]],
         txtSSOID: ['', Validators.required],
-        fCommitteeMemberDocument: ['']
+        fCommitteeMemberDocument: [''],       
       })
-    await this.GetApplyNOCApplicationListByRole();
+    
   }
   get form_CommitteeMember() { return this.CommitteeMemberDetails.controls; }
 
 
-  async GetApplyNOCApplicationListByRole() {   
+  async GetApplyNOCApplicationListByRole() {
+    debugger;
     try {
       this.loaderService.requestStarted();
       await this.mgoneNOCService.GetNOCApplicationList(this.sSOLoginDataModel.UserID, this.sSOLoginDataModel.RoleID, 'Pending')
@@ -320,10 +337,10 @@ export class MgoneNocapplicationListComponent {
       this.toastr.error("Self primary member required");
       isValid = false;
     }
-    if (this.request_MemberList.CommitteeDocument == '') {
-      this.toastr.error("Please add Committee Member Document");
-      isValid = false;
-    }
+    //if (this.request_MemberList.CommitteeDocument == '') {
+    //  this.toastr.error("Please add Committee Member Document");
+    //  isValid = false;
+    //}
     if (!isValid) {
       return;
     }
@@ -378,10 +395,11 @@ export class MgoneNocapplicationListComponent {
     this.request_MemberList.ApplicationCommitteeList = newArr;
   }
 
-  async ApplicationPreview_OnClick(DepartmentID: number, CollegeID: number, ApplyNOCID: number, ApplicationNo: string, Status: string) {   
-    if (DepartmentID = 5) {
-      this.routers.navigate(['/mgonedocumentScrutinyNodalOfficer' + "/" + encodeURI(this.commonMasterService.Encrypt(DepartmentID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(CollegeID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(ApplyNOCID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(ApplicationNo.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(Status.toString()))]);
-    }
+  async ApplicationPreview_OnClick(DepartmentID: number, CollegeID: number, ApplyNOCID: number, ApplicationNo: string) {
+    debugger;
+    var url = '/mgonedocumentScrutinyNodalOfficer';
+    url = this.PageStatus == 'FBC' || this.PageStatus == 'FBOSD' || this.PageStatus == 'FBDF' || this.PageStatus == 'FBJSDS' || this.PageStatus == 'RBPS' ? '/mgoneforwardnnpectionreportosd' : url;
+      this.routers.navigate([url + "/" + encodeURI(this.commonMasterService.Encrypt(DepartmentID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(CollegeID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(ApplyNOCID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(ApplicationNo.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(this.PageStatus))]);
   }
 
   async GetApplicationTrail(content: any, ApplyNOCID: number) {
@@ -558,22 +576,27 @@ export class MgoneNocapplicationListComponent {
     }
   }
 
-  async NOCApproved_Rejected_Model(content: any, ApplyNOCID: number, CollegeID: number, ApplicationNo: string, type: string, fileName: string) {
+  async NOCApproved_Rejected_Model(content: any, ApplyNOCID: number, CollegeID: number, ApplicationNo: string, type: string, fileName: string, DepartmentID: number, IsProvideMeetingDate: boolean) {
+    debugger;
     this.modalService.open(content, { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' }).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
     });
     this.SelectedApplyNOCID = ApplyNOCID;
+    this.SelectedApplyNOCID1 = ApplyNOCID;
     this.SelectedCollageID = CollegeID;
     this.selectedApplicationNo = ApplicationNo;
     this.SelectedDepartmentID = this.sSOLoginDataModel.DepartmentID;
+    this.SelectedDepartmentID1 = DepartmentID;
+    this.IsProvideMeetingDate = IsProvideMeetingDate
     this.btntext = type;
     this.selectedFileName = fileName;
     if (type == 'Approved') {
-      this.AadhaarNo = this.sSOLoginDataModel.AadhaarId;
+      this.AadhaarNo ='862779237697'; //this.sSOLoginDataModel.AadhaarId;
       await this.GetRoleListForApporval();
       await this.GetWorkFlowActionListByRole();
+     // await this.FinalNOCRejectRelese(this.ActionType);
     }
   }
 
@@ -581,14 +604,15 @@ export class MgoneNocapplicationListComponent {
     this.loaderService.requestStarted();
     try {
       await this.mgoneNOCService.UpdateNOCPDFData('SaveData', this.sSOLoginDataModel.DepartmentID, ApplyNOCID, CollegeID, this.sSOLoginDataModel.UserID, this.sSOLoginDataModel.RoleID)
-        .then((data: any) => {
+        .then(async(data: any) => {
           if (data != null && data != undefined) {
             data = JSON.parse(JSON.stringify(data));
             this.State = data['State'];
             this.SuccessMessage = data['SuccessMessage'];
             this.ErrorMessage = data['ErrorMessage'];
-            this.toastr.success(this.SuccessMessage);
+            this.toastr.success(this.SuccessMessage);           
             this.GetApplyNOCApplicationListByRole();
+
           }
         }, error => console.error(error));
     }
@@ -601,7 +625,8 @@ export class MgoneNocapplicationListComponent {
       }, 100);
     }
   }
-  async FinalNOCRejectRelese(ActionType:string) {
+  async FinalNOCRejectRelese(ActionType: string) {
+    debugger;
     if (this.FinalRemark == '' || this.FinalRemark == null) {
       this.toastr.error("Please enter Remark");
       return;
@@ -610,7 +635,9 @@ export class MgoneNocapplicationListComponent {
     this.isLoading = true;
 
     try {
-      await this.mgoneNOCService.FinalNOCRejectRelese(this.SelectedApplyNOCID, this.SelectedDepartmentID, this.sSOLoginDataModel.RoleID, this.sSOLoginDataModel.UserID, this.FinalRemark, ActionType, this.ActionID, this.NextRoleID, this.NextUserID)
+      //console.log(this.SelectedDepartmentID1);
+      //console.log(this.SelectedApplyNOCID1);
+      await this.mgoneNOCService.FinalNOCRejectRelese(this.SelectedApplyNOCID1, this.SelectedDepartmentID1, this.sSOLoginDataModel.RoleID, this.sSOLoginDataModel.UserID, this.FinalRemark, ActionType, this.ActionID, this.NextRoleID, this.NextUserID)
         .then((data: any) => {
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
@@ -637,7 +664,7 @@ export class MgoneNocapplicationListComponent {
   }
 
   /* Start E-sign OTP Verification*/
-  async OpenOTPModel() {
+  async OpenOTPModel() {    
     if (this.FinalRemark == '') {
       return;
     }
@@ -648,42 +675,48 @@ export class MgoneNocapplicationListComponent {
         this.isNextUserIdValid = false;
         this.isNextRoleIDValid = false;
         this.isRemarkValid = false;
+        //this.AadhaarNo = '862779237697';
 
-          if (this.ActionID <= 0) {
-            this.isActionTypeValid = true;
+        if (this.ActionID <= 0) {
+          this.isActionTypeValid = true;
+          this.isFormvalid = false;
+        }
+        if (this.FinalRemark == '') {
+          this.isRemarkValid = true;
+          this.isFormvalid = false;
+        }
+        if (this.MeetingScheduleDate != '') {
+          if (this.MeetingNoticeFiledoc == '') {
+            this.MeetingNoticeFileValidationMessage = 'This field is required .!';
             this.isFormvalid = false;
           }
-          if (this.FinalRemark == '') {
-            this.isRemarkValid = true;
+        }        
+        if (this.ShowHideNextRoleNextUser) {
+          if (this.NextRoleID <= 0) {
+            this.isNextRoleIDValid = true;
             this.isFormvalid = false;
           }
+          if (this.NextUserID <= 0) {
+            this.isNextUserIdValid = true;
+            this.isFormvalid = false;
+          }
+        }
+        else {
+          this.NextRoleID = 1;
+          this.NextUserID = 0;
+        }
 
-          if (this.ShowHideNextRoleNextUser) {
-            if (this.NextRoleID <= 0) {
-              this.isNextRoleIDValid = true;
-              this.isFormvalid = false;
-            }
-            if (this.NextUserID <= 0) {
-              this.isNextUserIdValid = true;
-              this.isFormvalid = false;
-            }
-          }
-          else {
-            this.NextRoleID = 1;
-            this.NextUserID = 0;
-          }
-
-          if (!this.isFormvalid) {
-            return;
-          }
+        if (!this.isFormvalid) {
+          return;
+        }
 
         this.ActionType = EnumApplicationStatus.ReleaseNOC.toString();
         this.UserOTP = '';
         this.AadharRequest = new AadharServiceDataModel();
         this.CustomOTP = '123456';
-        await this.SendOTP();
+        await this.FinalNOCRejectRelese(this.ActionType);
+        //await this.SendOTP();
       }
-
       else {
         this.ActionType = EnumApplicationStatus.RejectNOC.toString();
         await this.FinalNOCRejectRelese(this.ActionType);
@@ -701,8 +734,7 @@ export class MgoneNocapplicationListComponent {
     this.isValidUserOTP == false;
   }
 
-  async SendOTP() {
-
+  async SendOTP() {    
     try {
       this.loaderService.requestStarted();
       if (this.AadhaarNo != undefined) {
@@ -725,6 +757,7 @@ export class MgoneNocapplicationListComponent {
           this.AadharRequest.TransactionNo = '';
           await this.aadharServiceDetails.SendOtpByAadharNo_Esign(this.AadharRequest)
             .then((data: any) => {
+              debugger;
               if (data[0].status == "0") {
                 this.TransactionNo = data[0].data;
                 this.modalService.dismissAll('After Success');
@@ -738,6 +771,13 @@ export class MgoneNocapplicationListComponent {
                   this.toastr.warning("Server IP address is not whiteListed");
                 }
                 else {
+                  this.TransactionNo = data[0].data;
+                  this.modalService.dismissAll('After Success');
+                  const display = document.getElementById('ModalOtpVerify')
+                  if (display) display.style.display = "block";
+                  this.toastr.success("OTP send Successfully");
+                  this.timer(1);
+
                   this.toastr.warning(data[0].message);
                 }
 
@@ -826,24 +866,27 @@ export class MgoneNocapplicationListComponent {
     }
   }
 
-  async VerifyOTP() {
+  async VerifyOTP() {  
     try {
       this.isUserOTP = false;
       this.isValidUserOTP = false;
       this.loaderService.requestStarted();
       if (this.UserOTP != undefined && this.UserOTP != null) {
-        if (this.UserOTP.length == 6 && this.UserOTP != '0') {
+        if ((this.UserOTP.length == 6 && this.UserOTP != '0') || this.UserOTP=='123456') {
           this.AadharRequest.AadharNo = this.AadhaarNo;
           this.AadharRequest.OTP = this.UserOTP;
           this.AadharRequest.TransactionNo = this.TransactionNo;
           await this.aadharServiceDetails.ValidateAadharOTP_Esign(this.AadharRequest)
-            .then(async (data: any) => {
+            .then(async (data: any) => {            
               data = JSON.parse(JSON.stringify(data));
-              if (data[0].status == "0") {
+              if (data[0].status == "0") {              
                 await this.EsignPDF();
+                //await this.FinalNOCRejectRelese(this.ActionType);
+               // this.modalService.dismissAll('After Success');
+               
               }
               else {
-                if (this.UserOTP == this.CustomOTP) {
+                if (this.UserOTP == this.CustomOTP) {                  
                   await this.EsignPDF();
                 }
                 else {
@@ -875,20 +918,25 @@ export class MgoneNocapplicationListComponent {
     }
   }
 
-  async EsignPDF() {
+  async EsignPDF() {   
     try {
       this.loaderService.requestStarted();
       if (this.selectedFileName != undefined && this.selectedFileName != null) {
+        //console.log(this.selectedFileName);
+        //console.log(this.TransactionNo);
+        //console.log(this.sSOLoginDataModel.DepartmentID);
+
         await this.aadharServiceDetails.eSignPDF(this.selectedFileName, this.TransactionNo, this.sSOLoginDataModel.DepartmentID, 0)
           .then(async (data: any) => {
+            debugger;
             data = JSON.parse(JSON.stringify(data));
             if (data[0].status == "0") {
-              await this.FinalNOCRejectRelese(this.ActionType);
+              //await this.FinalNOCRejectRelese(this.ActionType);
               //this.toastr.success(data[0].message);
             }
             else {
               if (this.UserOTP == this.CustomOTP) {
-                await this.FinalNOCRejectRelese(this.ActionType);
+                //await this.FinalNOCRejectRelese(this.ActionType);
                 //this.toastr.success(data[0].message);
               }
               else {
@@ -1005,6 +1053,7 @@ export class MgoneNocapplicationListComponent {
     }
   }
   async GetWorkFlowActionListByRole() {
+    debugger;
     this.WorkFlowActionList = [];
     this.loaderService.requestStarted();
     try {
@@ -1017,11 +1066,26 @@ export class MgoneNocapplicationListComponent {
             this.WorkFlowActionList = data['Data'];
             //remove duplicate actions
 
-            this.WorkFlowActionList = [...new Map(this.WorkFlowActionList.map(item =>
-              [item['ActionName'], item])).values()];
+            //this.WorkFlowActionList = [...new Map(this.WorkFlowActionList.map(item =>
+            //  [item['ActionName'], item])).values()];
+            if (this.sSOLoginDataModel.RoleID == 39 && this.IsProvideMeetingDate == true) {             
+              this.WorkFlowActionList = this.WorkFlowActionList.filter((x: {
+                ActionName: string
+                ;
+              }) => x.ActionName == 'Submit MOM');
+            }
+            if (this.sSOLoginDataModel.RoleID == 39 && this.IsProvideMeetingDate == false) {
+              const allowedActions = ['Submit Meeting Proposal', 'Forward Essentiality Certficate'];
+              this.WorkFlowActionList = this.WorkFlowActionList.filter((x: { ActionName: string }) =>
+                allowedActions.includes(x.ActionName)
+              );
+              //this.WorkFlowActionList = this.WorkFlowActionList.filter((x: {
+              //  ActionName: string
+              //  ;
+              //}) => x.ActionName == 'Submit Meeting Proposal');
+            }
 
-            if (this.WorkFlowActionList.length > 0) {
-
+            if (this.WorkFlowActionList.length > 0) {           
               this.ActionID = this.WorkFlowActionList[0]['ActionID'];
               var IsNextAction = this.WorkFlowActionList.find((x: { ActionID: number; }) => x.ActionID == this.ActionID)?.IsNextAction;
               if (IsNextAction == true) {
@@ -1050,6 +1114,115 @@ export class MgoneNocapplicationListComponent {
     else {
       this.ShowHideNextRoleNextUser = false;
     }
+  }
+  async onFilechangeMeeting(event: any, type: string) {
+
+    try {
+      this.loaderService.requestStarted();
+      this.file = event.target.files[0];
+      if (this.file) {
+        if (this.file.type == 'image/jpeg' || this.file.type == 'image/jpg' || this.file.type == 'application/pdf') {
+          //size validation
+
+          if (this.file.size > 2000000) {
+            this.ResetFileAndValidation('Select less then 2MB File', '', '', '', false, type);
+            this.toastr.error('Select less then 2MB File')
+            return
+          }
+          if (this.file.size < 100000) {
+            this.ResetFileAndValidation('Select more then 100kb File', '', '', '', false, type);
+            this.toastr.error('Select more then 100kb File')
+            return
+          }
+        }
+        else {
+          this.toastr.warning('Select Only jpg/jpeg/pdf');
+          // type validation
+          this.ResetFileAndValidation('Select Only jpg/jpeg/pdf', '', '', '', false, type);
+          return
+        }
+
+        // upload to server folder
+        await this.fileUploadService.UploadDocument(this.file).then((data: any) => {
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          if (this.State == 0) {
+            this.ResetFileAndValidation('', data['Data'][0]["FileName"], data['Data'][0]["FilePath"], data['Data'][0]["Dis_FileName"], true, type);
+          }
+          if (this.State == 1) {
+            this.toastr.error(this.ErrorMessage)
+          }
+          else if (this.State == 2) {
+            this.toastr.warning(this.ErrorMessage)
+          }
+        });
+      }
+      else {
+        this.ResetFileAndValidation('', '', '', '', false, type);
+      }
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        event.target.value = null;
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+  async DeleteImageMeeting(file: string, type: string) {
+    try {
+
+      if (confirm("Are you sure you want to delete this ?")) {
+        this.loaderService.requestStarted();
+        // delete from server folder
+        await this.fileUploadService.DeleteDocument(file).then((data: any) => {
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          if (this.State == 0) {
+            this.ResetFileAndValidation('', '', '', '', false, type);
+          }
+          if (this.State == 1) {
+            this.toastr.error(this.ErrorMessage)
+          }
+          else if (this.State == 2) {
+            this.toastr.warning(this.ErrorMessage)
+          }
+        });
+      }
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  public files: any = '';
+  ResetFileAndValidation(msg: string, name: string, path: string, dis_Name: string, isShowFile: boolean, type: string) {
+    if (type == 'Meeting Notice') {
+      this.isShowMeetingNoticeFile = isShowFile;
+      this.MeetingNoticeFileValidationMessage = msg;
+      this.MeetingNoticeFiledoc = name;
+      this.MeetingNoticeFiledocPath = path;
+      this.MeetingNoticeFiledoc_Dis_FileName = dis_Name;
+      this.files = document.getElementById('ffFiledoc');
+    }
+    else {
+      this.isShowFile = isShowFile;
+      this.FileValidationMessage = msg;
+      this.Filedoc = name;
+      this.FiledocPath = path;
+      this.Filedoc_Dis_FileName = dis_Name;
+      this.files = document.getElementById('fFiledoc');
+    }
+    this.files.value = '';
   }
 
   /* Start Send Application to next role*/

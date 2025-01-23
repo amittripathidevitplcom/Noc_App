@@ -250,6 +250,7 @@ export class MGOneClinicalLabDetailComponent implements OnInit {
   }
 
   async ShowHideRow(Departidx: number, idx: number, ID: number) {
+    debugger;
     var GetChild = this.MGOneClinicalList.filter((x: { ParentID: number }) => x.ParentID == ID);
     if (GetChild.length > 0) {
       for (var j = 0; j < this.MGOneClinicalList.length; j++) {
@@ -262,5 +263,15 @@ export class MGOneClinicalLabDetailComponent implements OnInit {
         }
       }
     }
+  }
+
+
+  numberOnly(event: any): boolean {
+    const charCode = (event.which) ? event.which : event.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+      return false;
+    }
+    return true;
+
   }
 }

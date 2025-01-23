@@ -778,6 +778,7 @@ export class AddCoursesComponent implements OnInit {
   }
   public UniversityID: number = 0;
   async ddlCourseLevel_change(CourseLevelID: any) {
+    debugger;
     await this.GetCollegeBasicDetails();
 
     this.request.CourseLevelID = CourseLevelID;

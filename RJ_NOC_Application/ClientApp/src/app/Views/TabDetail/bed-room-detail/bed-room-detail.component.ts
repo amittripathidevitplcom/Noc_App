@@ -116,12 +116,12 @@ export class BedRoomDetailComponent implements OnInit {
     try {
       await this.bEdroomdetailService.SaveData(this.request)
         .then((data: any) => {
-          debugger;
+          
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
           if (!this.State) {
-            debugger
+           
             this.toastr.success(this.SuccessMessage)
             this.GetBEdClassRoomDetail();
           }

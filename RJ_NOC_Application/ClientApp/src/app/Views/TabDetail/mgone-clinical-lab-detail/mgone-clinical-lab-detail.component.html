@@ -8,7 +8,7 @@
       <div class="table-responsive">
         <table class="table">
           <tbody>
-            <tr *ngFor="let items of MGOneClinicalList; let idxx =index">
+            <tr *ngFor="let items of MGOneClinicalList; let idxx =index" [hidden]="items.IsHide">
               <!--<td style="width:2%"><b>•</b></td>-->
               <td style="width:60%;">
 
@@ -16,11 +16,13 @@
                 <div style="max-width: auto; white-space: normal;" *ngIf="items.ControlType!='Heading'">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{items.Name}}<span class="text-danger" *ngIf="items.IsMandatory">*</span></div>
               </td>
               <td>
-                <select class="form-select" *ngIf="items.ControlType=='DropDown'" [(ngModel)]="items.Value">
+                <select class="form-select" *ngIf="items.ControlType=='DropDown'" [(ngModel)]="items.Value" (change)="ShowHideRow(idx,idxx,items.ID)">
                   <option value="" disabled selected>--Select--</option>
                   <option value="Yes">Yes</option>
                   <option value="No">No</option>
                 </select>
+                <input type="text" class="form-control" *ngIf="items.ControlType=='number'" maxlength="4" (keypress)="numberOnly($event)" [(ngModel)]="items.Value" />
+                <input type="date" class="form-control" *ngIf="items.ControlType=='date'" [(ngModel)]="items.Value" />
                 <input type="text" class="form-control" *ngIf="items.ControlType=='Text'" [(ngModel)]="items.Value" />
                 <div class="d-flex" *ngIf="items.ControlType=='UploadFile'">
                   <input type="file" name="UploadFile_{{idxx}}" style="display:none" id="UploadFile_{{idxx}}" class="form-control" (change)="ValidateDocumentImage($event,idxx)" />
@@ -45,7 +47,6 @@
               <td colspan="5" align="right">
                 <button type="button" (click)="SaveData()" class="btn btn-primary">Save</button>
                 <button type="button" class="btn btn-danger" (click)="ResetControl()" aria-label="Close">Cancel</button>
-
               </td>
             </tr>
           </tbody>

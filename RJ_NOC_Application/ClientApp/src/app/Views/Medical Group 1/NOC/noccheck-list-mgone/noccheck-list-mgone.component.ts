@@ -169,7 +169,7 @@ export class NoccheckListMgoneComponent {
             this.toastr.success(this.SuccessMessage);
 
 
-            this.routers.navigate(['/mgoneappnocviewByNodal' + "/" + encodeURI(this.commonMasterService.Encrypt(this.SelectedDepartmentID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(this.SelectedCollageID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(this.SelectedApplyNOCID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(this.ApplicationNo.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt('Yes'))]);
+            this.routers.navigate(['/mgonedocumentScrutinyNodalOfficer' + "/" + encodeURI(this.commonMasterService.Encrypt(this.SelectedDepartmentID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(this.SelectedCollageID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(this.SelectedApplyNOCID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(this.ApplicationNo.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt('Pending'))]);
           }
           else if (this.State == 2) {
             this.toastr.warning(this.ErrorMessage)

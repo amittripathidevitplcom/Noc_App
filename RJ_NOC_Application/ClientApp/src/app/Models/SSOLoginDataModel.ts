@@ -34,6 +34,8 @@ export class SSOLoginDataModel {
   public RoleName: string = '';
   public DepartmentID: number = 0;
   public SessionID: number = 0;
+  public ApplyNOCID: number = 0;
+  public CollegeID: number = 0;
   public SessionName: string = '';
 }
 

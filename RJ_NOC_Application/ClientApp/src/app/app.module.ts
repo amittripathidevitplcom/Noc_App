@@ -443,6 +443,7 @@ import { MGoneFacilityEachComponent } from './Views/TabDetail/mgone-facility-eac
 import { MGThreeApplicationsListComponent } from './Views/DocumentScrutinyTab/mgthree-applications-list/mgthree-applications-list.component';
 import { ApplicationForwardGThreeComponent } from './Views/DocumentScrutinyTab/application-forward-gthree/application-forward-gthree.component';
 import { MGOneFacilitiesComponent } from './Views/TabDetail/mgone-facilities/mgone-facilities.component';
+import { MGOneForwardInpectionReportOSDComponent } from './Views/Medical Group 1/NOC/mgone-forward-inpection-report-osd/mgone-forward-inpection-report-osd.component';
 
 
  
@@ -885,6 +886,7 @@ import { MGOneFacilitiesComponent } from './Views/TabDetail/mgone-facilities/mgo
     PreviewMGThreeHospitalDetailsComponent,
     MGoneFacilityEachComponent,
     MGOneFacilitiesComponent,
+    MGOneForwardInpectionReportOSDComponent,
     MGThreeApplicationsListComponent,
     ApplicationForwardGThreeComponent,
   ],

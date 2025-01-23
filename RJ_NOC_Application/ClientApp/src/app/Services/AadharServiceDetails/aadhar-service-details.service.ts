@@ -59,7 +59,7 @@ export class AadharServiceDetails {
       ).toPromise();
   }
   public async eSignPDF(PDFFileName: string, OTPTransactionID: string, DepartmentID: number, ParamID: number) {
-
+    debugger;
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'

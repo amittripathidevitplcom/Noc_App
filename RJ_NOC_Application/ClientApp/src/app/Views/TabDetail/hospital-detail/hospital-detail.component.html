@@ -9,7 +9,7 @@
     <div class="card-body">
       <div class="row mb-2">
         <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
-          <label for="employeeName" class="form-label" style="margin-right:15px"> Whether the institution is a parent hospital or not </label>
+          <label for="employeeName" class="form-label" style="margin-right:15px"> Whether the institution has a parent hospital or not </label>
           <div class="clearfix"></div>
           <div class="form-check form-check-inline">
             <input class="form-check-input" type="radio" name="rbParentHospital" id="YesParentHospital" value="1" [value]="1" [(ngModel)]="request.ParentHospitalID" (change)="IsParentHospitalOrNot(true)" formControlName="rbParentHospital">
