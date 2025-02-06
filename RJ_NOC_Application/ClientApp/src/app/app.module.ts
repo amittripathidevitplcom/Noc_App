@@ -444,6 +444,7 @@ import { MGThreeApplicationsListComponent } from './Views/DocumentScrutinyTab/mg
 import { ApplicationForwardGThreeComponent } from './Views/DocumentScrutinyTab/application-forward-gthree/application-forward-gthree.component';
 import { MGOneFacilitiesComponent } from './Views/TabDetail/mgone-facilities/mgone-facilities.component';
 import { MGOneForwardInpectionReportOSDComponent } from './Views/Medical Group 1/NOC/mgone-forward-inpection-report-osd/mgone-forward-inpection-report-osd.component';
+import { NodalOfficerBedApplicationListComponent } from './Views/Bed/nodal-officer-bed-application-list/nodal-officer-bed-application-list.component';
 import { PreviewGeoTagComponent } from './Views/PreviewTabs/preview-geo-tag/preview-geo-tag.component';
 import { DocumentScrutinyCourtCaseMGTComponent } from './Views/DocumentScrutinyTab/document-scrutiny-court-case-mgt/document-scrutiny-court-case-mgt.component';
 
@@ -891,6 +892,7 @@ import { DocumentScrutinyCourtCaseMGTComponent } from './Views/DocumentScrutinyT
     MGOneForwardInpectionReportOSDComponent,
     MGThreeApplicationsListComponent,
     ApplicationForwardGThreeComponent,
+    NodalOfficerBedApplicationListComponent,
     PreviewGeoTagComponent,
     DocumentScrutinyCourtCaseMGTComponent,
   ],

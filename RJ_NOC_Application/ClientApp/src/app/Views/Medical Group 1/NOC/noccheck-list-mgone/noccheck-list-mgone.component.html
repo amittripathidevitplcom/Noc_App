@@ -20,7 +20,7 @@
       <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
         <label for="ddlAction" class="form-label">Upload Inspection Report<span style="color:red;">*</span></label>
         <div class="d-flex">
-          <input type="file" style="display:none;" class="form-control" id="fFiledoc" name="fFiledoc" (change)="onFilechange($event)" formControlName="fFiledoc">
+          <input type="file" style="display:none;" class="form-control" id="fFiledoc" name="fFiledoc" (change)="onFilechange($event)" >
           <label class="btn upload" for="fFiledoc">
             <span class="filename">Choose file</span>
             {{Filedoc === '' ? 'No File Choosen' : Filedoc_Dis_FileName}}
@@ -35,8 +35,56 @@
         </div>
       </div>
     </div>
-    <div class="row  m-2">
-      <div class="col-md-12">
+    <div class="card tabCard1 mb-0" >
+      <div class="card-header">
+        <b><i class="bi bi-table"></i>Committee Member List</b>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="table-responsive">
+              <table class="table table-hover table-striped">
+                <thead>
+                  <tr>
+                    <th>S.No.</th>
+                    <th>
+                      SSOID
+                    </th>
+                    <th>Name</th>
+                    <th>Mobile</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+
+                  <tr *ngFor="let item of ApplicationCommitteeList let idx =index">
+                    <td>{{idx+1}}</td>
+                    <td>{{item.SSOID}}</td>
+                    <td>{{item.NameOfPerson}}</td>
+                    <td>{{item.MobileNumber}}</td>
+                    <td>
+                      <button *ngIf="(item.SendOTP==undefined || item.SendOTP==0)&& IsBtnShowHide" type="button" class="btn btn-sm btn-primary" title="Verify" (click)="SendOTPByEsanchar(item.MobileNumber,idx)">Send OTP</button> <!--SendOTP(item.AadhaarNo,idx)-->
+                      <div class="row" *ngIf="IsBtnShowHide">
+                        <div class="col-sm-9 col-md-9">
+                          <input *ngIf="item.SendOTP==1" type="text" id="txtUserOTP{{idx}}" placeholder="OTP*" name="txtUserOTP{{idx}}" class="form-control" [(ngModel)]="item.UserOTP" (keypress)="numbersOnly($event)" maxlength="6" />
+                        </div>
+                        <div class="col-sm-3 col-md-3">
+                          <button *ngIf="item.SendOTP==1" type="button" class="btn btn-sm btn-primary" title="Verify" (click)="VerifyOTPByEsanchar(item.UserOTP,idx)">Verify</button>
+                        </div>
+                      </div>
+                      <span *ngIf="item.SendOTP==2 || IsDisabled"><i class="fa fa-check text-success"></i></span>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row  m-2" *ngIf="isAllVerified()">
+      <div class="col-md-12" 
+      type="button">
         <button type="button" class="btn btn-primary" (click)="SaveInspectionReport()" title="Submit">Submit</button>
       </div>
     </div>

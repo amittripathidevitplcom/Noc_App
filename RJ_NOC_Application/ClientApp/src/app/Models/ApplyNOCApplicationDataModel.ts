@@ -58,7 +58,7 @@ export class NOCIssuedForDataModel {
   public Remark: string = '';
   public NoOfIssuedYear: number = 0;
   public NOCFormat?: string = '';
-  public ChangeIntoTNOC?: boolean=false;
+  public ChangeIntoTNOC?: boolean = false;
 }
 export class NOCIssuedRequestDataModel {
   public NOCDetails: GenerateNOC_DataModel[] = [];
@@ -88,4 +88,12 @@ export class CommonDataModel_ApplicationListFilter {
   public SessionYear: number = 0;
   public Status: string = '';
   public ActionName: string = '';
-    }
+}
+export class NOCIssuedForMGOneDataModel {
+  public ApplyNOCID: number = 0;
+  public CreatedBy: number = 0;
+  public Remark: string = '';
+  public PdfFilePath: string = '';
+  public NOCFormat: string = '';
+  public CollegeID: number = 0;
+}

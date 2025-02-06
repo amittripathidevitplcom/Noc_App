@@ -31,6 +31,7 @@ export class GenerateOrderMGOneComponent {
 
   public file!: File;
   public isFormvalid: boolean = true;
+  public PageStatus: string = '';
   constructor(private toastr: ToastrService, private loaderService: LoaderService, private mgoneNOCService: MGoneNOCService, private router: ActivatedRoute, private routers: Router, private fileUploadService: FileUploadService, private commonMasterService: CommonMasterService
   ) { }
 
@@ -167,9 +168,11 @@ export class GenerateOrderMGOneComponent {
           this.ErrorMessage = data['ErrorMessage'];
           if (this.State == 0) {
             this.toastr.success(this.SuccessMessage);
+            var url = '/mgonedocumentScrutinyNodalOfficer';
+            url = this.PageStatus == 'FBC' || this.PageStatus == 'FBOSD' || this.PageStatus == 'FBDF' || this.PageStatus == 'FBJSDS' || this.PageStatus == 'RBPS' ? '/mgoneforwardnnpectionreportosd' : url;
+            this.routers.navigate([url + "/" + encodeURI(this.commonMasterService.Encrypt(this.SelectedDepartmentID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(this.SelectedCollageID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(this.SelectedApplyNOCID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(this.ApplicationNo.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt('Pending'))]);
 
-
-            this.routers.navigate(['/mgoneappnocviewByNodal' + "/" + encodeURI(this.commonMasterService.Encrypt(this.SelectedDepartmentID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(this.SelectedCollageID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(this.SelectedApplyNOCID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(this.ApplicationNo.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt('Yes'))]);
+            /*this.routers.navigate(['/mgoneappnocviewByNodal' + "/" + encodeURI(this.commonMasterService.Encrypt(this.SelectedDepartmentID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(this.SelectedCollageID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(this.SelectedApplyNOCID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(this.ApplicationNo.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt('Yes'))]);*/
           }
           else if (this.State == 2) {
             this.toastr.warning(this.ErrorMessage)

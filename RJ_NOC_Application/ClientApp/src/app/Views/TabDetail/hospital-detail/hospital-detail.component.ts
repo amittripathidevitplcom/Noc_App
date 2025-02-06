@@ -1066,6 +1066,7 @@ export class HospitalDetailComponent implements OnInit {
   }
 
   async SaveDataOfParent() {
+    debugger;
     this.request.CollegeID = this.QueryStringCollegeID;
     this.isHospitalrequried = false;
     this.isFormValid = true;
@@ -1090,15 +1091,15 @@ export class HospitalDetailComponent implements OnInit {
       this.request.ModifyBy = 1;
     }
 
-    if (this.QueryStringDepartmentID == 5) {
-      if ((Number(this.request.MedicalBeds) + Number(this.request.SurgicalBeds) + Number(this.request.ObstAndGynaecologyBeds) + Number(this.request.PediatricsBeds)
-        + Number(this.request.OrthoBeds) +
-        Number(this.request.OccupancyPercentegeBeds) +
-        Number(this.request.AffiliationPsychiatricBeds)) < 50) {
-        this.toastr.error("Minimum 50 beds required.!");
-        return;
-      }
-    }
+    //if (this.QueryStringDepartmentID == 5) {
+    //  if ((Number(this.request.MedicalBeds) + Number(this.request.SurgicalBeds) + Number(this.request.ObstAndGynaecologyBeds) + Number(this.request.PediatricsBeds)
+    //    + Number(this.request.OrthoBeds) +
+    //    Number(this.request.OccupancyPercentegeBeds) +
+    //    Number(this.request.AffiliationPsychiatricBeds)) < 50) {
+    //    this.toastr.error("Minimum 50 beds required.!");
+    //    return;
+    //  }
+    //}
 
 
 
