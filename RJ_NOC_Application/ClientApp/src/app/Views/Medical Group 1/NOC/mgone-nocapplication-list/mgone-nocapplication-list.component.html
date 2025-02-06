@@ -36,25 +36,30 @@
                   <td *ngIf="this.sSOLoginDataModel.RoleID!=16&&IsCommitteType==false">
                     <a href="javascript:void(0)" *ngIf="item.IsCommitteeCreated==true&&item.IsProvideMeetingDate==false&&item.IsRejected==false&&item.IsGenerateNoc==false&& item.IsApproveNoc==false" (click)="ApplicationPreview_OnClick(item.DepartmentID,item.CollegeID,item.ApplyNOCID,item.ApplicationNo)" class="btn btn-sm btn-info"><i class="fa fa-eye"></i></a>
                     &nbsp;<button type="button" *ngIf="item.IsRejected==true" class="btn btn-sm btn-danger" title="Reject" (click)="NOCApproved_Rejected_Model(ReleceNOC,item.ApplyNOCID,item.CollegeID,item.ApplicationNo,'Reject',item.NOCFileName)">Reject Application</button>
-                          <button *ngIf="item.IsApproveNoc==true" type="button" class="btn btn-primary" style="margin-left:10px;" title="NOC Approve" (click)="NOCApproved_Rejected_Model(ReleceNOC,item.ApplyNOCID,item.CollegeID,item.ApplicationNo,'Approved',item.NOCFileName,item.DepartmentID,item.IsProvideMeetingDate)">Approved NOC</button>
-                    &nbsp;<button *ngIf="item.NOCFilePath=='' && item.IsGenerateNoc==true" type="button" id="btnGenratePDF" class="btn btn-primary" (click)="GenratePDF(item.ApplyNOCID,item.CollegeID)" title="Genrate Darft PDF">Genrate PDF</button>
-
-                    &nbsp;<a *ngIf="item.NOCFilePath != ''" href="{{item.NOCFilePath}}" target="_blank" class="btn btn-sm btn-info" title="View Genrated PDF"><i class="fa fa-eye"></i></a>
+                    <button *ngIf="item.IsApproveNoc==true" type="button" class="btn btn-primary" style="margin-left:10px;" title="NOC Approve" (click)="NOCApproved_Rejected_Model(ReleceNOC,item.ApplyNOCID,item.CollegeID,item.ApplicationNo,'Approved',item.NOCFileName,item.DepartmentID,item.IsProvideMeetingDate)">Approved NOC</button>
+                    <!--&nbsp;<button *ngIf="this.sSOLoginDataModel.RoleID==39 && item.NOCFilePath=='' && item.IsGenerateNoc==true" type="button" id="btnGenratePDF" class="btn btn-primary" (click)="GenratePDF(item.ApplyNOCID,item.CollegeID)" title="Genrate Darft PDF">Genrate PDF</button>-->
+                    &nbsp;<a *ngIf=" this.sSOLoginDataModel.RoleID==39" href="javascript:void(0)" class="btn btn-sm btn-info" title="Action" (click)="GetMGoneASSESSMENTREPORT(ViewOpenGeneratePDFPopUP,item.ApplyNOCID,item.DepartmentID,item.CollegeID)">Generate  Draft</a>
+                    &nbsp;<a *ngIf="item.NOCFilePath != ''" href="{{item.NOCFilePath}}" target="_blank" class="btn btn-sm btn-info" title="View Genrated PDF"><i class="fa fa-file-pdf-o"></i></a>
+                    &nbsp; <a *ngIf="(this.sSOLoginDataModel.RoleID==6 ||this.sSOLoginDataModel.RoleID==14) && item.IsEsign==false && item.IsNOCIssued==true" class="btn btn-sm btn-success" title="Esign" (click)="SendEsignOTP(item.NOCFileName,item.ApplyNOCID)" target="_blank"><i class="bi bi-pen"></i>Esign</a>
+                    <button (click)="GetMGoneASSESSMENTREPORT(item.CollegeID)"><i class="fa fa-download has-pdf"></i></button>
                     <!--<button type="button" *ngIf="IsCommitteType==true && item.IsCommitteeCreated==true&&item.IsGenerateOrdersforInspection==false" class="btn btn-sm btn-primary" title="Generate Orders for Inspection" (click)="GenerateOrdersforInspection(item.DepartmentID,item.CollegeID,item.ApplyNOCID,item.ApplicationNo)">Generate Orders for Inspection</button>
   &nbsp;<button type="button" *ngIf="IsCommitteType==true" class="btn btn-sm btn-primary" title="Assign Commitee" (click)="OpenAsignCommitteePopUP(mymodalAsignCommittee,item.ApplyNOCID,item.DepartmentID,item.CollegeID,item.ApplicationNo)"><i class="fa fa-users"></i></button>-->
                     <a href="javascript:void(0)" *ngIf="item.IsProvideMeetingDate==true" (click)="OpenAsignMeetingDatePopUP(mymodalMeetingScheduleDate,item.ApplyNOCID,item.DepartmentID,item.CollegeID)" class="btn btn-sm btn-info"><i class="fa fa-calendar-times-o"></i></a>
-                    &nbsp;<button type="button" class="btn btn-sm btn-info" title="View" (click)="GetApplicationTrail(mymodal,item.ApplyNOCID)"><i class="fa fa-bars"></i></button>
+
+                    &nbsp;<button type="button" class="btn btn-sm btn-info" title="Trails" (click)="GetApplicationTrail(mymodal,item.ApplyNOCID)"><i class="fa fa-bars"></i></button>
                   </td>
                     <td *ngIf="this.sSOLoginDataModel.RoleID==16">
                       <a href="javascript:void(0)" *ngIf="item.InspectionReportSubmitted==true" (click)="ApplicationPreview_OnClick(item.DepartmentID,item.CollegeID,item.ApplyNOCID,item.ApplicationNo)" class="btn btn-sm btn-info"><i class="fa fa-eye"></i></a>
                       &nbsp;<a href="javascript:void(0)" (click)="ReportFormatGenerated_OnClick(item.DepartmentID,item.CollegeID,item.ApplyNOCID,item.ApplicationNo)" class="btn btn-sm btn-info">Inspection Report</a>
                       &nbsp;<button type="button" class="btn btn-sm btn-info" title="View" (click)="GetApplicationTrail(mymodal,item.ApplyNOCID)"><i class="fa fa-bars"></i></button>
+                      &nbsp;<button type="button" title="Download PDF" class="btn btn-sm btn-primary pull-right mb-2" (click)="btnViewPDfPreview(item.CollegeID,item.DepartmentID)"><i class="fa fa-download"></i></button>
                     </td>
                     <td *ngIf="IsCommitteType==true">
                       <a href="javascript:void(0)" *ngIf="item.IsCommitteeCreated==true&&item.IsGenerateOrdersforInspection==true" (click)="ApplicationPreview_OnClick(item.DepartmentID,item.CollegeID,item.ApplyNOCID,item.ApplicationNo)" class="btn btn-sm btn-info"><i class="fa fa-eye"></i></a>
                       &nbsp;<button type="button" *ngIf="item.IsCommitteeCreated==true&&item.IsGenerateOrdersforInspection==false" class="btn btn-sm btn-primary" title="Generate Orders for Inspection" (click)="GenerateOrdersforInspection(item.DepartmentID,item.CollegeID,item.ApplyNOCID,item.ApplicationNo)">Generate Orders for Inspection</button>
                       &nbsp;<button type="button" class="btn btn-sm btn-primary" title="Assign Commitee" (click)="OpenAsignCommitteePopUP(mymodalAsignCommittee,item.ApplyNOCID,item.DepartmentID,item.CollegeID,item.ApplicationNo)"><i class="fa fa-users"></i></button>
                       &nbsp;<button type="button" class="btn btn-sm btn-info" title="View" (click)="GetApplicationTrail(mymodal,item.ApplyNOCID)"><i class="fa fa-bars"></i></button>
+
                     </td>
                   </tr>
                   <tr>
@@ -128,6 +133,7 @@
                           <th>SSO ID</th>
                           <th>Is Primary Member</th>
                           <th> Action</th>
+                          <th> </th>
                         </tr>
                       </thead>
                       <tbody>
@@ -172,8 +178,8 @@
                     </div>
                   </div>
                   <!--<div *ngIf="isSubmitted && request_MemberList.CommitteeDocument==''" class="text-danger">
-        <p class="text-danger"><i aria-hidden="true"></i> This field is required .!</p>
-      </div>-->
+                    <p class="text-danger"><i aria-hidden="true"></i> This field is required .!</p>
+                  </div>-->
                 </div>
               </div>
             </div>
@@ -299,12 +305,13 @@
               </table>
             </div>
           </div>-->
-          <div class="row m-2" *ngIf="this.btntext == 'Approved'">           
+          <div class="row m-2" *ngIf="this.btntext == 'Approved'">
             <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="IsProvideMeetingDate==true">
-              <label for="ddlAction" class="form-label">Upload Meeting Notice<span style="color:red;">*</span>
+              <label for="ddlAction" class="form-label">
+                Upload Meeting Notice<span style="color:red;">*</span>
               </label>
               <div class="d-flex">
-                <input type="file" style="display:none;" class="form-control" id="ffFiledoc" name="ffFiledoc" (change)="onFilechangeMeeting($event,'Meeting Notice')" >
+                <input type="file" style="display:none;" class="form-control" id="ffFiledoc" name="ffFiledoc" (change)="onFilechangeMeeting($event,'Meeting Notice')">
                 <label class="btn upload" for="ffFiledoc">
                   <span class="filename">Choose file</span>
                   {{MeetingNoticeFiledoc === '' ? 'No File Choosen' : MeetingNoticeFiledoc_Dis_FileName}}
@@ -353,22 +360,22 @@
               </div>
             </div>
           </div>
-            <div class="row">
-              <div class="col-lg-12 col-md-12 col-sm-12 col-12 mb-3">
-                <label>Remarks  <span style="color:red;">*</span></label>
-                <textarea id="FinalRemark" class="form-control" [(ngModel)]="FinalRemark"></textarea>
-                <div *ngIf="FinalRemark==''||FinalRemark==null||FinalRemark==undefined" class="text-danger">
-                  <p> This field is required .!</p>
-                </div>
+          <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-12 mb-3">
+              <label>Remarks  <span style="color:red;">*</span></label>
+              <textarea id="FinalRemark" class="form-control" [(ngModel)]="FinalRemark"></textarea>
+              <div *ngIf="FinalRemark==''||FinalRemark==null||FinalRemark==undefined" class="text-danger">
+                <p> This field is required .!</p>
               </div>
+            </div>
 
 
-              <div class="row col-md-2">
-                <button type="button" id="btnNOCRejectRelese" class="btn btn-primary" (click)="OpenOTPModel()" title="Submit">{{btntext}}</button>
-              </div>
+            <div class="row col-md-2">
+              <button type="button" id="btnNOCRejectRelese" class="btn btn-primary" (click)="OpenOTPModel()" title="Submit">{{btntext}}</button>
             </div>
           </div>
         </div>
+      </div>
     </div>
   </ng-template>
 
@@ -415,4 +422,36 @@
   </div>
 
   <!--END MODAL-->
+  <ng-template #ViewOpenGeneratePDFPopUP let-modal>
+
+    <div class="modal-header">
+      <h5 class="modal-title">Essentiality Issue</h5>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')"><i class="fa fa-close"></i></button>
+    </div>
+    <div class="modal-body py-4">
+      <app-loader></app-loader>
+      <div class="card">
+        <div class="card-header">
+          <b>&nbsp;Essentiality Certificate</b>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-6 col-12 mb-3">
+              <ckeditor [editor]="editor" [config]="config" (ready)="onReady($event)" [(ngModel)]="NOCFormat"></ckeditor>
+              <button type="submit" class="btn btn-primary" id="btnpreview1" (click)="PreviewPDF(NOCFormat)" name="btnpreview1">Preview</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+        <label>Essentiality Issued Remark</label>
+        <textarea id="NOCIssuedRemark" class="form-control" [(ngModel)]="NOCIssuedRemark"></textarea>
+        <p *ngIf="isSubmitNOC&&NOCIssuedRemark==''" class="text-danger"> This field is required .!</p>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" (click)="GeneratePDF_OnClick(NOCFormat)" title="Generate PDF" class="btn btn-primary">Submit</button>
+      <button type="button" class="btn btn-danger" aria-label="Close" (click)="modal.dismiss('Cross click')">Cancel</button>
+    </div>
+  </ng-template>
 </div>

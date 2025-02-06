@@ -1244,6 +1244,7 @@ export class CommonMasterService {
       ).toPromise();
   }
   public async GetDownloadPdfDetails(DepartmentID: number, CollageID: number) {
+    debugger;
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
@@ -1750,6 +1751,38 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
+  public async GetMGoneASSESSMENTREPORT(CollegeID: number) {
+    const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
+    return await this.http.get(this.APIUrl_CommonMaster + '/Assessment_Print/' + CollegeID, httpOptions)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+
+  public async hh(CollegeID: number) {
+    let url = `${this.APIUrl_CommonMaster}/Assessment_Print/${CollegeID}`;
+
+    this.http.get(url, { responseType: 'blob' }).subscribe(
+      (response: Blob) => {
+        const blobUrl = URL.createObjectURL(response);
+        const a = document.createElement('a');
+
+        a.href = blobUrl;
+        a.download = `Assessment_${CollegeID}.pdf`; // File name for download
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+
+        URL.revokeObjectURL(blobUrl); // Free up memory
+      },
+      (error) => {
+        console.error('Error downloading the PDF:', error);
+      }
+    );
+  }
+
+
+
   public async SaveMGoneFacilityEach(request: any) {
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
 

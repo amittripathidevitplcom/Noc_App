@@ -2,9 +2,10 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { throwError } from 'rxjs';
 import { catchError, } from 'rxjs/operators';
-import { ApplicationPenaltyDataModel, CommiteeInspection_RNCCheckList_DataModel, NOCIssuedRequestDataModel, ParameterFeeMaster } from '../../Models/ApplyNOCApplicationDataModel';
+import { ApplicationPenaltyDataModel, CommiteeInspection_RNCCheckList_DataModel, NOCIssuedForMGOneDataModel, NOCIssuedRequestDataModel, ParameterFeeMaster } from '../../Models/ApplyNOCApplicationDataModel';
 import { DocumentScrutinyDataModel } from '../../Models/DocumentScrutinyDataModel';
 import { GlobalConstants } from '../../Common/GlobalConstants';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -178,6 +179,13 @@ export class ApplyNOCApplicationService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
+  public async GenerateEssentialityMgone(request: NOCIssuedForMGOneDataModel) {
+    const headers = { 'content-type': 'application/json' }
+    return await this.http.post(this.APIUrl + '/GenerateEssentialityMgone/', request, { 'headers': headers })
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
   public async GenerateDraftNOCForDCE(request: NOCIssuedRequestDataModel) {
     const headers = { 'content-type': 'application/json' }
     return await this.http.post(this.APIUrl + '/GenerateDraftNOCForDCE/', request, { 'headers': headers })
@@ -255,6 +263,17 @@ export class ApplyNOCApplicationService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
+  public async GetAppliedParameterEssentialityForByApplyNOCID(ApplyNOCID: number) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl + "/GetAppliedParameterEssentialityForByApplyNOCID/" + ApplyNOCID)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
   public async CountTotalRevertDCE(ApplyNOCID: number, RoleID: number, UserID: number) {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -295,6 +314,13 @@ export class ApplyNOCApplicationService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
+  public async GenerateDraftEssentiality(request: NOCIssuedForMGOneDataModel) {
+    const headers = { 'content-type': 'application/json' }
+    return await this.http.post(this.APIUrl + '/GenerateDraftEssentiality/', request, { 'headers': headers })
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
   public async ForwardToEsignDCE(ApplyNOCID: number, UserId: number) {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -306,5 +332,7 @@ export class ApplyNOCApplicationService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
+  
+  
 }
 

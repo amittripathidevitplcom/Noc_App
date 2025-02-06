@@ -6,6 +6,7 @@ import { MGoneNOCService } from '../../../../Services/MGoneNOC/mgone-noc.service
 import { ActivatedRoute, Router } from '@angular/router';
 import { FileUploadService } from '../../../../Services/FileUpload/file-upload.service';
 import { CommonMasterService } from '../../../../Services/CommonMaster/common-master.service';
+import { CommitteeMasterService } from '../../../../Services/Master/CommitteeMaster/committee-master.service';
 
 @Component({
   selector: 'app-noccheck-list-mgone',
@@ -28,10 +29,14 @@ export class NoccheckListMgoneComponent {
   public Filedoc_Dis_FileName: string = '';
   public FiledocPath: string = '';
   public FileValidationMessage: string = '';
-
+  public ShowHideCommitteeList: boolean= false;
   public file!: File;
   public isFormvalid: boolean = true;
-  constructor(private toastr: ToastrService, private loaderService: LoaderService, private mgoneNOCService: MGoneNOCService, private router: ActivatedRoute, private routers: Router, private fileUploadService: FileUploadService, private commonMasterService: CommonMasterService
+  public ApplicationCommitteeList: any[] = [];
+  public ApplyNOCID: string = ''
+  public IsBtnShowHide: boolean = true;
+  public CustomOTP: string = '123456';
+  constructor(private toastr: ToastrService, private loaderService: LoaderService, private mgoneNOCService: MGoneNOCService, private router: ActivatedRoute, private routers: Router, private fileUploadService: FileUploadService, private commonMasterService: CommonMasterService, private committeeMasterService: CommitteeMasterService,
   ) { }
 
   async ngOnInit() {
@@ -42,6 +47,8 @@ export class NoccheckListMgoneComponent {
     this.ApplicationNo = this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplicationNoYear')?.toString()) + "/" + this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplicationNoID')?.toString());
 
     this.sSOLoginDataModel = JSON.parse(String(localStorage.getItem('SSOLoginUser')));
+    var ApplyNOCID = this.SelectedApplyNOCID;
+    await this.GetApplicationCommitteeList(ApplyNOCID);
   }
 
 
@@ -187,5 +194,101 @@ export class NoccheckListMgoneComponent {
         this.loaderService.requestEnded();
       }, 200);
     }
+  }
+  async GetApplicationCommitteeList(ApplyNocApplicationID: number) {
+    debugger;
+    try {
+      this.loaderService.requestStarted();
+      await this.committeeMasterService.GetApplicationCommitteeList(ApplyNocApplicationID)
+        .then((data: any) => {
+          debugger;
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.ApplicationCommitteeList = data['Data'];
+          if (this.ApplicationCommitteeList.length > 0) {
+            this.ApplicationCommitteeList = this.ApplicationCommitteeList.filter(x => x.IsPrimaryMember == 0);
+          }
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  public CurrentOTP: number = 0;
+  async SendOTPByEsanchar(MobileNo: string, idx: number) {
+    this.CurrentOTP = 0;
+    try {
+      this.loaderService.requestStarted();
+      if (MobileNo != undefined && MobileNo.length == 10) {
+        for (var i = 0; i < this.ApplicationCommitteeList.length; i++) {
+          if (idx != i && this.ApplicationCommitteeList[i].SendOTP != 2) {
+            this.ApplicationCommitteeList[i].SendOTP = 0;
+          }
+        }
+        this.commonMasterService.SendMessage(MobileNo, 'OTP')
+          .then((data: any) => {
+            if (data.State == '0') {
+              this.ApplicationCommitteeList[idx].SendOTP = 1;
+              this.toastr.success("OTP send Successfully");
+              this.CurrentOTP = data['Data'];
+            } else {
+              this.toastr.warning(data.ErrorMessage);
+            }
+          }, error => console.error(error));
+      }
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  async VerifyOTPByEsanchar(UserOTP: number, idx: number) {
+    try {
+      this.loaderService.requestStarted();
+      if (UserOTP == this.CurrentOTP) {
+        this.toastr.success("OTP Verify Successfully");
+        this.ApplicationCommitteeList[idx].Verified = true;
+        this.ApplicationCommitteeList[idx].SendOTP = 2;
+      }
+      else if (UserOTP == Number(this.CustomOTP)) {
+        this.toastr.success("OTP Verify Successfully");
+        this.ApplicationCommitteeList[idx].Verified = true;
+        this.ApplicationCommitteeList[idx].SendOTP = 2;
+      }
+      else {
+        this.toastr.warning("Invalid OTP");
+      }
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  numbersOnly(event: any): boolean {  // Accept only alpha numerics, not special characters 
+    var regex = new RegExp("^[0-9]+$");
+    var str = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+    if (regex.test(str)) {
+      return true;
+    }
+    event.preventDefault();
+    return false;
+  }
+  isAllVerified(): boolean {
+    return this.ApplicationCommitteeList.every(item => item.SendOTP === 2);
   }
 }

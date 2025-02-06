@@ -444,6 +444,7 @@ import { MGThreeApplicationsListComponent } from './Views/DocumentScrutinyTab/mg
 import { ApplicationForwardGThreeComponent } from './Views/DocumentScrutinyTab/application-forward-gthree/application-forward-gthree.component';
 import { MGOneFacilitiesComponent } from './Views/TabDetail/mgone-facilities/mgone-facilities.component';
 import { MGOneForwardInpectionReportOSDComponent } from './Views/Medical Group 1/NOC/mgone-forward-inpection-report-osd/mgone-forward-inpection-report-osd.component';
+import { NodalOfficerBedApplicationListComponent } from './Views/Bed/nodal-officer-bed-application-list/nodal-officer-bed-application-list.component';
 
 
  
@@ -889,6 +890,7 @@ import { MGOneForwardInpectionReportOSDComponent } from './Views/Medical Group 1
     MGOneForwardInpectionReportOSDComponent,
     MGThreeApplicationsListComponent,
     ApplicationForwardGThreeComponent,
+    NodalOfficerBedApplicationListComponent,
   ],
   imports: [
     CommonModule,

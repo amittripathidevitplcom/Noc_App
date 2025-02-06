@@ -1,0 +1,69 @@
+<div class="container-fluid breadcrumbBox py-2">
+  <div class="row align-items-center">
+    <div class="col-md-6">
+      <h3>Application List</h3>
+    </div>
+    <div class="col-md-6 d-flex justify-content-end">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="/dashboard">Dashboard</a></li>
+          <li class="breadcrumb-item active" aria-current="page">Application List</li>
+        </ol>
+      </nav>
+    </div>
+  </div>
+</div>
+<div class="container-fluid mainContents">
+  <div class="card tabCard1 mb-0">
+    <div class="card-header">
+      <b><i class="bi bi-table"></i>&nbsp;Application List</b>
+    </div>
+    <div class="card-body">
+      <div class="clearfix"></div>
+      <div class="card">
+        <div class="card-header">
+          <b>&nbsp;Application List</b>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="table-responsive">
+                <table class="table table-hover table-striped">
+                  <thead>
+                    <tr>
+                      <th>S.No.</th>
+                      <th>Department Name</th>
+                      <th>College Name</th>
+                      <th>Application No.</th>
+                      <th>Application Type</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let item of ApplyNocDetails let idx =index">
+                      <td>{{idx+1}}</td>
+                      <td>{{item.DepartmentName}}</td>
+                      <td>{{item.CollegeName}}</td>
+                      <td>{{item.ApplicationNo}}</td>
+                      <td>{{item.ApplicationTypes}}</td>
+
+                      <td *ngIf="item.DepartmentID==11">
+                        <a href="javascript:void(0)" title="Application Preview" (click)="ApplicationPreview_OnClick(item.DepartmentID,item.CollegeID)" class="btn btn-sm btn-secondary">
+                          <i class="fa fa-eye"></i>
+                        </a>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td colspan="10" *ngIf="ApplyNocDetails.length<=0" style="color:red"> No Data Found.!</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

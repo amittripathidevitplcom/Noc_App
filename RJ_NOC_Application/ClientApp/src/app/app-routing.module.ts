@@ -260,6 +260,7 @@ import { DTEAffiliationSummaryComponent } from './Views/DTEAffiliationView/dteaf
 import { MGOneForwardInpectionReportOSDComponent } from './Views/Medical Group 1/NOC/mgone-forward-inpection-report-osd/mgone-forward-inpection-report-osd.component';
 import { MGThreeApplicationsListComponent } from './Views/DocumentScrutinyTab/mgthree-applications-list/mgthree-applications-list.component';
 import { ApplicationForwardGThreeComponent } from './Views/DocumentScrutinyTab/application-forward-gthree/application-forward-gthree.component';
+import { NodalOfficerBedApplicationListComponent } from './Views/Bed/nodal-officer-bed-application-list/nodal-officer-bed-application-list.component';
 const routes: Routes = [
   {
     path: 'home', component: HomeComponent
@@ -1055,6 +1056,9 @@ const routes: Routes = [
       {
         path: 'mgoneforwardnnpectionreportosd/:DepartmentID/:CollegeID/:ApplyNOCID/:ApplicationNoYear/:ApplicationNoID/:Status', component: MGOneForwardInpectionReportOSDComponent
       },
+      {
+        path: 'generateordersforinspection/:DepartmentID/:CollegeID/:ApplyNOCID/:ApplicationNoYear/:ApplicationNoID', component: GenerateOrderMGOneComponent
+      },
       
 
       {
@@ -1065,6 +1069,12 @@ const routes: Routes = [
       },
       {
         path: 'applicationforward/:DepartmentID/:CollegeID/:ApplyNOCID/:Status', component: ApplicationForwardGThreeComponent
+      },
+      {
+        path: 'totaldraftentrycollege/:Type', component: TotalDraftEntryCollegeComponent
+      },
+      {
+        path: 'nodalofficerBedapplicationlist/:Status', component: NodalOfficerBedApplicationListComponent
       },
     ]
     // ,canActivate: [SkipLocationChangeGuard],
