@@ -1139,6 +1139,47 @@
                   </div>
 
                   <!--DTE Preview Section End-->
+                  <!--Medical Group 3 Seat Enhacement-->
+                  <div class="table-responsive" *ngIf="parameterDetail.ParameterCode=='ANewSeats' && ApplyNocApplicationDetail.DepartmentID==6">
+                    <div class="card-body">
+                      <div class="row">
+                        <div class="col-md-12">
+
+                          <div class="table-responsive">
+                            <table class="table table-bordered">
+                              <thead>
+                                <tr>
+                                  <th style="width:60px !important">
+                                    Sr.No.
+                                  </th>
+                                  <th>
+                                    Course Name
+                                  </th>
+                                  <th>
+                                    No of Seat
+                                  </th>
+
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr *ngFor="let row of ApplyNocApplicationDetail.ApplyNocParameterSeatEnhancement;let idx=index;">
+                                  <td>
+                                    {{idx+1}}
+                                  </td>
+                                  <td>
+                                    {{row.CourseName}}
+                                  </td>
+                                  <td>
+                                    {{row.SeatEnhancement}}
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>

@@ -2,8 +2,10 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { SSOLoginDataModel } from '../../../Models/SSOLoginDataModel';
 import { LoaderService } from '../../../Services/Loader/loader.service';
 import { CommonMasterService } from '../../../Services/CommonMaster/common-master.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CollegeService } from '../../../services/collegedetailsform/College/college.service';
+import { ApplyNOCApplicationService } from '../../../Services/ApplyNOCApplicationList/apply-nocapplication.service';
+import { ToastrService } from 'ngx-toastr';
 
 
 @Component({
@@ -24,8 +26,9 @@ export class ApplicationForwardGThreeComponent implements OnInit {
   public State: number = -1;
   public SuccessMessage: any = [];
   public ErrorMessage: any = [];
+  public QueryStatus: any = '';
 
-  constructor(private loaderService: LoaderService, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private collegeService: CollegeService) { }
+  constructor(private routers: Router, private toastr: ToastrService, private applyNOCApplicationService: ApplyNOCApplicationService, private loaderService: LoaderService, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private collegeService: CollegeService) { }
 
   async ngOnInit() {
 
@@ -34,6 +37,7 @@ export class ApplicationForwardGThreeComponent implements OnInit {
     this.SelectedCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
     this.SelectedApplyNOCID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplyNOCID')?.toString()));
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
+    this.QueryStatus = this.router.snapshot.paramMap.get('Status')?.toString();
     await this.GetCollageDetails();
     await this.GetRoleListForApporval();
     await this.GetWorkFlowActionListByRole();
@@ -146,29 +150,23 @@ export class ApplicationForwardGThreeComponent implements OnInit {
       }
       this.loaderService.requestStarted();
       if (confirm("Are you sure you want to submit?")) {
-        //await this.applyNOCApplicationService.DocumentScrutiny(this.sSOLoginDataModel.RoleID, this.sSOLoginDataModel.UserID, this.ActionID, this.SelectedApplyNOCID, this.SelectedDepartmentID, this.CheckFinalRemark, this.NextRoleID, this.NextUserID, this.NextActionID, this.UploadDocument)
-        //  .then((data: any) => {
-        //    data = JSON.parse(JSON.stringify(data));
-        //    this.State = data['State'];
-        //    this.SuccessMessage = data['SuccessMessage'];
-        //    this.ErrorMessage = data['ErrorMessage'];
-        //    if (this.State == 0) {
-        //      this.toastr.success(this.SuccessMessage);
-        //      if (this.QueryStringStatus == 'ForwardedSecretary') {
-        //        this.routers.navigate(['/commissionerapplicationscrutinylist/ForwardedSecretary']);
-        //      }
-        //      else {
-        //        this.routers.navigate(['/dceapplicationlist/Pending']);
-        //      }
-
-        //    }
-        //    else if (this.State == 2) {
-        //      this.toastr.warning(this.ErrorMessage)
-        //    }
-        //    else {
-        //      this.toastr.error(this.ErrorMessage)
-        //    }
-        //  }, error => console.error(error));
+        await this.applyNOCApplicationService.DocumentScrutiny(this.sSOLoginDataModel.RoleID, this.sSOLoginDataModel.UserID, this.ActionID, this.SelectedApplyNOCID, this.SelectedDepartmentID, this.CheckFinalRemark, this.NextRoleID, this.NextUserID, this.NextActionID)
+          .then((data: any) => {
+            data = JSON.parse(JSON.stringify(data));
+            this.State = data['State'];
+            this.SuccessMessage = data['SuccessMessage'];
+            this.ErrorMessage = data['ErrorMessage'];
+            if (this.State == 0) {
+              this.toastr.success(this.SuccessMessage);
+              this.routers.navigate(['/applicationslist' + "/" + encodeURI(this.commonMasterService.Encrypt(this.QueryStatus.toString()))]);
+            }
+            else if (this.State == 2) {
+              this.toastr.warning(this.ErrorMessage)
+            }
+            else {
+              this.toastr.error(this.ErrorMessage)
+            }
+          }, error => console.error(error));
       }
     }
     catch (Ex) {

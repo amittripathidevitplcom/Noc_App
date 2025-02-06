@@ -9,6 +9,7 @@ import { ApplyNOCApplicationService } from '../../../Services/ApplyNOCApplicatio
 import { RoomDetailsDataModel_RoomDetails } from '../../../Models/RoomDetailsDataModel';
 import { RoomDetailsService } from '../../../Services/RoomDetails/room-details.service';
 import { MedicalDocumentScrutinyService } from '../../../Services/MedicalDocumentScrutiny/medical-document-scrutiny.service';
+import { ApplyNOCPreviewComponent } from '../../apply-nocpreview/apply-nocpreview.component';
 
 
 @Component({
@@ -30,7 +31,9 @@ export class DocumentScrutinyRoomDetailsComponent implements OnInit {
   public SuccessMessage: any = [];
   public ErrorMessage: any = [];
   public FinalRemarks: any = [];
-  constructor(private commonMasterService: CommonMasterService, private router: ActivatedRoute, private loaderService: LoaderService, private medicalDocumentScrutinyService: MedicalDocumentScrutinyService,
+  public QueryStringStatus: any = '';
+  public isDisabledAction: boolean = false;
+  constructor(private ApplyNOCPreview: ApplyNOCPreviewComponent,private commonMasterService: CommonMasterService, private router: ActivatedRoute, private loaderService: LoaderService, private medicalDocumentScrutinyService: MedicalDocumentScrutinyService,
     private toastr: ToastrService, private applyNOCApplicationService: ApplyNOCApplicationService, private roomDetailsService: RoomDetailsService) { }
 
   async ngOnInit() {
@@ -40,6 +43,7 @@ export class DocumentScrutinyRoomDetailsComponent implements OnInit {
     this.SelectedDepartmentID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DepartmentID')?.toString()));
     this.SelectedCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
     this.SelectedApplyNOCID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplyNOCID')?.toString()));
+    this.QueryStringStatus = this.router.snapshot.paramMap.get('Status')?.toString();
     await this.GetRoomDetailAllList();
   }
 
@@ -53,6 +57,10 @@ export class DocumentScrutinyRoomDetailsComponent implements OnInit {
           this.RoomDetails = data['Data'][0]['RoomDetails'];
           this.FinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
           this.dsrequest.FinalRemark = this.FinalRemarks.find((x: { RoleIDS: number; }) => x.RoleIDS == this.sSOLoginDataModel.RoleID)?.Remark;
+          this.dsrequest.ActionID = this.FinalRemarks.find((x: { RoleIDS: number; }) => x.RoleIDS == this.sSOLoginDataModel.RoleID)?.ActionID;
+          if (this.dsrequest.ActionID == 2) {
+            this.isDisabledAction = true;
+          }
         }, error => console.error(error));
     }
     catch (Ex) {
@@ -64,23 +72,43 @@ export class DocumentScrutinyRoomDetailsComponent implements OnInit {
       }, 200);
     }
   }
-
   async selectAll(ActionType: string) {
     await this.RoomDetails.forEach((i: { Action: string, Remark: string }) => {
       i.Action = ActionType;
       i.Remark = '';
-    })
+    });
+    if (ActionType == 'No') {
+      this.dsrequest.ActionID = 2;
+      this.isDisabledAction = true;
+    }
+    else {
+      this.dsrequest.ActionID = 0;
+      this.isDisabledAction = false;
+    }
   }
 
   ClickOnAction(idx: number) {
+    var Count = 0;
     for (var i = 0; i < this.RoomDetails.length; i++) {
       if (i == idx) {
         this.RoomDetails[i].Remark = '';
       }
+      if (this.RoomDetails[i].Action == 'No') {
+        Count++;
+      }
+    }
+    if (Count > 0) {
+      this.dsrequest.ActionID = 2;
+      this.isDisabledAction = true;
+    }
+    else {
+      this.dsrequest.ActionID = 0;
+      this.isDisabledAction = false;
     }
   }
-
+  public isSubmitted: boolean = false;
   async SubmitRoomDetail_Onclick() {
+    this.isSubmitted = true;
     this.dsrequest.DepartmentID = this.SelectedDepartmentID;
     this.dsrequest.CollegeID = this.SelectedCollageID;
     this.dsrequest.ApplyNOCID = this.SelectedApplyNOCID;
@@ -102,8 +130,10 @@ export class DocumentScrutinyRoomDetailsComponent implements OnInit {
         }
       }
     }
-
-    if (this.dsrequest.FinalRemark == '') {
+    if (this.dsrequest.ActionID <= 0) {
+      this.isFormvalid = false;
+    }
+    if (this.dsrequest.FinalRemark == '' || this.dsrequest.FinalRemark == undefined) {
       this.isRemarkValid = true;
       this.isFormvalid = false;
     }
@@ -155,4 +185,8 @@ export class DocumentScrutinyRoomDetailsComponent implements OnInit {
       }, 200);
     }
   }
+  ViewTaril(ID: number, ActionType: string) {
+    this.ApplyNOCPreview.ViewTarilCommon(ID, ActionType);
+  }
+
 }

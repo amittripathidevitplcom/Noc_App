@@ -11,6 +11,7 @@ import { BuildingDetailsMasterService } from '../../../Services/BuildingDetailsM
 import { ToastrService } from 'ngx-toastr';
 import { FacilityDetailsService } from '../../../Services/FicilityDetais/facility-details.service';
 import { MedicalDocumentScrutinyService } from '../../../Services/MedicalDocumentScrutiny/medical-document-scrutiny.service';
+import { ApplyNOCPreviewComponent } from '../../apply-nocpreview/apply-nocpreview.component';
 
 @Component({
   selector: 'app-document-scrutiny-facility',
@@ -19,6 +20,7 @@ import { MedicalDocumentScrutinyService } from '../../../Services/MedicalDocumen
 })
 export class DocumentScrutinyFacilityComponent implements OnInit {
 
+  public QueryStringStatus: any = '';
   sSOLoginDataModel = new SSOLoginDataModel();
   public SelectedCollageID: number = 0;
   public SelectedDepartmentID: number = 0;
@@ -30,9 +32,11 @@ export class DocumentScrutinyFacilityComponent implements OnInit {
   public isFormvalid: boolean = true;
   public isRemarkValid: boolean = false;
   public FacilitiesDataAllList: FacilityDetailsDataModel[] = [];
+  public FacilitiesDataHistory: FacilityDetailsDataModel[] = [];
   public FinalRemarks: any = [];
+  public isDisabledAction: boolean = false;
 
-  constructor(private facilityDetailsService: FacilityDetailsService, private commonMasterService: CommonMasterService, private medicalDocumentScrutinyService: MedicalDocumentScrutinyService,
+  constructor(private ApplyNOCPreview: ApplyNOCPreviewComponent,private facilityDetailsService: FacilityDetailsService, private commonMasterService: CommonMasterService, private medicalDocumentScrutinyService: MedicalDocumentScrutinyService,
     private loaderService: LoaderService, private router: ActivatedRoute, private modalService: NgbModal, private toastr: ToastrService, private applyNOCApplicationService: ApplyNOCApplicationService) { }
 
   async ngOnInit() {
@@ -40,6 +44,7 @@ export class DocumentScrutinyFacilityComponent implements OnInit {
     this.SelectedDepartmentID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DepartmentID')?.toString()));
     this.SelectedCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
     this.SelectedApplyNOCID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplyNOCID')?.toString()));
+    this.QueryStringStatus = this.router.snapshot.paramMap.get('Status')?.toString();
     await this.GetFacilityDetailAllList();
   }
 
@@ -53,6 +58,10 @@ export class DocumentScrutinyFacilityComponent implements OnInit {
           this.FacilitiesDataAllList = data['Data'][0]['FacilityDetails'];
           this.FinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
           this.dsrequest.FinalRemark = this.FinalRemarks.find((x: { RoleIDS: number; }) => x.RoleIDS == this.sSOLoginDataModel.RoleID)?.Remark;
+          this.dsrequest.ActionID = this.FinalRemarks.find((x: { RoleIDS: number; }) => x.RoleIDS == this.sSOLoginDataModel.RoleID)?.ActionID;
+          if (this.dsrequest.ActionID == 2) {
+            this.isDisabledAction = true;
+          }
         }, error => console.error(error));
     }
     catch (Ex) {
@@ -65,22 +74,44 @@ export class DocumentScrutinyFacilityComponent implements OnInit {
     }
   }
   
+
   async selectAll(ActionType: string) {
     await this.FacilitiesDataAllList.forEach((i: { Action: string, Remark: string }) => {
       i.Action = ActionType;
       i.Remark = '';
-    })
+    });
+    if (ActionType == 'No') {
+      this.dsrequest.ActionID = 2;
+      this.isDisabledAction = true;
+    }
+    else {
+      this.dsrequest.ActionID = 0;
+      this.isDisabledAction = false;
+    }
   }
 
   ClickOnAction(idx: number) {
+    var Count = 0;
     for (var i = 0; i < this.FacilitiesDataAllList.length; i++) {
       if (i == idx) {
         this.FacilitiesDataAllList[i].Remark = '';
       }
+      if (this.FacilitiesDataAllList[i].Action == 'No') {
+        Count++;
+      }
+    }
+    if (Count > 0) {
+      this.dsrequest.ActionID = 2;
+      this.isDisabledAction = true;
+    }
+    else {
+      this.dsrequest.ActionID = 0;
+      this.isDisabledAction = false;
     }
   }
-
+  public isSubmitted: boolean = false;
   async SubmitFacility_Onclick() {
+    this.isSubmitted = true;
     this.dsrequest.DepartmentID = this.SelectedDepartmentID;
     this.dsrequest.CollegeID = this.SelectedCollageID;
     this.dsrequest.ApplyNOCID = this.SelectedApplyNOCID;
@@ -102,8 +133,10 @@ export class DocumentScrutinyFacilityComponent implements OnInit {
         }
       }
     }
-
-    if (this.dsrequest.FinalRemark == '') {
+    if (this.dsrequest.ActionID <= 0) {
+      this.isFormvalid = false;
+    }
+    if (this.dsrequest.FinalRemark == '' || this.dsrequest.FinalRemark == undefined) {
       this.isRemarkValid = true;
       this.isFormvalid = false;
     }
@@ -154,5 +187,8 @@ export class DocumentScrutinyFacilityComponent implements OnInit {
         this.loaderService.requestEnded();
       }, 200);
     }
+  }
+  ViewTaril(ID: number, ActionType: string) {
+    this.ApplyNOCPreview.ViewTarilCommon(ID, ActionType);
   }
 }

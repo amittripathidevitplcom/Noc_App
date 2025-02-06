@@ -83,14 +83,14 @@ export class ApplicationDetailEntryComponent implements OnInit {
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     this.DraftbuttonName = 'Save Draft';
 
-    if (this.SelectedApplyNOCID <= 0 || Number.isNaN(this.SelectedApplyNOCID)) {
-      await this.GetDepartmentList();
-      let IsOpenDepartment = this.DepartmentList.find((x: { DepartmentID: number; }) => x.DepartmentID == this.SelectedDepartmentID)?.IsOpenNOCApplication;
-      if (IsOpenDepartment == false) {
-        this.toastr.warning('Department is not open for noc applications');
-        this.routers.navigate(['/dashboard']);
-      }
-    }
+    //if (this.SelectedApplyNOCID <= 0 || Number.isNaN(this.SelectedApplyNOCID)) {
+    //  await this.GetDepartmentList();
+    //  let IsOpenDepartment = this.DepartmentList.find((x: { DepartmentID: number; }) => x.DepartmentID == this.SelectedDepartmentID)?.IsOpenNOCApplication;
+    //  if (IsOpenDepartment == false) {
+    //    this.toastr.warning('Department is not open for noc applications');
+    //    this.routers.navigate(['/dashboard']);
+    //  }
+    //}
     await this.GetCollageDetails();
     await this.GetCollegeBasicDetails();
     await this.CheckTabsEntry();

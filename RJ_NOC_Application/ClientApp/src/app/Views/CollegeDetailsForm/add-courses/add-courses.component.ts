@@ -367,17 +367,26 @@ export class AddCoursesComponent implements OnInit {
       this.CourseMasterForm.get('txtTotalSeats')?.updateValueAndValidity();
       this.CourseMasterForm.get('txtCompositeUnit')?.updateValueAndValidity();
     }
+    if (this.SelectedDepartmentID == 6) {
+      this.CourseMasterForm.get('txtTotalSeats')?.setValidators(Validators.required);
+      this.CourseMasterForm.get('txtTotalSeats')?.updateValueAndValidity();
+    }
     console.log(this.CourseMasterForm);
     if (this.CourseMasterForm.invalid) {
       this.isFormValid = false;
       return
     }
-    if (this.request.DepartmentID != 11) {
+    if (this.request.DepartmentID != 11&&this.request.DepartmentID != 6) {
       if (this.request.DepartmentID != EnumDepartment.CollegeEducation && this.CollegeStatus != 'New') {
         if (this.request.Seats <= 0) {
           this.isFormValid = false;
         }
       }
+    }
+    if (Number(this.request.TotalSeatsCourseWise) > 100 && this.request.DepartmentID == 6) {
+      this.toastr.warning('Number of Seat less then 100');
+      this.request.TotalSeatsCourseWise = '';
+      this.isFormValid = false;
     }
 
     if (this.request.DepartmentID == EnumDepartment.CollegeEducation) {
@@ -450,10 +459,12 @@ export class AddCoursesComponent implements OnInit {
     }
   }
   numberOnly(event: any): boolean {
+
     const charCode = (event.which) ? event.which : event.keyCode;
     if (charCode > 31 && (charCode < 48 || charCode > 57)) {
       return false;
     }
+
     return true;
 
   }

@@ -721,7 +721,7 @@ export class StaffDetailsComponent implements OnInit {
       }
 
       if (this.SelectedDepartmentID == 2) {
-        if (this.request.AHDepartmentID == undefined || this.request.AHDepartmentID == 0) {
+        if ((this.request.AHDepartmentID == undefined || this.request.AHDepartmentID == 0) && this.request.TeachingType == 'Teaching') {
           this.FormValid = false;
         }
         

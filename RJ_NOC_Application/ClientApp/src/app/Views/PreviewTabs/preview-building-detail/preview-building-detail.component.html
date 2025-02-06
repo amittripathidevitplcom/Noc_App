@@ -384,8 +384,9 @@
             </div>
             <div class="card">
               <div class="card-header d-flex justify-content-between align-items-center">
-                <b *ngIf="buildingdetails.BuildingTypeName=='Owned'"><i class="fa fa-filter"></i>&nbsp;Certificate of Own Building in own land in same campus Order No. & Order Date : </b>
-                <b *ngIf="buildingdetails.BuildingTypeName!='Owned'"><i class="fa fa-filter"></i>&nbsp;Certificate of Land & Rented Building in same "Tehsil" Order No. & Order Date : </b>
+                <b *ngIf="buildingdetails.BuildingTypeName=='Owned' && SelectedDepartmentID !=6"><i class="fa fa-filter"></i>&nbsp;Certificate of Own Building in own land in same campus Order No. & Order Date : </b>
+                <b *ngIf="buildingdetails.BuildingTypeName!='Owned' && SelectedDepartmentID !=6"><i class="fa fa-filter"></i>&nbsp;Certificate of Land & Rented Building in same "Tehsil" Order No. & Order Date : </b>
+                <b *ngIf="SelectedDepartmentID ==6"><i class="fa fa-filter"></i>&nbsp;Ownership Documents : </b>
               </div>
               <div class="card-body">
                 <div class="row">

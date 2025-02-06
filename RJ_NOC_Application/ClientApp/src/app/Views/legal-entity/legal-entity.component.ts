@@ -311,7 +311,8 @@ export class LegalEntityComponent implements OnInit {
           this.request.PresidentEmail = data['Data'][0]['data']['Table']['0']['PresidentEmail'];
           this.request.SocietyName = data['Data'][0]['data']['Table']['0']['SocietyName'];
           this.request.SocietyPresentStatus = data['Data'][0]['data']['Table']['0']['SocietyPresentStatus'];
-
+          this.legalentityForm.get('ddlState')?.disable();
+          this.legalentityForm.get('ddlDistricts')?.disable();
           this.request.StateID = data['Data'][0]['data']['Table']['0']['StateID'];
           this.GetDistrictListByStateID(this.request.StateID);
           this.request.DistrictID = data['Data'][0]['data']['Table']['0']['DistrictID'];
@@ -1026,6 +1027,12 @@ export class LegalEntityComponent implements OnInit {
         }, error => console.error(error));
     }
     catch (Ex) {
+      const display = document.getElementById('NotRegistered')
+      if (display) display.style.display = "block";
+      this.isSocietyList = false;
+      this.isDisabled = false;
+      this.EnableDisableControls(true);
+      return;
       console.log(Ex);
     }
     finally {
@@ -1044,6 +1051,8 @@ export class LegalEntityComponent implements OnInit {
       this.request.PresidentMobileNo = this.ScoietyData.PresidentMobileNo;
       this.request.StateID = this.RegistrationState;
       this.GetDistrictListByStateID(this.RegistrationState);
+      this.legalentityForm.get('ddlState')?.disable();
+      this.legalentityForm.get('ddlDistricts')?.disable();
       this.request.DistrictID = this.lstDistrict.find((x: { DistrictName: string; }) => x.DistrictName == this.ScoietyData.District).DistrictID;
       this.isDisabledNewRegistration = true;
     }
@@ -1262,7 +1271,7 @@ export class LegalEntityComponent implements OnInit {
 
       if (this.VerifiedOTP || this.CustomOTP == this.UserOTP) {
         if (this.OldRegistrationNo != '') {
-          this.legalEntityService.CheckDuplicateRegNo(this.request.LegalEntityID, this.OldRegistrationNo, 'A')
+          this.legalEntityService.CheckDuplicateRegNo(this.request.LegalEntityID, this.OldRegistrationNo, 'A', this.request.IsLegalEntity)
             .then((data: any) => {
               this.State = data['State'];
               this.SuccessMessage = data['SuccessMessage'];
@@ -1282,7 +1291,7 @@ export class LegalEntityComponent implements OnInit {
           if (display) display.style.display = 'none';
         }
         else {
-          this.legalEntityService.CheckDuplicateRegNo(this.request.LegalEntityID, this.request.RegistrationNo, this.request.PresidentAadhaarNumber)
+          this.legalEntityService.CheckDuplicateRegNo(this.request.LegalEntityID, this.request.RegistrationNo, this.request.PresidentAadhaarNumber, this.request.IsLegalEntity)
             .then((data: any) => {
               this.State = data['State'];
               this.SuccessMessage = data['SuccessMessage'];
@@ -1363,7 +1372,7 @@ export class LegalEntityComponent implements OnInit {
       if (this.UserOTP == this.OTP || this.CustomOTP == this.UserOTP) {
         if (this.OldRegistrationNo != '') {
           debugger;
-          this.legalEntityService.CheckDuplicateRegNo(this.request.LegalEntityID, this.OldRegistrationNo, 'A')
+          this.legalEntityService.CheckDuplicateRegNo(this.request.LegalEntityID, this.OldRegistrationNo, 'A',this.request.IsLegalEntity)
             .then((data: any) => {
               this.State = data['State'];
               this.SuccessMessage = data['SuccessMessage'];
@@ -1384,7 +1393,7 @@ export class LegalEntityComponent implements OnInit {
         }
         else {
           debugger;
-          this.legalEntityService.CheckDuplicateRegNo(this.request.LegalEntityID, this.request.RegistrationNo, this.request.PresidentAadhaarNumber)
+          this.legalEntityService.CheckDuplicateRegNo(this.request.LegalEntityID, this.request.RegistrationNo, this.request.PresidentAadhaarNumber, this.request.IsLegalEntity)
             .then((data: any) => {
               this.State = data['State'];
               this.SuccessMessage = data['SuccessMessage'];

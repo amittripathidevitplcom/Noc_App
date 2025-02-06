@@ -57,7 +57,7 @@
                           <i class="fa fa-eye"></i>
                         </a>
 
-                        &nbsp;<a *ngIf=" this.sSOLoginDataModel.RoleID==11" href="javascript:void(0)" class="btn btn-sm btn-info" title="Action" (click)="OpenGeneratePDFPopUP(ViewOpenGeneratePDFPopUP,item.ApplyNOCID,item.DepartmentID)">Generate NOC Draft</a>
+                        &nbsp;<a *ngIf="QueryStringStatus=='Pending' && this.sSOLoginDataModel.RoleID==11" href="javascript:void(0)" class="btn btn-sm btn-info" title="Action" (click)="OpenGeneratePDFPopUP(ViewOpenGeneratePDFPopUP,item.ApplyNOCID,item.DepartmentID)">Generate NOC Draft</a>
                         <span *ngIf="this.sSOLoginDataModel.RoleID==11 || this.sSOLoginDataModel.RoleID==23">
                           <br /> <a style="margin-top:5px !important" *ngFor="let items of item.DraftNOCPdfFileDataModel let idxx =index" class="btn btn-sm btn-primary bi bi-file-earmark-pdf-fill" href="{{items.NOCFilePath}}" title="{{items.ApplyNocFor}}" target="_blank">{{items.ApplyNocFor}}</a>
                         </span>

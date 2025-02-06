@@ -1,5 +1,4 @@
-import { Component, Injectable, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { Component, Injectable, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
@@ -8,35 +7,23 @@ import { SSOLoginDataModel } from '../../Models/SSOLoginDataModel';
 import { DocumentScrutinyDataModel } from '../../Models/DocumentScrutinyDataModel';
 import { CommonMasterService } from '../../Services/CommonMaster/common-master.service';
 import { LoaderService } from '../../Services/Loader/loader.service';
-import { CourseMasterService } from '../../Services/Master/AddCourse/course-master.service';
 import { ApplyNOCApplicationService } from '../../Services/ApplyNOCApplicationList/apply-nocapplication.service';
-import { PreviewLandDetailComponent } from '../PreviewTabs/preview-land-detail/preview-land-detail.component';
-
 import { LandDetailDataModel } from '../../Models/LandDetailDataModel';
 import { LandDetailsService } from '../../Services/Tabs/LandDetails/land-details.service'
 import { ModalDismissReasons, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { MedicalDocumentScrutinyService } from '../../Services/MedicalDocumentScrutiny/medical-document-scrutiny.service';
-
-
-
 import { FacilityDetailsDataModel } from '../../Models/FacilityDetailsDataModel';
 import { FacilityDetailsService } from '../../Services/FicilityDetais/facility-details.service';
-import { HostelDataModel, HostelDetailsDataModel_Hostel } from '../../Models/HostelDetailsDataModel';
-
+import { HostelDataModel } from '../../Models/HostelDetailsDataModel';
 import { RoomDetailsDataModel_RoomDetails } from '../../Models/RoomDetailsDataModel';
 import { RoomDetailsService } from '../../Services/RoomDetails/room-details.service';
-
-
-import { BuildingDetailsMasterService } from '../../Services/BuildingDetailsMaster/building-details-master.service'
-import { BuildingDetailsDataModel, DocuemntBuildingDetailsDataModel, OldNocDetailsDataModel } from '../../Models/TabDetailDataModel';
+import { BuildingDetailsDataModel, OldNocDetailsDataModel, RequiredDocumentsDataModel_Documents } from '../../Models/TabDetailDataModel';
 
 import { StaffDetailDataModel } from '../../Models/TabDetailDataModel';
 import { StaffDetailService } from '../../Services/StaffDetail/staff-detail.service';
-import { RequiredDocumentsDataModel, RequiredDocumentsDataModel_Documents } from '../../Models/TabDetailDataModel'
-
 import { OtherInformationDataModel } from '../../Models/OtherInformationDataModel';
 import { AcademicInformationDetailsDataModel } from '../../Models/AcademicInformationDetailsDataModel';
-import { HospitalDataModel, HospitalParentNotDataModel } from '../../Models/HospitalDataModel';
+import { HospitalDataModel } from '../../Models/HospitalDataModel';
 import { CollegeService } from '../../services/collegedetailsform/College/college.service';
 import { DocumentScrutinyCheckListDetailsComponent } from '../DocumentScrutinyTab/document-scrutiny-check-list-details/document-scrutiny-check-list-details.component';
 
@@ -150,6 +137,7 @@ export class ApplyNOCPreviewComponent implements OnInit {
   public CheckList_OldNocDetails: OldNocDetailsDataModel[] = [];
   public OldNOC_FinalRemarks: any = [];
 
+  public lstTarils: any = [];
 
   public CheckFinalRemark: string = '';
   //@ViewChild(DocumentScrutinyCheckListDetailsComponent) checkListDetailsComponent: any;
@@ -160,6 +148,7 @@ export class ApplyNOCPreviewComponent implements OnInit {
   private checkListDetailsComponent_New!: DocumentScrutinyCheckListDetailsComponent;
 
   //private checkListDetailsComponent: DocumentScrutinyCheckListDetailsComponent;
+  @ViewChild('TarilMymodal') tarilMymodal: TemplateRef<any> | undefined;
   constructor(private toastr: ToastrService, private loaderService: LoaderService, private applyNOCApplicationService: ApplyNOCApplicationService,
     private landDetailsService: LandDetailsService, private medicalDocumentScrutinyService: MedicalDocumentScrutinyService, private facilityDetailsService: FacilityDetailsService,
     private roomDetailsService: RoomDetailsService, private staffDetailService: StaffDetailService,
@@ -260,6 +249,40 @@ export class ApplyNOCPreviewComponent implements OnInit {
       setTimeout(() => {
         this.loaderService.requestEnded();
       }, 200);
+    }
+  }
+
+  public ViewTarilCommon(ID: number, ActionType: string) {
+    this.modalService.open(this.tarilMymodal, { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' }).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+    try {
+      this.loaderService.requestStarted();
+      this.commonMasterService.GetDocumentScritintyTaril(ID, this.SelectedApplyNOCID, this.SelectedCollageID, this.SelectedDepartmentID, ActionType)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.lstTarils = data['Data'][0]['data'];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return `with: ${reason}`;
     }
   }
 }

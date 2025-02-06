@@ -30,7 +30,7 @@
           </div>
         </div>
 
-        <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" [hidden]="SelectedDepartmentID==2 || SelectedDepartmentID==4 || SelectedDepartmentID==11 || SelectedDepartmentID==9">
+        <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" [hidden]="SelectedDepartmentID==2 || SelectedDepartmentID==4 || SelectedDepartmentID==11 || SelectedDepartmentID==9|| SelectedDepartmentID==6">
           <label>Subject <span style="color:red;">*</span></label>
 
           <ng-multiselect-dropdown [disabled]="isToDisable" [placeholder]="'--Select--'" formControlName="ddlSubject" id="ddlSubject"
@@ -120,6 +120,14 @@
             <p *ngIf="IsUploadDocRequried"> This field is required .!</p>
           </div>
         </div>
+
+        <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="this.SelectedDepartmentID ==6">
+          <label for="txtNumberofPresentSeat" class="form-label">Number of Present Seat<span style="color:red;">*</span></label>
+          <input type="text" class="form-control" id="txtNumberofPresentSeat" name="txtNumberofPresentSeat" formControlName="txtNumberofPresentSeat" max="100" [(ngModel)]="request.NumberofPresentSeat" autocomplete="off" (keypress)="numberOnly($event)">
+          <p class="text-danger" *ngIf="isSubmitted && this.SelectedDepartmentID ==6&& request.NumberofPresentSeat==''"><i aria-hidden="true"></i> This field is required .!</p>
+        </div>
+
+
 
         <div class="card-body" *ngIf="SelectedDepartmentID==11">
           <div class="row">
@@ -262,24 +270,24 @@
               <p class="text-danger" *ngIf="request.RevisedStateRecognitionUploadDoc==''&& isSubmitted"><i aria-hidden="true"></i>  This field is required .!</p>
             </div>
           </div>
-          
+
         </div>
 
 
-          <div class="col-lg-12 col-md-12 col-sm-12 col-12 mb-3">
-            <label>Remark </label>
-            <textarea class="form-control" id="txtRemark" [(ngModel)]="request.Remark" formControlName="txtRemark"></textarea>
-            <div *ngIf="isSubmitted&&form.txtRemark.errors" class="text-danger">
-              <p *ngIf="form.txtRemark.errors.required"><i aria-hidden="true"></i>  This field is required .!</p>
-            </div>
-            <span *ngIf="SelectedDepartmentID==9" style="color: forestgreen; font-size: 12px; font-weight: 600;">Please Add Ist NOC</span>
+        <div class="col-lg-12 col-md-12 col-sm-12 col-12 mb-3">
+          <label>Remark </label>
+          <textarea class="form-control" id="txtRemark" [(ngModel)]="request.Remark" formControlName="txtRemark"></textarea>
+          <div *ngIf="isSubmitted&&form.txtRemark.errors" class="text-danger">
+            <p *ngIf="form.txtRemark.errors.required"><i aria-hidden="true"></i>  This field is required .!</p>
           </div>
-
-          <!--<div class="col-lg-12 col-md-12 col-sm-12 col-12 mt-3 text-end">
-    <button class="btn btn-primary" type="button" (click)="AddData()">Save & Next</button>
-  </div>-->
+          <span *ngIf="SelectedDepartmentID==9" style="color: forestgreen; font-size: 12px; font-weight: 600;">Please Add Ist NOC</span>
         </div>
+
+        <!--<div class="col-lg-12 col-md-12 col-sm-12 col-12 mt-3 text-end">
+          <button class="btn btn-primary" type="button" (click)="AddData()">Save & Next</button>
+        </div>-->
       </div>
+    </div>
     <div class="card-footer text-end">
 
       <button type="button" class="btn btn-primary" id="btnAddNOCDetail" name="btnSave" (click)="AddOldNOCDetails()"><i class="fa fa-plus"></i>&nbsp;Add & Save</button>&nbsp;
@@ -349,7 +357,7 @@
         <tr>
           <th>Sr.No.</th>
           <th>Course</th>
-          <th *ngIf="SelectedDepartmentID!=9 && SelectedDepartmentID!=11">Subject</th>
+          <th *ngIf="SelectedDepartmentID!=9 && SelectedDepartmentID!=11&& SelectedDepartmentID!=6">Subject</th>
           <th>NOC Type</th>
           <th>NOC Issue on Session Year</th>
           <th *ngIf="SelectedDepartmentID!=11">Issued for Year</th>
@@ -369,6 +377,7 @@
           <th *ngIf="SelectedDepartmentID ==11">Revised/Latest State NOC Order No</th>
           <th *ngIf="SelectedDepartmentID ==11">Revised/Latest State NOC Date</th>
           <th *ngIf="SelectedDepartmentID ==11">Revised/Latest State NOC Upload</th>
+          <th *ngIf="SelectedDepartmentID ==6">Number of Present Seat</th>
           <th>Remark</th>
           <th>Action</th>
         </tr>
@@ -377,7 +386,7 @@
         <tr *ngFor="let row of OldNocDetails; let indexOfelement=index;">
           <td> {{indexOfelement+1}}</td>
           <td>{{row.CourseName}}</td>
-          <td *ngIf="SelectedDepartmentID!=9 && SelectedDepartmentID!=11">
+          <td *ngIf="SelectedDepartmentID!=9 && SelectedDepartmentID!=11&& SelectedDepartmentID!=6">
             <p *ngFor="let item of row.SubjectData;">
               {{item.SubjectName}}
             </p>
@@ -401,7 +410,7 @@
           <td *ngIf="SelectedDepartmentID ==11">{{row.RevisedStateOrderNo}}</td>
           <td *ngIf="SelectedDepartmentID ==11">{{row.RevisedStateOrderDate | date:'dd-MM-yyyy'}}</td>
           <td *ngIf="SelectedDepartmentID ==11"><a *ngIf="row.RevisedStateRecognitionUploadDoc!=''" target="_blank" href="{{row.RevisedStateRecognitionUploadDocPath}}" title="View Upload Document"><i class="fa fa-eye"></i></a></td>
-          
+          <td *ngIf="SelectedDepartmentID ==6">{{row.NumberofPresentSeat}}</td>
           <td>{{row.Remark}}</td>
           <td>
             <button type="button" class="btn btn-sm btn-primary" title="Edit" [hidden]="QueryStringStatus=='R'&&row.Action=='Yes'" [attr.disabled]="isDisabled ? true : null" (click)="EditItem(row.OldNocID)"><i class="fa fa-edit"></i></button>

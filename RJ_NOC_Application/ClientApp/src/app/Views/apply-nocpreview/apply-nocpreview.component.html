@@ -19,9 +19,9 @@
     <div class="col-md-12">
       <div class="row align-items-center">
         <div class="col-md-12">
-          
+
           <mat-tab-group mat-align-tabs="center" class="tabUl1 d-block w-100" [selectedIndex]="selectedIndex" #tabs (selectedTabChange)="onTabChange($event)">
-             
+
             <mat-tab>
               <ng-template mat-tab-label>
                 <i class="fa fa-gavel icon" aria-hidden="true"></i>
@@ -69,14 +69,14 @@
               <app-document-scrutiny-facility></app-document-scrutiny-facility>
             </mat-tab>
 
-            <mat-tab>
-              <ng-template mat-tab-label>
-                <i class="fa fa-file-text-o icon" aria-hidden="true"></i>
-                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['RequiredDocument']>0"></i>
-                <span>Required Document</span>
-              </ng-template>
-              <app-document-scrutiny-required-document></app-document-scrutiny-required-document>
-            </mat-tab>
+            <!--<mat-tab>
+    <ng-template mat-tab-label>
+      <i class="fa fa-file-text-o icon" aria-hidden="true"></i>
+      <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['RequiredDocument']>0"></i>
+      <span>Required Document</span>
+    </ng-template>
+    <app-document-scrutiny-required-document></app-document-scrutiny-required-document>
+  </mat-tab>-->
 
             <mat-tab>
               <ng-template mat-tab-label>
@@ -170,20 +170,14 @@
               </ng-template>
               <app-document-scrutiny-hostal-details></app-document-scrutiny-hostal-details>
             </mat-tab>
-            <!--<mat-tab *ngIf="SelectedDepartmentID==2">
+            <mat-tab *ngIf="SelectedDepartmentID==6">
               <ng-template mat-tab-label>
-                <i class="fa fa-bed icon" aria-hidden="true"></i>
-                <span>Veterinary Hospital</span>
+                <i class="fa fa-gavel icon" aria-hidden="true"></i>
+                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['CourtCase']>0"></i>
+                <span>Court Case</span>
               </ng-template>
-              <app-document-scrutiny-veterinary-hospital></app-document-scrutiny-veterinary-hospital>
+              <app-document-scrutiny-court-case-mgt></app-document-scrutiny-court-case-mgt>
             </mat-tab>
-            <mat-tab *ngIf="SelectedDepartmentID==1">
-              <ng-template mat-tab-label>
-                <i class="fa fa-bed icon" aria-hidden="true"></i>
-                <span>Farm Land Details</span>
-              </ng-template>
-              <app-document-scrutiny-farm-land-details></app-document-scrutiny-farm-land-details>
-            </mat-tab-->>
             <mat-tab>
               <ng-template mat-tab-label>
                 <i class="fa fa-check-square-o icon" aria-hidden="true"></i>
@@ -200,4 +194,42 @@
       </div>
     </div>
   </div>
+
+  <ng-template #TarilMymodal let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title" style="font-size: 17px; font-weight: 600 !important;">Trails</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <i class="fa fa-close"></i>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="card-body">
+        <div class="row" *ngIf="lstTarils.length>0">
+          <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+            <div class="table-responsive">
+              <table class="table table-bordered table-hover table-striped">
+                <thead>
+                  <tr>
+                    <th>Sr. No.</th>
+                    <th>Compliance</th>
+                    <th>Remark</th>
+                    <th>Action By</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of lstTarils ; let indexOfelement=index;">
+                    <td> {{indexOfelement+1}}</td>
+                    <td>{{item.Action}}</td>
+                    <td>{{item.Remark}}</td>
+                    <td>{{item.RoleName}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>
 </div>
+

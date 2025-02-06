@@ -27,8 +27,6 @@
                         <label class="form-check-label">No</label>
                       </div>
                     </th>
-                    <th *ngIf="sSOLoginDataModel.RoleID==3 || sSOLoginDataModel.RoleID==5">Clerk Action</th>
-                    <th *ngIf="sSOLoginDataModel.RoleID==5">Section Officer Action</th>
                     <th>S.No.</th>
                     <th>Action</th>
                     <th>Course</th>
@@ -36,6 +34,7 @@
                     <th>Session Year</th>
                     <th>NOC No.</th>
                     <th>NOC Received On</th>
+                    <th>Trails</th>
 
                   </tr>
                 </thead>
@@ -60,15 +59,6 @@
                         </div>
                       </div>
                     </td>
-
-                    <td *ngIf="sSOLoginDataModel.RoleID==3 || sSOLoginDataModel.RoleID==5">
-                      Compliance: {{item.C_Action}}<br />
-                      <p [hidden]="item.C_Action !='No'">Remark : {{item.C_Remark}}</p>
-                    </td>
-                    <td *ngIf="sSOLoginDataModel.RoleID==5">
-                      Compliance: {{item.S_Action}}<br />
-                      <p [hidden]="item.S_Action !='No'">Remark : {{item.S_Remark}}</p>
-                    </td>
                     <td>{{idx+1}}</td>
                     <td>
                       <button type="button" class="btn btn-sm btn-info" title="View" (click)="ViewOldNOCDetail(mymodal,item.OldNocID)"><i class="fa fa-eye"></i></button>
@@ -78,9 +68,10 @@
                     <td>{{item.FinancialYearName}}</td>
                     <td>{{item.NOCNumber}}</td>
                     <td>{{item.NOCReceivedDate}}</td>
+                    <td><button type="button" class="btn btn-sm btn-info" title="View" (click)="ViewTaril(item.OldNocID,'OldNocTrail')"><i class="fa fa-bars" aria-hidden="true"></i></button></td>
                   </tr>
                   <tr *ngIf="OldNocDetails.length<=0">
-                    <td colspan="7" style="color:red">No Data Found.!</td>
+                    <td colspan="10" style="color:red">No Data Found.!</td>
                   </tr>
                 </tbody>
               </table>
@@ -96,6 +87,7 @@
             <tr>
               <th>Sr.No.</th>
               <th>Role</th>
+              <th>Action</th>
               <th>Remark</th>
             </tr>
           </thead>
@@ -103,24 +95,43 @@
             <tr *ngFor="let item1 of FinalRemarks ; let idx =index">
               <td>{{idx+1}}</td>
               <td>{{item1.RoleID}}</td>
+              <td>{{item1.ActionName}}</td>
               <td>{{item1.Remark}}</td>
             </tr>
           </tbody>
         </table>
       </div>
     </div>
-    <div class="row">
-      <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-        <label>Remarks</label>
-        <textarea id="OldNOCDetailsRemark" class="form-control" [(ngModel)]="dsrequest.FinalRemark"></textarea>
-        <div *ngIf="isRemarkValid" class="text-danger">
-          <p *ngIf="isRemarkValid"> This field is required .!</p>
+    <div class="card-header">
+      <b>Old NOC Detail Compliant/Not Compliant </b>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-12 mb-3">
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="rdoldnocapproverevert" id="rdoldnocapprove" [value]="1" [(ngModel)]="dsrequest.ActionID" [attr.disabled]="isDisabledAction ? true : null">
+            <label class="form-check-label" for="rdoldnocapprove">Compliant</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="rdoldnocapproverevert" id="rdoldnocrevert" [value]="2" [(ngModel)]="dsrequest.ActionID" [attr.disabled]="isDisabledAction ? true : null">
+            <label class="form-check-label" for="rdoldnocrevert">Not Compliant</label>
+          </div>
+          <p *ngIf="isSubmitted&&dsrequest.ActionID==0" class="text-danger"> This field is required .!</p>
         </div>
       </div>
-    </div>
-    <div class="row">
-      <div class="col-md-12">
-        <button class="btn btn-primary" type="button" (click)="SubmitOldNOCDetails_Onclick()">Submit</button>
+      <div class="row">
+        <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+          <label>Remarks</label>
+          <textarea id="OldNOCDetailsRemark" class="form-control" [(ngModel)]="dsrequest.FinalRemark"></textarea>
+          <div *ngIf="isRemarkValid" class="text-danger">
+            <p *ngIf="isRemarkValid"> This field is required .!</p>
+          </div>
+        </div>
+      </div>
+      <div class="row"  *ngIf="QueryStringStatus.includes('Pending')">
+        <div class="col-md-12">
+          <button class="btn btn-primary" type="button" (click)="SubmitOldNOCDetails_Onclick()">Submit</button>
+        </div>
       </div>
     </div>
     <ng-template #mymodal let-modal>
@@ -142,7 +153,7 @@
             <input class="form-control disabled" disabled value="{{request.CourseName}}" />
           </div>
 
-          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" [hidden]="SelectedDepartmentID ==6||SelectedDepartmentID ==2 || SelectedDepartmentID==4 || SelectedDepartmentID==11">
             <label><b>Subject :</b></label>
             <div class="clearfix"></div>
             <div class="form-control disabled">
@@ -156,12 +167,12 @@
             <input class="form-control disabled" disabled value="{{request.NOCTypeName}}" />
           </div>
           <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-            <label><b> Session Year :</b></label>
+            <label><b>NOC Issue on Session Year :</b></label>
             <input class="form-control disabled" disabled value="{{request.FinancialYearName}}" />
           </div>
-          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" [hidden]="SelectedDepartmentID==11">
             <label><b>Issued for Year :</b></label>
-            <input class="form-control disabled" disabled value="{{request.IssuedYear}}" />
+            <input class="form-control disabled" disabled value="{{request.IssuedYearName}}" />
           </div>
           <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
             <label><b>NOC Number :</b></label>
@@ -169,13 +180,81 @@
           </div>
           <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
             <label><b> NOC Received On :</b></label>
-            <input class="form-control disabled" disabled value="{{request.NOCReceivedDate}}" />
+            <input class="form-control disabled" disabled value="{{request.NOCReceivedDate | date:'dd-MM-yyyy'}}" />
           </div>
-          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="request.NOCTypeName=='TNOC'">
+          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="request.NOCTypeName=='TNOC Holder'">
             <label><b>NOC Expire Date :</b></label>
-            <input class="form-control disabled" disabled value="{{request.NOCExpireDate}}" />
+            <input class="form-control disabled" disabled value="{{request.NOCExpireDate | date:'dd-MM-yyyy'}}" />
           </div>
+          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="SelectedDepartmentID==6">
+            <label><b>Number Of Present Seat :</b></label>
+            <input class="form-control disabled" disabled value="{{request.NumberofPresentSeat}}" />
+          </div>
+          <div class="card-body" *ngIf="SelectedDepartmentID==11">
+            <div class="row">
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label><b>First NCTE Recognition Order No:</b></label>
+                <input class="form-control disabled mt-1" disabled value="{{request.FirstOrderNo}}" />
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label><b>First NCTE Recognition Date:</b></label>
+                <input class="form-control disabled mt-1" disabled value="{{request.FirstOrderDate | date:'dd-MM-yyyy'}}" />
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label><b>First NCTE Recognition Upload:</b></label>
+                <a *ngIf="!request.FirstRecognitionUploadDocPath.includes('.pdf')" data-fancybox="gallery" href="{{request.FirstRecognitionUploadDocPath}}" data-caption="Image 10" title="click here to zoom">
+                  <img src="{{request.FirstRecognitionUploadDocPath}}" alt="First NCTE Recognition Document" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                </a>
+                <a class="bi bi-file-earmark-pdf-fill" *ngIf="request.FirstRecognitionUploadDocPath.includes('.pdf')" data-fancybox="gallery" href="{{request.FirstRecognitionUploadDocPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label><b>Revised/Latest Recognition Order No:</b></label>
+                <input class="form-control disabled mt-1" disabled value="{{request.RevisedOrderNo}}" />
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label><b>Revised/Latest Recognition Date:</b></label>
+                <input class="form-control disabled mt-1" disabled value="{{request.RevisedOrderDate | date:'dd-MM-yyyy'}}" />
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label><b>Revised/Latest Recognition Upload:</b></label>
+                <a *ngIf="!request.RevisedRecognitionUploadDocPath.includes('.pdf')" data-fancybox="gallery" href="{{request.RevisedRecognitionUploadDocPath}}" data-caption="Image 10" title="click here to zoom">
+                  <img src="{{request.RevisedRecognitionUploadDocPath}}" alt="First NCTE Recognition Document" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                </a>
+                <a class="bi bi-file-earmark-pdf-fill" *ngIf="request.RevisedRecognitionUploadDocPath.includes('.pdf')" data-fancybox="gallery" href="{{request.RevisedRecognitionUploadDocPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label><b>First State NOC Order No:</b></label>
+                <input class="form-control disabled mt-1" disabled value="{{request.StateOrderNo}}" />
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label><b>First State NOC Date:</b></label>
+                <input class="form-control disabled mt-1" disabled value="{{request.StateOrderDate | date:'dd-MM-yyyy'}}" />
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label><b>First State NOC Upload:</b></label>
+                <a *ngIf="!request.StateRecognitionUploadDocPath.includes('.pdf')" data-fancybox="gallery" href="{{request.StateRecognitionUploadDocPath}}" data-caption="Image 10" title="click here to zoom">
+                  <img src="{{request.StateRecognitionUploadDocPath}}" alt="First NCTE Recognition Document" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                </a>
+                <a class="bi bi-file-earmark-pdf-fill" *ngIf="request.StateRecognitionUploadDocPath.includes('.pdf')" data-fancybox="gallery" href="{{request.StateRecognitionUploadDocPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label><b>Revised/Latest State NOC Order No:</b></label>
+                <input class="form-control disabled mt-1" disabled value="{{request.RevisedStateOrderNo}}" />
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label><b>Revised/Latest State NOC Date:</b></label>
+                <input class="form-control disabled mt-1" disabled value="{{request.RevisedStateOrderNo | date:'dd-MM-yyyy'}}" />
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label><b>Revised/Latest State NOC Upload:</b></label>
+                <a *ngIf="!request.RevisedStateRecognitionUploadDocPath.includes('.pdf')" data-fancybox="gallery" href="{{request.RevisedStateRecognitionUploadDocPath}}" data-caption="Image 10" title="click here to zoom">
+                  <img src="{{request.RevisedStateRecognitionUploadDocPath}}" alt="First NCTE Recognition Document" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                </a>
+                <a class="bi bi-file-earmark-pdf-fill" *ngIf="request.RevisedStateRecognitionUploadDocPath.includes('.pdf')" data-fancybox="gallery" href="{{request.RevisedStateRecognitionUploadDocPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+              </div>
 
+            </div>
+          </div>
           <div class="col-lg-12 col-md-12 col-sm-12 col-12 mb-3">
             <label><b>Remark :</b></label>
             <input class="form-control disabled" disabled value="{{request.Remark}}" />

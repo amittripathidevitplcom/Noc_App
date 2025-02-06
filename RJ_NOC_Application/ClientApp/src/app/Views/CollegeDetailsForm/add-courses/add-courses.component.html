@@ -119,9 +119,9 @@
                 <p *ngIf="!form.CourseCategory.errors.DropdownValidators"><i aria-hidden="true"></i> This field is required .!</p>
               </div>
             </div>
-            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="this.request.DepartmentID ==11">
-              <label for="txtCommitteeName" class="form-label">Total Seats (Course Wise) <span style="color:red;">*</span></label>
-              <input type="text" class="form-control" id="txtTotalSeats" placeholder="Enter Seats Course Wise" name="txtTotalSeats" formControlName="txtTotalSeats" [(ngModel)]="request.TotalSeatsCourseWise" autocomplete="off">
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="this.request.DepartmentID ==11 || this.request.DepartmentID ==6">
+              <label for="txtCommitteeName" class="form-label">{{this.request.DepartmentID ==6?'Number of seats':'Total Seats (Course Wise) '}}<span style="color:red;">*</span></label>
+              <input type="text" class="form-control" id="txtTotalSeats" name="txtTotalSeats" formControlName="txtTotalSeats" max="100" [(ngModel)]="request.TotalSeatsCourseWise" autocomplete="off" (keypress)="numberOnly($event)">
 
               <div *ngIf="isSubmitted&&form.txtTotalSeats.errors" class="text-danger">
                 <p *ngIf="form.txtTotalSeats.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
@@ -159,11 +159,11 @@
               </div>
             </div>
 
-            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="(this.request.DepartmentID !=3 && this.request.DepartmentID !=11) && CollegeStatus != 'New'">
+            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="this.request.DepartmentID !=3 && this.request.DepartmentID !=6 && this.request.DepartmentID !=11 && CollegeStatus != 'New'">
               <label for="ddlSeatInformation" class="form-label">Seat Information  <span style="color:red">*</span></label>
               <select formControlName="ddlSeatInformation" id="ddlSeatInformation" [(ngModel)]="request.Seats" class="form-control">
                 <option value="0">--Select Seat--</option>
-                <option value="999999" *ngIf="this.request.DepartmentID !=9 && this.request.DepartmentID !=1">0</option>
+                <option value="999999" *ngIf="this.request.DepartmentID !=9 && this.request.DepartmentID !=1 && this.request.DepartmentID !=6">0</option>
                 <option [value]="item.ID" *ngFor="let item of seatInformationDataList">
                   {{item.Value}}
                 </option>
@@ -230,11 +230,11 @@
                 <th *ngIf="this.request.DepartmentID !=2 &&this.request.DepartmentID !=5 && this.request.DepartmentID !=9&& this.request.DepartmentID !=6&& this.request.DepartmentID !=11">Stream</th>
                 <th style="width:250px !important" *ngIf="this.request.DepartmentID !=2 && this.request.DepartmentID !=9&&this.request.DepartmentID !=5&& this.request.DepartmentID !=6&& this.request.DepartmentID !=11">Subject</th>
 
-                <th *ngIf="this.request.DepartmentID !=3 && CollegeStatus != 'New'&& this.request.DepartmentID !=11">Seat</th> 
+                <th *ngIf="this.request.DepartmentID !=3 && CollegeStatus != 'New'&& this.request.DepartmentID !=11&& this.request.DepartmentID !=6">Seat</th> 
                 <th *ngIf="this.request.DepartmentID ==3">No Of Enrolled Students</th>
                 <th *ngIf="this.request.DepartmentID ==11">Establishment Year</th>
                 <th *ngIf="this.request.DepartmentID ==11">Course Category</th>
-                <th *ngIf="this.request.DepartmentID ==11">Total Seats (Course Wise) </th>
+                <th *ngIf="this.request.DepartmentID ==11 || this.request.DepartmentID ==6"> {{this.request.DepartmentID ==6?'Number of seats':'Total Seats (Course Wise) '}} </th>
                 <th *ngIf="this.request.DepartmentID ==11">Composite Unit</th>
                 <th>Action</th>
               </tr>
@@ -247,11 +247,11 @@
                 <td >{{row.CourseName}}</td>
                 <td *ngIf="this.request.DepartmentID !=2&&this.request.DepartmentID !=5&& this.request.DepartmentID !=9 && this.request.DepartmentID !=6&& this.request.DepartmentID !=11">{{row.StreamName}}</td>
                 <td style="width:250px !important" *ngIf="this.request.DepartmentID !=2&& this.request.DepartmentID !=9&& this.request.DepartmentID !=6&& this.request.DepartmentID !=5 && this.request.DepartmentID !=11">{{row.SubjectDetails}}</td>
-                <td *ngIf="this.request.DepartmentID !=3 && CollegeStatus != 'New'&& this.request.DepartmentID !=11">{{row.Dis_Sits}}</td>
+                <td *ngIf="this.request.DepartmentID !=3 && CollegeStatus != 'New'&& this.request.DepartmentID !=11&& this.request.DepartmentID !=6">{{row.Dis_Sits}}</td>
                 <td *ngIf="this.request.DepartmentID ==3">{{row.NoOfEnrolledStudents}}</td>
                 <td *ngIf="this.request.DepartmentID ==11">{{row.FinancialYearName}}</td>
                 <td *ngIf="this.request.DepartmentID ==11">{{row.CourseCategoryName}}</td>
-                <td *ngIf="this.request.DepartmentID ==11">{{row.TotalSeatsCourseWise}}</td>
+                <td *ngIf="this.request.DepartmentID ==11||this.request.DepartmentID ==6">{{row.TotalSeatsCourseWise}}</td>
                 <td *ngIf="this.request.DepartmentID ==11">{{row.CompositeUnit}}</td>
                 <td>
                   <div class="d-flex">

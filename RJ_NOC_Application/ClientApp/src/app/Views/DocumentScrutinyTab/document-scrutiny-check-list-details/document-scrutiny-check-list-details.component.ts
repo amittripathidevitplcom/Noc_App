@@ -27,6 +27,11 @@ import { ParamedicalHospitalDataModel, ParamedicalHospitalParentNotDataModel, Pa
 import { ParamedicalHospitalService } from '../../../Services/Tabs/ParamedicalHospital/paramedical-hospital.service';
 import { TrusteeGeneralInfoService } from '../../../Services/TrusteeGeneralInfo/trustee-general-info.service';
 import { LegalEntityDataModel } from '../../../Models/TrusteeGeneralInfoDataModel';
+import { ApplyNOCPreviewComponent } from '../../apply-nocpreview/apply-nocpreview.component';
+import { BuildingDetailsMasterService } from '../../../Services/BuildingDetailsMaster/building-details-master.service';
+import { OldnocdetailService } from '../../../Services/OldNOCDetail/oldnocdetail.service';
+import { HospitalDetailService } from '../../../Services/Tabs/HospitalDetail/hospital-detail.service';
+import { HostelDetailService } from '../../../Services/Tabs/hostel-details.service';
 
 
 @Injectable({
@@ -170,10 +175,11 @@ export class DocumentScrutinyCheckListDetailsComponent implements OnInit {
 
   public IsShowSuperSpecialtyHospital: boolean = false;
   LegalEntityDataModel = new LegalEntityDataModel();
+  public QueryStatus: any = '';
 
-  constructor(private toastr: ToastrService, private loaderService: LoaderService, private applyNOCApplicationService: ApplyNOCApplicationService,
+  constructor(private hostelDetailService: HostelDetailService, private threehospitalDetailService: HospitalDetailService, private oldnocdetailService: OldnocdetailService, private buildingDetailsMasterService: BuildingDetailsMasterService, private ApplyNOCPreview: ApplyNOCPreviewComponent, private toastr: ToastrService, private loaderService: LoaderService, private applyNOCApplicationService: ApplyNOCApplicationService,
     private landDetailsService: LandDetailsService, private medicalDocumentScrutinyService: MedicalDocumentScrutinyService, private facilityDetailsService: FacilityDetailsService,
-    private roomDetailsService: RoomDetailsService, private staffDetailService: StaffDetailService, private hospitalDetailService: ParamedicalHospitalService, private TrusteeGeneralInfoService: TrusteeGeneralInfoService, 
+    private roomDetailsService: RoomDetailsService, private staffDetailService: StaffDetailService, private hospitalDetailService: ParamedicalHospitalService, private TrusteeGeneralInfoService: TrusteeGeneralInfoService,
     private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private modalService: NgbModal, private collegeService: CollegeService) { }
 
 
@@ -183,6 +189,7 @@ export class DocumentScrutinyCheckListDetailsComponent implements OnInit {
     this.SelectedCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
     this.SelectedApplyNOCID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplyNOCID')?.toString()));
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
+    this.QueryStatus = this.router.snapshot.paramMap.get('Status')?.toString();
     this.GetLandDetailsDataList();
     this.GetFacilityDetailAllList();
     this.ViewlegalEntityDataByID();
@@ -206,6 +213,7 @@ export class DocumentScrutinyCheckListDetailsComponent implements OnInit {
     this.GetFarmLandDetailsList_DepartmentCollegeWise();
     this.GetLegalEntityData();
     this.GetHospitalDataList_DepartmentCollegeWise();
+    this.GetCourtCaseList();
     this.CheckTabsEntry();
   }
 
@@ -219,7 +227,7 @@ export class DocumentScrutinyCheckListDetailsComponent implements OnInit {
       await this.medicalDocumentScrutinyService.DocumentScrutiny_LandDetails(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
-          this.CheckList_LandDetailList = data['Data'][0]['LandDetails'];
+          this.CheckList_LandDetailList = data['Data'][0]['LandDetails'][0];
           this.LandDetail_FinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
         }, error => console.error(error));
     }
@@ -606,7 +614,7 @@ export class DocumentScrutinyCheckListDetailsComponent implements OnInit {
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
           if (data['Data'].length > 0) {
-            this.CheckList_HospitalParentNotDataModelList = data['Data'][0]['HospitalDetails'];
+            this.CheckList_HospitalParentNotDataModelList = data['Data'][0]['HospitalDetails'][0];
             this.HospitalDetails_FinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
           }
         })
@@ -720,7 +728,7 @@ export class DocumentScrutinyCheckListDetailsComponent implements OnInit {
           if (data['Data'].length > 0) {
             this.CheckList_ParamedicalHospitalDataModelList = data['Data'][0]['HospitalDetails'];
             this.ParamedicalHospitalDetails_FinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
-            
+
           }
         })
     }
@@ -794,12 +802,385 @@ export class DocumentScrutinyCheckListDetailsComponent implements OnInit {
       }, 200);
     }
   }
+
+  public CheckList_courtOrderList: any = [];
+  public CourtCaseFinalRemarks: any = [];
+  async GetCourtCaseList() {
+    try {
+      this.loaderService.requestStarted();
+      await this.medicalDocumentScrutinyService.DocumentScrutiny_CourtCase(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
+        .then((data: any) => {
+
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.CheckList_courtOrderList = data['Data'][0]['CourtCase'][0];
+          this.CourtCaseFinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
+
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
   //
 
 
   //Document  Post Section
   public isNextRoleIDValid: boolean = false;
   public isNextUserIdValid: boolean = false;
+  async GetCollageDetails() {
+    try {
+      this.loaderService.requestStarted();
+      await this.collegeService.GetData(this.SelectedCollageID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.collegeDataList = data['Data'];
+          if (this.collegeDataList['CollegeStatus'] == 'New') {
+            this.CollegeType_IsExisting = false;
+            //this.isAcademicInformation = false;
+          }
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  public CheckTabsEntryData: any = [];
+  async CheckTabsEntry() {
+    try {
+      this.loaderService.requestStarted();
+      await this.medicalDocumentScrutinyService.CheckDocumentScrutinyTabsData(this.SelectedApplyNOCID, this.sSOLoginDataModel.RoleID, this.SelectedCollageID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.CheckTabsEntryData = data['Data'][0]['data'][0];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  ViewTaril(ID: number, ActionType: string) {
+    this.ApplyNOCPreview.ViewTarilCommon(ID, ActionType);
+  }
+
+  landrequest = new LandDetailDataModel();
+  async ViewLandDetail(content: any, LandDetailID: number) {
+    this.landrequest = new LandDetailDataModel();
+    this.modalService.open(content, { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' }).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+    try {
+      this.loaderService.requestStarted();
+      await this.landDetailsService.GetLandDetailsIDWise(LandDetailID, this.SelectedCollageID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.landrequest = data['Data'][0];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  buildingdetails: any = {};
+  async ViewBuildingDetails(content: any, BuildingDetailID: number) {
+    this.buildingdetails = {};
+    this.modalService.open(content, { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' }).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+    try {
+      this.loaderService.requestStarted();
+      await this.buildingDetailsMasterService.GetByID(BuildingDetailID, 0)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.buildingdetails.SchoolBuildingDetailsID = data['Data'][0]['data']['Table'][0]["SchoolBuildingDetailsID"];
+          this.buildingdetails.BuildingTypeID = data['Data'][0]['data']['Table'][0]["BuildingTypeID"];
+          this.buildingdetails.BuildingTypeName = data['Data'][0]['data']['Table'][0]["BuildingTypeName"];
+          this.buildingdetails.MGOneIstheCampusUnitary = data['Data'][0]['data']['Table'][0]["MGOneIstheCampusUnitary"];
+          this.buildingdetails.Distance = data['Data'][0]['data']['Table'][0]["Distance"];
+          this.buildingdetails.NameoftheAuthority = data['Data'][0]['data']['Table'][0]["NameoftheAuthority"];
+          this.buildingdetails.AuthorityDateApproval = data['Data'][0]['data']['Table'][0]["AuthorityDateApproval"];
+          this.buildingdetails.OwnerName = data['Data'][0]['data']['Table'][0]["OwnerName"];
+          this.buildingdetails.AddressLine1 = data['Data'][0]['data']['Table'][0]["AddressLine1"];
+          this.buildingdetails.AddressLine2 = data['Data'][0]['data']['Table'][0]["AddressLine2"];
+          this.buildingdetails.RuralUrban = data['Data'][0]['data']['Table'][0]["RuralUrban"];
+          this.buildingdetails.DivisionID = data['Data'][0]['data']['Table'][0]["DivisionID"];
+          this.buildingdetails.Division_English = data['Data'][0]['data']['Table'][0]["Division_English"];
+          this.buildingdetails.DistrictID = data['Data'][0]['data']['Table'][0]["DistrictID"];
+          this.buildingdetails.District_Eng = data['Data'][0]['data']['Table'][0]["District_Eng"];
+          this.buildingdetails.TehsilID = data['Data'][0]['data']['Table'][0]["TehsilID"];
+          this.buildingdetails.TehsilName = data['Data'][0]['data']['Table'][0]["TehsilName"];
+          this.buildingdetails.PanchayatSamitiID = data['Data'][0]['data']['Table'][0]["PanchayatSamitiID"];
+          this.buildingdetails.PanchyatSamitiName = data['Data'][0]['data']['Table'][0]["PanchyatSamitiName"];
+          this.buildingdetails.CityTownVillage = data['Data'][0]['data']['Table'][0]["CityTownVillage"];
+          this.buildingdetails.CityName = data['Data'][0]['data']['Table'][0]["CityName"];
+          this.buildingdetails.ContactNo = data['Data'][0]['data']['Table'][0]["ContactNo"];
+          this.buildingdetails.Pincode = data['Data'][0]['data']['Table'][0]["Pincode"];
+          this.buildingdetails.OwnBuildingOrderNo = data['Data'][0]['data']['Table'][0]["OwnBuildingOrderNo"];
+          this.buildingdetails.OwnBuildingOrderDate = data['Data'][0]['data']['Table'][0]["OwnBuildingOrderDate"];
+          this.buildingdetails.OwnBuildingFileUpload = data['Data'][0]['data']['Table'][0]["OwnBuildingFileUpload"];
+          this.buildingdetails.Dis_OwnBuildingFileUpload = data['Data'][0]['data']['Table'][0]["Dis_OwnBuildingFileUpload"];
+          this.buildingdetails.OwnBuildingFileUploadPath = data['Data'][0]['data']['Table'][0]["OwnBuildingFileUploadPath"];
+          this.buildingdetails.FromDate = data['Data'][0]['data']['Table'][0]["FromDate"];
+          this.buildingdetails.ToDate = data['Data'][0]['data']['Table'][0]["ToDate"];
+          this.buildingdetails.ResidentialBuildingTypeID = data['Data'][0]['data']['Table'][0]["ResidentialBuildingTypeID"];
+          this.buildingdetails.ResidentialBuildingName = data['Data'][0]['data']['Table'][0]["ResidentialBuildingName"];
+          this.buildingdetails.MGOneResidentialIstheCampusUnitary = data['Data'][0]['data']['Table'][0]["MGOneResidentialIstheCampusUnitary"];
+          this.buildingdetails.ResidentialDistance = data['Data'][0]['data']['Table'][0]["ResidentialDistance"];
+          this.buildingdetails.ResidentialAddressLine1 = data['Data'][0]['data']['Table'][0]["ResidentialAddressLine1"];
+          this.buildingdetails.ResidentialAddressLine2 = data['Data'][0]['data']['Table'][0]["ResidentialAddressLine2"];
+          this.buildingdetails.ResidentialRuralUrban = data['Data'][0]['data']['Table'][0]["ResidentialRuralUrban"];
+          this.buildingdetails.ResidentialDivisionID = data['Data'][0]['data']['Table'][0]["ResidentialDivisionID"];
+          this.buildingdetails.ResDivision_English = data['Data'][0]['data']['Table'][0]["ResDivision_English"];
+          this.buildingdetails.ResidentialDistrictID = data['Data'][0]['data']['Table'][0]["ResidentialDistrictID"];
+          this.buildingdetails.ResDistrict_Eng = data['Data'][0]['data']['Table'][0]["ResDistrict_Eng"];
+          this.buildingdetails.ResidentialTehsilID = data['Data'][0]['data']['Table'][0]["ResidentialTehsilID"];
+          this.buildingdetails.ResTehsilName = data['Data'][0]['data']['Table'][0]["ResTehsilName"];
+          this.buildingdetails.ResidentialPanchayatSamitiID = data['Data'][0]['data']['Table'][0]["ResidentialPanchayatSamitiID"];
+          this.buildingdetails.ResPanchyatSamitiName = data['Data'][0]['data']['Table'][0]["ResPanchyatSamitiName"];
+          this.buildingdetails.ResidentialCityID = data['Data'][0]['data']['Table'][0]["ResidentialCityID"];
+          this.buildingdetails.ResCity_English = data['Data'][0]['data']['Table'][0]["ResCity_English"];
+          this.buildingdetails.ResidentialCityTownVillage = data['Data'][0]['data']['Table'][0]["ResidentialCityTownVillage"];
+          this.buildingdetails.ResidentialPincode = data['Data'][0]['data']['Table'][0]["ResidentialPincode"];
+          this.buildingdetails.ResidentialOwnerName = data['Data'][0]['data']['Table'][0]["ResidentialOwnerName"];
+          this.buildingdetails.ResidentialContactNo = data['Data'][0]['data']['Table'][0]["ResidentialContactNo"];
+          this.buildingdetails.ResidentialRentvaliditydate = data['Data'][0]['data']['Table'][0]["ResidentialRentvaliditydate"];
+          this.buildingdetails.ResidentialbuildingOtherDoc1FileUpload = data['Data'][0]['data']['Table'][0]["ResidentialbuildingOtherDoc1FileUpload"];
+          this.buildingdetails.ResidentialDis_buildingOtherDoc1FileUpload = data['Data'][0]['data']['Table'][0]["ResidentialDis_buildingOtherDoc1FileUpload"];
+          this.buildingdetails.ResidentialbuildingOtherDoc1FileUploadPath = data['Data'][0]['data']['Table'][0]["ResidentialbuildingOtherDoc1FileUploadPath"];
+          this.buildingdetails.ResidentialbuildingOtherDoc2FileUpload = data['Data'][0]['data']['Table'][0]["ResidentialbuildingOtherDoc2FileUpload"];
+          this.buildingdetails.ResidentialDis_buildingOtherDoc2FileUpload = data['Data'][0]['data']['Table'][0]["ResidentialDis_buildingOtherDoc2FileUpload"];
+          this.buildingdetails.ResidentialbuildingOtherDoc2FileUploadPath = data['Data'][0]['data']['Table'][0]["ResidentialbuildingOtherDoc2FileUploadPath"];
+          this.buildingdetails.ResidentialRentAgreementFileUpload = data['Data'][0]['data']['Table'][0]["ResidentialRentAgreementFileUpload"];
+          this.buildingdetails.ResidentialDis_RentAgreementFileUpload = data['Data'][0]['data']['Table'][0]["ResidentialDis_RentAgreementFileUpload"];
+          this.buildingdetails.ResidentialRentAgreementFileUploadPath = data['Data'][0]['data']['Table'][0]["ResidentialRentAgreementFileUploadPath"];
+          this.buildingdetails.AuthoritybuildingOtherDoc1FileUpload = data['Data'][0]['data']['Table'][0]["AuthoritybuildingOtherDoc1FileUpload"];
+          this.buildingdetails.AuthorityDis_buildingOtherDoc1FileUpload = data['Data'][0]['data']['Table'][0]["AuthorityDis_buildingOtherDoc1FileUpload"];
+          this.buildingdetails.AuthoritybuildingOtherDoc1FileUploadPath = data['Data'][0]['data']['Table'][0]["AuthoritybuildingOtherDoc1FileUploadPath"];
+          this.buildingdetails.MGOneDrainage = data['Data'][0]['data']['Table'][0]["MGOneDrainage"];
+          this.buildingdetails.BuildingUseNameoftheAuthority = data['Data'][0]['data']['Table'][0]["BuildingUseNameoftheAuthority"];
+          this.buildingdetails.BuildingUseOrderNo = data['Data'][0]['data']['Table'][0]["BuildingUseOrderNo"];
+          this.buildingdetails.BuildingUseDateApproval = data['Data'][0]['data']['Table'][0]["BuildingUseDateApproval"];
+          this.buildingdetails.buildingUseOtherDoc1FileUpload = data['Data'][0]['data']['Table'][0]["buildingUseOtherDoc1FileUpload"];
+          this.buildingdetails.Dis_buildingUseOtherDoc1FileUpload = data['Data'][0]['data']['Table'][0]["Dis_buildingUseOtherDoc1FileUpload"];
+          this.buildingdetails.buildingUseOtherDoc1FileUploadPath = data['Data'][0]['data']['Table'][0]["buildingUseOtherDoc1FileUploadPath"];
+          this.buildingdetails.PollutionDateApproval = data['Data'][0]['data']['Table'][0]["PollutionDateApproval"];
+          this.buildingdetails.ValidDateApproval = data['Data'][0]['data']['Table'][0]["ValidDateApproval"];
+          this.buildingdetails.PollutionbuildingOtherDoc1FileUpload = data['Data'][0]['data']['Table'][0]["PollutionbuildingOtherDoc1FileUpload"];
+          this.buildingdetails.PollutionDis_buildingOtherDoc1FileUpload = data['Data'][0]['data']['Table'][0]["PollutionDis_buildingOtherDoc1FileUpload"];
+          this.buildingdetails.PollutionbuildingOtherDoc1FileUploadPath = data['Data'][0]['data']['Table'][0]["PollutionbuildingOtherDoc1FileUploadPath"];
+          this.buildingdetails.FireNOCFileUpload = data['Data'][0]['data']['Table'][0]["FireNOCFileUpload"];
+          this.buildingdetails.Dis_FireNOCFileUpload = data['Data'][0]['data']['Table'][0]["Dis_FireNOCFileUpload"];
+          this.buildingdetails.FireNOCFileUploadPath = data['Data'][0]['data']['Table'][0]["FireNOCFileUploadPath"];
+          this.buildingdetails.OrderNo = data['Data'][0]['data']['Table'][0]["OrderNo"];
+          this.buildingdetails.OrderDate = data['Data'][0]['data']['Table'][0]["OrderDate"];
+          this.buildingdetails.ExpiringOn = data['Data'][0]['data']['Table'][0]["ExpiringOn"];
+          this.buildingdetails.PWDNOCFileUpload = data['Data'][0]['data']['Table'][0]["PWDNOCFileUpload"];
+          this.buildingdetails.Dis_PWDNOCFileUpload = data['Data'][0]['data']['Table'][0]["Dis_PWDNOCFileUpload"];
+          this.buildingdetails.PWDNOCFileUploadPath = data['Data'][0]['data']['Table'][0]["PWDNOCFileUploadPath"];
+          this.buildingdetails.TotalProjectCost = data['Data'][0]['data']['Table'][0]["TotalProjectCost"];
+          this.buildingdetails.SourceCostAmount = data['Data'][0]['data']['Table'][0]["SourceCostAmount"];
+          this.buildingdetails.AmountDeposited = data['Data'][0]['data']['Table'][0]["AmountDeposited"];
+          this.buildingdetails.OtherFixedAssetsAndSecurities = data['Data'][0]['data']['Table'][0]["OtherFixedAssetsAndSecurities"];
+          this.buildingdetails.GATEYearBalanceSecret = data['Data'][0]['data']['Table'][0]["GATEYearBalanceSecret"];
+          this.buildingdetails.OtherFinancialResources = data['Data'][0]['data']['Table'][0]["OtherFinancialResources"];
+          this.buildingdetails.TotalProjectCostFileUpload = data['Data'][0]['data']['Table'][0]["TotalProjectCostFileUpload"];
+          this.buildingdetails.TotalProjectCostFileUploadPath = data['Data'][0]['data']['Table'][0]["TotalProjectCostFileUploadPath"];
+          this.buildingdetails.Dis_TotalProjectCostFileUpload = data['Data'][0]['data']['Table'][0]["Dis_TotalProjectCostFileUpload"];
+          this.buildingdetails.SourceCostAmountFileUpload = data['Data'][0]['data']['Table'][0]["SourceCostAmountFileUpload"];
+          this.buildingdetails.SourceCostAmountFileUploadPath = data['Data'][0]['data']['Table'][0]["SourceCostAmountFileUploadPath"];
+          this.buildingdetails.Dis_SourceCostAmountFileUpload = data['Data'][0]['data']['Table'][0]["Dis_SourceCostAmountFileUpload"];
+          this.buildingdetails.AmountDepositedFileUpload = data['Data'][0]['data']['Table'][0]["AmountDepositedFileUpload"];
+          this.buildingdetails.AmountDepositedFileUploadPath = data['Data'][0]['data']['Table'][0]["AmountDepositedFileUploadPath"];
+          this.buildingdetails.Dis_AmountDepositedFileUpload = data['Data'][0]['data']['Table'][0]["Dis_AmountDepositedFileUpload"];
+          this.buildingdetails.OtherFixedAssetsAndSecuritiesFileUpload = data['Data'][0]['data']['Table'][0]["OtherFixedAssetsAndSecuritiesFileUpload"];
+          this.buildingdetails.OtherFixedAssetsAndSecuritiesFileUploadPath = data['Data'][0]['data']['Table'][0]["OtherFixedAssetsAndSecuritiesFileUploadPath"];
+          this.buildingdetails.Dis_OtherFixedAssetsAndSecuritiesFileUpload = data['Data'][0]['data']['Table'][0]["Dis_OtherFixedAssetsAndSecuritiesFileUpload"];
+          this.buildingdetails.GATEYearBalanceSecretFileUpload = data['Data'][0]['data']['Table'][0]["GATEYearBalanceSecretFileUpload"];
+          this.buildingdetails.GATEYearBalanceSecretFileUploadPath = data['Data'][0]['data']['Table'][0]["GATEYearBalanceSecretFileUploadPath"];
+          this.buildingdetails.Dis_GATEYearBalanceSecretFileUpload = data['Data'][0]['data']['Table'][0]["Dis_GATEYearBalanceSecretFileUpload"];
+          this.buildingdetails.OtherFinancialResourcesFileUpload = data['Data'][0]['data']['Table'][0]["OtherFinancialResourcesFileUpload"];
+          this.buildingdetails.OtherFinancialResourcesFileUploadPath = data['Data'][0]['data']['Table'][0]["OtherFinancialResourcesFileUploadPath"];
+          this.buildingdetails.Dis_OtherFinancialResourcesFileUpload = data['Data'][0]['data']['Table'][0]["Dis_OtherFinancialResourcesFileUpload"];
+          this.buildingdetails.BuildingHostelQuartersRoadArea = data['Data'][0]['data']['Table'][0]["BuildingHostelQuartersRoadArea"];
+          this.buildingdetails.FireNOCOrderNumber = data['Data'][0]['data']['Table'][0]["FireNOCOrderNumber"];
+          if (this.buildingdetails.BuildingTypeName != 'Owned') {
+            this.buildingdetails.Dis_RentAgreementFileUpload = data['Data'][0]['data']['Table'][0]["Dis_RentAgreementFileUpload"];
+            this.buildingdetails.RentAgreementFileUpload = data['Data'][0]['data']['Table'][0]["RentAgreementFileUpload"];
+            this.buildingdetails.RentAgreementFileUploadPath = data['Data'][0]['data']['Table'][0]["RentAgreementFileUploadPath"];
+            this.buildingdetails.Rentvaliditydate = data['Data'][0]['data']['Table'][0]["Rentvaliditydate"];
+          }
+          this.buildingdetails.lstBuildingDocDetails = data['Data'][0]['data']['Table1'];
+          this.buildingdetails.IsApproved = data['Data'][0]['data']['Table'][0]["IsApproved"];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  staffrequest = new StaffDetailDataModel();
+  async ViewStaffDetail(content: any, StaffDetailID: number) {
+    this.staffrequest = new StaffDetailDataModel();
+    this.modalService.open(content, { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' }).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+    try {
+      this.loaderService.requestStarted();
+      await this.staffDetailService.GetStaffDetailList_DepartmentCollegeWise(this.SelectedDepartmentID, this.SelectedCollageID, StaffDetailID)
+        .then((data: any) => {
+
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.staffrequest = data['Data'][0];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  oldnocrequest = new OldNocDetailsDataModel();
+  async ViewOldNOCDetail(content: any, OldNocID: number) {
+    this.oldnocrequest = new OldNocDetailsDataModel();
+    this.modalService.open(content, { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' }).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+    try {
+      this.loaderService.requestStarted();
+      await this.oldnocdetailService.GetOldNOCDetailList_DepartmentCollegeWise(this.SelectedDepartmentID, this.SelectedCollageID, OldNocID)
+        .then((data: any) => {
+          const display = document.getElementById('ModalViewOldNOCDetail');
+          if (display) display.style.display = 'block';
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.oldnocrequest = data['Data'][0];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  public viewrequest: any = {};
+  async ViewMGThreeHospitalDetail(content: any, HospitalID: number) {
+    this.viewrequest = {};
+    this.modalService.open(content, { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' }).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+    try {
+      this.loaderService.requestStarted();
+      await this.threehospitalDetailService.GetMGThreeHospitalDetailList_DepartmentCollegeWise(this.SelectedDepartmentID, this.SelectedCollageID, HospitalID, this.SelectedApplyNOCID > 0 ? this.SelectedApplyNOCID : 0)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.viewrequest = data['Data'][0];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+  public showRentDocument: boolean = false;
+  hostelrequest = new HostelDataModel();
+  async ViewHostelItem(content: any, HostelDetailID: number) {
+    this.hostelrequest = new HostelDataModel();
+    this.modalService.open(content, { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' }).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+    try {
+      this.loaderService.requestStarted();
+      await this.hostelDetailService.GetHostelDetailList_DepartmentCollegeWise(this.SelectedDepartmentID, this.SelectedCollageID, HostelDetailID)
+        .then((data: any) => {
+
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.hostelrequest = data['Data'][0];
+          if (this.hostelrequest.HostelType == 'Rent') {
+            this.showRentDocument = true;
+          }
+          //this.request.RentDocumentPath = this.imageUrlPath + this.request.RentDocument;
+
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+
+
+
+
+
+
+  /*Document Scrutiny*/
+  public ShowHideNextRole: boolean = true;
+  public ShowHideNextUser: boolean = true;
   async DocumentScrutiny() {
     this.isFormvalid = true;
     this.isNextUserIdValid = false;
@@ -807,22 +1188,19 @@ export class DocumentScrutinyCheckListDetailsComponent implements OnInit {
     this.isNextActionValid = false;
     this.isRemarkValid = false;
     try {
-      if (this.ActionID <= 0) {
-        this.isActionTypeValid = true;
-        this.isFormvalid = false;
-      }
+
       if (this.CheckFinalRemark == '') {
         this.isRemarkValid = true;
         this.isFormvalid = false;
       }
 
-      if (this.ShowHideNextRoleNextUser) {
+      if (this.ActionID <= 0) {
+        this.isActionTypeValid = true;
+        this.isFormvalid = false;
+      }
+      if (this.ShowHideNextRole && this.ShowHideNextUser) {
         if (this.NextRoleID <= 0) {
           this.isNextRoleIDValid = true;
-          this.isFormvalid = false;
-        }
-        if (this.NextActionID <= 0) {
-          this.isNextActionValid = true;
           this.isFormvalid = false;
         }
         if (this.NextUserID <= 0) {
@@ -830,28 +1208,75 @@ export class DocumentScrutinyCheckListDetailsComponent implements OnInit {
           this.isFormvalid = false;
         }
       }
-      else {
+      else if (!this.ShowHideNextUser && !this.ShowHideNextRole) {
         this.NextRoleID = 1;
         this.NextUserID = 0;
         this.NextActionID = 0;
       }
+      else if (this.ShowHideNextUser && this.ShowHideNextRole) {
+        if (this.NextRoleID <= 0) {
+          this.isNextRoleIDValid = true;
+          this.isFormvalid = false;
+        }
+        if (this.NextUserID <= 0) {
+          this.isNextUserIdValid = true;
+          this.isFormvalid = false;
+        }
+        this.NextActionID = 0;
+      }
+      else if (!this.ShowHideNextUser && this.ShowHideNextRole) { // && !this.ShowHideNextAction
+        if (this.NextRoleID <= 0) {
+          this.isNextRoleIDValid = true;
+          this.isFormvalid = false;
+        }
+        this.NextUserID = 0;
+        this.NextActionID = 0;
+      }
+
       if (this.SelectedDepartmentID == 6) {
         if (this.CollegeType_IsExisting) {
           if (this.CheckTabsEntryData['LegalEntity'] <= 0 || this.CheckTabsEntryData['CollegeDetail'] <= 0 || this.CheckTabsEntryData['CollegeManagementSociety'] <= 0 || this.CheckTabsEntryData['LandInformation'] <= 0
-            || this.CheckTabsEntryData['Facility'] <= 0 || this.CheckTabsEntryData['RequiredDocument'] <= 0 || this.CheckTabsEntryData['RoomDetails'] <= 0 || this.CheckTabsEntryData['OtherInformation'] <= 0
+            || this.CheckTabsEntryData['Facility'] <= 0 || this.CheckTabsEntryData['RoomDetails'] <= 0 || this.CheckTabsEntryData['OtherInformation'] <= 0
             || this.CheckTabsEntryData['BuildingDocuments'] <= 0 || this.CheckTabsEntryData['StaffDetails'] <= 0 || this.CheckTabsEntryData['OLDNOCDetails'] <= 0 || this.CheckTabsEntryData['AcademicInformation'] <= 0
-            || this.CheckTabsEntryData['OtherDocument'] <= 0 || this.CheckTabsEntryData['HospitalDetails'] <= 0 || this.CheckTabsEntryData['HostelDetails'] <= 0) {
+            || (this.CheckTabsEntryData['OtherDocument'] <= 0 && this.CheckList_OtherDocumentDetails.length > 0) || this.CheckTabsEntryData['HospitalDetails'] <= 0 || this.CheckTabsEntryData['HostelDetails'] <= 0 || (this.CheckTabsEntryData['CourtCase'] <= 0 && this.CheckList_courtOrderList.length > 0)) {
             this.isFormvalid = false;
-            this.toastr.warning('Please do document scrutiny all tabs');
+            var tab = this.CheckTabsEntryData['LegalEntity'] <= 0 ? 'Legal Entity' :
+              this.CheckTabsEntryData['CollegeDetail'] <= 0 ? 'College Detail' :
+                this.CheckTabsEntryData['CollegeManagementSociety'] <= 0 ? 'College Management Society' :
+                  this.CheckTabsEntryData['LandInformation'] <= 0 ? 'Land Information' :
+                    this.CheckTabsEntryData['Facility'] <= 0 ? 'Facility Detail' :
+                      this.CheckTabsEntryData['RoomDetails'] <= 0 ? 'Class Room Details' :
+                        this.CheckTabsEntryData['OtherInformation'] <= 0 ? 'Clinical Details' :
+                          this.CheckTabsEntryData['BuildingDocuments'] <= 0 ? 'Building Details' :
+                            this.CheckTabsEntryData['StaffDetails'] <= 0 ? 'Staff Details' :
+                              this.CheckTabsEntryData['OLDNOCDetails'] <= 0 ? 'OLD NOC Details' :
+                                this.CheckTabsEntryData['AcademicInformation'] <= 0 ? 'Academic Information' :
+                                  (this.CheckTabsEntryData['OtherDocument'] <= 0 && this.CheckList_OtherDocumentDetails.length > 0) ? 'Other Document' :
+                                    this.CheckTabsEntryData['HospitalDetails'] <= 0 ? 'Hospital Details' :
+                                      this.CheckTabsEntryData['HostelDetails'] <= 0 ? 'Hostel Details' :
+                                        (this.CheckTabsEntryData['CourtCase'] <= 0 && this.CheckList_courtOrderList.length > 0) ? 'Court Case Details' : '';
+            this.toastr.warning('Please do document scrutiny of the ' + tab + ' tab');
           }
         }
         else {
           if (this.CheckTabsEntryData['LegalEntity'] <= 0 || this.CheckTabsEntryData['CollegeDetail'] <= 0 || this.CheckTabsEntryData['CollegeManagementSociety'] <= 0 || this.CheckTabsEntryData['LandInformation'] <= 0
-            || this.CheckTabsEntryData['Facility'] <= 0 || this.CheckTabsEntryData['RequiredDocument'] <= 0 || this.CheckTabsEntryData['RoomDetails'] <= 0 || this.CheckTabsEntryData['OtherInformation'] <= 0
-            || this.CheckTabsEntryData['BuildingDocuments'] <= 0  || this.CheckTabsEntryData['OtherDocument'] <= 0 || this.CheckTabsEntryData['HospitalDetails'] <= 0
-            || this.CheckTabsEntryData['HostelDetails'] <= 0) {
+            || this.CheckTabsEntryData['Facility'] <= 0 || this.CheckTabsEntryData['RoomDetails'] <= 0 || this.CheckTabsEntryData['OtherInformation'] <= 0
+            || this.CheckTabsEntryData['BuildingDocuments'] <= 0 || (this.CheckTabsEntryData['OtherDocument'] <= 0 && this.CheckList_OtherDocumentDetails.length > 0) || this.CheckTabsEntryData['HospitalDetails'] <= 0
+            || this.CheckTabsEntryData['HostelDetails'] <= 0 || (this.CheckTabsEntryData['CourtCase'] <= 0 && this.CheckList_courtOrderList.length > 0)) {
             this.isFormvalid = false;
-            this.toastr.warning('Please do document scrutiny all tabs');
+            var tab = this.CheckTabsEntryData['LegalEntity'] <= 0 ? 'Legal Entity' :
+              this.CheckTabsEntryData['CollegeDetail'] <= 0 ? 'College Detail' :
+                this.CheckTabsEntryData['CollegeManagementSociety'] <= 0 ? 'College Management Society' :
+                  this.CheckTabsEntryData['LandInformation'] <= 0 ? 'Land Information' :
+                    this.CheckTabsEntryData['Facility'] <= 0 ? 'Facility Detail' :
+                      this.CheckTabsEntryData['RoomDetails'] <= 0 ? 'Class Room Details' :
+                        this.CheckTabsEntryData['OtherInformation'] <= 0 ? 'Clinical Details' :
+                          this.CheckTabsEntryData['BuildingDocuments'] <= 0 ? 'Building Details' :
+                            (this.CheckTabsEntryData['OtherDocument'] <= 0 && this.CheckList_OtherDocumentDetails.length > 0) ? 'Other Document' :
+                              this.CheckTabsEntryData['HospitalDetails'] <= 0 ? 'Hospital Details' :
+                                this.CheckTabsEntryData['HostelDetails'] <= 0 ? 'Hostel Details' :
+                                  (this.CheckTabsEntryData['CourtCase'] <= 0 && this.CheckList_courtOrderList.length > 0) ? 'Court Case Details' : '';
+            this.toastr.warning('Please do document scrutiny of the ' + tab + ' tab');
           }
         }
       }
@@ -866,10 +1291,9 @@ export class DocumentScrutinyCheckListDetailsComponent implements OnInit {
           }
         }
         else {
-          debugger;
           if (this.CheckTabsEntryData['LegalEntity'] <= 0 || this.CheckTabsEntryData['CollegeDetail'] <= 0 || this.CheckTabsEntryData['CollegeManagementSociety'] <= 0 || this.CheckTabsEntryData['LandInformation'] <= 0
             || this.CheckTabsEntryData['Facility'] <= 0 || this.CheckTabsEntryData['RequiredDocument'] <= 0 || this.CheckTabsEntryData['RoomDetails'] <= 0 || this.CheckTabsEntryData['OtherInformation'] <= 0
-            || this.CheckTabsEntryData['BuildingDocuments'] <= 0 ||  this.CheckTabsEntryData['OtherDocument'] <= 0 || this.CheckTabsEntryData['ParamedicalHospitalDetails'] <= 0
+            || this.CheckTabsEntryData['BuildingDocuments'] <= 0 || this.CheckTabsEntryData['OtherDocument'] <= 0 || this.CheckTabsEntryData['ParamedicalHospitalDetails'] <= 0
           ) {
             this.isFormvalid = false;
             this.toastr.warning('Please do document scrutiny all tabs');
@@ -880,23 +1304,26 @@ export class DocumentScrutinyCheckListDetailsComponent implements OnInit {
         return;
       }
       this.loaderService.requestStarted();
-      await this.applyNOCApplicationService.DocumentScrutiny(this.sSOLoginDataModel.RoleID, this.sSOLoginDataModel.UserID, this.ActionID, this.SelectedApplyNOCID, this.SelectedDepartmentID, this.CheckFinalRemark, this.NextRoleID, this.NextUserID, this.NextActionID)
-        .then((data: any) => {
-          data = JSON.parse(JSON.stringify(data));
-          this.State = data['State'];
-          this.SuccessMessage = data['SuccessMessage'];
-          this.ErrorMessage = data['ErrorMessage'];
-          if (this.State == 0) {
-            this.toastr.success(this.SuccessMessage);
-            this.routers.navigate(['/applynocapplicationlist']);
-          }
-          else if (this.State == 2) {
-            this.toastr.warning(this.ErrorMessage)
-          }
-          else {
-            this.toastr.error(this.ErrorMessage)
-          }
-        }, error => console.error(error));
+      if (confirm("Are you sure you want to submit?")) {
+        await this.applyNOCApplicationService.DocumentScrutiny(this.sSOLoginDataModel.RoleID, this.sSOLoginDataModel.UserID, this.ActionID, this.SelectedApplyNOCID, this.SelectedDepartmentID, this.CheckFinalRemark, this.NextRoleID, this.NextUserID, this.NextActionID)
+          .then((data: any) => {
+            data = JSON.parse(JSON.stringify(data));
+            this.State = data['State'];
+            this.SuccessMessage = data['SuccessMessage'];
+            this.ErrorMessage = data['ErrorMessage'];
+            if (this.State == 0) {
+              this.toastr.success(this.SuccessMessage);
+              this.routers.navigate(['/applicationslist' + "/" + encodeURI(this.commonMasterService.Encrypt(this.QueryStatus.toString()))]);
+
+            }
+            else if (this.State == 2) {
+              this.toastr.warning(this.ErrorMessage)
+            }
+            else {
+              this.toastr.error(this.ErrorMessage)
+            }
+          }, error => console.error(error));
+      }
     }
     catch (Ex) {
       console.log(Ex);
@@ -918,9 +1345,13 @@ export class DocumentScrutinyCheckListDetailsComponent implements OnInit {
           this.ErrorMessage = data['ErrorMessage'];
           if (data['Data'].length > 0) {
             this.UserRoleList = data['Data'];
+
             if (this.UserRoleList.length > 0) {
-              this.NextRoleID = this.UserRoleList[0]['RoleID'];
-              await this.NextGetUserDetailsByRoleID();
+              //if (this.sSOLoginDataModel.RoleID != 11 && this.sSOLoginDataModel.RoleID != 23 && this.sSOLoginDataModel.RoleID != 20) {
+              this.UserRoleList = this.UserRoleList.filter((x: { RoleID: number; }) => x.RoleID != 1 && x.RoleID != 17);
+              // }
+              //this.NextRoleID = this.UserRoleList[0]['RoleID'];
+              //await this.NextGetUserDetailsByRoleID();
             }
           }
         })
@@ -935,21 +1366,29 @@ export class DocumentScrutinyCheckListDetailsComponent implements OnInit {
   async NextGetUserDetailsByRoleID() {
     this.UserListRoleWise = [];
     this.NextWorkFlowActionList = [];
+    this.NextUserID = 0;
+    this.NextActionID = 0
     this.loaderService.requestStarted();
     try {
-      await this.commonMasterService.GetUserDetailsByRoleID(this.NextRoleID, this.sSOLoginDataModel.DepartmentID)
-        .then(async (data: any) => {
-          this.State = data['State'];
-          this.SuccessMessage = data['SuccessMessage'];
-          this.ErrorMessage = data['ErrorMessage'];
-          if (data['Data'].length > 0) {
-            this.UserListRoleWise = data['Data'];
-            if (this.UserListRoleWise.length > 0) {
-              this.NextUserID = this.UserListRoleWise[0]['UId'];
-              await this.NextGetWorkFlowActionListByRole();
+      if (this.NextRoleID == 1) {
+        this.ShowHideNextUser = false;
+      }
+      else {
+        this.ShowHideNextUser = true;
+        await this.commonMasterService.GetUserDetailsByRoleID(this.NextRoleID, this.sSOLoginDataModel.DepartmentID, this.SelectedApplyNOCID)
+          .then(async (data: any) => {
+            this.State = data['State'];
+            this.SuccessMessage = data['SuccessMessage'];
+            this.ErrorMessage = data['ErrorMessage'];
+            if (data['Data'].length > 0) {
+              this.UserListRoleWise = data['Data'];
+              if (this.UserListRoleWise.length > 0) {
+                this.NextUserID = this.UserListRoleWise[0]['UId'];
+                await this.NextGetWorkFlowActionListByRole();
+              }
             }
-          }
-        })
+          })
+      }
     }
     catch (ex) { console.log(ex) }
     finally {
@@ -959,6 +1398,7 @@ export class DocumentScrutinyCheckListDetailsComponent implements OnInit {
     }
   }
   async NextGetWorkFlowActionListByRole() {
+    this.NextActionID = 0;
     this.NextWorkFlowActionList = [];
     this.loaderService.requestStarted();
     try {
@@ -994,13 +1434,30 @@ export class DocumentScrutinyCheckListDetailsComponent implements OnInit {
           if (data['Data'].length > 0) {
             this.WorkFlowActionList = data['Data'];
             if (this.WorkFlowActionList.length > 0) {
+
+              if (this.QueryStatus == 'DCPending') {
+                this.WorkFlowActionList = this.WorkFlowActionList.filter((x: { ActionID: number; }) => x.ActionID == 92);
+              }
+              //if (this.sSOLoginDataModel.RoleID == 7) {
+              //  this.WorkFlowActionList = this.WorkFlowActionList.filter((x: { ActionID: number; }) => x.ActionID != 42);
+              //}
               this.ActionID = this.WorkFlowActionList[0]['ActionID'];
               var IsNextAction = this.WorkFlowActionList.find((x: { ActionID: number; }) => x.ActionID == this.ActionID)?.IsNextAction;
-              if (IsNextAction == true) {
-                this.ShowHideNextRoleNextUser = true;
+              var IsRevert = this.WorkFlowActionList.find((x: { ActionID: number; }) => x.ActionID == this.ActionID)?.IsRevert;
+              if (IsNextAction == true && IsRevert == false) {
+                this.ShowHideNextUser = true;
+                this.ShowHideNextRole = true;
+                //this.ShowHideNextAction = true;
               }
-              else {
-                this.ShowHideNextRoleNextUser = false;
+              else if (IsNextAction == false && IsRevert == false) {
+                this.ShowHideNextUser = false;
+                this.ShowHideNextRole = false;
+                //this.ShowHideNextAction = false;
+              }
+              else if (IsNextAction == false && IsRevert == true) {
+                this.ShowHideNextUser = true;
+                this.ShowHideNextRole = true;
+                //this.ShowHideNextAction = false;
               }
             }
           }
@@ -1013,55 +1470,24 @@ export class DocumentScrutinyCheckListDetailsComponent implements OnInit {
       }, 200);
     }
   }
-  async GetCollageDetails() {
-    try {
-      this.loaderService.requestStarted();
-      await this.collegeService.GetData(this.SelectedCollageID)
-        .then((data: any) => {
-          data = JSON.parse(JSON.stringify(data));
-          this.collegeDataList = data['Data'];
-          if (this.collegeDataList['CollegeStatus'] == 'New') {
-            this.CollegeType_IsExisting = false;
-            //this.isAcademicInformation = false;
-          }
-        }, error => console.error(error));
-    }
-    catch (Ex) {
-      console.log(Ex);
-    }
-    finally {
-      setTimeout(() => {
-        this.loaderService.requestEnded();
-      }, 200);
-    }
-  }
   OnChangeCurrentAction() {
+    debugger;
     var IsNextAction = this.WorkFlowActionList.find((x: { ActionID: number; }) => x.ActionID == this.ActionID)?.IsNextAction;
-    if (IsNextAction == true) {
-      this.ShowHideNextRoleNextUser = true;
+    var IsRevert = this.WorkFlowActionList.find((x: { ActionID: number; }) => x.ActionID == this.ActionID)?.IsRevert;
+    if (IsNextAction == true && IsRevert == false) {
+      this.ShowHideNextUser = true;
+      this.ShowHideNextRole = true;
+      //this.ShowHideNextAction = true;
     }
-    else {
-      this.ShowHideNextRoleNextUser = false;
+    else if (IsNextAction == false && IsRevert == false) {
+      this.ShowHideNextUser = false;
+      this.ShowHideNextRole = false;
+      //this.ShowHideNextAction = false;
     }
-  }
-
-  public CheckTabsEntryData: any = [];
-  async CheckTabsEntry() {
-    try {
-      this.loaderService.requestStarted();
-      await this.medicalDocumentScrutinyService.CheckDocumentScrutinyTabsData(this.SelectedApplyNOCID, this.sSOLoginDataModel.RoleID, this.SelectedCollageID)
-        .then((data: any) => {
-          data = JSON.parse(JSON.stringify(data));
-          this.CheckTabsEntryData = data['Data'][0]['data'][0];
-        }, error => console.error(error));
-    }
-    catch (Ex) {
-      console.log(Ex);
-    }
-    finally {
-      setTimeout(() => {
-        this.loaderService.requestEnded();
-      }, 200);
+    else if (IsNextAction == false && IsRevert == true) {
+      this.ShowHideNextUser = true;
+      this.ShowHideNextRole = true;
+      //this.ShowHideNextAction = false;
     }
   }
 }

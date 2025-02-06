@@ -8,6 +8,7 @@ export class DocumentDataModel {
   public MaxSize: number = 0;
   public IsCompulsory: boolean = false;
   public IsActiveStatus: boolean = true;
+  public IsDegree?: boolean = false;
   public DeleteStatus: boolean = false;
   public UserID: number = 0;
 }

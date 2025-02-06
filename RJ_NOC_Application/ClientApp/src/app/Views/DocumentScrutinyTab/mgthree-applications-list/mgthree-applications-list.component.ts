@@ -34,6 +34,7 @@ export class MGThreeApplicationsListComponent implements OnInit {
     this.QueryStatus = this.router.snapshot.paramMap.get('Status')?.toString();
     this.request.RoleID = this.sSOLoginDataModel.RoleID;
     this.request.UserID = this.sSOLoginDataModel.UserID;
+    this.request.SessionYear = this.sSOLoginDataModel.SessionID;
     this.request.Status = this.QueryStatus;
     await this.GetWorkflowPermissions();
     await this.GetApplyNOCApplicationListByRole();
@@ -41,10 +42,18 @@ export class MGThreeApplicationsListComponent implements OnInit {
 
   async GetApplyNOCApplicationListByRole() {
     try {
-      if (this.QueryStatus = 'Pending' && this.sSOLoginDataModel.RoleID == 5) {
-        this.request.ActionName = 'Apply NOC';
+      if (this.QueryStatus == 'Pending' && (this.sSOLoginDataModel.RoleID == 5 || this.sSOLoginDataModel.RoleID == 3 )) {
+        this.request.ActionName = 'Apply NOC,Forward To';
       }
-
+      else if (this.QueryStatus == 'DCPending' && (this.sSOLoginDataModel.RoleID == 2 || this.sSOLoginDataModel.RoleID == 3 || this.sSOLoginDataModel.RoleID == 5 || this.sSOLoginDataModel.RoleID == 6)) {
+        this.request.ActionName = 'Forward To,Forward after document scrutiny';
+      }
+      else if (this.QueryStatus == 'Completed' && (this.sSOLoginDataModel.RoleID == 5 || this.sSOLoginDataModel.RoleID == 3|| this.sSOLoginDataModel.RoleID == 2)) {
+        this.request.ActionName = 'Forward To';
+      }
+      else if (this.QueryStatus == 'DCCompleted' && (this.sSOLoginDataModel.RoleID == 2 || this.sSOLoginDataModel.RoleID == 3 || this.sSOLoginDataModel.RoleID == 5|| this.sSOLoginDataModel.RoleID == 6)) {
+        this.request.ActionName = 'Forward after document scrutiny';
+      }
       this.loaderService.requestStarted();
       await this.medicalDocumentScrutinyService.GetApplyNOCApplicationList(this.request)
         .then((data: any) => {
@@ -75,6 +84,7 @@ export class MGThreeApplicationsListComponent implements OnInit {
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
           this.WorkflowPermissionslst = data['Data'][0];
+          console.log(this.WorkflowPermissionslst);
         }, error => console.error(error));
     }
     catch (Ex) {

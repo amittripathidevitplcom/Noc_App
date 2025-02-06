@@ -20,7 +20,6 @@
                     <th>College Name</th>
                     <th>Application No.</th>
                     <th>Action</th>
-
                   </tr>
                 </thead>
                 <tbody>
@@ -30,15 +29,16 @@
                     <td>{{item.CollegeName}}</td>
                     <td>{{item.ApplicationNo}}</td>
                     <td>
+                      <span *ngFor="let witem of WorkflowPermissionslst let idxx =index">
+                        <a *ngIf="witem.PermissionCode=='Forward' && QueryStatus == 'Pending'" (click)="ApplicationForward(item.DepartmentID,item.CollegeID,item.ApplyNOCID)" href="javascript:void(0)" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></a>
+                        <a *ngIf="witem.PermissionCode=='DocumentScrutiny' && QueryStatus == 'DCPending'"  href="javascript:void(0)" (click)="DocumentScrutiny(item.DepartmentID,item.CollegeID,item.ApplyNOCID,item.ApplicationNo)" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></a>
+                      </span>
                       <a href="javascript:void(0)" title="Application Preview" (click)="ApplicationPreview_OnClick(item.DepartmentID,item.CollegeID)" class="btn btn-sm btn-secondary">
                         <i class="fa fa-eye"></i>
                       </a>
-                      <span *ngFor="let witem of WorkflowPermissionslst let idxx =index">
-                        <a *ngIf="witem.PermissionCode=='DocumentScrutiny'" (click)="ApplicationForward(item.DepartmentID,item.CollegeID,item.ApplyNOCID)" href="javascript:void(0)" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></a>
-                        <a *ngIf="witem.PermissionCode=='Forward'" href="javascript:void(0)" (click)="DocumentScrutiny(item.DepartmentID,item.CollegeID,item.ApplyNOCID,item.ApplicationNo)" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></a>
-                      </span>
                       &nbsp;<button type="button" class="btn btn-sm btn-info" title="View Application trail" (click)="GetApplicationTrail(mymodal,item.ApplyNOCID)"><i class="fa fa-list"></i></button>
                     </td>
+
                   </tr>
                   <tr>
                     <td colspan="20" *ngIf="ApplyNocDetails.length<=0" style="color:red"> No Data Found.!</td>

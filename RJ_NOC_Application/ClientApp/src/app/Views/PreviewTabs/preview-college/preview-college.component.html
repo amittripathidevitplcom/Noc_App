@@ -99,6 +99,20 @@
               <label *ngIf="collegeListData.DepartmentID !=6">University :</label>
               <input class="form-control disabled mt-1" disabled value="{{collegeListData.UniversityName}}" />
             </div>
+            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="collegeListData.DepartmentID ==6 && collegeListData.UniversityName=='Private University'">
+              <label><b>Name of the University :</b></label>
+              <input class="form-control disabled mt-1" disabled value="{{collegeListData.PrivateCollegeUniversityName}}" />
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="collegeListData.DepartmentID ==6 && collegeListData.UniversityName=='Private University'">
+              <label><b>Date of Establishment :</b></label>
+              <input class="form-control disabled mt-1" disabled value="{{collegeListData.PrivateCollegeEstablishmentDate}}" />
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="collegeListData.DepartmentID ==6 && collegeListData.UniversityName=='Private University'">
+              <label><b>Document regarding Establishment :</b></label>
+              <div class="clearfix"></div>
+              <a class="bi bi-file-earmark-pdf-fill" *ngIf="collegeListData.PrivateCollegeEstabCertificate.includes('.pdf')" data-fancybox="gallery" href="{{collegeListData.PrivateCollegeEstabCertificatePath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+            </div>
+
             <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="collegeListData.CollegeStatus!='New'">
               <label>Year of Establishment :</label>
               <input class="form-control disabled mt-1" disabled value="{{collegeListData.FinancialYearName}}" />
@@ -233,7 +247,7 @@
                     <input class="form-control disabled mt-1" disabled value="{{collegeListData.LiveStockFarmAddress}}" />
                   </div>
                   <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="collegeListData.DepartmentID ==2">
-                    <label>Veternary Clinical Complex Address :</label>
+                    <label>Veterinary Clinical Complex Address :</label>
                     <input class="form-control disabled mt-1" disabled value="{{collegeListData.VeternaryClinicalAddress}}" />
                   </div>
                 </div>

@@ -12,6 +12,7 @@ import { ApplyNOCApplicationService } from '../../../Services/ApplyNOCApplicatio
 import { DocumentScrutinyDataModel } from '../../../Models/DocumentScrutinyDataModel';
 import { MedicalDocumentScrutinyService } from '../../../Services/MedicalDocumentScrutiny/medical-document-scrutiny.service';
 import { ModalDismissReasons, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { ApplyNOCPreviewComponent } from '../../apply-nocpreview/apply-nocpreview.component';
 
 
 @Component({
@@ -32,10 +33,12 @@ export class DocumentScrutinyCollegeManagementSocietyComponent implements OnInit
   public isFormvalid: boolean = true;
   public isRemarkValid: boolean = false;
   dsrequest = new DocumentScrutinyDataModel();
+  public QueryStringStatus: any = '';
   request = new SocietyDataModel();
   closeResult: string | undefined;
   modalReference: NgbModalRef | undefined;
-  constructor(private socityService: SocityService, private toastr: ToastrService, private loaderService: LoaderService, private formBuilder: FormBuilder,
+  public isDisabledAction: boolean = false;
+  constructor(private ApplyNOCPreview: ApplyNOCPreviewComponent, private socityService: SocityService, private toastr: ToastrService, private loaderService: LoaderService, private formBuilder: FormBuilder,
     private commonMasterService: CommonMasterService, private router: ActivatedRoute, private applyNOCApplicationService: ApplyNOCApplicationService,
     private medicalDocumentScrutinyService: MedicalDocumentScrutinyService, private modalService: NgbModal) { }
 
@@ -44,6 +47,7 @@ export class DocumentScrutinyCollegeManagementSocietyComponent implements OnInit
     this.SelectedDepartmentID = await Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DepartmentID')?.toString()));
     this.SelectedCollageID = await Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
     this.SelectedApplyNOCID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplyNOCID')?.toString()))
+    this.QueryStringStatus = this.router.snapshot.paramMap.get('Status')?.toString();
     await this.GetSocietyAllList();
   }
 
@@ -60,6 +64,10 @@ export class DocumentScrutinyCollegeManagementSocietyComponent implements OnInit
           this.SocietyAllList = data['Data'][0]['CollegeManagementSocietys'];
           this.FinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
           this.dsrequest.FinalRemark = this.FinalRemarks.find((x: { RoleIDS: number; }) => x.RoleIDS == this.sSOLoginDataModel.RoleID)?.Remark;
+          this.dsrequest.ActionID = this.FinalRemarks.find((x: { RoleIDS: number; }) => x.RoleIDS == this.sSOLoginDataModel.RoleID)?.ActionID;
+          if (this.dsrequest.ActionID == 2) {
+            this.isDisabledAction = true;
+          }
         }, error => console.error(error));
     }
     catch (Ex) {
@@ -75,21 +83,40 @@ export class DocumentScrutinyCollegeManagementSocietyComponent implements OnInit
     await this.SocietyAllList.forEach((i: { Action: string, Remark: string }) => {
       i.Action = ActionType;
       i.Remark = '';
-    })
-  }
-
-
-  ClickOnAction(idx: number) {
-    for (var i = 0; i < this.SocietyAllList.length; i++) {
-      if (i == idx) {
-        this.SocietyAllList[i].Remark = '';
-      }
+    });
+    if (ActionType == 'No') {
+      this.dsrequest.ActionID = 2;
+      this.isDisabledAction = true;
+    }
+    else {
+      this.dsrequest.ActionID = 0;
+      this.isDisabledAction = false;
     }
   }
 
 
-
+  ClickOnAction(idx: number) {
+    var Count = 0;
+    for (var i = 0; i < this.SocietyAllList.length; i++) {
+      if (i == idx) {
+        this.SocietyAllList[i].Remark = '';
+      }
+      if (this.SocietyAllList[i].Action == 'No') {
+        Count++;
+      }
+    }
+    if (Count > 0) {
+      this.dsrequest.ActionID = 2;
+      this.isDisabledAction = true;
+    }
+    else {
+      this.dsrequest.ActionID = 0;
+      this.isDisabledAction = false;
+    }
+  }
+  public isSubmitted: boolean = false;
   async SubmitCollegeSocietyDetail_Onclick() {
+    this.isSubmitted = true;
     this.dsrequest.DepartmentID = this.SelectedDepartmentID;
     this.dsrequest.CollegeID = this.SelectedCollageID;
     this.dsrequest.ApplyNOCID = this.SelectedApplyNOCID;
@@ -111,8 +138,10 @@ export class DocumentScrutinyCollegeManagementSocietyComponent implements OnInit
         }
       }
     }
-
-    if (this.dsrequest.FinalRemark == '') {
+    if (this.dsrequest.ActionID <= 0) {
+      this.isFormvalid = false;
+    }
+    if (this.dsrequest.FinalRemark == '' || this.dsrequest.FinalRemark == undefined) {
       this.isRemarkValid = true;
       this.isFormvalid = false;
     }
@@ -164,6 +193,12 @@ export class DocumentScrutinyCollegeManagementSocietyComponent implements OnInit
       }, 200);
     }
   }
+
+
+  ViewTaril(ID: number, ActionType: string) {
+    this.ApplyNOCPreview.ViewTarilCommon(ID, ActionType);
+  }
+
   async ViewCollegeManagmentDetail(content: any, SocietyID: number) {
     this.request = new SocietyDataModel();
     this.modalService.open(content, { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' }).result.then((result) => {
@@ -204,4 +239,5 @@ export class DocumentScrutinyCollegeManagementSocietyComponent implements OnInit
       return `with: ${reason}`;
     }
   }
+
 }

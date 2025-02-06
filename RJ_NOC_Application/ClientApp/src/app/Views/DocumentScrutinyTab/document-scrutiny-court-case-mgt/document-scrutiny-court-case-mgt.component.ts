@@ -1,70 +1,65 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonMasterService } from '../../../Services/CommonMaster/common-master.service';
 import { LoaderService } from '../../../Services/Loader/loader.service';
-import { ActivatedRoute } from '@angular/router';
-import { LandDetailDataModel } from '../../../Models/LandDetailDataModel';
-import { LandDetailsService } from '../../../Services/Tabs/LandDetails/land-details.service'
+import { ActivatedRoute, Router } from '@angular/router';
+import { RequiredDocumentsDataModel, RequiredDocumentsDataModel_Documents } from '../../../Models/TabDetailDataModel'
 import { SSOLoginDataModel } from '../../../Models/SSOLoginDataModel';
-import { ModalDismissReasons, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { DocumentScrutinyDataModel, DocumentScrutinyList_DataModel } from '../../../Models/DocumentScrutinyDataModel';
+import { CollegeDocumentService } from '../../../Services/Tabs/CollegeDocument/college-document.service';
 import { ToastrService } from 'ngx-toastr';
 import { ApplyNOCApplicationService } from '../../../Services/ApplyNOCApplicationList/apply-nocapplication.service';
+import { DocumentScrutinyDataModel, DocumentScrutinyList_DataModel } from '../../../Models/DocumentScrutinyDataModel';
 import { MedicalDocumentScrutinyService } from '../../../Services/MedicalDocumentScrutiny/medical-document-scrutiny.service';
 import { ApplyNOCPreviewComponent } from '../../apply-nocpreview/apply-nocpreview.component';
 
 @Component({
-  selector: 'app-document-scrutiny-land-detail',
-  templateUrl: './document-scrutiny-land-detail.component.html',
-  styleUrls: ['./document-scrutiny-land-detail.component.css']
+  selector: 'app-document-scrutiny-court-case-mgt',
+  templateUrl: './document-scrutiny-court-case-mgt.component.html',
+  styleUrls: ['./document-scrutiny-court-case-mgt.component.css']
 })
-export class DocumentScrutinyLandDetailComponent implements OnInit {
-  public QueryStringStatus: any = '';
-  request = new LandDetailDataModel();
-  sSOLoginDataModel = new SSOLoginDataModel();
-  public SelectedCollageID: number = 0;
-  public SelectedDepartmentID: number = 0;
-  public SelectedApplyNOCID: number = 0;
-  public LandDetailList: LandDetailDataModel[] = [];
-  public FinalRemarks: any = [];
-  public UnitOfLand: string = '';
+export class DocumentScrutinyCourtCaseMGTComponent implements OnInit {
 
-  closeResult: string | undefined;
-  modalReference: NgbModalRef | undefined;
-
-  public isFormvalid: boolean = true;
-  public isRemarkValid: boolean = false;
-  dsrequest = new DocumentScrutinyDataModel();
+  isSubmitted: boolean = false;
   public State: number = -1;
   public SuccessMessage: any = [];
   public ErrorMessage: any = [];
-  public LandDetailsDocumentListByID: any = [];
-  public DetailoftheLand: any = [];
-  public CollegeLandConverstion: any = [];
-  public isDisabledAction: boolean = false;
+  public SelectedCollageID: number = 0;
+  public SelectedDepartmentID: number = 0;
+  sSOLoginDataModel = new SSOLoginDataModel();
 
-  public LandDetailHistory: any = [];
-  public LandDetailsDocumentListHistory: any = [];
-  public DetailoftheLandHistory: any = [];
-  constructor(private landDetailsService: LandDetailsService, private medicalDocumentScrutinyService: MedicalDocumentScrutinyService, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private loaderService: LoaderService,
-    private modalService: NgbModal, private toastr: ToastrService, private applyNOCApplicationService: ApplyNOCApplicationService, private ApplyNOCPreview: ApplyNOCPreviewComponent) { }
+  public SelectedApplyNOCID: number = 0;
+  public isFormvalid: boolean = true;
+  public isRemarkValid: boolean = false;
+  dsrequest = new DocumentScrutinyDataModel();
+  public FinalRemarks: any = [];
+  public HospitalRealtedDocuments: RequiredDocumentsDataModel_Documents[] = []
+  public QueryStringStatus: any = '';
+  public isDisabledAction: boolean = false;
+  public courtOrderList: any = [];
+
+  constructor(private ApplyNOCPreview: ApplyNOCPreviewComponent, private loaderService: LoaderService,
+    private commonMasterService: CommonMasterService, private collegeDocumentService: CollegeDocumentService, private router: ActivatedRoute,
+    private applyNOCApplicationService: ApplyNOCApplicationService, private toastr: ToastrService, private medicalDocumentScrutinyService: MedicalDocumentScrutinyService) { }
 
   async ngOnInit() {
+
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     this.SelectedDepartmentID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DepartmentID')?.toString()));
     this.SelectedCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
-    this.SelectedApplyNOCID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplyNOCID')?.toString()));
+    this.SelectedApplyNOCID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplyNOCID')?.toString()))
     this.QueryStringStatus = this.router.snapshot.paramMap.get('Status')?.toString();
-    await this.GetLandDetailsDataList();
-
-    await this.GetUnitOfLandArea(this.SelectedDepartmentID, 'LandUnit');
+    await this.GetCourtCaseList();
   }
-  async GetLandDetailsDataList() {
+  async GetCourtCaseList() {
     try {
       this.loaderService.requestStarted();
-      await this.medicalDocumentScrutinyService.DocumentScrutiny_LandDetails(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
+      await this.medicalDocumentScrutinyService.DocumentScrutiny_CourtCase(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
         .then((data: any) => {
+
           data = JSON.parse(JSON.stringify(data));
-          this.LandDetailList = data['Data'][0]['LandDetails'][0];
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.courtOrderList = data['Data'][0]['CourtCase'][0];
           this.FinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
           this.dsrequest.FinalRemark = this.FinalRemarks.find((x: { RoleIDS: number; }) => x.RoleIDS == this.sSOLoginDataModel.RoleID)?.Remark;
           this.dsrequest.ActionID = this.FinalRemarks.find((x: { RoleIDS: number; }) => x.RoleIDS == this.sSOLoginDataModel.RoleID)?.ActionID;
@@ -82,62 +77,8 @@ export class DocumentScrutinyLandDetailComponent implements OnInit {
       }, 200);
     }
   }
-
-  async GetUnitOfLandArea(DepartmentID: number, Type: string) {
-    try {
-      this.loaderService.requestStarted();
-      await this.commonMasterService.GetCommonMasterList_DepartmentAndTypeWise(DepartmentID, Type)
-        .then((data: any) => {
-          data = JSON.parse(JSON.stringify(data));
-          this.UnitOfLand = data['Data'][0]['Name'];
-
-        }, error => console.error(error));
-    }
-    catch (Ex) {
-      console.log(Ex);
-    }
-    finally {
-      setTimeout(() => {
-        this.loaderService.requestEnded();
-      }, 200);
-    }
-  }
-
-  async ViewLandDetail(content: any, LandDetailID: number) {
-    this.request = new LandDetailDataModel();
-    this.modalService.open(content, { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' }).result.then((result) => {
-      this.closeResult = `Closed with: ${result}`;
-    }, (reason) => {
-      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-    });
-    try {
-      this.loaderService.requestStarted();
-      await this.landDetailsService.GetLandDetailsIDWise(LandDetailID, this.SelectedCollageID)
-        .then((data: any) => {
-          data = JSON.parse(JSON.stringify(data));
-          this.request = data['Data'][0];
-        }, error => console.error(error));
-    }
-    catch (Ex) {
-      console.log(Ex);
-    }
-    finally {
-      setTimeout(() => {
-        this.loaderService.requestEnded();
-      }, 200);
-    }
-  }
-  private getDismissReason(reason: any): string {
-    if (reason === ModalDismissReasons.ESC) {
-      return 'by pressing ESC';
-    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-      return 'by clicking on a backdrop';
-    } else {
-      return `with: ${reason}`;
-    }
-  }
   async selectAll(ActionType: string) {
-    await this.LandDetailList.forEach((i: { Action: string, Remark: string }) => {
+    await this.courtOrderList.forEach((i: { Action: string, Remark: string }) => {
       i.Action = ActionType;
       i.Remark = '';
     });
@@ -154,11 +95,11 @@ export class DocumentScrutinyLandDetailComponent implements OnInit {
 
   ClickOnAction(idx: number) {
     var Count = 0;
-    for (var i = 0; i < this.LandDetailList.length; i++) {
+    for (var i = 0; i < this.courtOrderList.length; i++) {
       if (i == idx) {
-        this.LandDetailList[i].Remark = '';
+        this.courtOrderList[i].Remark = '';
       }
-      if (this.LandDetailList[i].Action == 'No') {
+      if (this.courtOrderList[i].Action == 'No') {
         Count++;
       }
     }
@@ -172,25 +113,24 @@ export class DocumentScrutinyLandDetailComponent implements OnInit {
     }
   }
 
-  public isSubmitted: boolean = false;
-  async SubmitLandDetail_Onclick() {
+  async SubmitCourtCases_Onclick() {
     this.isSubmitted = true;
     this.dsrequest.DepartmentID = this.SelectedDepartmentID;
     this.dsrequest.CollegeID = this.SelectedCollageID;
     this.dsrequest.ApplyNOCID = this.SelectedApplyNOCID;
     this.dsrequest.UserID = this.sSOLoginDataModel.UserID;
     this.dsrequest.RoleID = this.sSOLoginDataModel.RoleID;
-    this.dsrequest.TabName = 'Land Information';
+    this.dsrequest.TabName = 'CourtCase';
     this.isRemarkValid = false;
     this.isFormvalid = true;
     this.dsrequest.DocumentScrutinyDetail = [];
-    for (var i = 0; i < this.LandDetailList.length; i++) {
-      if (this.LandDetailList[i].Action == '' || this.LandDetailList[i].Action == undefined) {
+    for (var i = 0; i < this.courtOrderList.length; i++) {
+      if (this.courtOrderList[i].Action == '' || this.courtOrderList[i].Action == undefined) {
         this.toastr.warning('Please take Action on all records');
         return;
       }
-      if (this.LandDetailList[i].Action == 'No') {
-        if (this.LandDetailList[i].Remark == '' || this.LandDetailList[i].Remark == undefined) {
+      if (this.courtOrderList[i].Action == 'No') {
+        if (this.courtOrderList[i].Remark == '' || this.courtOrderList[i].Remark == undefined) {
           this.toastr.warning('Please enter remark');
           return;
         }
@@ -206,9 +146,8 @@ export class DocumentScrutinyLandDetailComponent implements OnInit {
     if (!this.isFormvalid) {
       return;
     }
-    if (this.LandDetailList.length > 0) {
-      for (var i = 0; i < this.LandDetailList.length; i++) {
-        console.log(this.LandDetailList[i]);
+    if (this.courtOrderList.length > 0) {
+      for (var i = 0; i < this.courtOrderList.length; i++) {
         this.dsrequest.DocumentScrutinyDetail.push({
           DocumentScrutinyID: 0,
           DepartmentID: this.SelectedDepartmentID,
@@ -216,9 +155,9 @@ export class DocumentScrutinyLandDetailComponent implements OnInit {
           UserID: this.sSOLoginDataModel.UserID,
           RoleID: this.sSOLoginDataModel.RoleID,
           ApplyNOCID: this.SelectedApplyNOCID,
-          Action: this.LandDetailList[i].Action,
-          Remark: this.LandDetailList[i].Remark,
-          TabRowID: this.LandDetailList[i].LandDetailID,
+          Action: this.courtOrderList[i].Action,
+          Remark: this.courtOrderList[i].Remark,
+          TabRowID: this.courtOrderList[i].CourtOrderID,
           SubTabName: ''
         });
       }
@@ -254,5 +193,4 @@ export class DocumentScrutinyLandDetailComponent implements OnInit {
   ViewTaril(ID: number, ActionType: string) {
     this.ApplyNOCPreview.ViewTarilCommon(ID, ActionType);
   }
-
 }

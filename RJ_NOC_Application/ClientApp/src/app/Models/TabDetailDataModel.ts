@@ -253,6 +253,9 @@ export class OldNocDetailsDataModel {
   public RevisedStateRecognitionUploadDoc: string = '';
   public RevisedStateRecognitionUploadDocPath: string = '';
   public RevisedStateRecognitionUploadDoc_Dis_FileName: string = '';
+
+
+  public NumberofPresentSeat?: string = '';
 }
 export class OldNocDetails_SubjectDataModel {
   public OldNOCSubjectID: number = 0;

@@ -47,7 +47,7 @@
           <p *ngIf="isSubmitted&&request.TeachingType=='Teaching'&&request.SubjectID<=0  && (SelectedDepartmentID !=4 && SelectedDepartmentID !=11 && SelectedDepartmentID !=9&& (SelectedDepartmentID !=2 && !IsAHDegreeCollege))" class="text-danger"> This field is required .!</p>
         </div>
         <!--AH Degree College-->
-        <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="SelectedDepartmentID ==2 && IsAHDegreeCollege">
+        <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="SelectedDepartmentID ==2 && IsAHDegreeCollege && request.TeachingType=='Teaching'">
           <label>Department <span style="color:red;">*</span></label>
           <select id="ddldepartmentId" name="ddldepartmentId" class="form-control" formControlName="ddldepartmentId" [(ngModel)]="request.AHDepartmentID">
             <option value="0" disabled>--Select--</option>
@@ -56,7 +56,7 @@
               {{item.DepartmentName}}
             </option>
           </select>
-          <p *ngIf="isSubmitted&&SelectedDepartmentID ==2 && IsAHDegreeCollege &&request.AHDepartmentID<=0 " class="text-danger"> This field is required .!</p>
+          <p *ngIf="isSubmitted&&SelectedDepartmentID ==2 && IsAHDegreeCollege&& request.TeachingType=='Teaching' &&request.AHDepartmentID<=0 " class="text-danger"> This field is required .!</p>
         </div>
         <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="SelectedDepartmentID ==5">
           <label>Department <span style="color:red;">*</span></label>

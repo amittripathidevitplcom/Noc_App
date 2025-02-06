@@ -56,11 +56,11 @@
 
           <tr *ngFor="let row of draftApplicatoinListData  | tableSearchFilter:searchText; let idx=index;">
             <td>
-              <button *ngIf="row.IsApplyNOCFinalSubmit==false && row.IsOpenNOCApplication==true&& row.IsOpenDefaulter==false&& row.IsDefaulter==false&& row.OpenApplicationSession==sSOLoginDataModel.SessionID" class="btn btn-primary" (click)="ClickApplyNOC(row.DepartmentID,row.CollegeID,row.IsApplyNOCFinalSubmit,row.PendingNOC)" type="button" id="dropdownMenuButton1"
+              <button *ngIf="row.IsApplyNOCFinalSubmit==false && row.IsOpenNOCApplication==true&& row.IsOpenDefaulter==false&& row.IsDefaulter==false&& row.OpenApplicationSession==sSOLoginDataModel.SessionID && ((row.DepartmentID==2 && row.CollegeLevel==row.OpeneLevel) || row.DepartmentID!=2)" class="btn btn-primary" (click)="ClickApplyNOC(row.DepartmentID,row.CollegeID,row.IsApplyNOCFinalSubmit,row.PendingNOC)" type="button" id="dropdownMenuButton1"
                       style="background-color: #132649;">
                 Apply Noc
               </button>
-              <button *ngIf="row.IsApplyNOCFinalSubmit==false && row.IsOpenNOCApplication==true&& row.IsOpenDefaulter==true && row.IsDefaulter==true&& row.OpenDefaulterSession==sSOLoginDataModel.SessionID" class="btn btn-primary" (click)="ClickApplyNOC(row.DepartmentID,row.CollegeID,row.IsApplyNOCFinalSubmit,row.PendingNOC)" type="button" id="dropdownMenuButton1"
+              <button *ngIf="row.IsApplyNOCFinalSubmit==false && row.IsOpenNOCApplication==true&& row.IsOpenDefaulter==true && row.IsDefaulter==true&& row.OpenDefaulterSession==sSOLoginDataModel.SessionID && ((row.DepartmentID==2 && row.CollegeLevel==row.OpeneLevel) || row.DepartmentID!=2)" class="btn btn-primary" (click)="ClickApplyNOC(row.DepartmentID,row.CollegeID,row.IsApplyNOCFinalSubmit,row.PendingNOC)" type="button" id="dropdownMenuButton1"
                       style="background-color: #132649;">
                 Apply Noc
               </button>
@@ -246,6 +246,42 @@
       </div>
     </div>
     <!--end-->
+    <div *ngIf="request.ApplyNocParameterSeatEnhancement_View==true">
+      <div class="card-header border-top">
+        <b>Seat Enhancement <!--<span> :₹ </span>--></b>
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-hover table-striped-columns">
+            <thead>
+              <tr>
+                <th>Sr. No.</th>
+                <th>Course</th>
+                <th>No of Seat</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of request.ApplyNocParameterSeatEnhancement;let idx=index;">
+                <td>{{idx+1}}</td>
+                <td>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" name="cbCourse_SeatEnhancement" id="cbCourse_SeatEnhancement_{{item.CourseID}}" value="{{item.CourseID}}" [(ngModel)]="item.IsChecked" (change)="OnChangeSeatEnhancement(idx,item.IsChecked)">
+                    <label class="form-check-label" for="cbCourse_SeatEnhancement_{{item.CourseID}}">{{item.CourseName}}</label>
+                    
+                  </div>
+                </td>
+                <td>
+                  <input class="form-control" maxlength="5" type="text" name="txtSeatEnhancementNo{{item.CourseID}}" id="txtSeatEnhancementNo{{item.SeatEnhancement}}" [disabled]="item.IsDisabled" [(ngModel)]="item.SeatEnhancement" (keypress)="numberOnly($event)">
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+
+
     <!--change in name of college-->
     <div *ngIf="ApplyNocParameterMasterList_ChangeInNameOfCollege != null">
       <div class="card-header border-top">
@@ -988,7 +1024,7 @@
             </table>
           </div>
         </div>
-      </div> 
+      </div>
     </div>
 
 
@@ -2653,14 +2689,14 @@
       <div class="row">
         <div class="col-lg-12 col-md-12 col-sm-12 col-12 mt-3">
           <h4 class="text-danger">Disclaimer:</h4>
-          <ol class="text-danger"  *ngIf="SelectedDepartmentID !=4">
+          <ol class="text-danger" *ngIf="SelectedDepartmentID !=4">
             <li>Submit your application with appropriate option like- new course, new subject, tnoc, pnoc.</li>
             <li>Once the application is submitted you have to print challan or download.</li>
             <li>Once you did the payment you need to upload proof of payment (receipt) from applied noc, <a href="#"> Upload Reciept</a></li>
             <li>Note: here only those subjects or courses will be visible for which draft is complete.</li>
             <li *ngIf="SelectedDepartmentID !=2">If NOC is for name change, location change, merger, coed to girl please fill details in <a href="#">College Amendment</a></li>
           </ol>
-          <ol class="text-danger"  *ngIf="SelectedDepartmentID ==4">
+          <ol class="text-danger" *ngIf="SelectedDepartmentID ==4">
             <li>Submit your application with appropriate option like- new course, increase in intake etc.</li>
             <li>You will have to make demand draft (DD)and upload the same on NOC portal before final submit.</li>
             <li>Upload original affidavit as submitted to AICTE portal.</li>

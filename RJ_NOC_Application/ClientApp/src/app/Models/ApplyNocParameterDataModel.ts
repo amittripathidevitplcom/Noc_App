@@ -38,6 +38,7 @@ export class ApplyNocParameterDataModel {
   public ApplyNocParameterMasterList_TNOCExtOfSubject?: ApplyNocParameterMaster_TNOCExtensionDataModel = null;
   public ApplyNocParameterMasterList_PNOCOfSubject?: ApplyNocParameterMaster_TNOCExtensionDataModel = null;
 
+
   public ApplyNocLateFeeDetailList?: ApplyNocLateFeeDetailDataModal[] = [];
   public DefaulterCollegePenaltyDetailList?: DefaulterCollegePenaltyDataModal[] = [];
   public TotalDefaulterCollegePenalty?: number = 0;
@@ -101,6 +102,10 @@ export class ApplyNocParameterDataModel {
   public DTE_CoursesforWorkingProfessionals!: ApplyNocParameterMasterList_CoursesforWorkingProfessionals;
   public DTE_CoursesforWorkingProfessionals_List: ApplyNocParameterMasterList_CoursesforWorkingProfessionals[] = [];
   public DTE_CoursesforWorkingProfessionals_View: boolean = false;
+
+  /*Seat Enhancement MG Three*/
+  public ApplyNocParameterSeatEnhancement: ApplyNocParameterSeatEnhancementDataModel[] = [];
+  public ApplyNocParameterSeatEnhancement_View: boolean = false;
 
 }
 
@@ -613,3 +618,17 @@ export class NOCPdfFileDataModel {
   public IsEsign: boolean = false;
   public EsignBy: number = 0;
 }
+
+
+
+
+export class ApplyNocParameterSeatEnhancementDataModel {
+  public ApplyNocID: number = 0;
+  public CourseID: number = 0;
+  public CourseName: string = '';
+  public SeatEnhancement: number = 0;
+  public FeeAmount: number = 0;
+  public IsChecked: boolean = false;
+  public IsDisabled: boolean = true;
+}
+

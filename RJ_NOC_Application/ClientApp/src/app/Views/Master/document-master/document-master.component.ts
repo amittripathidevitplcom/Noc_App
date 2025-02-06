@@ -71,6 +71,7 @@ export class DocumentMasterComponent implements OnInit {
         txtMaxSize: [0, Validators.required],
         chkIsActiveStatus: ['false'],
         chkIsCompulsory: ['false'],
+        chkIsDegree: ['false'],
       })
 
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
@@ -214,6 +215,7 @@ export class DocumentMasterComponent implements OnInit {
           this.request.MaxSize = data['Data'][0]["MaxSize"];
           this.request.IsActiveStatus = data['Data'][0]["IsActiveStatus"];
           this.request.IsCompulsory = data['Data'][0]["IsCompulsory"];
+          this.request.IsDegree = data['Data'][0]["IsDegree"];
           this.isDisabledGrid = true;
 
           const btnSave = document.getElementById('btnSave')

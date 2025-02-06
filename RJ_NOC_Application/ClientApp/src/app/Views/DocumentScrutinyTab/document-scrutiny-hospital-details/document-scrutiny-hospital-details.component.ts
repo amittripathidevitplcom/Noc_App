@@ -14,6 +14,7 @@ import { ApplyNOCApplicationService } from '../../../Services/ApplyNOCApplicatio
 import { MedicalDocumentScrutinyService } from '../../../Services/MedicalDocumentScrutiny/medical-document-scrutiny.service';
 import { TrusteeGeneralInfoService } from '../../../Services/TrusteeGeneralInfo/trustee-general-info.service';
 import { LegalEntityDataModel } from '../../../Models/TrusteeGeneralInfoDataModel';
+import { ApplyNOCPreviewComponent } from '../../apply-nocpreview/apply-nocpreview.component';
 
 @Component({
   selector: 'app-document-scrutiny-hospital-details',
@@ -27,7 +28,7 @@ export class DocumentScrutinyHospitalDetailsComponent implements OnInit {
   sSOLoginDataModel = new SSOLoginDataModel();
   public SelectedCollageID: number = 0;
   public SelectedDepartmentID: number = 0;
-  public HospitalParentNotDataModelList: any = [];
+  public HospitalList: any = [];
   public IsShowSuperSpecialtyHospital: boolean = false;
   public HospitalData: any = {};
   closeResult: string | undefined;
@@ -40,40 +41,18 @@ export class DocumentScrutinyHospitalDetailsComponent implements OnInit {
   public isRemarkValid: boolean = false;
   dsrequest = new DocumentScrutinyDataModel();
   public FinalRemarks: any = [];
-  LegalEntityDataModel = new LegalEntityDataModel();
+  public isDisabledAction: boolean = false;
+  public QueryStringStatus: any = '';
 
-  constructor( private TrusteeGeneralInfoService: TrusteeGeneralInfoService,private medicalDocumentScrutinyService: MedicalDocumentScrutinyService,private toastr: ToastrService, private applyNOCApplicationService: ApplyNOCApplicationService,private modalService: NgbModal, private hospitalDetailService: HospitalDetailService, private loaderService: LoaderService, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private fileUploadService: FileUploadService) { }
+  constructor(private ApplyNOCPreview: ApplyNOCPreviewComponent,private TrusteeGeneralInfoService: TrusteeGeneralInfoService,private medicalDocumentScrutinyService: MedicalDocumentScrutinyService,private toastr: ToastrService, private applyNOCApplicationService: ApplyNOCApplicationService,private modalService: NgbModal, private hospitalDetailService: HospitalDetailService, private loaderService: LoaderService, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private fileUploadService: FileUploadService) { }
 
   async ngOnInit() {
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     this.SelectedDepartmentID = await Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DepartmentID')?.toString()));
     this.SelectedCollageID = await Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
     this.SelectedApplyNOCID = await Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplyNOCID')?.toString()));
+    this.QueryStringStatus = this.router.snapshot.paramMap.get('Status')?.toString();
     await this.GetHospitalDataList();
-    await this.IsSuperSpecialtyHospital();
-    await this.GetLegalEntityData();
-  }
-  async IsSuperSpecialtyHospital() {
-    try {
-      this.IsShowSuperSpecialtyHospital = false;
-      this.loaderService.requestStarted();
-      await this.hospitalDetailService.IsSuperSpecialtyHospital(this.SelectedCollageID)
-        .then(async (data: any) => {
-          data = JSON.parse(JSON.stringify(data));
-          this.State = data['State'];
-          this.SuccessMessage = data['SuccessMessage'];
-          this.ErrorMessage = data['ErrorMessage'];
-          this.IsShowSuperSpecialtyHospital = data['Data'];
-        }, error => console.error(error));
-    }
-    catch (Ex) {
-      console.log(Ex);
-    }
-    finally {
-      setTimeout(() => {
-        this.loaderService.requestEnded();
-      }, 200);
-    }
   }
   async GetHospitalDataList() {
     this.loaderService.requestStarted();
@@ -84,9 +63,13 @@ export class DocumentScrutinyHospitalDetailsComponent implements OnInit {
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
           if (data['Data'].length > 0) {
-            this.HospitalParentNotDataModelList = data['Data'][0]['HospitalDetails'];
+            this.HospitalList = data['Data'][0]['HospitalDetails'][0];
             this.FinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
             this.dsrequest.FinalRemark = this.FinalRemarks.find((x: { RoleIDS: number; }) => x.RoleIDS == this.sSOLoginDataModel.RoleID)?.Remark;
+            this.dsrequest.ActionID = this.FinalRemarks.find((x: { RoleIDS: number; }) => x.RoleIDS == this.sSOLoginDataModel.RoleID)?.ActionID;
+            if (this.dsrequest.ActionID == 2) {
+              this.isDisabledAction = true;
+            }
           }
         })
     }
@@ -97,8 +80,11 @@ export class DocumentScrutinyHospitalDetailsComponent implements OnInit {
       }, 200);
     }
   }
+
+
+  public viewrequest: any = {};
   async ViewHospitalDetail(content: any, HospitalID: number) {
-    this.HospitalData = {};
+    this.viewrequest = {};
     this.modalService.open(content, { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' }).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
@@ -106,13 +92,14 @@ export class DocumentScrutinyHospitalDetailsComponent implements OnInit {
     });
     try {
       this.loaderService.requestStarted();
-      await this.hospitalDetailService.GetData(HospitalID)
-        .then(async (data: any) => {
+      await this.hospitalDetailService.GetMGThreeHospitalDetailList_DepartmentCollegeWise(this.SelectedDepartmentID, this.SelectedCollageID, HospitalID, this.SelectedApplyNOCID > 0 ? this.SelectedApplyNOCID : 0)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
-          this.HospitalData = data['Data'];
-        });
+          this.viewrequest = data['Data'][0];
+        }, error => console.error(error));
     }
     catch (Ex) {
       console.log(Ex);
@@ -133,22 +120,44 @@ export class DocumentScrutinyHospitalDetailsComponent implements OnInit {
     }
   }
   async selectAll(ActionType: string) {
-    await this.HospitalParentNotDataModelList.forEach((i: { Action: string, Remark: string }) => {
+    await this.HospitalList.forEach((i: { Action: string, Remark: string }) => {
       i.Action = ActionType;
       i.Remark = '';
+      if (ActionType == 'No') {
+        this.dsrequest.ActionID = 2;
+        this.isDisabledAction = true;
+      }
+      else {
+        this.dsrequest.ActionID = 0;
+        this.isDisabledAction = false;
+      }
     })
   }
 
 
   ClickOnAction(idx: number) {
-    for (var i = 0; i < this.HospitalParentNotDataModelList.length; i++) {
+    var Count = 0;
+    for (var i = 0; i < this.HospitalList.length; i++) {
       if (i == idx) {
-        this.HospitalParentNotDataModelList[i].Remark = '';
+        this.HospitalList[i].Remark = '';
+      }
+      if (this.HospitalList[i].Action == 'No') {
+        Count++;
       }
     }
-  }
+    if (Count > 0) {
+      this.dsrequest.ActionID = 2;
+      this.isDisabledAction = true;
+    }
+    else {
+      this.dsrequest.ActionID = 0;
+      this.isDisabledAction = false;
+    }
 
+  }
+  public isSubmitted: boolean = false;
   async SubmitHospitalDetail_Onclick() {
+    this.isSubmitted = true;
     this.dsrequest.DepartmentID = this.SelectedDepartmentID;
     this.dsrequest.CollegeID = this.SelectedCollageID;
     this.dsrequest.ApplyNOCID = this.SelectedApplyNOCID;
@@ -158,29 +167,30 @@ export class DocumentScrutinyHospitalDetailsComponent implements OnInit {
     this.isRemarkValid = false;
     this.isFormvalid = true;
     this.dsrequest.DocumentScrutinyDetail = [];
-    for (var i = 0; i < this.HospitalParentNotDataModelList.length; i++) {
-      if (this.HospitalParentNotDataModelList[i].Action == '' || this.HospitalParentNotDataModelList[i].Action == undefined) {
+    for (var i = 0; i < this.HospitalList.length; i++) {
+      if (this.HospitalList[i].Action == '' || this.HospitalList[i].Action == undefined) {
         this.toastr.warning('Please take Action on all records');
         return;
       }
-      if (this.HospitalParentNotDataModelList[i].Action == 'No') {
-        if (this.HospitalParentNotDataModelList[i].Remark == '' || this.HospitalParentNotDataModelList[i].Remark == undefined) {
+      if (this.HospitalList[i].Action == 'No') {
+        if (this.HospitalList[i].Remark == '' || this.HospitalList[i].Remark == undefined) {
           this.toastr.warning('Please enter remark');
           return;
         }
       }
     }
-
-    if (this.dsrequest.FinalRemark == '') {
+    if (this.dsrequest.ActionID <= 0) {
+      this.isFormvalid = false;
+    }
+    if (this.dsrequest.FinalRemark == '' || this.dsrequest.FinalRemark == undefined) {
       this.isRemarkValid = true;
       this.isFormvalid = false;
     }
     if (!this.isFormvalid) {
       return;
     }
-    if (this.HospitalParentNotDataModelList.length > 0) {
-      for (var i = 0; i < this.HospitalParentNotDataModelList.length; i++) {
-        console.log(this.HospitalParentNotDataModelList[i]);
+    if (this.HospitalList.length > 0) {
+      for (var i = 0; i < this.HospitalList.length; i++) {
         this.dsrequest.DocumentScrutinyDetail.push({
           DocumentScrutinyID: 0,
           DepartmentID: this.SelectedDepartmentID,
@@ -188,9 +198,9 @@ export class DocumentScrutinyHospitalDetailsComponent implements OnInit {
           UserID: this.sSOLoginDataModel.UserID,
           RoleID: this.sSOLoginDataModel.RoleID,
           ApplyNOCID: this.SelectedApplyNOCID,
-          Action: this.HospitalParentNotDataModelList[i].Action,
-          Remark: this.HospitalParentNotDataModelList[i].Remark,
-          TabRowID: this.HospitalParentNotDataModelList[i].HospitalID,
+          Action: this.HospitalList[i].Action,
+          Remark: this.HospitalList[i].Remark,
+          TabRowID: this.HospitalList[i].HospitalID,
           SubTabName: ''
         });
       }
@@ -223,37 +233,8 @@ export class DocumentScrutinyHospitalDetailsComponent implements OnInit {
       }, 200);
     }
   }
-  public UserSSOID: string = '';
-  async GetLegalEntityData() {
-    try {
-      await this.commonMasterService.GetCollegeBasicDetails(this.SelectedCollageID.toString())
-        .then((data: any) => {
-          data = JSON.parse(JSON.stringify(data));
-          this.UserSSOID = data['Data'][0]['data'][0]['ParentSSOID'];
-          this.TrusteeGeneralInfoService.GetDataOfLegalEntity(this.UserSSOID)
-            .then(async (data: any) => {
-              this.State = data['State'];
-              this.SuccessMessage = data['SuccessMessage'];
-              this.ErrorMessage = data['ErrorMessage'];
-              debugger;
-              if (this.State == 0) {
-                this.LegalEntityDataModel = JSON.parse(JSON.stringify(data['Data']));
-              }
-              if (this.State == 1) {
-                this.toastr.error(this.ErrorMessage)
-              }
-              else if (this.State == 2) {
-                this.toastr.warning(this.SuccessMessage)
-              }
-            })
-        }, error => console.error(error));
-      
-    }
-    catch (ex) { console.log(ex) }
-    finally {
-      setTimeout(() => {
-        this.loaderService.requestEnded();
-      }, 200);
-    }
+
+  ViewTaril(ID: number, ActionType: string) {
+    this.ApplyNOCPreview.ViewTarilCommon(ID, ActionType);
   }
 }

@@ -30,7 +30,7 @@
 
                 <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
                   <label for="ddlDepartmentId">Department <span style="color:red;">*</span></label>
-                  <select id="ddlDepartmentId" name="ddlDepartmentId" [(ngModel)]="request.DepartmentID " class="form-select" formControlName="ddlDepartmentId" [attr.disabled]="is_disableDepartment ? '' : null">
+                  <select id="ddlDepartmentId" name="ddlDepartmentId" [(ngModel)]="request.DepartmentID" class="form-select" formControlName="ddlDepartmentId" [attr.disabled]="is_disableDepartment ? '' : null">
                     <option value="0" disabled>--Select--</option>
                     <option *ngFor="let item of DepartmentData"
                             value="{{item.DepartmentID}}">
@@ -64,15 +64,15 @@
                   <label for="txtMinSize" class="form-label mb-0">Min.Size (in kb)</label>
                   <input type="number" class="form-control" id="txtMinSize" name="txtMinSize" formControlName="txtMinSize" [(ngModel)]="request.MinSize">
                   <!--<div *ngIf="isSubmitted&&request.MinSize <= 0" class="text-danger">
-                    <p *ngIf="request.MinSize <= 0" ><i aria-hidden="true"></i> This field is required .!</p>
-                  </div>-->
+      <p *ngIf="request.MinSize <= 0" ><i aria-hidden="true"></i> This field is required .!</p>
+    </div>-->
                 </div>
                 <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
                   <label for="txtMaxSize" class="form-label mb-0">Max.Size (in kb)</label>
                   <input type="number" class="form-control" id="txtMaxSize" name="txtMaxSize" formControlName="txtMaxSize" [(ngModel)]="request.MaxSize">
                   <!--<div *ngIf="isSubmitted&&request.MaxSize <= 0" class="text-danger">
-                    <p *ngIf="request.MaxSize <= 0" ><i aria-hidden="true"></i> This field is required .!</p>
-                  </div>-->
+      <p *ngIf="request.MaxSize <= 0" ><i aria-hidden="true"></i> This field is required .!</p>
+    </div>-->
                 </div>
                 <div class="col-lg-2 col-md-2 col-sm-6 col-12 mb-3">
                   <label for="chkIsCompulsory" class="form-label">IsCompulsory</label>
@@ -84,6 +84,13 @@
                   <label for="chkIsActiveStatus" class="form-label">Status</label>
                   <div class="form-check form-switch d-flex align-items-center">
                     <input class="form-check-input" type="checkbox" id="IsActiveStatus" [(ngModel)]="request.IsActiveStatus" formControlName="chkIsActiveStatus">
+                  </div>
+                </div>
+
+                <div class="col-lg-2 col-md-2 col-sm-6 col-12 mb-3" *ngIf="request.DepartmentID==2">
+                  <label for="IsDegree" class="form-label">Is Degree</label>
+                  <div class="form-check form-switch yes d-flex align-items-center">
+                    <input class="form-check-input" type="checkbox" id="IsDegree" [(ngModel)]="request.IsDegree" formControlName="chkIsDegree">
                   </div>
                 </div>
 
@@ -119,6 +126,7 @@
                     <th>Document Type Name</th>
                     <th>Department Name</th>
                     <th>Document Name</th>
+                    <th *ngIf="request.DepartmentID==2">IsDegree</th>
                     <th>IsCompulsory</th>
                     <th>Status</th>
                     <th>Action</th>
@@ -130,6 +138,7 @@
                     <td>{{row.DocumentTypeName}}</td>
                     <td>{{row.DepartmentName_English}}</td>
                     <td>{{row.DocumentName}}</td>
+                    <td *ngIf="request.DepartmentID==2">{{row.AHDegree}}</td>
                     <td>{{row.Compulsory}}</td>
                     <td>{{row.ActiveStatus}}</td>
                     <td>

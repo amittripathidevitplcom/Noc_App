@@ -130,6 +130,7 @@ export class OldNOCDetailsComponent implements OnInit {
         txtRevisedStateOrderNo: ['', Validators.required],
         txtRevisedStateOrderDate: ['', Validators.required],
         RevisedStateRecognitionUploadDoc: [''],
+        txtNumberofPresentSeat: [''],
       });
     this.oldNOCForm.get('ddlIssueYear')?.enable();
     this.SelectedDepartmentID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DepartmentID')?.toString()));
@@ -474,6 +475,9 @@ export class OldNOCDetailsComponent implements OnInit {
   
 
     this.isSubmitted = true;
+    if (this.SelectedDepartmentID == 6 && (this.request.NumberofPresentSeat == '' || this.request.NumberofPresentSeat == null)) {
+      this.IsFormValid = false;
+    }
     if (this.oldNOCForm.invalid) {
       this.IsFormValid = false;
     }
@@ -947,5 +951,16 @@ export class OldNOCDetailsComponent implements OnInit {
       }, 200);
     }
   }
-  
+
+
+  numberOnly(event: any): boolean {
+
+    const charCode = (event.which) ? event.which : event.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+      return false;
+    }
+
+    return true;
+
+  }
 }

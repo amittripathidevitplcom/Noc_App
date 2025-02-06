@@ -12,6 +12,7 @@ import { HostelDetailService } from '../../../Services/Tabs/hostel-details.servi
 import { ModalDismissReasons, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { HostelDataModel, HostelDetailsDataModel_Hostel } from '../../../Models/HostelDetailsDataModel';
 import { MedicalDocumentScrutinyService } from '../../../Services/MedicalDocumentScrutiny/medical-document-scrutiny.service';
+import { ApplyNOCPreviewComponent } from '../../apply-nocpreview/apply-nocpreview.component';
 
 @Component({
   selector: 'app-document-scrutiny-hostal-details',
@@ -22,6 +23,7 @@ export class DocumentScrutinyHostalDetailsComponent implements OnInit {
   request = new HostelDataModel();
   hosteldetail = new HostelDetailsDataModel_Hostel();
   sSOLoginDataModel = new SSOLoginDataModel();
+  public QueryStringStatus: any = '';
 
   public hostelDataModel: HostelDataModel[] = [];
   public State: number = -1;
@@ -41,8 +43,9 @@ export class DocumentScrutinyHostalDetailsComponent implements OnInit {
   public isRemarkValid: boolean = false;
   dsrequest = new DocumentScrutinyDataModel();
   public FinalRemarks: any = [];
+  public isDisabledAction: boolean = false;
 
-  constructor(private modalService: NgbModal, private loaderService: LoaderService, private hostelDetailService: HostelDetailService, private medicalDocumentScrutinyService: MedicalDocumentScrutinyService,
+  constructor(private ApplyNOCPreview: ApplyNOCPreviewComponent,private modalService: NgbModal, private loaderService: LoaderService, private hostelDetailService: HostelDetailService, private medicalDocumentScrutinyService: MedicalDocumentScrutinyService,
     private commonMasterService: CommonMasterService, private router: ActivatedRoute, private applyNOCApplicationService: ApplyNOCApplicationService, private toastr: ToastrService) { }
 
   async ngOnInit() {
@@ -52,6 +55,7 @@ export class DocumentScrutinyHostalDetailsComponent implements OnInit {
     this.SelectedDepartmentID = this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DepartmentID')?.toString())
     this.SelectedCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()))
     this.SelectedApplyNOCID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplyNOCID')?.toString()))
+    this.QueryStringStatus = this.router.snapshot.paramMap.get('Status')?.toString();
     await this.GetHostelDetailList_DepartmentCollegeWise();
   }
 
@@ -68,7 +72,10 @@ export class DocumentScrutinyHostalDetailsComponent implements OnInit {
           this.hostelDataModel = data['Data'][0]['HostelDetails'];
           this.FinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
           this.dsrequest.FinalRemark = this.FinalRemarks.find((x: { RoleIDS: number; }) => x.RoleIDS == this.sSOLoginDataModel.RoleID)?.Remark;
-
+          this.dsrequest.ActionID = this.FinalRemarks.find((x: { RoleIDS: number; }) => x.RoleIDS == this.sSOLoginDataModel.RoleID)?.ActionID;
+          if (this.dsrequest.ActionID == 2) {
+            this.isDisabledAction = true;
+          }
         }, error => console.error(error));
     }
     catch (Ex) {
@@ -127,19 +134,41 @@ export class DocumentScrutinyHostalDetailsComponent implements OnInit {
     await this.hostelDataModel.forEach((i: { Action: string, Remark: string }) => {
       i.Action = ActionType;
       i.Remark = '';
-    })
+    });
+    if (ActionType == 'No') {
+      this.dsrequest.ActionID = 2;
+      this.isDisabledAction = true;
+    }
+    else {
+      this.dsrequest.ActionID = 0;
+      this.isDisabledAction = false;
+    }
   }
 
 
   ClickOnAction(idx: number) {
+    var Count = 0;
     for (var i = 0; i < this.hostelDataModel.length; i++) {
       if (i == idx) {
         this.hostelDataModel[i].Remark = '';
       }
+      if (this.hostelDataModel[i].Action == 'No') {
+        Count++;
+      }
+    }
+    if (Count > 0) {
+      this.dsrequest.ActionID = 2;
+      this.isDisabledAction = true;
+    }
+    else {
+      this.dsrequest.ActionID = 0;
+      this.isDisabledAction = false;
     }
   }
+  public isSubmitted: boolean = false;
 
   async SubmitHostelDetail_Onclick() {
+    this.isSubmitted = true;
     this.dsrequest.DepartmentID = this.SelectedDepartmentID;
     this.dsrequest.CollegeID = this.SelectedCollageID;
     this.dsrequest.ApplyNOCID = this.SelectedApplyNOCID;
@@ -161,8 +190,10 @@ export class DocumentScrutinyHostalDetailsComponent implements OnInit {
         }
       }
     }
-
-    if (this.dsrequest.FinalRemark == '') {
+    if (this.dsrequest.ActionID <= 0) {
+      this.isFormvalid = false;
+    }
+    if (this.dsrequest.FinalRemark == '' || this.dsrequest.FinalRemark == undefined) {
       this.isRemarkValid = true;
       this.isFormvalid = false;
     }
@@ -213,5 +244,8 @@ export class DocumentScrutinyHostalDetailsComponent implements OnInit {
         this.loaderService.requestEnded();
       }, 200);
     }
+  }
+  ViewTaril(ID: number, ActionType: string) {
+    this.ApplyNOCPreview.ViewTarilCommon(ID, ActionType);
   }
 }

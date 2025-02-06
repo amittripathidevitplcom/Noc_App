@@ -11,6 +11,7 @@ import { CollegeService } from '../../../services/collegedetailsform/College/col
 import { ApplyNOCApplicationService } from '../../../Services/ApplyNOCApplicationList/apply-nocapplication.service';
 import { DocumentScrutinyDataModel } from '../../../Models/DocumentScrutinyDataModel';
 import { MedicalDocumentScrutinyService } from '../../../Services/MedicalDocumentScrutiny/medical-document-scrutiny.service';
+import { ApplyNOCPreviewComponent } from '../../apply-nocpreview/apply-nocpreview.component';
 
 @Component({
   selector: 'app-document-scrutiny-college-detail',
@@ -18,7 +19,7 @@ import { MedicalDocumentScrutinyService } from '../../../Services/MedicalDocumen
   styleUrls: ['./document-scrutiny-college-detail.component.css']
 })
 export class DocumentScrutinyCollegeDetailComponent implements OnInit {
-  constructor(private medicalDocumentScrutinyService: MedicalDocumentScrutinyService,private applyNOCApplicationService: ApplyNOCApplicationService,private draftApplicationListService: DraftApplicationListService, private toastr: ToastrService, private loaderService: LoaderService, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private collegeService: CollegeService, private sSOLoginService: SSOLoginService) {
+  constructor(private ApplyNOCPreview: ApplyNOCPreviewComponent,private medicalDocumentScrutinyService: MedicalDocumentScrutinyService,private applyNOCApplicationService: ApplyNOCApplicationService,private draftApplicationListService: DraftApplicationListService, private toastr: ToastrService, private loaderService: LoaderService, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private collegeService: CollegeService, private sSOLoginService: SSOLoginService) {
 
   }
 
@@ -51,13 +52,17 @@ export class DocumentScrutinyCollegeDetailComponent implements OnInit {
   public isRemarkValid: boolean = false;
   dsrequest = new DocumentScrutinyDataModel();
 
+  public QueryStringStatus: any = '';
+
   public FinalRemarks: any = [];
+  public isDisabledAction: boolean = false;
 
   async ngOnInit() {
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     this.SelectedDepartmentID = this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DepartmentID')?.toString())
     this.SelectedCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()))
     this.SelectedApplyNOCID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplyNOCID')?.toString()))
+    this.QueryStringStatus = this.router.snapshot.paramMap.get('Status')?.toString();
     //
     this.ModifyBy = 1;
     // get college list
@@ -79,7 +84,7 @@ export class DocumentScrutinyCollegeDetailComponent implements OnInit {
           this.collegeNearestGovernmentHospitalsList = data['Data'][0]['CollegeNearestHospitalsDetails'][0];
           this.FinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
           this.dsrequest.FinalRemark = this.FinalRemarks.find((x: { RoleIDS: number; }) => x.RoleIDS == this.sSOLoginDataModel.RoleID)?.Remark;
-          //console.log(this.draftApplicatoinListData);
+          this.dsrequest.ActionID = this.FinalRemarks.find((x: { RoleIDS: number; }) => x.RoleIDS == this.sSOLoginDataModel.RoleID)?.ActionID;
         }, (error: any) => console.error(error));
     }
     catch (Ex) {
@@ -95,19 +100,40 @@ export class DocumentScrutinyCollegeDetailComponent implements OnInit {
     await this.collegeNearestGovernmentHospitalsList.forEach((i: { Action: string, Remark: string }) => {
       i.Action = ActionType;
       i.Remark = '';
+      if (ActionType == 'No') {
+        this.dsrequest.ActionID = 2;
+        this.isDisabledAction = true;
+      }
+      else {
+        this.dsrequest.ActionID = 0;
+        this.isDisabledAction = false;
+      }
     })
   }
 
 
   ClickOnAction(idx: number) {
+    var Count = 0;
     for (var i = 0; i < this.collegeNearestGovernmentHospitalsList.length; i++) {
       if (i == idx) {
         this.collegeNearestGovernmentHospitalsList[i].Remark = '';
       }
+      if (this.collegeNearestGovernmentHospitalsList[i].Action == 'No') {
+        Count++;
+      }
+    }
+    if (Count > 0) {
+      this.dsrequest.ActionID = 2;
+      this.isDisabledAction = true;
+    }
+    else {
+      this.dsrequest.ActionID = 0;
+      this.isDisabledAction = false;
     }
   }
-
+  public isSubmitted: boolean = false;
   async SubmitCollegeDetail_Onclick() {
+    this.isSubmitted = true;
     this.dsrequest.DepartmentID = this.SelectedDepartmentID;
     this.dsrequest.CollegeID = this.SelectedCollageID;
     this.dsrequest.ApplyNOCID = this.SelectedApplyNOCID;
@@ -129,8 +155,10 @@ export class DocumentScrutinyCollegeDetailComponent implements OnInit {
         }
       }
     }
-
-    if (this.dsrequest.FinalRemark == '') {
+    if (this.dsrequest.ActionID <= 0) {
+      this.isFormvalid = false;
+    }
+    if (this.dsrequest.FinalRemark == '' || this.dsrequest.FinalRemark == undefined) {
       this.isRemarkValid = true;
       this.isFormvalid = false;
     }
@@ -181,5 +209,9 @@ export class DocumentScrutinyCollegeDetailComponent implements OnInit {
         this.loaderService.requestEnded();
       }, 200);
     }
+  }
+
+  ViewTaril(ID: number, ActionType: string) {
+    this.ApplyNOCPreview.ViewTarilCommon(ID, ActionType);
   }
 }

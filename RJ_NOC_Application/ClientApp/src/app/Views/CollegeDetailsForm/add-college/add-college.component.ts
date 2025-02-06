@@ -28,7 +28,7 @@ export class AddCollegeComponent implements OnInit {
   //Add FormBuilder
   CollegeDetailsForm!: FormGroup;
   CollegeDetailsForm_ContactDetails!: FormGroup;
-  CollegeDetailsForm_NearestGovernmentHospitals!: FormGroup;
+  //CollegeDetailsForm_NearestGovernmentHospitals!: FormGroup;
 
   //public MobileNoRegex = new RegExp(/^((\\+91-?)|0)?[0-9]{10}$/)
   public LandLineRegex = new RegExp(/[0-9]{6,12}/)
@@ -121,6 +121,7 @@ export class AddCollegeComponent implements OnInit {
 
 
   public DTEARNID: number = 0;
+  public MaxDate: Date = new Date();
   constructor(private legalEntityListService: LegalEntityService, private collegeService: CollegeService, private toastr: ToastrService, private loaderService: LoaderService, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private _fb: FormBuilder, private fileUploadService: FileUploadService) {
   }
 
@@ -185,6 +186,9 @@ export class AddCollegeComponent implements OnInit {
         txtAbbreviationName: [''],
         UniversityAffiliationDocument: [''],
         UniversityApproveTeachingFaculty: [''],
+        txtPrivateUniversityName: [''],
+        txtPrivateCollegeEstablishmentDate: [''],
+        PrivateCollegeEstabCertificate: [''],
       })
 
     this.CollegeDetailsForm_ContactDetails = this.formBuilder.group(
@@ -195,23 +199,23 @@ export class AddCollegeComponent implements OnInit {
         txtCDEmailAddress: ['', [Validators.required, Validators.email, Validators.pattern("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$")]],
       })
 
-    this.CollegeDetailsForm_NearestGovernmentHospitals = this.formBuilder.group(
-      {
-        txtHospitalName: ['', Validators.required],
-        txtHospitalRegNo: [''],//, Validators.required
-        fHospitalDocument: ['', Validators.required],
-        txtHospitalDistance: ['', Validators.required],
-        txtAddressLine1_Nearest: ['', Validators.required],
-        txtAddressLine2_Nearest: [''],
-        rbRuralUrban_Nearest: ['', Validators.required],
-        ddlDivisionID_Nearest: ['', [DropdownValidators]],
-        ddlDistrictID_Nearest: ['', [DropdownValidators]],
-        ddlTehsilID_Nearest: ['', [DropdownValidators]],
-        ddlCityID_Nearest: ['', [DropdownValidators]],
-        ddlPanchayatSamitiID_Nearest: ['', [DropdownValidators]],
-        txtCityTownVillage_Nearest: ['', Validators.required],
-        txtPincode_Nearest: ['', [Validators.required, Validators.pattern(this.PinNoRegex)]]
-      })
+    //this.CollegeDetailsForm_NearestGovernmentHospitals = this.formBuilder.group(
+    //  {
+    //    txtHospitalName: ['', Validators.required],
+    //    txtHospitalRegNo: [''],//, Validators.required
+    //    fHospitalDocument: ['', Validators.required],
+    //    txtHospitalDistance: ['', Validators.required],
+    //    txtAddressLine1_Nearest: ['', Validators.required],
+    //    txtAddressLine2_Nearest: [''],
+    //    rbRuralUrban_Nearest: ['', Validators.required],
+    //    ddlDivisionID_Nearest: ['', [DropdownValidators]],
+    //    ddlDistrictID_Nearest: ['', [DropdownValidators]],
+    //    ddlTehsilID_Nearest: ['', [DropdownValidators]],
+    //    ddlCityID_Nearest: ['', [DropdownValidators]],
+    //    ddlPanchayatSamitiID_Nearest: ['', [DropdownValidators]],
+    //    txtCityTownVillage_Nearest: ['', Validators.required],
+    //    txtPincode_Nearest: ['', [Validators.required, Validators.pattern(this.PinNoRegex)]]
+    //  })
 
 
     setTimeout(function () { (window as any).LoadData(); }, 200)
@@ -343,7 +347,7 @@ export class AddCollegeComponent implements OnInit {
 
   get form() { return this.CollegeDetailsForm.controls; }
   get form_ContactDetails() { return this.CollegeDetailsForm_ContactDetails.controls; }
-  get form_NearestGovernmentHospitals() { return this.CollegeDetailsForm_NearestGovernmentHospitals.controls; }
+  //get form_NearestGovernmentHospitals() { return this.CollegeDetailsForm_NearestGovernmentHospitals.controls; }
 
   async onFilechange(event: any, Type: string) {
     try {
@@ -526,6 +530,16 @@ export class AddCollegeComponent implements OnInit {
         this.request.UniversityApproveTeachingFacultyDoc = name;
         this.request.UniversityApproveTeachingFacultyDocPath = path;
         this.request.UniversityApproveTeachingFacultyDoc_Dis_FileName = dis_Name;
+      }
+      else if (type == 'PrivateCollegeFileUpload') {
+        if (msg != '') {
+          this.toastr.warning(msg);
+        }
+        this.request.PrivateCollegeEstabCertificate = name;
+        this.request.PrivateCollegeEstabCertificatePath = path;
+        this.request.Dis_PrivateCollegeEstabCertificateName = dis_Name;
+        this.files = document.getElementById('PrivateCollegeFileUpload');
+        this.files.value = '';
       }
     }
     catch (Ex) {
@@ -1071,103 +1085,103 @@ export class AddCollegeComponent implements OnInit {
     }
   }
 
-  AddNearestGovernmentHospitalsDetail() {
-    try {
+  //AddNearestGovernmentHospitalsDetail() {
+  //  try {
 
-      if (this.request.NearestGovernmentHospitalsList.length >= 10) {
-        this.toastr.error("You can't add more then 10.");
-        return
-      }
-      this.isSubmitted_NearestGovernmentHospitals = true;
-      let isValid = true;
-      if (this.request_NearestGovernmentHospitals.RuralUrban == 1) {
-        this.CollegeDetailsForm_NearestGovernmentHospitals.get('ddlCityID_Nearest')?.clearValidators();
-        this.CollegeDetailsForm_NearestGovernmentHospitals.get('ddlPanchayatSamitiID_Nearest')?.setValidators([DropdownValidators]);
-      }
-      else {
-        this.CollegeDetailsForm_NearestGovernmentHospitals.get('ddlCityID_Nearest')?.setValidators([DropdownValidators]);
-        this.CollegeDetailsForm_NearestGovernmentHospitals.get('ddlPanchayatSamitiID_Nearest')?.clearValidators();
-      }
-      this.CollegeDetailsForm_NearestGovernmentHospitals.get('ddlCityID_Nearest')?.updateValueAndValidity();
-      this.CollegeDetailsForm_NearestGovernmentHospitals.get('ddlPanchayatSamitiID_Nearest')?.updateValueAndValidity();
-      if (this.CollegeDetailsForm_NearestGovernmentHospitals.invalid) {
-        isValid = false;
-      }
-      if (!this.CustomValidate_NearestGovernmentHospitals()) {
-        isValid = false;
-      }
-      if (this.HospitalDocumentValidationMessage != '') {
-        isValid = false;
-      }
+  //    if (this.request.NearestGovernmentHospitalsList.length >= 10) {
+  //      this.toastr.error("You can't add more then 10.");
+  //      return
+  //    }
+  //    this.isSubmitted_NearestGovernmentHospitals = true;
+  //    let isValid = true;
+  //    if (this.request_NearestGovernmentHospitals.RuralUrban == 1) {
+  //      this.CollegeDetailsForm_NearestGovernmentHospitals.get('ddlCityID_Nearest')?.clearValidators();
+  //      this.CollegeDetailsForm_NearestGovernmentHospitals.get('ddlPanchayatSamitiID_Nearest')?.setValidators([DropdownValidators]);
+  //    }
+  //    else {
+  //      this.CollegeDetailsForm_NearestGovernmentHospitals.get('ddlCityID_Nearest')?.setValidators([DropdownValidators]);
+  //      this.CollegeDetailsForm_NearestGovernmentHospitals.get('ddlPanchayatSamitiID_Nearest')?.clearValidators();
+  //    }
+  //    this.CollegeDetailsForm_NearestGovernmentHospitals.get('ddlCityID_Nearest')?.updateValueAndValidity();
+  //    this.CollegeDetailsForm_NearestGovernmentHospitals.get('ddlPanchayatSamitiID_Nearest')?.updateValueAndValidity();
+  //    if (this.CollegeDetailsForm_NearestGovernmentHospitals.invalid) {
+  //      isValid = false;
+  //    }
+  //    if (!this.CustomValidate_NearestGovernmentHospitals()) {
+  //      isValid = false;
+  //    }
+  //    if (this.HospitalDocumentValidationMessage != '') {
+  //      isValid = false;
+  //    }
 
-      // all validate
-      if (!isValid) {
-        return;
-      }
-      this.loaderService.requestStarted();
-      // some filter names
-      this.request_NearestGovernmentHospitals.DivisionName = this.DivisionList.find((x: { DivisionID: number }) => x.DivisionID == this.request_NearestGovernmentHospitals.DivisionID)?.DivisionName;
-      this.request_NearestGovernmentHospitals.DistrictName = this.DistrictList_Nearest.find((x: { DistrictID: number }) => x.DistrictID == this.request_NearestGovernmentHospitals.DistrictID)?.DistrictName;
-      // rural/urban
-      this.request_NearestGovernmentHospitals.RuralUrbanName = this.request_NearestGovernmentHospitals.RuralUrban == 1 ? 'Rural' : 'Urban';
-      this.request_NearestGovernmentHospitals.TehsilName = this.TehsilList_Nearest.find((x: { TehsilID: number }) => x.TehsilID == this.request_NearestGovernmentHospitals.TehsilID)?.TehsilName;
-      if (this.request_NearestGovernmentHospitals.RuralUrban == 1) {
+  //    // all validate
+  //    if (!isValid) {
+  //      return;
+  //    }
+  //    this.loaderService.requestStarted();
+  //    // some filter names
+  //    this.request_NearestGovernmentHospitals.DivisionName = this.DivisionList.find((x: { DivisionID: number }) => x.DivisionID == this.request_NearestGovernmentHospitals.DivisionID)?.DivisionName;
+  //    this.request_NearestGovernmentHospitals.DistrictName = this.DistrictList_Nearest.find((x: { DistrictID: number }) => x.DistrictID == this.request_NearestGovernmentHospitals.DistrictID)?.DistrictName;
+  //    // rural/urban
+  //    this.request_NearestGovernmentHospitals.RuralUrbanName = this.request_NearestGovernmentHospitals.RuralUrban == 1 ? 'Rural' : 'Urban';
+  //    this.request_NearestGovernmentHospitals.TehsilName = this.TehsilList_Nearest.find((x: { TehsilID: number }) => x.TehsilID == this.request_NearestGovernmentHospitals.TehsilID)?.TehsilName;
+  //    if (this.request_NearestGovernmentHospitals.RuralUrban == 1) {
 
-        this.request_NearestGovernmentHospitals.PanchayatSamitiName = this.PanchyatSamitiList_Nearest.find((x: { PanchyatSamitiID: number }) => x.PanchyatSamitiID == this.request_NearestGovernmentHospitals.PanchayatSamitiID)?.PanchyatSamitiName;
-      }
-      else {
-        this.request_NearestGovernmentHospitals.CityName = this.CityList_Nearest.find((x: { CityID: number }) => x.CityID == this.request_NearestGovernmentHospitals.CityID)?.City_English;
-      }
-      // add
-      this.request.NearestGovernmentHospitalsList.push(this.request_NearestGovernmentHospitals);
-      // reset
-      this.request_NearestGovernmentHospitals = new NearestGovernmentHospitalsDataModel();
+  //      this.request_NearestGovernmentHospitals.PanchayatSamitiName = this.PanchyatSamitiList_Nearest.find((x: { PanchyatSamitiID: number }) => x.PanchyatSamitiID == this.request_NearestGovernmentHospitals.PanchayatSamitiID)?.PanchyatSamitiName;
+  //    }
+  //    else {
+  //      this.request_NearestGovernmentHospitals.CityName = this.CityList_Nearest.find((x: { CityID: number }) => x.CityID == this.request_NearestGovernmentHospitals.CityID)?.City_English;
+  //    }
+  //    // add
+  //    this.request.NearestGovernmentHospitalsList.push(this.request_NearestGovernmentHospitals);
+  //    // reset
+  //    this.request_NearestGovernmentHospitals = new NearestGovernmentHospitalsDataModel();
 
-      //this.request.NearestGovernmentHospitalsList.push({
-      //  CollegeDetailsID: 0,
-      //  NearestGovernmentHospitalsID: 0,
-      //  HospitalName: this.request_NearestGovernmentHospitals.HospitalName,
-      //  HospitalRegNo: this.request_NearestGovernmentHospitals.HospitalRegNo,
-      //  HospitalDocument: this.request_NearestGovernmentHospitals.HospitalDocument,
-      //  AddressLine1: this.request_NearestGovernmentHospitals.AddressLine1,
-      //  AddressLine2: this.request_NearestGovernmentHospitals.AddressLine2,
-      //  RuralUrban: this.request_NearestGovernmentHospitals.RuralUrban,
-      //  DivisionID: this.request_NearestGovernmentHospitals.DivisionID,
-      //  DistrictID: this.request_NearestGovernmentHospitals.DistrictID,
-      //  TehsilID: this.request_NearestGovernmentHospitals.TehsilID,
-      //  PanchayatSamitiID: this.request_NearestGovernmentHospitals.PanchayatSamitiID,
-      //  CityTownVillage: this.request_NearestGovernmentHospitals.CityTownVillage,
-      //  Pincode: this.request_NearestGovernmentHospitals.Pincode,
-      //  HospitalDistance: this.request_NearestGovernmentHospitals.HospitalDistance,
-      //});
-      // reset    
-      //this.request_NearestGovernmentHospitals.HospitalName = '';
-      //this.request_NearestGovernmentHospitals.HospitalRegNo = null;
-      //this.request_NearestGovernmentHospitals.HospitalDocument = '';
-      //this.request_NearestGovernmentHospitals.AddressLine1 = '';
-      //this.request_NearestGovernmentHospitals.AddressLine2 = '';
-      //this.request_NearestGovernmentHospitals.RuralUrban = null;
-      //this.request_NearestGovernmentHospitals.DivisionID = 0;
-      //this.request_NearestGovernmentHospitals.DistrictID = 0;
-      //this.request_NearestGovernmentHospitals.TehsilID = 0;
-      //this.request_NearestGovernmentHospitals.PanchayatSamitiID = 0;
-      //this.request_NearestGovernmentHospitals.CityTownVillage = '';
-      //this.request_NearestGovernmentHospitals.Pincode = null;
-      //this.request_NearestGovernmentHospitals.HospitalDistance = 0;
+  //    //this.request.NearestGovernmentHospitalsList.push({
+  //    //  CollegeDetailsID: 0,
+  //    //  NearestGovernmentHospitalsID: 0,
+  //    //  HospitalName: this.request_NearestGovernmentHospitals.HospitalName,
+  //    //  HospitalRegNo: this.request_NearestGovernmentHospitals.HospitalRegNo,
+  //    //  HospitalDocument: this.request_NearestGovernmentHospitals.HospitalDocument,
+  //    //  AddressLine1: this.request_NearestGovernmentHospitals.AddressLine1,
+  //    //  AddressLine2: this.request_NearestGovernmentHospitals.AddressLine2,
+  //    //  RuralUrban: this.request_NearestGovernmentHospitals.RuralUrban,
+  //    //  DivisionID: this.request_NearestGovernmentHospitals.DivisionID,
+  //    //  DistrictID: this.request_NearestGovernmentHospitals.DistrictID,
+  //    //  TehsilID: this.request_NearestGovernmentHospitals.TehsilID,
+  //    //  PanchayatSamitiID: this.request_NearestGovernmentHospitals.PanchayatSamitiID,
+  //    //  CityTownVillage: this.request_NearestGovernmentHospitals.CityTownVillage,
+  //    //  Pincode: this.request_NearestGovernmentHospitals.Pincode,
+  //    //  HospitalDistance: this.request_NearestGovernmentHospitals.HospitalDistance,
+  //    //});
+  //    // reset    
+  //    //this.request_NearestGovernmentHospitals.HospitalName = '';
+  //    //this.request_NearestGovernmentHospitals.HospitalRegNo = null;
+  //    //this.request_NearestGovernmentHospitals.HospitalDocument = '';
+  //    //this.request_NearestGovernmentHospitals.AddressLine1 = '';
+  //    //this.request_NearestGovernmentHospitals.AddressLine2 = '';
+  //    //this.request_NearestGovernmentHospitals.RuralUrban = null;
+  //    //this.request_NearestGovernmentHospitals.DivisionID = 0;
+  //    //this.request_NearestGovernmentHospitals.DistrictID = 0;
+  //    //this.request_NearestGovernmentHospitals.TehsilID = 0;
+  //    //this.request_NearestGovernmentHospitals.PanchayatSamitiID = 0;
+  //    //this.request_NearestGovernmentHospitals.CityTownVillage = '';
+  //    //this.request_NearestGovernmentHospitals.Pincode = null;
+  //    //this.request_NearestGovernmentHospitals.HospitalDistance = 0;
 
-      this.ResetFileAndValidation('HospitalDocument', '', '', '', '', false);
+  //    this.ResetFileAndValidation('HospitalDocument', '', '', '', '', false);
 
-      this.isSubmitted_NearestGovernmentHospitals = false;
-    }
-    catch (Ex) {
-      console.log(Ex);
-    }
-    finally {
-      setTimeout(() => {
-        this.loaderService.requestEnded();
-      }, 200);
-    }
-  }
+  //    this.isSubmitted_NearestGovernmentHospitals = false;
+  //  }
+  //  catch (Ex) {
+  //    console.log(Ex);
+  //  }
+  //  finally {
+  //    setTimeout(() => {
+  //      this.loaderService.requestEnded();
+  //    }, 200);
+  //  }
+  //}
 
   DelContectDetail(item: ContactDetailsDataModel) {
     try {
@@ -1436,15 +1450,25 @@ export class AddCollegeComponent implements OnInit {
     //  return;
     //}
     if (this.request.DepartmentID == 6) {
-      if (this.request.NearestGovernmentHospitalsList.length == 0) {
-        this.toastr.error("Please add government hospitals nearest to the institution");
-        isValid = false;
-      }
+      //if (this.request.NearestGovernmentHospitalsList.length == 0) {
+      //  this.toastr.error("Please add government hospitals nearest to the institution");
+      //  isValid = false;
+      //}
       if (this.request.IsAbbreviation == '') {
         isValid = false;
       } if (this.request.IsAbbreviation == 'Yes' && this.request.AbbreviationName == '') {
         isValid = false;
       }
+
+      // Private unniversity
+      if (this.ShowHidePrivateuniversity && (this.request.PrivateCollegeUniversityName == null || this.request.PrivateCollegeUniversityName == ''
+        || this.request.PrivateCollegeEstabCertificate == null || this.request.PrivateCollegeEstabCertificate == ''
+        || this.request.PrivateCollegeEstablishmentDate == null || this.request.PrivateCollegeEstablishmentDate == '' || this.request.PrivateCollegeEstablishmentDate == undefined)
+      ) {
+        isValid = false;
+      }
+
+
     }
 
     if (!this.CollegeDetailsForm.invalid) {
@@ -1616,6 +1640,7 @@ export class AddCollegeComponent implements OnInit {
 
           //await this.ddlCollegeType_TextChange(this.request.CollegeTypeID.toString())
           this.request.UniversityID = data['Data']['UniversityID'];
+          await this.OnChangeUnniversity(this.request.UniversityID);
           await this.ResetFileAndValidation('UniversityAffiliationDocument', '', this.request.AffiliationUniversityDoc, this.request.AffiliationUniversityDocPath, this.request.AffiliationUniversityDoc_Dis_FileName, this.request.DepartmentID == 11 ? true : false);
           await this.ResetFileAndValidation('UniversityApproveTeachingFaculty', '', this.request.UniversityApproveTeachingFacultyDoc, this.request.UniversityApproveTeachingFacultyDocPath, this.request.UniversityApproveTeachingFacultyDoc_Dis_FileName, this.request.DepartmentID == 11 ? true : false);
           //if (!this.State) {
@@ -1729,8 +1754,9 @@ export class AddCollegeComponent implements OnInit {
     }
   }
   public ShowHideotheruniversity: boolean = false;
+  public ShowHidePrivateuniversity: boolean = false;
   async OnChangeUnniversity(UniversityID: number) {
-
+    this.ShowHidePrivateuniversity = false;
     try {
       this.request.OtherUniversityName = '';
       this.loaderService.requestStarted();
@@ -1738,8 +1764,17 @@ export class AddCollegeComponent implements OnInit {
       if (UniversityName == 'Other') {
         this.ShowHideotheruniversity = true;
       }
+      else if (UniversityName == 'Private University') {
+        //this.request.PrivateCollegeUniversityName = '';
+        //this.request.PrivateCollegeEstablishmentDate = '';
+        //this.request.PrivateCollegeEstabCertificate = '';
+        //this.request.PrivateCollegeEstabCertificatePath = '';
+        //this.request.Dis_PrivateCollegeEstabCertificateName = '';
+        this.ShowHidePrivateuniversity = true;
+      }
       else {
         this.ShowHideotheruniversity = false;
+        this.ShowHidePrivateuniversity = false;
       }
     } catch (e) {
       console.log(e);

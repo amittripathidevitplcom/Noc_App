@@ -29,6 +29,7 @@
                     <th rowspan="2">Session Year</th>
                     <th rowspan="2">NOC No.</th>
                     <th rowspan="2">NOC Received On</th>
+                    <th rowspan="2" *ngIf="SelectedDepartmentID==6">Number of Present Seat</th>
                     <th *ngIf="SelectedDepartmentID==11" colspan="3">First NCTE Recognition</th>                   
                     <th *ngIf="SelectedDepartmentID==11" colspan="3">Revised/Latest Recognition</th>                    
                     <th *ngIf="SelectedDepartmentID==11" colspan="3">First State NOC</th>                    
@@ -58,6 +59,7 @@
                     <td>{{item.FinancialYearName}}</td>
                     <td>{{item.NOCNumber}}</td>
                     <td>{{item.NOCReceivedDate | date:'dd-MM-yyyy'}}</td>
+                    <td *ngIf="SelectedDepartmentID==6">{{item.NumberofPresentSeat}}</td>
                     <td *ngIf="SelectedDepartmentID==11">{{item.FirstOrderNo}}</td>
                     <td *ngIf="SelectedDepartmentID==11">{{item.FirstOrderDate | date:'dd-MM-yyyy'}}</td>
                     <td *ngIf="SelectedDepartmentID==11">
@@ -127,7 +129,7 @@
             <input class="form-control disabled" disabled value="{{request.CourseName}}" />
           </div>
 
-          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" [hidden]="SelectedDepartmentID ==2 || SelectedDepartmentID==4 || SelectedDepartmentID==11">
+          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" [hidden]="SelectedDepartmentID ==2 || SelectedDepartmentID ==6 || SelectedDepartmentID==4 || SelectedDepartmentID==11">
             <label><b>Subject :</b></label>
             <div class="clearfix"></div>
             <div class="form-control disabled">
@@ -159,6 +161,10 @@
           <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="request.NOCTypeName=='TNOC Holder'">
             <label><b>NOC Expire Date :</b></label>
             <input class="form-control disabled" disabled value="{{request.NOCExpireDate | date:'dd-MM-yyyy'}}" />
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="SelectedDepartmentID==6">
+            <label><b>Number Of Present Seat :</b></label>
+            <input class="form-control disabled" disabled value="{{request.NumberofPresentSeat}}" />
           </div>
           <div class="card-body" *ngIf="SelectedDepartmentID==11">
             <div class="row">

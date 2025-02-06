@@ -3,22 +3,17 @@ import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators, FormA
 import { CommonMasterService } from '../../../Services/CommonMaster/common-master.service';
 import { LoaderService } from '../../../Services/Loader/loader.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { OldNocDataModel, OldNocDetailsDataModel, OldNocDetails_SubjectDataModel } from '../../../Models/TabDetailDataModel';
+import {  OldNocDetailsDataModel, OldNocDetails_SubjectDataModel } from '../../../Models/TabDetailDataModel';
 import { ToastrService } from 'ngx-toastr';
 import { SSOLoginDataModel } from '../../../Models/SSOLoginDataModel';
-import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { OldnocdetailService } from '../../../Services/OldNOCDetail/oldnocdetail.service';
 import { FileUploadService } from '../../../Services/FileUpload/file-upload.service';
 import { ModalDismissReasons, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 
-import * as XLSX from 'xlsx';
-import { DropdownValidators } from '../../../Services/CustomValidators/custom-validators.service';
-import { Clipboard } from '@angular/cdk/clipboard';
-import { CollegeDocumentService } from '../../../Services/Tabs/CollegeDocument/college-document.service';
-import { DocumentScrutinyDataModel, DocumentScrutinyList_DataModel } from '../../../Models/DocumentScrutinyDataModel';
+import { DocumentScrutinyDataModel,  } from '../../../Models/DocumentScrutinyDataModel';
 import { ApplyNOCApplicationService } from '../../../Services/ApplyNOCApplicationList/apply-nocapplication.service';
-import { BuildingDetailsMasterService } from '../../../Services/BuildingDetailsMaster/building-details-master.service'
 import { MedicalDocumentScrutinyService } from '../../../Services/MedicalDocumentScrutiny/medical-document-scrutiny.service';
+import { ApplyNOCPreviewComponent } from '../../apply-nocpreview/apply-nocpreview.component';
 
 
 @Component({
@@ -27,6 +22,8 @@ import { MedicalDocumentScrutinyService } from '../../../Services/MedicalDocumen
   styleUrls: ['./document-scrutiny-old-nocdetails.component.css']
 })
 export class DocumentScrutinyOldNOCDetailsComponent implements OnInit {
+
+  public QueryStringStatus: any = '';
 
   sSOLoginDataModel = new SSOLoginDataModel();
   public SelectedCollageID: number = 0;
@@ -41,7 +38,7 @@ export class DocumentScrutinyOldNOCDetailsComponent implements OnInit {
   closeResult: string | undefined;
   modalReference: NgbModalRef | undefined;
 
- 
+
   isSubmitted: boolean = false;
   public SelectedApplyNOCID: number = 0;
   dsrequest = new DocumentScrutinyDataModel();
@@ -50,8 +47,9 @@ export class DocumentScrutinyOldNOCDetailsComponent implements OnInit {
   //public RequiredDocumentsAllList: any = [];
 
   public FinalRemarks: any = [];
+  public isDisabledAction: boolean = false;
 
-  constructor(private oldnocdetailService: OldnocdetailService, private commonMasterService: CommonMasterService, private formBuilder: FormBuilder, private fileUploadService: FileUploadService, private medicalDocumentScrutinyService: MedicalDocumentScrutinyService,
+  constructor(private ApplyNOCPreview: ApplyNOCPreviewComponent,private oldnocdetailService: OldnocdetailService, private commonMasterService: CommonMasterService, private formBuilder: FormBuilder, private fileUploadService: FileUploadService, private medicalDocumentScrutinyService: MedicalDocumentScrutinyService,
     private loaderService: LoaderService, private router: ActivatedRoute, private modalService: NgbModal, private toastr: ToastrService, private applyNOCApplicationService: ApplyNOCApplicationService, private routers: Router) { }
 
 
@@ -60,8 +58,8 @@ export class DocumentScrutinyOldNOCDetailsComponent implements OnInit {
     this.SelectedDepartmentID = await Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DepartmentID')?.toString()));
     this.SelectedCollageID = await Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
     this.SelectedApplyNOCID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplyNOCID')?.toString()));
+    this.QueryStringStatus = this.router.snapshot.paramMap.get('Status')?.toString();
     await this.GetOldNOCDetailList_DepartmentCollegeWise(); 
-
   }
   async GetOldNOCDetailList_DepartmentCollegeWise() {
     try {
@@ -128,22 +126,43 @@ export class DocumentScrutinyOldNOCDetailsComponent implements OnInit {
     await this.OldNocDetails.forEach((i: { Action: string, Remark: string }) => {
       i.Action = ActionType;
       i.Remark = '';
-    })
+    });
+    if (ActionType == 'No') {
+      this.dsrequest.ActionID = 2;
+      this.isDisabledAction = true;
+    }
+    else {
+      this.dsrequest.ActionID = 0;
+      this.isDisabledAction = false;
+    }
   }
 
   ClickOnAction(idx: number) {
+    var Count = 0;
     for (var i = 0; i < this.OldNocDetails.length; i++) {
       if (i == idx) {
         this.OldNocDetails[i].Remark = '';
       }
+      if (this.OldNocDetails[i].Action == 'No') {
+        Count++;
+      }
+    }
+    if (Count > 0) {
+      this.dsrequest.ActionID = 2;
+      this.isDisabledAction = true;
+    }
+    else {
+      this.dsrequest.ActionID = 0;
+      this.isDisabledAction = false;
     }
   }
 
   async SubmitOldNOCDetails_Onclick() {
+    this.isSubmitted = true;
     this.dsrequest.DepartmentID = this.SelectedDepartmentID;
     this.dsrequest.CollegeID = this.SelectedCollageID;
     this.dsrequest.ApplyNOCID = this.SelectedApplyNOCID;
-    this.dsrequest.UserID = 0;
+    this.dsrequest.UserID = this.sSOLoginDataModel.UserID;
     this.dsrequest.RoleID = this.sSOLoginDataModel.RoleID;
     this.dsrequest.TabName = 'OLD NOC Details';
     this.isRemarkValid = false;
@@ -161,8 +180,10 @@ export class DocumentScrutinyOldNOCDetailsComponent implements OnInit {
         }
       }
     }
-
-    if (this.dsrequest.FinalRemark == '') {
+    if (this.dsrequest.ActionID <= 0) {
+      this.isFormvalid = false;
+    }
+    if (this.dsrequest.FinalRemark == '' || this.dsrequest.FinalRemark == undefined) {
       this.isRemarkValid = true;
       this.isFormvalid = false;
     }
@@ -182,7 +203,7 @@ export class DocumentScrutinyOldNOCDetailsComponent implements OnInit {
           Action: this.OldNocDetails[i].Action,
           Remark: this.OldNocDetails[i].Remark,
           TabRowID: this.OldNocDetails[i].OldNocID,
-          SubTabName:''
+          SubTabName: ''
         });
       }
     }
@@ -213,5 +234,8 @@ export class DocumentScrutinyOldNOCDetailsComponent implements OnInit {
         this.loaderService.requestEnded();
       }, 200);
     }
+  }
+  ViewTaril(ID: number, ActionType: string) {
+    this.ApplyNOCPreview.ViewTarilCommon(ID, ActionType);
   }
 }

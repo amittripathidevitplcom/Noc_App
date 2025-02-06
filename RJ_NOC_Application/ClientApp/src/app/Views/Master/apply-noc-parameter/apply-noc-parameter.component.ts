@@ -242,6 +242,7 @@ export class ApplyNocParameterComponent implements OnInit {
     this.request.DTE_CoursesforWorkingProfessionals_List = [];
 
     this.request.DefaulterCollegePenaltyDetailList = [];
+    this.request.ApplyNocParameterSeatEnhancement = [];
 
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     await this.GetCollegeList();
@@ -285,7 +286,7 @@ export class ApplyNocParameterComponent implements OnInit {
   async GetApplicationList() {
     try {
       this.loaderService.requestStarted();
-      await this.draftApplicationListService.CollegeDetails(this.sSOLoginDataModel.SSOID, 'NOC',this.sSOLoginDataModel.SessionID)
+      await this.draftApplicationListService.CollegeDetails(this.sSOLoginDataModel.SSOID, 'NOC', this.sSOLoginDataModel.SessionID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
@@ -828,9 +829,44 @@ export class ApplyNocParameterComponent implements OnInit {
 
       }
       // Addition of New Seats(60)
-      if (this.request.ApplyNocCode == 'ANewSeats') {
+      if (this.request.ApplyNocCode == 'ANewSeats' && this.SelectedDepartmentID != 6) {
         this.ApplyNocParameterMasterList_AdditionOfNewSeats60 = null;
       }
+
+      if (this.request.ApplyNocCode == 'ANewSeats' && this.SelectedDepartmentID == 6) {
+        this.request.ApplyNocParameterSeatEnhancement = [];
+
+        this.request.ApplyNocParameterSeatEnhancement_View = item.IsChecked;
+        //this.request.ApplyNocParameterSeatEnhancement[0].ApplyNocID = 0;
+        //this.request.ApplyNocParameterSeatEnhancement.CourseID = 0;
+        //this.request.ApplyNocParameterSeatEnhancement.FeeAmount = 0;
+        if (item.IsChecked == true) {
+          await this.commonMasterService.GetCollegeWise_CourseList_AcademicInformation(this.request.CollegeID, 'CourseList')//4=existing
+            .then((data: any) => {
+              data = JSON.parse(JSON.stringify(data));
+              this.State = data['State'];
+              this.SuccessMessage = data['SuccessMessage'];
+              this.ErrorMessage = data['ErrorMessage'];
+              for (var i = 0; i < data['Data'][0].length; i++) {
+                this.request.ApplyNocParameterSeatEnhancement?.push(
+                  {
+                    ApplyNocID: 0,
+                    CourseID: data['Data'][0][i].CourseID,
+                    CourseName: data['Data'][0][i].CourseName,
+                    SeatEnhancement: 0,
+                    FeeAmount: item.FeeAmount,
+                    IsChecked: false,
+                    IsDisabled: true
+                  })
+              }
+            }, error => console.error(error));
+
+          //this.request.ApplyNocParameterSeatEnhancement[0].ApplyNocID = Number(SelectedApplyNocForID);
+          //this.request.ApplyNocParameterSeatEnhancement.FeeAmount = item.FeeAmount
+        }
+
+      }
+
 
       if (this.request.ApplicationTypeID <= 0) {
         this.toastr.error("Choose application type");
@@ -944,7 +980,6 @@ export class ApplyNocParameterComponent implements OnInit {
           this.isShowPriceDetails = false;
           this.request.ApplyNocLateFeeDetailList = [];
         }
-        debugger;
         await this.CalculateAllAmount();
         return;
       }
@@ -1117,6 +1152,9 @@ export class ApplyNocParameterComponent implements OnInit {
             var totalfee = Number(this.TotalCourseGroupthree) * Number(totalFeeList[i].FeeAmount);
             this.request.TotalFeeAmount += totalfee;
           }
+          else if (this.SelectedDepartmentID == 6 && totalFeeList[i].ApplyNocID == 2) {
+            this.request.TotalFeeAmount += await this.calcuateSeatEnhancementFees();
+          }
           else {
             this.request.TotalFeeAmount += totalFeeList[i].FeeAmount;
           }
@@ -1158,11 +1196,6 @@ export class ApplyNocParameterComponent implements OnInit {
 
         this.request.TotalFeeAmount += this.DepartmentInspectionFee;
         this.request.TotalFeeAmount += this.request.TotalDefaulterCollegePenalty;
-
-
-
-
-
 
         // TNOC Extension      
         this.request.ApplyNocParameterMasterList_TNOCExtension = this.ApplyNocParameterMasterList_TNOCExtension;
@@ -2009,6 +2042,27 @@ export class ApplyNocParameterComponent implements OnInit {
     }
     //DTE Validation End
 
+
+    //Seat Enhancement fro MG3
+    if (this.request.ApplyNocParameterSeatEnhancement_View == true) {
+      var lst = this.request.ApplyNocParameterSeatEnhancement.filter(item => item.IsChecked == true);
+      if (lst.length <= 0) {
+        this.toastr.warning('Please select course for seat enhancement')
+        this.isFormValid = false;
+      }
+      else {
+        for (var i = 0; i < this.request.ApplyNocParameterSeatEnhancement.length; i++) {
+          if (this.request.ApplyNocParameterSeatEnhancement[i].IsChecked) {
+            if (this.request.ApplyNocParameterSeatEnhancement[i].SeatEnhancement == null || this.request.ApplyNocParameterSeatEnhancement[i].SeatEnhancement == undefined
+              || this.request.ApplyNocParameterSeatEnhancement[i].SeatEnhancement.toString() == 'NaN' || this.request.ApplyNocParameterSeatEnhancement[i].SeatEnhancement <= 0) {
+              this.toastr.warning('Please add no of seat in ' + this.request.ApplyNocParameterSeatEnhancement[i].CourseName)
+              this.isFormValid = false;
+              }
+          }
+        }
+      }
+    }
+
     return this.isFormValid
   }
 
@@ -2795,9 +2849,13 @@ export class ApplyNocParameterComponent implements OnInit {
       this.request.TotalFeeAmount = 0;
       this.request.TotalDefaulterCollegePenalty = 0;
       for (let i = 0; i < totalFeeList.length; i++) {
+
         if (this.SelectedDepartmentID == 6 && totalFeeList[i].ApplyNocID == 1) {
           var totalfee = Number(this.TotalCourseGroupthree) * Number(totalFeeList[i].FeeAmount);
           this.request.TotalFeeAmount += totalfee;
+        }
+        else if (this.SelectedDepartmentID == 6 && totalFeeList[i].ApplyNocID == 2) { 
+          this.request.TotalFeeAmount += this.calcuateSeatEnhancementFees();
         }
         else {
           this.request.TotalFeeAmount += totalFeeList[i].FeeAmount;
@@ -2842,9 +2900,9 @@ export class ApplyNocParameterComponent implements OnInit {
       this.request.TotalNocFee += this.DepartmentInspectionFee;
 
       this.request.TotalFeeAmount += this.DepartmentInspectionFee;
-/*      setTimeout(() => {*/
-        this.request.TotalFeeAmount += this.request.TotalDefaulterCollegePenalty;
-   /*   }, 500);*/
+      /*      setTimeout(() => {*/
+      this.request.TotalFeeAmount += this.request.TotalDefaulterCollegePenalty;
+      /*   }, 500);*/
 
 
     } catch (error) {
@@ -4343,12 +4401,21 @@ export class ApplyNocParameterComponent implements OnInit {
     this.MedicalGroup3Courselst = [];
     try {
       this.loaderService.requestStarted();
-      await this.commonMasterService.GetCourseList_CollegeWise(collegeID)
-        .then(async (data: any) => {
+      await this.commonMasterService.Get_CollegeWiseCourse_Subject_OldNOC(collegeID, 'Course', 0, 0)//4=existing
+        .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
-          this.MedicalGroup3Courselst = data['Data'];
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.MedicalGroup3Courselst = data['Data'][0];
           this.TotalCourseGroupthree = this.MedicalGroup3Courselst.length;
         }, error => console.error(error));
+      //await this.commonMasterService.GetCourseList_CollegeWise(collegeID)
+      //  .then(async (data: any) => {
+      //    data = JSON.parse(JSON.stringify(data));
+      //    this.MedicalGroup3Courselst = data['Data'];
+      //    this.TotalCourseGroupthree = this.MedicalGroup3Courselst.length;
+      //  }, error => console.error(error));
     }
     catch (Ex) {
       console.log(Ex);
@@ -4360,4 +4427,21 @@ export class ApplyNocParameterComponent implements OnInit {
     }
   }
 
+  async OnChangeSeatEnhancement(i: number, IsChecked: boolean) {
+    this.request.ApplyNocParameterSeatEnhancement[i].IsDisabled = !IsChecked;
+    await this.CalculateAllAmount();
+  }
+  public totalSeatEnhancementfees: number = 0;
+  calcuateSeatEnhancementFees(): number {
+    debugger;
+    if (this.request.ApplyNocParameterSeatEnhancement != null) {
+      this.totalSeatEnhancementfees = 0;
+      this.request.ApplyNocParameterSeatEnhancement.forEach(element => {
+        if (element.IsChecked) {
+          this.totalSeatEnhancementfees += Number(element.FeeAmount);
+        }
+      });
+    }
+    return this.totalSeatEnhancementfees;
+  }
 }

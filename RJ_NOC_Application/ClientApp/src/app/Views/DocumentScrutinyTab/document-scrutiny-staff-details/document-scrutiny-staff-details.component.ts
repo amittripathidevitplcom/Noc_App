@@ -11,6 +11,7 @@ import { ToastrService } from 'ngx-toastr';
 import { StaffDetailDataModel } from '../../../Models/TabDetailDataModel';
 import { StaffDetailService } from '../../../Services/StaffDetail/staff-detail.service';
 import { MedicalDocumentScrutinyService } from '../../../Services/MedicalDocumentScrutiny/medical-document-scrutiny.service';
+import { ApplyNOCPreviewComponent } from '../../apply-nocpreview/apply-nocpreview.component';
 
 @Component({
   selector: 'app-document-scrutiny-staff-details',
@@ -18,6 +19,8 @@ import { MedicalDocumentScrutinyService } from '../../../Services/MedicalDocumen
   styleUrls: ['./document-scrutiny-staff-details.component.css']
 })
 export class DocumentScrutinyStaffDetailsComponent implements OnInit {
+  public QueryStringStatus: any = '';
+
   sSOLoginDataModel = new SSOLoginDataModel();
   public SelectedCollageID: number = 0;
   public SelectedDepartmentID: number = 0;
@@ -40,8 +43,9 @@ export class DocumentScrutinyStaffDetailsComponent implements OnInit {
 
   public isRemarkValid: boolean = false;
   public isFormvalid: boolean = true;
+  public isDisabledAction: boolean = false;
 
-  constructor(private buildingDetailsMasterService: BuildingDetailsMasterService, private commonMasterService: CommonMasterService, private staffDetailService: StaffDetailService, private medicalDocumentScrutinyService: MedicalDocumentScrutinyService,
+  constructor(private ApplyNOCPreview: ApplyNOCPreviewComponent,private buildingDetailsMasterService: BuildingDetailsMasterService, private commonMasterService: CommonMasterService, private staffDetailService: StaffDetailService, private medicalDocumentScrutinyService: MedicalDocumentScrutinyService,
     private loaderService: LoaderService, private router: ActivatedRoute, private modalService: NgbModal, private toastr: ToastrService, private applyNOCApplicationService: ApplyNOCApplicationService) { }
 
   async ngOnInit() {
@@ -49,6 +53,7 @@ export class DocumentScrutinyStaffDetailsComponent implements OnInit {
     this.SelectedDepartmentID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DepartmentID')?.toString()));
     this.SelectedCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
     this.SelectedApplyNOCID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplyNOCID')?.toString()));
+    this.QueryStringStatus = this.router.snapshot.paramMap.get('Status')?.toString();
     await this.GetStaffDetailList_DepartmentCollegeWise();
   }
   async GetStaffDetailList_DepartmentCollegeWise() {
@@ -79,6 +84,10 @@ export class DocumentScrutinyStaffDetailsComponent implements OnInit {
             }
           }
           this.dsrequest.FinalRemark = this.FinalRemarks.find((x: { RoleIDS: number; }) => x.RoleIDS == this.sSOLoginDataModel.RoleID)?.Remark;
+          this.dsrequest.ActionID = this.FinalRemarks.find((x: { RoleIDS: number; }) => x.RoleIDS == this.sSOLoginDataModel.RoleID)?.ActionID;
+          if (this.dsrequest.ActionID == 2) {
+            this.isDisabledAction = true;
+          }
         }, error => console.error(error));
     }
     catch (Ex) {
@@ -131,18 +140,39 @@ export class DocumentScrutinyStaffDetailsComponent implements OnInit {
     await this.StaffDetailModel.forEach((i: { Action: string, Remark: string }) => {
       i.Action = ActionType;
       i.Remark = '';
-    })
+    });
+    if (ActionType == 'No') {
+      this.dsrequest.ActionID = 2;
+      this.isDisabledAction = true;
+    }
+    else {
+      this.dsrequest.ActionID = 0;
+      this.isDisabledAction = false;
+    }
   }
   ClickOnAction(idx: number) {
+    var Count = 0;
     for (var i = 0; i < this.StaffDetailModel.length; i++) {
       if (i == idx) {
         this.StaffDetailModel[i].Remark = '';
       }
+      if (this.StaffDetailModel[i].Action == 'No') {
+        Count++;
+      }
+    }
+    if (Count > 0) {
+      this.dsrequest.ActionID = 2;
+      this.isDisabledAction = true;
+    }
+    else {
+      this.dsrequest.ActionID = 0;
+      this.isDisabledAction = false;
     }
   }
+  public isSubmitted: boolean = false;
 
   async SubmitStaffDetail_Onclick() {
-    
+    this.isSubmitted = true;
     this.dsrequest.DepartmentID = this.SelectedDepartmentID;
     this.dsrequest.CollegeID = this.SelectedCollageID;
     this.dsrequest.ApplyNOCID = this.SelectedApplyNOCID;
@@ -164,8 +194,10 @@ export class DocumentScrutinyStaffDetailsComponent implements OnInit {
         }
       }
     }
-
-    if (this.dsrequest.FinalRemark == '') {
+    if (this.dsrequest.ActionID <= 0) {
+      this.isFormvalid = false;
+    }
+    if (this.dsrequest.FinalRemark == '' || this.dsrequest.FinalRemark == undefined) {
       this.isRemarkValid = true;
       this.isFormvalid = false;
     }
@@ -216,5 +248,8 @@ export class DocumentScrutinyStaffDetailsComponent implements OnInit {
         this.loaderService.requestEnded();
       }, 200);
     }
+  }
+  ViewTaril(ID: number, ActionType: string) {
+    this.ApplyNOCPreview.ViewTarilCommon(ID, ActionType);
   }
 }

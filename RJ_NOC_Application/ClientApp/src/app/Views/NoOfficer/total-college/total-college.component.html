@@ -66,8 +66,8 @@
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                   <li> <a href="javascript:void(0)" class="dropdown-item list-group-item list-group-item-action list-group-item-danger" data-bs-toggle="modal" data-bs-target="#ViewTotalCollege" (click)="ViewTotalCollegeDataByID(row.CollegeID)">View</a></li>
-                  <li *ngIf="row.TotalNOCCount<=0 && row.IsOpenNOCApplication==true&&row.IsOpenDefaulter==false&& row.IsDefaulter==false"> <a href="javascript:void(0)" class="dropdown-item list-group-item list-group-item-action list-group-item-danger" (click)="EditCollegeData(row.CollegeID)">Edit</a></li>
-                  <li *ngIf="row.TotalNOCCount<=0 && row.IsOpenNOCApplication==true&&row.IsOpenDefaulter==true && row.IsDefaulter==true"> <a href="javascript:void(0)" class="dropdown-item list-group-item list-group-item-action list-group-item-danger" (click)="EditCollegeData(row.CollegeID)">Edit</a></li>
+                  <li *ngIf="row.TotalNOCCount<=0 && row.IsOpenNOCApplication==true&&row.IsOpenDefaulter==false&& row.IsDefaulter==false && ((row.DepartmentID==2 && row.CollegeLevel==row.OpeneLevel) || row.DepartmentID!=2)"> <a href="javascript:void(0)" class="dropdown-item list-group-item list-group-item-action list-group-item-danger" (click)="EditCollegeData(row.CollegeID)">Edit</a></li>
+                  <li *ngIf="row.TotalNOCCount<=0 && row.IsOpenNOCApplication==true&&row.IsOpenDefaulter==true && row.IsDefaulter==true && ((row.DepartmentID==2 && row.CollegeLevel==row.OpeneLevel) || row.DepartmentID!=2) "> <a href="javascript:void(0)" class="dropdown-item list-group-item list-group-item-action list-group-item-danger" (click)="EditCollegeData(row.CollegeID)">Edit</a></li>
                   <!--<li *ngIf="row.IsOpenNOCApplication==true"><a href="javascript:void(0)" class="dropdown-item list-group-item list-group-item-action list-group-item-danger" (click)="DeleteData(row)">Delete</a></li>-->
                   <!--<li *ngIf="row.IsOpenNOCApplication==true&&row.IsOpenDefaulter==false"> <a href="javascript:void(0)" class="dropdown-item list-group-item list-group-item-action list-group-item-danger" data-bs-toggle="modal" data-bs-target="#SSOIDMapping" (click)="OpenSSOIDMaping(row)">SSO ID Mapping</a></li>
                   <li *ngIf="row.IsOpenNOCApplication==true&&row.IsOpenDefaulter==true && row.IsDefaulter==true"> <a href="javascript:void(0)" class="dropdown-item list-group-item list-group-item-action list-group-item-danger" data-bs-toggle="modal" data-bs-target="#SSOIDMapping" (click)="OpenSSOIDMaping(row)">SSO ID Mapping</a></li>-->
@@ -263,7 +263,19 @@
                     <label>University :</label>
                     <input class="form-control disabled mt-1" disabled value="{{collegeListData.UniversityName}}" />
                   </div>
-
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="collegeListData.DepartmentID ==6 && collegeListData.UniversityName=='Private University'">
+                    <label><b>Name of the University :</b></label>
+                    <input class="form-control disabled mt-1" disabled value="{{collegeListData.PrivateCollegeUniversityName}}" />
+                  </div>
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="collegeListData.DepartmentID ==6 && collegeListData.UniversityName=='Private University'">
+                    <label><b>Date of Establishment :</b></label>
+                    <input class="form-control disabled mt-1" disabled value="{{collegeListData.PrivateCollegeEstablishmentDate}}" />
+                  </div>
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="collegeListData.DepartmentID ==6 && collegeListData.UniversityName=='Private University'">
+                    <label><b>Document regarding Establishment :</b></label>
+                    <div class="clearfix"></div>
+                    <a class="bi bi-file-earmark-pdf-fill" *ngIf="collegeListData.PrivateCollegeEstabCertificate.includes('.pdf')" data-fancybox="gallery" href="{{collegeListData.PrivateCollegeEstabCertificatePath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                  </div>
                   <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="collegeListData.CollegeStatus!='New'">
                     <label>Year of Establishment :</label>
                     <input class="form-control disabled mt-1" disabled value="{{collegeListData.FinancialYearName}}" />
@@ -390,12 +402,12 @@
                           <label>Fax No :</label>
                           <input class="form-control disabled mt-1" disabled value="{{collegeListData.FaxNo}}" />
                         </div>
-                        <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3"  *ngIf="collegeListData.DepartmentID ==2">
+                        <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="collegeListData.DepartmentID ==2">
                           <label>Live Stock Farm Address :</label>
                           <input class="form-control disabled mt-1" disabled value="{{collegeListData.LiveStockFarmAddress}}" />
                         </div>
-                        <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3"  *ngIf="collegeListData.DepartmentID ==2">
-                          <label>Veternary Clinical Complex Address :</label>
+                        <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="collegeListData.DepartmentID ==2">
+                          <label>Veterinary Clinical Complex Address :</label>
                           <input class="form-control disabled mt-1" disabled value="{{collegeListData.VeternaryClinicalAddress}}" />
                         </div>
                       </div>

@@ -60,10 +60,10 @@
                         <i class="fa fa-eye"></i>
                       </a>
                       
-                      <a href="javascript:void(0)" *ngIf="row.IsSaveDraft==0&& row.IsOpenNOCApplication==true && row.IsOpenDefaulter==false && row.IsDefaulter==false&& row.OpenApplicationSession==sSOLoginDataModel.SessionID" (click)="DraftEdit_OnClick(row.DepartmentID,row.SearchRecordID)" class="btn btn-sm btn-info">
+                      <a href="javascript:void(0)" *ngIf="row.IsSaveDraft==0&& row.IsOpenNOCApplication==true && row.IsOpenDefaulter==false && row.IsDefaulter==false&& row.OpenApplicationSession==sSOLoginDataModel.SessionID && ((row.DepartmentID==2 && row.CollegeLevel==row.OpeneLevel) || row.DepartmentID!=2)" (click)="DraftEdit_OnClick(row.DepartmentID,row.SearchRecordID)" class="btn btn-sm btn-info">
                         <i class="fa fa-edit"></i>
                       </a>
-                      <a href="javascript:void(0)" *ngIf="row.IsSaveDraft==0&& row.IsOpenNOCApplication==true && row.IsOpenDefaulter==true && row.IsDefaulter==true" (click)="DraftEdit_OnClick(row.DepartmentID,row.SearchRecordID)" class="btn btn-sm btn-info">
+                      <a href="javascript:void(0)" *ngIf="row.IsSaveDraft==0&& row.IsOpenNOCApplication==true && row.IsOpenDefaulter==true && row.IsDefaulter==true && row.OpenDefaulterSession==sSOLoginDataModel.SessionID && ((row.DepartmentID==2 && row.CollegeLevel==row.OpeneLevel) || row.DepartmentID!=2)" (click)="DraftEdit_OnClick(row.DepartmentID,row.SearchRecordID)" class="btn btn-sm btn-info">
                         <i class="fa fa-edit"></i>
                       </a> 
                     </div>

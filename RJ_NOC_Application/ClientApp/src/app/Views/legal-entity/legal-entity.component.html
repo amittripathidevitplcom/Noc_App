@@ -257,7 +257,7 @@
           </div>
 
           <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-            <label for="">Name <span style="color:red">*</span></label>
+            <label for="">{{request.ProcessDepartmentID==2?'Name Of the Legal Entity':'Name'}} <span style="color:red">*</span></label>
             <input class="form-control" id="txtSocietyName" [(ngModel)]="request.SocietyName" formControlName="txtSocietyName" (keypress)="alphaOnly($event)" />
             <div *ngIf="isSubmitted&&form.txtSocietyName.errors" class="text-danger">
               <p *ngIf="form.txtSocietyName.errors.required">  This field is required .!</p>

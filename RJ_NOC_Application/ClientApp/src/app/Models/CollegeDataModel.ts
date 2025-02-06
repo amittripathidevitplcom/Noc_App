@@ -96,6 +96,14 @@ export class CollegeDataModel {
   public FaxNo: string = '';
   public LiveStockFarmAddress: string = '';
   public VeternaryClinicalAddress: string = '';
+
+
+
+  public PrivateCollegeUniversityName: string = '';
+  public PrivateCollegeEstablishmentDate: string = '';
+  public PrivateCollegeEstabCertificate: string = '';
+  public PrivateCollegeEstabCertificatePath: string = '';
+  public Dis_PrivateCollegeEstabCertificateName: string = '';
 }
 export class ContactDetailsDataModel {
   public ContactID: number = 0;

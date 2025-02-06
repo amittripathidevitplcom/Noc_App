@@ -15,11 +15,11 @@
                 <th>Course</th>
                 <th *ngIf="this.SelectedDepartmentID !=2 && this.SelectedDepartmentID !=5 && this.SelectedDepartmentID !=6&& this.SelectedDepartmentID !=11">Stream</th>
                 <th style="width: 250px !important" *ngIf="this.SelectedDepartmentID !=2 && this.SelectedDepartmentID !=6&& this.SelectedDepartmentID !=11">Subject</th>
-                <th *ngIf="this.SelectedDepartmentID !=3 && CollegeType_IsExisting&& this.SelectedDepartmentID !=11">Seat</th>
+                <th *ngIf="this.SelectedDepartmentID !=3 && CollegeType_IsExisting&& this.SelectedDepartmentID !=11&& this.SelectedDepartmentID !=6">Seat</th>
                 <th *ngIf="this.SelectedDepartmentID ==3">No Of Enrolled Students</th>
                 <th *ngIf="this.SelectedDepartmentID ==11">Establishment Year</th>
                 <th *ngIf="this.SelectedDepartmentID ==11">Course Category</th>
-                <th *ngIf="this.SelectedDepartmentID ==11">Total Seats (Course Wise) </th>
+                <th *ngIf="this.SelectedDepartmentID ==11 || this.SelectedDepartmentID ==6">{{this.SelectedDepartmentID ==6?'Number of seats':'Total Seats (Course Wise) '}} </th>
                 <th *ngIf="this.SelectedDepartmentID ==11">Composite Unit</th>
               </tr>
             </thead>
@@ -32,11 +32,11 @@
                 <td *ngIf="this.SelectedDepartmentID !=2 && this.SelectedDepartmentID !=5 && this.SelectedDepartmentID !=6&& this.SelectedDepartmentID !=11">{{row.StreamName}}</td>
                 <td style="width:250px !important" *ngIf="this.SelectedDepartmentID !=2 && this.SelectedDepartmentID !=6&& this.SelectedDepartmentID !=11">{{row.SubjectDetails}}</td>
 
-                <td *ngIf="this.SelectedDepartmentID !=3 && CollegeType_IsExisting && this.SelectedDepartmentID !=11">{{row.Dis_Sits}}</td>
+                <td *ngIf="this.SelectedDepartmentID !=3 && CollegeType_IsExisting && this.SelectedDepartmentID !=11&& this.SelectedDepartmentID !=6">{{row.Dis_Sits}}</td>
                 <td *ngIf="this.SelectedDepartmentID ==3">{{row.NoOfEnrolledStudents}}</td>
                 <td *ngIf="this.SelectedDepartmentID ==11">{{row.FinancialYearName}}</td>
                 <td *ngIf="this.SelectedDepartmentID ==11">{{row.CourseCategoryName}}</td>
-                <td *ngIf="this.SelectedDepartmentID ==11">{{row.TotalSeatsCourseWise}}</td>
+                <td *ngIf="this.SelectedDepartmentID ==11||this.SelectedDepartmentID ==6">{{row.TotalSeatsCourseWise}}</td>
                 <td *ngIf="this.SelectedDepartmentID ==11">{{row.CompositeUnit}}</td>
               </tr>
               <tr *ngIf="AllCourseList.length<=0">

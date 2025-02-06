@@ -12,7 +12,7 @@ import { AbstractControl, FormControl, FormGroup, Validators, FormArray } from '
 import { ApplyNOCApplicationService } from '../../../Services/ApplyNOCApplicationList/apply-nocapplication.service';
 import { DocumentScrutinyDataModel } from '../../../Models/DocumentScrutinyDataModel';
 import { MedicalDocumentScrutinyService } from '../../../Services/MedicalDocumentScrutiny/medical-document-scrutiny.service';
-import { DocumentScrutinyComponent } from '../../DCE/document-scrutiny/document-scrutiny.component';
+import { ApplyNOCPreviewComponent } from '../../apply-nocpreview/apply-nocpreview.component';
 
 @Component({
   selector: 'app-document-scrutiny-legal-entity',
@@ -21,7 +21,7 @@ import { DocumentScrutinyComponent } from '../../DCE/document-scrutiny/document-
 })
 export class DocumentScrutinyLegalEntityComponent implements OnInit {
 
-  constructor(private dcedocumentscrutiny: DocumentScrutinyComponent,private medicalDocumentScrutinyService: MedicalDocumentScrutinyService, private applyNOCApplicationService: ApplyNOCApplicationService, private legalEntityListService: LegalEntityService, private toastr: ToastrService, private loaderService: LoaderService, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private collegeService: CollegeService, private sSOLoginService: SSOLoginService) { }
+  constructor(private ApplyNOCPreview: ApplyNOCPreviewComponent,private medicalDocumentScrutinyService: MedicalDocumentScrutinyService, private applyNOCApplicationService: ApplyNOCApplicationService, private legalEntityListService: LegalEntityService, private toastr: ToastrService, private loaderService: LoaderService, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private collegeService: CollegeService, private sSOLoginService: SSOLoginService) { }
   public isSubmitted: boolean = false;
   public QueryStringStatus: any = '';
   public State: number = -1;
@@ -297,9 +297,6 @@ export class DocumentScrutinyLegalEntityComponent implements OnInit {
 
 
   ViewTaril(ID: number, ActionType: string) {
-    this.dcedocumentscrutiny.ViewTarilCommon(ID, ActionType);
+    this.ApplyNOCPreview.ViewTarilCommon(ID, ActionType);
   }
-
-
-
 }

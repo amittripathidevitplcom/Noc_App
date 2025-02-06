@@ -25,9 +25,9 @@ export class LegalEntityService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-  public async CheckDuplicateRegNo(LegalEntityID: number, RegistrationNo: string, AadhaarNo: string) {
+  public async CheckDuplicateRegNo(LegalEntityID: number, RegistrationNo: string, AadhaarNo: string, LegalEntityType: string) {
     const headers = { 'content-type': 'application/json' }
-    const body = JSON.stringify({ LegalEntityID: LegalEntityID, RegistrationNo: RegistrationNo, AadhaarNo: AadhaarNo });
+    const body = JSON.stringify({ LegalEntityID: LegalEntityID, RegistrationNo: RegistrationNo, AadhaarNo: AadhaarNo, LegalEntityType: LegalEntityType });
     console.log(body);
     return await this.http.post(this.APIUrl + '/CheckDuplicate', body, { 'headers': headers })
       .pipe(
