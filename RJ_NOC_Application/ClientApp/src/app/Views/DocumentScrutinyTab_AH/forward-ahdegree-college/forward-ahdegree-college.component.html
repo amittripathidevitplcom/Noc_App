@@ -1,0 +1,273 @@
+<app-loader></app-loader>
+<div class="container-fluid breadcrumbBox py-2">
+  <div class="row align-items-center">
+    <div class="col-md-6">
+      <h3>Application Details</h3>
+    </div>
+    <div class="col-md-6 d-flex justify-content-end">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="#">Application</a></li>
+          <li class="breadcrumb-item active" aria-current="page">Application Details</li>
+        </ol>
+      </nav>
+    </div>
+  </div>
+</div>
+<div class="container-fluid mainContents" id="ApplicationSummary">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card mb-0">
+        <div class="card-header">
+          <b><i class="bi bi-table"></i> Legal Entity </b>
+        </div>
+        <div class="card-body">
+          <div class="col-md-12">
+            <app-preview-legal-entity></app-preview-legal-entity>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-12">
+      <div class="card mb-0">
+        <div class="card-header">
+          <b><i class="bi bi-table"></i> College Detail </b>
+        </div>
+        <div class="card-body">
+          <div class="col-md-12">
+            <app-preview-college></app-preview-college>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-12">
+      <div class="card mb-0">
+        <div class="card-header">
+          <b><i class="bi bi-table"></i> College Management Society </b>
+        </div>
+        <div class="card-body">
+          <div class="col-md-12">
+            <app-college-management-society></app-college-management-society>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-12">
+      <div class="card mb-0">
+        <div class="card-header">
+          <b><i class="bi bi-table"></i> Course Detail </b>
+        </div>
+        <div class="card-body">
+          <div class="col-md-12">
+            <app-preview-course-detail></app-preview-course-detail>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-12">
+      <div class="card mb-0">
+        <div class="card-header">
+          <b><i class="bi bi-table"></i> Land Details </b>
+        </div>
+        <div class="card-body">
+          <div class="col-md-12">
+            <app-preview-land-detail></app-preview-land-detail>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-12">
+      <!--*ngIf="IsAHDegreeCollege==false"-->
+      <div class="card mb-0">
+        <div class="card-header">
+          <b><i class="bi bi-table"></i>  Building Documents </b>
+        </div>
+        <div class="card-body">
+          <div class="col-md-12">
+            <app-preview-building-detail></app-preview-building-detail>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-12">
+      <div class="card mb-0">
+        <div class="card-header">
+          <b><i class="bi bi-table"></i> Class Room Details </b>
+        </div>
+        <div class="card-body">
+          <div class="col-md-12">
+            <app-preview-room-detail></app-preview-room-detail>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-12">
+      <div class="card mb-0">
+        <div class="card-header">
+          <b><i class="bi bi-table"></i> Other Information </b>
+        </div>
+        <div class="card-body">
+          <div class="col-md-12">
+            <app-preview-other-information></app-preview-other-information>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-12">
+      <div class="card mb-0">
+        <div class="card-header">
+          <b><i class="bi bi-table"></i> Facility </b>
+        </div>
+        <div class="card-body">
+          <div class="col-md-12">
+            <app-preview-facility-detail></app-preview-facility-detail>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-12">
+      <div class="card mb-0">
+        <div class="card-header">
+          <b><i class="bi bi-table"></i> Required Document </b>
+        </div>
+        <div class="card-body">
+          <div class="col-md-12">
+            <app-preview-required-document></app-preview-required-document>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-12">
+      <div class="card mb-0">
+        <div class="card-header">
+          <b><i class="bi bi-table"></i>Other Document</b>
+        </div>
+        <div class="card-body">
+          <div class="col-md-12">
+            <app-preview-other-document></app-preview-other-document>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-12">
+      <div class="card mb-0">
+        <div class="card-header">
+          <b><i class="bi bi-table"></i>  Staff Details </b>
+        </div>
+        <div class="card-body">
+          <div class="col-md-12">
+            <app-preview-staff-detail></app-preview-staff-detail>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-12">
+      <div class="card mb-0">
+        <div class="card-header">
+          <b><i class="bi bi-table"></i> Department Wise Infrastructure </b>
+        </div>
+        <div class="card-body">
+          <div class="col-md-12">
+            <app-preview-ahinfra-department-wise></app-preview-ahinfra-department-wise>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="col-md-12">
+      <div class="card mb-0">
+        <div class="card-header">
+          <b><i class="bi bi-table"></i>Apply Noc Details</b>
+        </div>
+        <div class="card-body">
+          <div class="col-md-12">
+            <app-preview-apply-noc-detail></app-preview-apply-noc-detail>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-12">
+      <div class="card mb-0">
+        <div class="card-header">
+          <b><i class="bi bi-table"></i>FDR Details</b>
+        </div>
+        <div class="card-body">
+          <div class="col-md-12">
+            <app-preview-fdr-detail></app-preview-fdr-detail>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-12">
+      <div class="card mb-0">
+        <div class="card-header">
+          <b><i class="bi bi-table"></i>Payment Details</b>
+        </div>
+        <div class="card-body">
+          <div class="col-md-12">
+            <app-preview-payment-detail></app-preview-payment-detail>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+  <div class="row m-2">
+    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+      <label for="ddlAction" class="form-label">Application On Action <span style="color:red;">*</span></label>
+      <select class="form-select" (change)="OnChangeCurrentAction()" [(ngModel)]="ActionID">
+        <option value="0" disabled selected>--Select Action--</option>
+        <option *ngFor="let item of WorkFlowActionList" value="{{item.ActionID}}">{{(sSOLoginDataModel.RoleID==20 ||sSOLoginDataModel.RoleID==11)&&item.ActionName=='Approve'?'Forward':item.ActionName}}</option>
+      </select>
+      <div *ngIf="isActionTypeValid&&ActionID<=0" class="text-danger">
+        <p *ngIf="isActionTypeValid&&ActionID<=0"> This field is required .!</p>
+      </div>
+    </div>
+
+    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="ShowHideNextRole">
+      <label for="ddlDistrictID" class="form-label">Next Role <span style="color:red;">*</span></label>
+
+      <select class="form-select" (change)="NextGetUserDetailsByRoleID()" [(ngModel)]="NextRoleID">
+        <option value="0" selected>--Select Role--</option>
+        <option *ngFor="let item of UserRoleList" value="{{item.RoleID}}">{{item.RoleName}}</option>
+      </select>
+
+
+      <div *ngIf="isNextRoleIDValid&&NextRoleID<=0" class="text-danger">
+        <p *ngIf="isNextRoleIDValid&&NextRoleID<=0"> This field is required .!</p>
+      </div>
+    </div>
+
+
+    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="ShowHideNextUser">
+      <label for="ddlDistrictID" class="form-label">Next User <span style="color:red;">*</span></label>
+      <select class="form-select" [(ngModel)]="NextUserID">
+        <option value="0" selected>--Select User--</option>
+        <option *ngFor="let item of UserListRoleWise" value="{{item.UId}}">{{item.Name}}</option>
+      </select>
+      <div *ngIf="isNextUserIdValid&&NextUserID<=0" class="text-danger">
+        <p *ngIf="isNextUserIdValid&&NextUserID<=0"> This field is required .!</p>
+      </div>
+    </div>
+  </div>
+  <div class="row  m-2">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-12 mb-3">
+      <label>Remarks  <span style="color:red;">*</span></label>
+      <textarea id="CheckFinalRemark" class="form-control" [(ngModel)]="CheckFinalRemark"></textarea>
+      <div *ngIf="isRemarkValid&&CheckFinalRemark==''" class="text-danger">
+        <p *ngIf="isRemarkValid&&CheckFinalRemark==''"> This field is required .!</p>
+      </div>
+    </div>
+
+  </div>
+  <div class="row  m-2">
+    <div class="col-md-12 mb-5">
+      <button type="button" class="btn btn-primary" (click)="DocumentScrutiny()" title="Submit">Submit</button>
+    </div>
+  </div>
+</div>
+
+

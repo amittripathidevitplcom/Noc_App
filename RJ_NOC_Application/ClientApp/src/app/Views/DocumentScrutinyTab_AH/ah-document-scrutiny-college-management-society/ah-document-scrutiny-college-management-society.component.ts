@@ -13,6 +13,8 @@ import { DocumentScrutinyDataModel } from '../../../Models/DocumentScrutinyDataM
 import { AnimalDocumentScrutinyService } from '../../../Services/AnimalDocumentScrutiny/animal-document-scrutiny.service';
 import { ApplyNocpreviewAnimalhusbandryComponent } from '../../apply-nocpreview-animalhusbandry/apply-nocpreview-animalhusbandry.component';
 import { ModalDismissReasons, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { DocumentScrutinyAHDegreeComponent } from '../document-scrutiny-ahdegree/document-scrutiny-ahdegree.component';
+import { CollegeService } from '../../../services/collegedetailsform/College/college.service';
 @Injectable({
   providedIn: 'root'
 })
@@ -38,7 +40,7 @@ export class AhDocumentScrutinyCollegeManagementSocietyComponent implements OnIn
 
   closeResult: string | undefined;
   modalReference: NgbModalRef | undefined;
-  constructor(private applyNocpreviewAnimalhusbandryComponent: ApplyNocpreviewAnimalhusbandryComponent,private socityService: SocityService, private toastr: ToastrService, private loaderService: LoaderService, private formBuilder: FormBuilder,
+  constructor(private collegeService: CollegeService,private documentscrutinyahdegree: DocumentScrutinyAHDegreeComponent,private applyNocpreviewAnimalhusbandryComponent: ApplyNocpreviewAnimalhusbandryComponent,private socityService: SocityService, private toastr: ToastrService, private loaderService: LoaderService, private formBuilder: FormBuilder,
     private commonMasterService: CommonMasterService, private router: ActivatedRoute, private applyNOCApplicationService: ApplyNOCApplicationService,
     private animalDocumentScrutinyService: AnimalDocumentScrutinyService, private modalService: NgbModal) { }
 
@@ -48,6 +50,8 @@ export class AhDocumentScrutinyCollegeManagementSocietyComponent implements OnIn
     this.SelectedCollageID = await Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
     this.SelectedApplyNOCID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplyNOCID')?.toString()))
     await this.GetSocietyAllList();
+    await this.GetCollageDetails();
+
   }
   async GetSocietyAllList() {
     try {
@@ -165,9 +169,36 @@ export class AhDocumentScrutinyCollegeManagementSocietyComponent implements OnIn
     }
   }
   ViewTaril(ID: number, ActionType: string) {
-    this.applyNocpreviewAnimalhusbandryComponent.ViewTarilCommon(ID, ActionType);
+    if (this.IsAHDegreeCollege) {
+      this.documentscrutinyahdegree.ViewTarilCommon(ID, ActionType);
+    }
+    else {
+      this.applyNocpreviewAnimalhusbandryComponent.ViewTarilCommon(ID, ActionType);
+    }
   }
 
+  public IsAHDegreeCollege: boolean = false;
+  async GetCollageDetails() {
+    try {
+      this.IsAHDegreeCollege = false;
+      this.loaderService.requestStarted();
+      await this.collegeService.GetData(this.SelectedCollageID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          if (data['Data']['CollegeLevelName'] == 'UG' && data['Data']['DepartmentID'] == 2) {
+            this.IsAHDegreeCollege = true;
+          }
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
   async ViewCollegeManagmentDetail(content: any, SocietyID: number) {
     this.request = new SocietyDataModel();
     this.modalService.open(content, { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' }).result.then((result) => {

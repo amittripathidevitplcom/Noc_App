@@ -678,7 +678,7 @@ export class StaffDetailsComponent implements OnInit {
       const Joining = new Date(this.request.DateOfJoining);
       const SYear = Joining.getFullYear();
       const cYear = new Date().getFullYear();
-      if (Number(this.request.NumberofExperience) > Number(cYear - SYear)) {
+      if ((Number(this.request.NumberofExperience) > Number(cYear - SYear)) && this.SelectedDepartmentID!=6) {
         this.toastr.warning('Your experience is more from the date of joining till today, so please fill it correctly.');
         return;
       }

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { throwError } from 'rxjs';
 import { catchError, } from 'rxjs/operators';
-import { ApplicationPenaltyDataModel, CommiteeInspection_RNCCheckList_DataModel, NOCIssuedForMGOneDataModel, NOCIssuedRequestDataModel, ParameterFeeMaster } from '../../Models/ApplyNOCApplicationDataModel';
+import { ApplicationPenaltyDataModel, CommiteeInspection_RNCCheckList_DataModel, NOCIssuedForAHDegreeDataModel, NOCIssuedForMGOneDataModel, NOCIssuedRequestDataModel, ParameterFeeMaster } from '../../Models/ApplyNOCApplicationDataModel';
 import { DocumentScrutinyDataModel } from '../../Models/DocumentScrutinyDataModel';
 import { GlobalConstants } from '../../Common/GlobalConstants';
 
@@ -175,6 +175,13 @@ export class ApplyNOCApplicationService {
   public async GenerateNOCForDCE(request: NOCIssuedRequestDataModel) {
     const headers = { 'content-type': 'application/json' }
     return await this.http.post(this.APIUrl + '/GenerateNOCForDCE/', request, { 'headers': headers })
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+  public async GenerateNOCForAHDegree(request: NOCIssuedForAHDegreeDataModel) {
+    const headers = { 'content-type': 'application/json' }
+    return await this.http.post(this.APIUrl + '/GenerateNOCForAHDegree/', request, { 'headers': headers })
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();

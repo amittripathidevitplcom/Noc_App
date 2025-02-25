@@ -447,6 +447,16 @@ import { MGOneForwardInpectionReportOSDComponent } from './Views/Medical Group 1
 import { NodalOfficerBedApplicationListComponent } from './Views/Bed/nodal-officer-bed-application-list/nodal-officer-bed-application-list.component';
 import { PreviewGeoTagComponent } from './Views/PreviewTabs/preview-geo-tag/preview-geo-tag.component';
 import { DocumentScrutinyCourtCaseMGTComponent } from './Views/DocumentScrutinyTab/document-scrutiny-court-case-mgt/document-scrutiny-court-case-mgt.component';
+import { FinalCheckListMGThreeComponent } from './Views/DocumentScrutinyTab/final-check-list-mgthree/final-check-list-mgthree.component';
+import { TotalDraftBedCollegeListComponent } from './Views/Bed/total-draft-bed-college-list/total-draft-bed-college-list.component';
+import { ApplicationListAHDegreeComponent } from './Views/DocumentScrutinyTab_AH/application-list-ahdegree/application-list-ahdegree.component';
+import { AHDocumentScrutinyAHInfraComponent } from './Views/DocumentScrutinyTab_AH/ahdocument-scrutiny-ahinfra/ahdocument-scrutiny-ahinfra.component';
+import { ForwardAHDegreeCollegeComponent } from './Views/DocumentScrutinyTab_AH/forward-ahdegree-college/forward-ahdegree-college.component';
+import { DocumentScrutinyAHDegreeComponent } from './Views/DocumentScrutinyTab_AH/document-scrutiny-ahdegree/document-scrutiny-ahdegree.component';
+import { DocumentScrutinyCheckListDegreeComponent } from './Views/DocumentScrutinyTab_AH/document-scrutiny-check-list-degree/document-scrutiny-check-list-degree.component';
+import { DSApplicationListDegreeComponent } from './Views/DocumentScrutinyTab_AH/dsapplication-list-degree/dsapplication-list-degree.component';
+import { FinalCheckListAHDegreeComponent } from './Views/DocumentScrutinyTab_AH/final-check-list-ahdegree/final-check-list-ahdegree.component';
+import { DegreeNOCApplicationsComponent } from './Views/DocumentScrutinyTab_AH/degree-nocapplications/degree-nocapplications.component';
 
 
  
@@ -895,6 +905,16 @@ import { DocumentScrutinyCourtCaseMGTComponent } from './Views/DocumentScrutinyT
     NodalOfficerBedApplicationListComponent,
     PreviewGeoTagComponent,
     DocumentScrutinyCourtCaseMGTComponent,
+    FinalCheckListMGThreeComponent,
+    TotalDraftBedCollegeListComponent,
+    ApplicationListAHDegreeComponent,
+    AHDocumentScrutinyAHInfraComponent,
+    ForwardAHDegreeCollegeComponent,
+    DocumentScrutinyAHDegreeComponent,
+    DocumentScrutinyCheckListDegreeComponent,
+    DSApplicationListDegreeComponent,
+    FinalCheckListAHDegreeComponent,
+    DegreeNOCApplicationsComponent,
   ],
   imports: [
     CommonModule,

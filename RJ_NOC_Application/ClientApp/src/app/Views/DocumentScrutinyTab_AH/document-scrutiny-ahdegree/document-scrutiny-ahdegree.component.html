@@ -1,0 +1,217 @@
+<app-loader></app-loader>
+<div class="container-fluid breadcrumbBox py-2">
+  <div class="row align-items-center">
+    <div class="col-md-6">
+      <h3>Document Scrutiny (Application No : {{this.ApplicationNo}})</h3>
+    </div>
+    <div class="col-md-6 d-flex justify-content-end">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="#">Application</a></li>
+          <li class="breadcrumb-item active" aria-current="page">Document Scrutiny</li>
+        </ol>
+      </nav>
+    </div>
+  </div>
+</div>
+<div class="container-fluid mainContents">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="row align-items-center">
+        <div class="col-md-12">
+
+          <mat-tab-group mat-align-tabs="center" class="tabUl1 d-block w-100" [selectedIndex]="selectedIndex" #tabs (selectedTabChange)="onTabChange($event)">
+            <mat-tab>
+              <ng-template mat-tab-label>
+                <i class="fa fa-gavel icon" aria-hidden="true"></i>
+                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['LegalEntity']>0"></i>
+                <span>Legal Entity</span>
+              </ng-template>
+              <app-ah-document-scrutiny-legal-entity></app-ah-document-scrutiny-legal-entity>
+            </mat-tab>
+
+            <mat-tab>
+              <ng-template mat-tab-label>
+                <i class="fa fa-graduation-cap icon" aria-hidden="true"></i>
+                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['CollegeDetail']>0"></i>
+                <span>College Detail</span>
+              </ng-template>
+              <app-ah-document-scrutiny-college-detail></app-ah-document-scrutiny-college-detail>
+            </mat-tab>
+
+            <mat-tab>
+              <ng-template mat-tab-label>
+                <i class="fa fa-building-o icon" aria-hidden="true"></i>
+                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['CollegeManagementSociety']>0"></i>
+                <span>College Management Society</span>
+              </ng-template>
+              <app-ah-document-scrutiny-college-management-society></app-ah-document-scrutiny-college-management-society>
+            </mat-tab>
+
+
+
+            <mat-tab>
+              <ng-template mat-tab-label>
+                <i class="fa fa-location-arrow icon" aria-hidden="true"></i>
+                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['LandInformation']>0"></i>
+                <span>Land Information</span>
+              </ng-template>
+              <app-ah-document-scrutiny-land-detail></app-ah-document-scrutiny-land-detail>
+            </mat-tab>
+
+            <mat-tab>
+              <ng-template mat-tab-label>
+                <i class="fa fa-list-alt icon" aria-hidden="true"></i>
+                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['Facility']>0"></i>
+                <span>Facility</span>
+              </ng-template>
+              <app-ah-document-scrutiny-facility></app-ah-document-scrutiny-facility>
+            </mat-tab>
+
+            <mat-tab>
+              <ng-template mat-tab-label>
+                <i class="fa fa-file-text-o icon" aria-hidden="true"></i>
+                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['RequiredDocument']>0"></i>
+                <span>Required Document</span>
+              </ng-template>
+              <app-ah-document-scrutiny-required-document></app-ah-document-scrutiny-required-document>
+            </mat-tab>
+
+            <!--<mat-tab>
+    <ng-template mat-tab-label>
+      <i class="fa fa-home icon" aria-hidden="true"></i>
+      <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['RoomDetails']>0"></i>
+      <span>Class Room Details</span>
+    </ng-template>
+    <app-ah-document-scrutiny-room-details></app-ah-document-scrutiny-room-details>
+  </mat-tab>-->
+
+            <mat-tab>
+              <ng-template mat-tab-label>
+                <i class="fa fa-address-card-o icon" aria-hidden="true"></i>
+                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['OtherInformation']>0"></i>
+                <span>Other Information</span>
+              </ng-template>
+              <app-ah-document-scrutiny-other-information></app-ah-document-scrutiny-other-information>
+            </mat-tab>
+
+            <mat-tab>
+              <ng-template mat-tab-label>
+                <i class="fa fa-building-o icon" aria-hidden="true"></i>
+                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['BuildingDocuments']>0"></i>
+                <span>Building Documents</span>
+              </ng-template>
+              <app-ah-document-scrutiny-building-details></app-ah-document-scrutiny-building-details>
+            </mat-tab>
+
+            <mat-tab>
+              <ng-template mat-tab-label>
+                <i class="fa fa-users icon" aria-hidden="true"></i>
+                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['StaffDetails']>0"></i>
+                <span>Staff Details</span>
+              </ng-template>
+              <app-ah-document-scrutiny-staff-detail></app-ah-document-scrutiny-staff-detail>
+            </mat-tab>
+            <mat-tab>
+              <ng-template mat-tab-label>
+                <i class="fa fa-users icon" aria-hidden="true"></i>
+                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['AHInfra']>0"></i>
+                <span>Department Wise Infrastructure</span>
+              </ng-template>
+              <app-ahdocument-scrutiny-ahinfra></app-ahdocument-scrutiny-ahinfra>
+            </mat-tab>
+            <mat-tab>
+              <ng-template mat-tab-label>
+                <i class="fa fa-users icon" aria-hidden="true"></i>
+                <span>Check List</span>
+              </ng-template>
+              <app-document-scrutiny-check-list-degree></app-document-scrutiny-check-list-degree>
+            </mat-tab>
+
+            <!--<mat-tab *ngIf="CollegeType_IsExisting">
+    <ng-template mat-tab-label>
+      <i class="fa fa-address-card-o icon" aria-hidden="true"></i>
+      <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['OLDNOCDetails']>0"></i>
+      <span>OLD NOC Details</span>
+    </ng-template>
+    <app-ah-document-scrutiny-old-nocdetails></app-ah-document-scrutiny-old-nocdetails>
+  </mat-tab>-->
+            <!--<mat-tab *ngIf="CollegeType_IsExisting">
+    <ng-template mat-tab-label>
+      <i class="fa fa-graduation-cap icon" aria-hidden="true"></i>
+      <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['AcademicInformation']>0"></i>
+      <span>Academic Information</span>
+    </ng-template>
+    <app-ah-document-scrutiny-academic-information></app-ah-document-scrutiny-academic-information>
+  </mat-tab>
+
+  <mat-tab>
+    <ng-template mat-tab-label>
+      <i class="fa fa-files-o icon" aria-hidden="true"></i>
+      <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['OtherDocument']>0"></i>
+      <span>Other Document</span>
+    </ng-template>
+    <app-ah-document-scrutiny-other-document></app-ah-document-scrutiny-other-document>
+  </mat-tab>-->
+            <!--<mat-tab>
+    <ng-template mat-tab-label>
+      <i class="fa fa-files-o icon" aria-hidden="true"></i>
+      <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['VeterinaryHospital']>0"></i>
+      <span>Veterinary Hospital</span>
+    </ng-template>
+    <app-ah-document-scrutiny-veterinary-hospital></app-ah-document-scrutiny-veterinary-hospital>
+  </mat-tab>-->
+            <!--<mat-tab>
+    <ng-template mat-tab-label>
+      <i class="fa fa-check-square-o icon" aria-hidden="true"></i>
+      <span>Check List</span>
+    </ng-template>
+    <app-ah-document-scrutiny-check-list-details></app-ah-document-scrutiny-check-list-details>
+  </mat-tab>-->
+          </mat-tab-group>
+        </div>
+        <div class="col-lg-12 col-md-12 col-sm-6 col-12 mt-3 text-end">
+          <button *ngIf="this.selectedIndex != 0" class="btn btn-primary" type="button" (click)="PreviousStep()"><< Previous</button>
+          <button *ngIf="this.selectedIndex != maxNumberOfTabs" class="btn btn-primary" type="button" (click)="NextStep()" style="margin-left:20px">Next >></button>
+        </div>
+      </div>
+    </div>
+
+    <ng-template #TarilMymodal let-modal>
+      <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title" style="font-size: 17px; font-weight: 600 !important;">Trails</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+          <i class="fa fa-close"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="card-body">
+          <div class="row" *ngIf="lstTarils.length>0">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+              <div class="table-responsive">
+                <table class="table table-bordered table-hover table-striped">
+                  <thead>
+                    <tr>
+                      <th>Sr. No.</th>
+                      <th>Compliance</th>
+                      <th>Remark</th>
+                      <th>Action By</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let item of lstTarils ; let indexOfelement=index;">
+                      <td> {{indexOfelement+1}}</td>
+                      <td>{{item.Action}}</td>
+                      <td>{{item.Remark}}</td>
+                      <td>{{item.RoleName}}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </div>
+</div>

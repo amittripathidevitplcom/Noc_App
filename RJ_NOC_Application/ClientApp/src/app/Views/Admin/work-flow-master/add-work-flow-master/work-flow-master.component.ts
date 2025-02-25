@@ -36,6 +36,7 @@ export class WorkFlowMasterComponent implements OnInit {
       {
         ddlDepartmentId: ['', [DropdownValidators]],
         ddlnoctype: [''],
+        ddlCollegeType: [''],
         ddlRoleLevelId: ['', [DropdownValidators]],
         ddlRoleId: ['', [DropdownValidators]]
       });
@@ -386,6 +387,9 @@ export class WorkFlowMasterComponent implements OnInit {
   }
   public WorkflowNOCTypelst: any = [];
   async GetWorkflowNOCType(DepartmentID: number) {
+    if (DepartmentID == 2) {
+      await this.GetWorkflowCollegeType(DepartmentID);
+    }
     this.WorkflowNOCTypelst = [];
     try {
       this.loaderService.requestStarted();
@@ -395,6 +399,30 @@ export class WorkFlowMasterComponent implements OnInit {
           this.WorkflowNOCTypelst = data['Data'];
           if (this.WorkflowNOCTypelst.length > 0 && this.request.NOCTypeID<=0) {
             this.request.NOCTypeID = this.WorkflowNOCTypelst.find((x: { Name: string; }) => x.Name == "NOC")?.ID;
+          }
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+  public WorkflowCollegeTypelst: any = [];
+  async GetWorkflowCollegeType(DepartmentID: number) {
+    this.WorkflowNOCTypelst = [];
+    try {
+      this.loaderService.requestStarted();
+      await this.commonMasterService.GetCommonMasterList_DepartmentAndTypeWise(DepartmentID, "CollegeLevel")
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.WorkflowCollegeTypelst = data['Data'];
+          if (this.WorkflowCollegeTypelst.length > 0 ) {
+            this.WorkflowCollegeTypelst = this.WorkflowCollegeTypelst.filter((x: { Name: string; }) => x.Name != "PG");
           }
         }, error => console.error(error));
     }

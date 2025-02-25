@@ -462,4 +462,5 @@ export class CourtOrderSearchFilterDataModel {
   public DepartmentID: number = 0;
   public CollegeID: number = 0;
   public CourtOrderID: number = 0;
+  public ApplyNOCID: number = 0;
 }

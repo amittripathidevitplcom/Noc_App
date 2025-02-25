@@ -176,6 +176,8 @@ export class DocumentScrutinyCheckListDetailsComponent implements OnInit {
   public IsShowSuperSpecialtyHospital: boolean = false;
   LegalEntityDataModel = new LegalEntityDataModel();
   public QueryStatus: any = '';
+  public ApplicationNo: string = '';
+
 
   constructor(private hostelDetailService: HostelDetailService, private threehospitalDetailService: HospitalDetailService, private oldnocdetailService: OldnocdetailService, private buildingDetailsMasterService: BuildingDetailsMasterService, private ApplyNOCPreview: ApplyNOCPreviewComponent, private toastr: ToastrService, private loaderService: LoaderService, private applyNOCApplicationService: ApplyNOCApplicationService,
     private landDetailsService: LandDetailsService, private medicalDocumentScrutinyService: MedicalDocumentScrutinyService, private facilityDetailsService: FacilityDetailsService,
@@ -1346,13 +1348,13 @@ export class DocumentScrutinyCheckListDetailsComponent implements OnInit {
           if (data['Data'].length > 0) {
             this.UserRoleList = data['Data'];
 
-            if (this.UserRoleList.length > 0) {
-              //if (this.sSOLoginDataModel.RoleID != 11 && this.sSOLoginDataModel.RoleID != 23 && this.sSOLoginDataModel.RoleID != 20) {
-              this.UserRoleList = this.UserRoleList.filter((x: { RoleID: number; }) => x.RoleID != 1 && x.RoleID != 17);
-              // }
-              //this.NextRoleID = this.UserRoleList[0]['RoleID'];
-              //await this.NextGetUserDetailsByRoleID();
-            }
+            //if (this.UserRoleList.length > 0) {
+            //  //if (this.sSOLoginDataModel.RoleID != 11 && this.sSOLoginDataModel.RoleID != 23 && this.sSOLoginDataModel.RoleID != 20) {
+            //  this.UserRoleList = this.UserRoleList.filter((x: { RoleID: number; }) => x.RoleID != 1 && x.RoleID != 17);
+            //  // }
+            //  //this.NextRoleID = this.UserRoleList[0]['RoleID'];
+            //  //await this.NextGetUserDetailsByRoleID();
+            //}
           }
         })
     }
@@ -1436,11 +1438,25 @@ export class DocumentScrutinyCheckListDetailsComponent implements OnInit {
             if (this.WorkFlowActionList.length > 0) {
 
               if (this.QueryStatus == 'DCPending') {
-                this.WorkFlowActionList = this.WorkFlowActionList.filter((x: { ActionID: number; }) => x.ActionID == 92);
+                // ActionID=77/69
+
+                this.WorkFlowActionList = this.WorkFlowActionList.filter((x: { ActionID: number; }) => x.ActionID != 49 && x.ActionID != 69 && x.ActionID != 45&& x.ActionID != 63&& x.ActionID != 60);
               }
-              //if (this.sSOLoginDataModel.RoleID == 7) {
-              //  this.WorkFlowActionList = this.WorkFlowActionList.filter((x: { ActionID: number; }) => x.ActionID != 42);
-              //}
+              if (this.QueryStatus == 'AfterInspectionPending') {
+                // ActionID=77/69
+
+                this.WorkFlowActionList = this.WorkFlowActionList.filter((x: { ActionID: number; }) => x.ActionID != 49 && x.ActionID != 69&& x.ActionID != 45&& x.ActionID != 84&& x.ActionID != 3);
+              }
+              if (this.QueryStatus == 'InspectionPending' && this.sSOLoginDataModel.RoleID != 3) {
+                // ActionID=77/69
+
+                this.WorkFlowActionList = this.WorkFlowActionList.filter((x: { ActionID: number; }) => x.ActionID == 69 || x.ActionID == 60);
+              }
+              if (this.QueryStatus == 'InspectionPending' && this.sSOLoginDataModel.RoleID==3) {
+                // ActionID=77/69
+
+                this.WorkFlowActionList = this.WorkFlowActionList.filter((x: { ActionID: number; }) => x.ActionID == 45 || x.ActionID == 60);
+              }
               this.ActionID = this.WorkFlowActionList[0]['ActionID'];
               var IsNextAction = this.WorkFlowActionList.find((x: { ActionID: number; }) => x.ActionID == this.ActionID)?.IsNextAction;
               var IsRevert = this.WorkFlowActionList.find((x: { ActionID: number; }) => x.ActionID == this.ActionID)?.IsRevert;
@@ -1470,23 +1486,34 @@ export class DocumentScrutinyCheckListDetailsComponent implements OnInit {
       }, 200);
     }
   }
-  OnChangeCurrentAction() {
-    debugger;
+  async OnChangeCurrentAction() {
+    await this.GetRoleListForApporval();
     var IsNextAction = this.WorkFlowActionList.find((x: { ActionID: number; }) => x.ActionID == this.ActionID)?.IsNextAction;
     var IsRevert = this.WorkFlowActionList.find((x: { ActionID: number; }) => x.ActionID == this.ActionID)?.IsRevert;
     if (IsNextAction == true && IsRevert == false) {
       this.ShowHideNextUser = true;
       this.ShowHideNextRole = true;
+      if (this.UserRoleList.length > 0) {
+        this.UserRoleList = this.UserRoleList.filter((x: { RoleID: number; }) => x.RoleID != 1);
+      }
       //this.ShowHideNextAction = true;
     }
     else if (IsNextAction == false && IsRevert == false) {
       this.ShowHideNextUser = false;
       this.ShowHideNextRole = false;
+      if (this.UserRoleList.length > 0) {
+        this.UserRoleList = this.UserRoleList.filter((x: { RoleID: number; }) => x.RoleID != 1);
+      }
       //this.ShowHideNextAction = false;
     }
     else if (IsNextAction == false && IsRevert == true) {
       this.ShowHideNextUser = true;
       this.ShowHideNextRole = true;
+      if (this.sSOLoginDataModel.RoleID != 5) {
+        if (this.UserRoleList.length > 0) {
+          this.UserRoleList = this.UserRoleList.filter((x: { RoleID: number; }) => x.RoleID != 1);
+        }
+      }
       //this.ShowHideNextAction = false;
     }
   }

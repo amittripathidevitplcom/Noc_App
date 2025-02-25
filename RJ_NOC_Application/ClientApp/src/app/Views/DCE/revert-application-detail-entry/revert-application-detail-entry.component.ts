@@ -176,12 +176,12 @@ export class RevertApplicationDetailEntryComponent implements OnInit {
     //Medical Group 3
     if (this.SelectedDepartmentID == 6) {
       if (this.CollegeType_IsExisting == true) {
-        if (this.CheckTabsEntryData['LandInformation'] > 0 && this.CheckTabsEntryData['Facility'] > 0 && this.CheckTabsEntryData['RequiredDocument'] > 0 && this.CheckTabsEntryData['RoomDetails'] > 0 && this.CheckTabsEntryData['OtherInformation'] > 0 && this.CheckTabsEntryData['BuildingDocuments'] > 0 && this.CheckTabsEntryData['StaffDetails'] > 0 && this.CheckTabsEntryData['OLDNOCDetails'] > 0 && this.CheckTabsEntryData['AcademicInformation'] > 0 && this.CheckTabsEntryData['HospitalDetails'] > 0 && this.CheckTabsEntryData['HostelDetails'] > 0) {
+        if (this.CheckTabsEntryData['LandInformation'] > 0 && this.CheckTabsEntryData['Facility'] > 0 && this.CheckTabsEntryData['RoomDetails'] > 0 && this.CheckTabsEntryData['OtherInformation'] > 0 && this.CheckTabsEntryData['BuildingDocuments'] > 0 && this.CheckTabsEntryData['StaffDetails'] > 0 && this.CheckTabsEntryData['OLDNOCDetails'] > 0 && this.CheckTabsEntryData['AcademicInformation'] > 0 && this.CheckTabsEntryData['MGThreeHospitalDetails'] > 0 && this.CheckTabsEntryData['HostelDetails'] > 0) {
           this.IsShowDraftFinalSubmit = false;
         }
       }
       else {
-        if (this.CheckTabsEntryData['LandInformation'] > 0 && this.CheckTabsEntryData['Facility'] > 0 && this.CheckTabsEntryData['RequiredDocument'] > 0 && this.CheckTabsEntryData['RoomDetails'] > 0 && this.CheckTabsEntryData['OtherInformation'] > 0 && this.CheckTabsEntryData['BuildingDocuments'] > 0 && this.CheckTabsEntryData['HospitalDetails'] > 0 && this.CheckTabsEntryData['HostelDetails'] > 0) {
+        if (this.CheckTabsEntryData['LandInformation'] > 0 && this.CheckTabsEntryData['Facility'] > 0 && this.CheckTabsEntryData['RoomDetails'] > 0 && this.CheckTabsEntryData['OtherInformation'] > 0 && this.CheckTabsEntryData['BuildingDocuments'] > 0 && this.CheckTabsEntryData['MGThreeHospitalDetails'] > 0 && this.CheckTabsEntryData['HostelDetails'] > 0) {
           this.IsShowDraftFinalSubmit = false;
         }
       }
@@ -309,7 +309,28 @@ export class RevertApplicationDetailEntryComponent implements OnInit {
       this.loaderService.requestStarted();
 
       if (confirm("Are you sure you want to Resubmit application?")) {
-        var DCPendingPoint = "";
+        if (this.SelectedDepartmentID == 6) {
+          await this.applyNOCApplicationService.SubmitRevertApplication(this.SelectedApplyNOCID, this.SelectedDepartmentID)
+            .then((data: any) => {
+
+              this.State = data['State'];
+              this.SuccessMessage = data['SuccessMessage'];
+              this.ErrorMessage = data['ErrorMessage'];
+              if (!this.State) {
+                this.toastr.success('Resubmit Application Successfully')
+
+                setTimeout(() => {
+                  this.routers.navigate(['/revertedapplicationlist']);
+                }, 500);
+
+              }
+              else {
+                this.toastr.error(this.ErrorMessage)
+              }
+            });
+        }
+        else {
+          var DCPendingPoint = "";
           await this.commonMasterService.Check30Female(this.SelectedCollageID)
             .then((data: any) => {
               this.State = data['State'];
@@ -368,7 +389,7 @@ export class RevertApplicationDetailEntryComponent implements OnInit {
                   this.isCheck30Female = true;
                   return;
                 }
-    
+
                 else {
                   if (data['Data'][0]['data'][0]['PendingMinLandArea'] > 0) {
                     this.toastr.error('Please Enter Min Land Area : ' + data['Data'][0]['data'][0]['Dis_MinLandArea'] + ' Sq. Feet')
@@ -391,25 +412,26 @@ export class RevertApplicationDetailEntryComponent implements OnInit {
                 this.toastr.error(this.ErrorMessage)
               }
             })
-        if (this.isCheck30Female == false) {
-          await this.applyNOCApplicationService.SubmitRevertApplication(this.SelectedApplyNOCID, this.SelectedDepartmentID)
-            .then((data: any) => {
+          if (this.isCheck30Female == false) {
+            await this.applyNOCApplicationService.SubmitRevertApplication(this.SelectedApplyNOCID, this.SelectedDepartmentID)
+              .then((data: any) => {
 
-              this.State = data['State'];
-              this.SuccessMessage = data['SuccessMessage'];
-              this.ErrorMessage = data['ErrorMessage'];
-              if (!this.State) {
-                this.toastr.success('Resubmit Application Successfully')
+                this.State = data['State'];
+                this.SuccessMessage = data['SuccessMessage'];
+                this.ErrorMessage = data['ErrorMessage'];
+                if (!this.State) {
+                  this.toastr.success('Resubmit Application Successfully')
 
-                setTimeout(() => {
-                  this.routers.navigate(['/revertedapplicationlist']);
-                }, 500);
+                  setTimeout(() => {
+                    this.routers.navigate(['/revertedapplicationlist']);
+                  }, 500);
 
-              }
-              else {
-                this.toastr.error(this.ErrorMessage)
-              }
-            });
+                }
+                else {
+                  this.toastr.error(this.ErrorMessage)
+                }
+              });
+          }
         }
       }
     } catch (ex) { console.log(ex) }

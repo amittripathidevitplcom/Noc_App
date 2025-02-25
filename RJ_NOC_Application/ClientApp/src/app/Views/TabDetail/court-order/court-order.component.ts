@@ -45,6 +45,8 @@ export class CourtOrderComponent {
 
   sSOLoginDataModel = new SSOLoginDataModel();
   public SearchRecordID: string = '';
+  public QueryStringStatus: any = '';
+  public SelectedApplyNOCID: number = 0;
 
   constructor(private formBuilder: FormBuilder, private commonMasterService: CommonMasterService,
     private fileUploadService: FileUploadService, private toastr: ToastrService, private loaderService: LoaderService, private router: ActivatedRoute,
@@ -64,6 +66,11 @@ export class CourtOrderComponent {
   async ngOnInit(): Promise<void> {
     this.SelectedDepartmentID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DepartmentID')?.toString()));
     this.SearchRecordID = this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString());
+    this.SelectedApplyNOCID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplyNOCID')?.toString()));
+    this.QueryStringStatus = this.router.snapshot.paramMap.get('Status')?.toString();
+
+
+
     if (this.SearchRecordID.length > 20) {
       await this.commonMasterService.GetCollegeID_SearchRecordIDWise(this.SearchRecordID)
         .then((data: any) => {
@@ -174,6 +181,7 @@ export class CourtOrderComponent {
       this.searchrequest.DepartmentID = this.SelectedDepartmentID;
       this.searchrequest.CollegeID = this.SelectedCollageID;
       this.searchrequest.UserID = this.sSOLoginDataModel.UserID;
+      this.searchrequest.ApplyNOCID = this.SelectedApplyNOCID > 0 ? this.SelectedApplyNOCID : 0;
 
       await this.courtOrderService.GetCourtOrderData(this.searchrequest)
         .then((data: any) => {

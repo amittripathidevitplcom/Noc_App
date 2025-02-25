@@ -56,6 +56,7 @@ export class DocumentScrutinyCollegeDetailComponent implements OnInit {
 
   public FinalRemarks: any = [];
   public isDisabledAction: boolean = false;
+  public CollegeGeoTaggingList: any = [];
 
   async ngOnInit() {
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
@@ -67,6 +68,7 @@ export class DocumentScrutinyCollegeDetailComponent implements OnInit {
     this.ModifyBy = 1;
     // get college list
     await this.ViewTotalCollegeDataByID();
+    await this.ViewTotalCollegeData(this.SelectedCollageID);
   }
   async ViewTotalCollegeDataByID() {
     try {
@@ -85,6 +87,31 @@ export class DocumentScrutinyCollegeDetailComponent implements OnInit {
           this.FinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
           this.dsrequest.FinalRemark = this.FinalRemarks.find((x: { RoleIDS: number; }) => x.RoleIDS == this.sSOLoginDataModel.RoleID)?.Remark;
           this.dsrequest.ActionID = this.FinalRemarks.find((x: { RoleIDS: number; }) => x.RoleIDS == this.sSOLoginDataModel.RoleID)?.ActionID;
+        }, (error: any) => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+  async ViewTotalCollegeData(CollegeID: any) {
+    try {
+      this.loaderService.requestStarted();
+      await this.draftApplicationListService.ViewTotalCollegeDataByID(CollegeID, this.UserID)
+        .then((data: any) => {
+
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          // data
+          this.CollegeGeoTaggingList = data['Data'][0]['data']['Table3'];
+          //console.log(this.draftApplicatoinListData);
         }, (error: any) => console.error(error));
     }
     catch (Ex) {

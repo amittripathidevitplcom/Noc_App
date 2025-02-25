@@ -97,3 +97,15 @@ export class NOCIssuedForMGOneDataModel {
   public NOCFormat: string = '';
   public CollegeID: number = 0;
 }
+
+
+export class NOCIssuedForAHDegreeDataModel {
+  public DepartmentID: number = 0;
+  public ApplyNOCID: number = 0;
+  public ParameterID: number = 0;
+  public CreatedBy: number = 0;
+  public Remark: string = '';
+  public ApproveReject: string = '';
+  public PdfFilePath: string = '';
+  public NOCFormat: string = '';
+    }   

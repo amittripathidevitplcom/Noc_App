@@ -18,6 +18,8 @@ import { ModalDismissReasons, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-boo
 import { BuildingDetailsMasterService } from '../../../Services/BuildingDetailsMaster/building-details-master.service';
 import { AnimalDocumentScrutinyService } from '../../../Services/AnimalDocumentScrutiny/animal-document-scrutiny.service';
 import { ApplyNocpreviewAnimalhusbandryComponent } from '../../apply-nocpreview-animalhusbandry/apply-nocpreview-animalhusbandry.component';
+import { DocumentScrutinyAHDegreeComponent } from '../document-scrutiny-ahdegree/document-scrutiny-ahdegree.component';
+import { CollegeService } from '../../../services/collegedetailsform/College/college.service';
 
 @Injectable({
   providedIn: 'root'
@@ -47,7 +49,7 @@ export class AhDocumentScrutinyOtherInformationComponent implements OnInit {
   public FinalRemarks: any = [];
   //public RequiredDocumentsAllList: any = [];
 
-  constructor(
+  constructor(private documentscrutinyahdegree: DocumentScrutinyAHDegreeComponent, private collegeService: CollegeService,
     private applyNocpreviewAnimalhusbandryComponent: ApplyNocpreviewAnimalhusbandryComponent,private otherInformationService: OtherInformationService, private commonMasterService: CommonMasterService, private formBuilder: FormBuilder, private animalDocumentScrutinyService: AnimalDocumentScrutinyService,
     private loaderService: LoaderService, private router: ActivatedRoute, private modalService: NgbModal, private toastr: ToastrService, private applyNOCApplicationService: ApplyNOCApplicationService, private routers: Router) { }
 
@@ -57,6 +59,7 @@ export class AhDocumentScrutinyOtherInformationComponent implements OnInit {
     this.SelectedCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
     this.SelectedApplyNOCID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplyNOCID')?.toString()));
     await this.GetOtherInformationAllList();
+    await this.GetCollageDetails();
 
   }
   async GetOtherInformationAllList() {
@@ -174,6 +177,34 @@ export class AhDocumentScrutinyOtherInformationComponent implements OnInit {
     }
   }
   ViewTaril(ID: number, ActionType: string) {
-    this.applyNocpreviewAnimalhusbandryComponent.ViewTarilCommon(ID, ActionType);
+    if (this.IsAHDegreeCollege) {
+      this.documentscrutinyahdegree.ViewTarilCommon(ID, ActionType);
+    }
+    else {
+      this.applyNocpreviewAnimalhusbandryComponent.ViewTarilCommon(ID, ActionType);
+    }
+  }
+
+  public IsAHDegreeCollege: boolean = false;
+  async GetCollageDetails() {
+    try {
+      this.IsAHDegreeCollege = false;
+      this.loaderService.requestStarted();
+      await this.collegeService.GetData(this.SelectedCollageID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          if (data['Data']['CollegeLevelName'] == 'UG' && data['Data']['DepartmentID'] == 2) {
+            this.IsAHDegreeCollege = true;
+          }
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
   }
 }

@@ -29,7 +29,7 @@
               <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                 <label for="ddlDepartmentId">Department *</label>
                 <select id="ddlDepartmentId" name="ddlDepartmentId" #SelectedDepartmentId [(ngModel)]="request.DepartmentID" class="form-control" formControlName="ddlDepartmentId"
-                          (change)="GetWorkflowNOCType(SelectedDepartmentId.value)">
+                        (change)="GetWorkflowNOCType(SelectedDepartmentId.value)">
                   <option value="0" disabled>--Select--</option>
                   <option *ngFor="let item of DepartmentData"
                           value="{{item.DepartmentID}}">
@@ -38,6 +38,19 @@
                 </select>
                 <div *ngIf="isSubmitted&&form.ddlDepartmentId.errors" class="text-danger">
                   <p *ngIf="!form.ddlDepartmentId.errors.DropdownValidators"><i class="fa fa-exclamation-circle" aria-hidden="true"></i> This field is required .!</p>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="request.DepartmentID==2">
+                <label for="ddlCollegeType">College Type *</label>
+                <select id="ddlCollegeType" name="ddlCollegeType" [(ngModel)]="request.CollegeTypeID" class="form-control" formControlName="ddlCollegeType">
+                  <option value="0" disabled>--Select--</option>
+                  <option *ngFor="let item of WorkflowCollegeTypelst"
+                          value="{{item.ID}}">
+                    {{item.Name}}
+                  </option>
+                </select>
+                <div *ngIf="isSubmitted&&form.ddlnoctype.errors" class="text-danger">
+                  <p *ngIf="!form.ddlnoctype.errors.DropdownValidators"><i class="fa fa-exclamation-circle" aria-hidden="true"></i> This field is required .!</p>
                 </div>
               </div>
               <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">

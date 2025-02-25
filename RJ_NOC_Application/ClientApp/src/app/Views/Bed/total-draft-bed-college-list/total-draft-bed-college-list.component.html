@@ -1,0 +1,175 @@
+<app-loader></app-loader>
+<div class="container-fluid breadcrumbBox py-2">
+  <div class="row align-items-center">
+    <div class="col-md-6">
+      <h3>Total B.ed Draft Entry College</h3>
+    </div>
+    <div class="col-md-6 d-flex justify-content-end">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item active" aria-current="page">Total B.ed Final Draft Entry College</li>
+        </ol>
+      </nav>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card mb-0">
+        <div class="card-header">
+          <b>
+            <i class="bi bi-table"></i> Search Fields
+          </b>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <label for="ddlUniversityID" class="form-label">
+                <span> University</span>
+              </label>
+              <select class="form-select" id="ddlUniversityID" name="ddlUniversityID" [(ngModel)]="request.UniversityID">
+                <option value="0">All</option>
+                <option *ngFor="let item of UniversityList" value="{{item.UniversityID}}">{{item.UniversityName}}</option>
+              </select>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <label for="ddlDivisionID" class="form-label">Division:</label>
+              <select class="form-select" id="ddlDivisionID" name="ddlDivisionID" [(ngModel)]="request.DivisionID" #SelectedDivisionID>
+                <option value="0">All</option>
+                <option *ngFor="let item of DivisionList" value="{{item.DivisionID}}">{{item.DivisionName}}</option>
+              </select>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <label for="ddlDistrictID" class="form-label">District:</label>
+              <select class="form-select" id="ddlDistrictID" name="ddlDistrictID" [(ngModel)]="request.DistrictID">
+                <option value="0">All</option>
+                <option *ngFor="let item of DistrictList" value="{{item.DistrictID}}">{{item.DistrictName}}</option>
+              </select>
+            </div>
+
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <label for="ddlDistrictID" class="form-label">College Name</label>
+              <input type="text" class="form-control" id="txtCollegeName" name="txtCollegeName" [(ngModel)]="request.CollegeName">
+
+            </div>
+          </div>
+        </div>
+        <div class="card-footer text-end">
+          <button type="submit" (click)="GetTotalDraftentryCollege()" class="btn btn-primary"><i class="fa fa-search"></i>&nbsp;Search</button>
+          <button type="submit" (click)="ResetControl()" class="btn btn-danger"><i class="bi bi-bootstrap-reboot"></i>&nbsp;Reset</button>
+          <button type="submit" (click)="btnExportTable_Click()" class="btn btn-success"><i class="fa fa-file-excel-o"></i> &nbsp;Export Record</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="card mb-0">
+      <div class="card-header d-xxl-flex d-xl-flex d-md-flex d-sm-block justify-content-between align-items-center">
+        <b><i class="bi bi-table"></i> Total B.ed Final Draft Entry Colleges </b>
+        <div class="d-flex align-items-center table-filter mr-15">
+          <i class="fa fa-search"></i>
+          <input type="text" class="form-control" placeholder="Search Here" [(ngModel)]="searchText" />
+        </div>
+      </div>
+      <div class="table-responsive" style="height: calc(100vh - 350px) !important;">
+        <table class="table table-hover table-striped-columns" id="tabellist">
+          <thead>
+            <tr>
+              <th>Sr. No.</th>
+              <th>Action</th>
+              <th>College SSOID</th>
+              <th>College Name</th>
+              <th>College Registration No</th>
+              <th>District Name</th>
+              <th>TehsilName</th>
+              <th>College Mobile No.</th>
+              <th>College Email</th>
+              <th>Full Address</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let row of TotalDraftentryCollege  | tableSearchFilter:searchText; let idx=index;">
+              <td style="text-align:center;">{{idx+1}}</td>
+              <td>
+                <a href="javascript:void(0)" (click)="ApplicationPreview_OnClick(11,row.CollegeID)" title="Application Summary" class="btn btn-sm btn-secondary">
+                  <i class="fa fa-eye"></i>
+                </a>
+                <a class="btn btn-sm btn-info" href="javascript:void(0)"
+                   title="Preview" (click)="PreviewDraftEntry_click(mymodalpreview,row.CollegeID)">
+                  <i class="fa fa-eye"></i>
+                </a>
+              </td>
+              <td>{{row.SSOID}}</td>
+              <td>{{row.CollegeName}}</td>
+              <td>{{row.CollegeRegistrationNo}}</td>
+              <td>{{row.DistrictNAme}}</td>
+              <td>{{row.TehsilName}}</td>
+              <td>{{row.CollegeMobileNumber}}</td>
+              <td>{{row.CollegeEmail}}</td>
+              <td>{{row.FullAddress}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #mymodalpreview let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-applynocpayment-title" style="font-size: 17px; font-weight: 600 !important;">
+        Draft Update Details
+      </h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <i class="fa fa-close"></i>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="col-md-12">
+        <div class="clearfix"></div>
+        <div class="card mb-0">
+          <div class="card-header d-xxl-flex d-xl-flex d-md-flex d-sm-block justify-content-between align-items-center">
+            <b><i class="bi bi-table"></i>Draft Update Details </b>
+            <div class="d-flex align-items-center">
+              <div class="btn-group mr-15" role="group" aria-label="Basic outlined example">
+              </div>
+              <div class="d-flex align-items-center table-filter mr-15">
+              </div>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-hover table-striped-columns" id="tabellist" #content>
+                <thead>
+                  <tr>
+                    <th>Sr. No</th>
+                    <th>Type</th>
+                    <th>Update On</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of DraftEntryCollegeDetailsList let idx=index;">
+                    <td>{{idx+1}}</td>
+                    <td>
+                      {{item.Type}}
+                    </td>
+                    <td>
+                      {{item.Date}}
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </ng-template>
+</div>
+

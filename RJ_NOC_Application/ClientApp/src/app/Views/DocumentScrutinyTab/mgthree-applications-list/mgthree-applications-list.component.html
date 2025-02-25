@@ -31,7 +31,14 @@
                     <td>
                       <span *ngFor="let witem of WorkflowPermissionslst let idxx =index">
                         <a *ngIf="witem.PermissionCode=='Forward' && QueryStatus == 'Pending'" (click)="ApplicationForward(item.DepartmentID,item.CollegeID,item.ApplyNOCID)" href="javascript:void(0)" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></a>
-                        <a *ngIf="witem.PermissionCode=='DocumentScrutiny' && QueryStatus == 'DCPending'"  href="javascript:void(0)" (click)="DocumentScrutiny(item.DepartmentID,item.CollegeID,item.ApplyNOCID,item.ApplicationNo)" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></a>
+                        <a *ngIf="witem.PermissionCode=='DocumentScrutiny' && QueryStatus == 'DCPending'" href="javascript:void(0)" (click)="DocumentScrutiny(item.DepartmentID,item.CollegeID,item.ApplyNOCID,item.ApplicationNo)" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></a>
+                        <a *ngIf="witem.PermissionCode=='DocumentScrutiny' && QueryStatus == 'InspectionPending' && sSOLoginDataModel.RoleID!=5" href="javascript:void(0)" (click)="DocumentScrutiny(item.DepartmentID,item.CollegeID,item.ApplyNOCID,item.ApplicationNo)" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></a>
+                        <a *ngIf="witem.PermissionCode=='DocumentScrutiny' && QueryStatus == 'AfterInspectionPending'" href="javascript:void(0)" (click)="DocumentScrutiny(item.DepartmentID,item.CollegeID,item.ApplyNOCID,item.ApplicationNo)" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></a>
+                        <a *ngIf="witem.PermissionCode=='DocumentScrutinyForward' && (QueryStatus == 'DCPending' || QueryStatus == 'APending') && sSOLoginDataModel.RoleID!=5" href="javascript:void(0)" (click)="DocumentScrutinyForward(item.DepartmentID,item.CollegeID,item.ApplyNOCID,item.ApplicationNo)" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></a>
+                        <a *ngIf="witem.PermissionCode=='DocumentScrutinyForward' && QueryStatus == 'AfterInspectionPending' && sSOLoginDataModel.RoleID!=5" href="javascript:void(0)" (click)="DocumentScrutinyForward(item.DepartmentID,item.CollegeID,item.ApplyNOCID,item.ApplicationNo)" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></a>
+                        <a *ngIf="witem.PermissionCode=='DocumentScrutinyForward' && QueryStatus == 'InspectionPending'" href="javascript:void(0)" (click)="DocumentScrutinyForward(item.DepartmentID,item.CollegeID,item.ApplyNOCID,item.ApplicationNo)" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></a>
+                        <a *ngIf="witem.PermissionCode=='CheckList' && QueryStatus == 'DCPending'" href="javascript:void(0)" (click)="OpenCheckList(checklistmodel,item.ApplyNOCID,item.DepartmentID,item.CollegeID,item.ApplicationNo)" class="btn btn-sm btn-success"><i class="fa fa-list-ol"></i></a>
+                        <button type="button" class="btn btn-sm btn-primary" *ngIf="witem.PermissionCode=='ViewCheckList' && QueryStatus != 'DCPending'" title="Inspection Details" (click)="ViewApplicationInspectionDetails(mymodalViewPVDetails,item.ApplyNOCID,item.DepartmentID,item.CollegeID,item.ApplicationNo)"><i class="fa fa-list"></i></button>
                       </span>
                       <a href="javascript:void(0)" title="Application Preview" (click)="ApplicationPreview_OnClick(item.DepartmentID,item.CollegeID)" class="btn btn-sm btn-secondary">
                         <i class="fa fa-eye"></i>
@@ -90,6 +97,307 @@
               </tbody>
             </table>
           </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+<ng-template #checklistmodel let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title" style="font-size: 17px; font-weight: 600 !important;">Application Action (ApplicationNo : {{ApplicationNo}})</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <i class="fa fa-close"></i>
+    </button>
+  </div>
+  <div class="modal-body">
+    <app-loader></app-loader>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="table-responsive">
+          <table class="table table-hover table-striped">
+            <thead>
+              <tr>
+                <th>S.No.</th>
+                <th>
+                  Yes / No / Not Applicable
+                </th>
+                <th></th>
+                <th>Name</th>
+                <th>FileUpload</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of CheckListData let idx =index">
+                <td>{{idx+1}}</td>
+                <td>
+                  <input class="form-check-input" type="radio" name="rdChecklistYesNo{{idx}}" id="rdChecklistYes{{idx}}" value="1" [(ngModel)]="item.IsChecked">
+                  &nbsp;<label class="form-check-label">Yes</label>&nbsp;&nbsp;
+                  <input class="form-check-input" type="radio" name="rdChecklistYesNo{{idx}}" id="rdChecklistNo{{idx}}" value="2" [(ngModel)]="item.IsChecked">
+                  &nbsp;<label class="form-check-label"> No</label>&nbsp;&nbsp;
+                  <input class="form-check-input" type="radio" name="rdChecklistYesNo{{idx}}" id="rdChecklistNotapplicable{{idx}}" value="3" [(ngModel)]="item.IsChecked">
+                  &nbsp;<label class="form-check-label"> Not Applicable</label>
+                </td>
+                <td>
+                  <div *ngIf="item.IsChecked==2">
+                    <textarea type="text" id="txtRemark{{idx}}" placeholder="Remark*" name="txtRemark{{idx}}" class="form-control" [(ngModel)]="item.Remark" (keypress)="alphanumbersOnly($event)"></textarea>
+                  </div>
+                </td>
+                <td>{{item.RNCCheckListName}}</td>
+                <td>
+                  <div class="d-flex" *ngIf="item.FileUpload">
+                    <input type="file" style="display:none" name="fileUpload{{idx+1}}" id="fileUpload{{idx+1}}" class="form-control" (change)="ValidateDocumentImage($event,idx)" />
+                    <label class="btn upload" for="fileUpload{{idx+1}}">
+                      <span class="filename">Choose file</span>
+                      {{item.FileUploadName === '' || item.FileUploadName == undefined ? 'No File Choosen' : item.FileUploadName_Dis_FileName}}
+                    </label>
+                    <div class="btn-group" *ngIf="item.FileUploadName != ''">
+                      <a class="btn btn-outline-primary" target="_blank" href="{{item.FileUploadNamePath}}"><i class="fa fa-eye"></i></a>
+                      <button type="button" class="btn btn-outline-danger" (click)="DeleteImage(idx)"><i class="fa fa-trash-o"></i></button>
+                    </div>
+                  </div>
+
+                </td>
+
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <button type="button" class="btn btn-primary" (click)="SavePhysicalVerification()" title="Submit">Save</button>
+      </div>
+    </div>
+    <br />
+    <div class="row">
+      <div class="col-12">
+        <div class="card tabCard1 mb-0">
+          <div class="card-header">
+            <b><i class="bi bi-table"></i>Committee Member List</b>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="table-responsive">
+                  <table class="table table-hover table-striped">
+                    <thead>
+                      <tr>
+                        <th>S.No.</th>
+                        <th>
+                          SSOID
+                        </th>
+                        <th>Name</th>
+                        <th>Mobile</th>
+                        <th></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+
+                      <tr *ngFor="let item of ApplicationCommitteeList let idx =index">
+                        <td>{{idx+1}}</td>
+                        <td>{{item.SSOID}}</td>
+                        <td>{{item.NameOfPerson}}</td>
+                        <td>{{item.MobileNumber}}</td>
+                        <td>
+                          <button *ngIf="(item.SendOTP==undefined || item.SendOTP==0)&& IsBtnShowHide" type="button" class="btn btn-sm btn-primary" title="Verify" (click)="SendOTPByEsanchar(item.MobileNumber,idx)">Send OTP</button> <!--SendOTP(item.AadhaarNo,idx)-->
+                          <div class="row" *ngIf="IsBtnShowHide">
+                            <div class="col-sm-9 col-md-9">
+                              <input *ngIf="item.SendOTP==1" type="password" id="txtUserOTP{{idx}}" placeholder="OTP*" name="txtUserOTP{{idx}}" class="form-control" [(ngModel)]="item.UserOTP" (keypress)="numbersOnly($event)" maxlength="6" />
+                            </div>
+                            <div class="col-sm-3 col-md-3">
+                              <button *ngIf="item.SendOTP==1" type="button" class="btn btn-sm btn-primary" title="Verify" (click)="VerifyOTPByEsanchar(item.UserOTP,idx)">Verify</button>
+                            </div>
+                          </div>
+                          <span *ngIf="item.SendOTP==2 || IsDisabled"><i class="fa fa-check text-success"></i></span>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--<div class="row">
+          <div class="col-md-12 text-danger">
+            <p>1. हम सभी निरीक्षण अधिकारियों ने ऑनलाइन आवेदन पत्र के सभी बिंदुओं की जांच कर ली है तथा आवेदन पत्र में दी गई सभी सूचनाओं का उनसे संबंधित मूल दस्तावेज से मिलान कर लिया है तथा भौतिक निरीक्षण कर लिया है</p>
+            <p>2. हम सभी निरीक्षण अधिकारियों ने सभी दस्तावेजों का(एफ.डी.आर सहित) मूल एवं भौतिक रूप से मिलान कर लिया है|</p>
+            <p>3. संलग्न किए गए सभी दस्तावेजों को हमारे द्वारा मोहर सहित प्रमाणित कर दिया गया है|</p>
+            <p>4. महाविद्यालय की एवं महाविद्यालय भूमि की संलग्न पत्र के अनुसार फोटो लगाकर रिपोर्ट के साथ प्रस्तुत कर दिया गया है|</p>
+            <p>5. भवन एवं भूमि के छाया चित्रों में कंप्यूटराइज्ड छेड़छाड़ नहीं की गई है तथा वे वास्तविक हैं|</p>
+          </div>
+        </div>-->
+        <!--<div class="row  m-2">
+          <div class="col-md-12">
+            <button type="button" class="btn btn-primary" *ngIf="ApplicationCommitteeList.length>0 && IsBtnShowHide" (click)="SavePhysicalVerification()" title="Submit">Save</button>&nbsp;&nbsp;
+            <button *ngIf="ApplicationCommitteeList.length>0 && IsBtnShowHide" type="button" class="btn btn-success" (click)="SubmitPhysicalVerification()" title="Submit">Submit</button>
+          </div>
+        </div>-->
+
+      </div>
+
+    </div>
+
+    <div class="row m-2">
+      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+        <label for="ddlAction" class="form-label">Application On Action <span style="color:red;">*</span></label>
+        <select class="form-select" (change)="OnChangeCurrentAction()" [(ngModel)]="ActionID">
+          <option value="0" disabled selected>--Select Action--</option>
+          <option *ngFor="let item of WorkFlowActionList" value="{{item.ActionID}}">{{(sSOLoginDataModel.RoleID==20 ||sSOLoginDataModel.RoleID==11)&&item.ActionName=='Approve'?'Forward':item.ActionName}}</option>
+        </select>
+        <div *ngIf="isActionTypeValid&&ActionID<=0" class="text-danger">
+          <p *ngIf="isActionTypeValid&&ActionID<=0"> This field is required .!</p>
+        </div>
+      </div>
+
+      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="ShowHideNextRole">
+        <label for="ddlDistrictID" class="form-label">Next Role <span style="color:red;">*</span></label>
+
+        <select class="form-select" (change)="NextGetUserDetailsByRoleID()" [(ngModel)]="NextRoleID">
+          <option value="0" selected>--Select Role--</option>
+          <option *ngFor="let item of UserRoleList" value="{{item.RoleID}}">{{item.RoleName}}</option>
+        </select>
+
+
+        <div *ngIf="isNextRoleIDValid&&NextRoleID<=0" class="text-danger">
+          <p *ngIf="isNextRoleIDValid&&NextRoleID<=0"> This field is required .!</p>
+        </div>
+      </div>
+
+
+      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="ShowHideNextUser">
+        <label for="ddlDistrictID" class="form-label">Next User <span style="color:red;">*</span></label>
+        <select class="form-select" [(ngModel)]="NextUserID">
+          <option value="0" selected>--Select User--</option>
+          <option *ngFor="let item of UserListRoleWise" value="{{item.UId}}">{{item.Name}}</option>
+        </select>
+        <div *ngIf="isNextUserIdValid&&NextUserID<=0" class="text-danger">
+          <p *ngIf="isNextUserIdValid&&NextUserID<=0"> This field is required .!</p>
+        </div>
+      </div>
+    </div>
+    <div class="row  m-2">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-12 mb-3">
+        <label>Remarks  <span style="color:red;">*</span></label>
+        <textarea id="CheckFinalRemark" class="form-control" [(ngModel)]="CheckFinalRemark"></textarea>
+        <div *ngIf="isRemarkValid&&CheckFinalRemark==''" class="text-danger">
+          <p *ngIf="isRemarkValid&&CheckFinalRemark==''"> This field is required .!</p>
+        </div>
+      </div>
+
+    </div>
+    <div class="row m-2">
+      <div class="col-md-12 mb-5">
+        <button type="button" class="btn btn-primary" (click)="DocumentScrutinyAction()" title="Submit">Submit</button>
+      </div>
+    </div>
+  </div>
+</ng-template>
+<ng-template #mymodalViewPVDetails let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title" style="font-size: 17px; font-weight: 600 !important;">Application Post Verification Details (ApplicationNo:{{ApplicationNo}})</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <i class="fa fa-close"></i>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="row m-t1">
+
+      <div class="col-md-12">
+        <div class="table-responsive">
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th>
+                  Sr.No.
+                </th>
+                <th>
+                  Description
+                </th>
+                <th>
+                  PV Date
+                </th>
+                <th>
+                  Status
+                </th>
+                <th>
+                  Remarks
+                </th>
+
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let row of PVApplicationDetailsList;let idx=index;">
+                <td>
+                  {{idx+1}}
+                </td>
+                <td>
+                  {{row.RNCCheckListName}}
+                </td>
+                <td>
+                  {{row.PVDate}}
+                </td>
+                <td>
+                  {{row.strStatus}}
+                </td>
+                <td>
+                  {{row.Remark}}
+                </td>
+              </tr>
+              <tr *ngIf="PVApplicationDetailsList.length<=0">
+                <td colspan="5" style="color:red">No Record Found.!</td>
+              </tr>
+            </tbody>
+          </table>
+          <br />
+          <b>DETAILS OF INSPECTION TEAM MEMBERS</b>
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th>
+                  Sr.No.
+                </th>
+                <th>
+                  Name
+                </th>
+                <th>
+                  Mobile Number
+                </th>
+                <th>
+                  SSO ID
+                </th>
+                <th>
+                  Is Primary Member
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let row of PVCommitteeList;let idx=index;">
+                <td>
+                  {{idx+1}}
+                </td>
+                <td>
+                  {{row.NameOfPerson}}
+                </td>
+                <td>
+                  {{row.MobileNumber}}
+                </td>
+                <td>
+                  {{row.SSOID}}
+                </td>
+                <td>
+                  <span>
+                    {{row.IsPrimaryMember=='1'?'Yes':'No'}}
+                  </span>
+                </td>
+              </tr>
+              <tr *ngIf="PVCommitteeList.length<=0">
+                <td colspan="5" style="color:red">No Record Found!</td>
+              </tr>
+            </tbody>
+          </table>
+          <br />
         </div>
       </div>
     </div>

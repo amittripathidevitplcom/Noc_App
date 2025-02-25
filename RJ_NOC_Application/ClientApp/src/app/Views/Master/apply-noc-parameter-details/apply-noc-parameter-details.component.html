@@ -69,9 +69,9 @@
             <td>
               <!--<div class="dropdown">-->
               <!--<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false"
-          style="background-color: #132649;">
-    Action
-  </button>-->
+                      style="background-color: #132649;">
+                Action
+              </button>-->
               <ul class="dropdown-menu show" aria-labelledby="dropdownMenuButton1" style="position: relative !important;display:contents">
                 <li>
                   <a class="dropdown-item list-group-item list-group-item-action list-group-item-danger" href="javascript:void(0)" title="View Apply Details"
@@ -121,8 +121,8 @@
                     Payment
                   </a>
                   <!--<a class="dropdown-item list-group-item list-group-item-action list-group-item-danger" href="javascript:void(0)" title="Payment History" (click)="PaymentHistoryApplyNocApplication_click(mymodalpaymenthistory,item.ApplyNocApplicationID)">
-        Payment History
-      </a>-->
+                    Payment History
+                  </a>-->
                   <span class="dropdown-item list-group-item list-group-item-action list-group-item-danger disabled"
                         *ngIf="item.DepartmentID==2 && item.CollegeLevel==item.OpeneLevel && item.GeoTagging=='Pending' && item.IsMakePayment==false && item.IsFinalSubmit==false" disabled>Complete your geo tag before payment</span>
 
@@ -133,30 +133,30 @@
                     Payment History
                   </a>
                 </li>
-                <!--<li *ngIf="item.DepartmentID==2 && item.IsOpenNOCApplication==true && item.IsFinalSubmit==true && item.IsMakeInspectionPayment==false">
-      <a class="dropdown-item list-group-item list-group-item-action list-group-item-danger" href="javascript:void(0)" title="Payment" (click)="InspectionPaymentApplyNocApplication_click(mymodalinspectionpayment,item.ApplyNocApplicationID)">
-        Inspection Payment
-      </a>
-    </li>
-    <li *ngIf="item.DepartmentID==2 && item.IsOpenNOCApplication==true && item.IsSaveFDR==false">
-      <a class="dropdown-item list-group-item list-group-item-action list-group-item-danger" href="javascript:void(0)" title="Payment" (click)="FDRPaymentApplyNocApplication_click(mymodalfdrpayment,item.ApplyNocApplicationID)">
-        FDR Payment
-      </a>
-    </li>-->
+                <li *ngIf="item.DepartmentID==2 && item.IsOpenNOCApplication==true && item.IsFinalSubmit==true && item.IsMakeInspectionPayment==false">
+                  <a class="dropdown-item list-group-item list-group-item-action list-group-item-danger" href="javascript:void(0)" title="Payment" (click)="InspectionPaymentApplyNocApplication_click(mymodalinspectionpayment,item.ApplyNocApplicationID)">
+                    Inspection Payment
+                  </a>
+                </li>
+                <li *ngIf="item.DepartmentID==2 && item.IsOpenNOCApplication==true && item.IsFinalSubmit==true && item.IsMakeInspectionPayment==true && item.IsSaveFDR==false">
+                  <a class="dropdown-item list-group-item list-group-item-action list-group-item-danger" href="javascript:void(0)" title="Payment" (click)="FDRPaymentApplyNocApplication_click(mymodalfdrpayment,item.ApplyNocApplicationID)">
+                    FDR Payment
+                  </a>
+                </li>
                 <li *ngIf="(item.DepartmentID==6 || item.DepartmentID==9) && item.IsOpenNOCApplication==true">
                   <a class="dropdown-item list-group-item list-group-item-action list-group-item-danger" href="javascript:void(0)" title="Payment" *ngIf="item.IsMakePayment_ApplicationFee==false"
                      (click)="EmitraPaymentApplyNocApplication_click(mymodalemitrapayment,item.ApplyNocApplicationID)">
                     Inspection Payment
                   </a>
                   <!--<a class="dropdown-item list-group-item list-group-item-action list-group-item-danger" href="javascript:void(0)" title="Payment History" *ngIf="item.IsMakePayment_ApplicationFee==true" (click)="PaymentHistoryNocApplication_click(mymodalemitrapaymenthistory,item.ApplyNocApplicationID)">
-        Application Payment History
-      </a>-->
+                    Application Payment History
+                  </a>-->
                 </li>
                 <li>
                   <!--<a class="dropdown-item list-group-item list-group-item-action list-group-item-danger" href="javascript:void(0)"
-         *ngIf="item.IsMakePayment==true && item.IsMakePayment_ApplicationFee==true && item.IsFinalSubmit==false && item.IsOpenNOCApplication==true&&item.IsOpenDefaulter==false&& item.IsDefaulter==false" title="Final Submit Application" (click)="FinalSubmitApplyNocApplication_click(item)">
-        Final Submit
-      </a>-->
+                     *ngIf="item.IsMakePayment==true && item.IsMakePayment_ApplicationFee==true && item.IsFinalSubmit==false && item.IsOpenNOCApplication==true&&item.IsOpenDefaulter==false&& item.IsDefaulter==false" title="Final Submit Application" (click)="FinalSubmitApplyNocApplication_click(item)">
+                    Final Submit
+                  </a>-->
                   <a class="dropdown-item list-group-item list-group-item-action list-group-item-danger" href="javascript:void(0)"
                      *ngIf="item.IsMakePayment==true && item.IsFinalSubmit==false && item.IsOpenNOCApplication==true&&item.IsOpenDefaulter==false&& item.IsDefaulter==false  && ((item.DepartmentID==2 && item.GeoTagging=='Completed') || item.DepartmentID!=2)" title="Final Submit Application" (click)="FinalSubmitApplyNocApplication_click(item)">
                     Final Submit
@@ -182,9 +182,9 @@
 
 
                 <!--<li>
-    <a style="display:none" class="dropdown-item list-group-item list-group-item-action list-group-item-danger" href="javascript:void(0)" title="Egrass Payment" (click)="MakeGrassPayment_click(item)">
-      Egrass Payment
-    </a>-->
+                <a style="display:none" class="dropdown-item list-group-item list-group-item-action list-group-item-danger" href="javascript:void(0)" title="Egrass Payment" (click)="MakeGrassPayment_click(item)">
+                  Egrass Payment
+                </a>-->
                 <!--*ngIf="item.IsMakePayment==true"-->
                 <!--</li>-->
                 <li *ngIf="item.DepartmentID==4 && item.GenerateReceipt_DTE!=''">
@@ -1315,12 +1315,12 @@
                                 Sr.No.
                               </th>
                               <th>
-                                Course Name 
+                                Course Name
                               </th>
                               <th>
                                 No of Seat
                               </th>
-                 
+
                             </tr>
                           </thead>
                           <tbody>
@@ -1449,11 +1449,7 @@
           <b>
             Application Type : Inspection
           </b>
-
-           I
-
         </label>
-         I
       </div>
       <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
         <label>
@@ -1499,13 +1495,7 @@
           <b>
             Application Type : FDR
           </b>
-
-           F
-          /d
-
         </label>
-         F
-        /d
       </div>
       <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
         <label>

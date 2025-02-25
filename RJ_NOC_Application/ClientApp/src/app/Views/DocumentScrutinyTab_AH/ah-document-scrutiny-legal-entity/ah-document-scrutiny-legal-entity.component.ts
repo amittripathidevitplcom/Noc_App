@@ -14,6 +14,7 @@ import { DocumentScrutinyDataModel } from '../../../Models/DocumentScrutinyDataM
 import { AnimalDocumentScrutinyService } from '../../../Services/AnimalDocumentScrutiny/animal-document-scrutiny.service';
 import { ModalDismissReasons, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { ApplyNocpreviewAnimalhusbandryComponent } from '../../apply-nocpreview-animalhusbandry/apply-nocpreview-animalhusbandry.component';
+import { DocumentScrutinyAHDegreeComponent } from '../document-scrutiny-ahdegree/document-scrutiny-ahdegree.component';
 
 @Injectable({
   providedIn: 'root'
@@ -24,7 +25,7 @@ import { ApplyNocpreviewAnimalhusbandryComponent } from '../../apply-nocpreview-
   styleUrls: ['./ah-document-scrutiny-legal-entity.component.css']
 })
 export class AhDocumentScrutinyLegalEntityComponent implements OnInit {
-  constructor(private modalService: NgbModal, private animalDocumentScrutinyService: AnimalDocumentScrutinyService, private applyNOCApplicationService: ApplyNOCApplicationService, private legalEntityListService: LegalEntityService, private toastr: ToastrService, private loaderService: LoaderService, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private collegeService: CollegeService, private sSOLoginService: SSOLoginService, private applyNocpreviewAnimalhusbandryComponent: ApplyNocpreviewAnimalhusbandryComponent) { }
+  constructor(private documentscrutinyahdegree: DocumentScrutinyAHDegreeComponent,private modalService: NgbModal, private animalDocumentScrutinyService: AnimalDocumentScrutinyService, private applyNOCApplicationService: ApplyNOCApplicationService, private legalEntityListService: LegalEntityService, private toastr: ToastrService, private loaderService: LoaderService, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private collegeService: CollegeService, private sSOLoginService: SSOLoginService, private applyNocpreviewAnimalhusbandryComponent: ApplyNocpreviewAnimalhusbandryComponent) { }
   public State: number = -1;
   public SuccessMessage: any = [];
   public ErrorMessage: any = [];
@@ -69,7 +70,7 @@ export class AhDocumentScrutinyLegalEntityComponent implements OnInit {
 
 
 
-  ngOnInit(): void {
+  async ngOnInit() {
     this.sSOLoginDataModel = JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     this.SelectedDepartmentID = this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DepartmentID')?.toString())
     this.SelectedCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()))
@@ -78,6 +79,7 @@ export class AhDocumentScrutinyLegalEntityComponent implements OnInit {
     this.ModifyBy = 1;
     // get college list
     this.ViewlegalEntityDataByID();
+    await this.GetCollageDetails();
   }
 
   async ViewlegalEntityDataByID() {
@@ -251,7 +253,36 @@ export class AhDocumentScrutinyLegalEntityComponent implements OnInit {
     }
   }
 
+
   ViewTaril(ID: number, ActionType: string) {
-    this.applyNocpreviewAnimalhusbandryComponent.ViewTarilCommon(ID, ActionType);
+    if (this.IsAHDegreeCollege) {
+      this.documentscrutinyahdegree.ViewTarilCommon(ID, ActionType);
+    }
+    else {
+      this.applyNocpreviewAnimalhusbandryComponent.ViewTarilCommon(ID, ActionType);
+    }
+  }
+
+  public IsAHDegreeCollege: boolean = false;
+  async GetCollageDetails() {
+    try {
+      this.IsAHDegreeCollege = false;
+      this.loaderService.requestStarted();
+      await this.collegeService.GetData(this.SelectedCollageID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          if (data['Data']['CollegeLevelName'] == 'UG' && data['Data']['DepartmentID'] == 2) {
+            this.IsAHDegreeCollege = true;
+          }
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
   }
 }

@@ -238,16 +238,16 @@ export class AhApplyNocApplicationListComponent {
   }
   async GetAadharByVID(data: any) {
     this.AadhaarNo = '123456789101';
-    //await this.aadharServiceDetails.GetAadharByVID(data)
-    //  .then((data: any) => {
-    //    data = JSON.parse(JSON.stringify(data));
-    //    if (data[0].status == "0") {
-    //      this.AadhaarNo = data[0].data;
-    //    }
-    //    else {
-    //      this.AadhaarNo = '';
-    //    }
-    //  }, error => console.error(error));
+    await this.aadharServiceDetails.GetAadharByVID(data)
+      .then((data: any) => {
+        data = JSON.parse(JSON.stringify(data));
+        if (data[0].status == "0") {
+          this.AadhaarNo = data[0].data;
+        }
+        else {
+          this.AadhaarNo = '';
+        }
+      }, error => console.error(error));
   }
   async CheckMappingSSOID(ssoid: any) {
     try {

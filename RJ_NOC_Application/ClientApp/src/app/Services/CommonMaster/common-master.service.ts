@@ -1558,6 +1558,17 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
+  public async GetNOCFormat(DepartmentID: number, CollegeID: number, ParameterID: number, NOCFor: string) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl_CommonMaster + "/GetNOCFormat/" + DepartmentID + "/" + CollegeID + "/" + ParameterID + "/" + NOCFor)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
   public async UnlockApplication(request: UnlockApplicationDataModel) {
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
     return await this.http.post(this.APIUrl_CommonMaster + "/UnlockApplication", request, httpOptions)

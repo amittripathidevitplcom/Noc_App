@@ -191,11 +191,7 @@ export class ApplicationForwardGThreeComponent implements OnInit {
             this.UserRoleList = data['Data'];
 
             if (this.UserRoleList.length > 0) {
-              //if (this.sSOLoginDataModel.RoleID != 11 && this.sSOLoginDataModel.RoleID != 23 && this.sSOLoginDataModel.RoleID != 20) {
-              this.UserRoleList = this.UserRoleList.filter((x: { RoleID: number; }) => x.RoleID != 1 && x.RoleID != 17);
-              // }
-              //this.NextRoleID = this.UserRoleList[0]['RoleID'];
-              //await this.NextGetUserDetailsByRoleID();
+              this.UserRoleList = this.UserRoleList.filter((x: { RoleID: number; }) => x.RoleID != 1);
             }
           }
         })
@@ -278,7 +274,9 @@ export class ApplicationForwardGThreeComponent implements OnInit {
           if (data['Data'].length > 0) {
             this.WorkFlowActionList = data['Data'];
             if (this.WorkFlowActionList.length > 0) {
-
+              if (this.QueryStatus == 'Pending' && (this.sSOLoginDataModel.RoleID == 5 || this.sSOLoginDataModel.RoleID == 3)) {
+                this.WorkFlowActionList = this.WorkFlowActionList.filter((x: { ActionID: number; }) => x.ActionID == 49);
+              }
               this.WorkFlowActionList = this.WorkFlowActionList.filter((x: { ActionID: number; }) => x.ActionID != 12);
               //if (this.sSOLoginDataModel.RoleID == 7) {
               //  this.WorkFlowActionList = this.WorkFlowActionList.filter((x: { ActionID: number; }) => x.ActionID != 42);

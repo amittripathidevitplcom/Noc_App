@@ -612,8 +612,6 @@ export class NodalOfficerApplicationListComponent implements OnInit {
   }
 
   async VerifySSOID(SSOID: any) {
-    //Show Loading
-    debugger;
     //verify ssoid
     await this.CheckMappingSSOID(SSOID);
     if (this.sSOVerifyDataModel != null && SSOID.toLowerCase() == this.sSOVerifyDataModel.SSOID.toLowerCase()) {
@@ -622,8 +620,6 @@ export class NodalOfficerApplicationListComponent implements OnInit {
       await this.GetAadharByVID(d);
       this.SsoValidationMessage = 'd';
       this.SsoSuccessMessage = 'SSO Id Verified Successfully';
-
-      AadharServiceDetails
     }
     else {
       this.SsoValidationMessage = ''

@@ -12,6 +12,8 @@ import { StaffDetailDataModel } from '../../../Models/TabDetailDataModel';
 import { StaffDetailService } from '../../../Services/StaffDetail/staff-detail.service';
 import { AnimalDocumentScrutinyService } from '../../../Services/AnimalDocumentScrutiny/animal-document-scrutiny.service';
 import { ApplyNocpreviewAnimalhusbandryComponent } from '../../apply-nocpreview-animalhusbandry/apply-nocpreview-animalhusbandry.component';
+import { CollegeService } from '../../../services/collegedetailsform/College/college.service';
+import { DocumentScrutinyAHDegreeComponent } from '../document-scrutiny-ahdegree/document-scrutiny-ahdegree.component';
 
 @Injectable({
   providedIn: 'root'
@@ -45,7 +47,7 @@ export class AhDocumentScrutinyStaffDetailComponent implements OnInit {
   public isRemarkValid: boolean = false;
   public isFormvalid: boolean = true;
 
-  constructor(private applyNocpreviewAnimalhusbandryComponent: ApplyNocpreviewAnimalhusbandryComponent,private buildingDetailsMasterService: BuildingDetailsMasterService, private commonMasterService: CommonMasterService, private staffDetailService: StaffDetailService, private animalDocumentScrutinyService: AnimalDocumentScrutinyService,
+  constructor(private documentscrutinyahdegree: DocumentScrutinyAHDegreeComponent,private collegeService: CollegeService,private applyNocpreviewAnimalhusbandryComponent: ApplyNocpreviewAnimalhusbandryComponent,private buildingDetailsMasterService: BuildingDetailsMasterService, private commonMasterService: CommonMasterService, private staffDetailService: StaffDetailService, private animalDocumentScrutinyService: AnimalDocumentScrutinyService,
     private loaderService: LoaderService, private router: ActivatedRoute, private modalService: NgbModal, private toastr: ToastrService, private applyNOCApplicationService: ApplyNOCApplicationService) { }
 
   async ngOnInit() {
@@ -54,6 +56,7 @@ export class AhDocumentScrutinyStaffDetailComponent implements OnInit {
     this.SelectedCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
     this.SelectedApplyNOCID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplyNOCID')?.toString()));
     await this.GetStaffDetailList_DepartmentCollegeWise();
+    await this.GetCollageDetails();
   }
   async GetStaffDetailList_DepartmentCollegeWise() {
     try {
@@ -228,6 +231,34 @@ export class AhDocumentScrutinyStaffDetailComponent implements OnInit {
     }
   }
   ViewTaril(ID: number, ActionType: string) {
-    this.applyNocpreviewAnimalhusbandryComponent.ViewTarilCommon(ID, ActionType);
+    if (this.IsAHDegreeCollege) {
+      this.documentscrutinyahdegree.ViewTarilCommon(ID, ActionType);
+    }
+    else {
+      this.applyNocpreviewAnimalhusbandryComponent.ViewTarilCommon(ID, ActionType);
+    }
+  }
+
+  public IsAHDegreeCollege: boolean = false;
+  async GetCollageDetails() {
+    try {
+      this.IsAHDegreeCollege = false;
+      this.loaderService.requestStarted();
+      await this.collegeService.GetData(this.SelectedCollageID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          if (data['Data']['CollegeLevelName'] == 'UG' && data['Data']['DepartmentID'] == 2) {
+            this.IsAHDegreeCollege = true;
+          }
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
   }
 }

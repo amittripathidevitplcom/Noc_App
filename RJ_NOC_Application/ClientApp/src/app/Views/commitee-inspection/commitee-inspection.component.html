@@ -57,8 +57,6 @@
                       <tr>
                         <th>S.No.</th>
                         <th>
-                          <!--<input type="checkbox" id="checkboxSelectAll" class="" [checked]="All_U_Select"
-        #checkboxSelectAll (change)="checkboxthAll_checkboxchange($event,checkboxSelectAll.checked)">-->
                           Yes / No / Not Applicable
                         </th>
                         <th></th>
@@ -82,8 +80,6 @@
                             <textarea type="text" id="txtRemark{{idx}}" placeholder="Remark*" name="txtRemark{{idx}}" class="form-control" [(ngModel)]="item.Remark" (keypress)="alphanumbersOnly($event)"></textarea>
                           </div>
                         </td>
-                        <!--<td><input type="checkbox" class="checkboxSelect" [checked]="item.IsChecked" [(ngModel)]="item.IsChecked" id="IsChecked{{idx+1}}" name="IsChecked{{idx+1}}"></td>-->
-
                         <td>{{item.RNCCheckListName}}</td>
                         <td>
                           <div class="d-flex" *ngIf="item.FileUpload">

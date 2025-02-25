@@ -36,7 +36,7 @@
           </select>
           <p *ngIf="isDepartmentSubmitted&&DepartmentID<=0" class="text-danger"><i aria-hidden="true"></i>This field is required .!</p>
         </div>
-        <div class="col-lg-3 col-md-3 col-sm-3 col-3 mb-3" *ngIf="request.ProcessDepartmentID==4">
+        <div class="col-lg-3 col-md-3 col-sm-3 col-3 mb-3" *ngIf="request.ProcessDepartmentID==4 || request.ProcessDepartmentID==11">
           <label for="ddlDepartment" class="form-label" style="margin-right:15px">Select Department Type: </label>
           <select class="form-select" id="ddlDepartmentType" name="ddlDepartmentType" [(ngModel)]="request.ManagementType">
             <option value="Private">Private</option>

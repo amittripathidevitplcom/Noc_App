@@ -136,8 +136,8 @@
               </td>
               <td>
                 <div class="d-flex">
-                  <button type="button" (click)="Edit_OnClick(item.CourtOrderID)" title="Edit" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></button>
-                  <button type="button" class="btn btn-sm btn-danger" title="Delete" (click)="Delete_OnClick(item.CourtOrderID)"><i class="fa fa-trash"></i></button>
+                  <button type="button" (click)="Edit_OnClick(item.CourtOrderID)" title="Edit" class="btn btn-sm btn-info" [hidden]="(QueryStringStatus=='R'&&item.Action=='Yes')"><i class="fa fa-edit"></i></button>
+                  <button type="button" class="btn btn-sm btn-danger" title="Delete" (click)="Delete_OnClick(item.CourtOrderID)" [hidden]="QueryStringStatus=='R'"><i class="fa fa-trash"></i></button>
                 </div>
               </td>
             </tr>

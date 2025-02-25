@@ -261,6 +261,15 @@ import { MGOneForwardInpectionReportOSDComponent } from './Views/Medical Group 1
 import { MGThreeApplicationsListComponent } from './Views/DocumentScrutinyTab/mgthree-applications-list/mgthree-applications-list.component';
 import { ApplicationForwardGThreeComponent } from './Views/DocumentScrutinyTab/application-forward-gthree/application-forward-gthree.component';
 import { NodalOfficerBedApplicationListComponent } from './Views/Bed/nodal-officer-bed-application-list/nodal-officer-bed-application-list.component';
+import { FinalCheckListMGThreeComponent } from './Views/DocumentScrutinyTab/final-check-list-mgthree/final-check-list-mgthree.component';
+import { TotalDraftBedCollegeListComponent } from './Views/Bed/total-draft-bed-college-list/total-draft-bed-college-list.component';
+import { ApplicationListAHDegreeComponent } from './Views/DocumentScrutinyTab_AH/application-list-ahdegree/application-list-ahdegree.component';
+import { ForwardAHDegreeCollegeComponent } from './Views/DocumentScrutinyTab_AH/forward-ahdegree-college/forward-ahdegree-college.component';
+import { DocumentScrutinyAHDegreeComponent } from './Views/DocumentScrutinyTab_AH/document-scrutiny-ahdegree/document-scrutiny-ahdegree.component';
+import { DSApplicationListDegreeComponent } from './Views/DocumentScrutinyTab_AH/dsapplication-list-degree/dsapplication-list-degree.component';
+import { FinalCheckListAHDegreeComponent } from './Views/DocumentScrutinyTab_AH/final-check-list-ahdegree/final-check-list-ahdegree.component';
+import { DegreeNOCApplicationsComponent } from './Views/DocumentScrutinyTab_AH/degree-nocapplications/degree-nocapplications.component';
+
 const routes: Routes = [
   {
     path: 'home', component: HomeComponent
@@ -1059,8 +1068,6 @@ const routes: Routes = [
       {
         path: 'generateordersforinspection/:DepartmentID/:CollegeID/:ApplyNOCID/:ApplicationNoYear/:ApplicationNoID', component: GenerateOrderMGOneComponent
       },
-      
-
       {
         path: 'ahinfradepartmentwise', component: AHInfraDepartmentWiseComponent
       },
@@ -1071,13 +1078,38 @@ const routes: Routes = [
         path: 'applicationforward/:DepartmentID/:CollegeID/:ApplyNOCID/:Status', component: ApplicationForwardGThreeComponent
       },
       {
+        path: 'checklistmgthree/:DepartmentID/:CollegeID/:ApplyNOCID/:ApplicationNoYear/:ApplicationNoID/:Status', component: FinalCheckListMGThreeComponent
+      },
+      {
         path: 'totaldraftentrycollege/:Type', component: TotalDraftEntryCollegeComponent
       },
       {
         path: 'nodalofficerBedapplicationlist/:Status', component: NodalOfficerBedApplicationListComponent
       },
+      {
+        path: 'totaldraftBedentrycollege', component: TotalDraftBedCollegeListComponent
+      },
+      {
+        path: 'applicationlistahdegree/:Status', component: ApplicationListAHDegreeComponent
+      },
+      {
+        path: 'dsapplicationlistdegree/:Status', component: DSApplicationListDegreeComponent
+      },
+      {
+        path: 'degreenocapplications/:Status', component: DegreeNOCApplicationsComponent
+      },
+      {
+        path: 'forwardahdegreecollege/:DepartmentID/:CollegeID/:ApplyNOCID/:Status', component: ForwardAHDegreeCollegeComponent
+      },
+      {
+        path: 'documentscrutinyahdegree/:DepartmentID/:CollegeID/:ApplyNOCID/:ApplicationNoYear/:ApplicationNoID/:Status', component: DocumentScrutinyAHDegreeComponent
+      },
+      {
+        path: 'checklistahdegree/:DepartmentID/:CollegeID/:ApplyNOCID/:ApplicationNoYear/:ApplicationNoID/:Status', component: FinalCheckListAHDegreeComponent
+      },
+
     ]
-    // ,canActivate: [SkipLocationChangeGuard],
+    //, canActivate: [SkipLocationChangeGuard],
   },
   {
     path: 'login', component: LoginComponent

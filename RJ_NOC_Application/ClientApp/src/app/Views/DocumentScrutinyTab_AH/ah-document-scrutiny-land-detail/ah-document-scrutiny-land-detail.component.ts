@@ -11,6 +11,8 @@ import { ToastrService } from 'ngx-toastr';
 import { ApplyNOCApplicationService } from '../../../Services/ApplyNOCApplicationList/apply-nocapplication.service';
 import { AnimalDocumentScrutinyService } from '../../../Services/AnimalDocumentScrutiny/animal-document-scrutiny.service';
 import { ApplyNocpreviewAnimalhusbandryComponent } from '../../apply-nocpreview-animalhusbandry/apply-nocpreview-animalhusbandry.component';
+import { DocumentScrutinyAHDegreeComponent } from '../document-scrutiny-ahdegree/document-scrutiny-ahdegree.component';
+import { CollegeService } from '../../../services/collegedetailsform/College/college.service';
 
 @Injectable({
   providedIn: 'root'
@@ -43,7 +45,7 @@ export class AhDocumentScrutinyLandDetailComponent implements OnInit {
   public SuccessMessage: any = [];
   public ErrorMessage: any = [];
 
-  constructor(private applyNocpreviewAnimalhusbandryComponent: ApplyNocpreviewAnimalhusbandryComponent,private landDetailsService: LandDetailsService, private animalDocumentScrutinyService: AnimalDocumentScrutinyService, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private loaderService: LoaderService,
+  constructor(private documentscrutinyahdegree: DocumentScrutinyAHDegreeComponent, private collegeService: CollegeService,private applyNocpreviewAnimalhusbandryComponent: ApplyNocpreviewAnimalhusbandryComponent,private landDetailsService: LandDetailsService, private animalDocumentScrutinyService: AnimalDocumentScrutinyService, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private loaderService: LoaderService,
     private modalService: NgbModal, private toastr: ToastrService, private applyNOCApplicationService: ApplyNOCApplicationService) { }
 
   async ngOnInit() {
@@ -54,6 +56,7 @@ export class AhDocumentScrutinyLandDetailComponent implements OnInit {
     await this.GetLandDetailsDataList();
 
     await this.GetUnitOfLandArea(this.SelectedDepartmentID, 'LandUnit');
+    await this.GetCollageDetails();
   }
   async GetLandDetailsDataList() {
     try {
@@ -223,6 +226,34 @@ export class AhDocumentScrutinyLandDetailComponent implements OnInit {
     }
   }
   ViewTaril(ID: number, ActionType: string) {
-    this.applyNocpreviewAnimalhusbandryComponent.ViewTarilCommon(ID, ActionType);
+    if (this.IsAHDegreeCollege) {
+      this.documentscrutinyahdegree.ViewTarilCommon(ID, ActionType);
+    }
+    else {
+      this.applyNocpreviewAnimalhusbandryComponent.ViewTarilCommon(ID, ActionType);
+    }
+  }
+
+  public IsAHDegreeCollege: boolean = false;
+  async GetCollageDetails() {
+    try {
+      this.IsAHDegreeCollege = false;
+      this.loaderService.requestStarted();
+      await this.collegeService.GetData(this.SelectedCollageID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          if (data['Data']['CollegeLevelName'] == 'UG' && data['Data']['DepartmentID'] == 2) {
+            this.IsAHDegreeCollege = true;
+          }
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
   }
 }

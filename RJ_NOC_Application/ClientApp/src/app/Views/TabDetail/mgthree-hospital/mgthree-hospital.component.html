@@ -742,8 +742,8 @@
                         <td> {{row.OwnerName}}</td>
                         <td> {{row.BedCapacity}}</td>
                         <td>
-                          <button type="button" id="btnEdit_{{indexOfelement}}" class="btn btn-primary" title="Edit" (click)="EditAffiliatedHospitalDetail(indexOfelement)" [attr.disabled]="isDisabledGrid ? true : null"><i class="fa fa-edit"></i></button>
-                          <button class="btn btn-danger" type="button" (click)="DeleteAffiliatedHospital(indexOfelement)" [attr.disabled]="isDisabledGrid ? true : null"><i class="fa fa-trash-o"></i></button>
+                          <button type="button" id="btnEdit_{{indexOfelement}}" class="btn btn-primary" title="Edit" (click)="EditAffiliatedHospitalDetail(indexOfelement)" [attr.disabled]="isDisabledGrid ? true : null" ><i class="fa fa-edit"></i></button>
+                          <button class="btn btn-danger" type="button" (click)="DeleteAffiliatedHospital(indexOfelement)" [attr.disabled]="isDisabledGrid ? true : null" ><i class="fa fa-trash-o"></i></button>
                         </td>
 
                       </tr>
@@ -791,9 +791,9 @@
                     <td>{{item.IsHillytribalArea}}</td>
                     <td>
                       <div class="d-flex">
-                        <a href="javascript:void(0)" class="btn btn-sm btn-info" (click)="EditHospital(item.HospitalID)"><i class="fa fa-edit"></i></a>
-                        <button type="button" class="btn btn-sm btn-info" title="View" (click)="ViewHospitalDetail(mymodal,item.HospitalID)"><i class="fa fa-eye"></i></button>
-                        <button type="button" class="btn btn-danger" (click)="DeleteHospitalDetail(item.HospitalID)"><i class="fa fa-trash-o"></i></button>
+                        <a href="javascript:void(0)" class="btn btn-sm btn-info" (click)="EditHospital(item.HospitalID)" [hidden]="(QueryStringStatus=='R'&&item.Action=='Yes')"><i class="fa fa-edit"></i></a>
+                        <button type="button" class="btn btn-sm btn-info" title="View" (click)="ViewHospitalDetail(mymodal,item.HospitalID)" ><i class="fa fa-eye"></i></button>
+                        <button type="button" class="btn btn-danger" (click)="DeleteHospitalDetail(item.HospitalID)"  [hidden]="QueryStringStatus=='R'"><i class="fa fa-trash-o"></i></button>
                       </div>
 
                     </td>

@@ -49,6 +49,7 @@ export class MGThreeHospitalComponent {
   public SelectedDepartmentID: number = 0;
   public SelectedApplyNOCID: number = 0;
   public ReasonForAffiliation: any = [];
+  public QueryStringStatus: any = '';
   constructor(private TrusteeGeneralInfoService: TrusteeGeneralInfoService, private modalService: NgbModal, private hospitalDetailService: HospitalDetailService, private toastr: ToastrService, private loaderService: LoaderService, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private fileUploadService: FileUploadService, private societyService: SocityService) {
   }
   async ngOnInit() {
@@ -130,6 +131,7 @@ export class MGThreeHospitalComponent {
     this.SelectedDepartmentID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DepartmentID')?.toString()));
     this.SearchRecordID = this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString());
     this.SelectedApplyNOCID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplyNOCID')?.toString()));
+    this.QueryStringStatus = this.router.snapshot.paramMap.get('Status')?.toString();
     if (this.SearchRecordID.length > 20) {
       await this.commonMasterService.GetCollegeID_SearchRecordIDWise(this.SearchRecordID)
         .then((data: any) => {

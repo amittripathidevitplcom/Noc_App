@@ -47,7 +47,7 @@ export class LegalEntityComponent implements OnInit {
   public isSubmitted_Registration: boolean = false;
   public ImageValidate: string = '';
 
-  public RegistrationMaxDate: Date = new Date('2021-06-23');
+  public RegistrationMaxDate: Date = new Date();
   public MaxDate: Date = new Date();
   public MinDate_DOB: Date = new Date();
   //public MinDate_ElectionPresentManagementCommitteeDate: Date = new Date();
@@ -2298,7 +2298,7 @@ export class LegalEntityComponent implements OnInit {
       }
       this.holdDepartmentID = this.request.ProcessDepartmentID;
       this.loaderService.requestStarted();
-      if (this.request.ManagementType == 'Government' && this.request.ProcessDepartmentID == 4) {
+      if (this.request.ManagementType == 'Government' && (this.request.ProcessDepartmentID == 4 ||  this.request.ProcessDepartmentID == 11)) {
         //this.request = new LegalEntityDataModel();
         this.request.SSOID = this.sSOLoginDataModel.SSOID;
         //this.request.ElectionPresentManagementCommitteeDate = '';
