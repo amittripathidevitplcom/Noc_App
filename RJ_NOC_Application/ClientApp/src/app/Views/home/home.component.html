@@ -54,7 +54,7 @@
     <div class="row">
       <div class="col-lg-9 tabPanels">
         <div class="nav nav-pills mt-0 mb-5 dptNavPills" id="v-pills-tab" role="tablist">
-          <button (click)="GetUserManualDocumentMasterList(2)" class=" service-item style-3 nav-link" id="v-pills-d1-tab" data-bs-toggle="pill" data-bs-target="#v-pills-d1" type="button" role="tab" aria-controls="v-pills-d1" aria-selected="false">
+          <button (click)="GetUserManualDocumentMasterList(2,'Degree')" class=" service-item style-3 nav-link" id="v-pills-d1-tab" data-bs-toggle="pill" data-bs-target="#v-pills-d1" type="button" role="tab" aria-controls="v-pills-d1" aria-selected="false">
             <div class="service-icon">
               <img src="../../../assets/images/1.png" />
             </div>
@@ -67,18 +67,18 @@
           </button>
 
           <!--<button (click)="GetUserManualDocumentMasterList(9)"  class=" service-item style-3 nav-link" id="v-pills-d2-tab" data-bs-toggle="pill" data-bs-target="#v-pills-d2" type="button" role="tab" aria-controls="v-pills-d2" aria-selected="false">
-            <div class="service-icon">
-              <img src="../../../assets/images/2.jpg" />
-            </div>
-            <div class="service-desc">
-              <div class="service-title">
-                <h4>Rajasthan PARA-Medical Council</h4>
-              </div>
-            </div>
-          </button>-->
+    <div class="service-icon">
+      <img src="../../../assets/images/2.jpg" />
+    </div>
+    <div class="service-desc">
+      <div class="service-title">
+        <h4>Rajasthan PARA-Medical Council</h4>
+      </div>
+    </div>
+  </button>-->
 
 
-          <button (click)="GetUserManualDocumentMasterList(4)" class=" service-item style-3 nav-link" id="v-pills-d3-tab" data-bs-toggle="pill" data-bs-target="#v-pills-d3" type="button" role="tab" aria-controls="v-pills-d3" aria-selected="false">
+          <button (click)="GetUserManualDocumentMasterList(4,'No')" class=" service-item style-3 nav-link" id="v-pills-d3-tab" data-bs-toggle="pill" data-bs-target="#v-pills-d3" type="button" role="tab" aria-controls="v-pills-d3" aria-selected="false">
             <div class="service-icon">
               <img src="../../../assets/images/3.jpg" />
             </div>
@@ -91,7 +91,7 @@
             </div>
           </button>
 
-          <button (click)="GetUserManualDocumentMasterList(6)" class=" service-item style-3 nav-link" id="v-pills-d4-tab" data-bs-toggle="pill" data-bs-target="#v-pills-d4" type="button" role="tab" aria-controls="v-pills-d4" aria-selected="false">
+          <button (click)="GetUserManualDocumentMasterList(6,'No')" class=" service-item style-3 nav-link" id="v-pills-d4-tab" data-bs-toggle="pill" data-bs-target="#v-pills-d4" type="button" role="tab" aria-controls="v-pills-d4" aria-selected="false">
             <div class="service-icon">
               <img src="../../../assets/images/4.png" />
             </div>
@@ -105,7 +105,7 @@
           </button>
 
 
-          <button (click)="GetUserManualDocumentMasterList(1)" class=" service-item style-3 nav-link" id="v-pills-d5-tab" data-bs-toggle="pill" data-bs-target="#v-pills-d5" type="button" role="tab" aria-controls="v-pills-d5" aria-selected="false">
+          <button (click)="GetUserManualDocumentMasterList(1,'No')" class=" service-item style-3 nav-link" id="v-pills-d5-tab" data-bs-toggle="pill" data-bs-target="#v-pills-d5" type="button" role="tab" aria-controls="v-pills-d5" aria-selected="false">
             <div class="service-icon">
               <img src="../../../assets/images/6.jpg" />
             </div>
@@ -116,7 +116,7 @@
             </div>
           </button>
 
-          <button (click)="GetUserManualDocumentMasterList(3)" class=" service-item style-3 nav-link" id="v-pills-d6-tab" data-bs-toggle="pill" data-bs-target="#v-pills-d6" type="button" role="tab" aria-controls="v-pills-d6" aria-selected="false">
+          <button (click)="GetUserManualDocumentMasterList(3,'No')" class=" service-item style-3 nav-link" id="v-pills-d6-tab" data-bs-toggle="pill" data-bs-target="#v-pills-d6" type="button" role="tab" aria-controls="v-pills-d6" aria-selected="false">
             <div class="service-icon">
               <img src="../../../assets/images/7.png" />
             </div>
@@ -128,7 +128,7 @@
           </button>
 
 
-          <button (click)="GetUserManualDocumentMasterList(5)" class=" service-item style-3 nav-link" id="v-pills-d7-tab" data-bs-toggle="pill" data-bs-target="#v-pills-d7" type="button" role="tab" aria-controls="v-pills-d7" aria-selected="false">
+          <button (click)="GetUserManualDocumentMasterList(5,'No')" class=" service-item style-3 nav-link" id="v-pills-d7-tab" data-bs-toggle="pill" data-bs-target="#v-pills-d7" type="button" role="tab" aria-controls="v-pills-d7" aria-selected="false">
             <div class="service-icon">
               <img src="../../../assets/images/5.png" />
             </div>
@@ -158,16 +158,64 @@
                    alt="icon">
               <h5 class="position-relative ms-2 mt-3">Department of<br /> Animal Husbandry</h5>
             </div>
-            <p class="mb-4">
-              निजी क्षेत्र की संस्थायें जो प्रदेश में द्वि- वर्षीय पशुपालन डिप्लोमा पाठ्यक्रम हेतु नवीन संस्थान खोलने की इच्छुक हैं, से इस सम्बन्ध में अनापत्ति प्रमाण पत्र प्राप्त करने हेतु दिनांक 24.06.2024 को प्रातः 10.00 बजे से दिनांक 23.07.2024 को सांय 5.00 बजे की अवधि में ऑनलाइन आवेदन आमंत्रित किये जाते हैं।
-              विस्तृत जानकारी हेतु विभागीय विज्ञप्ति, दिशा-निर्देश, यूजर मैन्युअल एवं A.H.D.P पॉलिसी-2022 इस पोर्टल के "ORDER & CIRCULAR" सेक्शन पर जाकर डाउनलोड किये जा सकते हैं .
-            </p>
+            <div class="tabs">
+              <input type="radio" id="tab1" name="tab" value="Degree" [(ngModel)]="DiplomaDegree" (click)="GetUserManualDocumentMasterList(2,'Degree')">
+              <label for="tab1">Degree</label>
 
+              <input type="radio" id="tab2" name="tab" value="Diploma" [(ngModel)]="DiplomaDegree" (click)="GetUserManualDocumentMasterList(2,'Diploma')">
+              <label for="tab2">Diploma</label>
 
-            <div class="buttons mt-2 mb-4">
-              <a href="https://sso.rajasthan.gov.in/signin?ru=UNOC" target="_blank" class="btncomn">Login to SSO</a>
-              <a href="https://nocapi.rajasthan.gov.in/api/ImageFile/23Jul2024051409815359Animal%20Husbandry%20Updated%20user%20manual%20pdf%202.pdf" target="_blank" class="btncomn">View User Manual</a>
+              <div class="tab-contentss" id="content1">
+                <div class="d-flex justify-content-start mb-3 contactMarquee">
+                  <marquee direction="left" onmouseover="this.stop();" onmouseout="this.start();" scrollamount="5">
+                    <ul class="d-flex align-items-center flex-wrap">
+                      <li>
+                        <p class="mb-4 blinkText" *ngFor="let row of DCE_HomePage_IncreaseDateData_Top ;let idx=index;">
+                          {{row.Content}}
+                        </p>
+                        <!--<span class="blinkText" *ngFor="let row of DCE_HomePage_IncreaseDateData_Top ;let idx=index;">   {{row.Content}}"Online NOC Portal start soon for session 2025-26"</span>-->
+                      </li>
+                    </ul>
+                  </marquee>
+                </div>
+                <p class="mb-4 defulttext" *ngFor="let row of DCE_HomePage_IncreaseDateData_Bottom ;let idx=index;">
+                  {{row.Content}}
+                </p>
+                <div class="buttons mt-2 mb-4">
+                  <a href="https://sso.rajasthan.gov.in/signin?ru=UNOC" target="_blank" class="btncomn">Login to SSO</a>
+                  <a href="https://nocapi.rajasthan.gov.in/api/ImageFile/23Jul2024051409815359Animal%20Husbandry%20Updated%20user%20manual%20pdf%202.pdf" target="_blank" class="btncomn">View User Manual</a>
+                </div>
+              </div>
+
+              <div class="tab-contentss" id="content2">
+                <div class="d-flex justify-content-start mb-3 contactMarquee">
+                  <marquee direction="left" onmouseover="this.stop();" onmouseout="this.start();" scrollamount="5">
+                    <ul class="d-flex align-items-center flex-wrap">
+                      <li>
+                        <p class="mb-4 blinkText" *ngFor="let row of DCE_HomePage_IncreaseDateData_Top ;let idx=index;">
+                          {{row.Content}}
+                        </p>
+                        <!--<span class="blinkText" *ngFor="let row of DCE_HomePage_IncreaseDateData_Top ;let idx=index;">   {{row.Content}}"Online NOC Portal start soon for session 2025-26"</span>-->
+                      </li>
+                    </ul>
+                  </marquee>
+                </div>
+                <p class="mb-4 defulttext" *ngFor="let row of DCE_HomePage_IncreaseDateData_Bottom ;let idx=index;">
+                  {{row.Content}}
+                </p>
+                <div class="buttons mt-2 mb-4">
+                  <a href="https://sso.rajasthan.gov.in/signin?ru=UNOC" target="_blank" class="btncomn">Login to SSO</a>
+                  <a href="https://nocapi.rajasthan.gov.in/api/ImageFile/23Jul2024051409815359Animal%20Husbandry%20Updated%20user%20manual%20pdf%202.pdf" target="_blank" class="btncomn">View User Manual</a>
+                </div>
+              </div>
             </div>
+            <!--<p class="mb-4">
+    निजी क्षेत्र की संस्थायें जो प्रदेश में द्वि- वर्षीय पशुपालन डिप्लोमा पाठ्यक्रम हेतु नवीन संस्थान खोलने की इच्छुक हैं, से इस सम्बन्ध में अनापत्ति प्रमाण पत्र प्राप्त करने हेतु दिनांक 24.06.2024 को प्रातः 10.00 बजे से दिनांक 23.07.2024 को सांय 5.00 बजे की अवधि में ऑनलाइन आवेदन आमंत्रित किये जाते हैं।
+    विस्तृत जानकारी हेतु विभागीय विज्ञप्ति, दिशा-निर्देश, यूजर मैन्युअल एवं A.H.D.P पॉलिसी-2022 इस पोर्टल के "ORDER & CIRCULAR" सेक्शन पर जाकर डाउनलोड किये जा सकते हैं .
+  </p>-->
+
+
+
 
 
 

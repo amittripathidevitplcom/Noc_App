@@ -182,7 +182,13 @@ export class DSApplicationListDegreeComponent implements OnInit {
   public MobileNoRegex = new RegExp(/^((\\+91-?)|0)?[0-9]{10}$/)
 
   public SelectedApplyNOCID: number = 0;
-  async OpenAsignCommitteePopUP(content: any, ApplyNOCID: number) {
+  async OpenAsignCommitteePopUP(content: any, ApplyNOCID: number, ApplicationFeeIntimation: number) {
+    if (this.sSOLoginDataModel.RoleID == 5) {
+      if (ApplicationFeeIntimation==0) {
+        this.toastr.warning('Please intimate to college for fee inspection');
+        return;
+      }
+    }
     this.SelectedApplyNOCID = ApplyNOCID;
     this.modalService.open(content, { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' }).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
@@ -434,5 +440,30 @@ export class DSApplicationListDegreeComponent implements OnInit {
     }
     event.preventDefault();
     return false;
+  }
+
+
+  async UpdateInspectionFDRIntimationAH(ApplyNOCID: number) {
+    try {
+      this.loaderService.requestStarted();
+      if (confirm("Are you sure ?")) {
+        await this.commonMasterService.UpdateInspectionFDRIntimationAH(ApplyNOCID, 'InspectionUpdate')
+          .then(async (data: any) => {
+            data = JSON.parse(JSON.stringify(data));
+            this.State = data['State'];
+            this.SuccessMessage = data['SuccessMessage'];
+            this.ErrorMessage = data['ErrorMessage'];
+            await this.GetApplyNOCApplicationListByRole();
+          }, error => console.error(error));
+      }
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
   }
 }

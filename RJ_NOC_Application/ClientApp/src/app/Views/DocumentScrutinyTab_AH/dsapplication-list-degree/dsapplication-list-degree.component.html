@@ -29,7 +29,12 @@
                     <td>{{item.CollegeName}}</td>
                     <td>{{item.ApplicationNo}}</td>
                     <td>
-                      <button type="button" class="btn btn-sm btn-primary" *ngIf="QueryStatus=='Pending' && sSOLoginDataModel.RoleID==5" (click)="OpenAsignCommitteePopUP(mymodalAsignCommittee,item.ApplyNOCID)" title="Create Inspection Commitee"><i class="fa fa-users"></i></button>
+                      <a href="javascript:void(0)" *ngIf="QueryStatus=='Pending' && sSOLoginDataModel.RoleID==5 && item.InspectionIntimation==0" title="Inspection Fee Intimation" (click)="UpdateInspectionFDRIntimationAH(item.ApplyNOCID)" class="btn btn-sm btn-primary">
+                        <i class="fa fa-money"></i>
+                      </a>
+                      <span *ngIf=" item.InspectionIntimation!=0 && item.InspectionPaid==true" class="btn btn-sm btn-success"> <i class="fa fa-money">Inspection Paid</i></span>
+                      <span *ngIf=" item.InspectionIntimation!=0 && item.InspectionPaid==false" class="btn btn-sm btn-danger"> <i class="fa fa-money">Inspection Fee Pending</i></span>
+                      <button type="button" class="btn btn-sm btn-primary" *ngIf="QueryStatus=='Pending' && sSOLoginDataModel.RoleID==5 && item.InspectionPaid==true" (click)="OpenAsignCommitteePopUP(mymodalAsignCommittee,item.ApplyNOCID,item.InspectionIntimation)" title="Create Inspection Commitee"><i class="fa fa-users"></i></button>
 
                       <a href="javascript:void(0)" *ngIf="QueryStatus=='Pending'|| QueryStatus=='SecPending' || (QueryStatus=='InPending' && (sSOLoginDataModel.RoleID==5 ||  sSOLoginDataModel.RoleID==14))" title="Application Forward" (click)="DocumentScrutinyForward(item.DepartmentID,item.CollegeID,item.ApplyNOCID,item.ApplicationNo)" class="btn btn-sm btn-primary">
                         <i class="fa fa-edit"></i>

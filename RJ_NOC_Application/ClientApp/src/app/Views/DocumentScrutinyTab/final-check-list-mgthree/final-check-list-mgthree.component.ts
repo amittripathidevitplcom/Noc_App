@@ -1402,14 +1402,19 @@ export class FinalCheckListMGThreeComponent implements OnInit {
             if (this.WorkFlowActionList.length > 0) {
 
               if (this.QueryStatus == 'DCPending') {
-                this.WorkFlowActionList = this.WorkFlowActionList.filter((x: { ActionID: number; }) => x.ActionID != 49 && x.ActionID != 2 && x.ActionID!=60);
+                this.WorkFlowActionList = this.WorkFlowActionList.filter((x: { ActionID: number; }) => x.ActionID == 92 || x.ActionID==3);
               }
-              if (this.QueryStatus == 'InspectionPending') {
-                this.WorkFlowActionList = this.WorkFlowActionList.filter((x: { ActionID: number; }) => x.ActionID != 49 && x.ActionID!=84 && x.ActionID!=3&& x.ActionID!=63);
+              if (this.QueryStatus == 'InspectionPending' || this.QueryStatus == 'IPending') {
+                this.WorkFlowActionList = this.WorkFlowActionList.filter((x: { ActionID: number; }) => x.ActionID ==77);
+              }
+              if (this.QueryStatus == 'AfterInspectionPending' && this.sSOLoginDataModel.RoleID==3) {
+                this.WorkFlowActionList = this.WorkFlowActionList.filter((x: { ActionID: number; }) => x.ActionID ==45);
+              }
+              if (this.QueryStatus == 'AfterInspectionPending' && this.sSOLoginDataModel.RoleID == 5) {
+                this.WorkFlowActionList = this.WorkFlowActionList.filter((x: { ActionID: number; }) => x.ActionID == 63);
               }
               if (this.QueryStatus == 'AfterInspectionPending' && this.sSOLoginDataModel.RoleID == 6) {
-                // ActionID=77/69
-                this.WorkFlowActionList = this.WorkFlowActionList.filter((x: { ActionID: number; }) => x.ActionID == 2 || x.ActionID == 49 || x.ActionID == 49);
+                this.WorkFlowActionList = this.WorkFlowActionList.filter((x: { ActionID: number; }) => x.ActionID == 49);
               }
               this.ActionID = this.WorkFlowActionList[0]['ActionID'];
               await this.OnChangeCurrentAction()

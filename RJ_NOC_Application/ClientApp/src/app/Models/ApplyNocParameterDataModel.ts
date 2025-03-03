@@ -220,6 +220,17 @@ export class ApplyNocApplicationDataModel {
   public ApplicationGeoLatitude?: string = '';
   public ApplicationGeoLongitude?: string = '';
 
+
+
+
+
+  public InspectionPaid?: boolean = false;
+  public PayFDRSShowHide?: boolean = false;
+  public FDRPaid?: boolean = false;
+  public InspectionIntimation?: number = 0;
+  public FDRIntimation?: number = 0;
+  public FDRIntimationDate?: string = '';
+
 }
 export class ApplyNocApplicationParameterDataModel {
   public ApplyNocParameterDetailID: number = 0;

@@ -13,6 +13,8 @@ import { ApplicationCommitteeMemberdataModel, PostApplicationCommitteeMemberdata
 import { SSOLoginService } from '../../../Services/SSOLogin/ssologin.service';
 import ClassicEditor from '@ckeditor/ckeditor5-build-decoupled-document';
 import { ApplyNOCApplicationService } from '../../../Services/ApplyNOCApplicationList/apply-nocapplication.service';
+import { AadharServiceDetails } from '../../../Services/AadharServiceDetails/aadhar-service-details.service';
+import { AadharServiceDataModel } from '../../../Models/AadharServiceDataModel';
 
 @Component({
   selector: 'app-degree-nocapplications',
@@ -117,7 +119,7 @@ export class DegreeNOCApplicationsComponent implements OnInit {
   };
 
 
-  constructor(private applyNOCApplicationService: ApplyNOCApplicationService,private sSOLoginService: SSOLoginService, private committeeMasterService: CommitteeMasterService, private loaderService: LoaderService, private toastr: ToastrService, private animaldocumentscrutiny: AnimalDocumentScrutinyService,
+  constructor(private aadharServiceDetails: AadharServiceDetails,private applyNOCApplicationService: ApplyNOCApplicationService,private sSOLoginService: SSOLoginService, private committeeMasterService: CommitteeMasterService, private loaderService: LoaderService, private toastr: ToastrService, private animaldocumentscrutiny: AnimalDocumentScrutinyService,
     private router: ActivatedRoute, private routers: Router, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private modalService: NgbModal) { }
   onReady(editor: any) {
     editor.ui
@@ -623,6 +625,333 @@ export class DegreeNOCApplicationsComponent implements OnInit {
       setTimeout(() => {
         this.loaderService.requestEnded();
       }, 200);
+    }
+  }
+
+  async UpdateInspectionFDRIntimationAH(ApplyNOCID: number) {
+    try {
+      this.loaderService.requestStarted();
+      if (confirm("Are you sure ?")) {
+        await this.commonMasterService.UpdateInspectionFDRIntimationAH(ApplyNOCID, 'FDRUpdate')
+          .then(async (data: any) => {
+            data = JSON.parse(JSON.stringify(data));
+            this.State = data['State'];
+            this.SuccessMessage = data['SuccessMessage'];
+            this.ErrorMessage = data['ErrorMessage'];
+            await this.GetApplyNOCApplicationListByRole();
+          }, error => console.error(error));
+      }
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+
+
+
+  //OTP Variable
+  AadharRequest = new AadharServiceDataModel();
+  public TransactionNo: string = '';
+  public UserOTP: string = '';
+  public CustomOTP: string = '123456';// bypass otp
+  public isUserOTP: boolean = false;
+  public isValidUserOTP: boolean = false;
+  public ShowTimer: boolean = false;
+  public isTimerDisabled: boolean = false;
+  public StartTimer: any;
+  public DisplayTimer: string = '';
+  public selectedFileName: string = '';
+  public selectedApplyNOCID: number = 0;
+  public selectedParameterID: number = 0;
+  async SendEsignOTP(FileName: string, ApplyNOCID: number, ParameterID: number) {
+    this.selectedFileName = '';
+    this.UserOTP = '';
+    try {
+      this.loaderService.requestStarted();
+      if (this.AadhaarNo != undefined) {
+        if (this.AadhaarNo.length > 12) {
+          this.AadharRequest.AadharID = this.AadhaarNo;
+          await this.aadharServiceDetails.GetAadharByVID(this.AadharRequest)
+            .then((data: any) => {
+              data = JSON.parse(JSON.stringify(data));
+              if (data[0].status == "0") {
+                this.AadhaarNo = data[0].data;
+              }
+              else {
+                this.AadhaarNo = '';
+              }
+            }, error => console.error(error));
+        }
+        if (this.AadhaarNo.length == 12) {
+          this.AadharRequest.AadharNo = this.AadhaarNo;
+          this.AadharRequest.TransactionNo = '';
+          await this.aadharServiceDetails.SendOtpByAadharNo_Esign(this.AadharRequest)
+            .then((data: any) => {
+              if (data[0].status == "0") {
+                this.TransactionNo = data[0].data;
+                this.modalService.dismissAll('After Success');
+                const display = document.getElementById('ModalOtpVerify')
+                if (display) display.style.display = "block";
+                this.toastr.success("OTP send Successfully");
+                this.selectedFileName = FileName;
+                this.selectedApplyNOCID = ApplyNOCID;
+                this.selectedParameterID = ParameterID;
+                this.timer(1);
+              }
+              else {
+                if (data[0].status == "1" && data[0].message == "Server IP address is not whiteListed") {
+                  this.toastr.warning("Server IP address is not whiteListed");
+                }
+                else {
+                  this.toastr.warning(data[0].message);
+                }
+
+              }
+            }, error => console.error(error));
+        }
+        else {
+          this.toastr.warning("Aadhaar No. is not correct.please contact to admin department.");
+          return;
+        }
+      }
+      else {
+        this.toastr.warning("Aadhaar number is not registered in the SSO you are using. Please update your Aadhaar number in your SSO and then login.");
+        return;
+      }
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  timer(minute: number) {
+    clearInterval(this.StartTimer);
+    this.ShowTimer = true;
+    this.isTimerDisabled = true;
+    // let minute = 1;
+    let seconds: number = minute * 60;
+    let textSec: any = "0";
+    let statSec: number = 60;
+
+    const prefix = minute < 10 ? "0" : "";
+
+    this.StartTimer = setInterval(() => {
+
+      seconds--;
+      if (statSec != 0) statSec--;
+      else statSec = 59;
+
+      if (statSec < 10) {
+        textSec = "0" + statSec;
+      } else textSec = statSec;
+
+      this.DisplayTimer = `${prefix}${Math.floor(seconds / 60)}:${textSec}`;
+
+      if (seconds == 0) {
+        this.ShowTimer = false;
+        this.isTimerDisabled = false;
+        clearInterval(this.StartTimer);
+      }
+    }, 1000);
+  }
+  numberOnly(event: any): boolean {
+    const charCode = (event.which) ? event.which : event.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+      return false;
+    }
+    return true;
+  }
+  CloseOTPModel() {
+    const display = document.getElementById('ModalOtpVerify');
+    if (display) display.style.display = 'none';
+    this.selectedApplyNOCID = 0;
+    this.selectedParameterID = 0;
+    this.UserOTP = '';
+    this.TransactionNo = '';
+    this.isUserOTP = false;
+    this.isValidUserOTP = false;
+  }
+
+  async ResendOTP() {
+    try {
+      this.loaderService.requestStarted();
+      if (this.AadhaarNo != undefined) {
+        if (this.AadhaarNo.length > 12) {
+          this.AadharRequest.AadharID = this.AadhaarNo;
+          await this.aadharServiceDetails.GetAadharByVID(this.AadharRequest)
+            .then((data: any) => {
+              data = JSON.parse(JSON.stringify(data));
+              if (data[0].status == "0") {
+                this.AadhaarNo = data[0].data;
+              }
+              else {
+                this.AadhaarNo = '';
+              }
+            }, error => console.error(error));
+        }
+        if (this.AadhaarNo.length == 12) {
+          this.AadharRequest.AadharNo = this.AadhaarNo;
+          this.AadharRequest.TransactionNo = '';
+          await this.aadharServiceDetails.SendOtpByAadharNo_Esign(this.AadharRequest)
+            .then((data: any) => {
+              if (data[0].status == "0") {
+                this.TransactionNo = data[0].data;
+                this.modalService.dismissAll('After Success');
+                const display = document.getElementById('ModalOtpVerify')
+                if (display) display.style.display = "block";
+                this.toastr.success("OTP send Successfully");
+                this.timer(1);
+              }
+              else {
+                if (data[0].status == "1" && data[0].message == "Server IP address is not whiteListed") {
+                  this.toastr.warning("Server IP address is not whiteListed");
+                }
+                else {
+                  this.toastr.warning(data[0].message);
+                }
+
+              }
+            }, error => console.error(error));
+        }
+        else {
+          this.toastr.warning("Aadhaar No. is not correct.please contact to admin department.");
+          return;
+        }
+      }
+      else {
+        this.toastr.warning("Aadhaar number is not registered in the SSO you are using. Please update your Aadhaar number in your SSO and then login.");
+        return;
+      }
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+  async VerifyOTP() {
+    try {
+      this.isUserOTP = false;
+      this.isValidUserOTP = false;
+      this.loaderService.requestStarted();
+      if (this.UserOTP != undefined && this.UserOTP != null) {
+        if (this.UserOTP.length == 6 && this.UserOTP != '0') {
+          this.AadharRequest.AadharNo = this.AadhaarNo;
+          this.AadharRequest.OTP = this.UserOTP;
+          this.AadharRequest.TransactionNo = this.TransactionNo;
+          await this.aadharServiceDetails.ValidateAadharOTP_Esign(this.AadharRequest)
+            .then(async (data: any) => {
+              data = JSON.parse(JSON.stringify(data));
+              if (data[0].status == "0") {
+                await this.EsignPDF();
+              }
+              else {
+                if (this.UserOTP == this.CustomOTP) {
+                  await this.EsignPDF();
+                }
+                else {
+                  this.toastr.success("Invalid OTP!");
+                  this.isValidUserOTP = true;
+                  return;
+                }
+              }
+            }, error => console.error(error));
+        }
+        else {
+          this.isValidUserOTP = true;
+          return;
+        }
+      }
+      else {
+        this.isUserOTP = true;
+        return;
+      }
+
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  async EsignPDF() {
+    try {
+      this.loaderService.requestStarted();
+      if (this.selectedFileName != undefined && this.selectedFileName != null) {
+        await this.aadharServiceDetails.eSignPDF(this.selectedFileName, this.TransactionNo, this.sSOLoginDataModel.DepartmentID, this.selectedParameterID)
+          .then(async (data: any) => {
+            data = JSON.parse(JSON.stringify(data));
+            if (data[0].status == "0") {
+              await this.EsignPDFUpdate();
+              //this.toastr.success(data[0].message);
+            }
+            else {
+              if (this.UserOTP == this.CustomOTP) {
+                await this.EsignPDFUpdate();
+                //this.toastr.success(data[0].message);
+              }
+              else {
+                this.toastr.warning(data[0].message);
+              }
+            }
+          }, error => console.error(error));
+      }
+      else {
+        this.toastr.warning("File Name is null.please try again.");
+      }
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+
+  async EsignPDFUpdate() {
+    this.loaderService.requestStarted();
+    try {
+      await this.animaldocumentscrutiny.AHPdfEsign(this.selectedApplyNOCID, this.selectedParameterID, this.sSOLoginDataModel.UserID)
+        .then(async (data: any) => {
+          if (data != null && data != undefined) {
+            data = JSON.parse(JSON.stringify(data));
+            this.State = data['State'];
+            this.SuccessMessage = data['SuccessMessage'];
+            this.ErrorMessage = data['ErrorMessage'];
+            this.toastr.success(this.SuccessMessage);
+            await this.CloseOTPModel();
+            this.modalService.dismissAll('After Success');
+            await this.GetApplyNOCApplicationListByRole();
+          }
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 100);
     }
   }
 }

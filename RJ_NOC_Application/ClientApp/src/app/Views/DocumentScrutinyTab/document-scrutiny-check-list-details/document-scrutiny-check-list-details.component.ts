@@ -1436,27 +1436,23 @@ export class DocumentScrutinyCheckListDetailsComponent implements OnInit {
           if (data['Data'].length > 0) {
             this.WorkFlowActionList = data['Data'];
             if (this.WorkFlowActionList.length > 0) {
-
+              // ActionID=77/69
+              //92---84    77-----69
               if (this.QueryStatus == 'DCPending') {
-                // ActionID=77/69
-
-                this.WorkFlowActionList = this.WorkFlowActionList.filter((x: { ActionID: number; }) => x.ActionID != 49 && x.ActionID != 69 && x.ActionID != 45&& x.ActionID != 63&& x.ActionID != 60);
+                this.WorkFlowActionList = this.WorkFlowActionList.filter((x: { ActionID: number; }) => x.ActionID == 92 || x.ActionID==3);
               }
-              if (this.QueryStatus == 'AfterInspectionPending') {
-                // ActionID=77/69
-
-                this.WorkFlowActionList = this.WorkFlowActionList.filter((x: { ActionID: number; }) => x.ActionID != 49 && x.ActionID != 69&& x.ActionID != 45&& x.ActionID != 84&& x.ActionID != 3);
+              if (this.QueryStatus == 'InspectionPending') {
+                this.WorkFlowActionList = this.WorkFlowActionList.filter((x: { ActionID: number; }) => x.ActionID == 45);
               }
-              if (this.QueryStatus == 'InspectionPending' && this.sSOLoginDataModel.RoleID != 3) {
-                // ActionID=77/69
-
-                this.WorkFlowActionList = this.WorkFlowActionList.filter((x: { ActionID: number; }) => x.ActionID == 69 || x.ActionID == 60);
-              }
-              if (this.QueryStatus == 'InspectionPending' && this.sSOLoginDataModel.RoleID==3) {
-                // ActionID=77/69
-
-                this.WorkFlowActionList = this.WorkFlowActionList.filter((x: { ActionID: number; }) => x.ActionID == 45 || x.ActionID == 60);
-              }
+              //if (this.QueryStatus == 'AfterInspectionPending') {
+              //  this.WorkFlowActionList = this.WorkFlowActionList.filter((x: { ActionID: number; }) => x.ActionID != 49 && x.ActionID != 77 && x.ActionID != 45 && x.ActionID != 92 && x.ActionID != 3);
+              //}
+              //if (this.QueryStatus == 'InspectionPending' && this.sSOLoginDataModel.RoleID != 3) {
+              //  this.WorkFlowActionList = this.WorkFlowActionList.filter((x: { ActionID: number; }) => x.ActionID == 77 || x.ActionID == 60);
+              //}
+              //if (this.QueryStatus == 'InspectionPending' && this.sSOLoginDataModel.RoleID == 3) {
+              //  this.WorkFlowActionList = this.WorkFlowActionList.filter((x: { ActionID: number; }) => x.ActionID == 45 || x.ActionID == 60);
+              //}
               this.ActionID = this.WorkFlowActionList[0]['ActionID'];
               var IsNextAction = this.WorkFlowActionList.find((x: { ActionID: number; }) => x.ActionID == this.ActionID)?.IsNextAction;
               var IsRevert = this.WorkFlowActionList.find((x: { ActionID: number; }) => x.ActionID == this.ActionID)?.IsRevert;

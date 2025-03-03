@@ -1486,13 +1486,13 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-  public async HomePage_IncreaseDate(DepartmentID: number) {
+  public async HomePage_IncreaseDate(DepartmentID: number, Type: string='No') {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     };
-    return await this.http.get(this.APIUrl_CommonMaster + "/HomePage_IncreaseDate/" + DepartmentID)
+    return await this.http.get(this.APIUrl_CommonMaster + "/HomePage_IncreaseDate/" + DepartmentID + "/" + Type)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();
@@ -1805,6 +1805,15 @@ export class CommonMasterService {
   public async GetWorkflowPermissions(DepartmentID: number, RoleID: number) {
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
     return await this.http.get(this.APIUrl_CommonMaster + '/GetWorkflowPermissions/' + DepartmentID + "/" + RoleID, httpOptions)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+
+  public async UpdateInspectionFDRIntimationAH(ApplyNOCID: number, ActionType: string) {
+    const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
+    const request = { ApplyNOCID: ApplyNOCID, ActionType: ActionType }
+    return await this.http.post(this.APIUrl_CommonMaster + "/UpdateInspectionFDRIntimationAH", request, httpOptions)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();

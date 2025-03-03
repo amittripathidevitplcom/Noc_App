@@ -22,12 +22,13 @@ export class HomeComponent implements OnInit {
   }
 
   async ngOnInit() {
-    await this.GetUserManualDocumentMasterList(0);
+    await this.GetUserManualDocumentMasterList(0,'No');
   }
-  async HomePage_IncreaseDate(DepartmentID: number) {
+  async HomePage_IncreaseDate(DepartmentID: number, Type: string) {
+
     try {
       this.loaderService.requestStarted();
-      await this.commonMasterService.HomePage_IncreaseDate(DepartmentID)
+      await this.commonMasterService.HomePage_IncreaseDate(DepartmentID, Type)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           console.log(data);
@@ -44,12 +45,14 @@ export class HomeComponent implements OnInit {
       }, 200);
     }
   }
-  async GetUserManualDocumentMasterList(DepartmentID: number) {
 
+  public DiplomaDegree: string = 'Degree';
+  async GetUserManualDocumentMasterList(DepartmentID: number, Type: string) {
     try {
+      this.DiplomaDegree = Type == 'Degree' ? 'Degree' : 'Diploma';
       this.loaderService.requestStarted();
-      await this.HomePage_IncreaseDate(DepartmentID);
-      await this.usermanualDocumentService.GetUserManualDocumentMasterList(DepartmentID, 'U')
+      await this.HomePage_IncreaseDate(DepartmentID, Type);
+      await this.usermanualDocumentService.GetUserManualDocumentMasterList(DepartmentID, Type)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.UserManualDocumentlList = data['Data'][0]['data'];

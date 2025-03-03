@@ -1159,7 +1159,48 @@
               </div>
             </div>
           </div>
-          <div class="col-lg-3 col-md-4 col-sm-6 col-12" *ngIf="this.sSOLoginDataModel.RoleID==5 || this.sSOLoginDataModel.RoleID==2|| this.sSOLoginDataModel.RoleID==3">
+          <div class="col-lg-3 col-md-4 col-sm-6 col-12" *ngIf="this.sSOLoginDataModel.RoleID==3">
+            <div class="card staticsCards">
+              <div class="card-header text-center text-white" style="background: rgba(0, 0, 0, 0.2) !important;"><h5>Inspection Applications</h5></div>
+              <div class="card-body">
+                <div class="d-flex justify-content-between">
+                  <div class="dashCardContent text-start">
+                    <h4>Pending</h4>
+                    <h2>
+                      <a href="/applicationslist/IPending" style="background: none;">{{dashboardDataModel.IPending}}</a>
+                    </h2>
+                  </div>
+
+                  <div class="dashCardContent">
+                    <h4>Completed</h4>
+                    <a href="/applicationslist/ICompleted" style="background: none;"><h2>{{dashboardDataModel.ICompleted}}</h2></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-4 col-sm-6 col-12" *ngIf="this.sSOLoginDataModel.RoleID==3">
+            <div class="card staticsCards">
+              <div class="card-header text-center text-white" style="background: rgba(0, 0, 0, 0.2) !important;"><h5>After Inspection Reports</h5></div>
+              <div class="card-body">
+                <div class="d-flex justify-content-between">
+                  <div class="dashCardContent text-start">
+                    <h4>Pending</h4>
+                    <h2>
+                      <a href="/applicationslist/AfterInspectionPending" style="background: none;">{{dashboardDataModel.AfterInspectionPending}}</a>
+                    </h2>
+                  </div>
+
+                  <div class="dashCardContent">
+                    <h4>Completed</h4>
+                    <a href="/applicationslist/AfterInspectionCompleted" style="background: none;"><h2>{{dashboardDataModel.AfterInspectionCompleted}}</h2></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-4 col-sm-6 col-12" *ngIf="this.sSOLoginDataModel.RoleID==5 || this.sSOLoginDataModel.RoleID==2">
             <div class="card staticsCards">
               <div class="card-header text-center text-white" style="background: rgba(0, 0, 0, 0.2) !important;"><h5>Inspection Reports</h5></div>
               <div class="card-body">
@@ -1255,7 +1296,7 @@
   <!-- Animal Husbinadry Dashboard-->
   <div class="row">
     <div class="card">
-      <div class="card-header d-flex justify-content-between align-items-center">
+      <div class="card-header d-flex justify-content-between align-items-center" *ngIf="this.sSOLoginDataModel.DepartmentID==2 &&(this.sSOLoginDataModel.RoleID==21 || this.sSOLoginDataModel.RoleID==18|| this.sSOLoginDataModel.RoleID==5|| this.sSOLoginDataModel.RoleID==36|| this.sSOLoginDataModel.RoleID==37 || this.sSOLoginDataModel.RoleID ==12  || this.sSOLoginDataModel.RoleID ==13 || this.sSOLoginDataModel.RoleID ==6 || this.sSOLoginDataModel.RoleID ==14 ||  this.sSOLoginDataModel.RoleID ==15 || this.sSOLoginDataModel.RoleID ==25)">
         <h5> <b> Diploma Applications</b></h5>
       </div>
       <div class="card-body">
@@ -1532,27 +1573,7 @@
           </div>
         </div>
 
-        <div class="row" *ngIf="this.sSOLoginDataModel.DepartmentID==2 &&(this.sSOLoginDataModel.RoleID==8 || this.sSOLoginDataModel.RoleID==43)">
-          <div class="col-lg-3 col-md-4 col-sm-6 col-12">
-            <div class="card staticsCards">
-              <div class="card-header text-center text-white" style="background: rgba(0, 0, 0, 0.2) !important;"><h5>Applications</h5></div>
-              <div class="card-body">
-                <div class="d-flex justify-content-between">
-                  <div class="dashCardContent text-start">
-                    <h4>Pending</h4>
-                    <h2>
-                      <a href="applicationlistahdegree/ScrutinyPending" style="background: none;">{{dashboardDataModel.ScrutinyPending}}</a>
-                    </h2>
-                  </div>
-                  <div class="dashCardContent">
-                    <h4>Completed</h4>
-                    <a href="applicationlistahdegree/ScrutinyCompleted" style="background: none;"><h2>{{dashboardDataModel.ScrutinyCompleted}}</h2></a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+
 
       </div>
     </div>
@@ -1671,6 +1692,27 @@
           </div>
         </div>
 
+      </div>
+    </div>
+  </div>
+  <div class="row" *ngIf="this.sSOLoginDataModel.DepartmentID==2 &&(this.sSOLoginDataModel.RoleID==8 || this.sSOLoginDataModel.RoleID==43)">
+    <div class="col-lg-3 col-md-4 col-sm-6 col-12">
+      <div class="card staticsCards">
+        <div class="card-header text-center text-white" style="background: rgba(0, 0, 0, 0.2) !important;"><h5>Applications</h5></div>
+        <div class="card-body">
+          <div class="d-flex justify-content-between">
+            <div class="dashCardContent text-start">
+              <h4>Pending</h4>
+              <h2>
+                <a href="applicationlistahdegree/ScrutinyPending" style="background: none;">{{dashboardDataModel.ScrutinyPending}}</a>
+              </h2>
+            </div>
+            <div class="dashCardContent">
+              <h4>Completed</h4>
+              <a href="applicationlistahdegree/ScrutinyCompleted" style="background: none;"><h2>{{dashboardDataModel.ScrutinyCompleted}}</h2></a>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>

@@ -2298,7 +2298,7 @@ export class LegalEntityComponent implements OnInit {
       }
       this.holdDepartmentID = this.request.ProcessDepartmentID;
       this.loaderService.requestStarted();
-      if (this.request.ManagementType == 'Government' && (this.request.ProcessDepartmentID == 4 ||  this.request.ProcessDepartmentID == 11)) {
+      if (this.request.ManagementType == 'Government' && (this.request.ProcessDepartmentID == 4)) {
         //this.request = new LegalEntityDataModel();
         this.request.SSOID = this.sSOLoginDataModel.SSOID;
         //this.request.ElectionPresentManagementCommitteeDate = '';

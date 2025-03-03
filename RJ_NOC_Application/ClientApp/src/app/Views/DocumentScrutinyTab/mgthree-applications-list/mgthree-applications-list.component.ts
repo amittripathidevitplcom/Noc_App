@@ -48,35 +48,38 @@ export class MGThreeApplicationsListComponent implements OnInit {
 
   async GetApplyNOCApplicationListByRole() {
     try {
-      if (this.QueryStatus == 'Pending' && (this.sSOLoginDataModel.RoleID == 5 || this.sSOLoginDataModel.RoleID == 3)) {
+      if (this.QueryStatus == 'Pending') {
         this.request.ActionName = 'Apply NOC,Forward To';
       }
-      else if (this.QueryStatus == 'DCPending' && (this.sSOLoginDataModel.RoleID == 2 || this.sSOLoginDataModel.RoleID == 3 || this.sSOLoginDataModel.RoleID == 5 || this.sSOLoginDataModel.RoleID == 6 || this.sSOLoginDataModel.RoleID == 16)) {
-        this.request.ActionName = 'Forward To,Forward after document scrutiny,Revert,ReSubmit Application';
-      }
-      else if (this.QueryStatus == 'InspectionPending' && (this.sSOLoginDataModel.RoleID == 5 || this.sSOLoginDataModel.RoleID == 2|| this.sSOLoginDataModel.RoleID == 3)) {
-        this.request.ActionName = 'Forward Inspection Report,Revert after Inspection';
-      }
-      else if (this.QueryStatus == 'Completed' && (this.sSOLoginDataModel.RoleID == 5 || this.sSOLoginDataModel.RoleID == 3 || this.sSOLoginDataModel.RoleID == 2)) {
+      else if (this.QueryStatus == 'Completed') {
         this.request.ActionName = 'Forward To';
       }
-      else if (this.QueryStatus == 'DCCompleted' && (this.sSOLoginDataModel.RoleID == 2 || this.sSOLoginDataModel.RoleID == 3 || this.sSOLoginDataModel.RoleID == 5 || this.sSOLoginDataModel.RoleID == 6)) {
+      else if (this.QueryStatus == 'DCPending') {
+        this.request.ActionName = 'Forward To,Forward after document scrutiny,Revert,ReSubmit Application';
+      }
+      else if (this.QueryStatus == 'DCCompleted' && this.sSOLoginDataModel.RoleID != 16) { 
         this.request.ActionName = 'Forward after document scrutiny';
       }
-      else if (this.QueryStatus == 'DCCompleted'  && (this.sSOLoginDataModel.RoleID == 16 )) {
+      else if (this.QueryStatus == 'DCCompleted' && this.sSOLoginDataModel.RoleID == 16) {
         this.request.ActionName = 'Forward Inspection Report';
+      }
+      else if (this.QueryStatus == 'InspectionPending' || this.QueryStatus == 'IPending') {
+        this.request.ActionName = 'Forward Inspection Report,Revert after Inspection';
       }
       else if (this.QueryStatus == 'InspectionCompleted') {
         this.request.ActionName = 'Forward Inspection Report,Forward';
       }
-      else if (this.QueryStatus == 'AfterInspectionPending' && (this.sSOLoginDataModel.RoleID == 5 || this.sSOLoginDataModel.RoleID == 6)) {
+      else if (this.QueryStatus == 'ICompleted') {
+        this.request.ActionName = 'Forward Inspection Report';
+      }
+      else if (this.QueryStatus == 'AfterInspectionPending') {
         this.request.ActionName = 'Forward,Forward To Joint Secretary after inspection';
       }
-      else if (this.QueryStatus == 'AfterInspectionCompleted' && this.sSOLoginDataModel.RoleID == 5) {
-        this.request.ActionName = 'Forward To Joint Secretary after inspection';
+      else if (this.QueryStatus == 'AfterInspectionCompleted' && this.sSOLoginDataModel.RoleID != 6) {
+        this.request.ActionName = 'Forward To Joint Secretary after inspection,Forward';
       }
       else if (this.QueryStatus == 'AfterInspectionCompleted' && this.sSOLoginDataModel.RoleID == 6) {
-        this.request.ActionName = 'Forward To';
+        this.request.ActionName = 'Forward To Joint Secretary after inspection,Forward To';
       }
       else if (this.QueryStatus == 'APending') {
         this.request.ActionName = 'Forward To';
@@ -93,6 +96,54 @@ export class MGThreeApplicationsListComponent implements OnInit {
       else if (this.QueryStatus == 'InspectionRevert') {
         this.request.ActionName = 'Revert after Inspection';
       }
+      //else if (this.QueryStatus == 'IPending') {
+      //  this.request.ActionName = 'Forward';
+      //}
+      //else if (this.QueryStatus == 'DCPending' && (this.sSOLoginDataModel.RoleID == 2 || this.sSOLoginDataModel.RoleID == 3 || this.sSOLoginDataModel.RoleID == 5 || this.sSOLoginDataModel.RoleID == 6 || this.sSOLoginDataModel.RoleID == 16)) {
+      //  this.request.ActionName = 'Forward To,Forward after document scrutiny,Revert,ReSubmit Application';
+      //}
+      //else if (this.QueryStatus == 'InspectionPending' && (this.sSOLoginDataModel.RoleID == 5 || this.sSOLoginDataModel.RoleID == 2|| this.sSOLoginDataModel.RoleID == 3)) {
+      //  this.request.ActionName = 'Forward Inspection Report,Revert after Inspection';
+      //}
+      //else if (this.QueryStatus == 'Completed' && (this.sSOLoginDataModel.RoleID == 5 || this.sSOLoginDataModel.RoleID == 3 || this.sSOLoginDataModel.RoleID == 2)) {
+      //  this.request.ActionName = 'Forward To';
+      //}
+      //else if (this.QueryStatus == 'DCCompleted' && (this.sSOLoginDataModel.RoleID == 2 || this.sSOLoginDataModel.RoleID == 3 || this.sSOLoginDataModel.RoleID == 5 || this.sSOLoginDataModel.RoleID == 6)) {
+      //  this.request.ActionName = 'Forward after document scrutiny';
+      //}
+      //else if (this.QueryStatus == 'DCCompleted'  && (this.sSOLoginDataModel.RoleID == 16 )) {
+      //  this.request.ActionName = 'Forward Inspection Report';
+      //}
+      //else if (this.QueryStatus == 'InspectionCompleted') {
+      //  this.request.ActionName = 'Forward Inspection Report,Forward';
+      //}
+      //else if (this.QueryStatus == 'AfterInspectionPending' && (this.sSOLoginDataModel.RoleID == 5 || this.sSOLoginDataModel.RoleID == 6)) {
+      //  this.request.ActionName = 'Forward,Forward To Joint Secretary after inspection';
+      //}
+      //else if (this.QueryStatus == 'AfterInspectionCompleted' && this.sSOLoginDataModel.RoleID == 5) {
+      //  this.request.ActionName = 'Forward To Joint Secretary after inspection';
+      //}
+      //else if (this.QueryStatus == 'AfterInspectionCompleted' && this.sSOLoginDataModel.RoleID == 6) {
+      //  this.request.ActionName = 'Forward To';
+      //}
+      //else if (this.QueryStatus == 'APending') {
+      //  this.request.ActionName = 'Forward To';
+      //}
+      //else if (this.QueryStatus == 'ACompleted') {
+      //  this.request.ActionName = 'Approve and Forward,Reject and Forward';
+      //}
+      //else if (this.QueryStatus == 'JSPending') {
+      //  this.request.ActionName = 'Approve and Forward,Reject and Forward';
+      //}
+      //else if (this.QueryStatus == 'DCRevert') {
+      //  this.request.ActionName = 'Revert';
+      //}
+      //else if (this.QueryStatus == 'InspectionRevert') {
+      //  this.request.ActionName = 'Revert after Inspection';
+      //}
+      //else if (this.QueryStatus == 'IPending') {
+      //  this.request.ActionName = 'Forward';
+      //}
       this.loaderService.requestStarted();
       await this.medicalDocumentScrutinyService.GetApplyNOCApplicationList(this.request)
         .then((data: any) => {
