@@ -457,6 +457,7 @@ import { DocumentScrutinyCheckListDegreeComponent } from './Views/DocumentScruti
 import { DSApplicationListDegreeComponent } from './Views/DocumentScrutinyTab_AH/dsapplication-list-degree/dsapplication-list-degree.component';
 import { FinalCheckListAHDegreeComponent } from './Views/DocumentScrutinyTab_AH/final-check-list-ahdegree/final-check-list-ahdegree.component';
 import { DegreeNOCApplicationsComponent } from './Views/DocumentScrutinyTab_AH/degree-nocapplications/degree-nocapplications.component';
+import { DocumentScrutinyCourseMgThreeComponent } from './Views/DocumentScrutinyTab/document-scrutiny-course-mg-three/document-scrutiny-course-mg-three.component';
 
 
  
@@ -915,6 +916,7 @@ import { DegreeNOCApplicationsComponent } from './Views/DocumentScrutinyTab_AH/d
     DSApplicationListDegreeComponent,
     FinalCheckListAHDegreeComponent,
     DegreeNOCApplicationsComponent,
+    DocumentScrutinyCourseMgThreeComponent,
   ],
   imports: [
     CommonModule,

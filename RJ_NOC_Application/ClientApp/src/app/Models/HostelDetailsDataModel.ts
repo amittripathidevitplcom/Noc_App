@@ -53,6 +53,11 @@ export class HostelDataModel extends DocumentScrutiny_ActionModule {
   public Hygiene: string = '';
   public Commonroom: string = '';
   public Visitor: string = '';
+
+
+  public OwnerShhipRentDocument: string = '';
+  public OwnerShhipRentDocumentPath: string = '';
+  public OwnerShhipRentDocument_Dis_FileName: string = '';
 }
 
 export class HostelDetailsDataModel_Hostel {

@@ -227,6 +227,7 @@ export class FinalCheckListMGThreeComponent implements OnInit {
     this.GetHospitalDataList_DepartmentCollegeWise();
     this.GetCourtCaseList();
     this.CheckTabsEntry();
+    this.GetCourseDetailAllList();
 
     this.CommitteeMemberDetails = this.formBuilder.group(
       {
@@ -237,6 +238,30 @@ export class FinalCheckListMGThreeComponent implements OnInit {
   }
   get form_CommitteeMember() { return this.CommitteeMemberDetails.controls; }
 
+
+  public CheckListAllCourseList: any = [];
+  public CourseDetail_FinalRemarks: any = [];
+  async GetCourseDetailAllList() {
+    try {
+      this.loaderService.requestStarted();
+      await this.medicalDocumentScrutinyService.DocumentScrutiny_CourseDetails(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
+        .then((data: any) => {
+
+          data = JSON.parse(JSON.stringify(data));
+          this.CheckListAllCourseList = data['Data'][0]['CourseDetails'][0];
+          this.CourseDetail_FinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
+
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
 
   // Start Land Details
 
@@ -1402,10 +1427,10 @@ export class FinalCheckListMGThreeComponent implements OnInit {
             if (this.WorkFlowActionList.length > 0) {
 
               if (this.QueryStatus == 'DCPending') {
-                this.WorkFlowActionList = this.WorkFlowActionList.filter((x: { ActionID: number; }) => x.ActionID == 92 || x.ActionID==3);
+                this.WorkFlowActionList = this.WorkFlowActionList.filter((x: { ActionID: number; }) => x.ActionID == 84 || x.ActionID==3);
               }
               if (this.QueryStatus == 'InspectionPending' || this.QueryStatus == 'IPending') {
-                this.WorkFlowActionList = this.WorkFlowActionList.filter((x: { ActionID: number; }) => x.ActionID ==77);
+                this.WorkFlowActionList = this.WorkFlowActionList.filter((x: { ActionID: number; }) => x.ActionID == 69 || x.ActionID==60);
               }
               if (this.QueryStatus == 'AfterInspectionPending' && this.sSOLoginDataModel.RoleID==3) {
                 this.WorkFlowActionList = this.WorkFlowActionList.filter((x: { ActionID: number; }) => x.ActionID ==45);
@@ -1431,29 +1456,60 @@ export class FinalCheckListMGThreeComponent implements OnInit {
   }
   public IsRevert: boolean = false;
   async OnChangeCurrentAction() {
-    await this.GetRoleListForApporval();
-    if (this.UserRoleList.length > 0) {
-      this.UserRoleList = this.UserRoleList.filter((x: { RoleID: number; }) => x.RoleID != 1);
-    }
+    //await this.GetRoleListForApporval();
+    //if (this.UserRoleList.length > 0) {
+    //  this.UserRoleList = this.UserRoleList.filter((x: { RoleID: number; }) => x.RoleID != 1);
+    //}
   
+    //var IsNextAction = this.WorkFlowActionList.find((x: { ActionID: number; }) => x.ActionID == this.ActionID)?.IsNextAction;
+    //var IsRevert = this.WorkFlowActionList.find((x: { ActionID: number; }) => x.ActionID == this.ActionID)?.IsRevert;
+    //this.IsRevert = IsRevert;
+    //if (IsNextAction == true && IsRevert == false) {
+    //  this.ShowHideNextUser = true;
+    //  this.ShowHideNextRole = true;
+
+    //}
+    //else if (IsNextAction == false && IsRevert == false) {
+    //  this.ShowHideNextUser = false;
+    //  this.ShowHideNextRole = false;
+    //  //if (this.UserRoleList.length > 0) {
+    //  //  this.UserRoleList = this.UserRoleList.filter((x: { RoleID: number; }) => x.RoleID != 1);
+    //  //}
+    //}
+    //else if (IsNextAction == false && IsRevert == true) {
+    //  this.ShowHideNextUser = true;
+    //  this.ShowHideNextRole = true;
+    //}
+
+    await this.GetRoleListForApporval();
+    this.NextRoleID = 0;
     var IsNextAction = this.WorkFlowActionList.find((x: { ActionID: number; }) => x.ActionID == this.ActionID)?.IsNextAction;
     var IsRevert = this.WorkFlowActionList.find((x: { ActionID: number; }) => x.ActionID == this.ActionID)?.IsRevert;
-    this.IsRevert = IsRevert;
     if (IsNextAction == true && IsRevert == false) {
       this.ShowHideNextUser = true;
       this.ShowHideNextRole = true;
-
+      if (this.UserRoleList.length > 0) {
+        this.UserRoleList = this.UserRoleList.filter((x: { RoleID: number; }) => x.RoleID != 1);
+      }
+      //this.ShowHideNextAction = true;
     }
     else if (IsNextAction == false && IsRevert == false) {
       this.ShowHideNextUser = false;
       this.ShowHideNextRole = false;
-      //if (this.UserRoleList.length > 0) {
-      //  this.UserRoleList = this.UserRoleList.filter((x: { RoleID: number; }) => x.RoleID != 1);
-      //}
+      if (this.UserRoleList.length > 0) {
+        this.UserRoleList = this.UserRoleList.filter((x: { RoleID: number; }) => x.RoleID != 1);
+      }
+      //this.ShowHideNextAction = false;
     }
     else if (IsNextAction == false && IsRevert == true) {
       this.ShowHideNextUser = true;
       this.ShowHideNextRole = true;
+      if (this.sSOLoginDataModel.RoleID != 5) {
+        if (this.UserRoleList.length > 0) {
+          this.UserRoleList = this.UserRoleList.filter((x: { RoleID: number; }) => x.RoleID != 1);
+        }
+      }
+      //this.ShowHideNextAction = false;
     }
   }
 

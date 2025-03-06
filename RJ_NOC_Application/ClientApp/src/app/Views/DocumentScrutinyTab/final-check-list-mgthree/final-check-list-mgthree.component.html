@@ -798,6 +798,93 @@
   </div>
 
   <!--End College Management Society-->
+  <!--Start Course Details-->
+  <div class="card">
+    <div class="card-header">
+      <b><i class="bi bi-building-add"></i>&nbsp; Course Details</b>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="table-responsive">
+          <table class="table table-bordered table-hover table-striped">
+            <thead>
+              <tr>
+                <th>
+                  Compliance
+                </th>
+                <th>
+                  Remark
+                </th>
+                <th>Sr. No.</th>
+                <th>Department</th>
+                <th>College Name</th>
+                <th>Course Name</th>
+                <th>Number of Seats</th>
+                <th>Trails</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of CheckListAllCourseList; let idx =index">
+
+                <td>
+                  {{item.Action}}
+                </td>
+                <td>
+                  {{item.Action=='No'?item.Remark:''}}
+                </td>
+
+                <td width="5%">
+                  {{idx+1}}
+                </td>
+                <td>{{item.DepartmentName}}</td>
+                <td>{{item.CollageName}}</td>
+                <td>{{item.CourseName}}</td>
+                <td>{{item.Seats}}</td>
+                <td><button type="button" class="btn btn-sm btn-info" title="View" (click)="ViewTaril(item.CollegeWiseCourseID,'ClassCourseDetailsTrail')"><i class="fa fa-bars" aria-hidden="true"></i></button></td>
+              </tr>
+              <tr *ngIf="CheckListAllCourseList.length<=0">
+                <td colspan="15" style="color:red">No Data Found.!</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="col-md-12">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card mb-0">
+              <div class="card-header">
+                <b><i class="bi bi-table"></i> Action & Remark by Others </b>
+              </div>
+              <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                <div class="table-responsive">
+                  <table class="table table-bordered table-hover table-striped">
+                    <thead>
+                      <tr>
+                        <th>Sr.No.</th>
+                        <th>Role</th>
+                        <th>Action</th>
+                        <th>Remark</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let item1 of CourseDetail_FinalRemarks ; let idx =index">
+                        <td>{{idx+1}}</td>
+                        <td>{{item1.RoleID}}</td>
+                        <td>{{item1.ActionName}}</td>
+                        <td>{{item1.Remark}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--End Course Details-->
   <!--Start Land Details-->
   <div class="card-header">
     <b><i class="bi bi-table"></i>&nbsp; Land Details</b>
@@ -3692,50 +3779,50 @@
             </div>
             <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
               <label>MOU between Parental hospital & All the members of Trust/ Society/Company (MoU For 30 years minimum)</label>
-              <a class="bi bi-file-earmark-pdf-fill" *ngIf="viewrequest.HospitalMOU.includes('.pdf')" data-fancybox="gallery" href="{{HospitalData.HospitalMOUPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+              <a class="bi bi-file-earmark-pdf-fill" *ngIf="viewrequest.HospitalMOU.includes('.pdf')" data-fancybox="gallery" href="{{viewrequest.HospitalMOUPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
             </div>
             <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
               <label>
                 Bed Occupancy (Certificate by Concern CMHO (With name and seal)
               </label>
-              <a class="bi bi-file-earmark-pdf-fill" *ngIf="viewrequest.BedOccupancy.includes('.pdf')" data-fancybox="gallery" href="{{HospitalData.BedOccupancyPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+              <a class="bi bi-file-earmark-pdf-fill" *ngIf="viewrequest.BedOccupancy.includes('.pdf')" data-fancybox="gallery" href="{{viewrequest.BedOccupancyPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
             </div>
 
             <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
               <label>
                 Fire NOC
               </label>
-              <a class="bi bi-file-earmark-pdf-fill" *ngIf="viewrequest.FireNOC.includes('.pdf')" data-fancybox="gallery" href="{{HospitalData.FireNOCPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+              <a class="bi bi-file-earmark-pdf-fill" *ngIf="viewrequest.FireNOC.includes('.pdf')" data-fancybox="gallery" href="{{viewrequest.FireNOCPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
             </div>
             <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
               <label>
                 Pollution Certificate/ Bio Medical waste Certificate
               </label>
-              <a class="bi bi-file-earmark-pdf-fill" *ngIf="viewrequest.PollutionCertificate.includes('.pdf')" data-fancybox="gallery" href="{{HospitalData.PollutionCertificatePath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+              <a class="bi bi-file-earmark-pdf-fill" *ngIf="viewrequest.PollutionCertificate.includes('.pdf')" data-fancybox="gallery" href="{{viewrequest.PollutionCertificatePath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
             </div>
             <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
               <label>
                 Clinical Establishment certificate and Registration Number
               </label>
-              <a class="bi bi-file-earmark-pdf-fill" *ngIf="viewrequest.ClinicalEstablishment.includes('.pdf')" data-fancybox="gallery" href="{{HospitalData.ClinicalEstablishmentPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+              <a class="bi bi-file-earmark-pdf-fill" *ngIf="viewrequest.ClinicalEstablishment.includes('.pdf')" data-fancybox="gallery" href="{{viewrequest.ClinicalEstablishmentPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
             </div>
             <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
               <label>
                 NABH (if available)
               </label>
-              <a class="bi bi-file-earmark-pdf-fill" *ngIf="viewrequest.NABH.includes('.pdf')" data-fancybox="gallery" href="{{HospitalData.NABHPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+              <a class="bi bi-file-earmark-pdf-fill" *ngIf="viewrequest.NABH.includes('.pdf')" data-fancybox="gallery" href="{{viewrequest.NABHPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
             </div>
             <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
               <label>
                 Undertaking for not affiliated with other institute as a parent hospital or as an affiliated Hospital.
               </label>
-              <a class="bi bi-file-earmark-pdf-fill" *ngIf="viewrequest.UndertakingNotAffiliated.includes('.pdf')" data-fancybox="gallery" href="{{HospitalData.UndertakingNotAffiliatedPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+              <a class="bi bi-file-earmark-pdf-fill" *ngIf="viewrequest.UndertakingNotAffiliated.includes('.pdf')" data-fancybox="gallery" href="{{viewrequest.UndertakingNotAffiliatedPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
             </div>
             <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
               <label>
                 Staff information
               </label>
-              <a class="bi bi-file-earmark-pdf-fill" *ngIf="viewrequest.StaffInformation.includes('.pdf')" data-fancybox="gallery" href="{{HospitalData.StaffInformationPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+              <a class="bi bi-file-earmark-pdf-fill" *ngIf="viewrequest.StaffInformation.includes('.pdf')" data-fancybox="gallery" href="{{viewrequest.StaffInformationPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
             </div>
           </div>
 
@@ -3843,7 +3930,7 @@
                   <label>
                     Pollution Certificate/ Bio Medical waste Certificate
                   </label>
-                  <a class="bi bi-file-earmark-pdf-fill" *ngIf="viewrequest.PollutionCertificate.includes('.pdf')" data-fancybox="gallery" href="{{HospitalData.PollutionCertificatePath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                  <a class="bi bi-file-earmark-pdf-fill" *ngIf="viewrequest.PollutionCertificate.includes('.pdf')" data-fancybox="gallery" href="{{item.PollutionCertificatePath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                   <label>
@@ -4003,6 +4090,10 @@
           <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3" *ngIf="SelectedDepartmentID==6">
             <label><b>Hostel Built-Up Area(sq. ft)</b>:&nbsp;&nbsp; </label>
             <input class="form-control disabled" disabled value="{{hostelrequest.BuiltUpArea}}" />
+          </div>
+          <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3" *ngIf="SelectedDepartmentID==6">
+            <label><b>Owner Ship/Rent Document </b>:&nbsp;&nbsp; </label>
+            <a class="bi bi-file-earmark-pdf-fill" *ngIf="hostelrequest.OwnerShhipRentDocument.includes('.pdf')" data-fancybox="gallery" href="{{hostelrequest.OwnerShhipRentDocumentPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
           </div>
           <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3" [hidden]="hostelrequest.IsHostelCampus!='No'">
             <label><b>Type</b>:&nbsp;&nbsp; </label>

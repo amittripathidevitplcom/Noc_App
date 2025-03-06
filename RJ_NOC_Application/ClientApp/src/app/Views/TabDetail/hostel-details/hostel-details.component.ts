@@ -83,6 +83,7 @@ export class HostelDetailsComponent implements OnInit {
   public isRentDocument: boolean = false;
   public isValidOwnerContactNo: boolean = false;
   public isValidRentDocument: boolean = false;
+  public isValidOwnerShhipRentDocumentDocument: boolean = false;
   public CurrentPageName: any = "";
   public DocumentValidMessage: string = '';
 
@@ -185,6 +186,7 @@ export class HostelDetailsComponent implements OnInit {
         Hygiene:[''],
         Commonroom:[''],
         Visitor:[''],       
+        OwnerShhipRentDocument:[''],       
 
       })
 
@@ -514,9 +516,10 @@ export class HostelDetailsComponent implements OnInit {
       this.isImageFile = false;
       this.isValidRentDocument = false;
       if (event.target.files && event.target.files[0]) {
-        if ((Type != 'RentDocument' && (event.target.files[0].type === 'image/jpeg' ||
-          event.target.files[0].type === 'image/jpg')) ||
-          (Type == 'RentDocument' && event.target.files[0].type === 'application/pdf')) {
+        if ((Type != 'RentDocument' && (event.target.files[0].type === 'image/jpeg' || event.target.files[0].type === 'image/jpg')) ||
+          (Type == 'RentDocument' && event.target.files[0].type === 'application/pdf')
+          || (Type == 'OwnerShhipRentDocument' && event.target.files[0].type === 'application/pdf')
+        ) {
           if (event.target.files[0].size > 2000000) {
             event.target.value = '';
             this.ResetFiles(Type, false, '', '', '', true);
@@ -533,7 +536,7 @@ export class HostelDetailsComponent implements OnInit {
         else {
           event.target.value = '';
           let msg = 'Select Only ';
-          if (Type == 'RentDocument') {
+          if (Type == 'RentDocument' || Type=='OwnerShhipRentDocument') {
             msg += 'pdf file';
           }
           else if (Type == 'ImageFile') {
@@ -578,6 +581,14 @@ export class HostelDetailsComponent implements OnInit {
         this.request.RentDocumentPath = filePath;
         this.request.RentDocument_Dis_FileName = dis_Name;
         this.file = document.getElementById('RentDocument');
+        this.file.value = '';
+      }
+      if (Type == 'OwnerShhipRentDocument' || Type == 'All') {
+        this.isValidOwnerShhipRentDocumentDocument = isValidate;
+        this.request.OwnerShhipRentDocument = fileName;
+        this.request.OwnerShhipRentDocumentPath = filePath;
+        this.request.OwnerShhipRentDocument_Dis_FileName = dis_Name;
+        this.file = document.getElementById('OwnerShhipRentDocument');
         this.file.value = '';
       }
       if (Type == 'ImageFile' || Type == 'All') {
@@ -692,6 +703,7 @@ export class HostelDetailsComponent implements OnInit {
     //this.routers.navigate(['/addcollege']);
   }
   public LessBuiltUpArea: boolean = false;
+  public TotalHostelBlock: number= 0;
   ValidateForm(): boolean {
     this.isFormValid = true;
     this.isSubmitted = true;
@@ -703,8 +715,24 @@ export class HostelDetailsComponent implements OnInit {
       if (this.request.BuiltUpArea == '') {
         this.isFormValid = false;
       }
+      if (this.request.OwnerShhipRentDocument == '') {
+        this.isValidOwnerShhipRentDocumentDocument = true;
+        this.DocumentValidMessage = 'This field is required .!';
+        this.isFormValid = false;
+      }
       if (Number(this.request.BuiltUpArea) < 21100) {
         this.LessBuiltUpArea = true;
+        this.isFormValid = false;
+      }
+      this.TotalHostelBlock = 0;
+      for (var i = 0; i < this.courseDataList.length; i++) {
+        var CourseName = this.request.HostelDetails.filter((x: { CourseID: number; }) => x.CourseID == this.courseDataList[i].ID);
+        if (CourseName.length <= 0) {
+          this.TotalHostelBlock = this.TotalHostelBlock + 1;
+        }
+      }
+      if (this.TotalHostelBlock > 0) {
+        this.toastr.warning('Please add all hostel block');
         this.isFormValid = false;
       }
     }
@@ -1068,6 +1096,10 @@ export class HostelDetailsComponent implements OnInit {
       this.TehsilList = [];
       this.CityList = [];
       this.PanchyatSamitiList = [];
+      this.request.OwnerShhipRentDocument = '';
+      this.request.OwnerShhipRentDocumentPath = '';
+      this.request.OwnerShhipRentDocument_Dis_FileName = '';
+      this.request.BuiltUpArea = '';
 
 
       const btnAdd = document.getElementById('btnSave')

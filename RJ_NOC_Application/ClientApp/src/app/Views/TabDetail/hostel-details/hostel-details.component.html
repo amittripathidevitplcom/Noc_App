@@ -253,6 +253,26 @@
               <p *ngIf="isSubmitted&& request.BuiltUpArea==''" class="text-danger"> This field is required .!</p>
               <p *ngIf="isSubmitted&& LessBuiltUpArea" class="text-danger"> Minimum 21,100 sq.ft</p>
             </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="SelectedDepartmentID==6">
+              <label>Owner Ship/Rent Document <span style="color:red;">*</span></label>
+              <div class="d-flex">
+
+                <input type="file" name="OwnerShhipRentDocument" id="OwnerShhipRentDocument" class="form-control" style="display:none" formControlName="OwnerShhipRentDocument" (change)="ValidateDocumentImage($event,'OwnerShhipRentDocument')" />
+                <label class="btn upload" for="OwnerShhipRentDocument">
+                  <span class="filename">Choose file</span>
+                  {{request.OwnerShhipRentDocument === '' ? 'No File Choosen' : request.OwnerShhipRentDocument_Dis_FileName}}
+                </label>
+                <div class="btn-group" *ngIf="request.OwnerShhipRentDocument!=''">
+                  <a class="btn btn-outline-primary" target="_blank" href="{{request.OwnerShhipRentDocumentPath}}"><i class="fa fa-eye"></i></a>
+                  <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('OwnerShhipRentDocument',request.OwnerShhipRentDocument)"><i class="fa fa-trash-o"></i></button>
+                </div>
+              </div>
+              <div *ngIf="isValidOwnerShhipRentDocumentDocument" class="text-danger">
+                <p *ngIf="isValidOwnerShhipRentDocumentDocument"> {{DocumentValidMessage}}</p>
+              </div>
+
+
+            </div>
             <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="SelectedDepartmentID==5">
               <label>Hostel Built Area(sq. ft) <span style="color:red;">*</span></label>
               <input type="text" class="form-control" id="txtBuiltUpArea" name="txtBuiltUpArea" [(ngModel)]="request.BuiltUpArea" (keypress)="numberOnly($event)" autocomplete="off"
@@ -634,6 +654,10 @@
       <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3" *ngIf="SelectedDepartmentID==6">
         <label><b>Hostel Built-Up Area(sq. ft)</b>:&nbsp;&nbsp; </label>
         <input class="form-control disabled" disabled value="{{viewhostel.BuiltUpArea}}" />
+      </div>
+      <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3" *ngIf="SelectedDepartmentID==6">
+        <label><b>Owner Ship/Rent Document </b>:&nbsp;&nbsp; </label>
+        <a class="bi bi-file-earmark-pdf-fill" *ngIf="viewhostel.OwnerShhipRentDocument.includes('.pdf')" data-fancybox="gallery" href="{{viewhostel.OwnerShhipRentDocumentPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
       </div>
       <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3">
         <label><b>Type</b>:&nbsp;&nbsp; </label>

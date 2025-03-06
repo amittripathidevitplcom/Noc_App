@@ -49,7 +49,14 @@
               <app-document-scrutiny-college-management-society></app-document-scrutiny-college-management-society>
             </mat-tab>
 
-
+            <mat-tab>
+              <ng-template mat-tab-label>
+                <i class="fa fa-graduation-cap icon" aria-hidden="true"></i>
+                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['CourseDetails']>0"></i>
+                <span>Course Details</span>
+              </ng-template>
+              <app-document-scrutiny-course-mg-three></app-document-scrutiny-course-mg-three>
+            </mat-tab>
 
             <mat-tab>
               <ng-template mat-tab-label>

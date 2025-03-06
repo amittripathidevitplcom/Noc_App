@@ -217,6 +217,7 @@ export class DocumentScrutinyCheckListDetailsComponent implements OnInit {
     this.GetHospitalDataList_DepartmentCollegeWise();
     this.GetCourtCaseList();
     this.CheckTabsEntry();
+    this.GetCourseDetailAllList();
   }
 
 
@@ -364,8 +365,29 @@ export class DocumentScrutinyCheckListDetailsComponent implements OnInit {
     }
   }
   //End College Management Society
+  public CheckListAllCourseList: any = [];
+  public CourseDetail_FinalRemarks: any = [];
+  async GetCourseDetailAllList() {
+    try {
+      this.loaderService.requestStarted();
+      await this.medicalDocumentScrutinyService.DocumentScrutiny_CourseDetails(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
+        .then((data: any) => {
 
-
+          data = JSON.parse(JSON.stringify(data));
+          this.CheckListAllCourseList = data['Data'][0]['CourseDetails'][0];
+          this.CourseDetail_FinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
+         
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
 
   //Hostel Detail
 
@@ -1237,7 +1259,7 @@ export class DocumentScrutinyCheckListDetailsComponent implements OnInit {
 
       if (this.SelectedDepartmentID == 6) {
         if (this.CollegeType_IsExisting) {
-          if (this.CheckTabsEntryData['LegalEntity'] <= 0 || this.CheckTabsEntryData['CollegeDetail'] <= 0 || this.CheckTabsEntryData['CollegeManagementSociety'] <= 0 || this.CheckTabsEntryData['LandInformation'] <= 0
+          if (this.CheckTabsEntryData['LegalEntity'] <= 0 || this.CheckTabsEntryData['CollegeDetail'] <= 0 || this.CheckTabsEntryData['CollegeManagementSociety'] <= 0 || this.CheckTabsEntryData['CourseDetails'] <= 0 || this.CheckTabsEntryData['LandInformation'] <= 0
             || this.CheckTabsEntryData['Facility'] <= 0 || this.CheckTabsEntryData['RoomDetails'] <= 0 || this.CheckTabsEntryData['OtherInformation'] <= 0
             || this.CheckTabsEntryData['BuildingDocuments'] <= 0 || this.CheckTabsEntryData['StaffDetails'] <= 0 || this.CheckTabsEntryData['OLDNOCDetails'] <= 0 || this.CheckTabsEntryData['AcademicInformation'] <= 0
             || (this.CheckTabsEntryData['OtherDocument'] <= 0 && this.CheckList_OtherDocumentDetails.length > 0) || this.CheckTabsEntryData['HospitalDetails'] <= 0 || this.CheckTabsEntryData['HostelDetails'] <= 0 || (this.CheckTabsEntryData['CourtCase'] <= 0 && this.CheckList_courtOrderList.length > 0)) {
@@ -1245,6 +1267,7 @@ export class DocumentScrutinyCheckListDetailsComponent implements OnInit {
             var tab = this.CheckTabsEntryData['LegalEntity'] <= 0 ? 'Legal Entity' :
               this.CheckTabsEntryData['CollegeDetail'] <= 0 ? 'College Detail' :
                 this.CheckTabsEntryData['CollegeManagementSociety'] <= 0 ? 'College Management Society' :
+                  this.CheckTabsEntryData['CourseDetails'] <= 0 ? 'Course Details' :
                   this.CheckTabsEntryData['LandInformation'] <= 0 ? 'Land Information' :
                     this.CheckTabsEntryData['Facility'] <= 0 ? 'Facility Detail' :
                       this.CheckTabsEntryData['RoomDetails'] <= 0 ? 'Class Room Details' :
@@ -1261,7 +1284,7 @@ export class DocumentScrutinyCheckListDetailsComponent implements OnInit {
           }
         }
         else {
-          if (this.CheckTabsEntryData['LegalEntity'] <= 0 || this.CheckTabsEntryData['CollegeDetail'] <= 0 || this.CheckTabsEntryData['CollegeManagementSociety'] <= 0 || this.CheckTabsEntryData['LandInformation'] <= 0
+          if (this.CheckTabsEntryData['LegalEntity'] <= 0 || this.CheckTabsEntryData['CollegeDetail'] <= 0 || this.CheckTabsEntryData['CollegeManagementSociety'] <= 0 || this.CheckTabsEntryData['CourseDetails'] <= 0 || this.CheckTabsEntryData['LandInformation'] <= 0
             || this.CheckTabsEntryData['Facility'] <= 0 || this.CheckTabsEntryData['RoomDetails'] <= 0 || this.CheckTabsEntryData['OtherInformation'] <= 0
             || this.CheckTabsEntryData['BuildingDocuments'] <= 0 || (this.CheckTabsEntryData['OtherDocument'] <= 0 && this.CheckList_OtherDocumentDetails.length > 0) || this.CheckTabsEntryData['HospitalDetails'] <= 0
             || this.CheckTabsEntryData['HostelDetails'] <= 0 || (this.CheckTabsEntryData['CourtCase'] <= 0 && this.CheckList_courtOrderList.length > 0)) {
@@ -1269,6 +1292,7 @@ export class DocumentScrutinyCheckListDetailsComponent implements OnInit {
             var tab = this.CheckTabsEntryData['LegalEntity'] <= 0 ? 'Legal Entity' :
               this.CheckTabsEntryData['CollegeDetail'] <= 0 ? 'College Detail' :
                 this.CheckTabsEntryData['CollegeManagementSociety'] <= 0 ? 'College Management Society' :
+                 this.CheckTabsEntryData['CourseDetails'] <= 0 ? 'Course Details' :
                   this.CheckTabsEntryData['LandInformation'] <= 0 ? 'Land Information' :
                     this.CheckTabsEntryData['Facility'] <= 0 ? 'Facility Detail' :
                       this.CheckTabsEntryData['RoomDetails'] <= 0 ? 'Class Room Details' :
@@ -1439,7 +1463,7 @@ export class DocumentScrutinyCheckListDetailsComponent implements OnInit {
               // ActionID=77/69
               //92---84    77-----69
               if (this.QueryStatus == 'DCPending') {
-                this.WorkFlowActionList = this.WorkFlowActionList.filter((x: { ActionID: number; }) => x.ActionID == 92 || x.ActionID==3);
+                this.WorkFlowActionList = this.WorkFlowActionList.filter((x: { ActionID: number; }) => x.ActionID == 84 || x.ActionID==3);
               }
               if (this.QueryStatus == 'InspectionPending') {
                 this.WorkFlowActionList = this.WorkFlowActionList.filter((x: { ActionID: number; }) => x.ActionID == 45);
@@ -1459,16 +1483,27 @@ export class DocumentScrutinyCheckListDetailsComponent implements OnInit {
               if (IsNextAction == true && IsRevert == false) {
                 this.ShowHideNextUser = true;
                 this.ShowHideNextRole = true;
+                if (this.UserRoleList.length > 0) {
+                  this.UserRoleList = this.UserRoleList.filter((x: { RoleID: number; }) => x.RoleID != 1);
+                }
                 //this.ShowHideNextAction = true;
               }
               else if (IsNextAction == false && IsRevert == false) {
                 this.ShowHideNextUser = false;
                 this.ShowHideNextRole = false;
+                if (this.UserRoleList.length > 0) {
+                  this.UserRoleList = this.UserRoleList.filter((x: { RoleID: number; }) => x.RoleID != 1);
+                }
                 //this.ShowHideNextAction = false;
               }
               else if (IsNextAction == false && IsRevert == true) {
                 this.ShowHideNextUser = true;
                 this.ShowHideNextRole = true;
+                if (this.sSOLoginDataModel.RoleID != 5) {
+                  if (this.UserRoleList.length > 0) {
+                    this.UserRoleList = this.UserRoleList.filter((x: { RoleID: number; }) => x.RoleID != 1);
+                  }
+                }
                 //this.ShowHideNextAction = false;
               }
             }
@@ -1484,6 +1519,7 @@ export class DocumentScrutinyCheckListDetailsComponent implements OnInit {
   }
   async OnChangeCurrentAction() {
     await this.GetRoleListForApporval();
+    this.NextRoleID = 0;
     var IsNextAction = this.WorkFlowActionList.find((x: { ActionID: number; }) => x.ActionID == this.ActionID)?.IsNextAction;
     var IsRevert = this.WorkFlowActionList.find((x: { ActionID: number; }) => x.ActionID == this.ActionID)?.IsRevert;
     if (IsNextAction == true && IsRevert == false) {
