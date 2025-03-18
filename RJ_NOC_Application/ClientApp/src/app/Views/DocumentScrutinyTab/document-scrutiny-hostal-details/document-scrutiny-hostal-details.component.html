@@ -219,6 +219,14 @@
             <label><b>Owner Ship/Rent Document </b>:&nbsp;&nbsp; </label>
             <a class="bi bi-file-earmark-pdf-fill" *ngIf="request.OwnerShhipRentDocument.includes('.pdf')" data-fancybox="gallery" href="{{request.OwnerShhipRentDocumentPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
           </div>
+          <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3" *ngIf="SelectedDepartmentID==6">
+            <label><b>Blue Print verified by pwd </b>:&nbsp;&nbsp; </label>
+            <a class="bi bi-file-earmark-pdf-fill" *ngIf="request.BluePrintDocument.includes('.pdf')" data-fancybox="gallery" href="{{request.BluePrintDocumentPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+          </div>
+          <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3" *ngIf="SelectedDepartmentID==6">
+            <label><b>Distance certificate by pwd(college to hostel) </b>:&nbsp;&nbsp; </label>
+            <a class="bi bi-file-earmark-pdf-fill" *ngIf="request.DistanceCertificateDocument.includes('.pdf')" data-fancybox="gallery" href="{{request.DistanceCertificateDocumentPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+          </div>
           <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3" [hidden]="request.IsHostelCampus!='No'">
             <label><b>Type</b>:&nbsp;&nbsp; </label>
             <input class="form-control disabled" disabled value="{{request.HostelType}}" />

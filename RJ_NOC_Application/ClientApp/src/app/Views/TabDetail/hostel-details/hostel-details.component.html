@@ -138,8 +138,8 @@
               <label class="form-label">Address Line 2 <!--<span style="color:red;">*</span>--></label>
               <input type="text" class="form-control" id="txtAddressLine2" name="txtAddressLine2" [attr.disabled]="IsDisabledAddress ? true : null" [(ngModel)]="request.AddressLine2" formControlName="txtAddressLine2" (keypress)="alphanumbersOnly($event)">
               <!--<div *ngIf="isSubmitted&&Hform.txtAddressLine2.errors" class="text-danger">
-            <p *ngIf="Hform.txtAddressLine2.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-          </div>-->
+      <p *ngIf="Hform.txtAddressLine2.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+    </div>-->
             </div>
             <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
               <label class="form-label">Select Area <span style="color:red;">*</span></label>
@@ -267,11 +267,41 @@
                   <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('OwnerShhipRentDocument',request.OwnerShhipRentDocument)"><i class="fa fa-trash-o"></i></button>
                 </div>
               </div>
-              <div *ngIf="isValidOwnerShhipRentDocumentDocument" class="text-danger">
-                <p *ngIf="isValidOwnerShhipRentDocumentDocument"> {{DocumentValidMessage}}</p>
+              <p *ngIf="request.OwnerShhipRentDocument=='' && isSubmitted" class="text-danger"> This field is required .!</p>
+            </div>
+
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="SelectedDepartmentID==6">
+              <label>Blue Print verified by pwd <span style="color:red;">*</span></label>
+              <div class="d-flex">
+
+                <input type="file" name="BluePrintDocument" id="BluePrintDocument" class="form-control" style="display:none" formControlName="BluePrintDocument" (change)="ValidateDocumentImage($event,'BluePrintDocument')" />
+                <label class="btn upload" for="BluePrintDocument">
+                  <span class="filename">Choose file</span>
+                  {{request.BluePrintDocument === '' ? 'No File Choosen' : request.BluePrintDocument_Dis_FileName}}
+                </label>
+                <div class="btn-group" *ngIf="request.BluePrintDocument!=''">
+                  <a class="btn btn-outline-primary" target="_blank" href="{{request.BluePrintDocumentPath}}"><i class="fa fa-eye"></i></a>
+                  <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('BluePrintDocument',request.BluePrintDocument)"><i class="fa fa-trash-o"></i></button>
+                </div>
               </div>
+              <p *ngIf="request.BluePrintDocument=='' && isSubmitted" class="text-danger"> This field is required .!</p>
+            </div>
 
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="SelectedDepartmentID==6">
+              <label>Distance certificate by pwd(college to hostel) <span style="color:red;">*</span></label>
+              <div class="d-flex">
 
+                <input type="file" name="DistanceCertificateDocument" id="DistanceCertificateDocument" class="form-control" style="display:none" formControlName="DistanceCertificateDocument" (change)="ValidateDocumentImage($event,'DistanceCertificateDocument')" />
+                <label class="btn upload" for="DistanceCertificateDocument">
+                  <span class="filename">Choose file</span>
+                  {{request.DistanceCertificateDocument === '' ? 'No File Choosen' : request.DistanceCertificateDocument_Dis_FileName}}
+                </label>
+                <div class="btn-group" *ngIf="request.DistanceCertificateDocument!=''">
+                  <a class="btn btn-outline-primary" target="_blank" href="{{request.DistanceCertificateDocumentPath}}"><i class="fa fa-eye"></i></a>
+                  <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('DistanceCertificateDocument',request.DistanceCertificateDocument)"><i class="fa fa-trash-o"></i></button>
+                </div>
+              </div>
+              <p *ngIf="request.DistanceCertificateDocument=='' && isSubmitted" class="text-danger"> This field is required .!</p>
             </div>
             <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="SelectedDepartmentID==5">
               <label>Hostel Built Area(sq. ft) <span style="color:red;">*</span></label>
@@ -658,6 +688,14 @@
       <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3" *ngIf="SelectedDepartmentID==6">
         <label><b>Owner Ship/Rent Document </b>:&nbsp;&nbsp; </label>
         <a class="bi bi-file-earmark-pdf-fill" *ngIf="viewhostel.OwnerShhipRentDocument.includes('.pdf')" data-fancybox="gallery" href="{{viewhostel.OwnerShhipRentDocumentPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+      </div>
+      <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3" *ngIf="SelectedDepartmentID==6">
+        <label><b>Blue Print verified by pwd </b>:&nbsp;&nbsp; </label>
+        <a class="bi bi-file-earmark-pdf-fill" *ngIf="viewhostel.BluePrintDocument.includes('.pdf')" data-fancybox="gallery" href="{{viewhostel.BluePrintDocumentPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+      </div>
+      <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3" *ngIf="SelectedDepartmentID==6">
+        <label><b>Distance certificate by pwd(college to hostel) </b>:&nbsp;&nbsp; </label>
+        <a class="bi bi-file-earmark-pdf-fill" *ngIf="viewhostel.DistanceCertificateDocument.includes('.pdf')" data-fancybox="gallery" href="{{viewhostel.DistanceCertificateDocumentPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
       </div>
       <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3">
         <label><b>Type</b>:&nbsp;&nbsp; </label>

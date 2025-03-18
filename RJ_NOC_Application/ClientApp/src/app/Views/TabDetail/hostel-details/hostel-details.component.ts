@@ -84,6 +84,8 @@ export class HostelDetailsComponent implements OnInit {
   public isValidOwnerContactNo: boolean = false;
   public isValidRentDocument: boolean = false;
   public isValidOwnerShhipRentDocumentDocument: boolean = false;
+  public isValidBluePrintDocument: boolean = false;
+  public isValidDistanceCertificateDocument: boolean = false;
   public CurrentPageName: any = "";
   public DocumentValidMessage: string = '';
 
@@ -187,6 +189,8 @@ export class HostelDetailsComponent implements OnInit {
         Commonroom:[''],
         Visitor:[''],       
         OwnerShhipRentDocument:[''],       
+        BluePrintDocument:[''],       
+        DistanceCertificateDocument:[''],       
 
       })
 
@@ -519,16 +523,20 @@ export class HostelDetailsComponent implements OnInit {
         if ((Type != 'RentDocument' && (event.target.files[0].type === 'image/jpeg' || event.target.files[0].type === 'image/jpg')) ||
           (Type == 'RentDocument' && event.target.files[0].type === 'application/pdf')
           || (Type == 'OwnerShhipRentDocument' && event.target.files[0].type === 'application/pdf')
+          || (Type == 'BluePrintDocument' && event.target.files[0].type === 'application/pdf')
+          || (Type == 'DistanceCertificateDocument' && event.target.files[0].type === 'application/pdf')
         ) {
           if (event.target.files[0].size > 2000000) {
             event.target.value = '';
             this.ResetFiles(Type, false, '', '', '', true);
+            this.toastr.warning('Select less then 2MB File');
             this.DocumentValidMessage = 'Select less then 2MB File';
             return
           }
           if (event.target.files[0].size < 100000) {
             event.target.value = '';
             this.ResetFiles(Type, false, '', '', '', true);
+            this.toastr.warning('Select more then 100kb File');
             this.DocumentValidMessage = 'Select more then 100kb File';
             return
           }
@@ -536,13 +544,14 @@ export class HostelDetailsComponent implements OnInit {
         else {
           event.target.value = '';
           let msg = 'Select Only ';
-          if (Type == 'RentDocument' || Type=='OwnerShhipRentDocument') {
+          if (Type == 'RentDocument' || Type == 'OwnerShhipRentDocument' || Type == 'BluePrintDocument' || Type =='DistanceCertificateDocument') {
             msg += 'pdf file';
           }
           else if (Type == 'ImageFile') {
             msg += 'jpg/jpeg';
           }
           this.ResetFiles(Type, false, '', '', '', true);
+          this.toastr.warning(msg);
           this.DocumentValidMessage = msg;
 
           return
@@ -589,6 +598,22 @@ export class HostelDetailsComponent implements OnInit {
         this.request.OwnerShhipRentDocumentPath = filePath;
         this.request.OwnerShhipRentDocument_Dis_FileName = dis_Name;
         this.file = document.getElementById('OwnerShhipRentDocument');
+        this.file.value = '';
+      }
+      if (Type == 'BluePrintDocument' || Type == 'All') {
+        this.isValidBluePrintDocument = isValidate;
+        this.request.BluePrintDocument = fileName;
+        this.request.BluePrintDocumentPath = filePath;
+        this.request.BluePrintDocument_Dis_FileName = dis_Name;
+        this.file = document.getElementById('BluePrintDocument');
+        this.file.value = '';
+      }
+      if (Type == 'DistanceCertificateDocument' || Type == 'All') {
+        this.isValidDistanceCertificateDocument = isValidate;
+        this.request.DistanceCertificateDocument = fileName;
+        this.request.DistanceCertificateDocumentPath = filePath;
+        this.request.DistanceCertificateDocument_Dis_FileName = dis_Name;
+        this.file = document.getElementById('DistanceCertificateDocument');
         this.file.value = '';
       }
       if (Type == 'ImageFile' || Type == 'All') {
@@ -716,8 +741,12 @@ export class HostelDetailsComponent implements OnInit {
         this.isFormValid = false;
       }
       if (this.request.OwnerShhipRentDocument == '') {
-        this.isValidOwnerShhipRentDocumentDocument = true;
-        this.DocumentValidMessage = 'This field is required .!';
+        this.isFormValid = false;
+      }
+      if (this.request.BluePrintDocument == '') {
+        this.isFormValid = false;
+      }
+      if (this.request.DistanceCertificateDocument == '') {
         this.isFormValid = false;
       }
       if (Number(this.request.BuiltUpArea) < 21100) {

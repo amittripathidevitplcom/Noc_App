@@ -383,10 +383,22 @@ export class AddCoursesComponent implements OnInit {
         }
       }
     }
-    if (Number(this.request.TotalSeatsCourseWise) > 100 && this.request.DepartmentID == 6) {
-      this.toastr.warning('Number of Seat less then 100');
-      this.request.TotalSeatsCourseWise = '';
-      this.isFormValid = false;
+    if (this.request.DepartmentID == 6) {
+      if (Number(this.request.TotalSeatsCourseWise) > 100 && this.request.CourseID == 314) {
+        this.toastr.warning('Number of Seat less then 100');
+        this.request.TotalSeatsCourseWise = '';
+        this.isFormValid = false;
+      }
+      else if (Number(this.request.TotalSeatsCourseWise) > 200 && this.request.CourseID == 313) {
+        this.toastr.warning('Number of Seat less then 200');
+        this.request.TotalSeatsCourseWise = '';
+        this.isFormValid = false;
+      }
+      else if (Number(this.request.TotalSeatsCourseWise) > 100) {
+        this.toastr.warning('Number of Seat less then 100');
+        this.request.TotalSeatsCourseWise = '';
+        this.isFormValid = false;
+      }
     }
 
     if (this.request.DepartmentID == EnumDepartment.CollegeEducation) {

@@ -58,6 +58,13 @@ export class HostelDataModel extends DocumentScrutiny_ActionModule {
   public OwnerShhipRentDocument: string = '';
   public OwnerShhipRentDocumentPath: string = '';
   public OwnerShhipRentDocument_Dis_FileName: string = '';
+
+  public BluePrintDocument: string = '';
+  public BluePrintDocumentPath: string = '';
+  public BluePrintDocument_Dis_FileName: string = '';
+  public DistanceCertificateDocument: string = '';
+  public DistanceCertificateDocumentPath: string = '';
+  public DistanceCertificateDocument_Dis_FileName: string = '';
 }
 
 export class HostelDetailsDataModel_Hostel {

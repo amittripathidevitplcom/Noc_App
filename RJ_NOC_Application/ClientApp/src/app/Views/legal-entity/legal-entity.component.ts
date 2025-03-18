@@ -618,16 +618,22 @@ export class LegalEntityComponent implements OnInit {
       var GetPresident = this.request.MemberDetails.find((x: { MembersPostName: string; }) => x.MembersPostName == 'President')?.MembersPostName;
       var GetSecretary = this.request.MemberDetails.find((x: { MembersPostName: string; }) => x.MembersPostName == 'Secretary')?.MembersPostName;
       var GetTreasurer = this.request.MemberDetails.find((x: { MembersPostName: string; }) => x.MembersPostName == 'Treasurer')?.MembersPostName;
+      var GetDirector = this.request.MemberDetails.find((x: { MembersPostName: string; }) => x.MembersPostName == 'Director')?.MembersPostName;
       if ((GetPresident == undefined || GetPresident == '' || GetPresident == null ||
         GetSecretary == undefined || GetSecretary == '' || GetSecretary == null ||
-        GetTreasurer == undefined || GetTreasurer == '' || GetTreasurer == null) && this.request.ProcessDepartmentID!=6) {
+        GetTreasurer == undefined || GetTreasurer == '' || GetTreasurer == null) && this.request.ProcessDepartmentID != 6) {
         this.toastr.warning("Add President, Secretary and Treasurer in Society member");
         isValid = false;
       }
-      if ((GetPresident == undefined || GetPresident == '' || GetPresident == null) && this.request.ProcessDepartmentID == 6) {
+      if ((GetPresident == undefined || GetPresident == '' || GetPresident == null) && this.request.ProcessDepartmentID == 6 && this.request.IsLegalEntity != '3') {
         this.toastr.warning("Add President in Society member");
         isValid = false;
       }
+      if ((GetDirector == undefined || GetDirector == '' || GetDirector == null) && this.request.ProcessDepartmentID == 6 && this.request.IsLegalEntity == '3') {
+        this.toastr.warning("Add Director in Society member");
+        isValid = false;
+      }
+
 
       var Presidentlength = this.request.MemberDetails.filter((x: { MembersPostName: string; }) => x.MembersPostName == 'President');
       var Secretarylength = this.request.MemberDetails.filter((x: { MembersPostName: string; }) => x.MembersPostName == 'Secretary');
@@ -1372,7 +1378,7 @@ export class LegalEntityComponent implements OnInit {
       if (this.UserOTP == this.OTP || this.CustomOTP == this.UserOTP) {
         if (this.OldRegistrationNo != '') {
           debugger;
-          this.legalEntityService.CheckDuplicateRegNo(this.request.LegalEntityID, this.OldRegistrationNo, 'A',this.request.IsLegalEntity)
+          this.legalEntityService.CheckDuplicateRegNo(this.request.LegalEntityID, this.OldRegistrationNo, 'A', this.request.IsLegalEntity)
             .then((data: any) => {
               this.State = data['State'];
               this.SuccessMessage = data['SuccessMessage'];
@@ -1387,7 +1393,7 @@ export class LegalEntityComponent implements OnInit {
             }, error => console.error(error));
           this.isSocietyList = true;
           this.isDisabled = true;
-           this.EnableDisableControls(false);
+          this.EnableDisableControls(false);
           const display = document.getElementById('ModalOtpVerify');
           if (display) display.style.display = 'none';
         }
@@ -1844,7 +1850,7 @@ export class LegalEntityComponent implements OnInit {
               this.memberdetails.Dis_MemberPhotoName = '';
               this.memberdetails.MemberPhotoPath = '';
               this.memberdetails.MemberPhoto = '';
-              this.ImageValidationMessage_MemberPhoto = this.request.ProcessDepartmentID == 6 ? 'Select more then 20kb File': 'Select more then 100kb File';
+              this.ImageValidationMessage_MemberPhoto = this.request.ProcessDepartmentID == 6 ? 'Select more then 20kb File' : 'Select more then 100kb File';
               this.file = document.getElementById('txtMemberPhoto');
               this.file.value = '';
             }
