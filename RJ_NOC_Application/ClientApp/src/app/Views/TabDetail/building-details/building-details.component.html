@@ -681,7 +681,8 @@
                 <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('FireNOCFileUpload')"><i class="fa fa-trash-o"></i></button>
               </div>
             </div>
-            <p *ngIf="isSubmitted&&buildingdetails.FireNOCFileUpload ==''&&!IsGovtCollege&& SelectedDepartmentID==6" class="text-danger"><i aria-hidden="true"></i> {{ImageValidate}}</p>
+            
+            <p *ngIf="isSubmitted&&buildingdetails.FireNOCFileUpload ==''&&!IsGovtCollege&& (SelectedDepartmentID==6||SelectedDepartmentID==5)" class="text-danger"><i aria-hidden="true"></i> {{ImageValidate}}</p>
             <div *ngIf="isValidFireNOCFileUpload" class="text-danger">
               <p *ngIf="isValidFireNOCFileUpload"> {{ImageValidationMessage}}</p>
             </div>

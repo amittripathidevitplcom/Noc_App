@@ -104,6 +104,14 @@ export class CollegeDataModel {
   public PrivateCollegeEstabCertificate: string = '';
   public PrivateCollegeEstabCertificatePath: string = '';
   public Dis_PrivateCollegeEstabCertificateName: string = '';
+
+  //BTER
+  public DTEAffiliationID: number = 0;
+  public StatusOfBuildingID: number = 0;
+  public AffiliationTypeID: number = 0;
+  public AddressofCollegeasgiveninAICTEEOA: string = '';
+  public AICTEEOAAdress: number = null;
+  public AICTEEOADifferentAddress: string = '';
 }
 export class ContactDetailsDataModel {
   public ContactID: number = 0;
@@ -112,7 +120,9 @@ export class ContactDetailsDataModel {
   public DesignationID: number = 0;
   public DesignationName: string = '';
   public MobileNumber: string = '';
-  public EmailAddress: string = '';  
+  public EmailAddress: string = '';
+  public DTEAffiliationIDs: number = 0;
+  public PermanentAddress: string = '';
 }
 export class NearestGovernmentHospitalsDataModel {
   public NearestGovernmentHospitalsID: number = 0;

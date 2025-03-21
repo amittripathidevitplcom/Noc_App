@@ -49,7 +49,7 @@ export class PreviewLOIapplicationdetailEntryComponent implements OnInit {
     this.SelectedDepartmentID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DepartmentID')?.toString()));
     this.SelectedCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
-    this.maxNumberOfTabs = 6;
+    this.maxNumberOfTabs = 8;
     this.loaderService.requestEnded();
 
 

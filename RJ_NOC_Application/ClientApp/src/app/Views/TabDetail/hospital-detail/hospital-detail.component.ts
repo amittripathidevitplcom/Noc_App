@@ -1354,6 +1354,7 @@ export class HospitalDetailComponent implements OnInit {
 
 
     if (this.QueryStringDepartmentID == 5) {
+      debugger;
       if ((Number(this.requestNot.MedicalBeds) + Number(this.requestNot.SurgicalBeds) + Number(this.requestNot.ObstAndGynaecologyBeds) + Number(this.requestNot.PediatricsBeds)
         + Number(this.requestNot.OrthoBeds) +
         Number(this.requestNot.OccupancyPercentegeBeds) +

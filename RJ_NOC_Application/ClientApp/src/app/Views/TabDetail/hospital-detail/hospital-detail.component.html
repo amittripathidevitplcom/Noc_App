@@ -1213,7 +1213,7 @@
                       <th>
                         Hospital Distance from Institutions (KM)
                       </th>
-                      <th>
+                      <th *ngIf="this.QueryStringDepartmentID !=5">
                         Bed Occupancy
                       </th>
                       <th>
@@ -1235,7 +1235,7 @@
                       <td>
                         {{row.HospitalDistance}}
                       </td>
-                      <td>
+                      <td *ngIf="this.QueryStringDepartmentID !=5">
                         <!--{{row.OccupancyPercentegeBeds}}-->
                       </td>
                       <td>

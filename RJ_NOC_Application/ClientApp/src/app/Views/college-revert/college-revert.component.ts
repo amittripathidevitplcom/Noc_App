@@ -1017,7 +1017,9 @@ export class CollegeRevertComponent implements OnInit {
         DesignationName: this.DesignationList.find((x: { DesignationID: number; }) => x.DesignationID == this.request_ContactDetailsDataModel.DesignationID)?.DesignationName,
         EmailAddress: this.request_ContactDetailsDataModel.EmailAddress,
         MobileNumber: this.request_ContactDetailsDataModel.MobileNumber,
-        NameOfPerson: this.request_ContactDetailsDataModel.NameOfPerson
+        NameOfPerson: this.request_ContactDetailsDataModel.NameOfPerson,
+        DTEAffiliationIDs: 0,
+        PermanentAddress: this.request_ContactDetailsDataModel.PermanentAddress
       });
       // reset
       this.request_ContactDetailsDataModel.DesignationID = 0;
