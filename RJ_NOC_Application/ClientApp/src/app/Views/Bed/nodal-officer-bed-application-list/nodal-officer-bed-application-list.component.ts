@@ -72,7 +72,7 @@ export class NodalOfficerBedApplicationListComponent implements OnInit {
           this.ErrorMessage = data['ErrorMessage'];
           this.ApplyNocDetails = data['Data'];
         }, error => console.error(error));
-      this.loaderService.requestStarted();
+      //this.loaderService.requestStarted();
 
     }
     catch (Ex) {
