@@ -62,6 +62,7 @@ export class RequestDetails {
   public City: string = '';
   public Pincode: string = '';
   public PaymentType: string = 'Application';
+  public DTEAffiliationID: number = 0;
 }
 
 //Emitra Request
@@ -97,7 +98,7 @@ export class TransactionStatusDataModel {
 
   public AID: number = 0;
   public PaymentType: string = 'Application';
-
+  public ServiceProvider: string = '';
 }
 
 

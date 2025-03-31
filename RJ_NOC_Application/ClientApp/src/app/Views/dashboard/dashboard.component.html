@@ -16,7 +16,7 @@
 </div>
 <!--admin-->
 <div class="container-fluid mainContents">
-  <div class="row" *ngIf="this.sSOLoginDataModel.RoleID==10 && this.sSOLoginDataModel.DepartmentID !=3">
+  <div class="row" *ngIf="this.sSOLoginDataModel.RoleID==10 && this.sSOLoginDataModel.DepartmentID !=3 && this.sSOLoginDataModel.DepartmentID !=12">
     <div class="card">
       <div class="card-header d-flex justify-content-between align-items-center">
         <h5> <b>NOC Detail For Session {{sSOLoginDataModel.SessionName}}</b></h5>
@@ -362,6 +362,251 @@
     </div>
   </div>
 
+  <div class="row" *ngIf="this.sSOLoginDataModel.RoleID==10 && this.sSOLoginDataModel.DepartmentID ==12">
+    <div class="card">
+      <div class="card-header d-flex justify-content-between align-items-center">
+        <h5> <b>Affiliation Applications {{sSOLoginDataModel.SessionName}}</b></h5>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-lg-2 col-md-4 col-sm-6 col-12">
+            <div class="card staticsCards ">
+              <div class="card-body">
+                <div class="">
+                  <div class="dashCardIcon">
+                    <i class="fa fa-bank"></i>
+                  </div>
+                  <div class="dashCardContent">
+                    <h4>Total Legal Entity</h4>
+                    <h2>{{dashboardDataModel.TotallegalEntity}}</h2>
+
+                  </div>
+                </div>
+              </div>
+              <a routerLink="/legalentitydepartmentwise">View more <i class="fa fa-chevron-circle-right"></i></a>
+            </div>
+          </div>
+          <div class="col-lg-2 col-md-4 col-sm-6 col-12">
+            <div class="card staticsCards ">
+              <div class="card-body">
+                <div class="">
+                  <div class="dashCardIcon">
+                    <i class="fa fa-book"></i>
+                  </div>
+                  <div class="dashCardContent">
+                    <h4>Total Applications</h4>
+                    <h2>{{dashboardDataModel.TotalApplication}}</h2>
+                  </div>
+                </div>
+              </div>
+              <a routerLink="/totalApplicationAffiliation/ALL">View more <i class="fa fa-chevron-circle-right"></i></a>
+            </div>
+          </div>
+
+          <div class="col-lg-2 col-md-4 col-sm-6 col-12">
+            <div class="card staticsCards ">
+              <div class="card-body">
+                <div class="">
+                  <div class="dashCardIcon">
+                    <i class="fa fa-book"></i>
+                  </div>
+                  <div class="dashCardContent">
+                    <h4>New Applications</h4>
+                    <h2>{{dashboardDataModel.NewApplication}}</h2>
+                  </div>
+                </div>
+              </div>
+              <a routerLink="/totalnewbterapplication/ALL">View more <i class="fa fa-chevron-circle-right"></i></a>
+            </div>
+          </div>
+          <div class="col-lg-2 col-md-4 col-sm-6 col-12">
+            <div class="card staticsCards ">
+              <div class="card-body">
+                <div class="">
+                  <div class="dashCardIcon">
+                    <i class="fa fa-book"></i>
+                  </div>
+                  <div class="dashCardContent">
+                    <h4>Existing Applications</h4>
+                    <h2>{{dashboardDataModel.ExistingApplication}}</h2>
+                  </div>
+                </div>
+              </div>
+              <a href="/totalExistingbterapplication/ALL">View more <i class="fa fa-chevron-circle-right"></i></a>
+            </div>
+          </div>
+          <div class="col-lg-2 col-md-4 col-sm-6 col-12">
+            <div class="card staticsCards ">
+              <div class="card-body">
+                <div class="">
+                  <div class="dashCardIcon">
+                    <i class="fa fa-hourglass-end"></i>
+                  </div>
+                  <div class="dashCardContent">
+                    <h4>Pending to Submit</h4>
+                    <h2>{{dashboardDataModel.PendingtoSubmitApplication}}</h2>
+                  </div>
+                </div>
+              </div>
+              <a routerLink="/bterpendingtosubmitlist/ALL">View more <i class="fa fa-chevron-circle-right"></i></a>
+            </div>
+          </div>
+          <div class="col-lg-2 col-md-4 col-sm-6 col-12">
+            <div class="card staticsCards ">
+              <div class="card-body">
+                <div class="">
+                  <div class="dashCardIcon">
+                    <i class="fa fa-hourglass-end"></i>
+                  </div>
+                  <div class="dashCardContent">
+                    <h4>Submitted Applications</h4>
+                    <h2>{{dashboardDataModel.TotalSubmitedApplication}}</h2>
+                  </div>
+                </div>
+              </div>
+              <a routerLink="/totalsubmittedbterapplication/ALL">View more <i class="fa fa-chevron-circle-right"></i></a>
+            </div>
+          </div>
+
+          <div class="col-lg-2 col-md-4 col-sm-6 col-12">
+            <div class="card staticsCards ">
+              <div class="card-body">
+                <div class="">
+                  <div class="dashCardIcon">
+                    <i class="fa fa-hourglass-end"></i>
+                  </div>
+                  <div class="dashCardContent">
+                    <h4>Pending to Received</h4>
+                    <h2>{{dashboardDataModel.PendingtoReceivedApplication}}</h2>
+                  </div>
+                </div>
+              </div>
+              <a routerLink="/totalpendingtoreceivedbterapplication/ALL">View more <i class="fa fa-chevron-circle-right"></i></a>
+            </div>
+          </div>
+          <div class="col-lg-2 col-md-4 col-sm-6 col-12">
+            <div class="card staticsCards ">
+              <div class="card-body">
+                <div class="">
+                  <div class="dashCardIcon">
+                    <i class="fa fa-lock"></i>
+                  </div>
+                  <div class="dashCardContent">
+                    <h4>Received Applications</h4>
+                    <h2>{{dashboardDataModel.TotalReceivedApplication}}</h2>
+                  </div>
+                </div>
+              </div>
+              <a routerLink="/totalreceivedbterapplication/ALL">View more <i class="fa fa-chevron-circle-right"></i></a>
+            </div>
+          </div>
+          <div class="col-lg-2 col-md-4 col-sm-6 col-12">
+            <div class="card staticsCards ">
+              <div class="card-body">
+                <div class="">
+                  <div class="dashCardIcon">
+                    <i class="fa fa-lock"></i>
+                  </div>
+                  <div class="dashCardContent">
+                    <h4>Deficiency Mark</h4>
+                    <h2>{{dashboardDataModel.TotalDeficiencyMarkApplication}}</h2>
+                  </div>
+                </div>
+              </div>
+              <a routerLink="/bterdeficiencymarklist/ALL">View more <i class="fa fa-chevron-circle-right"></i></a>
+            </div>
+          </div>
+
+          <div class="col-lg-2 col-md-4 col-sm-6 col-12">
+            <div class="card staticsCards ">
+              <div class="card-body">
+                <div class="">
+                  <div class="dashCardIcon">
+                    <i class="fa fa-lock"></i>
+                  </div>
+                  <div class="dashCardContent">
+                    <h4>Approved Application</h4>
+                    <h2>{{dashboardDataModel.TotalApprovedApplicationApplication}}</h2>
+                  </div>
+                </div>
+              </div>
+              <a routerLink="/bterapprovedapplicationlist/ALL">View more <i class="fa fa-chevron-circle-right"></i></a>
+            </div>
+          </div>
+          <div class="col-lg-2 col-md-4 col-sm-6 col-12">
+            <div class="card staticsCards ">
+              <div class="card-body">
+                <div class="">
+                  <div class="dashCardIcon">
+                    <i class="fa fa-lock"></i>
+                  </div>
+                  <div class="dashCardContent">
+                    <h4>Resubmit Applications</h4>
+                    <h2>{{dashboardDataModel.TotalResubmitApplication}}</h2>
+                  </div>
+                </div>
+              </div>
+              <a routerLink="/resubmitApplicationlist/ALL">View more <i class="fa fa-chevron-circle-right"></i></a>
+            </div>
+          </div>
+          <div class="col-lg-2 col-md-4 col-sm-6 col-12">
+            <div class="card staticsCards ">
+              <div class="card-body">
+                <div class="">
+                  <div class="dashCardIcon">
+                    <i class="fa fa-lock"></i>
+                  </div>
+                  <div class="dashCardContent">
+                    <h4>Order Generated</h4>
+                    <h2>{{dashboardDataModel.TotalApprovedApplicationOrderGenerated}}</h2>
+                  </div>
+                </div>
+              </div>
+              <a routerLink="/btergenerateorderlist/ALL">View more <i class="fa fa-chevron-circle-right"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" *ngIf="this.sSOLoginDataModel.DepartmentID==1">
+      <div class="card-header d-flex justify-content-between align-items-center">
+        <h5> <b>NOC Detail For Session 2023-2024</b></h5>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-lg-2 col-md-4 col-sm-6 col-12">
+            <div class="card staticsCards ">
+              <div class="card-body">
+                <div class="">
+                  <div class="dashCardIcon">
+                    <i class="fa fa-bank"></i>
+                  </div>
+                  <div class="dashCardContent">
+                    <h4>Total Application</h4>
+                    <h2>{{dashboardDataModel.TotalApplication_64}}</h2>
+                  </div>
+                </div>
+              </div>
+              <a href="/papplicationlist">View more <i class="fa fa-chevron-circle-right"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card" *ngIf="sSOLoginDataModel.SSOID =='vijaykanugo.risl'">
+      <div class="card-header d-flex justify-content-between align-items-center">
+        <h5>  <b>Analytics Dashboard</b></h5>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-12">
+            <iframe class="responsive-iframe" [src]="AnalyticsDashboardUrl"></iframe>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
 
   <div class="row" *ngIf="this.sSOLoginDataModel.RoleID==10 && this.sSOLoginDataModel.DepartmentID==3">
@@ -801,7 +1046,7 @@
             </div>
           </div>
 
-          <div class="col-lg-2 col-md-4 col-sm-6 col-12">
+          <div class="col-lg-2 col-md-4 col-sm-6 col-12" *ngIf="this.DepartmentID!=12">
             <div class="card staticsCards">
               <div class="card-body">
                 <div class="">
@@ -819,7 +1064,7 @@
           </div>
 
 
-          <div class="col-lg-2 col-md-4 col-sm-6 col-12">
+          <div class="col-lg-2 col-md-4 col-sm-6 col-12" *ngIf="this.DepartmentID!=12">
             <div class="card staticsCards">
               <div class="card-body">
                 <div class="">
@@ -835,7 +1080,7 @@
               <a routerLink="/rejectedapplicationlist">View more <i class="fa fa-chevron-circle-right"></i></a>
             </div>
           </div>
-          <div class="col-lg-2 col-md-4 col-sm-6 col-12">
+          <div class="col-lg-2 col-md-4 col-sm-6 col-12" *ngIf="this.DepartmentID!=12">
             <div class="card staticsCards">
               <div class="card-body">
                 <div class="">
@@ -851,7 +1096,7 @@
               <a href="/revertedapplicationlist">View more <i class="fa fa-chevron-circle-right"></i></a>
             </div>
           </div>
-          <div class="col-lg-2 col-md-4 col-sm-6 col-12">
+          <div class="col-lg-2 col-md-4 col-sm-6 col-12" *ngIf="this.DepartmentID!=12">
             <div class="card staticsCards">
               <div class="card-body">
                 <div class="">

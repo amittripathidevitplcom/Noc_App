@@ -8,3 +8,17 @@ export class AadharServiceDataModel
   public AadharID: string = ''
 
 }
+
+export class CAGetSignedXmlApiRequest {
+
+  public DepartmentID: number = 0;
+  public CollegeID: number = 0;
+  public TransactionID: number = 0;
+  public designation: string = '';
+  public PDFFileName: string = '';
+  public ApplyNocApplicationID: string = '';
+  public SSOdisplayName: string = '';
+  public CreatedBy: string = '';
+  public eSignType: string = '';
+
+}

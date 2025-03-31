@@ -82,6 +82,7 @@ export class NocpaymentService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
+  
   public async GetPreviewPaymentDetails(CollegeID: Number, SessionYear: number) {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -135,6 +136,28 @@ export class NocpaymentService {
     const headers = { 'content-type': 'application/json' }
     const body = JSON.stringify(request);
     return await this.http.post(this.APIUrl + "/GRAS_PaymentRequest", body, { 'headers': headers })
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+  public async GetBterPaymentListIDWise(PRnNO: string) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl + "/GetBterPaymentListIDWise/" + PRnNO)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+  public async GetBTERPreviewPaymentDetails(AffiliationRegID: Number, SessionYear: number) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl + "/GetBTERPreviewPaymentDetails/" + AffiliationRegID + "/" + SessionYear, httpOptions)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();

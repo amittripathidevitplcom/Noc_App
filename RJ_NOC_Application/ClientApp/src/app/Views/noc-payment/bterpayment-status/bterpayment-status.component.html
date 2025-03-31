@@ -1,0 +1,68 @@
+
+<div style="text-align:center" *ngIf="PaymentStatus">
+  <div class="card statusCardsss">
+    <div class="d-flex justify-content-center">
+      <div class="circleIcon d-flex align-items-center justify-content-center">
+        <!--<i *ngIf="PaymentStatus == 'SUCCESS'" class="checkmark">✓</i>
+        <i *ngIf="PaymentStatus != 'SUCCESS'" class="checkmarkFail" style="color:red">X</i>-->
+
+        <i *ngIf="PaymentStatus == 'SUCCESS'" class="checkmark fa fa-check"></i>
+        <i *ngIf="PaymentStatus == 'Absent'" class="statusAbsent fa fa-stop-circle-o"></i>
+        <i *ngIf="PaymentStatus == 'Pending'" class="statusPendings fa fa-hourglass-end"></i>
+        <i *ngIf="PaymentStatus == 'Failure'" class="checkmarkFail fa fa-close"></i>
+
+      </div>
+    </div>
+
+    <!--<h1 [ngClass]="PaymentStatus == 'SUCCESS'">{{PaymentStatus}}</h1>
+    <h1 [ngClass]="PaymentStatus == 'SUCCESS'">{{PaymentStatus}}</h1>
+    <h1 [ngClass]="PaymentStatus == 'SUCCESS' ? 'divSuccess' : 'divFail'">{{PaymentStatus}}</h1>
+    <h1 [ngClass]="PaymentStatus == 'SUCCESS' ? 'divSuccess' : 'divFail'">{{PaymentStatus}}</h1>-->
+
+
+    <h1 *ngIf="PaymentStatus == 'SUCCESS'" class="divSuccess">{{PaymentStatus}}</h1>
+    <h1 *ngIf="PaymentStatus == 'Absent'" class="divAbsent">{{PaymentStatus}}</h1>
+    <h1 *ngIf="PaymentStatus == 'Pending'" class="divPending">{{PaymentStatus}}</h1>
+    <h1 *ngIf="PaymentStatus == 'Failure'" class="divFail">{{PaymentStatus}}</h1>
+
+
+    <p *ngIf="PaymentStatus == 'SUCCESS'">Application Payment Has Been Successfully </p>
+    <p *ngIf="PaymentStatus != 'SUCCESS'">Application Payment {{PaymentStatus}}.!</p>
+    <br />
+    <table class="table table-bordered">
+      <tbody>
+        <tr>
+          <td>
+            <label>AUIN NO.</label>
+          </td>
+          <td>{{PRNNo}}</td>
+        </tr>
+        <tr>
+          <td>
+            <label>Amount</label>
+          </td>
+          <td>{{Amount}}</td>
+        </tr>
+        <tr>
+          <td>
+            <label>Status</label>
+          </td>
+          <td>
+            {{PaymentStatus}}
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <label>TransactionID</label>
+          </td>
+          <td>{{TransactionID}}</td>
+        </tr>
+      </tbody>
+    </table>
+
+
+    
+    <a routerLink="/affiliationregistration" *ngIf="UDF2_PURPOSE =='BTER Payment'" class="btn btn-success">Exit</a>
+
+  </div>
+</div>

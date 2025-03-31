@@ -33,10 +33,36 @@ export class PreviewDTEAffiliationOtherDetailsComponent implements OnInit {
   sSOLoginDataModel = new SSOLoginDataModel();
   request = new DTEAffiliationOtherDetailsPreviewDataModel();
   public ModifyBy: number = 0;
+  public SelectedDepartmentID: number = 0;
+  public SearchRecordID: string = '';
+  public SelectedDteAffiliationRegId: number = 0;
+  public AffiliationRegStatus: any = '';
+  public AffiliationRegID: number = 0;
+  public AffiliationCollegeStatusId: number = 0;
   async ngOnInit() {
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
+    this.SelectedDepartmentID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DepartmentID')?.toString()));
+    this.SearchRecordID = this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DTE_ARId')?.toString());
+    this.AffiliationRegStatus = this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('Status')?.toString());
+    this.AffiliationCollegeStatusId = this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeStatusId')?.toString());
+
+    if (this.SearchRecordID.length > 20 && this.SelectedDepartmentID == 12) {
+      await this.commonMasterService.GetDteAffiliation_SearchRecordIDWise(this.SearchRecordID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.SelectedDteAffiliationRegId = data['Data']['DTE_ARId'];
+
+          if (this.SelectedDteAffiliationRegId == null || this.SelectedDteAffiliationRegId == 0 || this.SelectedDteAffiliationRegId == undefined) {
+            this.routers.navigate(['/affiliationregistration']);
+          }
+        }, error => console.error(error));
+    }
+    else {
+      this.SelectedDteAffiliationRegId = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DTE_ARId')?.toString()));
+    }
     this.ModifyBy = 1;
-    this.GetDepartmentList();
+    await this.GetDTEAffiliationOtherDetailsPreviewData();
+    await this.GetDepartmentList();
   }
   async GetDepartmentList() {
     try {
@@ -47,17 +73,7 @@ export class PreviewDTEAffiliationOtherDetailsComponent implements OnInit {
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
-          this.DepartmentList = data['Data'];
-          for (let i = 0; i < data['Data'].length; i++) {
-            if (data['Data'][i]['DepartmentID'] == 4) {
-              this.request.DepartmentID = data['Data'][i]['DepartmentID'];
-
-              this.GetDTEAffiliationOtherDetailsPreviewData(this.request.DepartmentID);
-              //this.GetAffiliationBranchList(this.request.DepartmentID);
-              //this.GetStartDateEndDateDepartmentwise(this.request.DepartmentID)
-              // console.log(this.request.DepartmentID);
-            }
-          }
+          this.DepartmentList = data['Data'];          
         }, error => console.error(error));
     }
     catch (Ex) {
@@ -69,13 +85,11 @@ export class PreviewDTEAffiliationOtherDetailsComponent implements OnInit {
       }, 200);
     }
   }
-  async GetDTEAffiliationOtherDetailsPreviewData(DepartmentID: number) {
-    debugger;
+  async GetDTEAffiliationOtherDetailsPreviewData() {   
     try {
       this.loaderService.requestStarted();
-      await this.dteaffiliationOtherDetailsService.GetDTEAffiliationOtherDetailsPreviewData(DepartmentID)
-        .then((data: any) => {
-          debugger;
+      await this.dteaffiliationOtherDetailsService.GetDTEAffiliationOtherDetailsPreviewData(this.SelectedDteAffiliationRegId)
+        .then((data: any) => {         
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];

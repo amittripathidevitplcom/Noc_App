@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { DTEAffiliationRegistrationDataModel } from '../../../Models/DTEAffiliation/DTEAffiliationRegistration/DTEAffiliationRegistrationDataModel';
+import { TotalCollegeReportSearchFilter, Generateorderforbter } from '../../../Models/SearchFilterDataModel';
 import { GlobalConstants } from '../../../Common/GlobalConstants';
 @Injectable({
   providedIn: 'root'
@@ -34,6 +35,39 @@ export class DTEAffiliationRegistrationService {
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();
+  }
+  public async ApplicationSubmit(DTE_ARId: number,ActionName:string) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl + "/ApplicationSubmit/" + DTE_ARId + "/" + ActionName)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+  //public async Generateorder_SaveData(request: Generateorderforbter) {
+  //  const headers = { 'content-type': 'application/json' }
+  //  const body = JSON.stringify(request);
+  //  return await this.http.post(this.APIUrl + "/Generateorder_SaveData", body, { 'headers': headers })
+  //    .pipe(
+  //      catchError(this.handleErrorObservable)
+  //    ).toPromise();
+  //}
+  public async Generateorder_SaveData(request: Generateorderforbter) {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const body = JSON.stringify(request);
+
+    try {
+      return await this.http.post(this.APIUrl + "/Generateorder_SaveData", body, { headers })
+        .pipe(
+          catchError(this.handleErrorObservable)
+        ).toPromise();
+    } catch (error) {
+      console.error("Error in Generateorder_SaveData:", error);
+      throw error;
+    }
   }
 
  

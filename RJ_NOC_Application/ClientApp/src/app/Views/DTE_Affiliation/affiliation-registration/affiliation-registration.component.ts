@@ -14,6 +14,10 @@ import autoTable from 'jspdf-autotable'
 import { EnumDepartment } from '../../../Common/enum-noc';
 import { SSOLoginDataModel } from '../../../Models/SSOLoginDataModel';
 import { DTEAffiliationRegistrationService } from '../../../Services/DTEAffiliation/DTEAffiliationRegistration/dte-affiliation-registration.service';
+import { LegalEntityService } from '../../../Services/LegalEntity/legal-entity.service';
+import { NocPaymentComponent } from '../../noc-payment/payment-request/noc-payment.component';
+import { NgbModal, NgbModalRef, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+import { ApplyNocParameterService } from '../../../Services/Master/apply-noc-parameter.service';
 @Component({
   selector: 'app-affiliation-registration',
   templateUrl: './affiliation-registration.component.html',
@@ -53,10 +57,14 @@ export class AffiliationRegistrationComponent {
   public AffiliationType: any = [];
   public ShowAffilationType: boolean = false;
   public ApplyAffiliation: string = '';
+  public LegalEntityManagementType: string = '';
   public ApplyAffiliationFY: number = 65;
+  public legalEntityListData: any = [];
+  modalReference!: NgbModalRef;
+  closeResult!: string;
   constructor( private toastr: ToastrService, private loaderService: LoaderService,
     private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private _fb: FormBuilder,
-    private clipboard: Clipboard, private dTEAffiliationregistrationService: DTEAffiliationRegistrationService) {
+    private clipboard: Clipboard, private dTEAffiliationregistrationService: DTEAffiliationRegistrationService, private legalEntityListService: LegalEntityService, private nocPaymentComponent: NocPaymentComponent, private modalService: NgbModal, private applyNocParameterService: ApplyNocParameterService) {
 
   }
   async ngOnInit() { 
@@ -75,7 +83,42 @@ export class AffiliationRegistrationComponent {
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     //console.log(this.sSOLoginDataModel);
     this.request.SSOID = this.sSOLoginDataModel.SSOID;
-    console.log(this.request.SSOID);
+    if (this.sSOLoginDataModel.SSOID == "" && this.sSOLoginDataModel.SSOID == undefined && this.sSOLoginDataModel.SSOID == null && this.sSOLoginDataModel.RoleID == null) {
+      this.toastr.error("Unable to service request.!");
+      this.routers.navigate(['/ssologin']);
+      this.loaderService.requestEnded();
+      return;
+    }
+    try {
+      this.loaderService.requestStarted();
+      await this.legalEntityListService.GetLegalEntityBySSOID(this.sSOLoginDataModel.SSOID, 0)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          // data
+          if (data['Data'][0]['data']['Table'].length == 0) {
+            this.toastr.warning("First Add Legal Entity then Add College.!");
+            setTimeout(() => {
+              this.routers.navigate(['/legalentity']);
+            }, 500);
+
+          }
+          else {
+            this.LegalEntityManagementType = data['Data'][0]['data']['Table'][0]['ManagementType'];
+          }
+        }, (error: any) => console.error(error));
+    }
+    catch (Ex) {
+      this.routers.navigate(['/legalentity']);
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 0);
+    }
     const ddlDepartmentID = document.getElementById('ddlDepartmentID');
     if (ddlDepartmentID) ddlDepartmentID.focus();
     this.GetDepartmentList();
@@ -173,7 +216,7 @@ export class AffiliationRegistrationComponent {
           this.DepartmentList = data['Data'];   
           for (let i = 0; i < data['Data'].length; i++) {
             this.DepartmentList = this.DepartmentList.filter((element: any) => {
-              return element.DepartmentName == "Department Of Technical Education";
+              return element.DepartmentName == "Board of Technical Education";
             });
             this.request.DepartmentID = this.DepartmentList[0].DepartmentID;
             this.DTEAffiliationForm.get('ddlDepartmentID')?.disable();
@@ -201,11 +244,12 @@ export class AffiliationRegistrationComponent {
           this.ErrorMessage = data['ErrorMessage'];
           this.StartDateEndDateDepartmentwise = data['Data'];
           this.dteAffiliationDataModel = data['Data'][0];
+
           this.is_disableDepartment = true;
           if (data['Data'][0]['IsOpen'] == true) {
             this.IsOpen = true;
           }
-         
+          this.request.OpenSessionFY = data['Data'][0]['ApplicationSession']
         }, error => console.error(error));
     }
     catch (Ex) {
@@ -241,14 +285,13 @@ export class AffiliationRegistrationComponent {
     try {
       this.loaderService.requestStarted();
       await this.commonMasterService.GetAffiliationRegistrationList(this.request.SSOID)
-        .then((data: any) => {
-          debugger;
+        .then((data: any) => {        
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];         
           this.AffiliationRegistrationList = data['Data'][0]['data'];
-          console.log(this.AffiliationRegistrationList);
+          //console.log(this.AffiliationRegistrationList);
         }, error => console.error(error));
     }
     catch (Ex) {
@@ -276,9 +319,10 @@ export class AffiliationRegistrationComponent {
     }
     return true;
   }
+
   async SaveData()
-  {    
-      if (this.request.DepartmentID == 4) {
+  {   
+      if (this.request.DepartmentID == 12) {
       //console.log(this.DTEAffiliationForm);
       this.isSubmitted = true;    
       if (this.DTEAffiliationForm.invalid) {
@@ -297,8 +341,7 @@ export class AffiliationRegistrationComponent {
       }
       //Show Loading
       this.loaderService.requestStarted();
-      this.isLoading = true;
-      console.log(this.request);
+      this.isLoading = true;       
       try {
         await this.dTEAffiliationregistrationService.SaveData(this.request)
           .then(async (data: any) => {
@@ -336,11 +379,140 @@ export class AffiliationRegistrationComponent {
     this.request.AffiliationTypeID =0;
     this.isSubmitted = false;
   }
-  async Edit_OnClick(DepartmentID: number, DTE_ARId: number, CollegeStatusId: number) {    
-    this.routers.navigate(['/dteaffiliationdetails' + "/" + encodeURI(this.commonMasterService.Encrypt(DepartmentID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(DTE_ARId.toString()))]);      
+  public STATUS: string = '';
+  public ResponseMessage: string = '';
+  public PaymentStatus: string = '';
+
+  async Edit_OnClick(DepartmentID: number, DTE_ARId: string, DTEAffiliationID: number, Status: string, CollegeStatusId: number,IsMakePayment:number) {   
+    // var kk = CollegeID ? CollegeID : 0;+ "/" + encodeURI(this.commonMasterService.Encrypt(kk.toString()))
+    await this.applyNocParameterService.GetApplyBTERPaymentHistoryApplicationID(DTEAffiliationID, 'BTER')
+      .then((data: any) => {
+        debugger;
+        console.log(data);
+        data = JSON.parse(JSON.stringify(data));
+        this.State = data['State'];
+        this.SuccessMessage = data['SuccessMessage'];
+        this.ErrorMessage = data['ErrorMessage'];
+        // data
+        if (this.State == 0) {
+          this.PaymentHistoryDetails = data['Data'][0]['data'];
+          for (let i = 0; i < data['Data'][0]['data'].length; i++) {
+            this.STATUS = data['Data'][0]['data'][i]['STATUS'];
+            this.ResponseMessage = data['Data'][0]['data'][i]['ResponseMessage'];
+            this.PaymentStatus = data['Data'][0]['data'][i]['PaymentStatus'];
+          }          
+        }
+        else {
+          this.toastr.error(this.ErrorMessage);
+        }
+      }, error => console.error(error));
+    console.log(this.STATUS);
+    console.log(this.ResponseMessage);
+    console.log(this.PaymentStatus);
+    if (this.PaymentHistoryDetails.length > 0) {
+      //paymentdetails.STATUS != 'SUCCESS' && paymentdetails.STATUS != 'FAILED
+      if (this.STATUS != 'SUCCESS' && this.PaymentStatus != 'SUCCESS' && this.STATUS != 'FAILED' && this.PaymentStatus != 'FAILED') {
+        this.toastr.warning("First Check Your Payment History!");
+        return;
+      } else {
+        this.routers.navigate(['/dteaffiliationdetails' + "/" + encodeURI(this.commonMasterService.Encrypt(DepartmentID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(DTE_ARId.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(DTEAffiliationID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(Status.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(CollegeStatusId.toString()))]);
+      }
+
+    } else {
+      this.routers.navigate(['/dteaffiliationdetails' + "/" + encodeURI(this.commonMasterService.Encrypt(DepartmentID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(DTE_ARId.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(DTEAffiliationID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(Status.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(CollegeStatusId.toString()))]);
+    }
+
+   
   }
-  async View_OnClick(DepartmentID: number, DTE_ARId: number, CollegeStatusId: number) {    
-    this.routers.navigate(['/dteaffiliationsummary' + "/" + encodeURI(this.commonMasterService.Encrypt(DepartmentID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(DTE_ARId.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(CollegeStatusId.toString()))]);
+  async View_OnClick(DepartmentID: number, DTEAffiliationID: number,Status: string, CollegeStatusId: number) {   
+    window.open('/dteaffiliationsummary' + "/" + encodeURI(this.commonMasterService.Encrypt(DepartmentID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(DTEAffiliationID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(Status.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(CollegeStatusId.toString())), '_blank');
   }
- 
+  public PaymentHistoryDetails: any = [];
+  async PaymentHistoryApplyBTERApplication_click(content: any, BTERRegID: number) {    
+    try {
+      this.loaderService.requestStarted();
+      // get
+      await this.applyNocParameterService.GetApplyBTERPaymentHistoryApplicationID(BTERRegID, 'BTER')
+        .then((data: any) => {
+          console.log(data);
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          // data
+          if (this.State == 0) {
+            this.PaymentHistoryDetails = data['Data'][0]['data'];
+            // model popup
+            this.modalService.open(content, { size: 'xl', ariaLabelledBy: 'modal-applynocpaymentdetails-title', backdrop: 'static' }).result.then((result) => {
+              this.closeResult = `Closed with: ${result}`;
+            }, (reason) => {
+              this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+            });
+          }
+          else {
+            this.toastr.error(this.ErrorMessage);
+          }
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  async CheckStatus_click(item: any) {
+    try {
+      this.loaderService.requestStarted();
+      //debugger
+      // payment request
+      debugger;
+      this.nocPaymentComponent.transactionStatusRequest.ApplyNocApplicationID = item.ApplyNocApplicationID;
+      this.nocPaymentComponent.transactionStatusRequest.AMOUNT = item.Amount;
+      this.nocPaymentComponent.transactionStatusRequest.PRN = item.PRNNO;
+      this.nocPaymentComponent.transactionStatusRequest.DepartmentID = item.DepartmentID;
+      this.nocPaymentComponent.request.CreatedBy = this.sSOLoginDataModel.UserID;
+      this.nocPaymentComponent.request.SSOID = this.sSOLoginDataModel.SSOID;
+      this.nocPaymentComponent.transactionStatusRequest.ServiceProvider = item.ServiceProvider;
+      debugger;
+      // post
+      if (item.ServiceProvider == 'RPPT') {
+
+        await this.nocPaymentComponent.GetTransactionStatus();
+      }
+      else {
+
+        await this.nocPaymentComponent.GRAS_GetPaymentStatus(item.AID, item.DepartmentID, 'BTER Payment');
+      }
+
+      this.modalService.dismissAll();
+      this.GetAffiliationRegistrationList();
+
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+
+  }
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return `with: ${reason}`;
+    }
+  }
+  async ApplicationSummary_OnClick(DepartmentID: number, DTEAffiliationID: number, Status: string, CollegeStatusId: number) {
+    
+    window.open('/bterpreviewaffiliationsummary' + "/" + encodeURI(this.commonMasterService.Encrypt(DepartmentID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(DTEAffiliationID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(Status.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(CollegeStatusId.toString())), '_blank');
+  }
+  
 }

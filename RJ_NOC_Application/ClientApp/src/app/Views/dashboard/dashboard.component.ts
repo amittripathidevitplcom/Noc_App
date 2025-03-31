@@ -27,6 +27,8 @@ export class DashboardComponent implements OnInit {
   public ssotoken: string = '';
   closeResult: string | undefined;
   public SessionID: number = 0;
+  public DepartmentID: number = 0;
+  public Departmentlist: any = [];
 
   @ViewChild('ApplicationSessionmodal') templateRef: TemplateRef<any> | undefined;
   constructor(private modalService: NgbModal,public cookie: CookieService, public sanitizer: DomSanitizer,private loaderService: LoaderService, private toastr: ToastrService, private commonMasterService: CommonMasterService) { }
@@ -37,7 +39,7 @@ export class DashboardComponent implements OnInit {
     this.url = this.url + this.ssotoken;
     this.AnalyticsDashboardUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.url);
     this.sSOLoginDataModel = JSON.parse(String(localStorage.getItem('SSOLoginUser')));
-    await this.GetDashboardDataSSOWise(this.sSOLoginDataModel.SSOID);
+    await this.GetDashboardDataSSOWise(this.sSOLoginDataModel.SSOID);    
     this.loaderService.requestEnded();
   }
   async ngAfterViewInit() {

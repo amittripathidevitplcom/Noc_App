@@ -242,6 +242,13 @@ export class LegalEntityComponent implements OnInit {
 
       this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
       this.QueryStringLegalEntityID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('LegalEntityID')?.toString()));
+      console.log(this.sSOLoginDataModel);
+      if (this.sSOLoginDataModel.SSOID == "" && this.sSOLoginDataModel.SSOID == undefined && this.sSOLoginDataModel.SSOID == null && this.sSOLoginDataModel.RoleID == null) {
+        this.toastr.error("Unable to service request.!");
+        this.routers.navigate(['/ssologin']);
+        this.loaderService.requestEnded();
+        return;
+      }
       /*this.GetDistrict();*/
       this.GetSocietyPresentStatusList();
       this.GetRegistrationDistrictListByRegistrationStateID(this.RegistrationState)
@@ -694,7 +701,12 @@ export class LegalEntityComponent implements OnInit {
             //window.location.reload();
             if (this.request.LegalEntityID > 0) { this.routers.navigate(['/totallegalentitypreview']); }
             else {
-              this.routers.navigate(['/addcollege']);
+              if (this.request.ProcessDepartmentID == 12) {
+                this.routers.navigate(['/affiliationregistration']);
+              } else {
+                this.routers.navigate(['/addcollege']);
+              }
+              
             }
           }
           else if (this.State == 2) {
@@ -2304,7 +2316,7 @@ export class LegalEntityComponent implements OnInit {
       }
       this.holdDepartmentID = this.request.ProcessDepartmentID;
       this.loaderService.requestStarted();
-      if (this.request.ManagementType == 'Government' && (this.request.ProcessDepartmentID == 4)) {
+      if (this.request.ManagementType == 'Government' && (this.request.ProcessDepartmentID == 4 || this.request.ProcessDepartmentID == 12)) {
         //this.request = new LegalEntityDataModel();
         this.request.SSOID = this.sSOLoginDataModel.SSOID;
         //this.request.ElectionPresentManagementCommitteeDate = '';
@@ -2316,7 +2328,12 @@ export class LegalEntityComponent implements OnInit {
             this.ErrorMessage = data['ErrorMessage'];
             if (this.State == 0) {
               this.toastr.success(this.SuccessMessage);
-              this.routers.navigate(['/addcollege']);
+              if (this.request.ProcessDepartmentID == 12) {
+                this.routers.navigate(['/affiliationregistration']);
+              } else {
+                this.routers.navigate(['/addcollege']);
+              }
+              
             }
             else if (this.State == 2) {
               this.toastr.warning(this.ErrorMessage)

@@ -261,6 +261,23 @@ import { MGOneForwardInpectionReportOSDComponent } from './Views/Medical Group 1
 import { MGThreeApplicationsListComponent } from './Views/DocumentScrutinyTab/mgthree-applications-list/mgthree-applications-list.component';
 import { ApplicationForwardGThreeComponent } from './Views/DocumentScrutinyTab/application-forward-gthree/application-forward-gthree.component';
 import { NodalOfficerBedApplicationListComponent } from './Views/Bed/nodal-officer-bed-application-list/nodal-officer-bed-application-list.component';
+import { BTERPaymentStatusComponent } from './Views/noc-payment/bterpayment-status/bterpayment-status.component';
+import { PreviewbtersummarydetailsComponent } from './Views/PreviewTabs/previewbtersummarydetails/previewbtersummarydetails.component';
+import { BTERTotalApplicationComponent } from './Views/DTE_Affiliation/btertotal-application/btertotal-application.component';
+import { BTERTotalNewApplicationComponent } from './Views/DTE_Affiliation/btertotal-new-application/btertotal-new-application.component';
+import { BTERTotalExistingApplicationComponent } from './Views/DTE_Affiliation/btertotal-existing-application/btertotal-existing-application.component';
+import { BTERTotalSubmitedApplicationComponent } from './Views/DTE_Affiliation/btertotal-submited-application/btertotal-submited-application.component';
+import { BTERTotalPendingtosubmitApplicationComponent } from './Views/DTE_Affiliation/btertotal-pendingtosubmit-application/btertotal-pendingtosubmit-application.component';
+import { BTERReceivedApplicationsComponent } from './Views/DTE_Affiliation/bterreceived-applications/bterreceived-applications.component';
+import { BTERDocumentScrutinyComponent } from './Views/DCE/bterdocument-scrutiny/bterdocument-scrutiny.component';
+import { BterDeficiencyMarklistComponent } from './Views/DTE_Affiliation/bter-deficiency-marklist/bter-deficiency-marklist.component';
+import { BTERPendingtoSubmitApplicationComponent } from './Views/DTE_Affiliation/bterpendingto-submit-application/bterpendingto-submit-application.component';
+import { RevertApplicationDetailsentryBTERComponent } from './Views/DTEAffiliationDetails/revert-application-detailsentry-bter/revert-application-detailsentry-bter.component';
+import { ResubmitApplicationlistComponent } from './Views/DTE_Affiliation/resubmit-applicationlist/resubmit-applicationlist.component';
+import { BTERApprovedApplicationListComponent } from './Views/DTE_Affiliation/bterapproved-application-list/bterapproved-application-list.component';
+import { BTERGenerateOrderListComponent } from './Views/DTE_Affiliation/btergenerate-order-list/btergenerate-order-list.component';
+import { BTERCourseMasterComponent } from './Views/Master/btercourse-master/btercourse-master.component';
+import { BTERBranchWiseFeeMasterComponent } from './Views/DTE_Affiliation/bterbranch-wise-fee-master/bterbranch-wise-fee-master.component';
 import { FinalCheckListMGThreeComponent } from './Views/DocumentScrutinyTab/final-check-list-mgthree/final-check-list-mgthree.component';
 import { TotalDraftBedCollegeListComponent } from './Views/Bed/total-draft-bed-college-list/total-draft-bed-college-list.component';
 import { ApplicationListAHDegreeComponent } from './Views/DocumentScrutinyTab_AH/application-list-ahdegree/application-list-ahdegree.component';
@@ -968,6 +985,7 @@ const routes: Routes = [
       {
         path: 'dtcoursemaster', component: DtcoursemasterComponent
       },
+      
 
       {
         path: 'usermanualdocumentmaster', component: UserManualDocumentMasterComponent
@@ -1043,13 +1061,19 @@ const routes: Routes = [
       //  path: 'previewdteaffiliationOtherDetails', component: PreviewDTEAffiliationOtherDetailsComponent
       //},
       {
-        path: 'dteaffiliationdetails/:DepartmentID/:DTE_ARId', component: DTEAffiliationDetailsComponent,
+        path: 'dteaffiliationdetails/:DepartmentID/:DTE_ARId/:DTEAffiliationID/:Status/:CollegeStatusId', component: DTEAffiliationDetailsComponent,
+        pathMatch: 'full'
+      },
+      
+      {
+        path: 'dteaffiliationsummary/:DepartmentID/:DTE_ARId/:Status/:CollegeStatusId', component: DTEAffiliationSummaryComponent,
         pathMatch: 'full'
       },
       {
-        path: 'dteaffiliationsummary/:DepartmentID/:DTE_ARId', component: DTEAffiliationSummaryComponent,
+        path: 'dteaffiliationsummary/:DepartmentID/:DTE_ARId/:Status', component: DTEAffiliationSummaryComponent,
         pathMatch: 'full'
       },
+      
       {
         path: 'mgonenoccompleteapplicationlist', component: MgOneNocCompletedReportComponent,
         pathMatch: 'full'
@@ -1086,6 +1110,61 @@ const routes: Routes = [
       {
         path: 'nodalofficerBedapplicationlist/:Status', component: NodalOfficerBedApplicationListComponent
       },
+      {
+        path: 'bterpreviewaffiliationsummary/:DepartmentID/:DTE_ARId/:Status/:CollegeStatusId', component: PreviewbtersummarydetailsComponent,
+        pathMatch: 'full'
+      },
+      {
+        path: 'totalApplicationAffiliation', component: BTERTotalApplicationComponent
+      },
+      {
+        path: 'totalApplicationAffiliation/:Status', component: BTERTotalApplicationComponent
+      },
+      {
+        path: 'totalnewbterapplication/:Status', component: BTERTotalNewApplicationComponent
+      },
+      {
+        path: 'totalExistingbterapplication/:Status', component: BTERTotalExistingApplicationComponent
+      },
+      {
+        path: 'totalsubmittedbterapplication/:Status', component: BTERTotalSubmitedApplicationComponent
+      },
+      {
+        path: 'totalpendingtoreceivedbterapplication/:Status', component: BTERTotalPendingtosubmitApplicationComponent
+      },
+      {
+        path: 'totalreceivedbterapplication/:Status', component: BTERReceivedApplicationsComponent
+      },
+      {
+        path: 'bterdocumentscrutiny/:DepartmentID/:DTE_ARId/:Status/:CollegeStatusId/:ApplyBterAffiliationID/:CollegeID/:ApplicationStatus', component: BTERDocumentScrutinyComponent,
+        pathMatch: 'full'
+      },
+      {
+        path: 'bterdeficiencymarklist/:Status', component: BterDeficiencyMarklistComponent
+      },
+      {
+        path: 'bterpendingtosubmitlist/:Status', component: BTERPendingtoSubmitApplicationComponent
+      },
+      {
+        path: 'resubmitApplicationlist/:Status', component: ResubmitApplicationlistComponent
+      },
+      {
+        path: 'bterapprovedapplicationlist/:Status', component: BTERApprovedApplicationListComponent
+      },
+      {
+        path: 'btergenerateorderlist/:Status', component: BTERGenerateOrderListComponent
+      },
+      {
+        path: 'revertapplicationdetailsentrybter/:SearchRecordID', component: RevertApplicationDetailsentryBTERComponent,
+        pathMatch: 'full'
+      },
+      {
+        path: 'btercoursemaster', component: BTERCourseMasterComponent
+      },
+      {
+        path: 'bterbranchwisefeemaster', component: BTERBranchWiseFeeMasterComponent
+      },
+      
       {
         path: 'totaldraftBedentrycollege', component: TotalDraftBedCollegeListComponent
       },
@@ -1130,6 +1209,7 @@ const routes: Routes = [
   {
     path: 'paymentsuccess/:TransID', component: PaymentSuccessComponent
   },
+  
   {
     path: 'paymentfailed/:TransID', component: PaymentSuccessComponent
   },
@@ -1139,6 +1219,10 @@ const routes: Routes = [
   {
     path: 'applicationpdf/:CollegeID/:DepartmentID/:Status', component: ApplicationPDFComponent
   },
+  {
+    path: 'bterpaymentsuccess/:TransID', component: BTERPaymentStatusComponent
+  },
+  
 
   {
     path: '**', component: PageNotFoundComponent

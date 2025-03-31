@@ -1,0 +1,63 @@
+<div class="card tabCard1 mb-0" id="CourseDetails1">
+  
+  <div class="card-body">
+    <div class="card mb-0" *ngIf="PaymentHistoryDetails.length>0">      
+      <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+          <div class="card">
+            <!--<div class="card-header">
+              <b>Affiliation Payment History</b>
+            </div>-->
+            <div class="card-body">
+              <div class="row">
+                <div class="table-responsive maxheight600px">
+                  <table class="table table-hover table-striped-columns">
+                    <thead>
+                      <tr>
+                        <th>Sr. No.</th>
+                        <th>PRN No</th>
+                        <th>Transaction Date</th>
+                        <th>Payment Status</th>
+                        <th>Is Refunded</th>
+                        <th>Amount</th>
+                        <th>Message</th>                       
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let paymentdetails of PaymentHistoryDetails;let idx=index;">
+                        <td>{{idx+1}}</td>
+                        <td>
+                          <label>{{paymentdetails.PaymentID}}</label>
+                        </td>
+                        <td>
+                          <label>{{paymentdetails.TransactionDate}}</label>
+                        </td>
+                        <td>
+                          <label>{{paymentdetails.STATUS}} </label>
+                        </td>
+                        <td>
+                          <label>{{paymentdetails.strRefund}}</label>
+                        </td>
+                        <td>
+                          <label>{{paymentdetails.Amount}}</label>
+                        </td>
+                        <td>
+                          <label>{{paymentdetails.ResponseMessage}}</label>
+                        </td>                        
+                      </tr>
+                      <tr>
+                        <td colspan="7" *ngIf="PaymentHistoryDetails.length==0" style="color:red"> No Data Found.!</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+

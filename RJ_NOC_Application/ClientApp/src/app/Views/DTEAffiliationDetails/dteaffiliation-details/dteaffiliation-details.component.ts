@@ -20,7 +20,7 @@ export class DTEAffiliationDetailsComponent implements OnInit {
   @ViewChild('tabs') tabGroup!: MatTabGroup;
   public collegeDataList: any = [];
   sSOLoginDataModel = new SSOLoginDataModel();
-  public SelectedDteAffiliationCollageID: number = 0;  
+  public SelectedDteAffiliationBTERRgID: number = 0;  
   public SelectedDepartmentID: number = 0;
   public SeatValue: number = 50;
   public CollegeID: number = 0;  
@@ -42,13 +42,14 @@ export class DTEAffiliationDetailsComponent implements OnInit {
   request = new DTEAffiliationRegistrationDataModel();
   closeResult: string | undefined;
   modalReference: NgbModalRef | undefined;
+  public DTEAffiliationID: number = 0;
   constructor(private toastr: ToastrService, private loaderService: LoaderService,
     private applyNOCApplicationService: ApplyNOCApplicationService,
     private commonMasterService: CommonMasterService, private router: ActivatedRoute,
     private routers: Router, private collegeService: CollegeService, private modalService: NgbModal) { }
 
-  async ngOnInit() {    
-    //this.loaderService.requestStarted();
+  async ngOnInit() {   
+    this.loaderService.requestStarted();
     this.SelectedDepartmentID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DepartmentID')?.toString()));
     this.SearchRecordID = this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DTE_ARId')?.toString());
     console.log(this.SearchRecordID);
@@ -56,30 +57,34 @@ export class DTEAffiliationDetailsComponent implements OnInit {
       await this.commonMasterService.GetDteAffiliation_SearchRecordIDWise(this.SearchRecordID)
         .then((data: any) => {         
           data = JSON.parse(JSON.stringify(data));
-          this.SelectedDteAffiliationCollageID = data['Data']['DTE_ARId'];
+          this.SelectedDteAffiliationBTERRgID = data['Data']['DTE_ARId'];
+          this.DTEAffiliationID = data['Data']['DTEAffiliationID'];
           this.CollegeName = data['Data']['College_Name']
-          if (this.SelectedDteAffiliationCollageID == null || this.SelectedDteAffiliationCollageID == 0 || this.SelectedDteAffiliationCollageID == undefined) {
+          if (this.SelectedDteAffiliationBTERRgID == null || this.SelectedDteAffiliationBTERRgID == 0 || this.SelectedDteAffiliationBTERRgID == undefined) {
             this.routers.navigate(['/affiliationregistration']);
           }
         }, error => console.error(error));
     }
     else {
-      this.SelectedDteAffiliationCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DTE_ARId')?.toString()));
+      this.SelectedDteAffiliationBTERRgID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DTE_ARId')?.toString()));
     }
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     this.request.SSOID = this.sSOLoginDataModel.SSOID;
     console.log(this.request.SSOID);
     await this.CheckTabsEntry();    
     this.maxNumberOfTabs = this.tabGroup._tabs.length - 1;
+    this.loaderService.requestEnded();
   }
   NextStep() {
     if (this.selectedIndex != this.maxNumberOfTabs) {
       this.selectedIndex = this.selectedIndex + 1;
+      this.CheckTabsEntry();
     }   
   }
   PreviousStep() {
     if (this.selectedIndex != 0) {
       this.selectedIndex = this.selectedIndex - 1;
+      this.CheckTabsEntry();
     }    
   }
   onTabChange(event: MatTabChangeEvent) {
@@ -91,15 +96,15 @@ export class DTEAffiliationDetailsComponent implements OnInit {
     this.loaderService.requestEnded();
   }  
   
-  async CheckTabsEntry() {
-    debugger;
+  async CheckTabsEntry() {  
     try {
       this.loaderService.requestStarted();
-      await this.commonMasterService.CheckTabsEntry(this.SelectedDteAffiliationCollageID.toString())
+      await this.commonMasterService.CheckTabsEntryAffiliation(this.SelectedDteAffiliationBTERRgID)
         .then(async (data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.CheckTabsEntryData = data['Data'][0]['data'][0];
-          console.log(this.CheckTabsEntryData);
+          
+          //console.log(this.CheckTabsEntryData);
         }, error => console.error(error));
     }
     catch (Ex) {
@@ -113,12 +118,10 @@ export class DTEAffiliationDetailsComponent implements OnInit {
   }
   
   async GetAffiliationRegistrationList() {
-    debugger;
     try {
       this.loaderService.requestStarted();
       await this.commonMasterService.GetAffiliationRegistrationList(this.request.SSOID)
-        .then((data: any) => {
-          debugger;
+        .then((data: any) => {         
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];

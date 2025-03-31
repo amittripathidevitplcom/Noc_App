@@ -1,0 +1,148 @@
+
+<div class="card">
+  <div class="card mb-0">
+    <!--<div class="card-header">
+      <b><i class="bi bi-table"></i> Other Details</b>
+    </div>-->
+  </div>
+  <div class="card">
+    <div class="card-body border">
+      <div class="row" *ngIf="this.AffiliationRegStatus !='Existing'">
+
+        <div class="col-lg-12 col-md-12 col-sm-12 col-6 mb-3">
+          <label>Whether the Institute and the course(s) to be commenced are approved by the Government of Rajasthan and NOC has been issued?<span style="color:red;">*</span></label>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-6 col-6 mb-3">
+          <input class="form-control disabled mt-1" disabled value="{{DTEAffiliationOtherDetailsPreviewData.StatusNOCIssued}}" />
+        </div>
+      </div>
+      <div class="row" *ngIf="this.AffiliationRegStatus !='Existing'">
+        <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
+          <label>NOC Number:</label>
+          <input class="form-control disabled mt-1" disabled value="{{DTEAffiliationOtherDetailsPreviewData.NocNumber}}" />
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
+          <label>NOC Issue Date:</label>
+          <input class="form-control disabled mt-1" disabled value="{{DTEAffiliationOtherDetailsPreviewData.NocIssueDate}}" />
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
+          <label><b>Attach copy of the approval letter (NOC) :</b></label>
+          <div class="clearfix"></div>
+          <a class="bi bi-file-earmark-pdf-fill" *ngIf="DTEAffiliationOtherDetailsPreviewData.UploadNocApproval !=''" data-fancybox="gallery" href="{{DTEAffiliationOtherDetailsPreviewData.UploadNocApprovalDocPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <div class="card-header d-flex justify-content-between align-items-center">
+    <b class="text-center">&nbsp;Details Of AICTE EOA / LOA</b>
+  </div>
+  <div class="card">
+    <div class="card-body border">
+      <div class="row">
+        <div class="col-lg-6 col-md-6 col-sm-6 col-6 mb-3">
+          <label>AICTE EOA / LOA <span style="color:red;">*</span></label>
+          <input class="form-control disabled mt-1" disabled value="{{DTEAffiliationOtherDetailsPreviewData.AICTEEOALOA}}" />
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
+          <label for="txtAICTELAO_No" class="form-label">AICTE LOA No:<span style="color:red;">*</span></label>
+          <input class="form-control disabled mt-1" disabled value="{{DTEAffiliationOtherDetailsPreviewData.AICTELAO_No}}" />
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
+          <label for="txtAICTELAO_No" class="form-label">EOA /LOA Date:<span style="color:red;">*</span></label>
+          <input class="form-control disabled mt-1" disabled value="{{DTEAffiliationOtherDetailsPreviewData.EOA_LOA_Date}}" />
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
+          <label><b>Attach copy of the approval letter (NOC) :</b></label>
+          <div class="clearfix"></div>
+          <a class="bi bi-file-earmark-pdf-fill" *ngIf="DTEAffiliationOtherDetailsPreviewData.UploadLOAApproval !=''" data-fancybox="gallery" href="{{DTEAffiliationOtherDetailsPreviewData.UploadLOAApprovalDocPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card-header d-flex justify-content-between align-items-center">
+    <b class="text-center">&nbsp;Application Form</b>
+  </div>
+  <div class="card">
+    <div class="card-body border">
+      <div class="row">
+        <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
+          <label><b>Attach copy of the approval letter (NOC) :</b></label>
+          <div class="clearfix"></div>
+          <a class="bi bi-file-earmark-pdf-fill" *ngIf="DTEAffiliationOtherDetailsPreviewData.UploadApplicationForm !=''" data-fancybox="gallery" href="{{DTEAffiliationOtherDetailsPreviewData.UploadApplicationFormDocPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-12" *ngIf="DTEAffiliationOtherDetailsPreviewData==null">
+    <span style="color:red"> No Data Found.!</span>
+  </div>
+  <div class="row" *ngIf="FinalRemarks.length>0">
+    <div class="table-responsive">
+      <table class="table table-bordered table-hover table-striped">
+        <thead>
+          <tr>
+            <th>Sr.No.</th>
+            <th>Role</th>
+            <th>Action</th>
+            <th>Remark</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item1 of FinalRemarks ; let idx =index">
+            <td>{{idx+1}}</td>
+            <td>{{item1.RoleID}}</td>
+            <td>{{item1.ActionName}}</td>
+            <td>{{item1.Remark}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+  <div class="card-header">
+    <b>Other Details Approve/Revert </b>
+  </div>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-12 mb-3">
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="radio" name="rdcollegeapproverevert" id="rdcollegeapprove" [value]="1" [(ngModel)]="dsrequest.ActionID" [attr.disabled]="isDisabledAction ? true : null">
+          <label class="form-check-label">Approve</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="radio" name="rdcollegeapproverevert" id="rdcollegerevert" [value]="2" [(ngModel)]="dsrequest.ActionID" [attr.disabled]="isDisabledAction ? true : null">
+          <label class="form-check-label">Revert</label>
+        </div>
+        <p *ngIf="isSubmitted&&dsrequest.ActionID==0" class="text-danger"> This field is required .!</p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+        <label>Remarks</label>
+        <textarea id="CollegeDetailRemark" class="form-control" [(ngModel)]="dsrequest.FinalRemark"></textarea>
+        <div *ngIf="isRemarkValid" class="text-danger">
+          <p *ngIf="isRemarkValid"> This field is required .!</p>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <button class="btn btn-primary" type="button" (click)="SubmitCollegeDetail_Onclick()">Submit</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+

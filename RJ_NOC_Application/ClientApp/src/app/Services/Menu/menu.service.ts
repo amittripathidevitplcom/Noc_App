@@ -51,13 +51,13 @@ export class MenuService {
         catchError(this.handleErrorObservable)
       )
   }
-  public GetUserWiseMenu(UserID: number) {
+  public GetUserWiseMenu(UserID: number,SSOID:string) {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     };
-    return this.http.get(this.APIUrl + "/GetUserWiseMenu/" + UserID)
+    return this.http.get(this.APIUrl + "/GetUserWiseMenu/" + UserID + "/" + SSOID)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise()

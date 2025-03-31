@@ -54,6 +54,7 @@ export class DraftApplicationListService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
+  
   public async LOIApplicationList(LoginSSOID: string) {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -69,6 +70,12 @@ export class DraftApplicationListService {
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
 
     return await this.http.post(this.APIUrl_CommonMaster + '/LOIFinalSubmit_OTPVerification/' + CollegeID, httpOptions)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+  public async ViewBTERTotalCollegeDataByID(SelectedDteAffiliationRegId: number, UserID: number) {
+    return await this.http.get(this.APIUrl_CommonMaster + "/ViewBTERTotalCollegeDataByID/" + SelectedDteAffiliationRegId + "/" + UserID)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();

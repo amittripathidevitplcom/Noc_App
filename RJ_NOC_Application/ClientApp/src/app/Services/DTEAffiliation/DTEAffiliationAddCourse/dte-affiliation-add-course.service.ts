@@ -30,5 +30,49 @@ export class DTEAffiliationAddCourseService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
- 
+  public async GetAllDTEAffiliationCourseList(BTERRegID:number) {
+    return await this.http.get(this.APIUrl + '/GetAllDTEAffiliationCourseList/' + BTERRegID)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+  public async GetAllBTERAffiliationCourseFeeList(BTERRegID: number) {
+    return await this.http.get(this.APIUrl + '/GetAllBTERAffiliationCourseFeeList/' + BTERRegID)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+  public async GetByID(BTERCourseID: number, LoginSSOID: string, UserID: number) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl + "/" + BTERCourseID + "/" + LoginSSOID + "/" + UserID)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+  public async DeleteData(AffiliationCourseID: number, UserID: number) {
+    const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
+
+    return await this.http.post(this.APIUrl + '/Delete/' + AffiliationCourseID + "/" + UserID, httpOptions)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+  public async generateYears(YearofstartingID: string) {
+    const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
+
+    return await this.http.get(this.APIUrl + '/generateYears/' + YearofstartingID, httpOptions)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+  public async GetDeficiencyHistoryApplicationID(BTERRegID: number,ApplicationStatus:string) {
+    return await this.http.get(this.APIUrl + '/GetDeficiencyHistoryApplicationID/' + BTERRegID + "/" + ApplicationStatus)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
 }

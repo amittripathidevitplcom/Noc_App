@@ -1,0 +1,84 @@
+<app-loader></app-loader>
+<div class="container-fluid breadcrumbBox py-2">
+  <div class="row align-items-center">
+    <div class="col-md-6">
+    </div>
+    <div class="col-md-6 d-flex justify-content-end">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="#">Deficiencies EOA/LOA Details</a></li>
+          <li class="breadcrumb-item active" aria-current="page">BTER Affiliation</li>
+        </ol>
+      </nav>
+    </div>
+  </div>
+</div>
+<div class="container-fluid mainContents">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="clearfix"></div>
+      <form [formGroup]="ReturnEOALOADTEAffiliationOtherDetailsForm" class="form-horizontal">
+        <div class="card">
+          <!--*ngIf="this.AffiliationRegStatus !='Existing'"-->
+          <div class="card-body border">
+            <div class="row">
+              <div class="col-lg-6 col-md-6 col-sm-6 col-6 mb-3">
+                <label>AICTE EOA / LOA <span style="color:red;">*</span></label>
+                <select class="form-select" id="ddlAICTE_EOA_LOA" name="ddlAICTE_EOA_LOA" [(ngModel)]="request.AICTE_EOA_LOA" formControlName="ddlAICTE_EOA_LOA" (change)="OnchangeEOAStatus()">
+                  <option value="0" disabled>--Select Status EOA/LOA--</option>
+                  <option *ngFor="let item of NOCIssuedDataList" value="{{item.NocIssued}}">
+                    {{item.AffilationIssue}}
+                  </option>
+                </select>
+                <div *ngIf="isSubmitted&&form.ddlAICTE_EOA_LOA.errors" class="text-danger">
+                  <p *ngIf="!form.ddlAICTE_EOA_LOA.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
+                </div>
+              </div>
+            </div>
+            <div class="row" *ngIf="AICTEEOALOAStatus==true">
+              <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
+                <label for="txtAICTELAO_No" class="form-label">AICTE EOA/LOA No:<span style="color:red;">*</span></label>
+                <input type="text" id="txtAICTELAO_No" placeholder="Enter the AICTE LAO No" formControlName="txtAICTELAO_No" maxlength="100" class="form-control" [(ngModel)]="request.AICTELAO_No" autocomplete="off">
+                <!--<p class="text-danger" *ngIf="isSubmitted && request.AICTEStatus =='Yes' && request.AICTELAO_No==''"><i aria-hidden="true"></i>This field is required .!</p>-->
+                <div *ngIf="isSubmitted &&form.txtAICTELAO_No.errors" class="text-danger">
+                  <p *ngIf="form.txtAICTELAO_No.errors.required">This field is required .!</p>
+                </div>
+              </div>
+              <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
+                <label>EOA/LOA Date <span style="color:red;">*</span></label>
+                <input type="date" placeholder="DD/MM/YYYY" class="form-control" id="txtEOA_LOA_Date" [(ngModel)]="request.EOA_LOA_Date" formControlName="txtEOA_LOA_Date" max="{{MaxDate | date:'yyyy-MM-dd'}}" onkeypress="return false;" />
+                <!--<p class="text-danger" *ngIf="isSubmitted && request.AICTEStatus =='Yes' && request.EOA_LOA_Date==''"><i aria-hidden="true"></i>This field is required .!</p>-->
+                <div *ngIf="isSubmitted &&form.txtEOA_LOA_Date.errors" class="text-danger">
+                  <p *ngIf="form.txtEOA_LOA_Date.errors.required">This field is required .!</p>
+                </div>
+              </div>
+              <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
+                <label>Attach copy of the approval letter (EOA/LOA): (Only pdf file) (Max. Size 1MB)<span style="color:red;">*</span></label>
+                <div class="d-flex">
+                  <input type="file" style="display:none;" class="form-control" id="UploadLOAApproval" name="UploadLOAApproval" (change)="ValidateDocumentNOCApproval($event,'UploadLOAApproval')" formControlName="UploadLOAApproval">
+                  <label class="btn upload" for="UploadLOAApproval">
+                    <span class="filename">Choose file</span>
+                    {{request.UploadLOAApproval === '' ? 'No File Choosen' : request.UploadLOAApproval_Dis_FileName}}
+                  </label>
+                  <div class="btn-group" *ngIf="request.UploadLOAApproval !=''">
+                    <a class="btn btn-outline-primary" target="_blank" href="{{request.UploadLOAApprovalDocPath}}"><i class="fa fa-eye"></i></a>
+                    <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('UploadLOAApproval',request.UploadLOAApproval)"><i class="fa fa-trash-o"></i></button>
+                  </div>
+                </div>
+                <p class="text-danger" *ngIf="request.UploadLOAApproval==''&& isSubmitted && request.AICTEStatus =='Yes'"><i aria-hidden="true"></i>  This field is required .!</p>
+                <!--<div *ngIf="isSubmitted &&form.UploadLOAApproval.errors" class="text-danger">
+        <p *ngIf="form.UploadLOAApproval.errors.required">This field is required .!</p>
+      </div>-->
+              </div>
+            </div>
+          </div>
+
+          <div class="card-footer text-end">
+            <button type="submit" class="btn btn-primary" id="btnSave" name="btnSave" (click)="SaveData()">ReSubmit</button>
+            <button type="submit" class="btn btn-danger" id="btnReset" name="btnReset" (click)="ResetControl()">Reset</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

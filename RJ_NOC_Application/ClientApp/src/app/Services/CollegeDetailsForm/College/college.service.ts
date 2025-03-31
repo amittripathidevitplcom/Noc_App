@@ -105,5 +105,34 @@ export class CollegeService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-   
+  public async GetBterData(DTEAffiliationID: number) {
+    const headers = { 'content-type': 'application/json' }
+    return await this.http.get(this.APIUrl + "/GetDataAffiliation/" + DTEAffiliationID, { 'headers': headers })
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+  
+  public async FilterAffiliationCourseStatusBter(DTEAffiliationID: number) {
+    const headers = { 'content-type': 'application/json' }
+    return await this.http.get(this.APIUrl + "/FilterAffiliationCourseStatusBter/" + DTEAffiliationID, { 'headers': headers })
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+  public async TotalBTERApplicationDetailsByDepartment(request: TotalCollegeReportSearchFilter, SessionID: number,ApplicationStatus:string) {
+    const headers = { 'content-type': 'application/json' }
+    const body = JSON.stringify(request);
+    return await this.http.post(this.APIUrl + '/TotalBTERCollegeDetailsByDepartment/' + SessionID +"/" +ApplicationStatus, body, { 'headers': headers })
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+  public async GetGenerateorderList(ApplicationStatus: string, GenOrderNumber:string) {
+    const headers = { 'content-type': 'application/json' }
+    return await this.http.get(this.APIUrl + "/GetGenerateorderList/" + ApplicationStatus + "/" + GenOrderNumber, { 'headers': headers })
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
 }

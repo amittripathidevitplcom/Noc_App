@@ -1,0 +1,682 @@
+<app-loader></app-loader>
+<div class="modal-header">
+
+  <h4 class="modal-title" id="modal-applynocview-title" style="    font-size: 17px;
+    font-weight: 600 !important;">
+    Application Preview for PDf
+  </h4>
+  <button type="button" class="close" aria-label="Close" (click)="close()" *ngIf="QueryStringStatus != 'App'">
+    <i class="fa fa-close"></i>
+  </button>
+</div>
+<div class="modal-body">
+  application details
+  <div class="row">
+    <div class="col-lg-2 col-md-4 col-sm-4 float-end">
+      <input type="button" value="Preview Download PDF" class="btn btn-sm btn-primary" (click)="btnSavePDF_Click()" />
+    </div>
+  </div>
+
+  <div class="row">
+
+    <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+      <div class="card">
+        <!--Legal entity-->
+        <div class="card-body" *ngIf="IsManagmentType">
+          <div class="row">
+            <div class="table-responsive">
+              <table class="table table-hover table-striped-columns text-left" id="LegalBasicInfo" #content>
+                <thead>
+                  <tr>
+                    <td colspan="3" style="font-weight: 800;font-size: 18px;">
+                      <b><i class="bi bi-table"></i>&nbsp;Legal Entity</b>
+                    </td>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>
+                      <label>Legal Entity :- {{legalEntityListData1.IsLegalEntity}}</label>
+                    </td>
+                    <td>
+                      <label>SSOID :- {{LegalEntityDataModel.SSOID}}</label>
+                    </td>
+                    <td>
+                      <label>Date Of Registration :- {{legalEntityListData1.SocietyRegistrationDate}}</label>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <label>Registration No :- {{legalEntityListData1.RegistrationNo}}</label>
+                    </td>
+                    <td>
+                      <label>President Mobile Number :- {{legalEntityListData1.PresidentMobileNo}}</label>
+                    </td>
+                    <td>
+                      <label>President Email ID :- {{legalEntityListData1.PresidentEmail}}</label>
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td>
+                      <label>Name  :- {{legalEntityListData1.SocietyName}}</label>
+                    </td>
+                    <td>
+                      <label>Present Status :- {{legalEntityListData1.SocietyPresentStatusName}}</label>
+                    </td>
+                    <td>
+                      <label>State  :- {{legalEntityListData1.StateName_English}}</label>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <label>District  :- {{legalEntityListData1.District_Eng}}</label>
+                    </td>
+                    <td>
+                      <label>Act (Which Act You Registered)  :- {{legalEntityListData1.RegisteredAct}}</label>
+                    </td>
+                    <td *ngIf="legalEntityListData1.RegisteredAct=='Other'">
+                      <label>Act (Which Act You Registered)  :- {{legalEntityListData1.RegisteredActName}}</label>
+                    </td>
+
+                  </tr>
+                  <tr>
+                    <td>
+                      <label>Date of Election of Present Management Committee :- {{legalEntityListData1.ElectionPresentManagementCommitteeDate}}</label>
+                    </td>
+                    <td>
+                      <label>Registered Address :- {{legalEntityListData1.SocietyRegisteredAddress}}</label>
+                    </td>
+                    <td>
+                      <label>Pincode :- {{legalEntityListData1.Pincode}}</label>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <label>Other Institution run by the Society :- {{legalEntityListData1.IsOtherInstitution}}</label>
+                    </td>
+                    <td>
+                      <label>Women Member of Management Committee is more than 30% of Total Members :- {{legalEntityListData1.IsWomenMembers}}</label>
+                    </td>
+                    <td>
+                      <label>Date of Election of Management Committee not more than 3 Year :- {{legalEntityListData1.IsDateOfElection}}</label>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <label>Management Committee certified By Registrar :- {{legalEntityListData1.ManagementCommitteeCertified}}</label>
+                    </td>
+                    <td>
+                      <label>PAN Number :- {{legalEntityListData1.SocietyPANNumber}}</label>
+                    </td>
+                    <td>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+              <div class="table-responsive">
+                <table class="table table-bordered table-hover table-striped" id="TrusteeMemberDetails" #content>
+                  <thead>
+                    <tr>
+                      <td colspan="4" style="    font-weight: 800;
+    font-size: 18px;">
+                        <b><i class="bi bi-table"></i>&nbsp;Trustee Member Details</b>
+                      </td>
+                    </tr>
+                  </thead>
+
+                  <tr>
+                    <th>Trust Logo</th>
+                    <th>Trustee Member Proof</th>
+                    <th>Pan Proof</th>
+                    <th>Registration Document</th>
+                  </tr>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <img src="{{legalEntityListData1.TrustLogoDoc}}" alt="Trust Logo" style="    width: 50px !important;
+    height: 50px !important;" class="img-thumbnail" />
+                      <td>
+                        <a *ngIf="!legalEntityListData1.TrusteeMemberProofDocPath.includes('.pdf')" data-fancybox="gallery" href="{{legalEntityListData1.TrusteeMemberProofDocPath}}" data-caption="Image 10" title="click here to zoom">
+                          <img src="{{legalEntityListData1.TrusteeMemberProofDocPath}}" alt="Trustee Member Proof" style="    width: 50px !important;
+    height: 50px !important;" class="img-thumbnail" />
+                        </a>
+                        <a class="bi bi-file-earmark-pdf-fill" *ngIf="legalEntityListData1.TrusteeMemberProofDocPath.includes('.pdf')" data-fancybox="gallery" href="{{legalEntityListData1.TrusteeMemberProofDocPath}}" data-caption="Image 10" title="click here to zoom" style="    font-size: 25px"></a>
+                        <label *ngIf="legalEntityListData1.Dis_TrusteeMemberProofDocName!='N/A'">{{legalEntityListData1.Dis_TrusteeMemberProofDocName}}</label>
+                      </td>
+                      <td>
+                        <a *ngIf="!legalEntityListData1.SocietyPanProofDocPath.includes('.pdf')" data-fancybox="gallery" href="{{legalEntityListData1.SocietyPanProofDocPath}}" data-caption="Image 10" title="click here to zoom">
+                          <img src="{{legalEntityListData1.SocietyPanProofDocPath}}" alt="Society Pan Proof" style="    width: 50px !important;
+    height: 50px !important;" class="img-thumbnail" />
+                        </a>
+                        <a class="bi bi-file-earmark-pdf-fill" *ngIf="legalEntityListData1.SocietyPanProofDocPath.includes('.pdf')" data-fancybox="gallery" href="{{legalEntityListData1.SocietyPanProofDocPath}}" data-caption="Image 10" title="click here to zoom" style="    font-size: 25px"></a>
+                        <label *ngIf="legalEntityListData1.Dis_SocietyPanProofDocName!='N/A'">{{legalEntityListData1.Dis_SocietyPanProofDocName}}</label>
+                      </td>
+                      <td>
+                        <a *ngIf="!legalEntityListData1.RegistrationDocPath.includes('.pdf')" data-fancybox="gallery" href="{{legalEntityListData1.RegistrationDocPath}}" data-caption="Image 10" title="click here to zoom">
+                          <img src="{{legalEntityListData1.RegistrationDocPath}}" alt="Registration Doc" style="    width: 50px !important;
+    height: 50px !important;" class="img-thumbnail" />
+                        </a>
+                        <a class="bi bi-file-earmark-pdf-fill" *ngIf="legalEntityListData1.RegistrationDocPath.includes('.pdf')" data-fancybox="gallery" href="{{legalEntityListData1.RegistrationDocPath}}" data-caption="Image 10" title="click here to zoom" style="    font-size: 25px"></a>
+                        <label *ngIf="legalEntityListData1.Dis_RegistrationDocName!='N/A'">{{legalEntityListData1.Dis_RegistrationDocName}}</label>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>          
+          <div class="row" *ngIf="legalEntityMemberDetailData.length>0">
+            <div class="col-md-12">
+              <div class="card mb-0">
+
+                <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                  <div class="table-responsive">
+                    <table class="table table-bordered table-hover table-striped" id="LegalMemberDetails" #content>
+                      <thead>
+                        <tr>
+                          <td colspan="10" style="    font-weight: 800;
+    font-size: 18px;">
+                            <b><i class="bi bi-table"></i>&nbsp;Member Details</b>
+                          </td>
+                        </tr>
+
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <th>Sr. No.</th>
+                          <th>Member Name</th>
+                          <th>Father's Name</th>
+                          <th>Date Of Birth</th>
+                          <th>Mobile No.</th>
+                          <th>Post</th>
+                          <th>Aadhaar Number</th>
+                          <th>Member Photo</th>
+                          <th>Member Sign</th>
+                          <th>Aadhaar Document</th>
+                        </tr>
+                        <tr *ngFor="let row of legalEntityMemberDetailData; let indexOfelement=index;">
+                          <td> {{indexOfelement+1}}</td>
+                          <td>{{row.MemberName}}</td>
+                          <td>{{row.MemberFatherName}}</td>
+                          <td>{{row.MemberDOB}}</td>
+                          <td>{{row.MemberMobileNo}}</td>
+                          <td>{{row.MemberPostName}}</td>
+                          <td>{{row.PresidentAadhaarNumber}}</td>
+                          <td>
+                            <img src="{{row.MemberPhoto}}" alt="Member Photo" style="    width: 50px !important;
+    height: 50px !important;" class="img-thumbnail" />
+                          </td>
+                          <td>
+                            <img src="{{row.MemberSignature}}" alt="Member Signature" style="    width: 50px !important;
+    height: 50px !important;" class="img-thumbnail" />
+                          </td>
+                          <td>
+                            <a *ngIf="!row.PresidentAadhaarProofDocPath.includes('.pdf') && row.PresidentAadhaarProofDocPath!='N/A'" data-fancybox="gallery" href="{{row.PresidentAadhaarProofDocPath}}" data-caption="Image 10" title="click here to zoom">
+                              <img src="{{row.PresidentAadhaarProofDocPath}}" alt="President Aadhaar Proof" style="    width: 50px !important;
+    height: 50px !important;" class="img-thumbnail" />
+                            </a>
+                            <label *ngIf="row.Dis_PresidentAadhaarProofDocName!='N/A'">{{row.Dis_PresidentAadhaarProofDocName}}</label>
+                            <a class="bi bi-file-earmark-pdf-fill" *ngIf="row.PresidentAadhaarProofDocPath.includes('.pdf')  && row.PresidentAadhaarProofDocPath!='N/A'" data-fancybox="gallery" href="{{row.PresidentAadhaarProofDocPath}}" data-caption="Image 10" title="click here to zoom" style="    font-size: 25px"></a>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row" *ngIf="legalEntityInstituteDetailData.length>0">
+            <div class="col-md-12">
+              <div class="card mb-0">
+
+                <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                  <div class="table-responsive">
+                    <table class="table table-bordered table-hover table-striped" id="LegalInstituteDetails" #content>
+                      <thead>
+                        <tr>
+                          <td colspan="7" style="    font-weight: 800;
+    font-size: 18px;">
+                            <b><i class="bi bi-table"></i>&nbsp;Other Institute Details</b>
+                          </td>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <th>Sr. No.</th>
+                          <th>Registration No.</th>
+                          <th>Institute Name</th>
+                          <th>Contact Person Name</th>
+                          <th>Designation</th>
+                          <th>Contact Number</th>
+                          <th>State</th>
+                        </tr>
+                        <tr *ngFor="let row of legalEntityInstituteDetailData; let indexOfelement=index;">
+                          <td> {{indexOfelement+1}}</td>
+                          <td>{{row.RegistrationNo}}</td>
+                          <td>{{row.InstituteName}}</td>
+                          <td>{{row.InstitutePersonName}}</td>
+                          <td>{{row.InstituteDesignation}}</td>
+                          <td>{{row.InstituteContactNumber}}</td>
+                          <td>{{row.StateName_English}}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--College details-->
+        <div class="card-body">
+          <div class="row">
+            <div class="table-responsive">
+              <table class="table table-hover table-striped-columns text-left" id="CollegeBasicInfo" #content>
+                <thead>
+                  <tr>
+                    <td colspan="3" style="    font-weight: 800;  font-size: 18px;">
+                      <b><i class="bi bi-table"></i>&nbsp;College Detail</b>
+                    </td>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>
+                      <label>Department :-{{collegeListData.DepartmentName_English}}</label>
+                    </td>
+                    <td>
+                      <label>College Status :-{{collegeListData.CollegeStatus}}</label>
+                    </td>                    
+                  </tr>
+                  <br />
+                  <tr>
+                    <td>
+                      <label>Affiliation Type :-{{collegeListData.AffiliationType}}</label>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      College Logo :- <img src="{{collegeListData.CollegeLogo}}" alt="College Logo" style="    width: 50px !important; height: 50px !important;" class="img-thumbnail" />
+                    </td>
+                    <td colspan="2">
+                      <!--<label>College Name in Hindi :- {{collegeListData.CollegeNameHi}}</label>-->
+                    </td>
+                  </tr>
+                  <tr><td colspan="3"></td></tr>
+                  <tr>
+                    <td>
+                      <label>College Name in English :-{{collegeListData.CollegeNameEn}}</label>
+                    </td>
+                    <td *ngIf="collegeListData.CollegeStatus!='New'">
+                      <label>Present Status of College :-{{collegeListData.PresentCollegeStatus}}</label>
+                    </td>
+                    <td>
+                      <label>College Type :-{{collegeListData.CollegeType}}</label>
+                    </td>
+                  </tr>
+                  <br />
+                  <tr>
+                    <td>
+                      <label>Management Type :-{{collegeListData.ManagementTypeName}}</label>
+                    </td>
+                    <td>
+                      <label>College Level :-{{collegeListData.CollegeLevel}}</label>
+                    </td>
+                    <td>
+                      <label>College Code :-{{collegeListData.CollegeCode}}</label>
+                    </td>
+
+                  </tr>
+                  <br />
+                  <tr>                   
+                    <td>
+                      <label>Address at which college is running is same as given in AICTE EOA :-{{collegeListData.AddressofCollegeasgiveninAICTEEOA}}</label>
+                    </td>                    
+                  </tr>
+                  <br />
+                  <tr>                   
+                    <td>
+                      <label>Address at which college is running is same as given in AICTE EOA :-{{collegeListData.AICTEEOAAdress}}</label>
+                    </td>                   
+                  </tr>
+                  <br />
+                  <tr *ngIf="collegeListData.AICTEEOAAdress=='No'">                    
+                    <td>
+                      <label>Address at which college is running is same as given in AICTE EOA :-{{collegeListData.AICTEEOADifferentAddress}}</label>
+                    </td>                   
+                  </tr>                 
+                  <tr>
+                    <td>
+                      <label>IS Your College NAAC Accredited :-{{collegeListData.CollegeNAACAccredited}}</label>
+                    </td>
+                    <td *ngIf="collegeListData.CollegeNAACAccredited =='Yes'">
+                      <!--<label>NAAC Accredited Certificate :-{{collegeListData.NAACAccreditedCertificatePath}}</label>-->
+                    </td>
+                  </tr>
+                  <tr>
+                    <td *ngIf="collegeListData.CollegeNAACAccredited =='Yes'">
+                      <label>NACC Validity Date :-{{collegeListData.NACCValidityDate | date:'dd-MM-yyyy'}}</label>
+                    </td>
+
+                  </tr>
+                  <tr>
+                    <td>
+                      <label>College Medium :-{{collegeListData.CollegeMediumName}}</label>
+                    </td>
+                    <td>
+                      <label>University :-{{collegeListData.UniversityName}}</label>
+                    </td>
+                    <td *ngIf="collegeListData.CollegeStatus!='New'">
+                      <label>Year of Establishment :-{{collegeListData.FinancialYearName}}</label>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <label>Division :-{{collegeListData.Division_English}}</label>
+                    </td>
+                    <td>
+                      <label>District :-{{collegeListData.District_Eng}}</label>
+                    </td>
+                    <td>
+                      <label>Subdivision :-{{collegeListData.SubdivisionName}}{{collegeListData.SubdivisionName}}</label>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <label>Tehsil :-{{collegeListData.TehsilName}}</label>
+                    </td>
+                    <td>
+                      <label>Area :-{{collegeListData.RuralUrbanArea}}</label>
+                    </td>
+                    <td *ngIf="collegeListData.RuralUrbanArea=='Rural'">
+                      <label>Panchayat Samiti :-{{collegeListData.PanchyatSamitiName}}</label>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td *ngIf="collegeListData.RuralUrbanArea=='Urban'">
+                      <label>City :-{{collegeListData.CityName}}</label>
+                    </td>
+                    <td>
+                      <label>Parliament Area :-{{collegeListData.ParliamentAreaName}}</label>
+                    </td>
+                    <td>
+                      <label>Assembly Area :-{{collegeListData.AssemblyAreaName}}</label>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <label>City/Town/Village :-{{collegeListData.CityTownVillage}}</label>
+                    </td>
+
+                    <td>
+                      <label>Pincode :-{{collegeListData.Pincode}}</label>
+                    </td>
+                    <td>
+                      <label>Address Line 1 :-{{collegeListData.AddressLine1}}</label>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <label>Address Line 2 :-{{collegeListData.AddressLine2}}</label>
+                    </td>
+
+                    <td *ngIf="collegeListData.RuralUrbanArea=='Rural'">
+                      <label>Distance from City(km) :-{{collegeListData.DistanceFromCity}}</label>
+                    </td>
+                    <td>
+                      <label>Website Link :-{{collegeListData.WebsiteLink}}</label>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <label>Mobile Number :-{{collegeListData.MobileNumber}}</label>
+                    </td>
+                    <td>
+                      <label>Landline Number :-{{collegeListData.CollegeLandlineNumber}}</label>
+                    </td>
+                    <td>
+                      <label>Email :-{{collegeListData.Email}}</label>
+                    </td>
+                  </tr>
+
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="row" *ngIf="collegeContactDetailsList.length>0">
+            <div class="col-md-12">
+              <div class="card mb-0">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                  <div class="table-responsive">
+                    <table class="table table-bordered table-hover table-striped" id="CollegeContactDetails" #content>
+                      <thead>
+                        <tr>
+                          <td colspan="5" style="    font-weight: 800;   font-size: 18px;">
+                            <b><i class="bi bi-table"></i>&nbsp; Admin Contact Details</b>
+                          </td>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <th>Sr.No.</th>
+                          <th>Name Of Person</th>
+                          <th>Designation</th>
+                          <th>Mobile Number</th>
+                          <th>Email Address</th>
+                        </tr>
+                        <tr *ngFor="let row of collegeContactDetailsList; let indexOfelement=index;">
+                          <td> {{indexOfelement+1}}</td>
+                          <td>{{row.NameOfPerson}}</td>
+                          <td>{{row.DesignationName}}</td>
+                          <td>{{row.MobileNumber}}</td>
+                          <td>{{row.EmailAddress}}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="card mb-0">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="table-responsive">
+                      <table class="table table-hover table-striped-columns text-left" id="CollegeGeneralContactDetails" #content>
+                        <thead>
+                          <tr>
+                            <td colspan="3" style="    font-weight: 800; font-size: 18px;">
+                              <b><i class="bi bi-table"></i>&nbsp;Additional contact details</b>
+                            </td>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td>
+                              <label>Designation :- {{collegeListData.DesignationName}}</label>
+                            </td>
+                            <td>
+                              <label>Mobile Number :- {{collegeListData.GCD_MobileNumber}}</label>
+                            </td>
+                            <td>
+                              <label>Landline Number :- {{collegeListData.GCD_LandlineNumber}}</label>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+  <!--end-->
+        </div>
+        <div class="card-header">
+          <b><i class="bi bi-table"></i>&nbsp; Course Details</b>
+        </div>
+        <div class="card-body">
+
+          <div class="card mb-0" *ngIf="AllDTEAffiliationCourseList.length>0">
+            <div class="card-header d-xxl-flex d-xl-flex d-md-flex d-sm-block justify-content-between align-items-center">
+              <b><i class="bi bi-table"></i>Affiliation Course List </b>
+            </div>
+            <div class="table-responsive">
+              <table class="table table-hover table-striped-columns mb-0" id="CourseBasicDetails" #content>
+                <thead>
+                  <tr>
+                    <th>Sr.No.</th>
+                    <th>Course Type</th>
+                    <th>Course Name</th>
+                    <th *ngIf="this.CourseStatus !='Closed'">Course Intake</th>
+                    <th>Branch Type</th>
+                    <th *ngIf="this.CourseStatus !='Closed'">Shift</th>
+                    <th>Course Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let row of AllDTEAffiliationCourseList| tableSearchFilter:searchText; let idx=index;">
+                    <td style="width:40px !important"> {{idx+1}}</td>
+                    <td>{{row.AffiliationCourseTypeName}}</td>
+                    <td>{{row.CourseName}}</td>
+                    <td *ngIf="this.CourseStatus !='Closed'">{{row.CourseIntakeAsPerAICTELOA}}</td>
+                    <td>{{row.AffiliationBranchName}}</td>
+                    <td *ngIf="this.CourseStatus !='Closed'">{{row.SiftName}}</td>
+                    <td>{{row.AffiliationCourseStatus}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="card">          
+          <div class="card">
+            <div class="card-header">
+              <b><i class="bi bi-table"></i>BTER Affiliation Other Details</b>
+            </div>
+            <div class="card-body border">
+              <div class="row" *ngIf="this.AffiliationRegStatus !='Existing'">
+
+                <div class="col-lg-12 col-md-12 col-sm-12 col-6 mb-3">
+                  <label>Whether the Institute and the course(s) to be commenced are approved by the Government of Rajasthan and NOC has been issued?<span style="color:red;">*</span></label>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-6 mb-3">
+                  <input class="form-control disabled mt-1" disabled value="{{DTEAffiliationOtherDetailsPreviewData.StatusNOCIssued}}" />
+                </div>
+              </div>
+              <div class="row" *ngIf="this.AffiliationRegStatus !='Existing'">
+                <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
+                  <label>NOC Number:</label>
+                  <input class="form-control disabled mt-1" disabled value="{{DTEAffiliationOtherDetailsPreviewData.NocNumber}}" />
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
+                  <label>NOC Issue Date:</label>
+                  <input class="form-control disabled mt-1" disabled value="{{DTEAffiliationOtherDetailsPreviewData.NocIssueDate}}" />
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
+                  <label><b>Attach copy of the approval letter (NOC) :</b></label>
+                  <div class="clearfix"></div>
+                  <a class="bi bi-file-earmark-pdf-fill" *ngIf="DTEAffiliationOtherDetailsPreviewData.UploadNocApproval !=''" data-fancybox="gallery" href="{{DTEAffiliationOtherDetailsPreviewData.UploadNocApprovalDocPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                </div>
+              </div>
+            </div>
+
+          </div>
+          <div class="card-header d-flex justify-content-between align-items-center">
+            <b class="text-center">&nbsp;Details Of AICTE EOA / LOA</b>
+          </div>
+          <div class="card">
+            <div class="card-body border">
+              <div class="row">
+                <div class="col-lg-6 col-md-6 col-sm-6 col-6 mb-3">
+                  <label>AICTE EOA / LOA <span style="color:red;">*</span></label>
+                  <input class="form-control disabled mt-1" disabled value="{{DTEAffiliationOtherDetailsPreviewData.AICTEEOALOA}}" />
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
+                  <label for="txtAICTELAO_No" class="form-label">AICTE LOA No:<span style="color:red;">*</span></label>
+                  <input class="form-control disabled mt-1" disabled value="{{DTEAffiliationOtherDetailsPreviewData.AICTELAO_No}}" />
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
+                  <label for="txtAICTELAO_No" class="form-label">EOA /LOA Date:<span style="color:red;">*</span></label>
+                  <input class="form-control disabled mt-1" disabled value="{{DTEAffiliationOtherDetailsPreviewData.EOA_LOA_Date}}" />
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
+                  <label><b>Attach copy of the approval letter (NOC) :</b></label>
+                  <div class="clearfix"></div>
+                  <a class="bi bi-file-earmark-pdf-fill" *ngIf="DTEAffiliationOtherDetailsPreviewData.UploadLOAApproval !=''" data-fancybox="gallery" href="{{DTEAffiliationOtherDetailsPreviewData.UploadLOAApprovalDocPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card-header d-flex justify-content-between align-items-center">
+            <b class="text-center">&nbsp;Application Form</b>
+          </div>
+          <div class="card">
+            <div class="card-body border">
+              <div class="row">
+                <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
+                  <label><b>Attach copy of the approval letter (NOC) :</b></label>
+                  <div class="clearfix"></div>
+                  <a class="bi bi-file-earmark-pdf-fill" *ngIf="DTEAffiliationOtherDetailsPreviewData.UploadApplicationForm !=''" data-fancybox="gallery" href="{{DTEAffiliationOtherDetailsPreviewData.UploadApplicationFormDocPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--Payment Details-->
+        <div class="card-body">
+          <div class="row">
+            <div class="table-responsive" *ngIf="paymentResponseDataModel.length>0">
+              <table class="table table-hover table-striped-columns" id="OnlinePayment" #content>
+                <thead>
+                  <tr>
+                    <td colspan="8" style="    font-weight: 800;font-size: 18px;">
+                      <b><i class="bi bi-table"></i>&nbsp;Payment Information</b>
+                    </td>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th>S.No.</th>
+                    <th>PRN</th>
+                    <th>Status</th>
+                    <th>Transaction Amount</th>
+                    <th>RPP Transaction ID</th>
+                    <th>Created Date</th>
+                    <th>Payment Time Statmp</th>
+                  </tr>
+                  <tr *ngFor="let row of paymentResponseDataModel;let idx=index;">
+                    <td>{{idx+1}}</td>
+                    <td>{{row.PRN}}</td>
+                    <td>{{row.STATUS}}</td>
+                    <td>{{row.AMOUNT}}</td>
+                    <td>{{row.RPPTXNID}}</td>
+                    <td>{{row.CreatedDate}}</td>
+                    <td>{{row.PAYMENTMODETIMESTAMP}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-footer">
+          <input type="button" value="Preview Download PDF" class="btn btn-sm btn-primary" (click)="btnSavePDF_Click()" />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

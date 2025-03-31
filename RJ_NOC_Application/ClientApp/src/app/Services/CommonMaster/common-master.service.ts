@@ -6,6 +6,7 @@ import { GlobalConstants } from '../../Common/GlobalConstants';
 import { CommonDataModel_TotalApplicationSearchFilter, CommonDataModel_TotalDraftEntrySearchFilter, UnlockApplicationDataModel } from '../../Models/CommonMasterDataModel';
 import { PaymentDetailsDataModel_Filter } from '../../Models/PaymentReportModel';
 import { NOCFormatMasterModel } from '../../Models/NOCFormatMasterModel';
+import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
@@ -895,6 +896,17 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
+  public async CheckTabsEntryAffiliation(DTEAffiliationID: number) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl_CommonMaster + "/CheckTabsEntryAffiliation/" + DTEAffiliationID)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
   public async CheckTabsEntry_StatisticsEntry(CollegeID: string) {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -1255,6 +1267,7 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
+  
   public async GetOldNOCCourseList_CollegeWise(CollegeID: number) {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -1306,6 +1319,17 @@ export class CommonMasterService {
       })
     };
     return await this.http.get(this.APIUrl_CommonMaster + "/GetDteAffiliation_SearchRecordIDWise/" + SearchRecordID)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+  public async CheckCollegestatusIDWise(DTEAffiliationID: number) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl_CommonMaster + "/CheckCollegestatusIDWise/" + DTEAffiliationID)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();
@@ -1808,6 +1832,76 @@ export class CommonMasterService {
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();
+  }
+  public async GetBTERCollegeBasicDetails(AffiliationRegID: number) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl_CommonMaster + "/GetBTERCollegeBasicDetails/" + AffiliationRegID)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+  
+  public async GetDownloadBTERPdfDetails(DepartmentID: number, AffiliationRegID: number) {
+    debugger;
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl_CommonMaster + "/GetDownloadBTERPdfDetails/" + DepartmentID + "/" + AffiliationRegID)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+  public async BTERAffiliationFinalSubmit(EnterInwordNo:string,ApplicationDateofReceived:string,SelectedDepartmentID:number,SelectedDTEAffiliationID:number,selectedApplicationNo:string,SelectedCollageID:number,ActionName:string) {
+    const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
+    return await this.http.post(this.APIUrl_CommonMaster + '/BTERAffiliationFinalSubmit/' + EnterInwordNo + "/" + ApplicationDateofReceived + "/" + SelectedDepartmentID + "/" + SelectedDTEAffiliationID + "/" + selectedApplicationNo + "/" + SelectedCollageID + "/" + ActionName, httpOptions)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+  public async GetRevert_SearchRecordIDWiseDetails(SearchRecordID: string) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl_CommonMaster + "/GetRevert_SearchRecordIDWiseDetails/" + SearchRecordID)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+  public async GetBTERRevertApllicationRemark(DepartmentID:number,AffiliationRegID: number) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl_CommonMaster + "/GetBTERRevertApllicationRemark/" +DepartmentID + "/" +AffiliationRegID)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+  //public async BTEROrderGen(GenOrderNumber: string) {
+  //  let url = `${this.APIUrl_CommonMaster}/BTEROrderGen/${GenOrderNumber}`;
+
+  //  this.http.get(url, { responseType: 'blob' }).subscribe(
+  //    (response: Blob) => {
+  //      const blobUrl = URL.createObjectURL(response);
+  //    //  window.open(blobUrl, '_blank'); // Open in new tab
+  //    },
+  //    (error) => {
+  //      console.error('Error opening the PDF:', error);
+  //    }
+  //  );
+  //}
+  public BTEROrderGen(GenOrderNumber: string): Observable<Blob> {
+    const url = `${this.APIUrl_CommonMaster}/BTEROrderGen/${GenOrderNumber}`;
+    return this.http.get(url, { responseType: 'blob' }); 
   }
 
   public async UpdateInspectionFDRIntimationAH(ApplyNOCID: number, ActionType: string) {

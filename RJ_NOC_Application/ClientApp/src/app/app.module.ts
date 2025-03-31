@@ -445,6 +445,38 @@ import { ApplicationForwardGThreeComponent } from './Views/DocumentScrutinyTab/a
 import { MGOneFacilitiesComponent } from './Views/TabDetail/mgone-facilities/mgone-facilities.component';
 import { MGOneForwardInpectionReportOSDComponent } from './Views/Medical Group 1/NOC/mgone-forward-inpection-report-osd/mgone-forward-inpection-report-osd.component';
 import { NodalOfficerBedApplicationListComponent } from './Views/Bed/nodal-officer-bed-application-list/nodal-officer-bed-application-list.component';
+import { DTEAddCollegeMasterComponent } from './Views/DTE_Affiliation/dteadd-college-master/dteadd-college-master.component';
+import { BTERApplicationFeeDetailsComponent } from './Views/DTE_Affiliation/bterapplication-fee-details/bterapplication-fee-details.component';
+import { BTERCollegePreviewComponent } from './Views/PreviewTabs/btercollege-preview/btercollege-preview.component';
+import { BTERCourseDetailsPreviewComponent } from './Views/PreviewTabs/btercourse-details-preview/btercourse-details-preview.component';
+import { BTERSocietyTrustDetailsPreviewComponent } from './Views/PreviewTabs/btersociety-trust-details-preview/btersociety-trust-details-preview.component';
+import { BTERApplicationPDFComponent } from './Views/DTE_Affiliation/bterapplication-pdf/bterapplication-pdf.component';
+import { BTERPaymentStatusComponent } from './Views/noc-payment/bterpayment-status/bterpayment-status.component';
+import { BTERPaymentDetailsComponent } from './Views/PreviewTabs/bterpayment-details/bterpayment-details.component';
+import { PreviewbtersummarydetailsComponent } from './Views/PreviewTabs/previewbtersummarydetails/previewbtersummarydetails.component';
+import { BTERTotalApplicationComponent } from './Views/DTE_Affiliation/btertotal-application/btertotal-application.component';
+import { BTERTotalNewApplicationComponent } from './Views/DTE_Affiliation/btertotal-new-application/btertotal-new-application.component';
+import { BTERTotalExistingApplicationComponent } from './Views/DTE_Affiliation/btertotal-existing-application/btertotal-existing-application.component';
+import { BTERTotalSubmitedApplicationComponent } from './Views/DTE_Affiliation/btertotal-submited-application/btertotal-submited-application.component';
+import { BTERTotalPendingtosubmitApplicationComponent } from './Views/DTE_Affiliation/btertotal-pendingtosubmit-application/btertotal-pendingtosubmit-application.component';
+import { BTERReceivedApplicationsComponent } from './Views/DTE_Affiliation/bterreceived-applications/bterreceived-applications.component';
+import { BTERDocumentScrutinyComponent } from './Views/DCE/bterdocument-scrutiny/bterdocument-scrutiny.component';
+import { DocumentScrutinyforbterotherinfoComponent } from './Views/DTE_Affiliation/document-scrutinyforbterotherinfo/document-scrutinyforbterotherinfo.component';
+import { DocumentscrutinyforbterPaymentDetailsComponent } from './Views/DTE_Affiliation/documentscrutinyforbter-payment-details/documentscrutinyforbter-payment-details.component';
+import { BterDeficiencyMarklistComponent } from './Views/DTE_Affiliation/bter-deficiency-marklist/bter-deficiency-marklist.component';
+import { BTERPendingtoSubmitApplicationComponent } from './Views/DTE_Affiliation/bterpendingto-submit-application/bterpendingto-submit-application.component';
+import { RevertApplicationDetailsentryBTERComponent } from './Views/DTEAffiliationDetails/revert-application-detailsentry-bter/revert-application-detailsentry-bter.component';
+import { RevertotherdetailsnocapplicationComponent } from './Views/DTE_Affiliation/revertotherdetailsnocapplication/revertotherdetailsnocapplication.component';
+import { RevertotherdetailstApplicationEOALOAComponent } from './Views/DTE_Affiliation/revertotherdetailst-application-eoa-loa/revertotherdetailst-application-eoa-loa.component';
+import { RevertotherdetailsapplicationComponent } from './Views/DTE_Affiliation/revertotherdetailsapplication/revertotherdetailsapplication.component';
+import { RevertpaymentbterComponent } from './Views/DTE_Affiliation/revertpaymentbter/revertpaymentbter.component';
+import { ResubmitApplicationlistComponent } from './Views/DTE_Affiliation/resubmit-applicationlist/resubmit-applicationlist.component';
+import { BTERApprovedApplicationListComponent } from './Views/DTE_Affiliation/bterapproved-application-list/bterapproved-application-list.component';
+import { BTERGenerateOrderListComponent } from './Views/DTE_Affiliation/btergenerate-order-list/btergenerate-order-list.component';
+import { BTERCourseMasterComponent } from './Views/Master/btercourse-master/btercourse-master.component';
+import { BTERBranchWiseFeeMasterComponent } from './Views/DTE_Affiliation/bterbranch-wise-fee-master/bterbranch-wise-fee-master.component';
+ 
+
 import { PreviewGeoTagComponent } from './Views/PreviewTabs/preview-geo-tag/preview-geo-tag.component';
 import { DocumentScrutinyCourtCaseMGTComponent } from './Views/DocumentScrutinyTab/document-scrutiny-court-case-mgt/document-scrutiny-court-case-mgt.component';
 import { FinalCheckListMGThreeComponent } from './Views/DocumentScrutinyTab/final-check-list-mgthree/final-check-list-mgthree.component';
@@ -904,6 +936,36 @@ import { DocumentScrutinyCourseMgThreeComponent } from './Views/DocumentScrutiny
     MGThreeApplicationsListComponent,
     ApplicationForwardGThreeComponent,
     NodalOfficerBedApplicationListComponent,
+    DTEAddCollegeMasterComponent,
+    BTERApplicationFeeDetailsComponent,
+    BTERCollegePreviewComponent,
+    BTERCourseDetailsPreviewComponent,
+    BTERSocietyTrustDetailsPreviewComponent,
+    BTERApplicationPDFComponent,
+    BTERPaymentStatusComponent,
+    BTERPaymentDetailsComponent,
+    PreviewbtersummarydetailsComponent,
+    BTERTotalApplicationComponent,
+    BTERTotalNewApplicationComponent,
+    BTERTotalExistingApplicationComponent,
+    BTERTotalSubmitedApplicationComponent,
+    BTERTotalPendingtosubmitApplicationComponent,
+    BTERReceivedApplicationsComponent,
+    BTERDocumentScrutinyComponent,
+    DocumentScrutinyforbterotherinfoComponent,
+    DocumentscrutinyforbterPaymentDetailsComponent,
+    BterDeficiencyMarklistComponent,
+    BTERPendingtoSubmitApplicationComponent,
+    RevertApplicationDetailsentryBTERComponent,
+    RevertotherdetailsnocapplicationComponent,
+    RevertotherdetailstApplicationEOALOAComponent,
+    RevertotherdetailsapplicationComponent,
+    RevertpaymentbterComponent,
+    ResubmitApplicationlistComponent,
+    BTERApprovedApplicationListComponent,
+    BTERGenerateOrderListComponent,
+    BTERCourseMasterComponent,
+    BTERBranchWiseFeeMasterComponent,    
     PreviewGeoTagComponent,
     DocumentScrutinyCourtCaseMGTComponent,
     FinalCheckListMGThreeComponent,

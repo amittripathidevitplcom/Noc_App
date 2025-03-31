@@ -3,7 +3,8 @@ import { HttpClient, HttpErrorResponse, HttpHeaders, HttpResponse, HttpParams } 
 import { Observable, throwError } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 import { GlobalConstants } from '../../Common/GlobalConstants';
-import { AadharServiceDataModel } from '../../Models/AadharServiceDataModel';
+import { AadharServiceDataModel,CAGetSignedXmlApiRequest } from '../../Models/AadharServiceDataModel';
+
 
 @Injectable({
   providedIn: 'root'
@@ -66,6 +67,16 @@ export class AadharServiceDetails {
       })
     };
     return await this.http.get(this.APIUrl + "/eSignPDF/" + PDFFileName + "/" + OTPTransactionID + "/" + DepartmentID + "/" + ParamID)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+  public async CA_eSignPDF(pdfRequest: CAGetSignedXmlApiRequest) {
+
+    const headers = { 'content-type': 'application/json' }
+    const body = JSON.stringify(pdfRequest);
+    return await this.http.post(this.APIUrl + "/CA_eSignPDF", body, { 'headers': headers })
+
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();
