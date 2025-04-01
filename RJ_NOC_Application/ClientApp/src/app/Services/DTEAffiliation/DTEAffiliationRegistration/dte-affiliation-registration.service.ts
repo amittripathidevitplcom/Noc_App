@@ -36,17 +36,17 @@ export class DTEAffiliationRegistrationService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-  public async ApplicationSubmit(DTE_ARId: number,ActionName:string) {
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json'
-      })
-    };
-    return await this.http.get(this.APIUrl + "/ApplicationSubmit/" + DTE_ARId + "/" + ActionName)
-      .pipe(
-        catchError(this.handleErrorObservable)
-      ).toPromise();
-  }
+  //public async ApplicationSubmit(DTE_ARId: number,ActionName:string) {
+  //  const httpOptions = {
+  //    headers: new HttpHeaders({
+  //      'Content-Type': 'application/json'
+  //    })
+  //  };
+  //  return await this.http.get(this.APIUrl + "/ApplicationSubmit/" + DTE_ARId + "/" + ActionName)
+  //    .pipe(
+  //      catchError(this.handleErrorObservable)
+  //    ).toPromise();
+  //}
   //public async Generateorder_SaveData(request: Generateorderforbter) {
   //  const headers = { 'content-type': 'application/json' }
   //  const body = JSON.stringify(request);
@@ -55,20 +55,20 @@ export class DTEAffiliationRegistrationService {
   //      catchError(this.handleErrorObservable)
   //    ).toPromise();
   //}
-  public async Generateorder_SaveData(request: Generateorderforbter) {
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    const body = JSON.stringify(request);
+  //public async Generateorder_SaveData(request: Generateorderforbter) {
+  //  const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+  //  const body = JSON.stringify(request);
 
-    try {
-      return await this.http.post(this.APIUrl + "/Generateorder_SaveData", body, { headers })
-        .pipe(
-          catchError(this.handleErrorObservable)
-        ).toPromise();
-    } catch (error) {
-      console.error("Error in Generateorder_SaveData:", error);
-      throw error;
-    }
-  }
+  //  try {
+  //    return await this.http.post(this.APIUrl + "/Generateorder_SaveData", body, { headers })
+  //      .pipe(
+  //        catchError(this.handleErrorObservable)
+  //      ).toPromise();
+  //  } catch (error) {
+  //    console.error("Error in Generateorder_SaveData:", error);
+  //    throw error;
+  //  }
+  //}
   public async ApplicationSubmit(DTE_ARId: number,ActionName:string) {
     const httpOptions = {
       headers: new HttpHeaders({
