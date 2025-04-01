@@ -24,6 +24,7 @@
 
                 </th>
                 <th>Sr. No.</th>
+                <th>Action</th>
                 <th>Course Name</th>
                 <th>Clinical Name</th>
                 <th>No. of Rooms</th>
@@ -57,6 +58,9 @@
                   </div>
                 </td>
                 <td> {{indexOfelement+1}}</td>
+                <td>
+                  <button type="button" class="btn btn-sm btn-primary" title="View History" (click)="ViewOtherInformationHistory(otherinformationhistorymymodal,item.CollegeWiseOtherInfoID)"><i class="fa fa-history"></i></button>
+                </td>
                 <td>
                   {{item.NewCourseName}}
                 </td>
@@ -139,12 +143,68 @@
           </div>
         </div>
       </div>
-      <div class="row"  *ngIf="QueryStringStatus.includes('Pending')">
+      <div class="row" *ngIf="QueryStringStatus.includes('Pending')">
         <div class="col-md-12">
           <button class="btn btn-primary" type="button" (click)="SubmitOtherIformation_Onclick()">Submit</button>
         </div>
       </div>
     </div>
+
+    <ng-template #otherinformationhistorymymodal let-modal>
+      <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title" style="font-size: 17px; font-weight: 600 !important;">Other Information History</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+          <i class="fa fa-close"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-12">
+            <div class="table-responsive">
+              <table class="table table-bordered table-hover">
+                <tbody *ngFor="let item of OtherInformationHistory ; let indexOfelement=index;">
+                  <tr>
+                    <td colspan="4">
+                      <b>Modify On : </b><b>{{item.ModifyDate}}</b>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Course Name: <b>{{item.NewCourseName}}</b></td>
+                    <td>Clinical Name : <b>{{item.CourseName}}</b></td>
+                    <td>No. of Rooms :  <b>{{item.NoOfRooms == 0 ? 'N/A' : item.NoOfRooms}}</b></td>
+                    <td>Minimum Size (Sq. Feet) : <b>{{item.Width}}</b></td>
+                    <td>Number Of Computers : <b>{{item.NoofComputers == 0 ? 'N/A' : item.NoofComputers}}</b></td>
+                  </tr>
+                  <tr>
+                    <td>Number Of Books : <b>{{item.NoofBooks == 0 ? 'N/A' : item.NoofBooks}}</b></td>
+                    <td>
+                      Document :
+                      <a *ngIf="!item.ImageFilePath.includes('.pdf')" data-fancybox="gallery" href="{{item.ImageFilePath}}" data-caption="Image 10" title="click here to zoom">
+                        <img src="{{item.ImageFilePath}}" alt="Image File" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                      </a>
+                      <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.ImageFilePath.includes('.pdf')" data-fancybox="gallery" href="{{item.ImageFilePath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                    </td>
+                    <td>
+                      Library Document :        <a *ngIf="!item.BookImageFilePath.includes('.pdf')&&item.BookImageFileName!=''" data-fancybox="gallery" href="{{item.BookImageFilePath}}" data-caption="Image 10" title="click here to zoom">
+                        <img src="{{item.BookImageFilePath}}" alt="Image File" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                      </a>
+                      <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.BookImageFilePath.includes('.pdf')&&item.BookImageFileName!=''" data-fancybox="gallery" href="{{item.BookImageFilePath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                      <span *ngIf="item.BookImageFileName==''">N/A</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td colspan="4"></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="row" *ngIf="OtherInformationHistory.length<=0">
+          <span style="color:red"> No Data Found!!!</span>
+        </div>
+      </div>
+    </ng-template>
   </div>
 </div>
 

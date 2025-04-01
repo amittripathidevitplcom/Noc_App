@@ -95,6 +95,9 @@
             <tr *ngFor="let row of TotalDraftentryCollege  | tableSearchFilter:searchText; let idx=index;">
               <td style="text-align:center;">{{idx+1}}</td>
               <td>
+                <a href="javascript:void(0)" *ngIf="request.DepartmentID==11" (click)="ApplicationPreview_OnClick(request.DepartmentID,row.CollegeID)" title="Application Summary" class="btn btn-sm btn-secondary">
+                  <i class="fa fa-eye"></i>
+                </a>
                 <a class="btn btn-info" href="javascript:void(0)"
                    title="Preview" (click)="PreviewDraftEntry_click(mymodalpreview,row.CollegeID)">
                   <i class="fa fa-eye"></i>

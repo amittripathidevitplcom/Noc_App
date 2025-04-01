@@ -25,7 +25,7 @@
                 <!--<th *ngIf="sSOLoginDataModel.RoleID==3 || sSOLoginDataModel.RoleID==5">Clerk Action</th>
               <th *ngIf="sSOLoginDataModel.RoleID==5">Section Officer Action</th>-->
                 <th>Sr. No.</th>
-
+                <th>Action</th>
                 <th>Facility Name</th>
                 <th>Is Available(Y/N)</th>
                 <th>No of Facility</th>
@@ -56,6 +56,9 @@
                   </div>
                 </td>
                 <td> {{indexOfelement+1}}</td>
+                <td>
+                  <button type="button" class="btn btn-sm btn-primary" title="View History" (click)="ViewFacilityDetailHistory(facilityhistorymymodal,item.FacilityDetailID)"><i class="fa fa-history"></i></button>
+                </td>
                 <td>
                   {{item.FacilitiesName}}
                 </td>
@@ -129,12 +132,56 @@
           </div>
         </div>
       </div>
-      <div class="row"  *ngIf="QueryStringStatus.includes('Pending')">
+      <div class="row" *ngIf="QueryStringStatus.includes('Pending')">
         <div class="col-md-12">
           <button class="btn btn-primary" type="button" (click)="SubmitFacility_Onclick()">Submit</button>
         </div>
       </div>
     </div>
+
+    <ng-template #facilityhistorymymodal let-modal>
+      <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title" style="font-size: 17px; font-weight: 600 !important;">Facility Details History</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+          <i class="fa fa-close"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-12">
+            <div class="table-responsive">
+              <table class="table table-bordered table-hover">
+                <tbody *ngFor="let item of FacilityHistory ; let indexOfelement=index;">
+                  <tr>
+                    <td colspan="5">
+                      <b>Modify On : </b><b>{{item.ModifyDate}}</b>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Facility Name : <b>{{item.FacilitiesName}}</b></td>
+                    <td>Is Available(Y/N) :  <b>{{item.IsAvailable}}</b></td>
+                    <td>No of Facility : <b>{{item.NoOf}}</b></td>
+                    <td>Minimum Size : <b>{{item.MinSize}}</b></td>
+                    <td>
+                      Image/File: <a *ngIf="!item.FacilitiesUrl.includes('.pdf')" data-fancybox="gallery" href="{{item.FacilitiesUrlPath}}" data-caption="Image 10" title="click here to zoom">
+                        <img src="{{item.FacilitiesUrlPath}}" alt="Facilities" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                      </a>
+                      <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.FacilitiesUrl.includes('.pdf')" data-fancybox="gallery" href="{{item.FacilitiesUrlPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td colspan="5"></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="row" *ngIf="FacilityHistory.length<=0">
+          <span style="color:red"> No Data Found!!!</span>
+        </div>
+      </div>
+    </ng-template>
   </div>
 </div>
 

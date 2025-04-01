@@ -10,6 +10,7 @@ import { ApplyNOCApplicationService } from '../../../Services/ApplyNOCApplicatio
 import { DocumentScrutinyDataModel, DocumentScrutinyList_DataModel } from '../../../Models/DocumentScrutinyDataModel';
 import { MedicalDocumentScrutinyService } from '../../../Services/MedicalDocumentScrutiny/medical-document-scrutiny.service';
 import { ApplyNOCPreviewComponent } from '../../apply-nocpreview/apply-nocpreview.component';
+import { ModalDismissReasons, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-document-scrutiny-court-case-mgt',
@@ -36,7 +37,7 @@ export class DocumentScrutinyCourtCaseMGTComponent implements OnInit {
   public isDisabledAction: boolean = false;
   public courtOrderList: any = [];
 
-  constructor(private ApplyNOCPreview: ApplyNOCPreviewComponent, private loaderService: LoaderService,
+  constructor(private modalService: NgbModal, private ApplyNOCPreview: ApplyNOCPreviewComponent, private loaderService: LoaderService,
     private commonMasterService: CommonMasterService, private collegeDocumentService: CollegeDocumentService, private router: ActivatedRoute,
     private applyNOCApplicationService: ApplyNOCApplicationService, private toastr: ToastrService, private medicalDocumentScrutinyService: MedicalDocumentScrutinyService) { }
 
@@ -193,4 +194,46 @@ export class DocumentScrutinyCourtCaseMGTComponent implements OnInit {
   ViewTaril(ID: number, ActionType: string) {
     this.ApplyNOCPreview.ViewTarilCommon(ID, ActionType);
   }
+
+
+
+  closeResult: string | undefined;
+  modalReference: NgbModalRef | undefined;
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return `with: ${reason}`;
+    }
+  }
+  public CourtCaseHistory: any = [];
+  async ViewCourtCaseHistory(content: any, ID: number) {
+    this.CourtCaseHistory = [];
+    this.modalService.open(content, { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' }).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+    try {
+      this.loaderService.requestStarted();
+      await this.commonMasterService.GetCollegeTabData_History(ID, 'CourtCase')
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.CourtCaseHistory = data['Data'][0]['data']["Table"];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+
+
 }

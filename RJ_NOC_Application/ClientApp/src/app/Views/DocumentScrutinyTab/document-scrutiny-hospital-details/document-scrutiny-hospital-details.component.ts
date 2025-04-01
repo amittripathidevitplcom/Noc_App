@@ -237,4 +237,35 @@ export class DocumentScrutinyHospitalDetailsComponent implements OnInit {
   ViewTaril(ID: number, ActionType: string) {
     this.ApplyNOCPreview.ViewTarilCommon(ID, ActionType);
   }
+
+
+
+  public HospitalHistory: any = [];
+  public AffiliatedHospitalHistory: any = [];
+  async ViewHospitalDetailHistory(content: any, ID: number) {
+    this.HospitalHistory = [];
+    this.AffiliatedHospitalHistory = [];
+    this.modalService.open(content, { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' }).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+    try {
+      this.loaderService.requestStarted();
+      await this.commonMasterService.GetCollegeTabData_History(ID, 'HospitalDetails')
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.HospitalHistory = data['Data'][0]['data']["Table"];
+          this.AffiliatedHospitalHistory = data['Data'][0]['data']["Table1"];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
 }

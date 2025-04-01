@@ -7,7 +7,7 @@ import * as XLSX from 'xlsx';
 import { ToastrService } from 'ngx-toastr';
 import { CommonDataModel_TotalDraftEntrySearchFilter } from '../../../Models/CommonMasterDataModel';
 import { ModalDismissReasons, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-
+import { ActivatedRoute, Router } from '@angular/router';
 @Injectable()
 
 @Component({
@@ -32,7 +32,7 @@ export class TotalDraftEntryCollegeComponent implements OnInit {
   public DraftEntryCollegeDetailsList: any = [];
 
 
-  constructor(private loaderService: LoaderService, private toastr: ToastrService, private commonMasterService: CommonMasterService, private modalService: NgbModal) {
+  constructor(private loaderService: LoaderService, private toastr: ToastrService, private commonMasterService: CommonMasterService, private modalService: NgbModal, private routers: Router, private router: ActivatedRoute) {
 
   }
 
@@ -193,5 +193,9 @@ export class TotalDraftEntryCollegeComponent implements OnInit {
         this.loaderService.requestEnded();
       }, 200);
     }
+  }
+
+  async ApplicationPreview_OnClick(DepartmentID: number, CollegeID: number) {
+    this.routers.navigate(['/applicationsummary' + "/" + encodeURI(this.commonMasterService.Encrypt(DepartmentID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(CollegeID.toString()))]);
   }
 }

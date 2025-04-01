@@ -370,4 +370,34 @@ export class DocumentScrutinyBuildingDetailsComponent implements OnInit {
   ViewTaril(ID: number, ActionType: string) {
     this.ApplyNOCPreview.ViewTarilCommon(ID, ActionType);
   }
+
+
+  public BuildingDetailsHistory: any = [];
+  public lstBuildingDocDetailshistory: any = [];
+  async ViewBuildingDetailHistory(content: any, ID: number) {
+    this.BuildingDetailsHistory = [];
+    this.lstBuildingDocDetailshistory = [];
+    this.modalService.open(content, { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' }).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+    try {
+      this.loaderService.requestStarted();
+      await this.commonMasterService.GetCollegeTabData_History(ID, 'BuildingDetails')
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.BuildingDetailsHistory = data['Data'][0]['data']["Table"];
+          this.lstBuildingDocDetailshistory = data['Data'][0]['data']["Table1"];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
 }

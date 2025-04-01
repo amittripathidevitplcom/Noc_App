@@ -445,8 +445,7 @@ export class BuildingDetailsComponent implements OnInit {
       this.buildingdetailsForm.get('txtFireNOCOrderNumber')?.updateValueAndValidity();
       this.buildingdetailsForm.get('txtFromDate')?.updateValueAndValidity();
       this.buildingdetailsForm.get('txtToDate')?.updateValueAndValidity();
-      //this.buildingdetailsForm.get('txtOwnBuildingOrderDate')?.clearValidators();
-      this.buildingdetailsForm.get('txtOwnBuildingOrderDate')?.setValidators([Validators.required]); 
+      this.buildingdetailsForm.get('txtOwnBuildingOrderDate')?.clearValidators();
       this.buildingdetailsForm.get('txtOwnBuildingOrderDate')?.updateValueAndValidity();
 
 
@@ -501,6 +500,8 @@ export class BuildingDetailsComponent implements OnInit {
       
     }
     if (this.SelectedDepartmentID == 5) {
+      this.buildingdetailsForm.get('txtOwnBuildingOrderDate')?.setValidators([Validators.required]);
+      this.buildingdetailsForm.get('txtOwnBuildingOrderDate')?.updateValueAndValidity();
       if (this.buildingdetails.MGOneResidentialIstheCampusUnitary == '') {
         this.isFormValid = false;
       }

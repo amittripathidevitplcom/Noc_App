@@ -79,7 +79,7 @@ export class AddCoursesComponent implements OnInit {
       this.CourseMasterForm = this.formBuilder.group(
         {
           ddlCollege: ['', [DropdownValidators]],
-          ddlCourse: ['', [DropdownValidators]],          
+          ddlCourse: ['', [DropdownValidators]],
           ddlSubject: ['', Validators.required],
           ddlSeatInformation: [''],//, [DropdownValidators]
           txtNoOfEnrolledStudents: [''],//, Validators.required
@@ -90,7 +90,7 @@ export class AddCoursesComponent implements OnInit {
           CourseCategory: ['', [DropdownValidators]],
           txtTotalSeats: ['', Validators.required],
           txtCompositeUnit: ['', Validators.required],
-          
+
         })
 
       const ddlDepartment = document.getElementById('ddlDepartment')
@@ -100,7 +100,7 @@ export class AddCoursesComponent implements OnInit {
       this.SelectedDepartmentID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DepartmentID')?.toString()));
       //this.SelectedCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
       //this.request.CollegeID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
-       
+
       this.SearchRecordID = this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString());
       if (this.SearchRecordID.length > 20) {
         await this.commonMasterService.GetCollegeID_SearchRecordIDWise(this.SearchRecordID)
@@ -376,7 +376,7 @@ export class AddCoursesComponent implements OnInit {
       this.isFormValid = false;
       return
     }
-    if (this.request.DepartmentID != 11&&this.request.DepartmentID != 6) {
+    if (this.request.DepartmentID != 11 && this.request.DepartmentID != 6) {
       if (this.request.DepartmentID != EnumDepartment.CollegeEducation && this.CollegeStatus != 'New') {
         if (this.request.Seats <= 0) {
           this.isFormValid = false;
@@ -389,12 +389,12 @@ export class AddCoursesComponent implements OnInit {
         this.request.TotalSeatsCourseWise = '';
         this.isFormValid = false;
       }
-      else if (Number(this.request.TotalSeatsCourseWise) > 200 && this.request.CourseID == 313) {
-        this.toastr.warning('Number of Seat less then 200');
+      else if (Number(this.request.TotalSeatsCourseWise) > 300 && this.request.CourseID == 313) {
+        this.toastr.warning('Number of Seat less then 300');
         this.request.TotalSeatsCourseWise = '';
         this.isFormValid = false;
       }
-      else if (Number(this.request.TotalSeatsCourseWise) > 100) {
+      else if (Number(this.request.TotalSeatsCourseWise) > 100 && this.request.CourseID != 313 && this.request.CourseID != 314) {
         this.toastr.warning('Number of Seat less then 100');
         this.request.TotalSeatsCourseWise = '';
         this.isFormValid = false;
@@ -518,7 +518,7 @@ export class AddCoursesComponent implements OnInit {
     if (btnReset) btnReset.innerHTML = "Reset";
 
   }
-  async Edit_OnClick(CollegeWiseCourseID: number) {   
+  async Edit_OnClick(CollegeWiseCourseID: number) {
     this.isSubmitted = false;
     try {
       this.loaderService.requestStarted();
@@ -744,7 +744,7 @@ export class AddCoursesComponent implements OnInit {
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
           this.CourseLevelList = data['Data'];
-          if (this.SelectedDepartmentID == 9 && this.CollegeLevel=='Diploma') {
+          if (this.SelectedDepartmentID == 9 && this.CollegeLevel == 'Diploma') {
             this.CourseLevelList = this.CourseLevelList.filter((element: any) => {
               return element.Name == 'Diploma';
             });
@@ -868,7 +868,7 @@ export class AddCoursesComponent implements OnInit {
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
-          this.lstSessionYear = data['Data'];          
+          this.lstSessionYear = data['Data'];
         }, error => console.error(error));
     }
     catch (Ex) {
@@ -884,11 +884,11 @@ export class AddCoursesComponent implements OnInit {
     debugger;
     try {
       this.loaderService.requestStarted();
-      await this.commonMasterService.GetCommonMasterList_DepartmentAndTypeWise(this.request.DepartmentID,"Course Category")
+      await this.commonMasterService.GetCommonMasterList_DepartmentAndTypeWise(this.request.DepartmentID, "Course Category")
         .then(async (data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.CourseCategoryDataList = data['Data'];
-         }, error => console.error(error));
+        }, error => console.error(error));
     }
     catch (Ex) {
       console.log(Ex);

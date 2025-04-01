@@ -67,6 +67,7 @@
             <td>
               <div class="d-flex">
                 <button type="button" class="btn btn-sm btn-info" title="View" (click)="ViewBuildingDetails(mymodal,item.SchoolBuildingDetailsID)"><i class="fa fa-eye"></i></button>
+                <button type="button" class="btn btn-sm btn-primary" title="View History" (click)="ViewBuildingDetailHistory(builddetailhistorymymodal,item.SchoolBuildingDetailsID)"><i class="fa fa-history"></i></button>
               </div>
             </td>
             <td>{{item.BuildingTypeName}}</td>
@@ -646,6 +647,286 @@
                   <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                     <label for="ddlIsApproved" class="form-label">Approved by the Authorized Officer</label>
                     <input class="form-control disabled" disabled value="{{buildingdetails.IsApproved}}" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+    <ng-template #builddetailhistorymymodal let-modal>
+      <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title" style="font-size: 17px; font-weight: 600 !important;">Building Details History</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+          <i class="fa fa-close"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="card">
+          <div class="card-header d-flex justify-content-between align-items-center">
+            <b><i class="fa fa-filter"></i>&nbsp;Building Documents</b>
+          </div>
+
+          <div class="card-body">
+            <div class="row">
+              <div class="col-12">
+                <div class="table-responsive">
+                  <table class="table table-bordered table-hover">
+                    <tbody *ngFor="let item of BuildingDetailsHistory ; let indexOfelement=index;">
+                      <tr>
+                        <td colspan="4">
+                          <b>Modify On : </b><b>{{item.ModifyDate}}</b>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td colspan="4">
+                          Building Category  : <b>{{item.BuildingTypeName}}</b>
+                        </td>
+                      </tr>
+                      <tr *ngIf="item.BuildingTypeName!='Owned'">
+                        <td>Owner Name :  <b>{{item.OwnerName}}</b></td>
+                        <td>Address Line 1 : <b>{{item.AddressLine1}}</b></td>
+                        <td>Address Line 2 : <b>{{item.AddressLine2}}</b></td>
+                        <td>Rural / Urban : <b>{{item.RuralUrban}}</b></td>
+                      </tr>
+                      <tr *ngIf="item.BuildingTypeName!='Owned'">
+                        <td>Division :  <b>{{item.Division_English}}</b></td>
+                        <td>District : <b>{{item.District_Eng}}</b></td>
+                        <td>Tehsil : <b>{{item.TehsilName}}</b></td>
+                        <td><span *ngIf="item.RuralUrban == 'Urban'">City : <b>{{item.CityName}}</b></span></td>
+                      </tr>
+                      <tr *ngIf="item.BuildingTypeName!='Owned'">
+                        <td><span *ngIf="item.RuralUrban == 'Rural'">Panchayat Samiti :  <b>{{item.PanchyatSamitiName}}</b></span></td>
+                        <td>City/Town/Village : <b>{{item.CityTownVillage}}</b></td>
+                        <td>Contact No : <b>{{item.ContactNo}}</b></td>
+                        <td>Pincode :<b>{{item.Pincode}}</b></td>
+                      </tr>
+                      <tr>
+                        <td>Total Constructed Building Area (in Sq. Ft) :  <b>{{item.BuildingHostelQuartersRoadArea}}</b></td>
+                        <td *ngIf="item.BuildingTypeName=='Owned'"></td>
+                        <td *ngIf="item.BuildingTypeName!='Owned'">
+                          Upload Registered Rent Agreement/Lease Deed : <a *ngIf="!item.RentAgreementFileUpload.includes('.pdf') && item.RentAgreementFileUploadPath!='N/A'" data-fancybox="gallery" href="{{item.RentAgreementFileUploadPath}}" data-caption="Image 10" title="click here to zoom">
+                            <img src="{{item.RentAgreementFileUploadPath}}" alt="Building Document" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                          </a>
+                          <label *ngIf="item.RentAgreementFileUploadPath=='N/A'">{{item.RentAgreementFileUploadPath}}</label>
+                          <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.RentAgreementFileUpload.includes('.pdf') && item.RentAgreementFileUploadPath!='N/A'" data-fancybox="gallery" href="{{item.RentAgreementFileUploadPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                        </td>
+                        <td *ngIf="item.BuildingTypeName=='Owned'"></td>
+                        <td *ngIf="item.BuildingTypeName!='Owned'">Rent Valid Up To : <b>{{item.Rentvaliditydate | date:'dd-MM-yyyy'}}</b></td>
+                        <td></td>
+                      </tr>
+                      <tr>
+                        <td colspan="4">
+                          <div class="card">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                              <b><i class="fa fa-filter"></i>&nbsp;Ownership Documents : </b>
+                            </div>
+                            <div class="card-body">
+                              <div class="row">
+                                <div class="col-lg-3 col-md-3 col-sm-4 col-12 mb-3">
+                                  <label class="form-label"><b>Name of Owner :</b></label>
+                                  <input class="form-control disabled" disabled value="{{item.OwnBuildingOrderNo}}" />
+                                </div>
+
+                                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                                  <label><b>Upload Own Building Document :</b></label>
+                                  <a *ngIf="!item.OwnBuildingFileUpload.includes('.pdf')" data-fancybox="gallery" href="{{item.OwnBuildingFileUploadPath}}" data-caption="Image 10" title="click here to zoom">
+                                    <img src="{{item.OwnBuildingFileUploadPath}}" alt="Building Document" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                                  </a>
+                                  <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.OwnBuildingFileUpload.includes('.pdf')" data-fancybox="gallery" href="{{item.OwnBuildingFileUploadPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="card">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                              <b><i class="fa fa-filter"></i>&nbsp;Fire NOC Validity</b>
+                            </div>
+                            <div class="card-body">
+                              <div class="row">
+                                <div class="col-lg-3 col-md-3 col-sm-4 col-12 mb-3">
+                                  <label class="form-label"><b>Order No :</b></label>
+                                  <input class="form-control disabled" disabled value="{{item.FireNOCOrderNumber}}" />
+                                </div>
+                                <div class="col-lg-3 col-md-3 col-sm-4 col-12 mb-3">
+                                  <label class="form-label"><b>From Date :</b></label>
+                                  <input class="form-control disabled" disabled value="{{item.FromDate}}" />
+                                </div>
+
+                                <div class="col-lg-3 col-md-3 col-sm-4 col-12 mb-3">
+                                  <label class="form-label"><b>To Date :</b></label>
+                                  <input class="form-control disabled" disabled value="{{item.ToDate}}" />
+                                </div>
+                                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                                  <label><b>Upload Fire NOC Document :</b></label>
+                                  <a *ngIf="!item.FireNOCFileUpload.includes('.pdf')" data-fancybox="gallery" href="{{item.FireNOCFileUploadPath}}" data-caption="Image 10" title="click here to zoom">
+                                    <img src="{{item.FireNOCFileUploadPath}}" alt="Fire NOC Document" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                                  </a>
+                                  <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.FireNOCFileUpload.includes('.pdf')" data-fancybox="gallery" href="{{item.FireNOCFileUploadPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="card">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                              <b><i class="fa fa-filter"></i>&nbsp;Current Year Building Safety Certificate Order No. & Order Date: </b>
+                            </div>
+                            <div class="card-body">
+                              <div class="row">
+                                <div class="col-lg-3 col-md-3 col-sm-4 col-12 mb-3">
+                                  <label for="txtOrderNo" class="form-label"><b>Order No :</b> </label>
+                                  <input class="form-control disabled" disabled value="{{item.OrderNo}}" />
+                                </div>
+                                <div class="col-lg-3 col-md-3 col-sm-4 col-12 mb-3">
+                                  <label for="txtOrderDate"><b>Order Date :</b></label>
+                                  <input class="form-control disabled" disabled value="{{item.OrderDate}}" />
+                                </div>
+                                <div class="col-lg-3 col-md-3 col-sm-4 col-12 mb-3">
+                                  <label for="txtExpiringOn"><b>Expiring On :</b></label>
+                                  <input class="form-control disabled" disabled value="{{item.ExpiringOn}}" />
+                                </div>
+                                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                                  <label><b>Upload PWD NOC Document :</b></label>
+                                  <a *ngIf="!item.PWDNOCFileUpload.includes('.pdf')" data-fancybox="gallery" href="{{item.PWDNOCFileUploadPath}}" data-caption="Image 10" title="click here to zoom">
+                                    <img src="{{item.PWDNOCFileUploadPath}}" alt="PWD NOC Document" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                                  </a>
+                                  <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.PWDNOCFileUpload.includes('.pdf')" data-fancybox="gallery" href="{{item.PWDNOCFileUploadPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="card">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                              <b><i class="fa fa-filter"></i>&nbsp;Description</b>
+                            </div>
+                            <div class="card-body">
+                              <div class="row">
+                                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                                  <label class="form-label"><b>Total Project Cost :</b></label>
+                                  <input class="form-control disabled" disabled value="{{item.TotalProjectCost}}" />
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                                  <label class="form-label"><b>Source Cost Amount :</b></label>
+                                  <input class="form-control disabled" disabled value="{{item.SourceCostAmount}}" />
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                                  <label class="form-label"><b>Amount deposited in the Bank near the institution :</b></label>
+                                  <input class="form-control disabled" disabled value="{{item.AmountDeposited}}" />
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                                  <label class="form-label"><b>Other fixed assets/securities of the organization :</b></label>
+                                  <input class="form-control disabled" disabled value="{{item.OtherFixedAssetsAndSecurities}}" />
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                                  <label class="form-label"><b>GATE year balance secret of the organization :</b></label>
+                                  <input class="form-control disabled" disabled value="{{item.GATEYearBalanceSecret}}" />
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                                  <label class="form-label"><b>Other financial resources :</b></label>
+                                  <input class="form-control disabled" disabled value="{{item.OtherFinancialResources}}" />
+                                </div>
+                              </div>
+                              <div class="row">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                                  <div class="table-responsive">
+                                    <table class="table table-bordered table-hover table-striped">
+                                      <thead>
+                                        <tr>
+                                          <th>Upload Total Project Cost Document</th>
+                                          <th>Upload Source Cost Amount Document</th>
+                                          <th>Upload Amount Deposited Document</th>
+                                          <th>Upload Other Fixed Assets/Securities Document</th>
+                                          <th>Upload GATE Year Balance Secret Document</th>
+                                          <th>Upload Other Financial Resources Document</th>
+                                        </tr>
+                                      </thead>
+                                      <tbody>
+                                        <tr>
+                                          <td>
+                                            <a class="bi bi-file-earmark-excel-fill" *ngIf="!item.TotalProjectCostFileUploadPath.includes('.pdf')" data-fancybox="gallery" href="{{item.TotalProjectCostFileUploadPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                                            <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.TotalProjectCostFileUploadPath.includes('.pdf')" data-fancybox="gallery" href="{{item.TotalProjectCostFileUploadPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                                          </td>
+                                          <td>
+                                            <a class="bi bi-file-earmark-excel-fill" *ngIf="!item.SourceCostAmountFileUploadPath.includes('.pdf')" data-fancybox="gallery" href="{{item.SourceCostAmountFileUploadPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                                            <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.SourceCostAmountFileUploadPath.includes('.pdf')" data-fancybox="gallery" href="{{item.SourceCostAmountFileUploadPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                                          </td>
+                                          <td>
+                                            <a class="bi bi-file-earmark-excel-fill" *ngIf="!item.AmountDepositedFileUploadPath.includes('.pdf')" data-fancybox="gallery" href="{{item.AmountDepositedFileUploadPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                                            <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.AmountDepositedFileUploadPath.includes('.pdf')" data-fancybox="gallery" href="{{item.AmountDepositedFileUploadPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                                          </td>
+                                          <td>
+                                            <a class="bi bi-file-earmark-excel-fill" *ngIf="!item.OtherFixedAssetsAndSecuritiesFileUploadPath.includes('.pdf')" data-fancybox="gallery" href="{{item.OtherFixedAssetsAndSecuritiesFileUploadPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                                            <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.OtherFixedAssetsAndSecuritiesFileUploadPath.includes('.pdf')" data-fancybox="gallery" href="{{item.OtherFixedAssetsAndSecuritiesFileUploadPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                                          </td>
+                                          <td>
+                                            <a class="bi bi-file-earmark-excel-fill" *ngIf="!item.GATEYearBalanceSecretFileUploadPath.includes('.pdf')" data-fancybox="gallery" href="{{item.GATEYearBalanceSecretFileUploadPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                                            <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.GATEYearBalanceSecretFileUploadPath.includes('.pdf')" data-fancybox="gallery" href="{{item.GATEYearBalanceSecretFileUploadPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                                          </td>
+                                          <td>
+                                            <a class="bi bi-file-earmark-excel-fill" *ngIf="!item.OtherFinancialResourcesFileUploadPath.includes('.pdf')" data-fancybox="gallery" href="{{item.OtherFinancialResourcesFileUploadPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                                            <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.OtherFinancialResourcesFileUploadPath.includes('.pdf')" data-fancybox="gallery" href="{{item.OtherFinancialResourcesFileUploadPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                                          </td>
+                                        </tr>
+                                      </tbody>
+                                    </table>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td colspan="4"></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+            <div class="row" *ngIf="BuildingDetailsHistory.length<=0">
+              <span style="color:red"> No Data Found!!!</span>
+            </div>
+
+            <div class="card">
+              <div class="card-header d-flex justify-content-between align-items-center">
+                <b><i class="fa fa-filter"></i>&nbsp;Building Photos</b>
+              </div>
+              <div class="card-body">
+                <div class="row" *ngIf="lstBuildingDocDetailshistory.length>0">
+                  <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div class="table-responsive">
+                      <table class="table table-bordered table-hover table-striped">
+                        <thead>
+                          <tr>
+                            <th>Sr. No.</th>
+                            <th>Modify On </th>
+                            <th>Document Name</th>
+                            <th>File</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let item of lstBuildingDocDetailshistory; let indexOfelement=index;">
+                            <td> {{indexOfelement+1}}</td>
+                            <td> {{item.ModifyDate}}</td>
+                            <td>
+                              {{item.DocumentName}}
+                            </td>
+                            <td>
+                              <a *ngIf="!item.FilePath.includes('.pdf')" data-fancybox="gallery" href="{{item.FilePath}}" data-caption="Image 10" title="click here to zoom">
+                                <img src="{{item.FilePath}}" alt="Image/File" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                              </a>
+                              <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.FilePath.includes('.pdf')" data-fancybox="gallery" href="{{item.FilePath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                            </td>
+                          </tr>
+                          <tr *ngIf="lstBuildingDocDetailshistory.length<=0">
+                            <td colspan="2" style="color:red">No Data Found.!</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
                 </div>
               </div>

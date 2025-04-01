@@ -1305,9 +1305,9 @@ export class DocumentScrutinyCheckListDetailsComponentDce implements OnInit {
 
     if (event.target.files && event.target.files[0]) {
       if (event.target.files[0].type === 'application/pdf') {
-        if (event.target.files[0].size > 2000000) {
+        if (event.target.files[0].size > 5000000) {
           event.target.value = '';
-          this.toastr.warning('Select less then 2MB File');
+          this.toastr.warning('Select less then 5MB File');
           return
         }
         if (event.target.files[0].size < 100000) {

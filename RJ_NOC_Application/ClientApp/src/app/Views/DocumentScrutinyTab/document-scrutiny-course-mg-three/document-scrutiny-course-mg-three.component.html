@@ -23,6 +23,7 @@
 
               </th>
               <th>Sr. No.</th>
+              <th>Action</th>
               <th>Department</th>
               <th>College Name</th>
               <th>Course Name</th>
@@ -54,6 +55,9 @@
 
               <td width="5%">
                 {{idx+1}}
+              </td>
+              <td>
+                <button type="button" class="btn btn-sm btn-primary" title="View History" (click)="ViewCourseHistory(coursehistorymymodal,item.CollegeWiseCourseID)"><i class="fa fa-history"></i></button>
               </td>
               <td>{{item.DepartmentName}}</td>
               <td>{{item.CollageName}}</td>
@@ -122,5 +126,51 @@
         </div>
       </div>
     </div>
+
+
+
+    <ng-template #coursehistorymymodal let-modal>
+      <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title" style="font-size: 17px; font-weight: 600 !important;">Course History</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+          <i class="fa fa-close"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-12">
+            <div class="table-responsive">
+              <table class="table table-bordered table-hover">
+                <tbody *ngFor="let item of CourseDetailHistory ; let indexOfelement=index;">
+                  <tr>
+                    <td>
+                      <b>Modify On : </b><b>{{item.ModifyDate}}</b>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="row">
+                        <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3">
+                          <label><b>Course Name</b>: &nbsp;&nbsp; </label>
+                          <input class="form-control disabled" disabled value="{{item.CourseName}}" />
+                        </div>
+                        <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3">
+                          <label><b>Number of Seats</b>: &nbsp;&nbsp; </label>
+                          <input class="form-control disabled" disabled value="{{item.Seats}}" />
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+          </div>
+        </div>
+        <div class="row" *ngIf="CourseDetailHistory.length<=0">
+          <span style="color:red"> No Data Found!!!</span>
+        </div>
+      </div>
+    </ng-template>
   </div>
 </div>

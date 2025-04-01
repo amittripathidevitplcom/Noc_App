@@ -57,6 +57,7 @@
                     <td>{{idx+1}}</td>
                     <td>
                       <button type="button" class="btn btn-sm btn-info" title="View" (click)="ViewHospitalDetail(mymodal,row.HospitalID)"><i class="fa fa-eye"></i></button>
+                      <button type="button" class="btn btn-sm btn-primary" title="View History" (click)="ViewHospitalDetailHistory(hospitalhistorymymodal,row.HospitalID)"><i class="fa fa-history"></i></button>
                     </td>
                     <td>{{row.IsHillytribalArea}}</td>
                     <td><button type="button" class="btn btn-sm btn-info" title="View" (click)="ViewTaril(row.HospitalID,'HospitalTrail')"><i class="fa fa-bars" aria-hidden="true"></i></button></td>
@@ -120,7 +121,7 @@
               </div>
             </div>
           </div>
-          <div class="row"  *ngIf="QueryStringStatus.includes('Pending')">
+          <div class="row" *ngIf="QueryStringStatus.includes('Pending')">
             <div class="col-md-12">
               <button class="btn btn-primary" type="button" (click)="SubmitHospitalDetail_Onclick()">Submit</button>
             </div>
@@ -467,6 +468,387 @@
             </div>
           </div>
         </div>
+      </div>
+    </ng-template>
+
+    <ng-template #hospitalhistorymymodal let-modal>
+      <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title" style="font-size: 17px; font-weight: 600 !important;">Hospital Details</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+          <i class="fa fa-close"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-12">
+            <div class="table-responsive">
+              <table class="table table-bordered table-hover">
+                <tbody *ngFor="let item of HospitalHistory ; let indexOfelement=index;">
+                  <tr>
+                    <td>
+                      <b>Modify On : </b><b>{{item.ModifyDate}}</b>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
+                          <label for="ddlIsHillytribalArea" style="margin-right:15px"> Is the institute situated in Hilly/tribal  Area ? </label>
+                          <input type="text" class="form-control disabled" [(ngModel)]="item.IsHillytribalArea" disabled />
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3" *ngIf="item.IsHillytribalArea=='Yes'">
+                          <label for="ddlIsInstitutionParentHospital" style="margin-right:15px"> Whether the institution has a Own/parent hospital or not</label>
+                          <input type="text" class="form-control disabled" [(ngModel)]="item.IsInstitutionParentHospital" disabled />
+                        </div>
+                      </div>
+
+                      <div class="row" *ngIf="(item.IsHillytribalArea=='Yes' && item.IsInstitutionParentHospital=='Yes') || item.IsHillytribalArea=='No'">
+                        <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                          <label for="employeeName" style="margin-right:15px">Hospital Status <span style="color:red;">*</span> <br /></label>
+                          <input type="text" class="form-control disabled" [(ngModel)]="item.HospitalStatus" disabled />
+                        </div>
+                      </div>
+                      <div class="card" *ngIf="(item.IsHillytribalArea=='Yes' && item.IsInstitutionParentHospital=='Yes') || item.IsHillytribalArea=='No'">
+                        <div class="card-header">
+                          <b>
+                            <i class="bi bi-table"></i>&nbsp;Own/Parent Hospital Details
+                          </b>
+                        </div>
+                        <div class="card-body">
+                          <div class="row">
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                              <label>Name of Own/Parent Hospital<span style="color:red;">*</span></label>
+                              <input type="text" class="form-control disabled" [(ngModel)]="item.HospitalName" disabled />
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                              <label>Registration No.</label>
+                              <input type="text" class="form-control disabled" [(ngModel)]="item.RegistrationNo" disabled />
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                              <label>Name of Owner </label>
+                              <input type="text" class="form-control disabled" [(ngModel)]="item.OwnerName" disabled />
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                              <label>Hospital Contact No.</label>
+                              <input type="text" class="form-control disabled" [(ngModel)]="item.HospitalContactNo" disabled />
+
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                              <label>Hospital Email ID </label>
+                              <input type="text" class="form-control disabled" [(ngModel)]="item.HospitalEmailID" disabled />
+                            </div>
+                            <!-- address -->
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                              <label>Address Line 1 </label>
+                              <input type="text" class="form-control disabled" [(ngModel)]="item.AddressLine1" disabled />
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                              <label>Address Line 2</label>
+                              <input type="text" class="form-control disabled" [(ngModel)]="item.AddressLine2" disabled />
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                              <label>Area </label>
+                              <input type="text" class="form-control disabled" value="{{item.RuralUrban==1?'Rural':'Urban'}}" disabled />
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                              <label>Division </label>
+                              <input type="text" class="form-control disabled" [(ngModel)]="item.DivisionName" disabled />
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                              <label>District </label>
+                              <input type="text" class="form-control disabled" [(ngModel)]="item.DistrictName" disabled />
+
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                              <label>Tehsil </label>
+                              <input type="text" class="form-control disabled" [(ngModel)]="item.TehsilName" disabled />
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="item.RuralUrban==2">
+                              <label for="ddlCityID">City</label>
+                              <input type="text" class="form-control disabled" [(ngModel)]="item.CityName" disabled />
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="item.RuralUrban==1">
+                              <label>Panchayat Samiti</label>
+                              <input type="text" class="form-control disabled" [(ngModel)]="item.PanchayatSamitiName" disabled />
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                              <label>City/Town/Village</label>
+                              <input type="text" class="form-control disabled" [(ngModel)]="item.CityTownVillage" disabled />
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                              <label>Pincode</label>
+                              <input type="text" class="form-control disabled" [(ngModel)]="item.Pincode" disabled />
+                            </div>
+                            <!-- end -->
+                          </div>
+                          <div class="row">
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                              <label>Bed Capacity </label>
+                              <input type="text" class="form-control disabled" [(ngModel)]="item.BedCapacity" disabled />
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                              <label>Number of deliveries per month <br />(Record of last one year)</label>
+                              <input type="text" class="form-control disabled" [(ngModel)]="item.NumberofDeliveries" disabled />
+
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                              <label>Distance from College</label>
+                              <input type="text" class="form-control disabled" [(ngModel)]="item.CollegeDistance" disabled />
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                              <label>MOU between Parental hospital &  <br />All the members of Trust/ Society/Company  <br />(MoU For 30 years minimum)</label>
+                              <br /><a class="bi bi-file-earmark-pdf-fill" *ngIf="item.HospitalMOU.includes('.pdf')" data-fancybox="gallery" href="{{item.HospitalMOUPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                              <label>
+                                Bed Occupancy (Certificate by  <br />Concern CMHO (With name and seal)
+                              </label>
+                              <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.BedOccupancy.includes('.pdf')" data-fancybox="gallery" href="{{item.BedOccupancyPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                            </div>
+
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                              <label>
+                                Fire NOC
+                              </label>
+                              <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.FireNOC.includes('.pdf')" data-fancybox="gallery" href="{{item.FireNOCPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                              <label>
+                                Pollution Certificate/ Bio Medical  <br />waste Certificate
+                              </label>
+                              <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.PollutionCertificate.includes('.pdf')" data-fancybox="gallery" href="{{item.PollutionCertificatePath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                              <label>
+                                Clinical Establishment certificate <br /> and Registration Number
+                              </label>
+                              <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.ClinicalEstablishment.includes('.pdf')" data-fancybox="gallery" href="{{item.ClinicalEstablishmentPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                              <label>
+                                NABH (if available)
+                              </label>
+                              <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.NABH.includes('.pdf')" data-fancybox="gallery" href="{{item.NABHPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                              <label>
+                                Undertaking for not affiliated with <br /> other institute as a parent hospital <br /> or as an affiliated Hospital.
+                              </label>
+                              <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.UndertakingNotAffiliated.includes('.pdf')" data-fancybox="gallery" href="{{item.UndertakingNotAffiliatedPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                              <label>
+                                Staff information
+                              </label>
+                              <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.StaffInformation.includes('.pdf')" data-fancybox="gallery" href="{{item.StaffInformationPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                            </div>
+                          </div>
+
+                          <div class="row">
+                            <div class="card">
+                              <div class="card-header">
+                                <b>
+                                  <i class="bi bi-table"></i>&nbsp; Distribution of beds in different areas
+                                </b>
+                              </div>
+                              <div class="card-body">
+                                <div class="row">
+                                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                                    <label>Medical </label>
+                                    <input type="text" class="form-control disabled" [(ngModel)]="item.MedicalBeds" disabled />
+                                  </div>
+                                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                                    <label>Surgery</label>
+                                    <input type="text" class="form-control disabled" [(ngModel)]="item.SurgicalBeds" disabled />
+                                  </div>
+                                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                                    <label>Obstetrics  </label>
+                                    <input type="text" class="form-control disabled" [(ngModel)]="item.ObstetricsBeds" disabled />
+                                  </div>
+                                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                                    <label>Pediatrics </label>
+                                    <input type="text" class="form-control disabled" [(ngModel)]="item.PediatricsBeds" disabled />
+                                  </div>
+                                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                                    <label>Orthopedics</label>
+                                    <input type="text" class="form-control disabled" [(ngModel)]="item.OrthoBeds" disabled />
+                                  </div>
+                                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                                    <label>Psychiatry </label>
+                                    <input type="text" class="form-control disabled" [(ngModel)]="item.PsychiatryBeds" disabled />
+                                  </div>
+                                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                                    <label>Emergency medicine</label>
+                                    <input type="text" class="form-control disabled" [(ngModel)]="item.EmergencyMedicineBeds" disabled />
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      
+
+                    </td>
+                  </tr>
+                </tbody>
+                <tbody *ngFor="let items of AffiliatedHospitalHistory ; let indexOfelement=index;">
+                  <tr>
+                    <td>
+                      <b>Modify On : </b><b>{{items.ModifyDate}}</b>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="row">
+                        <div class="card">
+                          <div class="card-header">
+                            <b>
+                              <i class="bi bi-table"></i>&nbsp;Details of Affiliated Hospitals
+                            </b>
+                          </div>
+                          <div class="card-body">
+                            <div class="col-12" *ngFor="let items of AffiliatedHospitalHistory">
+                              <div class="row">
+                                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                                  <label>Name of Affiliated Hospitals</label>
+                                  <input type="text" class="form-control disabled" [(ngModel)]="items.AffiliatedHospitalName" disabled />
+                                </div>
+                                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                                  <label>Reason for affiliation</label>
+                                  <input type="text" class="form-control disabled" [(ngModel)]="items.AffiliationReasonName" disabled />
+                                </div>
+                                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                                  <label>If it is affiliated on Specialty ground, please mention the field of specialty. </label>
+                                  <input type="text" class="form-control disabled" [(ngModel)]="items.SpecialtyAffiliation" disabled />
+                                </div>
+                                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                                  <label>Name of Owner</label>
+                                  <input type="text" class="form-control disabled" [(ngModel)]="items.OwnerName" disabled />
+                                </div>
+                              </div>
+                              <div class="row">
+                                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                                  <label>Bed Capacity </label>
+                                  <input type="text" class="form-control disabled" [(ngModel)]="items.BedCapacity" disabled />
+                                </div>
+                                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                                  <label>Number of deliveries per month<br /> as per Record of last one year</label>
+                                  <input type="text" class="form-control disabled" [(ngModel)]="items.NumberDeliveries" disabled />
+                                </div>
+                                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                                  <label>Distance from College</label>
+                                  <input type="text" class="form-control disabled" [(ngModel)]="items.CollegeDistance" disabled />
+                                </div>
+                                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                                  <label>MOU with affiliated hospitals</label>
+                                  <a class="bi bi-file-earmark-pdf-fill" *ngIf="items.HospitalMOU.includes('.pdf')" data-fancybox="gallery" href="{{items.HospitalMOUPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                                </div>
+                                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                                  <label>
+                                    Bed Occupancy (Certificate by Concern <br />CMHO (With name and seal)
+                                  </label>
+                                  <a class="bi bi-file-earmark-pdf-fill" *ngIf="items.BedOccupancy.includes('.pdf')" data-fancybox="gallery" href="{{items.BedOccupancyPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                                </div>
+
+                                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                                  <label>
+                                    Fire NOC
+                                  </label>
+                                  <a class="bi bi-file-earmark-pdf-fill" *ngIf="items.FireNOC.includes('.pdf')" data-fancybox="gallery" href="{{items.FireNOCPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                                </div>
+                                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                                  <label>
+                                    Pollution Certificate/ Bio Medical<br /> waste Certificate
+                                  </label>
+                                  <a class="bi bi-file-earmark-pdf-fill" *ngIf="items.PollutionCertificate.includes('.pdf')" data-fancybox="gallery" href="{{items.PollutionCertificatePath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                                </div>
+                                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                                  <label>
+                                    Clinical Establishment certificate <br />and Registration Number
+                                  </label>
+                                  <a class="bi bi-file-earmark-pdf-fill" *ngIf="items.ClinicalEstablishment.includes('.pdf')" data-fancybox="gallery" href="{{items.ClinicalEstablishmentPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                                </div>
+                                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                                  <label>
+                                    NABH (if available)
+                                  </label>
+                                  <a class="bi bi-file-earmark-pdf-fill" *ngIf="items.NABH.includes('.pdf')" data-fancybox="gallery" href="{{items.NABHPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                                </div>
+                                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                                  <label>
+                                    Undertaking for not affiliated with<br /> other institute as a parent hospital<br /> or as an affiliated Hospital.
+                                  </label>
+                                  <a class="bi bi-file-earmark-pdf-fill" *ngIf="items.UndertakingNotAffiliated.includes('.pdf')" data-fancybox="gallery" href="{{items.UndertakingNotAffiliatedPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                                </div>
+                                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                                  <label>
+                                    Staff information
+                                  </label>
+                                  <a class="bi bi-file-earmark-pdf-fill" *ngIf="items.StaffInformation.includes('.pdf')" data-fancybox="gallery" href="{{items.StaffInformationPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                                </div>
+                              </div>
+                              <div class="row">
+                                <div class="card">
+                                  <div class="card-header">
+                                    <b>
+                                      <i class="bi bi-table"></i>&nbsp; Distribution of beds in different areas
+                                    </b>
+                                  </div>
+                                  <div class="card-body">
+                                    <div class="row">
+                                      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                                        <label>Medical </label>
+                                        <input type="text" class="form-control disabled" [(ngModel)]="items.MedicalBeds" disabled />
+                                      </div>
+                                      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                                        <label>Surgery  </label>
+                                        <input type="text" class="form-control disabled" [(ngModel)]="items.SurgicalBeds" disabled />
+                                      </div>
+                                      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                                        <label>Obstetrics  </label>
+                                        <input type="text" class="form-control disabled" [(ngModel)]="items.ObstetricsBeds" disabled />
+                                      </div>
+                                      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                                        <label>Pediatrics </label>
+                                        <input type="text" class="form-control disabled" [(ngModel)]="items.PediatricsBeds" disabled />
+                                      </div>
+                                      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                                        <label>Orthopedics </label>
+                                        <input type="text" class="form-control disabled" [(ngModel)]="items.OrthoBeds" disabled />
+                                      </div>
+                                      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                                        <label>Psychiatry  </label>
+                                        <input type="text" class="form-control disabled" [(ngModel)]="items.PsychiatryBeds" disabled />
+                                      </div>
+                                      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                                        <label>Emergency medicine</label>
+                                        <input type="text" class="form-control disabled" [(ngModel)]="items.EmergencyMedicineBeds" disabled />
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="row" *ngIf="HospitalHistory.length<=0">
+          <span style="color:red"> No Data Found!!!</span>
+        </div>
+
       </div>
     </ng-template>
   </div>

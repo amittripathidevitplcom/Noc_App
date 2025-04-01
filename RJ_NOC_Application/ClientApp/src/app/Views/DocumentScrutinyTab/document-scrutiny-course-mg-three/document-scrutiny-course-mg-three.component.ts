@@ -9,6 +9,7 @@ import { ApplyNOCApplicationService } from '../../../Services/ApplyNOCApplicatio
 import { RoomDetailsService } from '../../../Services/RoomDetails/room-details.service';
 import { MedicalDocumentScrutinyService } from '../../../Services/MedicalDocumentScrutiny/medical-document-scrutiny.service';
 import { ApplyNOCPreviewComponent } from '../../apply-nocpreview/apply-nocpreview.component';
+import { ModalDismissReasons, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 
 
 @Component({
@@ -34,7 +35,7 @@ export class DocumentScrutinyCourseMgThreeComponent implements OnInit {
   public isDisabledAction: boolean = false;
 
   public QueryStringApplicationStatus: any = '';
-  constructor(private ApplyNOCPreview: ApplyNOCPreviewComponent, private medicalDocumentScrutinyService: MedicalDocumentScrutinyService, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private loaderService: LoaderService,
+  constructor(private modalService: NgbModal, private ApplyNOCPreview: ApplyNOCPreviewComponent, private medicalDocumentScrutinyService: MedicalDocumentScrutinyService, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private loaderService: LoaderService,
     private toastr: ToastrService, private applyNOCApplicationService: ApplyNOCApplicationService, private roomDetailsService: RoomDetailsService) { }
 
   async ngOnInit() {
@@ -190,5 +191,45 @@ export class DocumentScrutinyCourseMgThreeComponent implements OnInit {
   }
   ViewTaril(ID: number, ActionType: string) {
     this.ApplyNOCPreview.ViewTarilCommon(ID, ActionType);
+  }
+
+
+
+
+  closeResult: string | undefined;
+  modalReference: NgbModalRef | undefined;
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return `with: ${reason}`;
+    }
+  }
+  public CourseDetailHistory: any = [];
+  async ViewCourseHistory(content: any, ID: number) {
+    this.CourseDetailHistory = [];
+    this.modalService.open(content, { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' }).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+    try {
+      this.loaderService.requestStarted();
+      await this.commonMasterService.GetCollegeTabData_History(ID, 'CourseDetail')
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.CourseDetailHistory = data['Data'][0]['data']["Table"];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
   }
 }

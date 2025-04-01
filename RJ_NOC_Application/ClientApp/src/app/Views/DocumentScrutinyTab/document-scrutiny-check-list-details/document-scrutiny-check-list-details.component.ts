@@ -1332,13 +1332,19 @@ export class DocumentScrutinyCheckListDetailsComponent implements OnInit {
       this.loaderService.requestStarted();
       if (confirm("Are you sure you want to submit?")) {
         await this.applyNOCApplicationService.DocumentScrutiny(this.sSOLoginDataModel.RoleID, this.sSOLoginDataModel.UserID, this.ActionID, this.SelectedApplyNOCID, this.SelectedDepartmentID, this.CheckFinalRemark, this.NextRoleID, this.NextUserID, this.NextActionID)
-          .then((data: any) => {
+          .then(async (data: any) => {
             data = JSON.parse(JSON.stringify(data));
             this.State = data['State'];
             this.SuccessMessage = data['SuccessMessage'];
             this.ErrorMessage = data['ErrorMessage'];
             if (this.State == 0) {
               this.toastr.success(this.SuccessMessage);
+              if (this.NextRoleID == 1 && (this.ActionID == 3 || this.ActionID==60)) {
+                await this.medicalDocumentScrutinyService.GenerateRevertLetter(0, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
+                  .then((data: any) => {
+                    data = JSON.parse(JSON.stringify(data));
+                  }, error => console.error(error));
+              }
               this.routers.navigate(['/applicationslist' + "/" + encodeURI(this.commonMasterService.Encrypt(this.QueryStatus.toString()))]);
 
             }

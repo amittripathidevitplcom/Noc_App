@@ -332,15 +332,23 @@ export class MGThreeApplicationsListComponent implements OnInit {
   public UserListRoleWise: any[] = [];
   public WorkFlowActionList: any[] = [];
   public NextWorkFlowActionList: any[] = [];
+
+
+
+  public isInspectionReportValid: boolean = false;
   async DocumentScrutinyAction() {
     this.requestpi = [];
     this.isFormvalid = true;
+    this.isInspectionReportValid = true;
     this.isNextUserIdValid = false;
     this.isNextRoleIDValid = false;
     this.isNextActionValid = false;
     this.isRemarkValid = false;
     try {
-
+      if (this.UploadInspectionReport == '') {
+        this.isFormvalid = false;
+        this.toastr.warning('Please upload inspection report');
+      }
       if (this.CheckFinalRemark == '') {
         this.isRemarkValid = true;
         this.isFormvalid = false;
@@ -466,6 +474,7 @@ export class MGThreeApplicationsListComponent implements OnInit {
       //    }
       //  }
       //}
+
       if (!this.isFormvalid) {
         return;
       }
@@ -477,12 +486,17 @@ export class MGThreeApplicationsListComponent implements OnInit {
           this.ErrorMessage = data['ErrorMessage'];
         });
         await this.applyNOCApplicationService.DocumentScrutiny(this.sSOLoginDataModel.RoleID, this.sSOLoginDataModel.UserID, this.ActionID, this.SelectedApplyNOCID, this.SelectedDepartmentID, this.CheckFinalRemark, this.NextRoleID, this.NextUserID, this.NextActionID)
-          .then((data: any) => {
+          .then(async (data: any) => {
             data = JSON.parse(JSON.stringify(data));
             this.State = data['State'];
             this.SuccessMessage = data['SuccessMessage'];
             this.ErrorMessage = data['ErrorMessage'];
             if (this.State == 0) {
+              await this.medicalDocumentScrutinyService.UploadInspectionReport(this.SelectedApplyNOCID, this.sSOLoginDataModel.UserID, this.UploadInspectionReport)
+                .then((data: any) => {
+                  data = JSON.parse(JSON.stringify(data));
+    
+                }, error => console.error(error));
               this.toastr.success(this.SuccessMessage);
               this.routers.navigate(['/applicationslist' + "/" + encodeURI(this.commonMasterService.Encrypt(this.QueryStatus.toString()))]);
               this.modalService.dismissAll('After Success');
@@ -1029,4 +1043,129 @@ export class MGThreeApplicationsListComponent implements OnInit {
       }, 200);
     }
   }
+
+
+
+  async GenerateInspectionReport(ApplyNOCID: number, CollegeID: number) {
+    try {
+      this.loaderService.requestStarted();
+      await this.medicalDocumentScrutinyService.GenerateInspectionReport(CollegeID, this.sSOLoginDataModel.RoleID, ApplyNOCID, this.sSOLoginDataModel.UserID)
+        .then(async (data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          await this.GetApplyNOCApplicationListByRole();
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+  async onFilechange(event: any, Type: string) {
+    try {
+      this.loaderService.requestStarted();
+      this.file = event.target.files[0];
+      if (this.file) {
+        // (Type != 'ConsentForm' && (this.file.type === 'image/jpeg' || this.file.type === 'image/jpg')) ||
+        if (this.file.type === 'application/pdf') {
+          //size validation
+          if (this.file.size > 2000000) {
+            this.toastr.warning('Please select less then 2 MB file');
+            this.ResetFileAndValidation(Type, '', '', '');
+            return
+          }
+          if (this.file.size < 100000) {
+            this.toastr.warning('Please select grater then 100 KB file');
+            this.ResetFileAndValidation(Type, '', '', '');
+            return
+          }
+        }
+        else {// type validation
+          this.toastr.warning('Please select only pdf file');
+          this.ResetFileAndValidation(Type, '', '', '');
+          return
+        }
+        // upload to server folder
+        this.fileUploadService.UploadDocument(this.file).then((data: any) => {
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          if (this.State == 0) {
+            this.ResetFileAndValidation(Type, data['Data'][0]["FileName"], data['Data'][0]["Dis_FileName"], data['Data'][0]["FilePath"]);
+          }
+          if (this.State == 1) {
+            this.toastr.error(this.ErrorMessage)
+          }
+          else if (this.State == 2) {
+            this.toastr.warning(this.ErrorMessage)
+          }
+        });
+      }
+      else {
+        this.ResetFileAndValidation(Type, '', '', '');
+      }
+    }
+    catch (ex) { console.log(ex) }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+  public UploadInspectionReport: string='';
+  public Dis_UploadInspectionReport: string='';
+  public UploadInspectionReportPath: string='';
+  ResetFileAndValidation(type: string, name: string, dis_name: string, path: string) {
+    //event.target.value = '';
+    try {
+      this.loaderService.requestStarted();
+      if (type == 'InspectionReport') {
+        this.UploadInspectionReport = name;
+        this.Dis_UploadInspectionReport = dis_name;
+        this.UploadInspectionReportPath = path;
+        this.file = document.getElementById('fInspectionReport');
+        this.file.value = '';
+      }
+    }
+    catch (ex) { console.log(ex) }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+  async DeleteFile(Type: string, filename: string) {
+    let path: string = '';
+    try {
+      this.loaderService.requestStarted();
+      // delete from server folder
+      this.fileUploadService.DeleteDocument(filename).then((data: any) => {
+        this.State = data['State'];
+        this.SuccessMessage = data['SuccessMessage'];
+        this.ErrorMessage = data['ErrorMessage'];
+        if (this.State == 0) {
+          this.ResetFileAndValidation(Type, '', '', '');
+        }
+        if (this.State == 1) {
+          this.toastr.error(this.ErrorMessage)
+        }
+        else if (this.State == 2) {
+          this.toastr.warning(this.ErrorMessage)
+        }
+      });
+    }
+    catch (ex) { console.log(ex) }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
 }

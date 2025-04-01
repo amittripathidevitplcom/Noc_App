@@ -12,6 +12,7 @@ import { ApplyNOCApplicationService } from '../../../Services/ApplyNOCApplicatio
 import { DocumentScrutinyDataModel } from '../../../Models/DocumentScrutinyDataModel';
 import { MedicalDocumentScrutinyService } from '../../../Services/MedicalDocumentScrutiny/medical-document-scrutiny.service';
 import { ApplyNOCPreviewComponent } from '../../apply-nocpreview/apply-nocpreview.component';
+import { ModalDismissReasons, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-document-scrutiny-college-detail',
@@ -19,7 +20,7 @@ import { ApplyNOCPreviewComponent } from '../../apply-nocpreview/apply-nocprevie
   styleUrls: ['./document-scrutiny-college-detail.component.css']
 })
 export class DocumentScrutinyCollegeDetailComponent implements OnInit {
-  constructor(private ApplyNOCPreview: ApplyNOCPreviewComponent,private medicalDocumentScrutinyService: MedicalDocumentScrutinyService,private applyNOCApplicationService: ApplyNOCApplicationService,private draftApplicationListService: DraftApplicationListService, private toastr: ToastrService, private loaderService: LoaderService, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private collegeService: CollegeService, private sSOLoginService: SSOLoginService) {
+  constructor(private modalService: NgbModal,private ApplyNOCPreview: ApplyNOCPreviewComponent,private medicalDocumentScrutinyService: MedicalDocumentScrutinyService,private applyNOCApplicationService: ApplyNOCApplicationService,private draftApplicationListService: DraftApplicationListService, private toastr: ToastrService, private loaderService: LoaderService, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private collegeService: CollegeService, private sSOLoginService: SSOLoginService) {
 
   }
 
@@ -240,5 +241,46 @@ export class DocumentScrutinyCollegeDetailComponent implements OnInit {
 
   ViewTaril(ID: number, ActionType: string) {
     this.ApplyNOCPreview.ViewTarilCommon(ID, ActionType);
+  }
+
+
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return `with: ${reason}`;
+    }
+  }
+  closeResult: string | undefined;
+  modalReference: NgbModalRef | undefined;
+  public collegeListHistory: any = [];
+  public collegeContactDetailsHistoryList: any = [];
+  async ViewCollegeDetailHistory(content: any, ID: number) {
+    this.collegeListHistory = [];
+    this.collegeContactDetailsHistoryList = [];
+    this.modalService.open(content, { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' }).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+    try {
+      this.loaderService.requestStarted();
+      await this.commonMasterService.GetCollegeTabData_History(this.SelectedCollageID, 'CollegeDetails')
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.collegeListHistory = data['Data'][0]['data']["Table"];
+          this.collegeContactDetailsHistoryList = data['Data'][0]['data']["Table1"];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
   }
 }

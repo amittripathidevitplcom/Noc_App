@@ -74,6 +74,7 @@ export class DocumentScrutinyLegalEntityComponentDce implements OnInit {
     // get college list
     this.ViewlegalEntityDataByID();
   }
+  public UserSSOID: string = '';
   async ViewlegalEntityDataByID() {
     try {
       this.loaderService.requestStarted();
@@ -86,7 +87,9 @@ export class DocumentScrutinyLegalEntityComponentDce implements OnInit {
           this.ErrorMessage = data['ErrorMessage'];
           // data
           if (data['Data'].length > 0) {
+
             this.legalEntityListData1 = data['Data'][0]['legalEntity'];
+            this.UserSSOID = this.legalEntityListData1.SSOID;
             if (this.legalEntityListData1 != null) {
               this.legalEntityInstituteDetailData = data['Data'][0]['legalEntity']['InstituteDetails'];
               this.legalEntityMemberDetailData = data['Data'][0]['legalEntity']['MemberDetails'];
@@ -323,7 +326,7 @@ export class DocumentScrutinyLegalEntityComponentDce implements OnInit {
     });
     try {
       this.loaderService.requestStarted();
-      await this.commonMasterService.GetCollegeTabData_History(0, 'LegalEntityDetails', 0, this.sSOLoginDataModel.SSOID)
+      await this.commonMasterService.GetCollegeTabData_History(0, 'LegalEntityDetails', 0, this.UserSSOID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.LegalEntityHistory = data['Data'][0]['data']["Table"];

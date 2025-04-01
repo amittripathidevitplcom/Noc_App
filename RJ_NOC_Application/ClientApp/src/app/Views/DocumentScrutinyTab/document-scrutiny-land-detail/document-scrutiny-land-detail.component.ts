@@ -254,5 +254,32 @@ export class DocumentScrutinyLandDetailComponent implements OnInit {
   ViewTaril(ID: number, ActionType: string) {
     this.ApplyNOCPreview.ViewTarilCommon(ID, ActionType);
   }
-
+  async ViewLandDetailHistory(content: any, LandDetailID: number) {
+    this.LandDetailHistory = [];
+    this.LandDetailsDocumentListHistory = [];
+    this.DetailoftheLandHistory = [];
+    this.modalService.open(content, { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' }).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+    try {
+      this.loaderService.requestStarted();
+      await this.commonMasterService.GetCollegeTabData_History(LandDetailID, 'LandDetails')
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.LandDetailHistory = data['Data'][0]['data']["Table"];
+          this.LandDetailsDocumentListHistory = data['Data'][0]['data']["Table1"];
+          this.DetailoftheLandHistory = data['Data'][0]['data']["Table2"];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
 }

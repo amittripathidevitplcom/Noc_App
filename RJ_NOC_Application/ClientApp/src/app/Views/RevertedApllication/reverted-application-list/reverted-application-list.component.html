@@ -75,10 +75,11 @@
                       </a>
                       <a href="javascript:void(0)" (click)="CheckList_OnClick(RevertRemarkModel,row.DepartmentID,row.CollegeID,row.ApplyNocApplicationID,row.ActionID,row.RevertByRole)" class="btn btn-sm btn-info">
                         <i title="Application Comments" class="fa fa-list"></i>
-                      </a> 
+                      </a>
+                      <a class="bi bi-file-earmark-pdf-fill" *ngIf="row.DepartmentID==6 && row.RevertLetterPath.includes('.pdf')" data-fancybox="gallery" href="{{row.RevertLetterPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
                       <!--<a href="javascript:void(0)" (click)="ViewApplicationPvDetails(mymodalViewPVDetails,row.ApplyNocApplicationID,row.DepartmentID,row.CollegeID,row.ApplicationNo)" class="btn btn-sm btn-info">
-                        <i title="Physical Verification Details" class="fa fa-list"></i>
-                      </a>-->
+    <i title="Physical Verification Details" class="fa fa-list"></i>
+  </a>-->
                     </div>
                   </td>
                 </tr>

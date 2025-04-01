@@ -11,6 +11,7 @@ import { DocumentScrutinyDataModel, DocumentScrutinyList_DataModel } from '../..
 import { SSOLoginDataModel } from '../../../Models/SSOLoginDataModel';
 import { MedicalDocumentScrutinyService } from '../../../Services/MedicalDocumentScrutiny/medical-document-scrutiny.service';
 import { ApplyNOCPreviewComponent } from '../../apply-nocpreview/apply-nocpreview.component';
+import { ModalDismissReasons, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-document-scrutiny-academic-information',
@@ -32,7 +33,7 @@ export class DocumentScrutinyAcademicInformationComponent implements OnInit {
   public FinalRemarks: any = [];
   public QueryStringStatus: any = '';
   public isDisabledAction: boolean = false;
-  constructor(private ApplyNOCPreview: ApplyNOCPreviewComponent,private medicalDocumentScrutinyService: MedicalDocumentScrutinyService,private academicInformationDetailsService: AcademicInformationDetailsService, private loaderService: LoaderService, private formBuilder: FormBuilder,
+  constructor(private modalService: NgbModal, private ApplyNOCPreview: ApplyNOCPreviewComponent, private medicalDocumentScrutinyService: MedicalDocumentScrutinyService, private academicInformationDetailsService: AcademicInformationDetailsService, private loaderService: LoaderService, private formBuilder: FormBuilder,
     private commonMasterService: CommonMasterService, private router: ActivatedRoute,
     private applyNOCApplicationService: ApplyNOCApplicationService, private toastr: ToastrService) { }
 
@@ -193,4 +194,42 @@ export class DocumentScrutinyAcademicInformationComponent implements OnInit {
     this.ApplyNOCPreview.ViewTarilCommon(ID, ActionType);
   }
 
+
+
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return `with: ${reason}`;
+    }
+  }
+  closeResult: string | undefined;
+  modalReference: NgbModalRef | undefined;
+  public AcademicHistory: any = [];
+  async ViewAcademicDetailHistory(content: any, ID: number) {
+    this.AcademicHistory = [];
+    this.modalService.open(content, { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' }).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+    try {
+      this.loaderService.requestStarted();
+      await this.commonMasterService.GetCollegeTabData_History(ID, 'AcademicDetails')
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.AcademicHistory = data['Data'][0]['data']["Table"];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
 }

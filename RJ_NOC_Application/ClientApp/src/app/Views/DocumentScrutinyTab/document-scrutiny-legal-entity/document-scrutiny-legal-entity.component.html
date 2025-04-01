@@ -9,6 +9,12 @@
         <div class="col-md-12">
           <div class="row">
             <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+              <button type="button" class="btn btn-sm btn-primary" title="View History" (click)="ViewLegalEntityDetailHistory(legalentityhistorymymodal)"><i class="fa fa-history"></i></button>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
               <label>Legal Entity :</label>
               <input class="form-control disabled mt-1" disabled value="{{legalEntityListData1.IsLegalEntity}}" />
             </div>
@@ -254,7 +260,7 @@
                               <input class="form-check-input" type="radio" name="rdInstituteSelectAllActionType" id="rdInstituteSelectAllNo" value="No" (change)="selectInstituteAll('No')">
                               <label class="form-check-label">No</label>
                             </div>
-                            </th>
+                          </th>
                           <th>Sr. No.</th>
                           <th>Registration No.</th>
                           <th>Institute Name</th>
@@ -355,7 +361,7 @@
               </div>
             </div>
           </div>
-          <div class="row"  *ngIf="QueryStringStatus.includes('Pending')">
+          <div class="row" *ngIf="QueryStringStatus.includes('Pending')">
             <div class="col-md-12">
               <button class="btn btn-primary" type="button" (click)="SubmitLegalEntity_Onclick()">Submit</button>
             </div>
@@ -363,6 +369,269 @@
         </div>
       </div>
     </div>
+    <ng-template #legalentityhistorymymodal let-modal>
+      <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title" style="font-size: 17px; font-weight: 600 !important;">Legal Entity Details History</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+          <i class="fa fa-close"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-12">
+            <div class="table-responsive">
+              <table class="table table-bordered table-hover">
+                <tbody *ngFor="let item of LegalEntityHistory ; let indexOfelement=index;">
+                  <tr>
+                    <td>
+                      <b>Modify On : </b><b>{{item.ModifyDate}}</b>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="row">
+                        <div class="col-md-12">
+                          <div class="card mb-0">
+                            <div class="card-header">
+                              <b><i class="bi bi-table"></i> Legal Entity </b>
+                            </div>
+                            <div class="card-body">
+                              <div class="row">
+                                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                                  <label>Legal Entity :</label>
+                                  <input class="form-control disabled mt-1" disabled value="{{item.IsLegalEntity}}" />
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                                  <label>SSOID :</label>
+                                  <input class="form-control disabled mt-1" disabled value="{{item.SSOID}}" />
+                                </div>
+                              </div>
+                              <div class="row">
+                                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                                  <label>Registration No :</label>
+                                  <input class="form-control disabled mt-1" disabled value="{{item.RegistrationNo}}" />
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                                  <label>President Mobile Number :</label>
+                                  <input class="form-control disabled mt-1" disabled value="{{item.PresidentMobileNo}}" />
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                                  <label>President Email ID :</label>
+                                  <input class="form-control disabled mt-1" disabled value="{{item.PresidentEmail}}" />
+                                </div>
 
+                                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                                  <label>Name  :</label>
+                                  <input class="form-control disabled mt-1" disabled value="{{item.SocietyName}}" />
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                                  <label>Present Status :</label>
+                                  <input class="form-control disabled mt-1" disabled value="{{item.SocietyPresentStatusName}}" />
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                                  <label>State  :</label>
+                                  <input class="form-control disabled mt-1" disabled value="{{item.StateName_English}}" />
+                                </div>
+
+                                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                                  <label>District  :</label>
+                                  <input class="form-control disabled mt-1" disabled value="{{item.District_Eng}}" />
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                                  <label>Act (Which Act You Registered)  :</label>
+                                  <input class="form-control disabled mt-1" disabled value="{{item.RegisteredAct}}" />
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="item.RegisteredAct=='Other'">
+                                  <label>Act (Which Act You Registered)  :</label>
+                                  <input class="form-control disabled mt-1" disabled value="{{item.RegisteredActName}}" />
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                                  <label>Date Of Registration :</label>
+                                  <input class="form-control disabled mt-1" disabled value="{{item.SocietyRegistrationDate | date:'dd-MM-yyyy'}}" />
+                                </div>
+
+                                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                                  <label>Date of Election of Present Management Committee :</label>
+                                  <input class="form-control disabled mt-1" disabled value="{{item.ElectionPresentManagementCommitteeDate | date:'dd-MM-yyyy'}}" />
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                                  <label>Registered Address :</label>
+                                  <input class="form-control disabled mt-1" disabled value="{{item.SocietyRegisteredAddress}}" />
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                                  <label>Pincode :</label>
+                                  <input class="form-control disabled mt-1" disabled value="{{item.Pincode}}" />
+                                </div>
+
+                                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                                  <label>Other Institution run by the Society :</label>
+                                  <input class="form-control disabled mt-1" disabled value="{{item.IsOtherInstitution}}" />
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                                  <label>Women Member of Management Committee<br /> is more than 30% of Total Members :</label>
+                                  <input class="form-control disabled mt-1" disabled value="{{item.IsWomenMembers}}" />
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                                  <label>Date of Election of Management Committee<br /> not more than 3 Year :</label>
+                                  <input class="form-control disabled mt-1" disabled value="{{item.IsDateOfElection}}" />
+                                </div>
+
+                                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                                  <label>Management Committee certified By Registrar :</label>
+                                  <input class="form-control disabled mt-1" disabled value="{{item.ManagementCommitteeCertified}}" />
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                                  <label>PAN Number :</label>
+                                  <input class="form-control disabled mt-1" disabled value="{{item.SocietyPANNumber}}" />
+                                </div>
+
+                                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                                  <label><b>Trust Logo :</b></label>
+                                  <div class="clearfix"></div>
+                                  <a data-fancybox="gallery" href="{{item.TrustLogoDocPath}}" data-caption="Image 10" title="click here to zoom">
+                                    <img src="{{item.TrustLogoDocPath}}" alt="Trust Logo" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                                  </a>
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                                  <label><b>Trustee Member Proof :</b></label>&nbsp;
+                                  <label><a target="_blank" href="{{item.TrusteeMemberProofDocPath}}" title="View Trustee Member Proof"><i class="fa fa-eye"></i></a></label>
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                                  <label><b>Pan Proof :</b></label>&nbsp;
+                                  <label><a target="_blank" href="{{item.SocietyPanProofDocPath}}" title="View Society Pan Proof"><i class="fa fa-eye"></i></a></label>
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                                  <label><b>Registration Document :</b></label>&nbsp;
+                                  <label><a target="_blank" href="{{item.RegistrationDocPath}}" title="View Registration Document"><i class="fa fa-eye"></i></a></label>
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="item.ProcessDepartmentID==9">
+                                  <label><b> By-Laws document :</b></label>&nbsp;
+                                  <label><a target="_blank" href="{{item.ByLawsDocumentPath}}" title="View By Laws document"><i class="fa fa-eye"></i></a></label>
+                                </div>
+                              </div>
+                              <div class="row">
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                    </td>
+                  </tr>
+                  <tr>
+                    <td></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div class="row" *ngIf="legalEntityMemberDetailDataHis.length>0">
+          <div class="col-md-12">
+            <div class="card mb-0">
+              <div class="card-header">
+                <b><i class="bi bi-table"></i> Member Details </b>
+              </div>
+              <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                <div class="table-responsive">
+                  <table class="table table-bordered table-hover table-striped">
+                    <thead>
+                      <tr>
+                        <th>Sr. No.</th>
+                        <th>Member Name</th>
+                        <th>Father's Name</th>
+                        <th>Date Of Birth</th>
+                        <th>Mobile No.</th>
+                        <th>Post</th>
+                        <th>Aadhaar Number</th>
+                        <th>Member Photo</th>
+                        <th>Member Sign</th>
+                        <th>Aadhaar Document</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let row of legalEntityMemberDetailDataHis; let indexOfelement=index;">
+                        <td> {{indexOfelement+1}}</td>
+                        <td>{{row.MemberName}}</td>
+                        <td>{{row.MemberFatherName}}</td>
+                        <td>{{row.MemberDOB | date:'dd-MM-yyyy'}}</td>
+                        <td>{{row.MemberMobileNo}}</td>
+                        <td>{{row.MemberPostName}}</td>
+                        <td>{{row.Dis_AadhaarNumber}}</td>
+                        <td>
+                          <a *ngIf="!row.MemberPhotoPath.includes('.pdf') && row.MemberPhoto!='' && row.MemberPhotoPath!='N/A'" data-fancybox="gallery" href="{{row.MemberPhotoPath}}" data-caption="Image 10" title="click here to zoom">
+                            <img src="{{row.MemberPhotoPath}}" alt="Member Photo" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                          </a>
+                          <label *ngIf="row.MemberPhotoPath=='N/A'">{{row.MemberPhotoPath}}</label>
+                          <a class="bi bi-file-earmark-pdf-fill" *ngIf="row.MemberPhotoPath.includes('.pdf') && row.MemberPhotoPath!='N/A'" data-fancybox="gallery" href="{{row.MemberPhotoPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+
+                        </td>
+                        <td>
+                          <a *ngIf="!row.MemberSignaturePath.includes('.pdf') && row.MemberSignature!='' && row.MemberSignaturePath!='N/A'" data-fancybox="gallery" href="{{row.MemberSignaturePath}}" data-caption="Image 10" title="click here to zoom">
+                            <img src="{{row.MemberSignaturePath}}" alt="Member Signature" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                          </a>
+                          <label *ngIf="row.MemberSignaturePath=='N/A'">{{row.MemberSignaturePath}}</label>
+                          <a class="bi bi-file-earmark-pdf-fill" *ngIf="row.MemberSignaturePath.includes('.pdf')  && row.MemberSignaturePath!='N/A'" data-fancybox="gallery" href="{{row.MemberSignaturePath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+
+                        </td>
+                        <td>
+                          <a *ngIf="!row.PresidentAadhaarProofDocPath.includes('.pdf') && row.PresidentAadhaarProofDocPath!='N/A'" data-fancybox="gallery" href="{{row.PresidentAadhaarProofDocPath}}" data-caption="Image 10" title="click here to zoom">
+                            <img src="{{row.PresidentAadhaarProofDocPath}}" alt="Member Signature" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                          </a>
+                          <label *ngIf="row.PresidentAadhaarProofDocPath=='N/A'">{{row.PresidentAadhaarProofDocPath}}</label>
+                          <a class="bi bi-file-earmark-pdf-fill" *ngIf="row.PresidentAadhaarProofDocPath.includes('.pdf')  && row.PresidentAadhaarProofDocPath!='N/A'" data-fancybox="gallery" href="{{row.PresidentAadhaarProofDocPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row" *ngIf="legalEntityInstituteDetailDataHis.length>0">
+          <div class="col-md-12">
+            <div class="card mb-0">
+              <div class="card-header">
+                <b><i class="bi bi-table"></i> Institute Details </b>
+              </div>
+              <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                <div class="table-responsive">
+                  <table class="table table-bordered table-hover table-striped">
+                    <thead>
+                      <tr>
+                        <th>Sr. No.</th>
+                        <th>Registration No.</th>
+                        <th>Institute Name</th>
+                        <th>Contact Person Name</th>
+                        <th>Designation</th>
+                        <th>Contact Number</th>
+                        <th>State</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let row of legalEntityInstituteDetailDataHis; let indexOfelement=index;">
+                        <td> {{indexOfelement+1}}</td>
+                        <td>{{row.RegistrationNo}}</td>
+                        <td>{{row.InstituteName}}</td>
+                        <td>{{row.InstitutePersonName}}</td>
+                        <td>{{row.InstituteDesignation}}</td>
+                        <td>{{row.InstituteContactNumber}}</td>
+                        <td>{{row.StateName_English}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row" *ngIf="LegalEntityHistory.length<=0">
+          <span style="color:red"> No Data Found!!!</span>
+        </div>
+      </div>
+    </ng-template>
   </div>
 </div>

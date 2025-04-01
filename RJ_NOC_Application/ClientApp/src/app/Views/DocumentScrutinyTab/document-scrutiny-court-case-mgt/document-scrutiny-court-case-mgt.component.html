@@ -21,6 +21,7 @@
                   </div>
                 </th>
                 <th>Sr. No.</th>
+                <th>Action</th>
                 <th>Court Name</th>
                 <th>Writ Petition No</th>
                 <th>Petition Document</th>
@@ -52,6 +53,9 @@
                 </td>
 
                 <td> {{indexOfelement+1}}</td>
+                <td>
+                  <button type="button" class="btn btn-sm btn-primary" title="View History" (click)="ViewCourtCaseHistory(courtcasehistorymymodal,item.CourtOrderID)"><i class="fa fa-history"></i></button>
+                </td>
                 <td>{{item.CourtName}}</td>
                 <td>{{item.CivilPetitionNo}}</td>
                 <td><a target="_blank" href="{{item.PetitionDocumentPath}}" title="View File"><i class="fa fa-eye"></i></a></td>
@@ -59,7 +63,10 @@
                 <td>
                   <a target="_blank" href="{{item.OrderDocumentNamePath}}" title="View File"><i class="fa fa-eye"></i></a>
                 </td>
-                <td><button type="button" class="btn btn-sm btn-info" title="View" (click)="ViewTaril(item.CourtOrderID,'CourtCaseTrail')"><i class="fa fa-bars" aria-hidden="true"></i></button></td>
+                <td>
+                  <button type="button" class="btn btn-sm btn-info" title="View" (click)="ViewTaril(item.CourtOrderID,'CourtCaseTrail')"><i class="fa fa-bars" aria-hidden="true"></i></button>
+                  
+                </td>
               </tr>
               <tr *ngIf="courtOrderList.length<=0">
                 <td colspan="10" style="color:red">No Data Found.!</td>
@@ -118,11 +125,68 @@
           </div>
         </div>
       </div>
-      <div class="row"  *ngIf="QueryStringStatus.includes('Pending')">
+      <div class="row" *ngIf="QueryStringStatus.includes('Pending')">
         <div class="col-md-12">
           <button class="btn btn-primary" type="button" (click)="SubmitCourtCases_Onclick()">Submit</button>
         </div>
       </div>
     </div>
+
+
+    <ng-template #courtcasehistorymymodal let-modal>
+      <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title" style="font-size: 17px; font-weight: 600 !important;">Court Case History</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+          <i class="fa fa-close"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-12">
+            <div class="table-responsive">
+              <table class="table table-bordered table-hover">
+                <tbody *ngFor="let item of CourtCaseHistory ; let indexOfelement=index;">
+                  <tr>
+                    <td>
+                      <b>Modify On : </b><b>{{item.ModifyDate}}</b>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="row">
+                        <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3">
+                          <label><b>Court Name</b>: &nbsp;&nbsp; </label>
+                          <input class="form-control disabled" disabled value="{{item.CourtName}}" />
+                        </div>
+                        <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3">
+                          <label><b>Writ Petition No</b>: &nbsp;&nbsp; </label>
+                          <input class="form-control disabled" disabled value="{{item.CivilPetitionNo}}" />
+                        </div>
+                        <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3">
+                          <label><b>Petition Document</b> :&nbsp;&nbsp;</label>
+                          <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.PetitionDocumentPath.includes('.pdf')" data-fancybox="gallery" href="{{item.PetitionDocumentPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                        </div>
+                        <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3">
+                          <label><b>Order Date</b>: &nbsp;&nbsp; </label>
+                          <input class="form-control disabled" disabled value="{{item.OrderDate}}" />
+                        </div>
+                        <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3">
+                          <label><b>Order Document</b> :&nbsp;&nbsp;</label>
+                          <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.OrderDocumentNamePath.includes('.pdf')" data-fancybox="gallery" href="{{item.OrderDocumentNamePath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+          </div>
+        </div>
+        <div class="row" *ngIf="CourtCaseHistory.length<=0">
+          <span style="color:red"> No Data Found!!!</span>
+        </div>
+      </div>
+    </ng-template>
   </div>
 </div>

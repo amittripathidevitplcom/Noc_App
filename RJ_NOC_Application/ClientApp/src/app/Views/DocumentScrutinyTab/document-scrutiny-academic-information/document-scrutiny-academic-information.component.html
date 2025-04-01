@@ -21,6 +21,7 @@
                   </div>
                 </th>
                 <th>Sr. No.</th>
+                <th>Action</th>
                 <th>Financial Year</th>
                 <th>Course Name</th>
                 <th>Result</th>
@@ -54,6 +55,9 @@
 
                 </td>
                 <td>{{idx+1}}</td>
+                <td>
+                  <button type="button" class="btn btn-sm btn-primary" title="View History" (click)="ViewAcademicDetailHistory(Academichistorymymodal,row.AcademicInformationID)"><i class="fa fa-history"></i></button>
+                </td>
                 <td>{{row.FinancialYearName}}</td>
                 <td>{{row.CourseName}}</td>
                 <td>{{row.ResultName}}</td>
@@ -127,5 +131,49 @@
         </div>
       </div>
     </div>
+
+    <ng-template #Academichistorymymodal let-modal>
+      <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title" style="font-size: 17px; font-weight: 600 !important;">Academic Information History</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+          <i class="fa fa-close"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-12">
+            <div class="table-responsive">
+              <table class="table table-bordered table-hover">
+                <tbody *ngFor="let item of AcademicHistory ; let indexOfelement=index;">
+                  <tr>
+                    <td colspan="4">
+                      <b>Modify On : </b><b>{{item.ModifyDate}}</b>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Financial Year : <b>{{item.FinancialYearName}}</b></td>
+                    <td>Course Name : <b>{{item.CourseName}}</b></td>
+                    <td>Result : <b>{{item.ResultName}}</b></td>
+                    <td>Admitted Student : <b>{{item.AdmittedStudent}}</b></td>
+                  </tr>
+                  <tr>
+                    <td>Appeared Student : <b>{{item.AppearedStudent}}</b></td>
+                    <td>Passed Student : <b>{{item.PassedStudent}}</b></td>
+                    <td>Failed Student : <b>{{item.FailedStudent}}</b></td>
+                    <td>Other Student : <b>{{item.OtherStudent}}</b></td>
+                  </tr>
+                  <tr>
+                    <td colspan="4"></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="row" *ngIf="AcademicHistory.length<=0">
+          <span style="color:red"> No Data Found!!!</span>
+        </div>
+      </div>
+    </ng-template>
   </div>
 </div>

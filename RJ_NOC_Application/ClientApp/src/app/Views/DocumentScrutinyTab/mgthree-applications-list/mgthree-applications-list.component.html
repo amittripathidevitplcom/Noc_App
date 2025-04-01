@@ -34,6 +34,12 @@
                         <a *ngIf="witem.PermissionCode=='DocumentScrutiny' && QueryStatus == 'DCPending'" href="javascript:void(0)" (click)="DocumentScrutiny(item.DepartmentID,item.CollegeID,item.ApplyNOCID,item.ApplicationNo)" class="btn btn-sm btn-primary"><i class="fa fa-edit"></i></a>
                         <a *ngIf="witem.PermissionCode=='DocumentScrutinyForward' && QueryStatus == 'DCPending' && sSOLoginDataModel.RoleID!=3 && sSOLoginDataModel.RoleID!=5" href="javascript:void(0)" (click)="DocumentScrutinyForward(item.DepartmentID,item.CollegeID,item.ApplyNOCID,item.ApplicationNo)" class="btn btn-sm btn-success"><i class="fa fa-edit"></i></a>
 
+
+
+                        <a *ngIf="witem.PermissionCode=='GenerateInspectionReport' && item.InspectionReport==''" (click)="GenerateInspectionReport(item.ApplyNOCID,item.CollegeID)" href="javascript:void(0)" title="Generate Inspection Report" class="btn btn-sm btn-success"><i class="fa fa-plus">Generate Inspection Report</i></a>
+
+
+
                         <a *ngIf="witem.PermissionCode=='CheckList' && QueryStatus == 'DCPending'" href="javascript:void(0)" (click)="OpenCheckList(checklistmodel,item.ApplyNOCID,item.DepartmentID,item.CollegeID,item.ApplicationNo)" class="btn btn-sm btn-success"><i class="fa fa-list-ol"></i></a>
                         <a *ngIf="witem.PermissionCode=='DocumentScrutinyForward' && QueryStatus == 'InspectionPending'" href="javascript:void(0)" (click)="DocumentScrutinyForward(item.DepartmentID,item.CollegeID,item.ApplyNOCID,item.ApplicationNo)" class="btn btn-sm btn-success"><i class="fa fa-edit"></i></a>
                         <a *ngIf="witem.PermissionCode=='DocumentScrutinyForward' && QueryStatus == 'IPending'" href="javascript:void(0)" (click)="DocumentScrutinyForward(item.DepartmentID,item.CollegeID,item.ApplyNOCID,item.ApplicationNo)" class="btn btn-sm btn-success"><i class="fa fa-edit"></i></a>
@@ -44,17 +50,21 @@
                         <a *ngIf="witem.PermissionCode=='DocumentScrutinyForward' && QueryStatus == 'AfterInspectionPending'" href="javascript:void(0)" (click)="DocumentScrutinyForward(item.DepartmentID,item.CollegeID,item.ApplyNOCID,item.ApplicationNo)" class="btn btn-sm btn-success"><i class="fa fa-edit"></i></a>
 
                         <a *ngIf="witem.PermissionCode=='DocumentScrutinyForward' &&  QueryStatus == 'APending'" href="javascript:void(0)" (click)="DocumentScrutinyForward(item.DepartmentID,item.CollegeID,item.ApplyNOCID,item.ApplicationNo)" class="btn btn-sm btn-success"><i class="fa fa-edit"></i></a>
+
+                        <a *ngIf="witem.PermissionCode=='DownloadInspectionReport'&& item.UploadedInspectionReport!=''" target="_blank" href="{{item.UploadedInspectionReportPath}}" title="Download Inspection Report" class="btn btn-sm btn-success"><i class="fa fa-download"></i></a>
                         <!--<a *ngIf="witem.PermissionCode=='Forward' && QueryStatus == 'Pending'" (click)="ApplicationForward(item.DepartmentID,item.CollegeID,item.ApplyNOCID)" href="javascript:void(0)" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></a>
-  <a *ngIf="witem.PermissionCode=='DocumentScrutiny' && QueryStatus == 'DCPending'" href="javascript:void(0)" (click)="DocumentScrutiny(item.DepartmentID,item.CollegeID,item.ApplyNOCID,item.ApplicationNo)" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></a>
-  <a *ngIf="witem.PermissionCode=='DocumentScrutiny' && QueryStatus == 'InspectionPending' && sSOLoginDataModel.RoleID!=5" href="javascript:void(0)" (click)="DocumentScrutiny(item.DepartmentID,item.CollegeID,item.ApplyNOCID,item.ApplicationNo)" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></a>
-  <a *ngIf="witem.PermissionCode=='DocumentScrutiny' && QueryStatus == 'AfterInspectionPending'" href="javascript:void(0)" (click)="DocumentScrutiny(item.DepartmentID,item.CollegeID,item.ApplyNOCID,item.ApplicationNo)" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></a>
-  <a *ngIf="witem.PermissionCode=='DocumentScrutinyForward' && (QueryStatus == 'DCPending' || QueryStatus == 'APending') && sSOLoginDataModel.RoleID!=5" href="javascript:void(0)" (click)="DocumentScrutinyForward(item.DepartmentID,item.CollegeID,item.ApplyNOCID,item.ApplicationNo)" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></a>
-  <a *ngIf="witem.PermissionCode=='DocumentScrutinyForward' && QueryStatus == 'AfterInspectionPending' && sSOLoginDataModel.RoleID!=5" href="javascript:void(0)" (click)="DocumentScrutinyForward(item.DepartmentID,item.CollegeID,item.ApplyNOCID,item.ApplicationNo)" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></a>
-  <a *ngIf="witem.PermissionCode=='DocumentScrutinyForward' && QueryStatus == 'InspectionPending'" href="javascript:void(0)" (click)="DocumentScrutinyForward(item.DepartmentID,item.CollegeID,item.ApplyNOCID,item.ApplicationNo)" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></a>
-  <a *ngIf="witem.PermissionCode=='CheckList' && QueryStatus == 'DCPending'" href="javascript:void(0)" (click)="OpenCheckList(checklistmodel,item.ApplyNOCID,item.DepartmentID,item.CollegeID,item.ApplicationNo)" class="btn btn-sm btn-success"><i class="fa fa-list-ol"></i></a>
-  <a *ngIf="witem.PermissionCode=='DocumentScrutinyForward' && QueryStatus == 'IPending'" href="javascript:void(0)" (click)="DocumentScrutinyForward(item.DepartmentID,item.CollegeID,item.ApplyNOCID,item.ApplicationNo)" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></a>
-  <button type="button" class="btn btn-sm btn-primary" *ngIf="witem.PermissionCode=='ViewCheckList' && QueryStatus != 'DCPending'" title="Inspection Details" (click)="ViewApplicationInspectionDetails(mymodalViewPVDetails,item.ApplyNOCID,item.DepartmentID,item.CollegeID,item.ApplicationNo)"><i class="fa fa-list"></i></button>-->
+    <a *ngIf="witem.PermissionCode=='DocumentScrutiny' && QueryStatus == 'DCPending'" href="javascript:void(0)" (click)="DocumentScrutiny(item.DepartmentID,item.CollegeID,item.ApplyNOCID,item.ApplicationNo)" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></a>
+    <a *ngIf="witem.PermissionCode=='DocumentScrutiny' && QueryStatus == 'InspectionPending' && sSOLoginDataModel.RoleID!=5" href="javascript:void(0)" (click)="DocumentScrutiny(item.DepartmentID,item.CollegeID,item.ApplyNOCID,item.ApplicationNo)" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></a>
+    <a *ngIf="witem.PermissionCode=='DocumentScrutiny' && QueryStatus == 'AfterInspectionPending'" href="javascript:void(0)" (click)="DocumentScrutiny(item.DepartmentID,item.CollegeID,item.ApplyNOCID,item.ApplicationNo)" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></a>
+    <a *ngIf="witem.PermissionCode=='DocumentScrutinyForward' && (QueryStatus == 'DCPending' || QueryStatus == 'APending') && sSOLoginDataModel.RoleID!=5" href="javascript:void(0)" (click)="DocumentScrutinyForward(item.DepartmentID,item.CollegeID,item.ApplyNOCID,item.ApplicationNo)" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></a>
+    <a *ngIf="witem.PermissionCode=='DocumentScrutinyForward' && QueryStatus == 'AfterInspectionPending' && sSOLoginDataModel.RoleID!=5" href="javascript:void(0)" (click)="DocumentScrutinyForward(item.DepartmentID,item.CollegeID,item.ApplyNOCID,item.ApplicationNo)" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></a>
+    <a *ngIf="witem.PermissionCode=='DocumentScrutinyForward' && QueryStatus == 'InspectionPending'" href="javascript:void(0)" (click)="DocumentScrutinyForward(item.DepartmentID,item.CollegeID,item.ApplyNOCID,item.ApplicationNo)" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></a>
+    <a *ngIf="witem.PermissionCode=='CheckList' && QueryStatus == 'DCPending'" href="javascript:void(0)" (click)="OpenCheckList(checklistmodel,item.ApplyNOCID,item.DepartmentID,item.CollegeID,item.ApplicationNo)" class="btn btn-sm btn-success"><i class="fa fa-list-ol"></i></a>
+    <a *ngIf="witem.PermissionCode=='DocumentScrutinyForward' && QueryStatus == 'IPending'" href="javascript:void(0)" (click)="DocumentScrutinyForward(item.DepartmentID,item.CollegeID,item.ApplyNOCID,item.ApplicationNo)" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></a>
+    <button type="button" class="btn btn-sm btn-primary" *ngIf="witem.PermissionCode=='ViewCheckList' && QueryStatus != 'DCPending'" title="Inspection Details" (click)="ViewApplicationInspectionDetails(mymodalViewPVDetails,item.ApplyNOCID,item.DepartmentID,item.CollegeID,item.ApplicationNo)"><i class="fa fa-list"></i></button>-->
                       </span>
+                      <a *ngIf="item.InspectionReport!='' && item.UploadedInspectionReport==''" target="_blank" href="{{item.InspectionReportPath}}" title="Download Inspection Report" class="btn btn-sm btn-success"><i class="fa fa-download">Download Inspection Report</i></a>
+
                       <a href="javascript:void(0)" title="Application Preview" (click)="ApplicationPreview_OnClick(item.DepartmentID,item.CollegeID)" class="btn btn-sm btn-secondary">
                         <i class="fa fa-eye"></i>
                       </a>
@@ -290,6 +300,24 @@
         <div *ngIf="isNextUserIdValid&&NextUserID<=0" class="text-danger">
           <p *ngIf="isNextUserIdValid&&NextUserID<=0"> This field is required .!</p>
         </div>
+      </div>
+
+      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+        <label>Upload Inspection Report <span style="color:red;">*</span></label>
+        <div class="d-flex">
+          <input type="file" class="form-control" id="fInspectionReport" style="display:none"  (change)="onFilechange($event,'InspectionReport')" #fInspectionReport />
+          <label class="btn upload" for="fInspectionReport">
+            <span class="filename">Choose file</span>
+            {{UploadInspectionReport === '' ? 'No File Choosen' : Dis_UploadInspectionReport}}
+          </label>
+          <div class="btn-group" *ngIf="UploadInspectionReport!=''">
+            <a class="btn btn-outline-primary" target="_blank" href="{{UploadInspectionReportPath}}"><i class="fa fa-eye"></i></a>
+            <button type="button" class="btn btn-outline-danger" (click)="DeleteFile('InspectionReport',UploadInspectionReport)"><i class="fa fa-trash-o"></i></button>
+          </div>
+        </div>
+
+        <p *ngIf="isInspectionReportValid && UploadInspectionReport==''" class="text-danger">This field is required .!</p>
+
       </div>
     </div>
     <div class="row  m-2">

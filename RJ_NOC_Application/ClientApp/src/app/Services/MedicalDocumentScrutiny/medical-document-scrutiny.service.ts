@@ -253,4 +253,38 @@ export class MedicalDocumentScrutinyService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
+  public async GenerateRevertLetter(CollageID: number, RoleID: number, ApplyNOCID: number) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.post(this.APIUrl + "/GenerateRevertLetter/" + CollageID + "/" + RoleID + "/" + ApplyNOCID, httpOptions)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+  public async GenerateInspectionReport(CollageID: number, RoleID: number, ApplyNOCID: number, CreatedBy: number) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.post(this.APIUrl + "/GenerateInspectionReport/" + CollageID + "/" + RoleID + "/" + ApplyNOCID + "/" + CreatedBy, httpOptions)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+  public async UploadInspectionReport(ApplyNOCID: number, CreatedBy: number, PDFFile: string) {
+    var request = { ApplyNOCID: ApplyNOCID, UserID: CreatedBy, DocumentName: PDFFile };
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.post(this.APIUrl + "/UploadInspectionReport", request, httpOptions)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
 }

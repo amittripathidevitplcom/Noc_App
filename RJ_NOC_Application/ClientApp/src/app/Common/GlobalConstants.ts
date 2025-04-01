@@ -47,15 +47,15 @@ export class GlobalConstants {
   public static SystemGeneratedPDFPathURL: string = "http://localhost:62778/systemgeneratedpdf/"
   public static SSOURL: string = "https://ssotest.rajasthan.gov.in/signin";
   public static ApplicationTitle: string = "rj_noc";
-  public static rpprequsturl: string = "http://uat.rpp.rajasthan.gov.in/payments/v1/init";
+  public static RPPRequstURL: string = "http://uat.rpp.rajasthan.gov.in/payments/v1/init";
   //Stagging
-  //public static apiURL: string = "http://172.22.33.75/API/api/";
-  //public static BacktoSSOURL: string = "http://172.22.33.75/SSO_Landing_Page.aspx?BackToSSO=Yes";
-  //public static BacktoSSOURL_Logout: string = "http://172.22.33.75/SSO_Landing_Page.aspx?BackToSSO=No";
-  //public static ImagePathURL: string = "http://172.22.33.75/API/ImageFile/"
-  //public static SystemGeneratedPDFPathURL: string = "http://172.22.33.75/API/SystemGeneratedPDF/"
+  //public static apiURL: string = "http://172.22.33.75/api/api/";
+  //public static BacktoSSOURL: string = "http://172.22.33.75/sso_landing_page.aspx?backtosso=yes";
+  //public static BacktoSSOURL_Logout: string = "http://172.22.33.75/sso_landing_page.aspx?backtosso=no";
+  //public static ImagePathURL: string = "http://172.22.33.75/api/imagefile/"
+  //public static SystemGeneratedPDFPathURL: string = "http://172.22.33.75/api/systemgeneratedpdf/"
   //public static SSOURL: string = "https://ssotest.rajasthan.gov.in/signin";
-  //public static ApplicationTitle: string = "RJ_NOC";
+  //public static ApplicationTitle: string = "rj_noc";
   //public static RPPRequstURL: string = "http://uat.rpp.rajasthan.gov.in/payments/v1/init";
   //Live
   //public static apiURL: string = "https://nocapi.rajasthan.gov.in/api/api/";

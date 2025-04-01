@@ -211,7 +211,7 @@
         </div>
         <div class="card-body p-0">
           <div class="table-responsive maxheight600px">
-            <table class="table table-bordered tableHeaderTH tableHeaderFixed tableHeaderTHMiddel  tableForm100 tableAlternate mb-0" id="tabellist" #content>
+            <table class="table table-bordered tableHeaderTH tableHeaderTHMiddel  tableForm100 tableAlternate mb-0" id="tabellist" #content>
               <thead>
                 <tr>
                   <th>Sr. No</th>
@@ -272,6 +272,7 @@
                     <a href="javascript:void(0)" (click)="ApplicationSummary_OnClick(row.DepartmentID,row.CollegeID)" class="btn btn-sm btn-secondary">
                       <i class="fa fa-eye"></i>
                     </a>
+                    &nbsp;<button type="button" class="btn btn-sm btn-info" title="View Application trail" (click)="GetApplicationTrail(myhistorymodal,row.ApplyNocApplicationID)"><i class="fa fa-list"></i></button>
                   </td>
 
                 </tr>
@@ -322,6 +323,51 @@
       <div class="row">
         <div class="col-12 text-end mt-4">
           <button type="submit" id="btnUnlockApplication" (click)="SaveData()" class="btn btn-success"><i class="fa fa-unlock"></i> Unlock</button>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+
+
+  <ng-template #myhistorymodal let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title" style="font-size: 17px; font-weight: 600 !important;">Application Trail</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <i class="fa fa-close"></i>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="card">
+        <div class="card-header">
+          <b>Application Trail</b>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="table-responsive">
+              <table class="table table-hover table-striped-columns">
+                <thead>
+                  <tr>
+                    <th>Sr.No.</th>
+                    <th>User Name</th>
+                    <th>Next User & Role</th>
+                    <th>Action</th>
+                    <th>Action Date</th>
+                    <th>Remark</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of ApplicationTrailList let idx =index">
+                    <td>{{idx+1}}</td>
+                    <td>{{item.ActionUser}}</td>
+                    <td>{{item.NextUserName}} ({{item.NextRoleName}})</td>
+                    <td>{{item.ActionName}}</td>
+                    <td>{{item.ActionDate}}</td>
+                    <td>{{item.Remark}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
         </div>
       </div>
     </div>
