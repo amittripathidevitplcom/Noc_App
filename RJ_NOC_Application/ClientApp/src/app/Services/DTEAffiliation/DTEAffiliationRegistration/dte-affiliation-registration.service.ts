@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { DTEAffiliationRegistrationDataModel } from '../../../Models/DTEAffiliation/DTEAffiliationRegistration/DTEAffiliationRegistrationDataModel';
+import { DTEAffiliationRegistrationDataModel,BTERFeeMasterDataModel } from '../../../Models/DTEAffiliation/DTEAffiliationRegistration/DTEAffiliationRegistrationDataModel';
 import { TotalCollegeReportSearchFilter, Generateorderforbter } from '../../../Models/SearchFilterDataModel';
 import { GlobalConstants } from '../../../Common/GlobalConstants';
 @Injectable({
@@ -69,6 +69,78 @@ export class DTEAffiliationRegistrationService {
       throw error;
     }
   }
+  public async ApplicationSubmit(DTE_ARId: number,ActionName:string) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl + "/ApplicationSubmit/" + DTE_ARId + "/" + ActionName)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }  
+  public async Generateorder_SaveData(request: Generateorderforbter) {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const body = JSON.stringify(request);
 
+    try {
+      return await this.http.post(this.APIUrl + "/Generateorder_SaveData", body, { headers })
+        .pipe(
+          catchError(this.handleErrorObservable)
+        ).toPromise();
+    } catch (error) {
+      console.error("Error in Generateorder_SaveData:", error);
+      throw error;
+    }
+  }
+  public async GetAllBTERFeeList(UserID: number) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl + "/" + UserID)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+  public async GetAllLOIFeeList(UserID: number) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl + "/" + UserID)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+  public async BTERFeeSaveData(request: BTERFeeMasterDataModel) {
+    const headers = { 'content-type': 'application/json' }
+    const body = JSON.stringify(request);
+    return await this.http.post(this.APIUrl + "/BTERFeeSaveData", body, { 'headers': headers })
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+  public async GetBTERFeeByID(FeeID: number, UserID: number) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl + "/" + FeeID + "/" + UserID)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+  public async BTERDeleteData(FeeID: number, UserID: number) {
+    const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
+    return await this.http.post(this.APIUrl + '/BTERDeleteData/' + FeeID + "/" + UserID, httpOptions)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
  
 }

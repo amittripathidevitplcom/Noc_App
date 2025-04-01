@@ -7,14 +7,14 @@ import { LoaderService } from '../../../Services/Loader/loader.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DropdownValidators } from '../../../Services/CustomValidators/custom-validators.service';
 import { ToastrService } from 'ngx-toastr';
-import { LOIFeemasterService } from '../../../Services/Master/LOIFeeMaster/loifeemaster.service'
-import { LOIFeeMasterDataModel } from '../../../Models/LOIFeeMasterDataModel'
+import { DTEAffiliationRegistrationDataModel, BTERFeeMasterDataModel } from '../../../Models/DTEAffiliation/DTEAffiliationRegistration/DTEAffiliationRegistrationDataModel';
 import { SSOLoginDataModel } from '../../../Models/SSOLoginDataModel';
 import { Clipboard } from '@angular/cdk/clipboard';
 import jsPDF from 'jspdf'
 import autoTable from 'jspdf-autotable'
 import * as XLSX from 'xlsx';
 import { min } from 'moment';
+import { DTEAffiliationRegistrationService } from '../../../Services/DTEAffiliation/DTEAffiliationRegistration/dte-affiliation-registration.service';
 
 @Injectable()
   @Component({
@@ -23,12 +23,12 @@ import { min } from 'moment';
     styleUrls: ['./bterbranch-wise-fee-master.component.css']
   })
 export class BTERBranchWiseFeeMasterComponent implements OnInit {
-  LOIFeeMasterForm!: FormGroup;
+  BTERFeeMasterForm!: FormGroup;
   public State: number = -1;
   public SuccessMessage: any = [];
   public ErrorMessage: any = [];
   /*Save Data Model*/
-  request = new LOIFeeMasterDataModel();
+  request = new BTERFeeMasterDataModel();
   public isDisabledGrid: boolean = false;
   public isLoading: boolean = false;
   isSubmitted: boolean = false;
@@ -42,11 +42,11 @@ export class BTERBranchWiseFeeMasterComponent implements OnInit {
   public ActiveStatus: boolean = true;
   public isShowGrid: boolean = false;
   public is_disableDepartment: boolean = false;
-  public LOIFeesList: any = [];
-  constructor(private loiFeemasterService: LOIFeemasterService, private toastr: ToastrService, private loaderService: LoaderService,
-    private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private _fb: FormBuilder, private clipboard: Clipboard) { }
+  public BTERFeesList: any = [];
+  constructor(private toastr: ToastrService, private loaderService: LoaderService,
+    private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private _fb: FormBuilder, private clipboard: Clipboard,private dTEAffiliationregistrationService: DTEAffiliationRegistrationService) { }
   async ngOnInit() {
-    this.LOIFeeMasterForm = this.formBuilder.group(
+    this.BTERFeeMasterForm = this.formBuilder.group(
       {
         ddlDepartmentID: ['', [DropdownValidators]],
         txtFeeType: ['', Validators.required],
@@ -58,8 +58,8 @@ export class BTERBranchWiseFeeMasterComponent implements OnInit {
     if (ddlDepartmentID) ddlDepartmentID.focus();
     await this.GetDepartmentList();
     //disable dropdown
-    this.request.DepartmentID = 5;
-    if (this.request.DepartmentID == 5) {
+    this.request.DepartmentID = 12;
+    if (this.request.DepartmentID == 12) {
       this.is_disableDepartment = true;
     }
     else {
@@ -67,9 +67,9 @@ export class BTERBranchWiseFeeMasterComponent implements OnInit {
     }
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     this.ActiveStatus = true;
-    this.GetAllLOIFeeList();
+    this.GetAllBTERFeeList();
   }
-  get form() { return this.LOIFeeMasterForm.controls; }
+  get form() { return this.BTERFeeMasterForm.controls; }
 
   alphaOnly(event: any): boolean {  // Accept only alpha numerics, not special characters 
     var regex = new RegExp("^[a-zA-Z ]+$");
@@ -110,18 +110,18 @@ export class BTERBranchWiseFeeMasterComponent implements OnInit {
       }, 200);
     }
   };
-
-  async GetAllLOIFeeList() {
+  
+  async GetAllBTERFeeList() {
     try {
       this.loaderService.requestStarted();
-      await this.loiFeemasterService.GetAllLOIFeeList(this.UserID)
+      await this.dTEAffiliationregistrationService.GetAllBTERFeeList(this.UserID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
 
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
-          this.LOIFeesList = data['Data'][0]['data'];
+          this.BTERFeesList = data['Data'][0]['data'];
         }, error => console.error(error));
     }
     catch (Ex) {
@@ -135,7 +135,7 @@ export class BTERBranchWiseFeeMasterComponent implements OnInit {
   }
   async SaveData() {
     this.isSubmitted = true;
-    if (this.LOIFeeMasterForm.invalid) {
+    if (this.BTERFeeMasterForm.invalid) {
       return
     }
 
@@ -143,7 +143,7 @@ export class BTERBranchWiseFeeMasterComponent implements OnInit {
     this.loaderService.requestStarted();
     this.isLoading = true;
     try {
-      await this.loiFeemasterService.SaveData(this.request)
+      await this.dTEAffiliationregistrationService.BTERFeeSaveData(this.request)
         .then((data: any) => {
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
@@ -153,7 +153,7 @@ export class BTERBranchWiseFeeMasterComponent implements OnInit {
           if (!this.State) {
             this.toastr.success(this.SuccessMessage)
             this.ResetControl();
-            this.GetAllLOIFeeList();
+            this.GetAllBTERFeeList();
           }
           else {
             this.toastr.error(this.ErrorMessage)
@@ -193,7 +193,7 @@ export class BTERBranchWiseFeeMasterComponent implements OnInit {
     this.isSubmitted = false;
     try {
       this.loaderService.requestStarted();
-      await this.loiFeemasterService.GetLOIFeeByID(FeeID, this.UserID)
+      await this.dTEAffiliationregistrationService.GetBTERFeeByID(FeeID, this.UserID)
         .then(async (data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.request.FeeID = data['Data'][0]["FeeID"];
@@ -221,14 +221,14 @@ export class BTERBranchWiseFeeMasterComponent implements OnInit {
     try {
       if (confirm("Are you sure you want to delete this ?")) {
         this.loaderService.requestStarted();
-        await this.loiFeemasterService.DeleteData(FeeID, this.UserID)
+        await this.dTEAffiliationregistrationService.BTERDeleteData(FeeID, this.UserID)
           .then((data: any) => {
             this.State = data['State'];
             this.SuccessMessage = data['SuccessMessage'];
             this.ErrorMessage = data['ErrorMessage'];
             if (this.State == 0) {
               this.toastr.success(this.SuccessMessage)
-              this.GetAllLOIFeeList();
+              this.GetAllBTERFeeList();
             }
             else {
               this.toastr.error(this.ErrorMessage)
@@ -251,7 +251,7 @@ export class BTERBranchWiseFeeMasterComponent implements OnInit {
   }
   btnExportTable_Click(): void {
     this.loaderService.requestStarted();
-    if (this.LOIFeesList.length > 0) {
+    if (this.BTERFeesList.length > 0) {
       try {
         this.isLoadingExport = true;
         /* table id is passed over here */
@@ -288,19 +288,19 @@ export class BTERBranchWiseFeeMasterComponent implements OnInit {
   btnSavePDF_Click(): void {
 
     this.loaderService.requestStarted();
-    if (this.LOIFeesList.length > 0) {
+    if (this.BTERFeesList.length > 0) {
       try {
 
 
         let doc = new jsPDF('p', 'mm', [432, 279])
         let pDFData: any = [];
-        for (var i = 0; i < this.LOIFeesList.length; i++) {
+        for (var i = 0; i < this.BTERFeesList.length; i++) {
           pDFData.push({
             "S.No.": i + 1,
-            "DepartmentName": this.LOIFeesList[i]['DepartmentName'],
-            "FeeType": this.LOIFeesList[i]['FeeType'],
-            "Amount": this.LOIFeesList[i]['Amount'],
-            "Status": this.LOIFeesList[i]['ActiveDeactive']
+            "DepartmentName": this.BTERFeesList[i]['DepartmentName'],
+            "FeeType": this.BTERFeesList[i]['FeeType'],
+            "Amount": this.BTERFeesList[i]['Amount'],
+            "Status": this.BTERFeesList[i]['ActiveDeactive']
           })
         }
 

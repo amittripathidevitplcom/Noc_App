@@ -117,6 +117,7 @@ export class ContactDetailsDataModel {
   public ContactID: number = 0;
   public CollegeDetailsID: number = 0;//foreign key of M_CollegeMaster
   public NameOfPerson: string = '';
+  
   public DesignationID: number = 0;
   public DesignationName: string = '';
   public MobileNumber: string = '';

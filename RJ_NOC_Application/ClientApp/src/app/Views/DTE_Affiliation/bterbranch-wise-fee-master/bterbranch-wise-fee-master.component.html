@@ -17,7 +17,7 @@
   <div class="row">
     <div class="col-md-12">
       <div class="clearfix"></div>
-      <form [formGroup]="LOIFeeMasterForm" class="form-horizontal">
+      <form [formGroup]="BTERFeeMasterForm" class="form-horizontal">
         <div class="card">
           <div class="card-header d-flex justify-content-between align-items-center">
             <b><i class="fa fa-plus"></i>&nbsp; Add BTER Fee</b>
@@ -94,7 +94,7 @@
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let row of LOIFeesList | tableSearchFilter:searchText;let idx=index;">
+                <tr *ngFor="let row of BTERFeesList | tableSearchFilter:searchText;let idx=index;">
                   <td>{{idx+1}}</td>
                   <td>{{row.DepartmentName}}</td>
                   <td>{{row.FeeType}}</td>
