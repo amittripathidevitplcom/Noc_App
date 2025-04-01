@@ -1524,7 +1524,7 @@ export class AddCollegeComponent implements OnInit {
               }
               else if (this.request.DepartmentID == 4) {
                 debugger;
-                if (this.LegalEntityManagementType != 'Private') {
+                  if (this.LegalEntityManagementType != 'Private') {
                   this.routers.navigate(['/draftapplicationlist']);
                 }
                 else {
@@ -1582,7 +1582,7 @@ export class AddCollegeComponent implements OnInit {
     return isValid;
   }
 
-  async GetData() {
+  async GetData() {   
     debugger;
     //Show Loading
     this.loaderService.requestStarted();

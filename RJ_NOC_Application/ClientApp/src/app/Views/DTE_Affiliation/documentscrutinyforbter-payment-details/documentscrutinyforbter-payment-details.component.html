@@ -1,0 +1,301 @@
+<div class="card tabCard1 mb-0" id="CourseDetails1">
+
+  <div class="card-body">
+    <div class="card">
+      <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+          <div class="card">
+            <div class="card-body" *ngIf="DeficiencyNOCHistoryDetails.length>0 && this.Affiliationstatus !='Existing'">
+              <div class="row">
+                <div class="table-responsive maxheight600px">
+                  <label>NOC</label>
+                  <table class="table table-hover table-striped-columns">
+                    <thead>
+                      <tr>
+                        <th>
+                          Compliance<br />
+                          <!--<div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="rdOfflinepaymentSelectAllActionTypeNOC" id="rdOfflinepaymentSelectAllNOCYes" value="Yes" (change)="selectAllNoc('Yes')">
+                            <label class="form-check-label">Yes</label>
+                          </div>
+                          <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="rdOfflinepaymentSelectAllActionTypeNOC" id="rdOfflinepaymentSelectAllNOCNo" value="No" (change)="selectAllNoc('No')">
+                            <label class="form-check-label">No</label>
+                          </div>-->
+                        </th>
+                        <th>Sr. No.</th>
+                        <th>Noc Number </th>
+                        <th>Uploaded NOC Approval Doc</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let Nocdetails of DeficiencyNOCHistoryDetails;let idx=index;">
+                        <td>
+                          <div class="col-lg-12 col-md-12 col-sm-6 col-12 mb-3">
+                            <div class="form-check form-check-inline">
+                              <input class="form-check-input" type="radio" name="rdNOCActionType{{idx+1}}" id="rdNOCActionTypeYes{{idx+1}}" [(ngModel)]="Nocdetails.Action" value="Yes" (change)="ClickOnActionNoc(idx)">
+                              <label class="form-check-label">Yes</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                              <input class="form-check-input" type="radio" name="rdNOCActionType{{idx+1}}" id="rdNOCActionTypeYes{{idx+1}}" value="No" [(ngModel)]="Nocdetails.Action" (change)="ClickOnActionNoc(idx)">
+                              <label class="form-check-label">No</label>
+                            </div>
+                          </div>
+                          <div class="row" [hidden]="Nocdetails.Action !='No'">
+                            <div class="col-lg-11 col-md-11 col-sm-6 col-12 mb-3">
+                              <label>Remark : </label>
+                              <textarea type="text" class="form-control" name="txtOfflinePaymentRemark{{idx+1}}" id="txtOfflinePaymentRemark{{idx+1}}" [(ngModel)]="Nocdetails.Remark"></textarea>
+                            </div>
+                          </div>
+
+                        </td>
+                        <td>{{idx+1}}</td>
+                        <td><label>{{Nocdetails.NocNumber}}</label></td>
+                        <td>
+                          <a class="bi bi-file-earmark-pdf-fill" *ngIf="Nocdetails.UploadNocApproval !=''" data-fancybox="gallery" href="{{Nocdetails.UploadNocApprovalDocPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td colspan="7" *ngIf="DeficiencyNOCHistoryDetails.length==0" style="color:red"> No Data Found.!</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+            <div class="card-body" *ngIf="DeficiencyLOAHistoryDetails.length>0">
+              <div class="row">
+                <div class="table-responsive maxheight600px">
+                  <label>EOA/LOA</label>
+                  <table class="table table-hover table-striped-columns">
+                    <thead>
+                      <tr>
+                        <th>
+                          Compliance<br />
+                          <!--<div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="rdLOAActionType" id="rdLOASelectAllYes" value="Yes" (change)="selectAllLOA('Yes')">
+                            <label class="form-check-label">Yes</label>
+                          </div>
+                          <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="rdLOAActionType" id="rdLOASelectAllNo" value="No" (change)="selectAllLOA('No')">
+                            <label class="form-check-label">No</label>
+                          </div>-->
+                        </th>
+                        <th>Sr. No.</th>
+                        <th>EOA/LOA Number </th>
+                        <th>Uploaded EOA/LOA Approval Doc</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let LOAdetails of DeficiencyLOAHistoryDetails;let idx=index;">
+                        <td>
+                          <div class="col-lg-12 col-md-12 col-sm-6 col-12 mb-3">
+                            <div class="form-check form-check-inline">
+                              <input class="form-check-input" type="radio" name="rdLOA{{idx+1}}" id="rdLOAYes{{idx+1}}" [(ngModel)]="LOAdetails.Action" value="Yes" (change)="ClickOnActionLOA(idx)">
+                              <label class="form-check-label">Yes</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                              <input class="form-check-input" type="radio" name="rdLOA{{idx+1}}" id="rdLOANo{{idx+1}}" value="No" [(ngModel)]="LOAdetails.Action" (change)="ClickOnActionLOA(idx)">
+                              <label class="form-check-label">No</label>
+                            </div>
+                          </div>
+                          <div class="row" [hidden]="LOAdetails.Action !='No'">
+                            <div class="col-lg-11 col-md-11 col-sm-6 col-12 mb-3">
+                              <label>Remark : </label>
+                              <textarea type="text" class="form-control" name="txtOfflinePaymentRemark{{idx+1}}" id="txtOfflinePaymentRemark{{idx+1}}" [(ngModel)]="LOAdetails.Remark"></textarea>
+                            </div>
+                          </div>
+
+                        </td>
+                        <td>{{idx+1}}</td>
+                        <td><label>{{LOAdetails.AICTELAO_No}}</label></td>
+                        <td>
+                          <a class="bi bi-file-earmark-pdf-fill" *ngIf="LOAdetails.UploadLOAApproval !=''" data-fancybox="gallery" href="{{LOAdetails.UploadLOAApprovalDocPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td colspan="7" *ngIf="DeficiencyLOAHistoryDetails.length==0" style="color:red"> No Data Found.!</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+            <div class="card-body" *ngIf="DeficiencyApplicationHistoryDetails.length>0">
+              <div class="row">
+                <div class="table-responsive maxheight600px">
+                  <label>Application</label>
+                  <table class="table table-hover table-striped-columns">
+                    <thead>
+                      <tr>
+                        <th>
+                          Compliance<br />
+                          <!--<div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="rdApplicationSelectAllActionType" id="rdApplicationSelectAllYes" value="Yes" (change)="selectAllApplication('Yes')">
+                            <label class="form-check-label">Yes</label>
+                          </div>
+                          <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="rdApplicationSelectAllActionType" id="rdApplicationSelectAllNo" value="No" (change)="selectAllApplication('No')">
+                            <label class="form-check-label">No</label>
+                          </div>-->
+                        </th>
+                        <th>Sr. No.</th>
+                        <th>Uploaded Application Approval Doc</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let Applicationdetails of DeficiencyApplicationHistoryDetails;let idx=index;">
+                        <td>
+                          <div class="col-lg-12 col-md-12 col-sm-6 col-12 mb-3">
+                            <div class="form-check form-check-inline">
+                              <input class="form-check-input" type="radio" name="rdApplicationType{{idx+1}}" id="rdApplicationTypeYes{{idx+1}}" [(ngModel)]="Applicationdetails.Action" value="Yes" (change)="ClickOnActionApplication(idx)">
+                              <label class="form-check-label">Yes</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                              <input class="form-check-input" type="radio" name="rdApplicationType{{idx+1}}" id="rdApplicationTypeNo{{idx+1}}" value="No" [(ngModel)]="Applicationdetails.Action" (change)="ClickOnActionApplication(idx)">
+                              <label class="form-check-label">No</label>
+                            </div>
+                          </div>
+                          <div class="row" [hidden]="Applicationdetails.Action !='No'">
+                            <div class="col-lg-11 col-md-11 col-sm-6 col-12 mb-3">
+                              <label>Remark : </label>
+                              <textarea type="text" class="form-control" name="txtOfflinePaymentRemark{{idx+1}}" id="txtOfflinePaymentRemark{{idx+1}}" [(ngModel)]="Applicationdetails.Remark"></textarea>
+                            </div>
+                          </div>
+
+                        </td>
+                        <td>{{idx+1}}</td>
+                        <td>
+                          <a class="bi bi-file-earmark-pdf-fill" *ngIf="Applicationdetails.UploadLOAApproval !=''" data-fancybox="gallery" href="{{Applicationdetails.UploadLOAApprovalDocPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td colspan="7" *ngIf="DeficiencyLOAHistoryDetails.length==0" style="color:red"> No Data Found.!</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+            <div class="card-body" *ngIf="DeficiencyAmountHistoryDetails.length>0">
+              <div class="row">
+                <div class="table-responsive maxheight600px">
+                  <label>Payment</label>
+                  <table class="table table-hover table-striped-columns">
+                    <thead>
+                      <tr>
+                        <th>
+                          Compliance<br />
+                          <!--<div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="rdpaymentSelectAllActionType" id="rdpaymentSelectAllYes" value="Yes" (change)="selectAllPayment('Yes')">
+                            <label class="form-check-label">Yes</label>
+                          </div>
+                          <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="rdpaymentSelectAllActionType" id="rdpaymentSelectAllNo" value="No" (change)="selectAllPayment('No')">
+                            <label class="form-check-label">No</label>
+                          </div>-->
+                        </th>
+                        <th>Sr. No.</th>
+                        <th>PaymentId</th>
+                        <th>Amount</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let Amountdetails of DeficiencyAmountHistoryDetails;let idx=index;">
+                        <td>
+                          <div class="col-lg-12 col-md-12 col-sm-6 col-12 mb-3">
+                            <div class="form-check form-check-inline">
+                              <input class="form-check-input" type="radio" name="rdPaymentActionType{{idx+1}}" id="rdPaymentActionTypeYes{{idx+1}}" [(ngModel)]="Amountdetails.Action" value="Yes" (change)="ClickOnActionPayment(idx)">
+                              <label class="form-check-label">Yes</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                              <input class="form-check-input" type="radio" name="rdPaymentActionType{{idx+1}}" id="rdPaymentActionTypeNo{{idx+1}}" value="No" [(ngModel)]="Amountdetails.Action" (change)="ClickOnActionPayment(idx)">
+                              <label class="form-check-label">No</label>
+                            </div>
+                          </div>
+                          <div class="row" [hidden]="Amountdetails.Action !='No'">
+                            <div class="col-lg-11 col-md-11 col-sm-6 col-12 mb-3">
+                              <label>Remark : </label>
+                              <textarea type="text" class="form-control" name="txtOfflinePaymentRemark{{idx+1}}" id="txtOfflinePaymentRemark{{idx+1}}" [(ngModel)]="Amountdetails.Remark"></textarea>
+                            </div>
+                          </div>
+
+                        </td>
+                        <td>{{idx+1}}</td>
+                        
+                        <td><label>{{Amountdetails.PaymentID}}</label></td>
+                        <td><label>{{Amountdetails.FeesAmount}}</label></td>
+                        
+                      </tr>
+                      <tr>
+                        <td colspan="7" *ngIf="DeficiencyAmountHistoryDetails.length==0" style="color:red"> No Data Found.!</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <!--<div class="row" *ngIf="FinalRemarks.length>0">
+      <div class="table-responsive">
+        <table class="table table-bordered table-hover table-striped">
+          <thead>
+            <tr>
+              <th>Sr.No.</th>
+              <th>Role</th>
+              <th>Action</th>
+              <th>Remark</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item1 of FinalRemarks ; let idx =index">
+              <td>{{idx+1}}</td>
+              <td>{{item1.RoleID}}</td>
+              <td>{{item1.ActionName}}</td>
+              <td>{{item1.Remark}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>-->
+    <div class="card-header">
+      <b>Payment Approve/Revert </b>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-12 mb-3">
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="rdOfflinepaymentapproverevert" id="rdOfflinepaymentapprove" [value]="1" [(ngModel)]="dsrequest.ActionID" [attr.disabled]="isDisabledAction ? true : null">
+            <label class="form-check-label" for="rdOfflinepaymentapprove">Approve</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="rdOfflinepaymentapproverevert" id="rdOfflinepaymentrevert" [value]="2" [(ngModel)]="dsrequest.ActionID" [attr.disabled]="isDisabledAction ? true : null">
+            <label class="form-check-label" for="rdOfflinepaymentrevert">Revert</label>
+          </div>
+          <p *ngIf="isSubmitted&&dsrequest.ActionID==0" class="text-danger"> This field is required .!</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+          <label>Remarks</label>
+          <textarea id="OfflinePaymentRemark" class="form-control" [(ngModel)]="dsrequest.FinalRemark"></textarea>
+          <div *ngIf="isRemarkValid" class="text-danger">
+            <p *ngIf="isRemarkValid"> This field is required .!</p>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <button class="btn btn-primary" type="button" (click)="SubmitOffPaymentDetail_Onclick()">Submit</button>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+</div>
+

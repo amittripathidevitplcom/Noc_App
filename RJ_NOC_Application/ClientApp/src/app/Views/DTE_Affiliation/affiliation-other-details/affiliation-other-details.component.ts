@@ -44,19 +44,27 @@ export class AffiliationOtherDetailsComponent {
   sSOLoginDataModel = new SSOLoginDataModel();
   public IsOpen: boolean = false;
   public isFormValid: boolean = true;
-  public MaxDate: Date = new Date();
+  public MaxDate: Date = new Date;
   public NOCSTATUS: boolean = false;
   public AICTEEOALOAStatus: boolean = false;
+  public SelectedDepartmentID: number = 0;
+  public SearchRecordID: string = '';
+  public AffiliationRegStatus: any = '';
+  public AffiliationRegID: number = 0;
+  public SSOID: string = '';
+  public LegalEntityManagementType: string = "";
+  public AffiliationCollegeStatusId: number = 0;
+  
   constructor(private toastr: ToastrService, private loaderService: LoaderService,
     private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private _fb: FormBuilder,
     private clipboard: Clipboard, private dTEAffiliationOtherDetailsService: DTEAffiliationOtherDetailsService, private fileUploadService: FileUploadService) {
 
   }
   async ngOnInit() {
-
+    this.loaderService.requestStarted();
     this.DTEAffiliationOtherDetailsForm = this.formBuilder.group(
       {        
-        ddlNocIssued: ['', [DropdownValidators]],       
+        ddlNocIssued: [''],       
         txtNocNumber: [''],
         txtNocIssueDate: [''],
         UploadNocApproval: [''], 
@@ -67,14 +75,46 @@ export class AffiliationOtherDetailsComponent {
         UploadApplicationForm: [''],       
       })
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
+    this.SelectedDepartmentID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DepartmentID')?.toString()));
+    this.SearchRecordID = this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DTE_ARId')?.toString());
+    this.AffiliationRegID = this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DTEAffiliationID')?.toString());
+    this.AffiliationRegStatus = this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('Status')?.toString());
+    this.AffiliationCollegeStatusId = this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeStatusId')?.toString());
+    //console.log(this.sSOLoginDataModel);
+    this.SSOID = this.sSOLoginDataModel.SSOID;    
+    //console.log(this.SelectedDepartmentID);
+    //console.log(this.AffiliationRegID);
+    //console.log(this.AffiliationRegStatus);
+    //console.log(this.AffiliationCollegeStatusId);
+    this.request.DepartmentID = this.SelectedDepartmentID;
+    this.request.BTERRegID = this.AffiliationRegID;
+    this.request.RegAffiliationStatusId = this.AffiliationCollegeStatusId;
+    this.request.UserID = this.sSOLoginDataModel.UserID;
 
     const ddlDepartmentID = document.getElementById('ddlDepartmentID')
     if (ddlDepartmentID) ddlDepartmentID.focus();
-    this.request.NocIssued = 1;
-    this.request.AICTE_EOA_LOA = 1;
-    this.ActionStatus();
+    
+    await this.ActionStatus();    
+    if (this.AffiliationRegStatus == 'Existing') {
+      this.request.AICTE_EOA_LOA = 1;
+      await this.OnchangeEOAStatus();
+    }
+    if (this.AffiliationRegStatus == 'New') {
+      if (this.request.NOCStatus != '') {
+        this.request.NOCStatus = this.request.NOCStatus
+      } else {
+        this.request.NocIssued = 1;
+        this.request.AICTE_EOA_LOA = 1;
+        await this.OnchangeStatus();
+        await this.OnchangeEOAStatus();
+      }
+      
+    }
     this.GetDepartmentList();
+    await this.GetStartDateEndDateDepartmentwise();
     this.GetStatusOfCollege();
+    await this.GetOtherinformation();
+    await this.loaderService.requestEnded();
   }
   get form() { return this.DTEAffiliationOtherDetailsForm.controls; }
   async GetDepartmentList() {
@@ -87,13 +127,13 @@ export class AffiliationOtherDetailsComponent {
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
           this.DepartmentList = data['Data'];
-          for (let i = 0; i < data['Data'].length; i++) {
-            if (data['Data'][i]['DepartmentID'] == 4) {
-              this.request.DepartmentID = data['Data'][i]['DepartmentID'];
-              this.GetStartDateEndDateDepartmentwise(this.request.DepartmentID) 
-              //console.log(this.request.DepartmentID);
-            }
-          }
+          //for (let i = 0; i < data['Data'].length; i++) {
+          //  if (data['Data'][i]['DepartmentID'] == 4) {
+          //    this.request.DepartmentID = data['Data'][i]['DepartmentID'];
+          //    this.GetStartDateEndDateDepartmentwise(this.request.DepartmentID) 
+          //    //console.log(this.request.DepartmentID);
+          //  }
+          //}
         }, error => console.error(error));
     }
     catch (Ex) {
@@ -105,10 +145,11 @@ export class AffiliationOtherDetailsComponent {
       }, 200);
     }
   }
-  async GetStartDateEndDateDepartmentwise(DepartmentID: number) {
+  async GetStartDateEndDateDepartmentwise() {
     try {
       this.loaderService.requestStarted();
-      await this.commonMasterService.GetStartDateEndDateDepartmentwise(DepartmentID)
+      const departmentId = Number(this.SelectedDepartmentID);
+      await this.commonMasterService.GetStartDateEndDateDepartmentwise(departmentId)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
@@ -147,36 +188,65 @@ export class AffiliationOtherDetailsComponent {
       }, 200);
     }
   } 
-  async SaveData() {    
-    if (this.request.DepartmentID == 4) {
+  async SaveData() {
+    debugger;
+    if (this.SelectedDepartmentID == 12) {
       this.isSubmitted = true;
-      if (this.DTEAffiliationOtherDetailsForm.invalid) {
-        this.isFormValid = false;
-        return;
-      }      
-      var NOCStatustype = this.NOCIssuedDataList.find((x: { NocIssued: any; }) => x.NocIssued == this.request.NocIssued).AffilationIssue;
-      this.request.NOCStatus = NOCStatustype
-      if (this.request.NOCStatus == 'Yes' && this.request.NocNumber == '' && this.request.NocIssueDate == '' && this.request.UploadNocApproval == '') {
-        this.isFormValid = false;
-        return;
+      
+      if (this.AffiliationRegStatus != 'Existing') {
+        var NOCStatustype = this.NOCIssuedDataList.find((x: { NocIssued: any; }) => x.NocIssued == this.request.NocIssued).AffilationIssue;
+        this.request.NOCStatus = NOCStatustype
+        if (this.request.NOCStatus == 'Yes') {
+          this.DTEAffiliationOtherDetailsForm.get('txtNocNumber')?.setValidators([Validators.required]);
+          this.DTEAffiliationOtherDetailsForm.get('txtNocNumber')?.updateValueAndValidity();
+          this.DTEAffiliationOtherDetailsForm.get('txtNocIssueDate')?.setValidators([Validators.required]);
+          this.DTEAffiliationOtherDetailsForm.get('txtNocIssueDate')?.updateValueAndValidity();
+          console.log(this.request.UploadNocApproval);
+          if (this.request.UploadNocApproval == '') {
+            //this.DTEAffiliationOtherDetailsForm.get('UploadNocApproval')?.setValidators([Validators.required]);
+            //this.DTEAffiliationOtherDetailsForm.get('UploadNocApproval')?.updateValueAndValidity();
+            this.isSubmitted = true;
+            this.isFormValid = false;
+            return;
+          }
+          //this.isFormValid = false;
+          //return;
+        }
       }
-      var AICTEEOALOAStatustype = this.NOCIssuedDataList.find((x: { NocIssued: any; }) => x.NocIssued == this.request.NocIssued).AffilationIssue;
+      
+      var AICTEEOALOAStatustype = this.NOCIssuedDataList.find((x: { NocIssued: any; }) => x.NocIssued == this.request.AICTE_EOA_LOA).AffilationIssue;
       this.request.AICTEStatus = AICTEEOALOAStatustype
-      if (this.request.AICTEStatus == 'Yes' && this.request.AICTELAO_No == '' && this.request.EOA_LOA_Date == '' && this.request.UploadLOAApproval == '') {
-        this.isFormValid = false;
-        return;
-      }    
-
+      if (this.request.AICTEStatus == 'Yes') {
+        this.DTEAffiliationOtherDetailsForm.get('txtAICTELAO_No')?.setValidators([Validators.required]);
+        this.DTEAffiliationOtherDetailsForm.get('txtAICTELAO_No')?.updateValueAndValidity();
+        this.DTEAffiliationOtherDetailsForm.get('txtEOA_LOA_Date')?.setValidators([Validators.required]);
+        this.DTEAffiliationOtherDetailsForm.get('txtEOA_LOA_Date')?.updateValueAndValidity();
+        console.log(this.request.UploadLOAApproval);
+        if (this.request.UploadLOAApproval == '' ) {
+          //this.DTEAffiliationOtherDetailsForm.get('UploadLOAApproval')?.setValidators([Validators.required]);
+          //this.DTEAffiliationOtherDetailsForm.get('UploadLOAApproval')?.updateValueAndValidity();
+          this.isSubmitted = true;
+          this.isFormValid = false;
+          return;
+        }
+      }
+      console.log(this.request.UploadApplicationForm);
       if (this.request.UploadApplicationForm == '') {
         this.isSubmitted = true;
         this.isFormValid = false;
         return;
-      }    
+      }
+      if (this.DTEAffiliationOtherDetailsForm.invalid) {
+        this.isFormValid = false;
+        return;
+      }
       const isConfirmed = confirm("Are you sure you want to submit the form?");
       if (!isConfirmed) {
         return; // Exit if user cancels
       }
       //Show Loading
+      //console.log(this.request);
+      //console.log(this.request.DepartmentID);
       this.loaderService.requestStarted();
       this.isLoading = true;
       try {
@@ -190,6 +260,8 @@ export class AffiliationOtherDetailsComponent {
               this.toastr.success(this.SuccessMessage)
               this.ResetControl();
               this.isSubmitted = false;
+              this.routers.navigate(['/affiliationregistration']);
+              
             }
             else {
               this.toastr.error(this.ErrorMessage)
@@ -221,6 +293,7 @@ export class AffiliationOtherDetailsComponent {
   }
   
   async DeleteImage(Type: string, file: string) {
+    debugger;
     try {
 
       if (confirm("Are you sure you want to delete this ?")) {
@@ -231,7 +304,22 @@ export class AffiliationOtherDetailsComponent {
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
           if (this.State == 0) {
-            this.ResetFileAndValidation(Type, '', '', '', '', false);
+            //this.Reset1FileAndValidation(Type, '', '', '', '', false);
+            if (Type == 'UploadNocApproval') {
+              this.request.UploadNocApproval = "";
+              this.request.UploadNocApprovalDocPath = "";
+              this.request.UploadNocApprovalDoc_Dis_FileName = "";
+            }
+            else if (Type == 'UploadLOAApproval') {
+              this.request.UploadLOAApproval = "";
+              this.request.UploadLOAApprovalDocPath = "";
+              this.request.UploadLOAApproval_Dis_FileName = "";
+            }
+            else if (Type == 'UploadApplicationForm') {
+              this.request.UploadApplicationForm = "";
+              this.request.UploadApplicationFormDocPath = "";
+              this.request.UploadApplicationFormDoc_Dis_FileName = "";
+            }
           }
           if (this.State == 1) {
             this.toastr.error(this.ErrorMessage)
@@ -312,7 +400,8 @@ export class AffiliationOtherDetailsComponent {
       }, 200);
     }
   } 
-  ResetFileAndValidation(type: string, msg: string, name: string, path: string, dis_Name: string, isShowFile: boolean) {    
+  ResetFileAndValidation(type: string, msg: string, name: string, path: string, dis_Name: string, isShowFile: boolean) {
+    debugger;
     try {
      this.loaderService.requestStarted();
     if (type == 'UploadNocApproval') {   
@@ -340,6 +429,35 @@ export class AffiliationOtherDetailsComponent {
       }, 200);
     }
   }
+  //Reset1FileAndValidation(type: string, msg: string, name: string, path: string, dis_Name: string, isShowFile: boolean) {
+  //  debugger;
+  //  try {
+  //   this.loaderService.requestStarted();
+  //  if (type == 'UploadNocApproval') {   
+  //    this.request.UploadNocApproval = '';
+  //    this.request.UploadNocApprovalDocPath = '';
+  //    this.request.UploadNocApprovalDoc_Dis_FileName = '';
+  //   }
+  //  else if (type == 'UploadLOAApproval') {
+  //    this.request.UploadLOAApproval = '';
+  //    this.request.UploadLOAApprovalDocPath = '';
+  //    this.request.UploadLOAApproval_Dis_FileName = '';
+  //   }
+  //  else if (type == 'UploadApplicationForm') {
+  //    this.request.UploadApplicationForm = '';
+  //    this.request.UploadApplicationFormDocPath = '';
+  //    this.request.UploadApplicationFormDoc_Dis_FileName = '';
+  //   }
+  //  }
+  //  catch (Ex) {
+  //    console.log(Ex);
+  //  }
+  //  finally {
+  //    setTimeout(() => {
+  //     this.loaderService.requestEnded();
+  //    }, 200);
+  //  }
+  //}
  
   async ActionStatus() {
     try {
@@ -352,8 +470,7 @@ export class AffiliationOtherDetailsComponent {
         "AffilationIssue": "No",
         "NocIssued": "2",
       });
-      this.OnchangeStatus();
-      this.OnchangeEOAStatus();
+     
     }
     catch (Ex) {
       console.log(Ex);
@@ -365,7 +482,8 @@ export class AffiliationOtherDetailsComponent {
     }
 
   }
-  async OnchangeStatus() {   
+  async OnchangeStatus() {
+    debugger;
    // console.log(this.NOCIssuedDataList);
     var NOCStatustype = this.NOCIssuedDataList.find((x: { NocIssued: any; }) => x.NocIssued == this.request.NocIssued).AffilationIssue;
     
@@ -373,18 +491,72 @@ export class AffiliationOtherDetailsComponent {
     if (NOCStatustype == 'Yes') {
       this.NOCSTATUS = true;
       this.request.NOCStatus == 'Yes'
-    } else {
+    }
+    else {
       this.NOCSTATUS = false;
+      this.request.NocNumber = '';
+      this.request.NocIssueDate = '';
+      this.request.UploadNocApproval = '';     
     }
     
   }
-  async OnchangeEOAStatus() {   
-    var AICTEEOALOAStatustype = this.NOCIssuedDataList.find((x: { NocIssued: any; }) => x.NocIssued == this.request.NocIssued).AffilationIssue;
+  async OnchangeEOAStatus() {
+    debugger;
+    var AICTEEOALOAStatustype = this.NOCIssuedDataList.find((x: { NocIssued: any; }) => x.NocIssued == this.request.AICTE_EOA_LOA).AffilationIssue;
+    console.log(AICTEEOALOAStatustype);
     if (AICTEEOALOAStatustype == 'Yes') {
       this.AICTEEOALOAStatus = true;
       this.request.AICTEStatus = 'Yes'
     } else {
-      this.AICTEEOALOAStatus = false;
+      this.AICTEEOALOAStatus = false;     
+      this.request.AICTELAO_No = '';
+      this.request.EOA_LOA_Date = '';
+      this.request.UploadLOAApproval = '';      
+    }
+  }
+  async GetOtherinformation() {
+    // console.log(this.request.DepartmentID);
+    try {
+      this.loaderService.requestStarted();
+      await this.dTEAffiliationOtherDetailsService.GetOtherinformation(this.request.BTERRegID)
+        .then(async (data: any) => {
+          debugger;
+          data = JSON.parse(JSON.stringify(data));          
+          this.request.OtherDetailsID = data['Data'][0]['data'][0]['OtherDetailsID'];          
+          this.request.NOCStatus = data['Data'][0]['data'][0]['StatusNOCIssued'];
+          if (this.request.NOCStatus !='Yes') {
+            this.NOCSTATUS = false;
+          }
+          this.request.NocIssued = data['Data'][0]['data'][0]['NocIssued'];
+          this.request.NocNumber = data['Data'][0]['data'][0]['NocNumber'];
+          this.request.NocIssueDate = data['Data'][0]['data'][0]['NocIssueDate'];
+          this.request.UploadNocApproval = data['Data'][0]['data'][0]['UploadNocApproval'];
+          this.request.UploadNocApprovalDocPath = data['Data'][0]['data'][0]['UploadNocApprovalDocPath'];
+          this.request.UploadNocApprovalDoc_Dis_FileName = data['Data'][0]['data'][0]['UploadNocApprovalDoc_Dis_FileName'];
+          this.request.AICTEStatus = data['Data'][0]['data'][0]['AICTEEOALOA'];
+          if (this.request.AICTEStatus !='Yes') {
+            this.AICTEEOALOAStatus = false;     
+          }
+          this.request.AICTE_EOA_LOA = data['Data'][0]['data'][0]['AICTE_EOA_LOA'];
+          this.request.AICTELAO_No = data['Data'][0]['data'][0]['AICTELAO_No'];
+          this.request.EOA_LOA_Date = data['Data'][0]['data'][0]['EOA_LOA_Date'];
+          this.request.UploadLOAApproval = data['Data'][0]['data'][0]['UploadLOAApproval'];
+          this.request.UploadLOAApprovalDocPath = data['Data'][0]['data'][0]['UploadLOAApprovalDocPath'];
+          this.request.UploadLOAApproval_Dis_FileName = data['Data'][0]['data'][0]['UploadLOAApproval_Dis_FileName'];
+          this.request.UploadApplicationForm = data['Data'][0]['data'][0]['UploadApplicationForm'];
+          this.request.UploadApplicationFormDocPath = data['Data'][0]['data'][0]['UploadApplicationFormDocPath'];
+          this.request.UploadApplicationFormDoc_Dis_FileName = data['Data'][0]['data'][0]['UploadApplicationFormDoc_Dis_FileName'];
+          this.loaderService.requestEnded();
+          
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
     }
   }
 }

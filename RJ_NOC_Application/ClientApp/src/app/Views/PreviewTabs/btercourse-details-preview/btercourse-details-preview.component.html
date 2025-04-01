@@ -1,0 +1,41 @@
+<div class="card tabCard1 mb-0" id="CourseDetails1">
+  <!--<div class="card-header">
+    <b><i class="bi bi-table"></i>&nbsp; Course Details</b>
+  </div>-->
+  <div class="card-body">
+    
+    <div class="card mb-0" *ngIf="AllDTEAffiliationCourseList.length>0">
+      <div class="card-header d-xxl-flex d-xl-flex d-md-flex d-sm-block justify-content-between align-items-center">
+        <b><i class="bi bi-table"></i>Affiliation Course List </b>
+      </div>
+      <div class="table-responsive">
+        <table class="table table-hover table-striped-columns mb-0" id="tabellist" #content>
+          <thead>
+            <tr>
+              <th>Sr.No.</th>
+              <th>Course Type</th>
+              <th>Course Name</th>
+              <th *ngIf="this.CourseStatus !='Closed'">Course Intake</th>
+              <th>Branch Type</th>
+              <th *ngIf="this.CourseStatus !='Closed'">Shift</th>
+              <th *ngIf="this.AffiliationRegStatus !='New'">Course Status</th>             
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let row of AllDTEAffiliationCourseList| tableSearchFilter:searchText; let idx=index;">
+              <td style="width:40px !important"> {{idx+1}}</td>
+              <td>{{row.AffiliationCourseTypeName}}</td>
+              <td>{{row.CourseName}}</td>
+              <td *ngIf="this.CourseStatus !='Closed'">{{row.CourseIntakeAsPerAICTELOA}}</td>
+              <td>{{row.AffiliationBranchName}}</td>
+              <td *ngIf="this.CourseStatus !='Closed'">{{row.SiftName}}</td>
+              <td *ngIf="this.AffiliationRegStatus !='New'">{{row.AffiliationCourseStatus}}</td>              
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
+</div>
+

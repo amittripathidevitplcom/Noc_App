@@ -33,7 +33,7 @@ export class DraftApplicationListComponent implements OnInit {
   public draftApplicatoinListData: any = [];
   searchText: string = '';
   sSOLoginDataModel = new SSOLoginDataModel();
-
+  public DepartmentID: number = 0;
 
   constructor(private draftApplicationListService: DraftApplicationListService, private toastr: ToastrService, private loaderService: LoaderService,
     private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private _fb: FormBuilder) {
@@ -63,6 +63,7 @@ export class DraftApplicationListComponent implements OnInit {
           this.ErrorMessage = data['ErrorMessage'];
           this.draftApplicatoinListData = data['Data'][0]['data'];
           console.log(this.draftApplicatoinListData);
+          this.DepartmentID = data['Data'][0]['data'][0]['DepartmentID']
         }, error => console.error(error));
     }
     catch (Ex) {

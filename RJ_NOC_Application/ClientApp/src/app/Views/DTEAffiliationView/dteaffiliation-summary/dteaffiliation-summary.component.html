@@ -3,13 +3,13 @@
 <div class="container-fluid breadcrumbBox py-2">
   <div class="row align-items-center">
     <div class="col-md-6">
-      <h3>DTE Affiliation Summary</h3>
+      <h3>BTER Affiliation Summary</h3>
     </div>
     <div class="col-md-6 d-flex justify-content-end">
       <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="#">Application</a></li>
-          <li class="breadcrumb-item active" aria-current="page">Application Summary</li>
+          <li class="breadcrumb-item active" aria-current="page">BTER Application Summary</li>
         </ol>
       </nav>
     </div>
@@ -25,39 +25,26 @@
 
 
 
-    <div class="col-md-12" *ngIf="IsManagmentType && SelectedDepartmentID ==3">
-      <div class="card mb-0">
-        <div class="card-header">
-          <b><i class="bi bi-table"></i> Application Deficiency </b>
-        </div>
-        <div class="card-body">
-          <div class="col-md-12">
-            <span [innerHTML]="DCPendingPoint" style="color: red !important;"></span>
-          </div>
+    <!--<div class="col-md-12">
+    <div class="card mb-0">
+      <div class="card-header">
+        <b><i class="bi bi-table"></i> Application Deficiency </b>
+      </div>
+      <div class="card-body">
+        <div class="col-md-12">
+          <span [innerHTML]="DCPendingPoint" style="color: red !important;"></span>
         </div>
       </div>
     </div>
-
+  </div>-->
     <div class="col-md-12" *ngIf="IsManagmentType">
       <div class="card mb-0">
         <div class="card-header">
-          <b><i class="bi bi-table"></i>College Details</b>
+          <b><i class="bi bi-table"></i>Legal Entity</b>
         </div>
         <div class="card-body">
           <div class="col-md-12">
-            <app-add-college></app-add-college>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-12" *ngIf="IsManagmentType">
-      <div class="card mb-0">
-        <div class="card-header">
-          <b><i class="bi bi-table"></i>Course Details</b>
-        </div>
-        <div class="card-body">
-          <div class="col-md-12">
-            <app-preview-dteaffiliation-course></app-preview-dteaffiliation-course>
+            <app-btersociety-trust-details-preview></app-btersociety-trust-details-preview>
           </div>
         </div>
       </div>
@@ -65,11 +52,48 @@
     <div class="col-md-12">
       <div class="card mb-0">
         <div class="card-header">
-          <b><i class="bi bi-table"></i>Other Detail </b>
+          <b><i class="bi bi-table"></i>College</b>
+        </div>
+        <div class="card-body">
+          <div class="col-md-12">
+            <app-btercollege-preview></app-btercollege-preview>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-12">
+      <div class="card mb-0">
+        <div class="card-header">
+          <b><i class="bi bi-table"></i>Course</b>
+        </div>
+        <div class="card-body">
+          <div class="col-md-12">
+            <app-btercourse-details-preview></app-btercourse-details-preview>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-12">
+      <div class="card mb-0">
+        <div class="card-header">
+          <b><i class="bi bi-table"></i>Other Details</b>
         </div>
         <div class="card-body">
           <div class="col-md-12">
             <app-preview-dteaffiliation-other-details></app-preview-dteaffiliation-other-details>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-12">
+      <div class="card mb-0">
+        <div class="card-header">
+          <b><i class="bi bi-table"></i>Payment Detail</b>
+        </div>
+        <div class="card-body">
+          <div class="col-md-12">
+            <app-bterpayment-details></app-bterpayment-details>
           </div>
         </div>
       </div>

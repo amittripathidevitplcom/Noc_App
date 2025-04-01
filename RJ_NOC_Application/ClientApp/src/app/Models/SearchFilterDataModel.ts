@@ -264,3 +264,28 @@ export class CourseReportSearchFilterLst {
   public ToSubmittedNOCDate: boolean = true;
   public NOCNumber: boolean = true;
 }
+export class Generateorderforbter {
+  public DTEAffiliationID: number = 0;
+  public SessionID: number = 0;
+  public UserID: number = 0;
+  public RoleID: number = 0;
+  public SessionName: string = '';
+  public TotalBTERreceivedApplicationList: GenerateorderforbterList[] = [];
+}
+export class GenerateorderforbterList {
+  public BterApprovedOrderId: number = 0;
+  public DTEAffiliationID: number = 0;
+  public CollegeRegistrationNo: string = '';
+  public DistrictName: string = '';
+  public CollegeName: string = '';
+  public LegalManagementType: string = '';
+  public CollegeManagementType: string = '';
+  public CollegeEmail: string = '';
+  public CollegeStatus: string = '';
+  public MappingSSOID: string = '';
+  public ApplicationStatusLocation: string = '';
+  public CollegeCode: string = '';
+  public FullAddress: string = '';
+  public Branchandintackname: string = ''; 
+  public ActiveStatus: boolean = false;
+}

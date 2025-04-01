@@ -66,7 +66,7 @@
                   <td>{{row.CreateDate}}</td>
                   <td>
                     {{row.GeoTagging}}
-                    <div class="overtools">
+                    <div class="overtools" *ngIf="row.DepartmentID !=12">
                       <a href="javascript:void(0)" (click)="ApplicationSummary_OnClick(row.DepartmentID,row.CollegeID)" class="btn btn-sm btn-secondary">
                         <i title="Preview Application" class="fa fa-eye"></i>
                       </a>
@@ -79,6 +79,21 @@
                       <a class="bi bi-file-earmark-pdf-fill" *ngIf="row.DepartmentID==6 && row.RevertLetterPath.includes('.pdf')" data-fancybox="gallery" href="{{row.RevertLetterPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
                       <!--<a href="javascript:void(0)" (click)="ViewApplicationPvDetails(mymodalViewPVDetails,row.ApplyNocApplicationID,row.DepartmentID,row.CollegeID,row.ApplicationNo)" class="btn btn-sm btn-info">
     <i title="Physical Verification Details" class="fa fa-list"></i>
+  </a>-->
+                    </div>
+                    <div class="overtools" *ngIf="row.DepartmentID ==12">
+                      <a href="javascript:void(0)" (click)="BTERApplicationSummary_OnClick(row.DepartmentID,row.DTEAffiliationID,row.CollegeStatus)" class="btn btn-sm btn-secondary">
+                        <i title="Preview Application" class="fa fa-eye"></i>
+                      </a>
+                      <!--<button type="button" *ngIf="row.IsMakePayment!=1 &&  this.IsOpen==true" (click)="Edit_OnClick(row.DepartmentID,row.DTE_ARId,row.DTEAffiliationID,row.AffiliationCategoryName,row.CollegeStatusId)" [attr.disabled]="isDisabledGrid ? true : null" title="Edit" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></button>-->
+                      <a href="javascript:void(0)" (click)="BTERRevertEdit_OnClick(row.SearchRecordID)" class="btn btn-sm btn-info">
+                        <i title="Edit Application" class="fa fa-edit"></i>
+                      </a>
+                      <a href="javascript:void(0)" (click)="BTERCheckList_OnClick(RevertRemarkModel,row.DepartmentID,row.ApplyNocApplicationID,row.ActionID)" class="btn btn-sm btn-info">
+                        <i title="Application Comments" class="fa fa-list"></i>
+                      </a>
+                      <!--<a href="javascript:void(0)" (click)="ViewApplicationPvDetails(mymodalViewPVDetails,row.ApplyNocApplicationID,row.DepartmentID,row.CollegeID,row.ApplicationNo)" class="btn btn-sm btn-info">
+  <i title="Physical Verification Details" class="fa fa-list"></i>
   </a>-->
                     </div>
                   </td>

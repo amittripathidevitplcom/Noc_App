@@ -34,7 +34,7 @@
             <table class="table table-hover table-striped-columns">
               <thead>
                 <tr>
-                  <th>Action</th>
+                  <th *ngIf="this.DepartmentID!=12">Action</th>
                   <th>Sr. No.</th>
                   <th>Society Name</th>
                   <th>College Application No.</th>
@@ -54,7 +54,7 @@
               </thead>
               <tbody>
                 <tr *ngFor="let row of draftApplicatoinListData | tableSearchFilter:searchText; let idx=index;">
-                  <td style="width:5%">
+                  <td style="width:5%" *ngIf="row.DepartmentID !=12">
                     <div class="d-flex">
                       <a href="javascript:void(0)" (click)="ApplicationSummary_OnClick(row.DepartmentID,row.CollegeID)" class="btn btn-sm btn-secondary">
                         <i class="fa fa-eye"></i>

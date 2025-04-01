@@ -1,0 +1,125 @@
+<app-loader></app-loader>
+<div class="container-fluid breadcrumbBox py-2">
+  <div class="row align-items-center">
+    <div class="col-md-6">
+    </div>
+    <div class="col-md-6 d-flex justify-content-end">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="#">Application</a></li>
+          <li class="breadcrumb-item active" aria-current="page">Application Fee Details</li>
+        </ol>
+      </nav>
+    </div>
+  </div>
+</div>
+<div class="container-fluid mainContents">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="clearfix"></div>
+      <div class="card">
+
+        <div class="card mb-0" *ngIf="BTERAffiliationFeeList.length>0">
+          <div class="card-header d-xxl-flex d-xl-flex d-md-flex d-sm-block justify-content-between align-items-center">
+            <b><i class="bi bi-table"></i>Application Fee Details</b>
+          </div>
+          <div class="table-responsive">
+            <table class="table table-hover table-striped-columns mb-0" id="tabellist" #content>
+              <thead>
+                <tr>
+                  <th>Sr.No.</th>
+                  <th>Course Type</th>
+                  <th>Course Name</th>
+                  <th>Branch Type</th>
+                  <th>Amount</th>
+
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let row of BTERAffiliationFeeList| tableSearchFilter:searchText; let idx=index;">
+                  <td style="width:40px !important"> {{idx+1}}</td>
+                  <td>{{row.AffiliationCourseTypeName}}</td>
+                  <td>{{row.CourseName}}</td>
+                  <td>{{row.BranchType}}</td>
+                  <td>{{row.CourseFee}}</td>
+                </tr>
+                <tr>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td><b>Affiliation Fees:</b></td>
+                  <td><b>{{BTERAffiliationOnetime}}</b></td>
+                </tr>
+                <tr>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td><b>Total:</b></td>
+                  <td><b>{{Total1}}</b></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+        </div>
+
+      </div>
+      <button class="btn btn-success btn-sm me-3 float-end" style="padding-top:2px !important"
+              type="button"
+              (click)="PaymentApplyNocApplication_click(mymodalpayment)"
+              *ngIf="BTERAffiliationFeeList.length>0">
+        Payment
+      </button>
+      <ng-template #mymodalpayment let-modal>
+        <div class="modal-header">
+          <h4 class="modal-title" id="modal-applynocpayment-title" style="font-size: 17px; font-weight: 600 !important;">
+            Apply Application for : {{CollegeName}}
+          </h4>
+          <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <i class="fa fa-close"></i>
+          </button>
+        </div>
+        <div class="modal-body">
+          <app-loader></app-loader>
+          <!--parameter detail-->
+          <div class="table-responsive">
+            <label>
+              <b>
+                Your Apply BTER Course Charges for followings :
+              </b>
+            </label>
+            <table class="table table-hover table-striped-columns mb-0" id="tabellist" #content>
+              <thead>
+                <tr>
+                  <th>Branch Type</th>
+                  <th>Amount</th>
+
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let row of BTERFeeMasterData| tableSearchFilter:searchText; let idx=index;">
+                  <td>{{row.BranchType}}</td>
+                  <td>{{row.CourseFee}}</td>
+                </tr>
+                <tr>
+                  <td style="text-align:right"><b>Affiliation Fees:</b></td>
+                  <td>{{BTERAffiliationOnetime}}</td>
+                </tr>
+                <tr>
+                  <td style="text-align:right"><b>Total:</b></td>
+                  <td>{{Total1}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="modal-footer text-end">
+          <button type="button" class="btn btn-primary" *ngIf="this.LegalEntityManagementType !='Private'" [attr.disabled]="is_disableDepartment ? true : null" (click)="MakePaymentEGrass_click('Application')">Make Payment(EGrass)</button>
+          <button type="button" class="btn btn-primary" (click)="MakePayment_click()" [attr.disabled]="is_disableDepartment ? true : null">Make Payment</button>
+
+        </div>
+      </ng-template>
+    </div>
+  </div>
+</div>
+

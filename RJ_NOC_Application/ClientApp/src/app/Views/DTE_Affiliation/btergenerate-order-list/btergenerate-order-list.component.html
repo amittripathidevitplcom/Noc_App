@@ -1,0 +1,199 @@
+<app-loader></app-loader>
+<div class="container-fluid breadcrumbBox py-2">
+  <div class="row align-items-center">
+    <div class="col-md-6">
+      <h3>Total  Application</h3>
+    </div>
+    <div class="col-md-6 d-flex justify-content-end">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item active" aria-current="page">Application</li>
+        </ol>
+      </nav>
+    </div>
+  </div>
+</div>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card mb-0">
+        <div class="card-header">
+          <b>
+            <i class="bi bi-table"></i> Search Fields
+          </b>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <label for="ddlUniversityID" class="form-label">
+                <span> University</span>
+              </label>
+              <select class="form-select" id="ddlUniversityID" name="ddlUniversityID" [(ngModel)]="request.UniversityID">
+                <option value="0">All</option>
+                <option *ngFor="let item of UniversityList" value="{{item.UniversityID}}">{{item.UniversityName}}</option>
+              </select>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <label for="ddlDivisionID" class="form-label">Division:</label>
+              <select class="form-select" id="ddlDivisionID" name="ddlDivisionID" [(ngModel)]="request.DivisionID" #SelectedDivisionID (change)="FillDivisionRelatedDDL(SelectedDivisionID.value)">
+                <option value="0">All</option>
+                <option *ngFor="let item of DivisionList" value="{{item.DivisionID}}">{{item.DivisionName}}</option>
+              </select>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <label for="ddlDistrictID" class="form-label">District:</label>
+              <select class="form-select" id="ddlDistrictID" name="ddlDistrictID" [(ngModel)]="request.DistrictID">
+                <option value="0">All</option>
+                <option *ngFor="let item of DistrictList" value="{{item.DistrictID}}">{{item.DistrictName}}</option>
+              </select>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="sSOLoginDataModel.DepartmentID==3">
+              <label for="ddlDefaulter" class="form-label">Is Defaulter:</label>
+              <select class="form-select" id="ddlDefaulter" name="ddlDefaulter" [(ngModel)]="request.IsDefaulter">
+                <option value="0">All</option>
+                <option value="1">Yes</option>
+                <option value="2">No</option>
+              </select>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <label for="ddlDistrictID" class="form-label">College Name</label>
+              <input type="text" class="form-control" id="txtCollegeName" name="txtCollegeName" [(ngModel)]="request.CollegeName">
+
+            </div>
+
+          </div>
+        </div>
+        <div class="card-footer text-end">
+          <button type="submit" (click)="GetGenerateorderList()" class="btn btn-primary"><i class="fa fa-search"></i>&nbsp;Search</button>
+          <button type="submit" (click)="ResetControl()" class="btn btn-danger"><i class="bi bi-bootstrap-reboot"></i>&nbsp;Reset</button>
+          <!--<button type="submit" (click)="btnExportTable_Click()" class="btn btn-success"><i class="fa fa-file-excel-o"></i> &nbsp;Export Record</button>-->
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <div class="row">
+    <div class="card mb-0">
+      <div class="card-header d-xxl-flex d-xl-flex d-md-flex d-sm-block justify-content-between align-items-center">
+        <b><i class="bi bi-table"></i> Total Application List </b>
+        <div class="d-flex align-items-center table-filter mr-15">
+          <i class="fa fa-search"></i>
+          <input type="text" class="form-control" placeholder="Search Here" [(ngModel)]="searchText" />
+        </div>
+      </div>
+      <div class="table-responsive" style="height: calc(100vh - 350px) !important;">
+        <table class="table table-hover table-striped-columns" id="tabellist1">
+          <thead>
+            <tr>
+              <th>Sr. No.</th>
+              <th>Order Number</th>              
+              <th>Application Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let row of TotalOrderGenerateList  | tableSearchFilter:searchText; let idx=index;">
+              <td style="text-align:center;">{{idx+1}}</td>
+              <td>{{row.GenOrderNumber}}</td>             
+              <td>{{row.ApplicationStatusLocation}}</td>
+              <td>
+                <button *ngIf="row.PdfFilePath == ''" (click)="BTEROrderGen(row.GenOrderNumber)" title="Download Order"><i class="fa fa-download has-pdf"></i></button>
+                &nbsp;<a *ngIf="row.PdfFilePath != ''" href="{{row.PdfFilePath}}" target="_blank" class="btn btn-sm btn-info" title="View Genrated PDF"><i class="fa fa-file-pdf-o"></i></a>
+                <a *ngIf="row.PdfFilePath != ''" class="btn btn-sm btn-success" title="Esign" (click)="SendEsign(row.FileName,row.GenOrderNumber)" target="_blank"><i class="bi bi-pen"></i>Esign</a>
+                <!--*ngIf="this.sSOLoginDataModel.RoleID==39 && item.NOCFilePath == ''"-->
+                <!--<a href="javascript:void(0)" class="btn btn-sm btn-info" title="Action" (click)="OpenGeneratePDFPopUP(ViewOpenGeneratePDFPopUP)">Generate PDF</a>-->
+                &nbsp;<button type="button" (click)="View_OnClick(mymodalOrderview,row.GenOrderNumber)" [attr.disabled]="isDisabledGrid ? true : null" title="Order Wise List" class="btn btn-sm btn-info"><i class="fa fa-bars"></i></button>
+
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+<ng-template #mymodalOrderview let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title" style="font-size: 17px; font-weight: 600 !important;">Order Trail</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <i class="fa fa-close"></i>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <div class="card mb-0">
+        <div class="card-header d-xxl-flex d-xl-flex d-md-flex d-sm-block justify-content-between align-items-center">
+          <b><i class="bi bi-table"></i> Order List </b>
+          <div class="d-flex align-items-center table-filter mr-10">
+
+            <button type="submit" (click)="btnExportTable_Click()" class="btn btn-success"><i class="fa fa-file-excel-o"></i> &nbsp;Export Record</button>
+
+            &nbsp;
+            <i class="fa fa-search"></i>
+            <input type="text" class="form-control" placeholder="Search Here" [(ngModel)]="searchText" />
+          </div>
+        </div>
+        <div class="table-responsive" style="height: calc(100vh - 350px) !important;">
+          <table class="table table-hover table-striped-columns" id="tabellist">
+            <thead>
+              <tr>
+                <th>Sr. No.</th>
+                <th>Order Number</th>
+                <th>District Name</th>
+                <th>College Name</th>
+                <th>Management Type</th>
+                <th>College Email</th>
+                <th>College Status</th>
+                <th>Mapping SSOID</th>               
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let row of TotalOrderGenerateListview  | tableSearchFilter:searchText; let idx=index;">
+                <td style="text-align:center;">{{idx+1}}</td>
+                <td>{{row.GenOrderNumber}}</td>
+               <td>{{row.DistrictName}}</td>               
+               <td>{{row.CollegeName}}</td>               
+               <td>{{row.LegalManagementType}}</td>               
+               <td>{{row.CollegeEmail}}</td>               
+               <td>{{row.CollegeStatus}}</td>               
+               <td>{{row.MappingSSOID}}</td>               
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+<ng-template #ViewOpenGeneratePDFPopUP let-modal>
+
+  <div class="modal-header">
+    <h5 class="modal-title">Order</h5>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')"><i class="fa fa-close"></i></button>
+  </div>
+  <div class="modal-body py-4">
+    <app-loader></app-loader>
+    <div class="card">
+      <div class="card-header">
+        <b>&nbsp;Affiliation Certificate</b>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-lg-12 col-md-12 col-sm-6 col-12 mb-3">
+            <ckeditor [editor]="editor" [config]="config" (ready)="onReady($event)" [(ngModel)]="NOCFormat"></ckeditor>
+            <button type="submit" class="btn btn-primary" id="btnpreview1" (click)="PreviewPDF(NOCFormat)" name="btnpreview1">Preview</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+      <label>Affiliation Issued Remark</label>
+      <textarea id="NOCIssuedRemark" class="form-control" [(ngModel)]="NOCIssuedRemark"></textarea>
+      <p *ngIf="isSubmitNOC&&NOCIssuedRemark==''" class="text-danger"> This field is required .!</p>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" (click)="GeneratePDF_OnClick(NOCFormat)" title="Order Generate" class="btn btn-primary">Order Generate</button>
+    <button type="button" class="btn btn-danger" aria-label="Close" (click)="modal.dismiss('Cross click')">Cancel</button>
+  </div>
+</ng-template>

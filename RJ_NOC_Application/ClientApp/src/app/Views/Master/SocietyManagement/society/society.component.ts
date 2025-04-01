@@ -356,6 +356,14 @@ export class SocietyComponent implements OnInit {
         return
       }
     }
+    if (this.DepartmentID == 5) {
+      if (this.OccupationsName == 'Medical Educationist') {
+        if (this.request.EducationProof == '' || this.request.ConsentLetter == '') {
+          this.IsValidEducationist = 'This field is required .!';
+          return
+        }
+      }
+    }
     if (this.DepartmentID == 5)
     {
       if (this.OccupationsName == 'Medical Educationist') {
@@ -1078,6 +1086,7 @@ export class SocietyComponent implements OnInit {
       this.request.ConsentLetterPath = '';
       this.IsEducationists = false;
     }
+    
     if (this.OccupationsName == 'Others') {
       this.IsOtherOccupation = true;
     }

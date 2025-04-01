@@ -194,4 +194,10 @@ export class ApplyNocParameterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
+  public async GetApplyBTERPaymentHistoryApplicationID(BTERRegID: number, PaymentFor: string) {
+    return await this.http.get(this.APIUrl + "/GetApplyBTERPaymentHistoryApplicationID/" + BTERRegID + "/" + PaymentFor)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
 }

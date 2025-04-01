@@ -1,0 +1,53 @@
+<app-loader></app-loader>
+<div class="container-fluid breadcrumbBox py-2">
+  <div class="row align-items-center">
+    <div class="col-md-6">
+    </div>
+    <div class="col-md-6 d-flex justify-content-end">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="#">Deficiencies Application form Details</a></li>
+          <li class="breadcrumb-item active" aria-current="page">BTER Affiliation</li>
+        </ol>
+      </nav>
+    </div>
+  </div>
+</div>
+<div class="container-fluid mainContents">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="clearfix"></div>
+      <form [formGroup]="RevertApplicationDTEAffiliationOtherDetailsForm" class="form-horizontal">
+        <div class="card">
+          <!--*ngIf="this.AffiliationRegStatus !='Existing'"-->
+          <div class="card">
+            <div class="card-body border">
+              <div class="row">
+                <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
+                  <label>Upload Soft Copy of application form: (Only pdf file) (Max. Size 1MB)<span style="color:red;">*</span></label>
+                  <div class="d-flex">
+                    <input type="file" style="display:none;" class="form-control" id="UploadApplicationForm" name="UploadApplicationForm" (change)="ValidateDocumentNOCApproval($event,'UploadApplicationForm')" formControlName="UploadApplicationForm">
+                    <label class="btn upload" for="UploadApplicationForm">
+                      <span class="filename">Choose file</span>
+                      {{request.UploadApplicationForm === '' ? 'No File Choosen' : request.UploadApplicationFormDoc_Dis_FileName}}
+                    </label>
+                    <div class="btn-group" *ngIf="request.UploadApplicationForm !=''">
+                      <a class="btn btn-outline-primary" target="_blank" href="{{request.UploadApplicationFormDocPath}}"><i class="fa fa-eye"></i></a>
+                      <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('UploadApplicationForm',request.UploadApplicationForm)"><i class="fa fa-trash-o"></i></button>
+                    </div>
+                  </div>
+                  <p class="text-danger" *ngIf="request.UploadApplicationForm==''&& isSubmitted"><i aria-hidden="true"></i>  This field is required .!</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card-footer text-end">
+            <button type="submit" class="btn btn-primary" id="btnSave" name="btnSave" (click)="SaveData()">ReSubmit</button>
+            <button type="submit" class="btn btn-danger" id="btnReset" name="btnReset" (click)="ResetControl()">Reset</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

@@ -1,20 +1,20 @@
-<app-loader></app-loader>
+<!--<app-loader></app-loader>-->
 <div class="container-fluid breadcrumbBox py-2">
   <div class="row align-items-center">
     <div class="col-md-7 d-flex justify-content-start align-items-center flex-wrap">
-      <h3 class="me-2">DTE Affiliation Details</h3>( <span style="color:forestgreen;font-size:12px;font-weight:600">{{CollegeName}}</span> )
+      <h3 class="me-2">BTER Affiliation Details</h3>( <span style="color:forestgreen;font-size:12px;font-weight:600">{{CollegeName}}</span> )
     </div>
     <div class="col-md-5 d-flex justify-content-end align-items-center">
-      <div *ngIf="SelectedDepartmentID ==4">       
+      <!--<div *ngIf="SelectedDepartmentID ==12">       
         <button  class="btn btn-success btn-sm me-3" style="padding-top:2px !important" type="button" data-bs-toggle="modal" data-bs-target="#ViewDTEAffiliationFee" (click)="GetAffiliationRegistrationList()">
           {{ApplyAffiliation}}
         </button>
-      </div>  
+      </div>-->  
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
 
-      <li class="breadcrumb-item"><a href="#">DTE Affiliation</a></li>
-      <li class="breadcrumb-item active" aria-current="page">DTE Affiliation Details</li>
+      <li class="breadcrumb-item"><a href="#">BTER Affiliation</a></li>
+      <li class="breadcrumb-item active" aria-current="page">BTER Affiliation Details</li>
     </ol>
   </nav>
 </div>
@@ -28,18 +28,18 @@
 
           <mat-tab-group mat-align-tabs="center" class="tabUl1 d-block w-100" [selectedIndex]="selectedIndex" #tabs (selectedTabChange)="onTabChange($event)">
 
-            <mat-tab *ngIf="SelectedDepartmentID==4">
+            <mat-tab *ngIf="SelectedDepartmentID==12">
               <ng-template mat-tab-label>
                 <i class="fa fa-home icon" aria-hidden="true"></i>
-                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['CourseDetails']>0"></i>
-                <span class="badge pulse" *ngIf="CheckTabsEntryData['CourseDetails']==0"></span>
-                <span>College Details</span>
+                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['CollegeDetails']>0"></i>
+                <span class="badge pulse" *ngIf="CheckTabsEntryData['CollegeDetails']==0"></span>
+                <span>Basic Info</span>
               </ng-template>
-              <app-add-college></app-add-college>
+              <app-dteadd-college-master></app-dteadd-college-master>
             </mat-tab>
-            <mat-tab *ngIf="SelectedDepartmentID==4">
+            <mat-tab *ngIf="SelectedDepartmentID==12">
               <ng-template mat-tab-label>
-                <i class="fa fa-home icon" aria-hidden="true"></i>
+                <i class="fa fa-book icon" aria-hidden="true"></i>
                 <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['CourseDetails']>0"></i>
                 <span class="badge pulse" *ngIf="CheckTabsEntryData['CourseDetails']==0"></span>
                 <span>Course Details</span>
@@ -47,14 +47,23 @@
               <app-affiliation-add-course></app-affiliation-add-course>
             </mat-tab>
 
-            <mat-tab *ngIf="SelectedDepartmentID==4">
+            <mat-tab *ngIf="SelectedDepartmentID==12">
               <ng-template mat-tab-label>
-                <i class="fa fa-home icon" aria-hidden="true"></i>
-                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['CourseDetails']>0"></i>
-                <span class="badge pulse" *ngIf="CheckTabsEntryData['CourseDetails']==0"></span>
+                <i class="fa fa-info icon" aria-hidden="true"></i>
+                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['OtherInformation']>0"></i>
+                <span class="badge pulse" *ngIf="CheckTabsEntryData['OtherInformation']==0"></span>
                 <span>Other Details</span>
               </ng-template>
               <app-affiliation-other-details></app-affiliation-other-details>
+            </mat-tab>
+            <mat-tab *ngIf="SelectedDepartmentID==12">
+              <ng-template mat-tab-label>
+                <i class="fa fa-rupee icon" aria-hidden="true"></i>
+                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['ApplicationFeeDetails']>0"></i>
+                <span class="badge pulse" *ngIf="CheckTabsEntryData['ApplicationFeeDetails']==0"></span>
+                <span>Application Fee Details</span>
+              </ng-template>
+              <app-bterapplication-fee-details></app-bterapplication-fee-details>
             </mat-tab>
           </mat-tab-group>
         </div>
@@ -62,69 +71,6 @@
           <button *ngIf="this.selectedIndex != 0" class="btn btn-primary" type="button" (click)="PreviousStep()"><< Previous</button>
           <button class="btn btn-primary" type="button" (click)="NextStep()" style="margin-left: 20px;">Next >></button>
           <!--<button *ngIf="this.selectedIndex != maxNumberOfTabs" class="btn btn-primary" type="button" (click)="NextStep()" style="margin-left:20px">Next >></button>-->
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="modal fade" id="ViewDTEAffiliationFee" tabindex="-1" aria-labelledby="ViewDTEAffiliationFee" aria-hidden="true">
-  <div class="modal-dialog modal-xl">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">DTE Affiliation Details</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="ViewDTEAffiliationFee"><i class="fa fa-close"></i></button>
-      </div>
-      <div class="modal-body py-4">
-        <!--<div class="row">
-    <div class="col-md-12">
-      <div class="card mb-0">
-        <div class="card-header">
-          <b><i class="bi bi-table"></i>DTE Affiliation Details</b>
-        </div>
-        <div class="card-body">
-
-        </div>
-      </div>
-    </div>
-  </div>-->
-        <!--*ngIf="DTEAffiliationFeeDetailsList.length>0"-->
-        <div class="row">
-          <div class="col-md-12">
-            <div class="card mb-0">
-              <div class="card-header">
-                <b><i class="bi bi-table"></i>DTE Affiliation Fee Details </b>
-              </div>
-              <div class="col-lg-12 col-md-12 col-sm-12 col-12">
-                <div class="table-responsive">
-                  <table class="table table-bordered table-hover table-striped">
-                    <thead>
-                      <tr>
-                        <th>Sr.No.</th>
-                        <th>Course Type</th>
-                        <th>Course Name</th>
-                        <th>Branch Type</th>
-                        <th>Amount</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr *ngFor="let row of DTEAffiliationFeeDetailsList; let indexOfelement=index;">
-                        <td> {{indexOfelement+1}}</td>
-                        <td>{{row.DTEAffiliationCourseType}}</td>
-                        <td>{{row.DTEAffiliationCourseName}}</td>
-                        <td>{{row.DTEAffiliationBranchType}}</td>
-                        <td>{{row.Amount}}</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="modal-footer">
-          <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Cancel</button>
         </div>
       </div>
     </div>

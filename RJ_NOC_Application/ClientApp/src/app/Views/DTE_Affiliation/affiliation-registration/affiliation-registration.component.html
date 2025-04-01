@@ -8,7 +8,7 @@
       <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="#">Application Master</a></li>
-          <li class="breadcrumb-item active" aria-current="page">DTE Affiliation</li>
+          <li class="breadcrumb-item active" aria-current="page">BTER Affiliation</li>
         </ol>
       </nav>
     </div>
@@ -21,7 +21,7 @@
       <form [formGroup]="DTEAffiliationForm" class="form-horizontal">
         <div class="card">
           <div class="card-header d-flex justify-content-between align-items-center">
-            <b class="text-center"><i class="fa fa-plus"></i>&nbsp;Application For Grant Of Beter Affiliation Of State Government(As Desired By AICTE) </b>
+            <b class="text-center"><i class="fa fa-plus"></i>&nbsp;Application For Grant Of BTER Affiliation Of State Government(As Desired By AICTE) </b>
           </div>
           <div class="card-body border">
             <div class="card-header d-flex justify-content-between align-items-center">
@@ -30,7 +30,7 @@
             <div class="row">
               <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                 <label>Start Date :</label>
-                <input  disabled class="form-control disabled" value="{{dteAffiliationDataModel.StartDate}}"/>
+                <input disabled class="form-control disabled" value="{{dteAffiliationDataModel.StartDate}}" />
               </div>
               <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                 <label>End Date :</label>
@@ -38,7 +38,7 @@
               </div>
             </div>
           </div>
-         
+
           <div class="card-body border" *ngIf="AffiliationRegistrationList.length<=0 && dteAffiliationDataModel.IsOpen && dteAffiliationDataModel.ApplicationSession==ApplyAffiliationFY || request.DTE_ARId>0">
             <div class="row">
               <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
@@ -106,88 +106,261 @@
 
         </div>
       </form>
-    </div>
-    <div class="card mb-0" *ngIf="AffiliationRegistrationList.length>0">
-      <div class="card-header d-xxl-flex d-xl-flex d-md-flex d-sm-block justify-content-between align-items-center">
-        <b><i class="bi bi-table"></i>Affiliatation Registration List </b>
-        <div class="d-flex align-items-center">          
-          <div class="d-flex align-items-center table-filter mr-15">
-            <i class="fa fa-search"></i>
-            <input type="text" class="form-control" placeholder="Search Here" [(ngModel)]="searchText" />
+
+      <div class="card mb-0" *ngIf="AffiliationRegistrationList.length>0">
+        <div class="card-header d-xxl-flex d-xl-flex d-md-flex d-sm-block justify-content-between align-items-center">
+          <b><i class="bi bi-table"></i>Affiliatation Registration List </b>
+          <div class="d-flex align-items-center">
+            <div class="d-flex align-items-center table-filter mr-15">
+              <i class="fa fa-search"></i>
+              <input type="text" class="form-control" placeholder="Search Here" [(ngModel)]="searchText" />
+            </div>
           </div>
         </div>
-      </div>
-      <div class="card-body">
-        <div class="table-responsive">
-          <table class="table table-bordered" id="tabellist">
-            <thead>
-              <tr>
-                <th>
-                  Action
-                </th>
-                <th>
+        <div class="card-body">
+          <div class="tabelDiv">
+            <div class="tabelDivHeader">
+              <div class="tabelDivRow">
+             
+                <div>
                   Sr.No.
-                </th>
-                <th>
+                </div>
+                <div>
                   Department Name
-                </th>
-                <th>
+                </div>
+                <div>
                   College Status
-                </th>
-                <th>
+                </div>
+                <div>
                   College Name
-                </th>
-                <th>
+                </div>
+                <div>
                   Mobile Number
-                </th>
-                <th>
+                </div>
+                <div>
                   Email Id
-                </th>
-                <th *ngIf="ShowAffilationType==true">
+                </div>
+                <div *ngIf="ShowAffilationType==true">
                   Affiliation Type
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let row of AffiliationRegistrationList| tableSearchFilter:searchText;let idx=index; ">
-                <td>
-                  <div class="d-flex">
-                    <button type="button" (click)="Edit_OnClick(row.DepartmentID,row.DTE_ARId)" [attr.disabled]="isDisabledGrid ? true : null" title="Edit" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></button>
-                    <button type="button" (click)="View_OnClick(row.DepartmentID,row.DTE_ARId)" [attr.disabled]="isDisabledGrid ? true : null" title="View" class="btn btn-sm btn-info"><i class="fa fa-eye"></i></button>
+                </div>
+              </div>
+            </div>
+            <div class="tabelDivBody">
+              <div class="tableRowLoop" *ngFor="let row of AffiliationRegistrationList| tableSearchFilter:searchText;let idx=index; ">
+                <div class="tabelDivRow">
+                  <div>
+                    {{idx+1}}
                   </div>
-                </td>
-                <td>
-                  {{idx+1}}
-                </td>
-                <td>
-                  {{row.DepartmentName_English}}
-                </td>
-                <td>
-                  {{row.AffiliationCategoryName}}
-                </td>
-                <td>
-                  {{row.College_Name}}
-                </td>
-                <td>
-                  {{row.Mobile_Number}}
-                </td>
-                <td>
-                  {{row.Email_Address}}
-                </td>
-                <td *ngIf="ShowAffilationType==true">
-                  {{row.AffiliationTypeName}}
-                </td>
-              </tr>
-            </tbody>
-          </table>
+                  <div>
+                    {{row.DepartmentName_English}}
+                  </div>
+                  <div>
+                    {{row.AffiliationCategoryName}}
+                  </div>
+                  <div>
+                    {{row.College_Name}}
+                  </div>
+                  <div>
+                    {{row.Mobile_Number}}
+                  </div>
+                  <div>
+                    {{row.Email_Address}}
+                  </div>
+                  <div *ngIf="ShowAffilationType==true">
+                    {{row.AffiliationTypeName}}
+                  </div>
+                </div>
+                <div class="tabelDivRow text-center fullWidth" style="text-align:center;">
+                  <div class="d-flex justify-content-center" *ngIf="row.IsSubmitedOtherDetailsform !=1">
+                    <button type="button" *ngIf="row.IsMakePayment!=1 &&  this.IsOpen==true" (click)="Edit_OnClick(row.DepartmentID,row.DTE_ARId,row.DTEAffiliationID,row.AffiliationCategoryName,row.CollegeStatusId,row.IsMakePayment)" [attr.disabled]="isDisabledGrid ? true : null" title="Continue For Registration" class="btn btn-sm btn-success me-2">Continue For Registration</button>
+                    <button type="button" *ngIf="row.IsMakePayment!=0" (click)="View_OnClick(row.DepartmentID,row.DTEAffiliationID,row.AffiliationCategoryName,row.CollegeStatusId)" [attr.disabled]="isDisabledGrid ? true : null" title="View" class="btn btn-sm btn-info me-2"><i class="fa fa-eye"></i></button>
+                    <a href="javascript:void(0)" *ngIf="row.IsMakePayment!=0" (click)="ApplicationSummary_OnClick(row.DepartmentID,row.DTEAffiliationID,row.AffiliationCategoryName,row.CollegeStatusId)" class="btn btn-sm btn-secondary me-2">
+                      View BTER Application
+                    </a>
+                    <a class="btn btn-sm btn-info me-2"
+                       *ngIf="(row.IsMakePayment==1 || row.IsMakePayment==0)" href="javascript:void(0)" title="Payment History" (click)="PaymentHistoryApplyBTERApplication_click(mymodalpaymenthistory,row.DTEAffiliationID)">
+                      Payment History
+                    </a>
+                  </div>
+                  <div class="d-flex justify-content-center" *ngIf="row.IsSubmitedOtherDetailsform !=0">
+                    <button type="button" *ngIf="row.IsMakePayment!=1 &&  this.IsOpen==true" (click)="Edit_OnClick(row.DepartmentID,row.DTE_ARId,row.DTEAffiliationID,row.AffiliationCategoryName,row.CollegeStatusId,row.IsMakePayment)" [attr.disabled]="isDisabledGrid ? true : null" title="Check Your Filled Form and Go To Make Payments" class="btn btn-sm btn-info me-2">Check Your Filled Form and Go To Make Payments</button>
+                    <button type="button" *ngIf="row.IsMakePayment!=0" (click)="View_OnClick(row.DepartmentID,row.DTEAffiliationID,row.AffiliationCategoryName,row.CollegeStatusId)" [attr.disabled]="isDisabledGrid ? true : null" title="View" class="btn btn-sm btn-info me-2"><i class="fa fa-eye"></i></button>
+                    <a href="javascript:void(0)" *ngIf="row.IsMakePayment!=0" (click)="ApplicationSummary_OnClick(row.DepartmentID,row.DTEAffiliationID,row.AffiliationCategoryName,row.CollegeStatusId)" class="btn btn-sm btn-secondary me-2">
+                      View BTER Application
+                    </a>
+                    <a class="btn btn-sm btn-info me-2"
+                       *ngIf="(row.IsMakePayment==1 || row.IsMakePayment==0)" href="javascript:void(0)" title="Payment History" (click)="PaymentHistoryApplyBTERApplication_click(mymodalpaymenthistory,row.DTEAffiliationID)">
+                      Payment History
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="table-responsive d-none">
+            <table class="table table-bordered" id="tabellist">
+              <thead>
+                <tr>
+                  <th>
+                    Action
+                  </th>
+                  <th>
+                    Sr.No.
+                  </th>
+                  <th>
+                    Department Name
+                  </th>
+                  <th>
+                    College Status
+                  </th>
+                  <th>
+                    College Name
+                  </th>
+                  <th>
+                    Mobile Number
+                  </th>
+                  <th>
+                    Email Id
+                  </th>
+                  <th *ngIf="ShowAffilationType==true">
+                    Affiliation Type
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let row of AffiliationRegistrationList| tableSearchFilter:searchText;let idx=index; ">
+                  <td>
+                    <div class="d-flex" *ngIf="row.IsSubmitedOtherDetailsform !=1">
+                      <button type="button" *ngIf="row.IsMakePayment!=1 &&  this.IsOpen==true" (click)="Edit_OnClick(row.DepartmentID,row.DTE_ARId,row.DTEAffiliationID,row.AffiliationCategoryName,row.CollegeStatusId)" [attr.disabled]="isDisabledGrid ? true : null" title="Continue For Registration" class="btn btn-sm btn-success">Continue For Registration</button>
+                      <button type="button" *ngIf="row.IsMakePayment!=0" (click)="View_OnClick(row.DepartmentID,row.DTEAffiliationID,row.AffiliationCategoryName,row.CollegeStatusId)" [attr.disabled]="isDisabledGrid ? true : null" title="View" class="btn btn-sm btn-info"><i class="fa fa-eye"></i></button>
+                      <a href="javascript:void(0)" *ngIf="row.IsMakePayment!=0" (click)="ApplicationSummary_OnClick(row.DepartmentID,row.DTEAffiliationID,row.AffiliationCategoryName,row.CollegeStatusId)" class="btn btn-sm btn-secondary">
+                        View BTER Application
+                      </a>
+                      <a class="btn btn-sm btn-info"
+                         *ngIf="(row.IsMakePayment==1 || row.IsMakePayment==0)" href="javascript:void(0)" title="Payment History" (click)="PaymentHistoryApplyBTERApplication_click(mymodalpaymenthistory,row.DTEAffiliationID)">
+                        Payment History
+                      </a>
+                    </div>
+                    <div class="d-flex" *ngIf="row.IsSubmitedOtherDetailsform !=0">
+                      <button type="button" *ngIf="row.IsMakePayment!=1 &&  this.IsOpen==true" (click)="Edit_OnClick(row.DepartmentID,row.DTE_ARId,row.DTEAffiliationID,row.AffiliationCategoryName,row.CollegeStatusId)" [attr.disabled]="isDisabledGrid ? true : null" title="Check Your Filled Form and Go To Make Payments" class="btn btn-sm btn-info">Check Your Filled Form and Go To Make Payments</button>
+                      <button type="button" *ngIf="row.IsMakePayment!=0" (click)="View_OnClick(row.DepartmentID,row.DTEAffiliationID,row.AffiliationCategoryName,row.CollegeStatusId)" [attr.disabled]="isDisabledGrid ? true : null" title="View" class="btn btn-sm btn-info"><i class="fa fa-eye"></i></button>
+                      <a href="javascript:void(0)" *ngIf="row.IsMakePayment!=0" (click)="ApplicationSummary_OnClick(row.DepartmentID,row.DTEAffiliationID,row.AffiliationCategoryName,row.CollegeStatusId)" class="btn btn-sm btn-secondary">
+                        View BTER Application
+                      </a>
+                      <a class="btn btn-sm btn-info"
+                         *ngIf="(row.IsMakePayment==1 || row.IsMakePayment==0)" href="javascript:void(0)" title="Payment History" (click)="PaymentHistoryApplyBTERApplication_click(mymodalpaymenthistory,row.DTEAffiliationID)">
+                        Payment History
+                      </a>
+                    </div>
+                  </td>
+                  <td>
+                    {{idx+1}}
+                  </td>
+                  <td>
+                    {{row.DepartmentName_English}}
+                  </td>
+                  <td>
+                    {{row.AffiliationCategoryName}}
+                  </td>
+                  <td>
+                    {{row.College_Name}}
+                  </td>
+                  <td>
+                    {{row.Mobile_Number}}
+                  </td>
+                  <td>
+                    {{row.Email_Address}}
+                  </td>
+                  <td *ngIf="ShowAffilationType==true">
+                    {{row.AffiliationTypeName}}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
+
+
       </div>
+      <ng-template #mymodalpaymenthistory let-modal>
+        <app-loader></app-loader>
+        <div class="modal-header">
+          <h4 class="modal-title" id="modal-applynocview-title" style="font-size: 17px; font-weight: 600 !important;">
+            Payment History
+          </h4>
+          <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <i class="fa fa-close"></i>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+              <div class="card">
+                <div class="card-header">
+                  <b>Payment History</b>
+                </div>
+                <div class="card-body">
 
 
+                  <div class="row">
+                    <div class="table-responsive maxheight600px">
+                      <table class="table table-hover table-striped-columns">
+                        <thead>
+                          <tr>
+                            <th>Sr. No.</th>
+                            <th>PRN No</th>
+                            <th>Transaction Date</th>
+                            <th>Payment Status</th>
+                            <th>Is Refunded</th>
+                            <th>Amount</th>
+                            <th>Message</th>
+                            <th></th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let paymentdetails of PaymentHistoryDetails;let idx=index;">
+                            <td>{{idx+1}}</td>
+                            <td>
+                              <label>{{paymentdetails.PaymentID}}</label>
+                            </td>
+                            <td>
+                              <label>{{paymentdetails.TransactionDate}}</label>
+                            </td>
+                            <td>
+                              <label>{{paymentdetails.STATUS}} </label>
+                            </td>
+                            <td>
+                              <label>{{paymentdetails.strRefund}}</label>
+                            </td>
+                            <td>
+                              <label>{{paymentdetails.Amount}}</label>
+                            </td>
+                            <td>
+                              <label>{{paymentdetails.ResponseMessage}}</label>
+                            </td>
+
+                            <td>
+                              <button *ngIf="paymentdetails.STATUS!='SUCCESS' && paymentdetails.STATUS!='FAILED'" type="button" id="btnCheckStatus" class="btn btn-primary btn-sm" (click)="CheckStatus_click(paymentdetails)">Check Status</button>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td colspan="7" *ngIf="PaymentHistoryDetails.length==0" style="color:red"> No Data Found.!</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!--end-->
+        </div>
+      </ng-template>
     </div>
   </div>
+
+
+
+
 </div>
-
-
-
-

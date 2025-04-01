@@ -1,0 +1,88 @@
+<app-loader></app-loader>
+<div class="container-fluid breadcrumbBox py-2">
+  <div class="row align-items-center">
+    <div class="col-md-6">
+    </div>
+    <div class="col-md-6 d-flex justify-content-end">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="#">Deficiencies NOC Details</a></li>
+          <li class="breadcrumb-item active" aria-current="page">BTER Affiliation</li>
+        </ol>
+      </nav>
+    </div>
+  </div>
+</div>
+<div class="container-fluid mainContents">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="clearfix"></div>
+      <form [formGroup]="RevertnocDTEAffiliationOtherDetailsForm" class="form-horizontal">
+        <div class="card">
+          <!--*ngIf="this.AffiliationRegStatus !='Existing'"-->
+          <div class="card" *ngIf="this.AffiliationRegStatus !='Existing'">
+            <div class="card-body border">
+              <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-6 mb-3">
+                  <label>Whether the Institute and the course(s) to be commenced are approved by the Government of Rajasthan and NOC has been issued?<span style="color:red;">*</span></label>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-6 mb-3">
+                  <select class="form-select" id="ddlNocIssued" name="ddlNocIssued" [(ngModel)]="request.NocIssued" formControlName="ddlNocIssued" (change)="OnchangeStatus()">
+                    <option value="0" disabled>--Select Status NOC Issued--</option>
+                    <option *ngFor="let item of NOCIssuedDataList" value="{{item.NocIssued}}">
+                      {{item.AffilationIssue}}
+                    </option>
+                  </select>
+                  <div *ngIf="isSubmitted&&form.ddlNocIssued.errors" class="text-danger">
+                    <p *ngIf="!form.ddlNocIssued.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
+                  </div>
+                </div>
+              </div>              
+              <div class="row" *ngIf="NOCSTATUS==true && this.AffiliationRegStatus !='Existing'">
+                <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
+                  <label for="txtNocNumber" class="form-label">NOC Number<span style="color:red;">*</span></label>
+                  <input type="text" id="txtNocNumber" placeholder="Enter the NOC Number" formControlName="txtNocNumber" maxlength="100" class="form-control" [(ngModel)]="request.NocNumber" autocomplete="off">
+                 
+                  <div *ngIf="isSubmitted&&form.txtNocNumber.errors" class="text-danger">
+                    <p *ngIf="!form.txtNocNumber.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
+                  </div>
+                
+
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
+                  <label for="txtNocIssueDate" class="form-label">NOC Issue Date <span style="color:red;">*</span></label>
+                  <input type="date" placeholder="DD/MM/YYYY" class="form-control" id="txtNocIssueDate" [(ngModel)]="request.NocIssueDate" formControlName="txtNocIssueDate" max="{{MaxDate | date:'yyyy-MM-dd'}}" onkeypress="return false;" />
+                 
+                  <div *ngIf="isSubmitted&&form.txtNocIssueDate.errors" class="text-danger">
+                    <p *ngIf="!form.txtNocIssueDate.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
+                  <label>Attach copy of the approval letter (NOC): (Only pdf file) (Max. Size 1MB)<span style="color:red;">*</span></label>
+                  <div class="d-flex">
+                    <input type="file" style="display:none;" class="form-control" id="UploadNocApproval" name="UploadNocApproval" (change)="ValidateDocumentNOCApproval($event,'UploadNocApproval')" formControlName="UploadNocApproval">
+                    <label class="btn upload" for="UploadNocApproval">
+                      <span class="filename">Choose file</span>
+                      {{request.UploadNocApproval === '' ? 'No File Choosen' : request.UploadNocApprovalDoc_Dis_FileName}}
+                    </label>
+                    <div class="btn-group" *ngIf="request.UploadNocApproval !=''">
+                      <a class="btn btn-outline-primary" target="_blank" href="{{request.UploadNocApprovalDocPath}}"><i class="fa fa-eye"></i></a>
+                      <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('UploadNocApproval',request.UploadNocApproval)"><i class="fa fa-trash-o"></i></button>
+                    </div>
+                  </div>
+                  <p class="text-danger" *ngIf="request.UploadNocApproval==''&& isSubmitted &&  request.NOCStatus =='Yes'"><i aria-hidden="true"></i>  This field is required .!</p>
+                  
+                </div>
+              </div>
+            </div>
+          </div>
+         
+          <div class="card-footer text-end">
+            <button type="submit" class="btn btn-primary" id="btnSave" name="btnSave" (click)="SaveData()">ReSubmit</button>
+            <button type="submit" class="btn btn-danger" id="btnReset" name="btnReset" (click)="ResetControl()">Reset</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

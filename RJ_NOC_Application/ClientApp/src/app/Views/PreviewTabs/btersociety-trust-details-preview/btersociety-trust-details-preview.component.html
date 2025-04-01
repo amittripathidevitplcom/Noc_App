@@ -1,0 +1,341 @@
+
+<div class="row">
+  <div class="col-md-12">
+    <div class="card mb-0">
+      <!--<div class="card-header">
+        <b><i class="bi bi-table"></i> Legal Entity </b>
+      </div>-->
+      <div class="card-body">
+        <div class="row">
+          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+            <label>Legal Entity :</label>
+            <input class="form-control disabled mt-1" disabled value="{{legalEntityListData1.IsLegalEntity}}" />
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+            <label>SSOID :</label>
+            <input class="form-control disabled mt-1" disabled value="{{LegalEntityDataModel.SSOID}}" />
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+            <label>Registration No :</label>
+            <input class="form-control disabled mt-1" disabled value="{{legalEntityListData1.RegistrationNo}}" />
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+            <label>President Mobile Number :</label>
+            <input class="form-control disabled mt-1" disabled value="{{legalEntityListData1.PresidentMobileNo}}" />
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+            <label>President Email ID :</label>
+            <input class="form-control disabled mt-1" disabled value="{{legalEntityListData1.PresidentEmail}}" />
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+            <label>Name  :</label>
+            <input class="form-control disabled mt-1" disabled value="{{legalEntityListData1.SocietyName}}" />
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+            <label>Present Status :</label>
+            <input class="form-control disabled mt-1" disabled value="{{legalEntityListData1.SocietyPresentStatusName}}" />
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+            <label>State  :</label>
+            <input class="form-control disabled mt-1" disabled value="{{legalEntityListData1.StateName_English}}" />
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+            <label>District  :</label>
+            <input class="form-control disabled mt-1" disabled value="{{legalEntityListData1.District_Eng}}" />
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+            <label>Act (Which Act You Registered)  :</label>
+            <input class="form-control disabled mt-1" disabled value="{{legalEntityListData1.RegisteredAct}}" />
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="legalEntityListData1.RegisteredAct=='Other'">
+            <label>Act (Which Act You Registered)  :</label>
+            <input class="form-control disabled mt-1" disabled value="{{legalEntityListData1.RegisteredActName}}" />
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+            <label>Date Of Registration :</label>
+            <input class="form-control disabled mt-1" disabled value="{{legalEntityListData1.SocietyRegistrationDate}}" />
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+            <label>Date of Election of Present Management Committee :</label>
+            <input class="form-control disabled mt-1" disabled value="{{legalEntityListData1.ElectionPresentManagementCommitteeDate}}" />
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+            <label>Registered Address :</label>
+            <input class="form-control disabled mt-1" disabled value="{{legalEntityListData1.SocietyRegisteredAddress}}" />
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+            <label>Pincode :</label>
+            <input class="form-control disabled mt-1" disabled value="{{legalEntityListData1.Pincode}}" />
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+            <label>Other Institution run by the Society :</label>
+            <input class="form-control disabled mt-1" disabled value="{{legalEntityListData1.IsOtherInstitution}}" />
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+            <label>Women Member of Management Committee is more than 30% of Total Members :</label>
+            <input class="form-control disabled mt-1" disabled value="{{legalEntityListData1.IsWomenMembers}}" />
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+            <label>Date of Election of Management Committee not more than 3 Year :</label>
+            <input class="form-control disabled mt-1" disabled value="{{legalEntityListData1.IsDateOfElection}}" />
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+            <label>Management Committee certified By Registrar :</label>
+            <input class="form-control disabled mt-1" disabled value="{{legalEntityListData1.ManagementCommitteeCertified}}" />
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+            <label>PAN Number :</label>
+            <input class="form-control disabled mt-1" disabled value="{{legalEntityListData1.SocietyPANNumber}}" />
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="legalEntityListData1.ProcessDepartmentID==2">
+            <label>Whether the College/ Society/ Trust has been changed since its first inception? :</label>
+            <input class="form-control disabled mt-1" disabled value="{{legalEntityListData1.FirstInception}}" />
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="legalEntityListData1.ProcessDepartmentID==2 && legalEntityListData1.FirstInception=='Yes'">
+            <label><b>First Inception Document :</b></label>&nbsp;
+            <label><a target="_blank" href="{{legalEntityListData1.FirstInceptionDocumentPath}}" title="View By first inception document"><i class="fa fa-eye"></i></a></label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+            <div class="table-responsive">
+              <table class="table table-bordered table-hover table-striped">
+                <thead>
+                  <tr>
+                    <th>Trust Logo</th>
+                    <th>Trustee Member Proof</th>
+                    <th>Pan Proof</th>
+                    <th>Registration Document</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>
+                      <a *ngIf="!legalEntityListData1.TrustLogoDocPath.includes('.pdf')" data-fancybox="gallery" href="{{legalEntityListData1.TrustLogoDocPath}}" data-caption="Image 10" title="click here to zoom">
+                        <img src="{{legalEntityListData1.TrustLogoDocPath}}" alt="Trust Logo" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                      </a>
+                      <a class="bi bi-file-earmark-pdf-fill" *ngIf="legalEntityListData1.TrustLogoDocPath.includes('.pdf')" data-fancybox="gallery" href="{{legalEntityListData1.TrustLogoDocPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                    </td>
+                    <td>
+                      <a *ngIf="!legalEntityListData1.TrusteeMemberProofDocPath.includes('.pdf')" data-fancybox="gallery" href="{{legalEntityListData1.TrusteeMemberProofDocPath}}" data-caption="Image 10" title="click here to zoom">
+                        <img src="{{legalEntityListData1.TrusteeMemberProofDocPath}}" alt="Trustee Member Proof" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                      </a>
+                      <a class="bi bi-file-earmark-pdf-fill" *ngIf="legalEntityListData1.TrusteeMemberProofDocPath.includes('.pdf')" data-fancybox="gallery" href="{{legalEntityListData1.TrusteeMemberProofDocPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                    </td>
+                    <td>
+                      <a *ngIf="!legalEntityListData1.SocietyPanProofDocPath.includes('.pdf')" data-fancybox="gallery" href="{{legalEntityListData1.SocietyPanProofDocPath}}" data-caption="Image 10" title="click here to zoom">
+                        <img src="{{legalEntityListData1.SocietyPanProofDocPath}}" alt="Society Pan Proof" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                      </a>
+                      <a class="bi bi-file-earmark-pdf-fill" *ngIf="legalEntityListData1.SocietyPanProofDocPath.includes('.pdf')" data-fancybox="gallery" href="{{legalEntityListData1.SocietyPanProofDocPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                    </td>
+                    <td>
+                      <a *ngIf="!legalEntityListData1.RegistrationDocPath.includes('.pdf')" data-fancybox="gallery" href="{{legalEntityListData1.RegistrationDocPath}}" data-caption="Image 10" title="click here to zoom">
+                        <img src="{{legalEntityListData1.RegistrationDocPath}}" alt="Registration Doc" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                      </a>
+                      <a class="bi bi-file-earmark-pdf-fill" *ngIf="legalEntityListData1.RegistrationDocPath.includes('.pdf')" data-fancybox="gallery" href="{{legalEntityListData1.RegistrationDocPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div class="row" *ngIf="TrusteeGeneralInfoList.length>0">
+          <div class="col-md-12">
+            <div class="card">
+              <div class="card-header d-flex justify-content-between align-items-center">
+                <b><i class="bi bi-table"></i>&nbsp;Trustee General Info</b>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="table-responsive">
+                      <table class="table table-bordered">
+                        <thead>
+                          <tr>
+                            <th>
+                              Sr.No.
+                            </th>
+                            <th>
+                              Election Present Management Committee Date
+                            </th>
+                            <th>
+                              Women Members Of Management Committee
+                            </th>
+                            <th>
+                              Election Of Management Committee
+                            </th>
+                            <th>
+                              Other Institution run by the Society
+                            </th>
+                            <th>
+                              Society Registration Document
+                            </th>
+                            <th>
+                              Society Logo
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let row of TrusteeGeneralInfoList;let idx=index;">
+                            <td>
+                              {{idx+1}}
+                            </td>
+                            <td>
+                              {{row.DateOfElectionOfPresentManagementCommittee | date:'dd-MM-yyyy'}}
+                            </td>
+                            <td>
+                              {{row.WomenMembersOfManagementCommitteeID==1?'Yes':'No'}}
+                            </td>
+                            <td>
+                              {{row.DateOfElectionOfManagementCommitteeID==1?'Yes':'No'}}
+                            </td>
+                            <td>
+                              {{row.OtherInstitutionRunByTheSocietyID==1?'Yes':'No'}}
+                            </td>
+                            <td>
+                              <a *ngIf="!row.SocietyRegistrationDocument.includes('.pdf')" data-fancybox="gallery" href="{{row.SocietyRegistrationDocumentPath}}" data-caption="Image 10" title="click here to zoom">
+                                <img src="{{row.SocietyRegistrationDocumentPath}}" alt="Society Registration Document" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                              </a>
+                              <a class="bi bi-file-earmark-pdf-fill" *ngIf="row.SocietyRegistrationDocument.includes('.pdf')" data-fancybox="gallery" href="{{row.SocietyRegistrationDocumentPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                              <label *ngIf="row.SocietyRegistrationDocument=='N/A'">{{row.SocietyRegistrationDocument}}</label>
+                            </td>
+                            <td>
+                              <a *ngIf="!row.SocietyLogo.includes('.pdf')" data-fancybox="gallery" href="{{row.SocietyLogoPath}}" data-caption="Image 10" title="click here to zoom">
+                                <img src="{{row.SocietyLogoPath}}" alt="Society Logo" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                              </a>
+                              <a class="bi bi-file-earmark-pdf-fill" *ngIf="row.SocietyLogo.includes('.pdf')" data-fancybox="gallery" href="{{row.SocietyLogoPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                              <label *ngIf="row.SocietyLogo=='N/A'">{{row.SocietyLogo}}</label>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row" *ngIf="legalEntityMemberDetailData.length>0">
+          <div class="col-md-12">
+            <div class="card mb-0">
+              <div class="card-header">
+                <b><i class="bi bi-table"></i> Member Details </b>
+              </div>
+              <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                <div class="table-responsive">
+                  <table class="table table-bordered table-hover table-striped">
+                    <thead>
+                      <tr>
+                        <th>Sr. No.</th>
+                        <th>Member Name</th>
+                        <th>Father's Name</th>
+                        <th>Date Of Birth</th>
+                        <th>Mobile No.</th>
+                        <th>Post</th>
+                        <th>Aadhaar Number</th>
+                        <th>Member Photo</th>
+                        <th>Member Sign</th>
+                        <th>Aadhaar Document</th>
+                        <th *ngIf="legalEntityListData1.ProcessDepartmentID==2">Address</th>
+                        <th *ngIf="legalEntityListData1.ProcessDepartmentID==2">Qualification</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let row of legalEntityMemberDetailData; let indexOfelement=index;">
+                        <td> {{indexOfelement+1}}</td>
+                        <td>{{row.MemberName}}</td>
+                        <td>{{row.MemberFatherName}}</td>
+                        <td>{{row.MemberDOB}}</td>
+                        <td>{{row.MemberMobileNo}}</td>
+                        <td>{{row.MemberPostName}}</td>
+                        <td>{{row.PresidentAadhaarNumber}}</td>
+                        <td>
+                          <a *ngIf="!row.MemberPhotoPath.includes('.pdf') && row.MemberPhotoPath!='N/A'" data-fancybox="gallery" href="{{row.MemberPhotoPath}}" data-caption="Image 10" title="click here to zoom">
+                            <img src="{{row.MemberPhotoPath}}" alt="Member Photo" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                          </a>
+                          <label *ngIf="row.MemberPhotoPath=='N/A'">{{row.MemberPhotoPath}}</label>
+                          <a class="bi bi-file-earmark-pdf-fill" *ngIf="row.MemberPhotoPath.includes('.pdf') && row.MemberPhotoPath!='N/A'" data-fancybox="gallery" href="{{row.MemberPhotoPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+
+                        </td>
+                        <td>
+                          <a *ngIf="!row.MemberSignaturePath.includes('.pdf') && row.MemberSignaturePath!='N/A'" data-fancybox="gallery" href="{{row.MemberSignaturePath}}" data-caption="Image 10" title="click here to zoom">
+                            <img src="{{row.MemberSignaturePath}}" alt="Member Signature" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                          </a>
+                          <label *ngIf="row.MemberSignaturePath=='N/A'">{{row.MemberSignaturePath}}</label>
+                          <a class="bi bi-file-earmark-pdf-fill" *ngIf="row.MemberSignaturePath.includes('.pdf')  && row.MemberSignaturePath!='N/A'" data-fancybox="gallery" href="{{row.MemberSignaturePath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+
+                        </td>
+                        <td>
+                          <a *ngIf="!row.PresidentAadhaarProofDocPath.includes('.pdf') && row.PresidentAadhaarProofDocPath!='N/A'" data-fancybox="gallery" href="{{row.PresidentAadhaarProofDocPath}}" data-caption="Image 10" title="click here to zoom">
+                            <img src="{{row.PresidentAadhaarProofDocPath}}" alt="Member Signature" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                          </a>
+                          <label *ngIf="row.PresidentAadhaarProofDocPath=='N/A'">{{row.PresidentAadhaarProofDocPath}}</label>
+                          <a class="bi bi-file-earmark-pdf-fill" *ngIf="row.PresidentAadhaarProofDocPath.includes('.pdf')  && row.PresidentAadhaarProofDocPath!='N/A'" data-fancybox="gallery" href="{{row.PresidentAadhaarProofDocPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+
+                        </td>
+                        <td *ngIf="legalEntityListData1.ProcessDepartmentID==2">{{row.MemberAddress}}</td>
+                        <td *ngIf="legalEntityListData1.ProcessDepartmentID==2">{{row.MemberQualification}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row" *ngIf="legalEntityInstituteDetailData.length>0">
+          <div class="col-md-12">
+            <div class="card mb-0">
+              <div class="card-header">
+                <b><i class="bi bi-table"></i>Other Institute Details </b>
+              </div>
+              <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                <div class="table-responsive">
+                  <table class="table table-bordered table-hover table-striped">
+                    <thead>
+                      <tr>
+                        <th>Sr. No.</th>
+                        <th>Registration No.</th>
+                        <th>Institute Name</th>
+                        <th>Contact Person Name</th>
+                        <th>Designation</th>
+                        <th>Contact Number</th>
+                        <th>State</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let row of legalEntityInstituteDetailData; let indexOfelement=index;">
+                        <td> {{indexOfelement+1}}</td>
+                        <td>{{row.RegistrationNo}}</td>
+                        <td>{{row.InstituteName}}</td>
+                        <td>{{row.InstitutePersonName}}</td>
+                        <td>{{row.InstituteDesignation}}</td>
+                        <td>{{row.InstituteContactNumber}}</td>
+                        <td>{{row.StateName_English}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

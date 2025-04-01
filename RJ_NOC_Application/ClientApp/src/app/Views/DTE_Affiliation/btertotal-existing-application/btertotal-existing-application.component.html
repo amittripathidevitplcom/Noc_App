@@ -1,0 +1,123 @@
+<app-loader></app-loader>
+<div class="container-fluid breadcrumbBox py-2">
+  <div class="row align-items-center">
+    <div class="col-md-6">
+      <h3>Total  Application</h3>
+    </div>
+    <div class="col-md-6 d-flex justify-content-end">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item active" aria-current="page">Application</li>
+        </ol>
+      </nav>
+    </div>
+  </div>
+</div>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card mb-0">
+        <div class="card-header">
+          <b>
+            <i class="bi bi-table"></i> Search Fields
+          </b>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <label for="ddlUniversityID" class="form-label">
+                <span> University</span>
+              </label>
+              <select class="form-select" id="ddlUniversityID" name="ddlUniversityID" [(ngModel)]="request.UniversityID">
+                <option value="0">All</option>
+                <option *ngFor="let item of UniversityList" value="{{item.UniversityID}}">{{item.UniversityName}}</option>
+              </select>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <label for="ddlDivisionID" class="form-label">Division:</label>
+              <select class="form-select" id="ddlDivisionID" name="ddlDivisionID" [(ngModel)]="request.DivisionID" #SelectedDivisionID (change)="FillDivisionRelatedDDL(SelectedDivisionID.value)">
+                <option value="0">All</option>
+                <option *ngFor="let item of DivisionList" value="{{item.DivisionID}}">{{item.DivisionName}}</option>
+              </select>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <label for="ddlDistrictID" class="form-label">District:</label>
+              <select class="form-select" id="ddlDistrictID" name="ddlDistrictID" [(ngModel)]="request.DistrictID">
+                <option value="0">All</option>
+                <option *ngFor="let item of DistrictList" value="{{item.DistrictID}}">{{item.DistrictName}}</option>
+              </select>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="sSOLoginDataModel.DepartmentID==3">
+              <label for="ddlDefaulter" class="form-label">Is Defaulter:</label>
+              <select class="form-select" id="ddlDefaulter" name="ddlDefaulter" [(ngModel)]="request.IsDefaulter">
+                <option value="0">All</option>
+                <option value="1">Yes</option>
+                <option value="2">No</option>
+              </select>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <label for="ddlDistrictID" class="form-label">College Name</label>
+              <input type="text" class="form-control" id="txtCollegeName" name="txtCollegeName" [(ngModel)]="request.CollegeName">
+
+            </div>
+
+          </div>
+        </div>
+        <div class="card-footer text-end">
+          <button type="submit" (click)="GetTotalBterExistingApplicationList()" class="btn btn-primary"><i class="fa fa-search"></i>&nbsp;Search</button>
+          <button type="submit" (click)="ResetControl()" class="btn btn-danger"><i class="bi bi-bootstrap-reboot"></i>&nbsp;Reset</button>
+          <button type="submit" (click)="btnExportTable_Click()" class="btn btn-success"><i class="fa fa-file-excel-o"></i> &nbsp;Export Record</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <div class="row">
+    <div class="card mb-0">
+      <div class="card-header d-xxl-flex d-xl-flex d-md-flex d-sm-block justify-content-between align-items-center">
+        <b><i class="bi bi-table"></i> Total Application List </b>
+        <div class="d-flex align-items-center table-filter mr-15">
+          <i class="fa fa-search"></i>
+          <input type="text" class="form-control" placeholder="Search Here" [(ngModel)]="searchText" />
+        </div>
+      </div>
+      <div class="table-responsive" style="height: calc(100vh - 350px) !important;">
+        <table class="table table-hover table-striped-columns" id="tabellist">
+          <thead>
+            <tr>
+              <th>Sr. No.</th>
+              <th>College Application No.</th>
+              <th>District</th>
+              <th>College Name</th>
+              <th>Legal Management Type</th>
+              <th>College Management Type</th>
+              <th>College Email</th>
+              <th>College Type</th>
+              <th>Mapping SSOID</th>
+              <th>Application Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let row of TotalBTERExistingApplicationList  | tableSearchFilter:searchText; let idx=index;">
+              <td style="text-align:center;">{{idx+1}}</td>
+              <td>{{row.CollegeRegistrationNo}}</td>
+              <td>{{row.DistrictName}}</td>
+              <td>{{row.CollegeName}}</td>
+              <td>{{row.LegalManagementType}}</td>
+              <td>{{row.CollegeManagementType}}</td>
+              <td>{{row.CollegeEmail}}</td>
+              <td>{{row.CollegeStatus}}</td>
+              <td>{{row.MappingSSOID}}</td>
+              <td>{{row.ApplicationStatusLocation}}</td>
+              <td>
+                <button type="button" (click)="View_OnClick(row.DepartmentID,row.DTEAffiliationID,row.CollegeStatus,row.CollegeStatusID)" [attr.disabled]="isDisabledGrid ? true : null" title="View" class="btn btn-sm btn-info"><i class="fa fa-eye"></i></button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+

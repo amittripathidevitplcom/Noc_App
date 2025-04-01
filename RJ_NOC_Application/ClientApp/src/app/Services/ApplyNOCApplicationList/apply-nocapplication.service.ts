@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { throwError } from 'rxjs';
 import { catchError, } from 'rxjs/operators';
-import { ApplicationPenaltyDataModel, CommiteeInspection_RNCCheckList_DataModel, NOCIssuedForAHDegreeDataModel, NOCIssuedForMGOneDataModel, NOCIssuedRequestDataModel, ParameterFeeMaster } from '../../Models/ApplyNOCApplicationDataModel';
-import { DocumentScrutinyDataModel } from '../../Models/DocumentScrutinyDataModel';
+import { ApplicationPenaltyDataModel, CommiteeInspection_RNCCheckList_DataModel, NOCIssuedForMGOneDataModel, NOCIssuedRequestDataModel, ParameterFeeMaster } from '../../Models/ApplyNOCApplicationDataModel';
+import { DocumentScrutinyDataModel, BTERDocumentScrutinyDataModel } from '../../Models/DocumentScrutinyDataModel';
 import { GlobalConstants } from '../../Common/GlobalConstants';
 
 @Injectable({
@@ -339,7 +339,26 @@ export class ApplyNOCApplicationService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-  
+  public async SaveBTERDocumentScrutiny(request: BTERDocumentScrutinyDataModel) {
+    const headers = { 'content-type': 'application/json' }
+    const body = JSON.stringify(request);
+    console.log(request);
+    return await this.http.post(this.APIUrl + '/SaveBTERDocumentScrutiny/', body, { 'headers': headers })
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+  public async GetAppliedParameterEssentialityForAffiliationorder() {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl + "/GetAppliedParameterEssentialityForAffiliationorder/")
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
   
 }
 

@@ -38,22 +38,22 @@
                     &nbsp;<button type="button" *ngIf="item.IsRejected==true" class="btn btn-sm btn-danger" title="Reject" (click)="NOCApproved_Rejected_Model(ReleceNOC,item.ApplyNOCID,item.CollegeID,item.ApplicationNo,'Reject',item.NOCFileName)">Reject Application</button>
                     <button *ngIf="item.IsApproveNoc==true" type="button" class="btn btn-primary" style="margin-left:10px;" title="NOC Approve" (click)="NOCApproved_Rejected_Model(ReleceNOC,item.ApplyNOCID,item.CollegeID,item.ApplicationNo,'Approved',item.NOCFileName,item.DepartmentID,item.IsProvideMeetingDate)">Approved NOC</button>
                     <!--&nbsp;<button *ngIf="this.sSOLoginDataModel.RoleID==39 && item.NOCFilePath=='' && item.IsGenerateNoc==true" type="button" id="btnGenratePDF" class="btn btn-primary" (click)="GenratePDF(item.ApplyNOCID,item.CollegeID)" title="Genrate Darft PDF">Genrate PDF</button>-->
-                    &nbsp;<a *ngIf=" this.sSOLoginDataModel.RoleID==39" href="javascript:void(0)" class="btn btn-sm btn-info" title="Action" (click)="GetMGoneASSESSMENTREPORT(ViewOpenGeneratePDFPopUP,item.ApplyNOCID,item.DepartmentID,item.CollegeID)">Generate  Draft</a>
+                    &nbsp;<a *ngIf="this.sSOLoginDataModel.RoleID==39 && item.NOCFilePath == ''" href="javascript:void(0)" class="btn btn-sm btn-info" title="Action" (click)="OpenGeneratePDFPopUP(ViewOpenGeneratePDFPopUP,item.ApplyNOCID,item.DepartmentID,item.CollegeID)">Generate  Draft</a>
                     &nbsp;<a *ngIf="item.NOCFilePath != ''" href="{{item.NOCFilePath}}" target="_blank" class="btn btn-sm btn-info" title="View Genrated PDF"><i class="fa fa-file-pdf-o"></i></a>
-                    &nbsp; <a *ngIf="(this.sSOLoginDataModel.RoleID==6 ||this.sSOLoginDataModel.RoleID==14) && item.IsEsign==false && item.IsNOCIssued==true" class="btn btn-sm btn-success" title="Esign" (click)="SendEsignOTP(item.NOCFileName,item.ApplyNOCID)" target="_blank"><i class="bi bi-pen"></i>Esign</a>
-                    <button (click)="GetMGoneASSESSMENTREPORT(item.CollegeID)"><i class="fa fa-download has-pdf"></i></button>
+                    &nbsp; <a *ngIf="(this.sSOLoginDataModel.RoleID==6 ||this.sSOLoginDataModel.RoleID==14) && item.IsEsign==false && item.IsNOCIssued==true" class="btn btn-sm btn-success" title="Esign" (click)="SendEsignOTP(item.NOCFileName,item.ApplyNOCID)" target="_blank"><i class="bi bi-pen"></i>Esign</a>                    
                     <!--<button type="button" *ngIf="IsCommitteType==true && item.IsCommitteeCreated==true&&item.IsGenerateOrdersforInspection==false" class="btn btn-sm btn-primary" title="Generate Orders for Inspection" (click)="GenerateOrdersforInspection(item.DepartmentID,item.CollegeID,item.ApplyNOCID,item.ApplicationNo)">Generate Orders for Inspection</button>
   &nbsp;<button type="button" *ngIf="IsCommitteType==true" class="btn btn-sm btn-primary" title="Assign Commitee" (click)="OpenAsignCommitteePopUP(mymodalAsignCommittee,item.ApplyNOCID,item.DepartmentID,item.CollegeID,item.ApplicationNo)"><i class="fa fa-users"></i></button>-->
                     <a href="javascript:void(0)" *ngIf="item.IsProvideMeetingDate==true" (click)="OpenAsignMeetingDatePopUP(mymodalMeetingScheduleDate,item.ApplyNOCID,item.DepartmentID,item.CollegeID)" class="btn btn-sm btn-info"><i class="fa fa-calendar-times-o"></i></a>
 
                     &nbsp;<button type="button" class="btn btn-sm btn-info" title="Trails" (click)="GetApplicationTrail(mymodal,item.ApplyNOCID)"><i class="fa fa-bars"></i></button>
                   </td>
-                    <td *ngIf="this.sSOLoginDataModel.RoleID==16">
-                      <a href="javascript:void(0)" *ngIf="item.InspectionReportSubmitted==true" (click)="ApplicationPreview_OnClick(item.DepartmentID,item.CollegeID,item.ApplyNOCID,item.ApplicationNo)" class="btn btn-sm btn-info"><i class="fa fa-eye"></i></a>
-                      &nbsp;<a href="javascript:void(0)" (click)="ReportFormatGenerated_OnClick(item.DepartmentID,item.CollegeID,item.ApplyNOCID,item.ApplicationNo)" class="btn btn-sm btn-info">Inspection Report</a>
-                      &nbsp;<button type="button" class="btn btn-sm btn-info" title="View" (click)="GetApplicationTrail(mymodal,item.ApplyNOCID)"><i class="fa fa-bars"></i></button>
-                      &nbsp;<button type="button" title="Download PDF" class="btn btn-sm btn-primary pull-right mb-2" (click)="btnViewPDfPreview(item.CollegeID,item.DepartmentID)"><i class="fa fa-download"></i></button>
-                    </td>
+                  <td *ngIf="this.sSOLoginDataModel.RoleID==16">
+                    <a href="javascript:void(0)" *ngIf="item.InspectionReportSubmitted==true" (click)="ApplicationPreview_OnClick(item.DepartmentID,item.CollegeID,item.ApplyNOCID,item.ApplicationNo)" class="btn btn-sm btn-info"><i class="fa fa-eye"></i></a>
+                    &nbsp;<a href="javascript:void(0)" (click)="ReportFormatGenerated_OnClick(item.DepartmentID,item.CollegeID,item.ApplyNOCID,item.ApplicationNo)" class="btn btn-sm btn-info">Inspection Report</a>
+                    <button (click)="GetMGoneASSESSMENTREPORT(item.CollegeID)" title="Download Assessment Report"><i class="fa fa-download has-pdf"></i></button>
+                    &nbsp;<button type="button" class="btn btn-sm btn-info" title="View" (click)="GetApplicationTrail(mymodal,item.ApplyNOCID)"><i class="fa fa-bars"></i></button>
+                    &nbsp;<button type="button" title="Download PDF" class="btn btn-sm btn-primary pull-right mb-2" (click)="btnViewPDfPreview(item.CollegeID,item.DepartmentID)"><i class="fa fa-download"></i></button>
+                  </td>
                     <td *ngIf="IsCommitteType==true">
                       <a href="javascript:void(0)" *ngIf="item.IsCommitteeCreated==true&&item.IsGenerateOrdersforInspection==true" (click)="ApplicationPreview_OnClick(item.DepartmentID,item.CollegeID,item.ApplyNOCID,item.ApplicationNo)" class="btn btn-sm btn-info"><i class="fa fa-eye"></i></a>
                       &nbsp;<button type="button" *ngIf="item.IsCommitteeCreated==true&&item.IsGenerateOrdersforInspection==false" class="btn btn-sm btn-primary" title="Generate Orders for Inspection" (click)="GenerateOrdersforInspection(item.DepartmentID,item.CollegeID,item.ApplyNOCID,item.ApplicationNo)">Generate Orders for Inspection</button>

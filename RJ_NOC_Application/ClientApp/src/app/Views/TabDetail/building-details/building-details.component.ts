@@ -447,8 +447,7 @@ export class BuildingDetailsComponent implements OnInit {
       this.buildingdetailsForm.get('txtToDate')?.updateValueAndValidity();
       this.buildingdetailsForm.get('txtOwnBuildingOrderDate')?.clearValidators();
       this.buildingdetailsForm.get('txtOwnBuildingOrderDate')?.updateValueAndValidity();
-
-
+     
     }
     else {
       this.buildingdetailsForm.get('txtFireNOCOrderNumber')?.clearValidators();

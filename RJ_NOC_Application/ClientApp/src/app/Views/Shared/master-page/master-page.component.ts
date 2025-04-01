@@ -103,7 +103,7 @@ export class MasterPageComponent implements OnInit {
     this.SessionID = this.sSOLoginDataModel.SessionID;
     await this.GetAllFinancialYear();
     await this.GetUserRoleList();
-    await this.LoadMenu(this.sSOLoginDataModel.UserID);
+    await this.LoadMenu(this.sSOLoginDataModel.UserID, this.sSOLoginDataModel.SSOID);
 
   }
   public lstFinancialYear: any = [];
@@ -182,11 +182,11 @@ export class MasterPageComponent implements OnInit {
     }, 100);
   }
   ////////////Load Menu///////
-  async LoadMenu(roleID: number) {
+  async LoadMenu(roleID: number, SSOID:string) {
     try {
       this.loaderService.requestStarted();
       this.MenuHTML = '';
-      await this.menuService.GetUserWiseMenu(roleID)
+      await this.menuService.GetUserWiseMenu(roleID,SSOID)
         .then((MenuData: any) => {
 
           MenuData = JSON.parse(JSON.stringify(MenuData));
