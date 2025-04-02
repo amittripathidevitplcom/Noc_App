@@ -353,6 +353,7 @@ export class SocietyComponent implements OnInit {
     if (this.OccupationsName == 'Educationist') {
       if (this.request.EducationProof == '' || this.request.ConsentLetter == '') {
         this.IsValidEducationist = 'This field is required .!';
+        this.isValidConsentLetter = true;
         return
       }
     }
@@ -360,6 +361,7 @@ export class SocietyComponent implements OnInit {
       if (this.OccupationsName == 'Medical Educationist') {
         if (this.request.EducationProof == '' || this.request.ConsentLetter == '') {
           this.IsValidEducationist = 'This field is required .!';
+          this.isValidConsentLetter = true;
           return
         }
       }
@@ -958,7 +960,7 @@ export class SocietyComponent implements OnInit {
           this.request.DesignationID = data['Data'][0]["DesignationID"];
           this.request.OccupationID = data['Data'][0]["OccupationID"];
           this.OccupationsName = this.OccupationList.find((x: { OccupationID: number; }) => x.OccupationID == this.request.OccupationID).OccupationName;
-          if (this.OccupationsName == 'Educationist' && data['Data'][0]["Educationists"] == 'Yes') {
+          if ((this.OccupationsName == 'Educationist' || this.OccupationsName == 'Medical Educationist') && data['Data'][0]["Educationists"] == 'Yes') {
             this.request.Educationists = data['Data'][0]["Educationists"];
             this.IsEducationists = true;
           }
