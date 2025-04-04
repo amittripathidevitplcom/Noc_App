@@ -230,6 +230,7 @@
               <h5 class="position-relative ms-2 mt-3">Rajasthan PARA<br /> Medical Council</h5>
             </div>
             <p class="mb-4">समस्त महाविद्यालयों/इंस्टिट्यूट/डिप्लोमा (पूर्व संचालित एवं नवीन संचालित) को सूचित किया जाता है की NOC लेने हेतु RajNOC पोर्टल पर ऑनलाइन आवेदन शीघ्र आमंत्रित किये जायेंगे।</p>
+           
 
             <div class="buttons mt-2 mb-4">
               <a href="https://sso.rajasthan.gov.in/signin?ru=UNOC" target="_blank" class="btncomn">Login to SSO</a>
@@ -302,10 +303,13 @@
                    alt="icon">
               <h5 class="position-relative ms-2 mt-3">Department of<br />Agriculture</h5>
             </div>
-            <p class="mb-4">
-              राज्य में कृषि शिक्षा को "राजस्थान सोसायटी रजिस्ट्रीकरण अधिनियम 1958" या "राजस्थान पब्लिक ट्रस्ट अधिनियम 1959" या "भारतीय ट्रस्ट अधिनियम 1882" या "डी कंपनी अधिनियम 2013 की धारा 8 के पंजीकृत दस्तावेजों से अकादमी सत्र 2024-25" के लिए पूर्व संचालित निजी कृषि कॉलेजों को TNOC
-              अभिवृद्धि हेतु राज एनओसी (एसएसओ लॉगिन) पोर्टल पर ऑनलाइन आवेदन दिनांक 22.08.2024 से दिनांक 23.08.2024 तक के लिए आवेदन आमंत्रित किये जाते हैं। गैर सरकारी क्षेत्र में नवीन कृषि नीति/प्रक्रिया 2022 कृषि विभाग वेबसाइट (agriculture.rajasthan.gov.in) से डाउनलोड किया जा सकता है।
+            <p class="mb-4" *ngFor="let row of DCE_HomePage_IncreaseDateData_Bottom ;let idx=index;">
+              {{row.Content}}
             </p>
+            <!--<p class="mb-4">
+    राज्य में कृषि शिक्षा को "राजस्थान सोसायटी रजिस्ट्रीकरण अधिनियम 1958" या "राजस्थान पब्लिक ट्रस्ट अधिनियम 1959" या "भारतीय ट्रस्ट अधिनियम 1882" या "डी कंपनी अधिनियम 2013 की धारा 8 के पंजीकृत दस्तावेजों से अकादमी सत्र 2025-26" के लिए पूर्व संचालित निजी कृषि कॉलेजों को TNOC
+    अभिवृद्धि हेतु राज एनओसी (एसएसओ लॉगिन) पोर्टल पर ऑनलाइन आवेदन दिनांक 01.04.2025 से दिनांक 15.04.2025 तक के लिए आवेदन आमंत्रित किये जाते हैं। गैर सरकारी क्षेत्र में नवीन कृषि नीति/प्रक्रिया 2022 कृषि विभाग वेबसाइट (agriculture.rajasthan.gov.in) से डाउनलोड किया जा सकता है।
+  </p>-->
 
             <div class="buttons mt-2 mb-4">
               <a href="https://sso.rajasthan.gov.in/signin?ru=UNOC" target="_blank" class="btncomn">Login to SSO</a>
@@ -346,13 +350,18 @@
                    alt="icon">
               <h5 class="position-relative ms-2 mt-3">Rajasthan Medical <br />Education Department</h5>
             </div>
-            <p class="mb-4">समस्त महाविद्यालयों/इंस्टिट्यूट/डिप्लोमा (पूर्व संचालित एवं नवीन संचालित) को सूचित किया जाता है की NOC लेने हेतु RajNOC पोर्टल पर ऑनलाइन आवेदन शीघ्र आमंत्रित किये जायेंगे।</p>
-
+            <!--<p class="mb-4">समस्त महाविद्यालयों/इंस्टिट्यूट/डिप्लोमा (पूर्व संचालित एवं नवीन संचालित) को सूचित किया जाता है की NOC लेने हेतु RajNOC पोर्टल पर ऑनलाइन आवेदन शीघ्र आमंत्रित किये जायेंगे।</p>-->
+            <!--<p class="mb-4">राज्य में निजी चिकित्सा महाविद्यालय स्थापित किये जाने हेतु विभाग के दिनांक 17/01/2025 के परिपत्र की अनुपालना में आशय पत्र (LOI) जारी करने हेतु ऑनलाइन आवेदन शुरू कर दिए गए है |</p>-->
+            <p class="mb-4" *ngFor="let row of DCE_HomePage_IncreaseDateData_Top ;let idx=index;">
+              {{row.Content}}
+            </p>
             <div class="buttons mt-2 mb-4">
               <a href="https://sso.rajasthan.gov.in/signin?ru=UNOC" target="_blank" class="btncomn">Login to SSO</a>
-              <a href="../../../assets/PDF/Government of Rajasthan-NOC manual.pdf" target="_blank" class="btncomn">View User Manual</a>
+              <a href="../../../assets/PDF/Government of Rajasthan-NOC manualMG1LOI.pdf" target="_blank" class="btncomn">View User Manual</a>
             </div>
-
+            <p class="mb-4" *ngFor="let row of DCE_HomePage_IncreaseDateData_Bottom ;let idx=index;">
+              {{row.Content}}
+            </p>
 
 
           </div>

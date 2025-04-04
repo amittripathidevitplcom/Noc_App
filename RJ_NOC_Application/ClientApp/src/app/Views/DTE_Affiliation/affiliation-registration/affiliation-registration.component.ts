@@ -479,11 +479,11 @@ export class AffiliationRegistrationComponent {
       debugger;
       // post
       if (item.ServiceProvider == 'RPPT') {
-
+        this.loaderService.requestEnded();
         await this.nocPaymentComponent.GetTransactionStatus();
       }
       else {
-
+        this.loaderService.requestEnded();
         await this.nocPaymentComponent.GRAS_GetPaymentStatus(item.AID, item.DepartmentID, 'BTER Payment');
       }
 

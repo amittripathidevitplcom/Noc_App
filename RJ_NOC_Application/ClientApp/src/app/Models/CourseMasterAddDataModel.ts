@@ -12,11 +12,11 @@ export class CourseMasterAddDataModel {
   public NoOfRooms: number = null;
   public ActiveStatus: boolean = true;
   public DeleteStatus: boolean = false;
-
-
   public StreamID: number = 0;
   public UniversityID: number = 0;
   public NoofSubjectsForCombination: number = null;
+  //BTER
+  public ShortNameofCourse: string = '';
   public CourseSubjects: SubjectCourseMasterAddDataModel[] = [];
 }
 export class SubjectCourseMasterAddDataModel {

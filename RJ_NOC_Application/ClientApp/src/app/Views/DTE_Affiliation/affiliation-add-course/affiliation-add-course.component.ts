@@ -224,8 +224,14 @@ export class AffiliationAddCourseComponent {
               x?.Name && allowedActions.includes(x.Name)
             );
           }
-          if (this.AffiliationRegStatus == 'Existing' && (this.AffiliationTypeStatus == 'Affiliation Only For EX Students' || this.AffiliationTypeStatus == 'Affiliation Under Court Case')) {
+          if (this.AffiliationRegStatus == 'Existing' && (this.AffiliationTypeStatus == 'Affiliation Under Court Case')) {
             const allowedActions = ['Closed','New'];
+            this.StatusOfCollegeList = this.StatusOfCollegeList.filter((x: any) =>
+              x?.Name && allowedActions.includes(x.Name)
+            );
+          }
+          if (this.AffiliationRegStatus == 'Existing' && (this.AffiliationTypeStatus == 'Affiliation Only For EX Students')) {
+            const allowedActions = ['Closed'];
             this.StatusOfCollegeList = this.StatusOfCollegeList.filter((x: any) =>
               x?.Name && allowedActions.includes(x.Name)
             );
