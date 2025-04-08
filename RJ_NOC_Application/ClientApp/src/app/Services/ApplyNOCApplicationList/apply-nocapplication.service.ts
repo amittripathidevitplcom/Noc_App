@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { throwError } from 'rxjs';
 import { catchError, } from 'rxjs/operators';
-import { ApplicationPenaltyDataModel, CommiteeInspection_RNCCheckList_DataModel, NOCIssuedForMGOneDataModel, NOCIssuedRequestDataModel, ParameterFeeMaster } from '../../Models/ApplyNOCApplicationDataModel';
+import { ApplicationPenaltyDataModel, CommiteeInspection_RNCCheckList_DataModel, NOCIssuedForMGOneDataModel, NOCIssuedRequestDataModel, ParameterFeeMaster, NOCIssuedForAHDegreeDataModel } from '../../Models/ApplyNOCApplicationDataModel';
 import { DocumentScrutinyDataModel, BTERDocumentScrutinyDataModel } from '../../Models/DocumentScrutinyDataModel';
 import { GlobalConstants } from '../../Common/GlobalConstants';
 

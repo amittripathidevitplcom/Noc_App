@@ -859,6 +859,7 @@ export class DocumentScrutinyCheckListDetailsComponent implements OnInit {
   //Document  Post Section
   public isNextRoleIDValid: boolean = false;
   public isNextUserIdValid: boolean = false;
+  public CollegeMobileNo: string = '';
   async GetCollageDetails() {
     try {
       this.loaderService.requestStarted();
@@ -866,6 +867,7 @@ export class DocumentScrutinyCheckListDetailsComponent implements OnInit {
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.collegeDataList = data['Data'];
+          this.CollegeMobileNo = this.collegeDataList['MobileNumber'];
           if (this.collegeDataList['CollegeStatus'] == 'New') {
             this.CollegeType_IsExisting = false;
             //this.isAcademicInformation = false;
@@ -1343,6 +1345,10 @@ export class DocumentScrutinyCheckListDetailsComponent implements OnInit {
                 await this.medicalDocumentScrutinyService.GenerateRevertLetter(0, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
                   .then((data: any) => {
                     data = JSON.parse(JSON.stringify(data));
+                  }, error => console.error(error));
+                await this.commonMasterService.SendMessage(this.CollegeMobileNo, 'Revert', this.SelectedApplyNOCID)
+                  .then((data: any) => {
+
                   }, error => console.error(error));
               }
               this.routers.navigate(['/applicationslist' + "/" + encodeURI(this.commonMasterService.Encrypt(this.QueryStatus.toString()))]);

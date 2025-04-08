@@ -57,7 +57,16 @@
               </ng-template>
               <app-college-management-society-revert></app-college-management-society-revert>
             </mat-tab>
-
+            <!--Course Details-->
+            <mat-tab *ngIf="RevertedTabData['CourseDetails']>0">
+              <ng-template mat-tab-label>
+                <i class="fa fa-globe icon"></i>
+                <i class="fa fa-check text-success" aria-hidden="true"></i>
+                <span class="badge pulse" *ngIf="CheckTabsEntryData['CourseDetails']==0"></span>
+                <span>Course Details</span>
+              </ng-template>
+              <app-add-courses></app-add-courses>
+            </mat-tab>
 
             <!--OLD NOC Details Only for New-->
 

@@ -23,7 +23,7 @@ export class CourseMasterService {
         'Content-Type': 'application/json'
       })
     };
-    return await this.http.get(this.APIUrl + "/GetAllCourse/" + UserID + "/" + LoginSSOID + "/" + CollegeID)
+    return await this.http.get(this.APIUrl + "/GetAllCourse/" + UserID + "/" + LoginSSOID + "/" + CollegeID )
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();

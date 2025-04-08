@@ -21,6 +21,7 @@ import { ApplyNocParameterService } from '../../../Services/Master/apply-noc-par
 import { DocumentScrutinyComponent } from '../../DCE/document-scrutiny/document-scrutiny.component';
 import { FarmLandDetailDataModel } from '../../../Models/FarmLandDetailDataModel';
 import { AgricultureDocumentScrutinyService } from '../../../Services/AgricultureDocumentScrutiny/agriculture-document-scrutiny.service';
+import { MedicalDocumentScrutinyService } from '../../../Services/MedicalDocumentScrutiny/medical-document-scrutiny.service';
 
 
 @Injectable({
@@ -209,7 +210,7 @@ export class RevertCheckListDCEComponent implements OnInit {
   OtherBoysCountFooter: number = 0
   OtherGirlsCountFooter: number = 0
   TotalFooter: number = 0
-  constructor(private agricultureDocumentScrutinyService: AgricultureDocumentScrutinyService, private applyNocParameterService: ApplyNocParameterService, private toastr: ToastrService, private loaderService: LoaderService, private applyNOCApplicationService: ApplyNOCApplicationService,
+  constructor(private medicalDocumentScrutinyService: MedicalDocumentScrutinyService,private agricultureDocumentScrutinyService: AgricultureDocumentScrutinyService, private applyNocParameterService: ApplyNocParameterService, private toastr: ToastrService, private loaderService: LoaderService, private applyNOCApplicationService: ApplyNOCApplicationService,
     private dcedocumentScrutinyService: DCEDocumentScrutinyService,
     private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private modalService: NgbModal, private collegeService: CollegeService,
     private dcedocumentscrutiny: DocumentScrutinyComponent) { }
@@ -240,6 +241,7 @@ export class RevertCheckListDCEComponent implements OnInit {
     this.GetFarmLandDetailsList_DepartmentCollegeWise();
     this.getFDRDetailId(this.SelectedCollageID);
     this.GetOfflinePaymentDetails();
+    this.GetCourseDetailAllList();
   }
   // Start Land Details
   async GetLandDetailsDataList() {
@@ -914,6 +916,31 @@ export class RevertCheckListDCEComponent implements OnInit {
           this.dsrequest.FinalRemark = this.PaymentFinalRemarks.find((x: { RoleIDS: number; }) => x.RoleIDS == this.sSOLoginDataModel.RoleID)?.Remark;
           this.dsrequest.ActionID = this.PaymentFinalRemarks.find((x: { RoleIDS: number; }) => x.RoleIDS == this.sSOLoginDataModel.RoleID)?.ActionID;
         }, (error: any) => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+
+  public CheckListAllCourseList: any = [];
+  public CourseDetail_FinalRemarks: any = [];
+  async GetCourseDetailAllList() {
+    try {
+      this.loaderService.requestStarted();
+      await this.medicalDocumentScrutinyService.DocumentScrutiny_CourseDetails(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
+        .then((data: any) => {
+
+          data = JSON.parse(JSON.stringify(data));
+          this.CheckListAllCourseList = data['Data'][0]['CourseDetails'][0];
+          this.CourseDetail_FinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
+
+        }, error => console.error(error));
     }
     catch (Ex) {
       console.log(Ex);

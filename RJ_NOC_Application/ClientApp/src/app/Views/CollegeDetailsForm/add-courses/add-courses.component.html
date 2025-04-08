@@ -256,11 +256,11 @@
                 <td>
                   <div class="d-flex">
                     <button type="button" (click)="Edit_OnClick(row.CollegeWiseCourseID)" [attr.disabled]="isDisabledGrid ? true : null" title="Edit"
-                            class="btn btn-sm btn-info">
+                            class="btn btn-sm btn-info" [hidden]="(QueryStringStatus=='R'&&row.Action=='Yes')">
                       <i class="fa fa-edit"></i>
                     </button>
                     <button type="button" class="btn btn-sm btn-danger" title="Delete" (click)="Delete_OnClick(row.CollegeWiseCourseID)"
-                            [attr.disabled]="isDisabledGrid ? true : null">
+                            [attr.disabled]="isDisabledGrid ? true : null" [hidden]="QueryStringStatus=='R'">
                       <i class="fa fa-trash"></i>
                     </button>
                   </div>

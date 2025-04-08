@@ -67,6 +67,9 @@ export class AddCoursesComponent implements OnInit {
   public SearchRecordID: string = '';
   public lstSessionYear: any = [];
   public CourseCategoryDataList: any = [];
+
+  public QueryStringStatus: any = '';
+  public SelectedApplyNOCID: number = 0;
   constructor(private courseMasterService: CourseMasterService, private toastr: ToastrService, private loaderService: LoaderService,
     private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private _fb: FormBuilder,
     private clipboard: Clipboard) {
@@ -116,7 +119,8 @@ export class AddCoursesComponent implements OnInit {
       else {
         this.routers.navigate(['/draftapplicationlist']);
       }
-
+      this.QueryStringStatus = this.router.snapshot.paramMap.get('Status')?.toString();
+      this.SelectedApplyNOCID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplyNOCID')?.toString()));
       this.UserID = 1;
       ///Edit Process
       await this.LoadMaster();
