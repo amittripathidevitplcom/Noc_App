@@ -287,5 +287,8 @@ export class GenerateorderforbterList {
   public CollegeCode: string = '';
   public FullAddress: string = '';
   public Branchandintackname: string = ''; 
+  public OrderNumberAndDate: string = ''; 
+  public CourseStatusName: string = ''; 
+  public CourseStatusId: number = 0; 
   public ActiveStatus: boolean = false;
 }

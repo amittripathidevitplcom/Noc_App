@@ -233,22 +233,22 @@ export class RevertApplicationDetailEntryMGOneComponent implements OnInit {
   }
 
   public RevertedTabData: any = [];
-  //async GetRevertedTabData() {
-  //  try {
-  //    this.loaderService.requestStarted();
-  //    await this.dcedocumentScrutinyService.GetRevertedTabData(this.SelectedApplyNOCID, this.SelectedCollageID)
-  //      .then((data: any) => {
-  //        data = JSON.parse(JSON.stringify(data));
-  //        this.RevertedTabData = data['Data'][0]['data'][0];
-  //      }, error => console.error(error));
-  //  }
-  //  catch (Ex) {
-  //    console.log(Ex);
-  //  }
-  //  finally {
-  //    setTimeout(() => {
-  //      this.loaderService.requestEnded();
-  //    }, 200);
-  //  }
-  //}
+  async GetRevertedTabData() {
+    try {
+      this.loaderService.requestStarted();
+      await this.dcedocumentScrutinyService.GetRevertedTabData(this.SelectedApplyNOCID, this.SelectedCollageID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.RevertedTabData = data['Data'][0]['data'][0];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
 }
