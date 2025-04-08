@@ -858,7 +858,7 @@ export class DTEAddCollegeMasterComponent implements OnInit {
         }, error => console.error(error));
 
       //Management Type      
-      await this.commonMasterService.GetCommonMasterList_DTEManagementType(departmentId, "DTEManagementType", this.sSOLoginDataModel.SSOID)
+      await this.commonMasterService.GetCommonMasterList_DepartmentAndTypeWise(departmentId, "AffiliationManagementType")
         //await this.commonMasterService.GetCommonMasterList_DTEManagementType(departmentId, "AffiliationManagementType", this.request.ParentSSOID)
         .then((data: any) => {
           debugger;

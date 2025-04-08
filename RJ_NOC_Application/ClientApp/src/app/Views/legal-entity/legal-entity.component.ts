@@ -243,7 +243,7 @@ export class LegalEntityComponent implements OnInit {
       this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
       this.QueryStringLegalEntityID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('LegalEntityID')?.toString()));
       console.log(this.sSOLoginDataModel);
-      if (this.sSOLoginDataModel.SSOID == "" && this.sSOLoginDataModel.SSOID == undefined && this.sSOLoginDataModel.SSOID == null && this.sSOLoginDataModel.RoleID == null) {
+      if (this.sSOLoginDataModel.SSOID == "null" && this.sSOLoginDataModel.RoleID == 0) {
         this.toastr.error("Unable to service request.!");
         this.routers.navigate(['/ssologin']);
         this.loaderService.requestEnded();

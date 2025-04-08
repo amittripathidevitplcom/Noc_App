@@ -47,7 +47,13 @@
                   <p *ngIf="form.txtCourseName.errors.required">This field is required .!</p>
                 </div>
               </div>
-
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label for="txtShortName" class="form-label">Short Name<span style="color:red;">*</span></label>
+                <input type="text" id="txtShortName" formControlName="txtShortName" maxlength="20" class="form-control" [(ngModel)]="request.ShortNameofCourse" (keypress)="alphaOnly($event)" autocomplete="off">
+                <div *ngIf="isSubmitted&&form.txtShortName.errors" class="text-danger">
+                  <p *ngIf="form.txtShortName.errors.required">This field is required .!</p>
+                </div>
+              </div>
               <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                 <label for="chkActiveStatus" class="form-label">Status</label>
                 <div class="form-check form-switch d-flex align-items-center">
@@ -89,6 +95,7 @@
                 <tr>
                   <th>Sr. No</th>                 
                   <th>Course Name</th>
+                  <th>Course Short Name</th>
                   <th>Status</th>
                   <th>Action</th>
                 </tr>
@@ -97,6 +104,7 @@
                 <tr *ngFor="let row of CourseDataList | tableSearchFilter:searchText;let idx=index;">
                   <td>{{idx+1}}</td>                 
                   <td>{{row.CourseName}}</td>
+                  <td>{{row.ShortNameofCourse}}</td>
                   <td>{{row.ActiveDeactive}}</td>
                   <td>
                     <div class="d-flex">

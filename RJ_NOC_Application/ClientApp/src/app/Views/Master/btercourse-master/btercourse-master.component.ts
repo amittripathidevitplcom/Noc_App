@@ -54,6 +54,7 @@ export class BTERCourseMasterComponent {
       this.dtCourseMasterForm = this.formBuilder.group({
         ddlCourseLevelID: ['', [DropdownValidators]],
         txtCourseName: ['', [Validators.required]],
+        txtShortName: ['', [Validators.required]],
         chkActiveStatus: [''],
       })
 
@@ -171,6 +172,7 @@ export class BTERCourseMasterComponent {
     this.isSubmitted = false;
     this.request.CourseLevelID = 0;
     this.request.CourseName = '';
+    this.request.ShortNameofCourse = '';
     this.request.UserID = 0;
     this.request.ActiveStatus = true;  
     this.isDisabledGrid = false;
@@ -194,6 +196,7 @@ export class BTERCourseMasterComponent {
           this.request.CourseLevelID = data['Data'][0]["CourseLevelID"];
           this.request.ActiveStatus = data['Data'][0]["ActiveStatus"];
           this.request.CourseName = data['Data'][0]["CourseName"];         
+          this.request.ShortNameofCourse = data['Data'][0]["ShortNameofCourse"];         
           this.isShowGrid = true;
           this.isDisabledGrid = true;
           const btnSave = document.getElementById('btnSave')

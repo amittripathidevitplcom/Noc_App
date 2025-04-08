@@ -320,6 +320,7 @@ export class BuildingDetailsComponent implements OnInit {
     return true;
   }
   async changeBuildingType(BuildingType: any, IsChanged: boolean) {
+    debugger;
     this.onBuildingChangeEvent = BuildingType;
     if (BuildingType == 'Owned') {
       this.RentAggrementDocShow = false;
@@ -368,6 +369,7 @@ export class BuildingDetailsComponent implements OnInit {
   }
 
   async GetBuildingTypeCheck() {
+    debugger;
     try {
       this.loaderService.requestStarted();
       await this.commonMasterService.GetBuildingTypeCheck(this.SelectedDepartmentID)
@@ -446,6 +448,7 @@ export class BuildingDetailsComponent implements OnInit {
       this.buildingdetailsForm.get('txtFromDate')?.updateValueAndValidity();
       this.buildingdetailsForm.get('txtToDate')?.updateValueAndValidity();
       this.buildingdetailsForm.get('txtOwnBuildingOrderDate')?.clearValidators();
+      //this.buildingdetailsForm.get('txtOwnBuildingOrderDate')?.setValidators([Validators.required]);
       this.buildingdetailsForm.get('txtOwnBuildingOrderDate')?.updateValueAndValidity();
      
     }
@@ -618,7 +621,7 @@ export class BuildingDetailsComponent implements OnInit {
           this.isFormValid = false;
         }
       }
-      else {
+      else if (this.buildingdetails.MGOneResidentialIstheCampusUnitary == 'No') {
         if (this.buildingdetails.ResidentialCityID == 0) {
           this.isFormValid = false;
         }
@@ -783,7 +786,9 @@ export class BuildingDetailsComponent implements OnInit {
   }
 
   async CollegeAddressOnAutoPopulateOnPageload() {
+    debugger;
     try {
+      console.log(this.BuildingCollegeAddress);
       this.loaderService.requestStarted();
       this.buildingdetails.AddressLine1 = this.BuildingCollegeAddress[0]["AddressLine1"];
       this.buildingdetails.AddressLine2 = this.BuildingCollegeAddress[0]["AddressLine2"];
@@ -889,7 +894,7 @@ export class BuildingDetailsComponent implements OnInit {
           if (this.SelectedDepartmentID == 5) {
             this.GetResidentialBuildingTypeCheck();
             this.buildingdetails.ResidentialBuildingTypeID = data['Data'][0]['data']['Table'][0]["ResidentialBuildingTypeID"];
-            this.buildingdetails.ResidentialBuildingName = data['Data'][0]['data']['Table'][0]["ResidentialBuildingName"];           
+            this.buildingdetails.ResidentialBuildingName = data['Data'][0]['data']['Table'][0]["ResidentialBuildingName"];            
             this.buildingdetails.ResidentialDistance = data['Data'][0]['data']['Table'][0]["ResidentialDistance"];
             this.holddata.ResidentialAddressLine1 = data['Data'][0]['data']['Table'][0]["ResidentialAddressLine1"];
             this.holddata.ResidentialAddressLine2 = data['Data'][0]['data']['Table'][0]["ResidentialAddressLine2"];
@@ -914,6 +919,7 @@ export class BuildingDetailsComponent implements OnInit {
             this.changecampusType(this.buildingdetails.MGOneResidentialIstheCampusUnitary);
             this.buildingdetails.ResidentialOwnerName = data['Data'][0]['data']['Table'][0]["ResidentialOwnerName"];
             this.buildingdetails.ResidentialContactNo = data['Data'][0]['data']['Table'][0]["ResidentialContactNo"];
+            this.buildingdetails.ResidentialBuildingHostelQuartersRoadArea = data['Data'][0]['data']['Table'][0]["ResidentialBuildingHostelQuartersRoadArea"];
             this.buildingdetails.ResidentialbuildingOtherDoc1FileUpload = data['Data'][0]['data']['Table'][0]["ResidentialbuildingOtherDoc1FileUpload"];
             this.buildingdetails.ResidentialDis_buildingOtherDoc1FileUpload = data['Data'][0]['data']['Table'][0]["ResidentialDis_buildingOtherDoc1FileUpload"];
             this.buildingdetails.ResidentialbuildingOtherDoc1FileUploadPath = data['Data'][0]['data']['Table'][0]["ResidentialbuildingOtherDoc1FileUploadPath"];
@@ -1213,6 +1219,8 @@ export class BuildingDetailsComponent implements OnInit {
     this.TehsilList_Owner = [];
     this.CityList = [];
     this.PanchyatSamitiList_Owner = [];
+    this.buildingdetails.NameoftheAuthority = '';
+    this.buildingdetails.AuthorityDateApproval = '';
   }
   btnCancel_Click() {
     this.routers.navigate(['/dashboard']);
@@ -1274,6 +1282,7 @@ export class BuildingDetailsComponent implements OnInit {
   }
   
   async FillDivisionRelatedDDL(event: any, SeletedValueDivision: any) {
+    debugger;
     this.DistrictList_Owner = [];
     this.buildingdetails.DistrictID = 0;
     this.TehsilList_Owner = [];
@@ -1305,6 +1314,7 @@ export class BuildingDetailsComponent implements OnInit {
     }
   }
   async FillDistrictRelatedDDL(event: any, SeletedValueDistrict: any) {
+    debugger;
     // this.buildingdetails.DistrictID = SeletedValueDistrict;
     try {
       this.loaderService.requestStarted();
@@ -2028,7 +2038,7 @@ export class BuildingDetailsComponent implements OnInit {
     }
   }
   async changeResidentialBuildingType(BuildingType: any, IsChanged: boolean) {
-   // debugger;
+    debugger;
     this.onChangeEvent = BuildingType;
     if (BuildingType == 'Owned') {     
       this.ResidentialRentAggrementDocShow = false;
@@ -2080,7 +2090,7 @@ export class BuildingDetailsComponent implements OnInit {
     }
   }
   async FillResidentialDivisionRelatedDDL(event: any, SeletedValueResidentialDivision: any) {
-    //debugger;
+    debugger;
     this.ResidentialDistrictList_Owner = [];
     this.buildingdetails.ResidentialDistrictID = 0;
     this.ResidentialTehsilList_Owner = [];
@@ -2114,29 +2124,29 @@ export class BuildingDetailsComponent implements OnInit {
   async BulidingResidentialCollegeAddressOnAutoPopulateOnPageload() {
     debugger;
     try {
-      //console.log(this.lstBuildingDetails[0]);      
+      console.log(this.lstBuildingDetails[0]);      
       this.loaderService.requestStarted();
-      this.buildingdetails.ResidentialAddressLine1 = this.BuildingCollegeAddress[0]["AddressLine1"];
-      this.buildingdetails.ResidentialAddressLine2 = this.BuildingCollegeAddress[0]["AddressLine2"];
-      this.buildingdetails.ResidentialRuralUrban = this.BuildingCollegeAddress[0]["RuralUrban"];
-      this.buildingdetails.ResidentialDivisionID = this.BuildingCollegeAddress[0]["DivisionID"];
+      this.buildingdetails.ResidentialAddressLine1 = this.lstBuildingDetails[0]["ResidentialAddressLine1"];
+      this.buildingdetails.ResidentialAddressLine2 = this.lstBuildingDetails[0]["ResidentialAddressLine2"];
+      this.buildingdetails.ResidentialRuralUrban = this.lstBuildingDetails[0]["ResidentialRuralUrban"];
+      this.buildingdetails.ResidentialDivisionID = this.lstBuildingDetails[0]["ResidentialDivisionID"];
       //console.log(this.buildingdetails.ResidentialDivisionID);
       await this.FillResidentialDivisionRelatedDDL(null, this.buildingdetails.ResidentialDivisionID);
-      this.buildingdetails.ResidentialDistrictID = this.BuildingCollegeAddress[0]["DistrictID"];
+      this.buildingdetails.ResidentialDistrictID = this.lstBuildingDetails[0]["ResidentialDistrictID"];
       //console.log(this.buildingdetails.ResidentialDistrictID);
       await this.FillResidentialDistrictRelatedDDL(null, this.buildingdetails.ResidentialDistrictID);
-      this.buildingdetails.ResidentialTehsilID = this.BuildingCollegeAddress[0]["TehsilID"];
+      this.buildingdetails.ResidentialTehsilID = this.lstBuildingDetails[0]["ResidentialTehsilID"];
       if (this.buildingdetails.ResidentialRuralUrban == 'Rural') {
         this.IsRuralResidential = true;
-        this.buildingdetails.ResidentialPanchayatSamitiID = this.BuildingCollegeAddress[0]["PanchayatSamitiID"];
+        this.buildingdetails.ResidentialPanchayatSamitiID = this.lstBuildingDetails[0]["ResidentialPanchayatSamitiID"];
       }
       else {
         this.IsRuralResidential = false;
-        this.buildingdetails.ResidentialCityID = this.BuildingCollegeAddress[0]["CityID"];
+        this.buildingdetails.ResidentialCityID = this.lstBuildingDetails[0]["ResidentialCityID"];
       }
-      this.buildingdetails.ResidentialCityTownVillage = this.BuildingCollegeAddress[0]["CityTownVillage"];
-      this.buildingdetails.ResidentialContactNo = this.BuildingCollegeAddress[0]["MobileNumber"];
-      this.buildingdetails.ResidentialPincode = this.BuildingCollegeAddress[0]["Pincode"];      
+      this.buildingdetails.ResidentialCityTownVillage = this.lstBuildingDetails[0]["CityTownVillage"];
+      this.buildingdetails.ResidentialContactNo = this.lstBuildingDetails[0]["ResidentialContactNo"];
+      this.buildingdetails.ResidentialPincode = this.lstBuildingDetails[0]["ResidentialPincode"];      
     }
     catch (ex) { console.log(ex) }
     finally {
@@ -2146,7 +2156,7 @@ export class BuildingDetailsComponent implements OnInit {
     }
   }
   async FillResidentialDistrictRelatedDDL(event: any, SeletedValueResidentialDistrict: any) {
-    //debugger;
+    debugger;
     // this.buildingdetails.DistrictID = SeletedValueDistrict;
     try {
       this.loaderService.requestStarted();
@@ -2211,6 +2221,7 @@ export class BuildingDetailsComponent implements OnInit {
     }
   }
   async GetResidentialBuildingTypeCheck() {
+    debugger;
     try {
       this.loaderService.requestStarted();
       await this.commonMasterService.GetBuildingTypeCheck(this.SelectedDepartmentID)
