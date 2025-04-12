@@ -39,7 +39,7 @@ export class DashboardComponent implements OnInit {
     this.url = this.url + this.ssotoken;
     this.AnalyticsDashboardUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.url);
     this.sSOLoginDataModel = JSON.parse(String(localStorage.getItem('SSOLoginUser')));
-    await this.GetDashboardDataSSOWise(this.sSOLoginDataModel.SSOID);    
+    await this.GetDashboardDataSSOWise(this.sSOLoginDataModel.SSOID);
     this.loaderService.requestEnded();
   }
   async ngAfterViewInit() {
@@ -64,6 +64,7 @@ export class DashboardComponent implements OnInit {
           if (data['Data'][0]['AllDepartmentCommonCount'] != null) {
             this.OtherdashboardDataModel = data['Data'][0]['AllDepartmentCommonCount'][0];
           }
+           this.GetDepartmentIDBySSOID();
         }, error => console.error(error));
     }
     catch (Ex) {
@@ -133,5 +134,22 @@ export class DashboardComponent implements OnInit {
     setTimeout(() => {
       this.loaderService.requestEnded();
     }, 100);
+  }
+  async GetDepartmentIDBySSOID() {
+    await this.commonMasterService.GetDepartmentIDBySSOID(this.sSOLoginDataModel.SSOID)
+      .then((data: any) => {
+        debugger;
+        data = JSON.parse(JSON.stringify(data));
+        this.State = data['State'];
+        this.SuccessMessage = data['SuccessMessage'];
+        this.ErrorMessage = data['ErrorMessage'];
+        if (data['Data'] != null) {
+          this.DepartmentID = data['Data'][0][0]['DepartmentID'];
+        } else {
+          this.DepartmentID = 0;
+        }
+        
+        this.loaderService.requestEnded();
+      }, (error: any) => console.error(error));
   }
 }

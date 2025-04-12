@@ -108,7 +108,7 @@ export class NocpaymentService {
   public async EmitraPayment(request: EmitraRequestDetails) {
     const headers = { 'content-type': 'application/json' }
     const body = JSON.stringify(request);
-    return await this.http.post(this.APIUrl + "/EmitraPayment", body, { 'headers': headers })
+    return await this.http.post(this.APIUrl + "/EmitraPaymentNew", body, { 'headers': headers })
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();
@@ -158,6 +158,15 @@ export class NocpaymentService {
       })
     };
     return await this.http.get(this.APIUrl + "/GetBTERPreviewPaymentDetails/" + AffiliationRegID + "/" + SessionYear, httpOptions)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+
+  public async GetEmitraTransactionStatus(request: TransactionStatusDataModel) {
+    const headers = { 'content-type': 'application/json' }
+    const body = JSON.stringify(request);
+    return await this.http.post(this.APIUrl + "/GetEmitraTransactionStatus", body, { 'headers': headers })
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();

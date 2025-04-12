@@ -69,13 +69,13 @@ export class DTEAffiliationRegistrationService {
   //    throw error;
   //  }
   //}
-  public async ApplicationSubmit(DTE_ARId: number,ActionName:string) {
+  public async ApplicationSubmit(DTE_ARId: number, ActionName: string, AMOUNT:number) {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     };
-    return await this.http.get(this.APIUrl + "/ApplicationSubmit/" + DTE_ARId + "/" + ActionName)
+    return await this.http.get(this.APIUrl + "/ApplicationSubmit/" + DTE_ARId + "/" + ActionName + "/" + AMOUNT)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();

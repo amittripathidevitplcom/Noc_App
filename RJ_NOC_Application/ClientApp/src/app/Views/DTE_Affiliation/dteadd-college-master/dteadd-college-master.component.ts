@@ -144,8 +144,7 @@ export class DTEAddCollegeMasterComponent implements OnInit {
   constructor(private legalEntityListService: LegalEntityService, private collegeService: CollegeService, private toastr: ToastrService, private loaderService: LoaderService, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private _fb: FormBuilder, private fileUploadService: FileUploadService) {
   }
 
-  async ngOnInit() {
-    debugger;
+  async ngOnInit() {   
     this.CollegeDetailsForm = this.formBuilder.group(
       {
         ddlDepartmentID: ['', [DropdownValidators]],
@@ -1455,6 +1454,7 @@ export class DTEAddCollegeMasterComponent implements OnInit {
 
 
           //await this.ddlCollegeType_TextChange(this.request.CollegeTypeID.toString())
+          this.request.CollegeMedium = data['Data']['CollegeMedium'];
           this.request.UniversityID = data['Data']['UniversityID'];
           await this.ResetFileAndValidation('UniversityAffiliationDocument', '', this.request.AffiliationUniversityDoc, this.request.AffiliationUniversityDocPath, this.request.AffiliationUniversityDoc_Dis_FileName, this.request.DepartmentID == 11 ? true : false);
           await this.ResetFileAndValidation('UniversityApproveTeachingFaculty', '', this.request.UniversityApproveTeachingFacultyDoc, this.request.UniversityApproveTeachingFacultyDocPath, this.request.UniversityApproveTeachingFacultyDoc_Dis_FileName, this.request.DepartmentID == 11 ? true : false);

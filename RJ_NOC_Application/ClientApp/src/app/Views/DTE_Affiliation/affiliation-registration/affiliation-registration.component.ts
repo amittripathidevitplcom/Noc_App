@@ -386,9 +386,8 @@ export class AffiliationRegistrationComponent {
   async Edit_OnClick(DepartmentID: number, DTE_ARId: string, DTEAffiliationID: number, Status: string, CollegeStatusId: number,IsMakePayment:number) {   
     // var kk = CollegeID ? CollegeID : 0;+ "/" + encodeURI(this.commonMasterService.Encrypt(kk.toString()))
     await this.applyNocParameterService.GetApplyBTERPaymentHistoryApplicationID(DTEAffiliationID, 'BTER')
-      .then((data: any) => {
-        debugger;
-        console.log(data);
+      .then((data: any) => {    
+        
         data = JSON.parse(JSON.stringify(data));
         this.State = data['State'];
         this.SuccessMessage = data['SuccessMessage'];
@@ -406,9 +405,7 @@ export class AffiliationRegistrationComponent {
           this.toastr.error(this.ErrorMessage);
         }
       }, error => console.error(error));
-    console.log(this.STATUS);
-    console.log(this.ResponseMessage);
-    console.log(this.PaymentStatus);
+    
     if (this.PaymentHistoryDetails.length > 0) {
       //paymentdetails.STATUS != 'SUCCESS' && paymentdetails.STATUS != 'FAILED
       if (this.STATUS != 'SUCCESS' && this.PaymentStatus != 'SUCCESS' && this.STATUS != 'FAILED' && this.PaymentStatus != 'FAILED') {
@@ -481,6 +478,10 @@ export class AffiliationRegistrationComponent {
       if (item.ServiceProvider == 'RPPT') {
         this.loaderService.requestEnded();
         await this.nocPaymentComponent.GetTransactionStatus();
+      }
+      else if (item.ServiceProvider == 'EMITRA') {
+        this.loaderService.requestEnded();
+        await this.nocPaymentComponent.GetEmitraTransactionStatus();
       }
       else {
         this.loaderService.requestEnded();

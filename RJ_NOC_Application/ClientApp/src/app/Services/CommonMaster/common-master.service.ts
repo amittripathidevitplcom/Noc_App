@@ -1833,48 +1833,7 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-  //public async GetBTERCollegeBasicDetails(AffiliationRegID: number) {
-  //  const httpOptions = {
-  //    headers: new HttpHeaders({
-  //      'Content-Type': 'application/json'
-  //    })
-  //  };
-  //  return await this.http.get(this.APIUrl_CommonMaster + "/GetBTERCollegeBasicDetails/" + AffiliationRegID)
-  //    .pipe(
-  //      catchError(this.handleErrorObservable)
-  //    ).toPromise();
-  //}
   
-  //public async GetDownloadBTERPdfDetails(DepartmentID: number, AffiliationRegID: number) {
-  //  debugger;
-  //  const httpOptions = {
-  //    headers: new HttpHeaders({
-  //      'Content-Type': 'application/json'
-  //    })
-  //  };
-  //  return await this.http.get(this.APIUrl_CommonMaster + "/GetDownloadBTERPdfDetails/" + DepartmentID + "/" + AffiliationRegID)
-  //    .pipe(
-  //      catchError(this.handleErrorObservable)
-  //    ).toPromise();
-  //}
-  //public async BTERAffiliationFinalSubmit(EnterInwordNo:string,ApplicationDateofReceived:string,SelectedDepartmentID:number,SelectedDTEAffiliationID:number,selectedApplicationNo:string,SelectedCollageID:number,ActionName:string) {
-  //  const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
-  //  return await this.http.post(this.APIUrl_CommonMaster + '/BTERAffiliationFinalSubmit/' + EnterInwordNo + "/" + ApplicationDateofReceived + "/" + SelectedDepartmentID + "/" + SelectedDTEAffiliationID + "/" + selectedApplicationNo + "/" + SelectedCollageID + "/" + ActionName, httpOptions)
-  //    .pipe(
-  //      catchError(this.handleErrorObservable)
-  //    ).toPromise();
-  //}
-  //public async GetRevert_SearchRecordIDWiseDetails(SearchRecordID: string) {
-  //  const httpOptions = {
-  //    headers: new HttpHeaders({
-  //      'Content-Type': 'application/json'
-  //    })
-  //  };
-  //  return await this.http.get(this.APIUrl_CommonMaster + "/GetRevert_SearchRecordIDWiseDetails/" + SearchRecordID)
-  //    .pipe(
-  //      catchError(this.handleErrorObservable)
-  //    ).toPromise();
-  //}
   public async GetBTERCollegeBasicDetails(AffiliationRegID: number) {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -1917,35 +1876,7 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-  //public async GetBTERRevertApllicationRemark(DepartmentID:number,AffiliationRegID: number) {
-  //  const httpOptions = {
-  //    headers: new HttpHeaders({
-  //      'Content-Type': 'application/json'
-  //    })
-  //  };
-  //  return await this.http.get(this.APIUrl_CommonMaster + "/GetBTERRevertApllicationRemark/" +DepartmentID + "/" +AffiliationRegID)
-  //    .pipe(
-  //      catchError(this.handleErrorObservable)
-  //    ).toPromise();
-  //}
-  //public async BTEROrderGen(GenOrderNumber: string) {
-  //  let url = `${this.APIUrl_CommonMaster}/BTEROrderGen/${GenOrderNumber}`;
-
-  //  this.http.get(url, { responseType: 'blob' }).subscribe(
-  //    (response: Blob) => {
-  //      const blobUrl = URL.createObjectURL(response);
-  //    //  window.open(blobUrl, '_blank'); // Open in new tab
-  //    },
-  //    (error) => {
-  //      console.error('Error opening the PDF:', error);
-  //    }
-  //  );
-  //}
-  //public BTEROrderGen(GenOrderNumber: string): Observable<Blob> {
-  //  const url = `${this.APIUrl_CommonMaster}/BTEROrderGen/${GenOrderNumber}`;
-  //  return this.http.get(url, { responseType: 'blob' }); 
-  //}
-
+  
   public async UpdateInspectionFDRIntimationAH(ApplyNOCID: number, ActionType: string) {
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
     const request = { ApplyNOCID: ApplyNOCID, ActionType: ActionType }
@@ -1981,5 +1912,16 @@ export class CommonMasterService {
   public BTEROrderGen(GenOrderNumber: string): Observable<Blob> {
     const url = `${this.APIUrl_CommonMaster}/BTEROrderGen/${GenOrderNumber}`;
     return this.http.get(url, { responseType: 'blob' }); 
+  }
+  public async GetDepartmentIDBySSOID(SSOID: string) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl_CommonMaster + "/ChecSSOIDwiseLegalEntityDepartment/" + SSOID)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
   }
 }

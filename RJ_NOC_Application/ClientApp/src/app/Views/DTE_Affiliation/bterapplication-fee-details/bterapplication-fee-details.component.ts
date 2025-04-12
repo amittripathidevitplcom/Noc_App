@@ -20,7 +20,7 @@ import { Console } from 'console';
 import { FileUploadService } from '../../../Services/FileUpload/file-upload.service';
 import { ModalDismissReasons, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { NocpaymentService } from '../../../Services/NocPayment/noc-payment.service';
-import { RequestDetails } from '../../../Models/PaymentDataModel';
+import { RequestDetails, EmitraRequestDetails } from '../../../Models/PaymentDataModel';
 import { DTEAffiliationRegistrationService } from '../../../Services/DTEAffiliation/DTEAffiliationRegistration/dte-affiliation-registration.service';
 @Component({
   selector: 'app-bterapplication-fee-details',
@@ -79,7 +79,7 @@ export class BTERApplicationFeeDetailsComponent {
   public SelectedDteAffiliationCollageID: number = 0;
   public CheckTabsEntryData: any = [];
   public IsShowDraftFinalSubmit: boolean = true;
-
+  emitraRequest = new EmitraRequestDetails();
   constructor(private toastr: ToastrService, private loaderService: LoaderService,
     private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private _fb: FormBuilder,
     private clipboard: Clipboard, private dTEAffiliationAddCourseService: DTEAffiliationAddCourseService, private legalEntityListService: LegalEntityService, private fileUploadService: FileUploadService, private modalService: NgbModal, private nocpaymentService: NocpaymentService, private dTEAffiliationregistrationService: DTEAffiliationRegistrationService) {
@@ -252,27 +252,49 @@ export class BTERApplicationFeeDetailsComponent {
             this.request_Payment.USERMOBILE = data['Data'][0]['data'][0].CollegeMobileNumber;
             this.request_Payment.PURPOSE = "BTER Payment";
             this.request_Payment.DepartmentID = data['Data'][0]['data'][0].DepartmentID;
+            this.request_Payment.ServiceID = data['Data'][0]['data'][0].ServiceID;
             this.request_Payment.CreatedBy = this.sSOLoginDataModel.UserID;
             this.request_Payment.SSOID = this.sSOLoginDataModel.SSOID;
             this.request_Payment.DTEAffiliationID = data['Data'][0]['data'][0].DTEAffiliationID;
             // post
-            await this.nocpaymentService.PaymentRequest(this.request_Payment)
-              .then((data: any) => {              
-                data = JSON.parse(JSON.stringify(data));
-                this.State = data['State'];
-                this.SuccessMessage = data['SuccessMessage'];
-                this.ErrorMessage = data['ErrorMessage'];
-                //console.log(data.Data.MERCHANTCODE);
-                console.log(this.State);
-                if (!this.State) {
-                  this.RedirectPaymentRequest(data.Data.MERCHANTCODE, data.Data.ENCDATA, data.Data.PaymentRequestURL)
-                }
-                else {
-                  this.toastr.error(this.ErrorMessage)
-                }
-              });
-            
-          }, error => console.error(error));
+            if (Number(this.Total1) > 0) {
+              await this.nocpaymentService.PaymentRequest(this.request_Payment)
+                .then((data: any) => {
+                  data = JSON.parse(JSON.stringify(data));
+                  this.State = data['State'];
+                  this.SuccessMessage = data['SuccessMessage'];
+                  this.ErrorMessage = data['ErrorMessage'];
+                  //console.log(data.Data.MERCHANTCODE);
+                  console.log(this.State);
+                  if (!this.State) {
+                    this.RedirectPaymentRequest(data.Data.MERCHANTCODE, data.Data.ENCDATA, data.Data.PaymentRequestURL)
+                  }
+                  else {
+                    this.toastr.error(this.ErrorMessage)
+                  }
+                });
+            } else {
+              await this.dTEAffiliationregistrationService.ApplicationSubmit(this.request.BTERRegID, 'Apply BTER Affiliation', Number(this.Total1))
+                .then((data: any) => {
+                  data = JSON.parse(JSON.stringify(data));
+                  this.State = data['State'];
+                  this.SuccessMessage = data['SuccessMessage'];
+                  this.ErrorMessage = data['ErrorMessage'];
+                  //console.log(data.Data.MERCHANTCODE);
+                  console.log(this.State);
+                  if (!this.State) {
+                    this.routers.navigate(['/affiliationregistration']);
+                    this.toastr.success(this.SuccessMessage)
+                    this.modalService.dismissAll();
+                    //this.RedirectPaymentRequest(data.Data.MERCHANTCODE, data.Data.ENCDATA, data.Data.PaymentRequestURL)
+                  }
+                  else {
+                    this.toastr.error(this.ErrorMessage)
+                  }
+                });
+            }
+            }, error => console.error(error));
+
       }
       catch (Ex) {
         console.log(Ex);
@@ -304,7 +326,7 @@ export class BTERApplicationFeeDetailsComponent {
     document.body.appendChild(form);
     form.submit();
     document.body.removeChild(form);
-    await this.dTEAffiliationregistrationService.ApplicationSubmit(this.request.BTERRegID, 'Apply BTER Affiliation')
+    await this.dTEAffiliationregistrationService.ApplicationSubmit(this.request.BTERRegID, 'Apply BTER Affiliation', this.request_Payment.AMOUNT)
       .then((data: any) => {
         data = JSON.parse(JSON.stringify(data));
         this.State = data['State'];
@@ -401,23 +423,41 @@ export class BTERApplicationFeeDetailsComponent {
             this.request_Payment.City = data['Data'][0]['data'][0].District_Eng;
             this.request_Payment.Pincode = data['Data'][0]['data'][0].Pincode;
             this.request_Payment.PaymentType = "BTER Payment";
-
-            await this.nocpaymentService.PaymentRequest_Egrass(this.request_Payment)
-              .then((data: any) => {
-                debugger;
-                data = JSON.parse(JSON.stringify(data));
-                this.State = data['State'];
-                this.SuccessMessage = data['SuccessMessage'];
-                this.ErrorMessage = data['ErrorMessage'];
-                //console.log(data.Data.MERCHANTCODE);
-                console.log(this.State);
-                if (!this.State) {
-                  this.RedirectEgrassPaymentRequest(data.Data.MERCHANTCODE, data.Data.ENCDATA, data.Data.PaymentRequestURL, data.Data.AUIN)
-                }
-                else {
-                  this.toastr.error(this.ErrorMessage)
-                }
-              });
+            if (Number(this.Total1) > 0) {
+              await this.nocpaymentService.PaymentRequest_Egrass(this.request_Payment)
+                .then((data: any) => {
+                  debugger;
+                  data = JSON.parse(JSON.stringify(data));
+                  this.State = data['State'];
+                  this.SuccessMessage = data['SuccessMessage'];
+                  this.ErrorMessage = data['ErrorMessage'];
+                  //console.log(data.Data.MERCHANTCODE);
+                  console.log(this.State);
+                  if (!this.State) {
+                    this.RedirectEgrassPaymentRequest(data.Data.MERCHANTCODE, data.Data.ENCDATA, data.Data.PaymentRequestURL, data.Data.AUIN)
+                  }
+                  else {
+                    this.toastr.error(this.ErrorMessage)
+                  }
+                });
+            } else {
+              await this.dTEAffiliationregistrationService.ApplicationSubmit(this.request.BTERRegID, 'Apply BTER Affiliation', Number(this.Total1))
+                .then((data: any) => {
+                  data = JSON.parse(JSON.stringify(data));
+                  this.State = data['State'];
+                  this.SuccessMessage = data['SuccessMessage'];
+                  this.ErrorMessage = data['ErrorMessage'];
+                  //console.log(data.Data.MERCHANTCODE);
+                  console.log(this.State);
+                  if (!this.State) {
+                    this.routers.navigate(['/affiliationregistration']);
+                    //this.RedirectPaymentRequest(data.Data.MERCHANTCODE, data.Data.ENCDATA, data.Data.PaymentRequestURL)
+                  }
+                  else {
+                    this.toastr.error(this.ErrorMessage)
+                  }
+                });
+            }
           }, error => console.error(error));
       }
       catch (Ex) {
@@ -466,7 +506,7 @@ export class BTERApplicationFeeDetailsComponent {
     document.body.appendChild(form);
     form.submit();
     document.body.removeChild(form);
-    await this.dTEAffiliationregistrationService.ApplicationSubmit(this.request.BTERRegID, 'Apply BTER Affiliation')
+    await this.dTEAffiliationregistrationService.ApplicationSubmit(this.request.BTERRegID, 'Apply BTER Affiliation', Number(this.Total1))
       .then((data: any) => {
         data = JSON.parse(JSON.stringify(data));
         this.State = data['State'];
@@ -482,6 +522,161 @@ export class BTERApplicationFeeDetailsComponent {
         }
       });
 
+
+  }
+
+
+
+  async EmitraPaymentRequest_click() {
+    debugger;
+    this.is_disableDepartment = true;
+    await this.CheckTabsEntry();
+    if (this.IsShowDraftFinalSubmit == true) {
+      console.log(this.IsShowDraftFinalSubmit);
+      try {
+
+        this.loaderService.requestStarted();
+        await this.commonMasterService.GetBTERCollegeBasicDetails(this.request.BTERRegID)
+          .then(async (data: any) => {
+            data = JSON.parse(JSON.stringify(data));
+            this.CollegeName = data['Data'][0]['data'][0]['CollegeNameEn'];
+            this.emitraRequest.ApplicationIdEnc = data['Data'][0]['data'][0].DTEAffiliationID;
+            this.emitraRequest.Amount = Number(this.Total1);
+            this.emitraRequest.USEREMAIL = data['Data'][0]['data'][0].CollegeEmail;
+            this.emitraRequest.UserName = this.CollegeName.substring(0, 49).replace(/[^a-zA-Z ]/g, "");
+            this.emitraRequest.MobileNo = data['Data'][0]['data'][0].CollegeMobileNumber;
+            this.emitraRequest.PURPOSE = "BTER Payment";
+            this.emitraRequest.DepartmentID = data['Data'][0]['data'][0].DepartmentID;
+            this.emitraRequest.ServiceID = data['Data'][0]['data'][0].ServiceID;
+            this.emitraRequest.CreatedBy = this.sSOLoginDataModel.UserID;
+            this.emitraRequest.SsoID = this.sSOLoginDataModel.SSOID;
+            this.emitraRequest.RegistrationNo = data['Data'][0]['data'][0].CollegeID;
+
+            this.emitraRequest.DistrictCode = data['Data'][0]['data'][0].DistrictID;
+            this.emitraRequest.Adrees = data['Data'][0]['data'][0].District_Eng;
+            this.emitraRequest.City = data['Data'][0]['data'][0].District_Eng;
+            this.emitraRequest.Pincode = data['Data'][0]['data'][0].Pincode;
+            this.emitraRequest.PaymentType = "BTER Payment";
+            this.emitraRequest.DTEAffiliationID = data['Data'][0]['data'][0].DTEAffiliationID;
+            debugger;
+            console.log(this.request_Payment.AMOUNT);
+            console.log(this.Total1);
+            if (Number(this.Total1) > 0) {
+              await this.nocpaymentService.EmitraPayment(this.emitraRequest)
+                .then((data: any) => {
+                  debugger;
+                  data = JSON.parse(JSON.stringify(data));
+                  this.State = data['State'];
+                  this.SuccessMessage = data['SuccessMessage'];
+                  this.ErrorMessage = data['ErrorMessage'];
+                  if (!this.State) {
+                    this.RedirectEmitraPaymentRequest(data.Data.MERCHANTCODE, data.Data.ENCDATA, data.Data.PaymentRequestURL, data.Data.ServiceID)
+                  }
+                  else {
+                    this.toastr.error(this.ErrorMessage)
+                  }
+                });
+            } else {
+              await this.dTEAffiliationregistrationService.ApplicationSubmit(this.request.BTERRegID, 'Apply BTER Affiliation', Number(this.Total1))
+                .then((data: any) => {
+                  data = JSON.parse(JSON.stringify(data));
+                  this.State = data['State'];
+                  this.SuccessMessage = data['SuccessMessage'];
+                  this.ErrorMessage = data['ErrorMessage'];
+                  //console.log(data.Data.MERCHANTCODE);
+                  console.log(this.State);
+                  if (!this.State) {
+                    this.routers.navigate(['/affiliationregistration']);
+                    //this.RedirectPaymentRequest(data.Data.MERCHANTCODE, data.Data.ENCDATA, data.Data.PaymentRequestURL)
+                  }
+                  else {
+                    this.toastr.error(this.ErrorMessage)
+                  }
+                });
+            }
+          }, error => console.error(error));
+      }
+      catch (Ex) {
+        console.log(Ex);
+      }
+      finally {
+        setTimeout(() => {
+          this.loaderService.requestEnded();
+        }, 200);
+      }
+
+    }
+    else {
+      this.CheckTabsEntry();
+    }
+  }
+ async RedirectEmitraPaymentRequest(pMERCHANTCODE: any, pENCDATA: any, pServiceURL: any, pSERVICEID:any) {
+    debugger;
+    //var form = document.createElement("form");
+    //form.setAttribute("method", "post");
+    //form.setAttribute("action", pServiceURL);
+
+    //var hiddenField = document.createElement("input");
+    //hiddenField.setAttribute("type", "hidden");
+    //hiddenField.setAttribute("name", "ENCDATA");
+    //hiddenField.setAttribute("value", pENCDATA);
+    //form.appendChild(hiddenField);
+
+    //var hiddenFieldService = document.createElement("input");
+    //hiddenFieldService.setAttribute("type", "hidden");
+    //hiddenFieldService.setAttribute("name", "SERVICEID");
+    //hiddenFieldService.setAttribute("value", "7330");
+    //form.appendChild(hiddenFieldService);
+
+    //var MERCHANTCODE = document.createElement("input");
+    //MERCHANTCODE.setAttribute("type", "hidden");
+    //MERCHANTCODE.setAttribute("name", "MERCHANTCODE");
+    //MERCHANTCODE.setAttribute("value", pMERCHANTCODE);
+    //form.appendChild(MERCHANTCODE);
+
+
+    //document.body.appendChild(form);
+    //form.submit();
+
+    //document.body.removeChild(form);
+
+
+    var form = document.createElement("form");
+    form.setAttribute("method", "post");
+    form.setAttribute("action", pServiceURL); //GlobalConstants.RPPRequstURL
+    form.setAttribute("target", "_self");
+    var hiddenField = document.createElement("input");
+    hiddenField.setAttribute("name", "ENCDATA");
+    hiddenField.setAttribute("value", pENCDATA);
+    form.appendChild(hiddenField);
+    var MERCHANTCODE = document.createElement("input");
+    MERCHANTCODE.setAttribute("name", "MERCHANTCODE");
+    MERCHANTCODE.setAttribute("value", pMERCHANTCODE);
+    form.appendChild(MERCHANTCODE);
+
+    var SERVICEID = document.createElement("input");
+    SERVICEID.setAttribute("name", "SERVICEID");
+    SERVICEID.setAttribute("value", pSERVICEID);
+    form.appendChild(SERVICEID);
+
+    document.body.appendChild(form);
+    form.submit();
+    document.body.removeChild(form);
+    //await this.dTEAffiliationregistrationService.ApplicationSubmit(this.request.BTERRegID, 'Apply BTER Affiliation', this.request_Payment.AMOUNT)
+    //  .then((data: any) => {
+    //    data = JSON.parse(JSON.stringify(data));
+    //    this.State = data['State'];
+    //    this.SuccessMessage = data['SuccessMessage'];
+    //    this.ErrorMessage = data['ErrorMessage'];
+    //    //console.log(data.Data.MERCHANTCODE);
+    //    console.log(this.State);
+    //    if (!this.State) {
+    //      //this.RedirectPaymentRequest(data.Data.MERCHANTCODE, data.Data.ENCDATA, data.Data.PaymentRequestURL)
+    //    }
+    //    else {
+    //      this.toastr.error(this.ErrorMessage)
+    //    }
+    //  });
 
   }
 }
