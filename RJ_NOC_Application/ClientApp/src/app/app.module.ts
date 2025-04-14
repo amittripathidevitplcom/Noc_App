@@ -490,6 +490,8 @@ import { DSApplicationListDegreeComponent } from './Views/DocumentScrutinyTab_AH
 import { FinalCheckListAHDegreeComponent } from './Views/DocumentScrutinyTab_AH/final-check-list-ahdegree/final-check-list-ahdegree.component';
 import { DegreeNOCApplicationsComponent } from './Views/DocumentScrutinyTab_AH/degree-nocapplications/degree-nocapplications.component';
 import { DocumentScrutinyCourseMgThreeComponent } from './Views/DocumentScrutinyTab/document-scrutiny-course-mg-three/document-scrutiny-course-mg-three.component';
+import { EsignSuccessComponent } from './Views/noc-payment/esign-success/esign-success.component';
+import { BTERApplicationopensessionmasterComponent } from './Views/DTE_Affiliation/bterapplicationopensessionmaster/bterapplicationopensessionmaster.component';
 import { DCEAdminViewAllCommentComponent } from './Views/DCE/dceadmin-view-all-comment/dceadmin-view-all-comment.component';
 
 
@@ -980,6 +982,8 @@ import { DCEAdminViewAllCommentComponent } from './Views/DCE/dceadmin-view-all-c
     FinalCheckListAHDegreeComponent,
     DegreeNOCApplicationsComponent,
     DocumentScrutinyCourseMgThreeComponent,
+    EsignSuccessComponent,
+    BTERApplicationopensessionmasterComponent,
     DCEAdminViewAllCommentComponent,
   ],
   imports: [

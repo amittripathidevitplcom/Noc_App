@@ -63,6 +63,7 @@ export class RequestDetails {
   public Pincode: string = '';
   public PaymentType: string = 'Application';
   public DTEAffiliationID: number = 0;
+  public ServiceID: number = 0;
 }
 
 //Emitra Request
@@ -83,6 +84,17 @@ export class EmitraRequestDetails {
   public PaymentRequestURL: string = ''
   public MERCHANTCODE: string = ''
   public IsKiosk: boolean = false;
+
+  public DepartmentID: number = 0;
+  public PaymentType: string = 'Application';
+  public USEREMAIL: string = '';
+  public CreatedBy: number = 0;
+  public PURPOSE: string = '';
+  public DistrictCode: string = '';
+  public Adrees: string = '';
+  public City: string = '';
+  public Pincode: string = '';
+  public DTEAffiliationID: number = 0;
 
 }
 

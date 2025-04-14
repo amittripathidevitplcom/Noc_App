@@ -81,4 +81,16 @@ export class AadharServiceDetails {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
+
+  public async GetCA_eSignTransactionDetails(PRnNO: string) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl + "/CA_eSignTransactionDetails/" + PRnNO)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
 }

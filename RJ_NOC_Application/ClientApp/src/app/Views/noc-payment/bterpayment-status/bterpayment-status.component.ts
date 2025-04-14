@@ -23,6 +23,7 @@ export class BTERPaymentStatusComponent implements OnInit {
   public PaymentStatus: string = '';
   public PaymentModeBID: string = '';
   public UDF2_PURPOSE: string = '';
+  public TransactionMessage: string = '';
 
   constructor(private router: ActivatedRoute, private loaderService: LoaderService, private nocpaymentService: NocpaymentService) { }
 
@@ -44,6 +45,7 @@ export class BTERPaymentStatusComponent implements OnInit {
           this.PaymentStatus = data['Data'][0]['STATUS'];
           this.TransactionID = data['Data'][0]['RPPTXNID'];
           this.UDF2_PURPOSE = data['Data'][0]['UDF2'];
+          this.TransactionMessage = data['Data'][0]['RESPONSEMESSAGE'];
 
         },
           (error: any) => console.error(error));

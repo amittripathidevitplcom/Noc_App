@@ -289,8 +289,12 @@ export class ResubmitApplicationlistComponent implements OnInit {
   //    return `with: ${reason}`;
   //  }
   //}
-  async Documentscrutiny_OnClick(DepartmentID: number, DTEAffiliationID: number, Status: string, CollegeStatusId: number, ApplyBterAffiliationID: number, CollegeID: number,ApplicationStatus: string) {
-    window.open('/bterdocumentscrutiny' + "/" + encodeURI(this.commonMasterService.Encrypt(DepartmentID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(DTEAffiliationID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(Status.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(CollegeStatusId.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(ApplyBterAffiliationID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(CollegeID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(ApplicationStatus.toString())), '_blank')
+  //async Documentscrutiny_OnClick(DepartmentID: number, DTEAffiliationID: number, Status: string, CollegeStatusId: number, ApplyBterAffiliationID: number, CollegeID: number,ApplicationStatus: string) {
+  //  window.open('/bterdocumentscrutiny' + "/" + encodeURI(this.commonMasterService.Encrypt(DepartmentID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(DTEAffiliationID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(Status.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(CollegeStatusId.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(ApplyBterAffiliationID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(CollegeID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(ApplicationStatus.toString())), '_blank')
+  //}
+  async Documentscrutiny_OnClick(DepartmentID: number, DTEAffiliationID: number, Status: string, CollegeStatusId: number, ApplyBterAffiliationID: number, CollegeID: number, ApplicationStatus: string) {
+    debugger;
+    this.routers.navigate(['/bterdocumentscrutiny' + "/" + encodeURI(this.commonMasterService.Encrypt(DepartmentID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(DTEAffiliationID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(Status.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(CollegeStatusId.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(ApplyBterAffiliationID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(CollegeID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(ApplicationStatus.toString()))])
   }
 
 }

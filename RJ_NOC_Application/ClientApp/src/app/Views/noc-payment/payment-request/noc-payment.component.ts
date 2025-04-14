@@ -386,4 +386,30 @@ export class NocPaymentComponent implements OnInit {
 
 
   }
+
+
+  async GetEmitraTransactionStatus() {
+    this.loaderService.requestStarted();
+    try {
+      await this.nocpaymentService.GetEmitraTransactionStatus(this.transactionStatusRequest)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          if (!this.State) {
+            this.toastr.success(this.SuccessMessage)
+          }
+          else {
+            this.toastr.error(this.ErrorMessage)
+          }
+        })
+    }
+    catch (ex) { console.log(ex) }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
 }

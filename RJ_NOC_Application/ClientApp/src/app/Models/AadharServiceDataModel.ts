@@ -21,4 +21,21 @@ export class CAGetSignedXmlApiRequest {
   public CreatedBy: string = '';
   public eSignType: string = '';
 
+
+
+}
+
+
+export class CAGetSignedPDFAPIRequestResponse {
+
+  public txn: string = '';
+  public username: string = '';
+  public TransactionID: number = 0;
+  public responseCode: string = '';
+  public responseMsg: string = '';
+  public ApplyNocApplicationID: string = '';
+  public SSOdisplayName: string = '';
+  public RequestStatus: string = '';
+  public eSignType: string = '';
+
 }

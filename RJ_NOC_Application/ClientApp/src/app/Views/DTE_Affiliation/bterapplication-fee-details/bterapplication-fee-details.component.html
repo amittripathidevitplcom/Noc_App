@@ -114,9 +114,9 @@
           </div>
         </div>
         <div class="modal-footer text-end">
-          <button type="button" class="btn btn-primary" *ngIf="this.LegalEntityManagementType !='Private'" [attr.disabled]="is_disableDepartment ? true : null" (click)="MakePaymentEGrass_click('Application')">Make Payment(EGrass)</button>
-          <button type="button" class="btn btn-primary" (click)="MakePayment_click()" [attr.disabled]="is_disableDepartment ? true : null">Make Payment</button>
-
+          <!--<button type="button" class="btn btn-primary" *ngIf="this.LegalEntityManagementType !='Private'" [attr.disabled]="is_disableDepartment ? true : null" (click)="MakePaymentEGrass_click('Application')">Make Payment(EGrass)</button>
+          <button type="button" class="btn btn-primary" (click)="MakePayment_click()" [attr.disabled]="is_disableDepartment ? true : null">Make Payment</button>-->
+          <button type="button" class="btn btn-primary" (click)="EmitraPaymentRequest_click()" [attr.disabled]="is_disableDepartment ? true : null">Make Payment</button>
         </div>
       </ng-template>
     </div>

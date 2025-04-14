@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { DTEAffiliationRegistrationDataModel,BTERFeeMasterDataModel } from '../../../Models/DTEAffiliation/DTEAffiliationRegistration/DTEAffiliationRegistrationDataModel';
+import { DTEAffiliationRegistrationDataModel, BTERFeeMasterDataModel } from '../../../Models/DTEAffiliation/DTEAffiliationRegistration/DTEAffiliationRegistrationDataModel';
+import { BTERApplicationOpensessionDataModel } from '../../../Models/BTERApplicationOpensessionMasterDataModel';
 import { TotalCollegeReportSearchFilter, Generateorderforbter } from '../../../Models/SearchFilterDataModel';
 import { GlobalConstants } from '../../../Common/GlobalConstants';
 @Injectable({
@@ -69,13 +70,13 @@ export class DTEAffiliationRegistrationService {
   //    throw error;
   //  }
   //}
-  public async ApplicationSubmit(DTE_ARId: number,ActionName:string) {
+  public async ApplicationSubmit(DTE_ARId: number, ActionName: string, AMOUNT:number) {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     };
-    return await this.http.get(this.APIUrl + "/ApplicationSubmit/" + DTE_ARId + "/" + ActionName)
+    return await this.http.get(this.APIUrl + "/ApplicationSubmit/" + DTE_ARId + "/" + ActionName + "/" + AMOUNT)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();
@@ -142,5 +143,34 @@ export class DTEAffiliationRegistrationService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
- 
+  public async SaveDataBTERApplicationOpenSession(request: BTERApplicationOpensessionDataModel) {
+    const headers = { 'content-type': 'application/json' }
+    const body = JSON.stringify(request);
+    return await this.http.post(this.APIUrl + "/SaveDataBTERApplicationOpenSession", body, { 'headers': headers })
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+  public async GetAllOpenSessionApplicationList() {
+    const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
+    return await this.http.get(this.APIUrl + '/GetAllOpenSessionApplicationList/', httpOptions)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+  public async GetByID(ID: number, UserID: number) {
+    const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
+    return await this.http.get(this.APIUrl + '/GetByIDOpenSessionApplicationList/' + ID , httpOptions)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+  public async DeleteData(ID: number, UserID: number) {
+    const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
+    return await this.http.post(this.APIUrl + '/DeleteDataOpenSessionApplicationList/' + ID + "/" + UserID, httpOptions)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+  
 }

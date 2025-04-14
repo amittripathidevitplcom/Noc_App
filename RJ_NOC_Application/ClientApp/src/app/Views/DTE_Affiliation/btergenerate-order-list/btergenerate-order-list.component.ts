@@ -479,26 +479,7 @@ export class BTERGenerateOrderListComponent implements OnInit {
 
   async Documentscrutiny_OnClick(DepartmentID: number, DTEAffiliationID: number, Status: string, CollegeStatusId: number, ApplyBterAffiliationID: number, CollegeID: number) {
     window.open('/bterdocumentscrutiny' + "/" + encodeURI(this.commonMasterService.Encrypt(DepartmentID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(DTEAffiliationID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(Status.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(CollegeStatusId.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(ApplyBterAffiliationID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(CollegeID.toString())), '_blank')
-  }
-  //async BTEROrderGen(GenOrderNumber: string) {
-  //  try {
-  //    this.loaderService.requestStarted();
-  //    await this.commonMasterService.BTEROrderGen(GenOrderNumber)
-  //      .then((data: any) => {
-  //        this.State = data['State'];
-  //         this.SuccessMessage = data['SuccessMessage'];
-  //        this.GetGenerateorderList();
-  //      }, error => console.error(error));
-  //  }
-  //  catch (Ex) {
-  //    console.log(Ex);
-  //  }
-  //  finally {
-  //    setTimeout(() => {
-  //      this.loaderService.requestEnded();
-  //    }, 200);
-  //  }
-  //}
+  } 
   public BTEROrderGen(GenOrderNumber: string) {
     this.commonMasterService.BTEROrderGen(GenOrderNumber).subscribe(
       (response: Blob) => {
@@ -518,7 +499,7 @@ export class BTERGenerateOrderListComponent implements OnInit {
           console.error('Received empty response for PDF.');
         }
       },
-      (error: any) => {  // ✅ Fix: Explicitly define `error` type
+      (error: any) => {  
         console.error('Error opening the PDF:', error);
         alert('Failed to generate the PDF. Please try again.');
       }
@@ -528,10 +509,8 @@ export class BTERGenerateOrderListComponent implements OnInit {
   async SendEsign(FileName: string, LOIID: number) {
 
     try {
-      this.loaderService.requestStarted();
-      debugger
+      this.loaderService.requestStarted();      
       this.selectedFileName = FileName;
-
       if (this.selectedFileName != undefined && this.selectedFileName != null) {
 
         this.pdfRequest.PDFFileName = this.selectedFileName
@@ -547,9 +526,7 @@ export class BTERGenerateOrderListComponent implements OnInit {
             data = JSON.parse(JSON.stringify(data));
             this.State = data['State'];
             this.SuccessMessage = data['SuccessMessage'];
-            this.ErrorMessage = data['ErrorMessage'];
-            console.log(data);
-            console.log(this.State);
+            this.ErrorMessage = data['ErrorMessage'];            
             if (!this.State) {
 
               this.RedirectCAeSignPDFReqest(data.Data.ESPRequestURL, (data.Data.signedXMLData))
@@ -574,12 +551,7 @@ export class BTERGenerateOrderListComponent implements OnInit {
   }
 
   RedirectCAeSignPDFReqest(pServiceURL: string, pesignData: string) {
-    debugger;
-    //console.log("Amarendra");
-    //console.log(pesignData);
-    //console.log(pServiceURL);    
-    //var decodedXml = atob(pesignData);
-    //let decodedXml =atob(pesignData);
+    
     var form = document.createElement("form");
     form.method = "POST";
     form.action = pServiceURL;
@@ -592,13 +564,13 @@ export class BTERGenerateOrderListComponent implements OnInit {
     form.appendChild(hiddenField);
     document.body.appendChild(form);
     console.log("Form HTML:", form.outerHTML);
-
-    // ✅ Delay form submission to allow rendering
+    
     setTimeout(() => {
       form.submit();
       document.body.removeChild(form);
     }, 100); // Small delay to ensure form is properly attached
   }
+
 }
 
 

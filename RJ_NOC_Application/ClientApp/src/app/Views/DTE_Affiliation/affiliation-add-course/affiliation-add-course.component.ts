@@ -1083,7 +1083,8 @@ export class AffiliationAddCourseComponent {
   }
   async Branchtype(BterBranchTypeId: number) {
     debugger;
-    if (BterBranchTypeId != 463) {
+    //446 //463
+    if (BterBranchTypeId != 446) {
       this.branchname = 'SFS'
       console.log(this.branchname);
     }
