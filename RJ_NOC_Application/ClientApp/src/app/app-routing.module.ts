@@ -287,6 +287,7 @@ import { DSApplicationListDegreeComponent } from './Views/DocumentScrutinyTab_AH
 import { FinalCheckListAHDegreeComponent } from './Views/DocumentScrutinyTab_AH/final-check-list-ahdegree/final-check-list-ahdegree.component';
 import { DegreeNOCApplicationsComponent } from './Views/DocumentScrutinyTab_AH/degree-nocapplications/degree-nocapplications.component';
 import { EsignSuccessComponent } from './Views/noc-payment/esign-success/esign-success.component';
+import { BTERApplicationopensessionmasterComponent } from './Views/DTE_Affiliation/bterapplicationopensessionmaster/bterapplicationopensessionmaster.component';
 
 const routes: Routes = [
   {
@@ -1189,6 +1190,9 @@ const routes: Routes = [
       },
       {
         path: 'esignsuccess/:TransID', component: EsignSuccessComponent
+      },
+      {
+        path: 'bterapplicationopenmaster', component: BTERApplicationopensessionmasterComponent
       },
 
     ]

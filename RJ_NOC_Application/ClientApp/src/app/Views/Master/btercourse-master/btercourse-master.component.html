@@ -32,8 +32,7 @@
                 <select class="form-select" id="ddlCourseLevelID" name="ddlCourseLevelID" [(ngModel)]="request.CourseLevelID"
                         formControlName="ddlCourseLevelID">
                   <option value="0">-- Select --</option>
-                  <option *ngFor="let item of CourseLevelList" value="{{item.ID}}">{{item.Name}}</option>
-                  <
+                  <option *ngFor="let item of CourseLevelList" value="{{item.ID}}">{{item.Name}}</option>                 
                 </select>
 
                 <div *ngIf="isSubmitted&&form.ddlCourseLevelID.errors" class="text-danger">
