@@ -450,6 +450,7 @@ export class BTERApplicationFeeDetailsComponent {
                   //console.log(data.Data.MERCHANTCODE);
                   console.log(this.State);
                   if (!this.State) {
+                    this.modalService.dismissAll();
                     this.routers.navigate(['/affiliationregistration']);
                     //this.RedirectPaymentRequest(data.Data.MERCHANTCODE, data.Data.ENCDATA, data.Data.PaymentRequestURL)
                   }
@@ -586,6 +587,7 @@ export class BTERApplicationFeeDetailsComponent {
                   //console.log(data.Data.MERCHANTCODE);
                   console.log(this.State);
                   if (!this.State) {
+                    this.modalService.dismissAll();
                     this.routers.navigate(['/affiliationregistration']);
                     //this.RedirectPaymentRequest(data.Data.MERCHANTCODE, data.Data.ENCDATA, data.Data.PaymentRequestURL)
                   }
@@ -662,21 +664,21 @@ export class BTERApplicationFeeDetailsComponent {
     document.body.appendChild(form);
     form.submit();
     document.body.removeChild(form);
-    //await this.dTEAffiliationregistrationService.ApplicationSubmit(this.request.BTERRegID, 'Apply BTER Affiliation', this.request_Payment.AMOUNT)
-    //  .then((data: any) => {
-    //    data = JSON.parse(JSON.stringify(data));
-    //    this.State = data['State'];
-    //    this.SuccessMessage = data['SuccessMessage'];
-    //    this.ErrorMessage = data['ErrorMessage'];
-    //    //console.log(data.Data.MERCHANTCODE);
-    //    console.log(this.State);
-    //    if (!this.State) {
-    //      //this.RedirectPaymentRequest(data.Data.MERCHANTCODE, data.Data.ENCDATA, data.Data.PaymentRequestURL)
-    //    }
-    //    else {
-    //      this.toastr.error(this.ErrorMessage)
-    //    }
-    //  });
+    await this.dTEAffiliationregistrationService.ApplicationSubmit(this.request.BTERRegID, 'Apply BTER Affiliation', this.request_Payment.AMOUNT)
+      .then((data: any) => {
+        data = JSON.parse(JSON.stringify(data));
+        this.State = data['State'];
+        this.SuccessMessage = data['SuccessMessage'];
+        this.ErrorMessage = data['ErrorMessage'];
+        //console.log(data.Data.MERCHANTCODE);
+        console.log(this.State);
+        if (!this.State) {
+          //this.RedirectPaymentRequest(data.Data.MERCHANTCODE, data.Data.ENCDATA, data.Data.PaymentRequestURL)
+        }
+        else {
+          this.toastr.error(this.ErrorMessage)
+        }
+      });
 
   }
 }
