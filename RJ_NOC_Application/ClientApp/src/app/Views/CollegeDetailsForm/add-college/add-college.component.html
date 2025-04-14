@@ -53,8 +53,8 @@
                     [(ngModel)]="request.TypeofCollege">
               <option value="">--Select--</option>
               <option value="Medical">Medical</option>
-              <option value="Dental">Dental</option>
-              <option value="Pharmacy">Pharmacy</option>
+              <!--<option value="Dental">Dental</option>
+              <option value="Pharmacy">Pharmacy</option>-->
             </select>
             <div *ngIf="isSubmitted&&form.ddlTypeofCollege.errors" class="text-danger">
               <p *ngIf="form.ddlTypeofCollege.errors.required"><i aria-hidden="true"></i> This field is required .!</p>

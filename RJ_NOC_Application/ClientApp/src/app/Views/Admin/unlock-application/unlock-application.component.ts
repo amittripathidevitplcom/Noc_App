@@ -98,7 +98,7 @@ export class UnlockApplicationComponent implements OnInit {
     });
     try {
       this.loaderService.requestStarted();
-      await this.commonMasterService.GetUnlockApplicationTrail_DepartmentApplicationWise(ApplyNOCID, this.sSOLoginDataModel.DepartmentID)
+      await this.commonMasterService.GetApplicationTrail_DepartmentApplicationWise(ApplyNOCID, this.sSOLoginDataModel.DepartmentID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];

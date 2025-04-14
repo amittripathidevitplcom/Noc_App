@@ -47,8 +47,8 @@
               <tbody>
                 <tr *ngFor="let row of ApplicationList | tableSearchFilter:searchText; let idx=index;">
                   <td>{{idx+1}}</td>
-                  <td>{{row.ApplyNOCID}}</td>
-                  <td>{{row.Reason}}</td>
+                  <td>{{row.ApplyNocApplicationID}}</td>
+                  <td>{{row.OpenReason}}</td>
                   <td><a class="btn btn-sm btn-primary m-1" href="{{row.UnlockDocPath}}" title="Unlock Document File" target="_blank"><i class="fa fa-eye"></i></a></td>
                   <td>{{row.CollegeName}}</td>
                   <td>{{row.MobileNumber}}</td>
@@ -58,7 +58,7 @@
                   <td>{{row.TehsilName}}</td>
                   <td>{{row.SSOID}}</td>
                   <td>
-                    &nbsp;<button type="button" class="btn btn-sm btn-info" title="View Application trail" (click)="GetApplicationTrail(mymodal,row.ApplyNOCID)"><i class="fa fa-list"></i></button>
+                    &nbsp;<button type="button" class="btn btn-sm btn-info" title="View Application trail" (click)="GetApplicationTrail(mymodal,row.ApplyNocApplicationID)"><i class="fa fa-list"></i></button>
                   </td>
 
                 </tr>

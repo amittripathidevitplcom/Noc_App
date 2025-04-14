@@ -5,6 +5,7 @@ import { catchError, } from 'rxjs/operators';
 import { GlobalConstants } from '../../Common/GlobalConstants';
 import { SearchFilterDataModel } from '../../Models/TabDetailDataModel';
 import { DCENOCReportSearchFilterDataModel } from '../../Models/SearchFilterDataModel';
+import { OpenApplicationDataModel } from '../../Models/CommonMasterDataModel';
 @Injectable({
   providedIn: 'root'
 })
@@ -397,6 +398,15 @@ export class DCEDocumentScrutinyService {
       })
     };
     return await this.http.post(this.APIUrl + "/DocumentScrutiny_PaymentDetail/" + CollageID + "/" + RoleID + "/" + ApplyNOCID, httpOptions)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+
+
+  public async OpenApplication(request: OpenApplicationDataModel) {
+    const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
+    return await this.http.post(this.APIUrl + "/OpenApplication", request, httpOptions)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();

@@ -10,8 +10,12 @@ import { DCEDocumentScrutinyService } from '../../../Services/DCEDocumentScrutin
 import { ActivatedRoute, Router } from '@angular/router';
 import * as XLSX from 'xlsx';
 import { ModalDismissReasons, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { UnlockApplicationDataModel } from '../../../Models/CommonMasterDataModel';
+import { OpenApplicationDataModel, UnlockApplicationDataModel } from '../../../Models/CommonMasterDataModel';
 import { FileUploadService } from '../../../Services/FileUpload/file-upload.service';
+import { ApplyNocApplicationDataModel } from '../../../Models/ApplyNocParameterDataModel';
+import * as CryptoJS from 'crypto-js';
+import * as crypto from 'crypto';
+import { CryptoService } from '../../../Services/CryptoServiceDetails/crypto-service-details.service';
 
 @Injectable()
 
@@ -45,13 +49,15 @@ export class DCENOCReportComponent implements OnInit {
   closeResult: string | undefined;
   modalReference: NgbModalRef | undefined;
 
-  constructor(private fileUploadService: FileUploadService,private modalService: NgbModal,private routers: Router,private router: ActivatedRoute,private dceDocumentScrutinyService: DCEDocumentScrutinyService, private toastr: ToastrService, private loaderService: LoaderService, private commonMasterService: CommonMasterService, private applyNocParameterService: ApplyNocParameterService) {
+  requestOpen = new OpenApplicationDataModel();
+
+  constructor(private cryptoService: CryptoService, private fileUploadService: FileUploadService, private modalService: NgbModal, private routers: Router, private router: ActivatedRoute, private dceDocumentScrutinyService: DCEDocumentScrutinyService, private toastr: ToastrService, private loaderService: LoaderService, private commonMasterService: CommonMasterService, private applyNocParameterService: ApplyNocParameterService) {
   }
 
   async ngOnInit() {
     this.sSOLoginDataModel = JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     this.QueryStringStatus = this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('Status')?.toString());
-
+    this.OpenPassword = '';
     this.request.ReportStatus = this.QueryStringStatus;
     await this.LoadMaster();
     await this.GetDCENOCReportData();
@@ -84,7 +90,7 @@ export class DCENOCReportComponent implements OnInit {
           data = JSON.parse(JSON.stringify(data));
           this.WorkFlowActionList = data['Data'][0]['data'];
         }, error => console.error(error));
-      await this.commonMasterService.GetUsersByRoleDepartment(3,17)
+      await this.commonMasterService.GetUsersByRoleDepartment(3, 17)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.NodalOfficerList = data['Data'][0]['data'];
@@ -92,7 +98,7 @@ export class DCENOCReportComponent implements OnInit {
       await this.commonMasterService.GetCommonMasterList_DepartmentAndTypeWise(3, "CollegeType")
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
-            this.CollegeTypeList = data['Data'];
+          this.CollegeTypeList = data['Data'];
         }, error => console.error(error));
 
       await this.commonMasterService.GetApplyNOCParameterbyDepartment(3)
@@ -127,14 +133,14 @@ export class DCENOCReportComponent implements OnInit {
     }
     return true;
   }
-  
+
 
 
   async GetDCENOCReportData() {
     try {
       this.request.ApplicationID = this.request.ApplicationID == null || this.request.ApplicationID.toString() == '' || this.request.ApplicationID == undefined ? 0 : this.request.ApplicationID;
       if (this.request.ReportStatus == null || this.request.ReportStatus == undefined) {
-        this.request.ReportStatus =  '';
+        this.request.ReportStatus = '';
       }
       this.request.SessionYear = this.sSOLoginDataModel.SessionID;
       this.ApplicationList = [];
@@ -147,7 +153,7 @@ export class DCENOCReportComponent implements OnInit {
           this.ErrorMessage = data['ErrorMessage'];
           this.ApplicationList = data['Data'];
         }, error => console.error(error));
-      
+
     }
     catch (Ex) {
       console.log(Ex);
@@ -172,7 +178,7 @@ export class DCENOCReportComponent implements OnInit {
 
           console.log(data);
         }, error => console.error(error));
-      
+
     }
     catch (Ex) {
       console.log(Ex);
@@ -247,7 +253,7 @@ export class DCENOCReportComponent implements OnInit {
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
-            this.DistrictList = data['Data'];
+          this.DistrictList = data['Data'];
         }, error => console.error(error));
     }
     catch (Ex) {
@@ -275,7 +281,7 @@ export class DCENOCReportComponent implements OnInit {
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
-            this.SuvdivisionList = data['Data'];
+          this.SuvdivisionList = data['Data'];
         }, error => console.error(error));
     }
     catch (Ex) {
@@ -313,30 +319,6 @@ export class DCENOCReportComponent implements OnInit {
     }
   }
 
-  async UnlockApplicationModel(content: any, ApplyNOCID: number,DepartmentID: number,CollegeID: number) {
-    this.requestUnlock = new UnlockApplicationDataModel();
-    this.requestUnlock.ApplyNOCID = ApplyNOCID;
-    this.requestUnlock.DepartmentID = DepartmentID;
-    this.requestUnlock.CollegeID = CollegeID;
-    this.requestUnlock.UnlockSSOID = this.sSOLoginDataModel.SSOID;
-    this.requestUnlock.CreatedBy = this.sSOLoginDataModel.UserID;
-    this.modalService.open(content, { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' }).result.then((result) => {
-      this.closeResult = `Closed with: ${result}`;
-    }, (reason) => {
-      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-    });
-    try {
-      this.loaderService.requestStarted();
-    }
-    catch (Ex) {
-      console.log(Ex);
-    }
-    finally {
-      setTimeout(() => {
-        this.loaderService.requestEnded();
-      }, 200);
-    }
-  }
   private getDismissReason(reason: any): string {
     if (reason === ModalDismissReasons.ESC) {
       return 'by pressing ESC';
@@ -360,9 +342,9 @@ export class DCENOCReportComponent implements OnInit {
         if (this.file.type == 'application/pdf') {
           //size validation
           if (this.file.size > 2000000) {
-            this.requestUnlock.UnlockDoc = '';
-            this.requestUnlock.UnlockDoc_DisName = '';
-            this.requestUnlock.UnlockDocPath = '';
+            this.requestOpen.UnlockDoc = '';
+            this.requestOpen.UnlockDoc_DisName = '';
+            this.requestOpen.UnlockDocPath = '';
             this.files = document.getElementById('fuPenaltyDoc');
             this.files.value = '';
             this.toastr.error('Select less then 2MB File')
@@ -373,9 +355,9 @@ export class DCENOCReportComponent implements OnInit {
         else {
           this.toastr.warning('Select Only jpdf');
           // type validation
-          this.requestUnlock.UnlockDoc = '';
-          this.requestUnlock.UnlockDoc_DisName = '';
-          this.requestUnlock.UnlockDocPath = '';
+          this.requestOpen.UnlockDoc = '';
+          this.requestOpen.UnlockDoc_DisName = '';
+          this.requestOpen.UnlockDocPath = '';
           this.files = document.getElementById('fuPenaltyDoc');
           this.files.value = '';
           return
@@ -386,9 +368,9 @@ export class DCENOCReportComponent implements OnInit {
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
           if (this.State == 0) {
-            this.requestUnlock.UnlockDoc = data['Data'][0]["FileName"];
-            this.requestUnlock.UnlockDoc_DisName = data['Data'][0]["Dis_FileName"];
-            this.requestUnlock.UnlockDocPath = data['Data'][0]["FilePath"];
+            this.requestOpen.UnlockDoc = data['Data'][0]["FileName"];
+            this.requestOpen.UnlockDoc_DisName = data['Data'][0]["Dis_FileName"];
+            this.requestOpen.UnlockDocPath = data['Data'][0]["FilePath"];
             this.files = document.getElementById('fuUnlockDoc');
             this.files.value = '';
           }
@@ -402,9 +384,9 @@ export class DCENOCReportComponent implements OnInit {
 
       }
       else {
-        this.requestUnlock.UnlockDoc = '';
-        this.requestUnlock.UnlockDoc_DisName = '';
-        this.requestUnlock.UnlockDocPath = '';
+        this.requestOpen.UnlockDoc = '';
+        this.requestOpen.UnlockDoc_DisName = '';
+        this.requestOpen.UnlockDocPath = '';
         this.files = document.getElementById('fuUnlockDoc');
         this.files.value = '';
       }
@@ -430,9 +412,9 @@ export class DCENOCReportComponent implements OnInit {
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
           if (this.State == 0) {
-            this.requestUnlock.UnlockDoc = '';
-            this.requestUnlock.UnlockDoc_DisName = '';
-            this.requestUnlock.UnlockDocPath = '';
+            this.requestOpen.UnlockDoc = '';
+            this.requestOpen.UnlockDoc_DisName = '';
+            this.requestOpen.UnlockDocPath = '';
             this.files = document.getElementById('fuUnlockDoc');
             this.files.value = '';
           }
@@ -454,45 +436,7 @@ export class DCENOCReportComponent implements OnInit {
       }, 200);
     }
   }
-  async SaveData() {
-    this.FormSubmit = true;
-    if (this.requestUnlock.Reason == '') {
-      return;
-    }
-    if (this.requestUnlock.UnlockDoc == '') {
-      return;
-    }
-   
-    this.loaderService.requestStarted();
-    try {
-      if (confirm("Are you sure you unlock this application?")) {
-        await this.commonMasterService.UnlockApplication(this.requestUnlock)
-          .then(async (data: any) => {
-            this.State = data['State'];
-            this.SuccessMessage = data['SuccessMessage'];
-            this.ErrorMessage = data['ErrorMessage'];
-            if (this.State == 0) {
-              this.toastr.success(this.SuccessMessage);
-              this.FormSubmit = false;
-              this.modalService.dismissAll('After Success');
-              await this.GetDCENOCReportData();
-            }
-            else if (this.State == 2) {
-              this.toastr.warning(this.ErrorMessage)
-            }
-            else {
-              this.toastr.error(this.ErrorMessage)
-            }
-          })
-      }
-    }
-    catch (ex) { console.log(ex) }
-    finally {
-      setTimeout(() => {
-        this.loaderService.requestEnded();
-      }, 200);
-    }
-  }
+
 
 
 
@@ -523,5 +467,137 @@ export class DCENOCReportComponent implements OnInit {
         this.loaderService.requestEnded();
       }, 200);
     }
+  }
+
+
+  public ApplyNocApplicationDetail: ApplyNocApplicationDataModel = new ApplyNocApplicationDataModel();
+  public SelectedApplyNOCID: number = 0
+  async ViewApplyNocApplication_click(content: any, applyNocApplicationID: number) {
+    try {
+      this.requestOpen = new OpenApplicationDataModel();
+      this.requestOpen.ApplyNOCID = applyNocApplicationID;
+      this.requestOpen.CreatedBy = this.sSOLoginDataModel.UserID;
+      this.loaderService.requestStarted();
+      // get
+      await this.applyNocParameterService.GetApplyNocApplicationByApplicationID(applyNocApplicationID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          // data
+          if (this.State == 0) {
+            this.ApplyNocApplicationDetail = data['Data'];
+            this.modalService.open(content, { size: 'xl', ariaLabelledBy: 'modal-applynocview-title', backdrop: 'static' }).result.then((result) => {
+              this.closeResult = `Closed with: ${result}`;
+            }, (reason) => {
+              this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+            });
+          }
+          else {
+            this.toastr.error(this.ErrorMessage);
+          }
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+
+  public FormOpenSubmit: boolean = false;
+  async OpenApplication() {
+    try {
+      this.FormOpenSubmit = true;
+      if (this.requestOpen.Reason == '') {
+        return;
+      }
+      if (this.requestOpen.UnlockDoc == '') {
+        return;
+      }
+      if (confirm("Are you sure you unlock this application?")) {
+        this.loaderService.requestStarted();
+        // get
+        await this.dceDocumentScrutinyService.OpenApplication(this.requestOpen)
+          .then(async (data: any) => {
+            data = JSON.parse(JSON.stringify(data));
+            this.State = data['State'];
+            this.SuccessMessage = data['SuccessMessage'];
+            this.ErrorMessage = data['ErrorMessage'];
+            if (this.State == 0) {
+              this.modalService.dismissAll('After Success');
+              await this.GetDCENOCReportData();
+              this.FormOpenSubmit = false;
+            }
+            else {
+              this.toastr.error(this.ErrorMessage);
+            }
+          }, error => console.error(error));
+      }
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+
+  public OpenPassword: string = '';
+  public UserPassword: string = 'DceAdmin@1234#$';
+
+  public CommentDepartmentID: number = 0;
+  public CommentCollegeID: number = 0;
+  public CommentApplyNOCID: number = 0;
+  public CommentApplicationNo: string = '';
+  async ViewAllCommments(content: any, DepartmentID: number, CollegeID: number, ApplyNOCID: number, ApplicationNo: string) {
+    try {
+      this.OpenPassword = '';
+      this.CommentDepartmentID = DepartmentID;
+      this.CommentCollegeID = CollegeID;
+      this.CommentApplyNOCID = ApplyNOCID;
+      this.CommentApplicationNo = ApplicationNo;
+      //alert(this.CommentDepartmentID + ',' + this.CommentCollegeID + ',' + this.CommentApplyNOCID + ',' + this.CommentApplicationNo)
+      this.loaderService.requestStarted();
+      // get
+      this.modalService.open(content, { size: 'sm', ariaLabelledBy: 'modal-applynocview-title', backdrop: 'static' }).result.then((result) => {
+        this.closeResult = `Closed with: ${result}`;
+      }, (reason) => {
+        this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+      });
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+  public FormCommentSubmit: boolean = false;
+  async ViewComment() {
+    this.FormCommentSubmit = true;
+    if (this.OpenPassword == '') {
+      return;
+    }
+    if (this.OpenPassword != this.UserPassword) {
+      this.toastr.warning('Incorrect Password');
+      return;
+    }
+    this.modalService.dismissAll('After Success');
+    var entext = await this.CommentDepartmentID.toString() + "/" + this.CommentCollegeID.toString() + "/" + this.CommentApplyNOCID.toString() + "/" + this.CommentApplicationNo.toString();
+    var text = await this.cryptoService.encrypt(entext);
+    this.routers.navigate(['/dceadminviewallcomment' + "/" + text]);
+
   }
 }

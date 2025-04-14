@@ -268,11 +268,14 @@
                   </td>
                   <td>{{row.SSOID}}</td>
                   <td>
-                    <!--<button type="button" *ngIf="QueryStringStatus=='Submit'" class="btn btn-sm btn-info" title="Unlock Application" (click)="UnlockApplicationModel(mymodal,row.ApplyNocApplicationID,row.DepartmentID,row.CollegeID)"><i class="fa fa-unlock"></i></button>-->
+                    <!--<button type="button"  class="btn btn-sm btn-info" title="Unlock Application" (click)="UnlockApplicationModel(mymodal,row.ApplyNocApplicationID,row.DepartmentID,row.CollegeID)"><i class="fa fa-unlock"></i></button>-->
                     <a href="javascript:void(0)" (click)="ApplicationSummary_OnClick(row.DepartmentID,row.CollegeID)" class="btn btn-sm btn-secondary">
                       <i class="fa fa-eye"></i>
                     </a>
                     &nbsp;<button type="button" class="btn btn-sm btn-info" title="View Application trail" (click)="GetApplicationTrail(myhistorymodal,row.ApplyNocApplicationID)"><i class="fa fa-list"></i></button>
+                    <!--&nbsp;<button *ngIf="QueryStringStatus=='Submit'" type="button" class="btn btn-sm btn-warning" (click)="ViewAllCommments(viewallcommentmodal,row.DepartmentID,row.CollegeID,row.ApplyNocApplicationID,row.ApplicationNo)" title="View Application All Comments"><i class="fa fa-eye-slash"></i> View All Comment</button>
+                    &nbsp;<button type="button" class="btn btn-sm btn-success" (click)="ViewApplyNocApplication_click(againopenmymodalview,row.ApplyNocApplicationID)" title="Open Application"><i class="fa fa-unlock"></i></button>-->
+
                   </td>
 
                 </tr>
@@ -288,46 +291,6 @@
       </div>
     </div>
   </div>
-
-  <ng-template #mymodal let-modal>
-    <app-loader></app-loader>
-    <div class="modal-header">
-      <h4 class="modal-title" id="modal-basic-title" style="font-size: 17px; font-weight: 600 !important;">Unlock Application</h4>
-      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-        <i class="fa fa-close"></i>
-      </button>
-    </div>
-    <div class="modal-body">
-      <div class="row">
-        <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
-          <label><b> Reason:<span style="color:red;">*</span></b></label>
-          <textarea id="txtReason" class="form-control" [(ngModel)]="requestUnlock.Reason"></textarea>
-          <p *ngIf="FormSubmit&&requestUnlock.Reason === '' " class="text-danger"><i aria-hidden="true"></i> This field is required .!</p>
-        </div>
-        <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
-          <label class="form-label">Upload Document(Only pdf file.)(Max.Size 2MB):<span style="color:red;">*</span></label>
-          <div class="d-flex">
-            <input type="file" style="display:none;" class="form-control" id="fuUnlockDoc" name="fuUnlockDoc" (change)="onFilechange($event)">
-            <label class="btn upload" for="fuUnlockDoc">
-              <span class="filename">Choose file</span>
-              {{requestUnlock.UnlockDoc === '' ? 'No File Choosen' : requestUnlock.UnlockDoc_DisName}}
-            </label>
-            <div class="btn-group" *ngIf="requestUnlock.UnlockDoc != ''">
-              <a class="btn btn-outline-primary" target="_blank" href="{{requestUnlock.UnlockDocPath}}"><i class="fa fa-eye"></i></a>
-              <button type="button" class="btn btn-outline-danger" (click)="DeleteImage(requestUnlock.UnlockDoc)"><i class="fa fa-trash-o"></i></button>
-            </div>
-          </div>
-          <p *ngIf="FormSubmit&&requestUnlock.UnlockDoc === '' " class="text-danger"><i aria-hidden="true"></i> This field is required .!</p>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-12 text-end mt-4">
-          <button type="submit" id="btnUnlockApplication" (click)="SaveData()" class="btn btn-success"><i class="fa fa-unlock"></i> Unlock</button>
-        </div>
-      </div>
-    </div>
-  </ng-template>
-
 
   <ng-template #myhistorymodal let-modal>
     <div class="modal-header">
@@ -366,6 +329,382 @@
                   </tr>
                 </tbody>
               </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+
+
+  <ng-template #againopenmymodalview let-modal>
+    <app-loader></app-loader>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-applynocview-title" style="font-size: 17px; font-weight: 600 !important;">
+        Apply Noc Application for <!--: {{ApplyNocApplicationDetail.ApplicationNo}}-->
+      </h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <i class="fa fa-close"></i>
+      </button>
+    </div>
+    <div class="modal-body">
+      <!--application details-->
+      <div class="row">
+        <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+          <label>
+            <b>
+              College :
+            </b>
+            {{ApplyNocApplicationDetail.CollegeName}}
+          </label>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+          <label>
+            <b>
+              Application Type :
+            </b>
+
+            {{ApplyNocApplicationDetail.ApplicationTypeName}}
+          </label>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+          <label>
+            <b>
+              Total fee Amount :
+            </b>
+            {{ApplyNocApplicationDetail.TotalFeeAmount}}
+          </label>
+        </div>
+      </div>
+
+      <!--end-->
+      <!--parameter detail-->
+      <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+          <label>
+            <b>
+              Noc For :  {{ApplyNocApplicationDetail['ApplicationTypeName']}}
+            </b>
+          </label>
+          <hr />
+          <div class="card" *ngIf="ApplyNocApplicationDetail.ApplyNocLateFeeDetailList.length>0">
+            <div class="card-header">
+              <!--*ngIf="ApplyNocApplicationDetail.LateFee>0"-->
+              <b>Late Fee : {{ApplyNocApplicationDetail.ApplyNocLateFeeDetailList[0].TotalFeesAmount}} </b>
+            </div>
+            <div class="card-body">
+              <div class="row">
+                <!--Late Fees and Defaulter Fees-->
+                <div class="table-responsive">
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="col-md-12">
+
+                        <div class="table-responsive">
+                          <table class="table table-bordered">
+                            <thead>
+                              <tr>
+                                <th style="width:5%">Sr. No.</th>
+                                <th>Fees Type</th>
+                                <th>Fees Amount</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr *ngFor="let row of ApplyNocApplicationDetail.ApplyNocLateFeeDetailList;let idx=index;">
+                                <td>{{idx+1}}</td>
+                                <td>{{row.FeesType}}</td>
+                                <td>{{row.FeesAmount}}</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!--Late Fees and Defaulter Fees-->
+              </div>
+            </div>
+
+          </div>
+          <div class="card" *ngIf="ApplyNocApplicationDetail.DefaulterCollegePenaltyDetailList.length>0">
+
+            <div class="card-header">
+              <b>Defaulter Fee : {{ApplyNocApplicationDetail.DefaulterCollegePenaltyDetailList[0].TotalPenaltyAmount}}</b>
+            </div>
+            <div class="card-body">
+              <div class="row">
+                <!--Late Fees and Defaulter Fees-->
+                <div class="table-responsive">
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="col-md-12">
+
+                        <div class="table-responsive">
+                          <table class="table table-bordered">
+                            <thead>
+                              <tr>
+                                <th style="width:5%">Sr. No.</th>
+                                <th>Penalty for</th>
+                                <th>Penalty Amount</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr *ngFor="let row of ApplyNocApplicationDetail.DefaulterCollegePenaltyDetailList;let idx=index;">
+                                <td>{{idx+1}}</td>
+                                <td>{{row.Penaltyfor}}</td>
+                                <td>{{row.PenaltyAmount}}</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!--Late Fees and Defaulter Fees-->
+              </div>
+            </div>
+          </div>
+          <div class="card" *ngFor="let parameterDetail of ApplyNocApplicationDetail.ApplyNocApplicationParameterList;let idx=index;">
+            <div class="card-header">
+              <b>{{parameterDetail.ApplyNocFor}} : {{parameterDetail.FeeAmount}}</b>
+            </div>
+            <div class="card-body">
+              <div class="row">
+
+                <div class="table-responsive" *ngIf="parameterDetail.ParameterCode=='DEC_ChangePlace'">
+                  <div class="row">
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                      <label><b> Place Name:</b></label>
+                      <input class="form-control disabled" disabled value="{{ApplyNocApplicationDetail.ChangeInPlaceOfCollegeList[0]['PlaceName']}}" />
+                    </div>
+
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                      <label><b>Document Name :</b></label>
+                      <a class="bi bi-file-earmark-pdf-fill" data-fancybox="gallery" href="{{ApplyNocApplicationDetail.ChangeInPlaceOfCollegeList[0]['DocumentName']}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                    </div>
+
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                      <label><b>Place Document Name :</b></label>
+                      <a class="bi bi-file-earmark-pdf-fill" data-fancybox="gallery" href="{{ApplyNocApplicationDetail.ChangeInPlaceOfCollegeList[0]['PlaceDocumentName']}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                    </div>
+                  </div>
+
+                </div>
+                <div class="table-responsive" *ngIf="parameterDetail.ParameterCode=='DEC_ChangeName'">
+                  <div class="row">
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                      <label><b> Name Eng:</b></label>
+                      <input class="form-control disabled" disabled value="{{ApplyNocApplicationDetail.ChangeInNameOfCollegeList[0]['NewNameEnglish']}}" />
+                    </div>
+
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                      <label><b> Name Hindi:</b></label>
+                      <input class="form-control disabled" disabled value="{{ApplyNocApplicationDetail.ChangeInNameOfCollegeList[0]['NewNameHindi']}}" />
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                      <label><b>Place Document :</b></label>
+                      <a class="bi bi-file-earmark-pdf-fill" data-fancybox="gallery" href="{{ApplyNocApplicationDetail.ChangeInNameOfCollegeList[0]['DocumentName']}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="table-responsive" *ngIf="parameterDetail.ParameterCode=='DEC_CoedToGirls'">
+                  <div class="row">
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                      <label><b>Consent Management Document :</b></label>
+                      <a class="bi bi-file-earmark-pdf-fill" data-fancybox="gallery" href="{{ApplyNocApplicationDetail.ChangeInCoedtoGirlsList[0]['ConsentManagementDocument']}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                    </div>
+                  </div>
+                </div>
+                <div class="table-responsive" *ngIf="parameterDetail.ParameterCode=='DEC_GilsToCoed'">
+                  <div class="row">
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                      <label><b>Consent Management Document :</b></label>
+                      <a class="bi bi-file-earmark-pdf-fill" data-fancybox="gallery" href="{{ApplyNocApplicationDetail.ChangeInGirlstoCoedList[0]['ConsentManagementDocument']}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                      <label><b>Consent Student Document:</b></label>
+                      <a class="bi bi-file-earmark-pdf-fill" data-fancybox="gallery" href="{{ApplyNocApplicationDetail.ChangeInGirlstoCoedList[0]['ConsentStudentDocument']}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="table-responsive" *ngIf="parameterDetail.ParameterCode=='DEC_Merger'">
+
+                  <div class="card-header">
+                    <b>Merger Details-Applicant College Information </b>
+                  </div>
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                        <label><b>Society Proposal:</b></label>
+                        <a class="bi bi-file-earmark-pdf-fill" data-fancybox="gallery" href="{{ApplyNocApplicationDetail.MergerCollegeList[0]['SocietyProposal']}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                      </div>
+                      <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                        <label><b>AllNOC:</b></label>
+                        <a class="bi bi-file-earmark-pdf-fill" data-fancybox="gallery" href="{{ApplyNocApplicationDetail.MergerCollegeList[0]['AllNOC']}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                      </div>
+                      <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                        <label><b>University Affiliation:</b></label>
+                        <a class="bi bi-file-earmark-pdf-fill" data-fancybox="gallery" href="{{ApplyNocApplicationDetail.MergerCollegeList[0]['UniversityAffiliation']}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                      </div>
+
+                      <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                        <label><b>NOC AffiliationU niversity:</b></label>
+                        <a class="bi bi-file-earmark-pdf-fill" data-fancybox="gallery" href="{{ApplyNocApplicationDetail.MergerCollegeList[0]['NOCAffiliationUniversity']}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                      </div>
+
+                      <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                        <label><b>Consent Affidavit:</b></label>
+                        <a class="bi bi-file-earmark-pdf-fill" data-fancybox="gallery" href="{{ApplyNocApplicationDetail.MergerCollegeList[0]['ConsentAffidavit']}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="card-header">
+                    <b>Merger Details-Applicant College Information </b>
+                  </div>
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                        <label><b>Other AllNOC:</b></label>
+                        <a class="bi bi-file-earmark-pdf-fill" data-fancybox="gallery" href="{{ApplyNocApplicationDetail.MergerCollegeList[0]['OtherAllNOC']}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                      </div>
+
+                      <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                        <label><b>Other University Affiliation:</b></label>
+                        <a class="bi bi-file-earmark-pdf-fill" data-fancybox="gallery" href="{{ApplyNocApplicationDetail.MergerCollegeList[0]['OtherUniversityAffiliation']}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                      </div>
+
+                      <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                        <label><b>Other NOC Affiliation University:</b></label>
+                        <a class="bi bi-file-earmark-pdf-fill" data-fancybox="gallery" href="{{ApplyNocApplicationDetail.MergerCollegeList[0]['OtherNOCAffiliationUniversity']}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                      </div>
+
+                      <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                        <label><b>Other Consent Affidavit:</b></label>
+                        <a class="bi bi-file-earmark-pdf-fill" data-fancybox="gallery" href="{{ApplyNocApplicationDetail.MergerCollegeList[0]['OtherConsentAffidavit']}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                      </div>
+
+                      <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                        <label><b>LandTitleCertificate:</b></label>
+                        <a class="bi bi-file-earmark-pdf-fill" data-fancybox="gallery" href="{{ApplyNocApplicationDetail.MergerCollegeList[0]['LandTitleCertificate']}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                      </div>
+                      <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                        <label><b>Building Blue Print:</b></label>
+                        <a class="bi bi-file-earmark-pdf-fill" data-fancybox="gallery" href="{{ApplyNocApplicationDetail.MergerCollegeList[0]['BuildingBluePrint']}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                      </div>
+                      <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                        <label><b>Staff Information:</b></label>
+                        <a class="bi bi-file-earmark-pdf-fill" data-fancybox="gallery" href="{{ApplyNocApplicationDetail.MergerCollegeList[0]['StaffInformation']}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="table-responsive" *ngIf="parameterDetail.ParameterCode=='DEC_ChangeManagement'">
+                  <div class="row">
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                      <label><b> NewSocietyName:</b></label>
+                      <input class="form-control disabled" disabled value="{{ApplyNocApplicationDetail.ChangeInCollegeManagementList[0]['NewSocietyName']}}" />
+                    </div>
+
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                      <label><b>Document Name:</b></label>
+                      <a class="bi bi-file-earmark-pdf-fill" data-fancybox="gallery" href="{{ApplyNocApplicationDetail.ChangeInCollegeManagementList[0]['DocumentName']}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                    </div>
+
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                      <label><b>Annexure Document:</b></label>
+                      <a class="bi bi-file-earmark-pdf-fill" data-fancybox="gallery" href="{{ApplyNocApplicationDetail.ChangeInCollegeManagementList[0]['AnnexureDocument']}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="table-responsive" *ngIf="parameterDetail.ApplyNocApplicationDetailList.length>0">
+                  <table class="table table-hover table-striped-columns">
+                    <thead>
+                      <tr>
+                        <th>Sr. No.</th>
+                        <th>Course</th>
+                        <th *ngIf="parameterDetail.ApplyNocFor=='TNOC Extension' || parameterDetail.ParameterCode=='DEC_NewCourse'  || parameterDetail.ParameterCode=='DEC_TNOCExtOfSubject'  || parameterDetail.ParameterCode=='DEC_NewSubject'  || parameterDetail.ParameterCode=='DEC_PNOCSubject'">Subject</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let applicationdetail of parameterDetail.ApplyNocApplicationDetailList;let idx=index;">
+                        <td>{{idx+1}}</td>
+                        <td>
+                          <label>{{applicationdetail.CourseName}}</label>
+                        </td>
+                        <td *ngIf="parameterDetail.ApplyNocFor=='TNOC Extension' || parameterDetail.ParameterCode=='DEC_NewCourse'  || parameterDetail.ParameterCode=='DEC_TNOCExtOfSubject'  || parameterDetail.ParameterCode=='DEC_NewSubject'  || parameterDetail.ParameterCode=='DEC_PNOCSubject'">
+                          <label>{{applicationdetail.SubjectName}}</label>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--end-->
+      <div class="row">
+        <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
+          <label><b> Reason:<span style="color:red;">*</span></b></label>
+          <textarea id="txtReason" class="form-control" [(ngModel)]="requestOpen.Reason"></textarea>
+          <p *ngIf="FormOpenSubmit&&requestOpen.Reason === '' " class="text-danger"><i aria-hidden="true"></i> This field is required .!</p>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
+          <label class="form-label">Upload Document(Only pdf file.)(Max.Size 2MB):<span style="color:red;">*</span></label>
+          <div class="d-flex">
+            <input type="file" style="display:none;" class="form-control" id="fuUnlockDoc" name="fuUnlockDoc" (change)="onFilechange($event)">
+            <label class="btn upload" for="fuUnlockDoc">
+              <span class="filename">Choose file</span>
+              {{requestOpen.UnlockDoc === '' ? 'No File Choosen' : requestOpen.UnlockDoc_DisName}}
+            </label>
+            <div class="btn-group" *ngIf="requestOpen.UnlockDoc != ''">
+              <a class="btn btn-outline-primary" target="_blank" href="{{requestOpen.UnlockDocPath}}"><i class="fa fa-eye"></i></a>
+              <button type="button" class="btn btn-outline-danger" (click)="DeleteImage(requestOpen.UnlockDoc)"><i class="fa fa-trash-o"></i></button>
+            </div>
+          </div>
+          <p *ngIf="FormOpenSubmit&&requestOpen.UnlockDoc === '' " class="text-danger"><i aria-hidden="true"></i> This field is required .!</p>
+        </div>
+      </div>
+      <div class="row text-end">
+        <div class="col-12">
+          &nbsp;<button type="button" class="btn btn-sm btn-success" (click)="OpenApplication()" title="Open Application"><i class="fa fa-unlock"></i> Open Application</button>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+
+
+
+
+  <ng-template #viewallcommentmodal let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title" style="font-size: 17px; font-weight: 600 !important;">Applications Comments</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <i class="fa fa-close"></i>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="card">
+        <!--<div class="card-header">
+          <b>Application Comments</b>
+        </div>-->
+        <div class="card-body">
+          <div class="row">
+            <div class="col-lg-12 mb-3">
+              <label><b> Enter Password :</b></label>
+              <input type="password" id="txtopenpassword" name="txtopenpassword" [(ngModel)]="OpenPassword" autocomplete="new-password" class="form-control" [ngModelOptions]="{standalone: true}" />
+              <p *ngIf="FormCommentSubmit&&OpenPassword === '' " class="text-danger"><i aria-hidden="true"></i> This field is required .!</p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-12 mb-3 text-end">
+              &nbsp;<button type="button" class="btn btn-sm btn-success" title="Submit" (click)="ViewComment()"><i class="fa fa-unlock"></i> Submit</button>
             </div>
           </div>
         </div>

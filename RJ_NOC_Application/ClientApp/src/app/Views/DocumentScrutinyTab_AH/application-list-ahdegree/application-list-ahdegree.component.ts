@@ -66,7 +66,10 @@ export class ApplicationListAHDegreeComponent implements OnInit {
       if (this.QueryStatus == 'ScrutinyCompleted' || this.QueryStatus == 'DCCompleted') {
         this.request.ActionName = 'Forward,Forward To Nodal';
       }
-      if (this.QueryStatus == 'DCPending') {
+      if (this.QueryStatus == 'AfterScrutinyCompleted') {
+        this.request.ActionName = 'Forward';
+      }
+      if (this.QueryStatus == 'DCPending' || this.QueryStatus == 'AfterScrutinyPending') {
         this.request.ActionName = 'Forward';
       }
       if (this.QueryStatus == 'DCAfterPending') {

@@ -284,6 +284,10 @@ export class ForwardAHDegreeCollegeComponent implements OnInit {
                 this.WorkFlowActionList = this.WorkFlowActionList.filter((x: { ActionID: number; }) => x.ActionID != 49 && x.ActionID != 45);
               }
 
+              if (this.QueryStatus == 'AfterScrutinyPending') {
+                this.WorkFlowActionList = this.WorkFlowActionList.filter((x: { ActionID: number; }) =>  x.ActionID == 45);
+              }
+
               //if (this.sSOLoginDataModel.RoleID == 7) {
               //  this.WorkFlowActionList = this.WorkFlowActionList.filter((x: { ActionID: number; }) => x.ActionID != 42);
               //}

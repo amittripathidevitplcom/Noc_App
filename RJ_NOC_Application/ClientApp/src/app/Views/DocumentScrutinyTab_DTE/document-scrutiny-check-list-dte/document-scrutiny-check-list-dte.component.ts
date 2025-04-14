@@ -189,6 +189,7 @@ export class DocumentScrutinyCheckListDTEComponent implements OnInit {
   public UploadInspectionReportPath: string = '';
   public UploadInspectionReportDis_FileName: string = '';
   public AllCourseList: any = [];
+  public CollegeMobileNo: string = '';
 
   constructor(private applyNocParameterService: ApplyNocParameterService, private toastr: ToastrService, private loaderService: LoaderService, private applyNOCApplicationService: ApplyNOCApplicationService,
     private dcedocumentScrutinyService: DTEDocumentScrutinyService, private formBuilder: FormBuilder,
@@ -780,13 +781,20 @@ export class DocumentScrutinyCheckListDTEComponent implements OnInit {
             }, error => console.error(error));
       }
       await this.dcedocumentScrutinyService.WorkflowInsertDTE(this.sSOLoginDataModel.RoleID, this.sSOLoginDataModel.UserID, this.ActionID, this.SelectedApplyNOCID, this.SelectedDepartmentID, this.CheckFinalRemark, this.NextRoleID, this.NextUserID, this.NextActionID)
-        .then((data: any) => {
+        .then(async (data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
           if (this.State == 0) {
             this.toastr.success(this.SuccessMessage);
+            if (this.ActionID == 3) {
+              await this.commonMasterService.SendMessage(this.CollegeMobileNo, 'Revert', this.SelectedApplyNOCID)
+                .then((data: any) => {
+
+                }, error => console.error(error));
+            }
+
             this.routers.navigate(['/dashboard']);
           }
           else if (this.State == 2) {
@@ -953,6 +961,7 @@ export class DocumentScrutinyCheckListDTEComponent implements OnInit {
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.collegeDataList = data['Data'];
+          this.CollegeMobileNo = this.collegeDataList['MobileNumber'];
           if (this.collegeDataList['CollegeStatus'] == 'New') {
             this.CollegeType_IsExisting = false;
             //this.isAcademicInformation = false;

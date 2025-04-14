@@ -286,6 +286,7 @@ import { DocumentScrutinyAHDegreeComponent } from './Views/DocumentScrutinyTab_A
 import { DSApplicationListDegreeComponent } from './Views/DocumentScrutinyTab_AH/dsapplication-list-degree/dsapplication-list-degree.component';
 import { FinalCheckListAHDegreeComponent } from './Views/DocumentScrutinyTab_AH/final-check-list-ahdegree/final-check-list-ahdegree.component';
 import { DegreeNOCApplicationsComponent } from './Views/DocumentScrutinyTab_AH/degree-nocapplications/degree-nocapplications.component';
+import { DCEAdminViewAllCommentComponent } from './Views/DCE/dceadmin-view-all-comment/dceadmin-view-all-comment.component';
 
 const routes: Routes = [
   {
@@ -985,7 +986,7 @@ const routes: Routes = [
       {
         path: 'dtcoursemaster', component: DtcoursemasterComponent
       },
-      
+
 
       {
         path: 'usermanualdocumentmaster', component: UserManualDocumentMasterComponent
@@ -1064,7 +1065,7 @@ const routes: Routes = [
         path: 'dteaffiliationdetails/:DepartmentID/:DTE_ARId/:DTEAffiliationID/:Status/:CollegeStatusId', component: DTEAffiliationDetailsComponent,
         pathMatch: 'full'
       },
-      
+
       {
         path: 'dteaffiliationsummary/:DepartmentID/:DTE_ARId/:Status/:CollegeStatusId', component: DTEAffiliationSummaryComponent,
         pathMatch: 'full'
@@ -1073,7 +1074,7 @@ const routes: Routes = [
         path: 'dteaffiliationsummary/:DepartmentID/:DTE_ARId/:Status', component: DTEAffiliationSummaryComponent,
         pathMatch: 'full'
       },
-      
+
       {
         path: 'mgonenoccompleteapplicationlist', component: MgOneNocCompletedReportComponent,
         pathMatch: 'full'
@@ -1164,7 +1165,7 @@ const routes: Routes = [
       {
         path: 'bterbranchwisefeemaster', component: BTERBranchWiseFeeMasterComponent
       },
-      
+
       {
         path: 'totaldraftBedentrycollege', component: TotalDraftBedCollegeListComponent
       },
@@ -1185,6 +1186,12 @@ const routes: Routes = [
       },
       {
         path: 'checklistahdegree/:DepartmentID/:CollegeID/:ApplyNOCID/:ApplicationNoYear/:ApplicationNoID/:Status', component: FinalCheckListAHDegreeComponent
+      },
+      {
+        path: 'unlockapplication', component: UnlockApplicationComponent
+      },
+      {
+        path: 'dceadminviewallcomment/:Status', component: DCEAdminViewAllCommentComponent
       },
 
     ]
@@ -1209,7 +1216,7 @@ const routes: Routes = [
   {
     path: 'paymentsuccess/:TransID', component: PaymentSuccessComponent
   },
-  
+
   {
     path: 'paymentfailed/:TransID', component: PaymentSuccessComponent
   },
@@ -1222,7 +1229,7 @@ const routes: Routes = [
   {
     path: 'bterpaymentsuccess/:TransID', component: BTERPaymentStatusComponent
   },
-  
+
 
   {
     path: '**', component: PageNotFoundComponent

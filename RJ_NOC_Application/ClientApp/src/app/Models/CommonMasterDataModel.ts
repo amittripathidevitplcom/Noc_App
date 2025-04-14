@@ -48,3 +48,11 @@ export class UnlockApplicationDataModel {
   public UnlockDocPath: string = '';
   public CreatedBy: number = 0;
 }
+export class OpenApplicationDataModel {
+  public ApplyNOCID: number = 0;
+  public Reason: string = '';
+  public UnlockDoc: string = '';
+  public UnlockDoc_DisName: string = '';
+  public UnlockDocPath: string = '';
+  public CreatedBy: number = 0;
+}

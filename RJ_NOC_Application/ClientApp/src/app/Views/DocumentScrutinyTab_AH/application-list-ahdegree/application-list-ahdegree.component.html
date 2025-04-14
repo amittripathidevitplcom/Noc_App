@@ -31,7 +31,7 @@
                     <td>
                       <button type="button" class="btn btn-sm btn-primary" *ngIf="(QueryStatus=='Pending' && sSOLoginDataModel.RoleID==42) || (QueryStatus=='DCPending' && sSOLoginDataModel.RoleID==17)" (click)="OpenAsignCommitteePopUP(mymodalAsignCommittee,item.ApplyNOCID)" title="Create Inspection Commitee"><i class="fa fa-users"></i></button>
 
-                      <a href="javascript:void(0)" *ngIf="QueryStatus=='Pending' || QueryStatus=='DCPending'|| QueryStatus=='DCAfterPending' " title="Application Forward" (click)="DocumentScrutinyForward(item.DepartmentID,item.CollegeID,item.ApplyNOCID)" class="btn btn-sm btn-primary">
+                      <a href="javascript:void(0)" *ngIf="QueryStatus=='Pending' || QueryStatus=='DCPending'|| QueryStatus=='DCAfterPending' ||  QueryStatus=='AfterScrutinyPending'" title="Application Forward" (click)="DocumentScrutinyForward(item.DepartmentID,item.CollegeID,item.ApplyNOCID)" class="btn btn-sm btn-primary">
                         <i class="fa fa-edit"></i>
                       </a>
                       <a href="javascript:void(0)" *ngIf="QueryStatus=='ScrutinyPending'" title="Application Forward" (click)="DocumentScrutiny(item.DepartmentID,item.CollegeID,item.ApplyNOCID,item.ApplicationNo)" class="btn btn-sm btn-primary">

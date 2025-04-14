@@ -17,7 +17,8 @@ export class ApplyNocParameterDataModel {
   public LateFee: number = 0;
   public ExistingLetterofEOA: string = '';
   public ExistingLetterofEOA_Dis_FileName: string = '';
-  public ExistingLetterofEOA_Path: string = ''; 
+  public ExistingLetterofEOA_Path: string = '';
+  public IsApplied2022: boolean = false; 
   public ApplyNocParameterMasterListDataModel: ApplyNocParameterMasterListDataModel[] = [];
 
   public ApplyNocParameterMasterList_TNOCExtension: ApplyNocParameterMaster_TNOCExtensionDataModel = null;

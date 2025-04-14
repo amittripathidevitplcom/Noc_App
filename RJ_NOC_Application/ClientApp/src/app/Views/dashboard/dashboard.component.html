@@ -1776,6 +1776,27 @@
                 </div>
               </div>
             </div>
+
+          </div>
+          <div class="col-lg-3 col-md-4 col-sm-6 col-12" *ngIf="this.sSOLoginDataModel.DepartmentID==2 &&(this.sSOLoginDataModel.RoleID==42)">
+            <div class="card staticsCards">
+              <div class="card-header text-center text-white" style="background: rgba(0, 0, 0, 0.2) !important;"><h5>Applications After Scrutiny</h5></div>
+              <div class="card-body">
+                <div class="d-flex justify-content-between">
+                  <div class="dashCardContent text-start">
+                    <h4>Pending</h4>
+                    <h2>
+                      <a href="applicationlistahdegree/AfterScrutinyPending" style="background: none;">{{dashboardDataModel.AfterScrutinyPending}}</a>
+                    </h2>
+                  </div>
+                  <div class="dashCardContent">
+                    <h4>Completed</h4>
+                    <a href="applicationlistahdegree/AfterScrutinyCompleted" style="background: none;"><h2>{{dashboardDataModel.AfterScrutinyCompleted}}</h2></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+
           </div>
           <div class="col-lg-3 col-md-4 col-sm-6 col-12" *ngIf="this.sSOLoginDataModel.DepartmentID==2 &&(this.sSOLoginDataModel.RoleID==17)">
             <div class="card staticsCards">
