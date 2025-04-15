@@ -450,6 +450,7 @@ export class BTERApplicationFeeDetailsComponent {
                   //console.log(data.Data.MERCHANTCODE);
                   console.log(this.State);
                   if (!this.State) {
+                    this.modalService.dismissAll();
                     this.routers.navigate(['/affiliationregistration']);
                     //this.RedirectPaymentRequest(data.Data.MERCHANTCODE, data.Data.ENCDATA, data.Data.PaymentRequestURL)
                   }
@@ -557,10 +558,7 @@ export class BTERApplicationFeeDetailsComponent {
             this.emitraRequest.City = data['Data'][0]['data'][0].District_Eng;
             this.emitraRequest.Pincode = data['Data'][0]['data'][0].Pincode;
             this.emitraRequest.PaymentType = "BTER Payment";
-            this.emitraRequest.DTEAffiliationID = data['Data'][0]['data'][0].DTEAffiliationID;
-            debugger;
-            console.log(this.request_Payment.AMOUNT);
-            console.log(this.Total1);
+            this.emitraRequest.DTEAffiliationID = data['Data'][0]['data'][0].DTEAffiliationID;            
             if (Number(this.Total1) > 0) {
               await this.nocpaymentService.EmitraPayment(this.emitraRequest)
                 .then((data: any) => {
@@ -586,6 +584,7 @@ export class BTERApplicationFeeDetailsComponent {
                   //console.log(data.Data.MERCHANTCODE);
                   console.log(this.State);
                   if (!this.State) {
+                    this.modalService.dismissAll();
                     this.routers.navigate(['/affiliationregistration']);
                     //this.RedirectPaymentRequest(data.Data.MERCHANTCODE, data.Data.ENCDATA, data.Data.PaymentRequestURL)
                   }
@@ -662,21 +661,21 @@ export class BTERApplicationFeeDetailsComponent {
     document.body.appendChild(form);
     form.submit();
     document.body.removeChild(form);
-    //await this.dTEAffiliationregistrationService.ApplicationSubmit(this.request.BTERRegID, 'Apply BTER Affiliation', this.request_Payment.AMOUNT)
-    //  .then((data: any) => {
-    //    data = JSON.parse(JSON.stringify(data));
-    //    this.State = data['State'];
-    //    this.SuccessMessage = data['SuccessMessage'];
-    //    this.ErrorMessage = data['ErrorMessage'];
-    //    //console.log(data.Data.MERCHANTCODE);
-    //    console.log(this.State);
-    //    if (!this.State) {
-    //      //this.RedirectPaymentRequest(data.Data.MERCHANTCODE, data.Data.ENCDATA, data.Data.PaymentRequestURL)
-    //    }
-    //    else {
-    //      this.toastr.error(this.ErrorMessage)
-    //    }
-    //  });
+    await this.dTEAffiliationregistrationService.ApplicationSubmit(this.request.BTERRegID, 'Apply BTER Affiliation', this.request_Payment.AMOUNT)
+      .then((data: any) => {
+        data = JSON.parse(JSON.stringify(data));
+        this.State = data['State'];
+        this.SuccessMessage = data['SuccessMessage'];
+        this.ErrorMessage = data['ErrorMessage'];
+        //console.log(data.Data.MERCHANTCODE);
+        console.log(this.State);
+        if (!this.State) {
+          //this.RedirectPaymentRequest(data.Data.MERCHANTCODE, data.Data.ENCDATA, data.Data.PaymentRequestURL)
+        }
+        else {
+          this.toastr.error(this.ErrorMessage)
+        }
+      });
 
   }
 }
