@@ -166,7 +166,7 @@ export class NocpaymentService {
   public async GetEmitraTransactionStatus(request: TransactionStatusDataModel) {
     const headers = { 'content-type': 'application/json' }
     const body = JSON.stringify(request);
-    return await this.http.post(this.APIUrl + "/GetEmitraTransactionStatus", body, { 'headers': headers })
+    return await this.http.post(this.APIUrl + "/GetEmitraTransactionStatusNew", body, { 'headers': headers })
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();
