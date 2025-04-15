@@ -5,6 +5,14 @@
         <b><i class="bi bi-table"></i> Geo Tagging Status Details </b>
       </div>
       <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+        <div class="col-md-3 m-2">
+          <h5>RAJ NOC Mobile App </h5>
+          <a href="https://play.google.com/store/apps/details?id=com.risl.rajnoc&hl=en_IN&pli=1" target="_blank">
+            <img src="../../../assets/images/play-store-logo.png" alt="Play Store" class="img-fluid mt-3">
+          </a>
+        </div>
+      </div>
+      <div class="col-lg-12 col-md-12 col-sm-12 col-12">
         <div class="table-responsive">
           <table class="table table-bordered table-hover table-striped">
             <thead>
@@ -31,7 +39,7 @@
                   </a>
                   <label *ngIf="row.Image1=='N/A'">{{row.Image1}}</label>
                   <!--<a class="bi bi-file-earmark-pdf-fill" *ngIf="row.HospitalDocumentPath.includes('.pdf')" data-fancybox="gallery" href="{{row.HospitalDocumentPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px">
-                  </a>-->
+              </a>-->
                 </td>
                 <td>
                   <a *ngIf="row.Image2!='N/A'" data-fancybox="gallery" href="{{row.Image2}}" data-caption="Image 10" title="click here to zoom">
@@ -39,13 +47,15 @@
                   </a>
                   <label *ngIf="row.Image1=='N/A'">{{row.Image2}}</label>
                   <!--<a class="bi bi-file-earmark-pdf-fill" *ngIf="row.HospitalDocumentPath.includes('.pdf')" data-fancybox="gallery" href="{{row.HospitalDocumentPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px">
-                  </a>-->
+              </a>-->
                 </td>
               </tr>
             </tbody>
           </table>
         </div>
       </div>
+
+
     </div>
   </div>
 </div>
