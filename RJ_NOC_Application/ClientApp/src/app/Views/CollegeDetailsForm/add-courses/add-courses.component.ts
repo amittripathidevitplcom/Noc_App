@@ -303,7 +303,7 @@ export class AddCoursesComponent implements OnInit {
   async GetAllList() {
     try {
       this.loaderService.requestStarted();
-      await this.courseMasterService.GetList(this.UserID, this.sSOLoginDataModel.SSOID, this.SelectedCollageID)
+      await this.courseMasterService.GetList(this.UserID, this.sSOLoginDataModel.SSOID, this.SelectedCollageID, this.SelectedApplyNOCID > 0 ? this.SelectedApplyNOCID:0)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];

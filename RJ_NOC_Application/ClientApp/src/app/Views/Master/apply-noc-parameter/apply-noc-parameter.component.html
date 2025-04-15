@@ -267,7 +267,7 @@
                   <div class="form-check form-check-inline">
                     <input class="form-check-input" type="checkbox" name="cbCourse_SeatEnhancement" id="cbCourse_SeatEnhancement_{{item.CourseID}}" value="{{item.CourseID}}" [(ngModel)]="item.IsChecked" (change)="OnChangeSeatEnhancement(idx,item.IsChecked)">
                     <label class="form-check-label" for="cbCourse_SeatEnhancement_{{item.CourseID}}">{{item.CourseName}}</label>
-                    
+
                   </div>
                 </td>
                 <td>
@@ -2679,7 +2679,9 @@
       </div>
     </div>
 
-
+    <!--<div class="card-body" *ngIf="request.DepartmentID == 6 && HasData()">
+      <input type="checkbox" [(ngModel)]="IsApplied2022" />&nbsp; Did you apply in the year 2022 ?
+    </div>-->
     <div class="card-body" *ngIf="HasData()">
 
       <input type="checkbox" [(ngModel)]="IsTermsChecked" />&nbsp; I accept terms & conditions.

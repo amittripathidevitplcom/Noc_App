@@ -17,13 +17,13 @@ export class CourseMasterService {
     return throwError(error);
   }
   //Get 
-  public async GetList(UserID: number, LoginSSOID: string, CollegeID: number) {
+  public async GetList(UserID: number, LoginSSOID: string, CollegeID: number,ApplyNOCID:number) {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     };
-    return await this.http.get(this.APIUrl + "/GetAllCourse/" + UserID + "/" + LoginSSOID + "/" + CollegeID )
+    return await this.http.get(this.APIUrl + "/GetAllCourse/" + UserID + "/" + LoginSSOID + "/" + CollegeID + "/" + ApplyNOCID )
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();

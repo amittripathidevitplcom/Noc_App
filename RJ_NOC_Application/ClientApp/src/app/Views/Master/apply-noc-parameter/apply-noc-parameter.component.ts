@@ -169,6 +169,7 @@ export class ApplyNocParameterComponent implements OnInit {
 
   public isShowPriceDetails: boolean = false;
   public IsTermsChecked: boolean = false;
+//  public IsApplied2022: boolean = false;
   public CollegeLableName: string = "College";
 
   public IsShowCollegeList: boolean = true;
@@ -1373,7 +1374,7 @@ export class ApplyNocParameterComponent implements OnInit {
         if (!isValid) {
           return;
         }
-
+        //this.request.IsApplied2022 = this.IsApplied2022;
         this.loaderService.requestStarted();
         //post
         await this.applyNocParameterService.SaveApplyNocApplication(this.request)
