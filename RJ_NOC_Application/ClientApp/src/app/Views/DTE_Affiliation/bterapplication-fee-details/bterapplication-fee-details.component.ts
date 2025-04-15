@@ -558,10 +558,7 @@ export class BTERApplicationFeeDetailsComponent {
             this.emitraRequest.City = data['Data'][0]['data'][0].District_Eng;
             this.emitraRequest.Pincode = data['Data'][0]['data'][0].Pincode;
             this.emitraRequest.PaymentType = "BTER Payment";
-            this.emitraRequest.DTEAffiliationID = data['Data'][0]['data'][0].DTEAffiliationID;
-            debugger;
-            console.log(this.request_Payment.AMOUNT);
-            console.log(this.Total1);
+            this.emitraRequest.DTEAffiliationID = data['Data'][0]['data'][0].DTEAffiliationID;            
             if (Number(this.Total1) > 0) {
               await this.nocpaymentService.EmitraPayment(this.emitraRequest)
                 .then((data: any) => {
