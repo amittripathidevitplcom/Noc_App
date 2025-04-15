@@ -559,11 +559,11 @@ export class BTERApplicationFeeDetailsComponent {
             this.emitraRequest.Pincode = data['Data'][0]['data'][0].Pincode;
             this.emitraRequest.PaymentType = "BTER Payment";
             this.emitraRequest.DTEAffiliationID = data['Data'][0]['data'][0].DTEAffiliationID;
-            if (this.emitraRequest.PaymentType = "BTER Payment") {
-            alert("We’re currently experiencing issues with our payment system.Please try again later — we’re working to resolve it as soon as possible.Thank you for your patience!");
-              this.modalService.dismissAll();
-            }
-            else {
+            //if (this.emitraRequest.PaymentType = "BTER Payment") {
+            //alert("We’re currently experiencing issues with our payment system.Please try again later — we’re working to resolve it as soon as possible.Thank you for your patience!");
+            //  this.modalService.dismissAll();
+            //}
+            //else {
               if (Number(this.Total1) > 0) {
                 await this.nocpaymentService.EmitraPayment(this.emitraRequest)
                   .then((data: any) => {
@@ -597,7 +597,7 @@ export class BTERApplicationFeeDetailsComponent {
                       this.toastr.error(this.ErrorMessage)
                     }
                   });
-            }
+            //}
             
             }
           }, error => console.error(error));
