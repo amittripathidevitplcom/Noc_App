@@ -668,7 +668,7 @@ export class BTERApplicationFeeDetailsComponent {
     document.body.appendChild(form);
     form.submit();
     document.body.removeChild(form);
-    await this.dTEAffiliationregistrationService.ApplicationSubmit(this.request.BTERRegID, 'Apply BTER Affiliation', this.request_Payment.AMOUNT)
+   await this.dTEAffiliationregistrationService.ApplicationSubmit(this.request.BTERRegID, 'Apply BTER Affiliation', Number(this.Total1))
       .then((data: any) => {
         data = JSON.parse(JSON.stringify(data));
         this.State = data['State'];

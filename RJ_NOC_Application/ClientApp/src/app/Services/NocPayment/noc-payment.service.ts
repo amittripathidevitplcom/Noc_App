@@ -163,12 +163,24 @@ export class NocpaymentService {
       ).toPromise();
   }
 
+  //public async GetEmitraTransactionStatus(request: TransactionStatusDataModel) {
+  //  const headers = { 'content-type': 'application/json' }
+  //  const body = JSON.stringify(request);
+  //  return await this.http.post(this.APIUrl + "/GetEmitraTransactionStatusNew", body, { 'headers': headers })
+  //    .pipe(
+  //      catchError(this.handleErrorObservable)
+  //    ).toPromise();
+  //}
   public async GetEmitraTransactionStatus(request: TransactionStatusDataModel) {
-    const headers = { 'content-type': 'application/json' }
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     const body = JSON.stringify(request);
-    return await this.http.post(this.APIUrl + "/GetEmitraTransactionStatusNew", body, { 'headers': headers })
-      .pipe(
-        catchError(this.handleErrorObservable)
-      ).toPromise();
+
+    return await this.http.post(
+      this.APIUrl + "/GetEmitraTransactionStatusNew",
+      body,
+      { headers: headers }
+    ).pipe(
+      catchError(this.handleErrorObservable)
+    ).toPromise();
   }
 }
