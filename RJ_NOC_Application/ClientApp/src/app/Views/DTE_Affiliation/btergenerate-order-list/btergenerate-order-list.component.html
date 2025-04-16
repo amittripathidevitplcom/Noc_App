@@ -99,8 +99,8 @@
               <td>
                 <button *ngIf="row.PdfFilePath == ''" (click)="BTEROrderGen(row.GenOrderNumber)" title="Download Order"><i class="fa fa-download has-pdf"></i></button>
                 &nbsp;<a *ngIf="row.PdfFilePath != ''" href="{{row.PdfFilePath}}" target="_blank" class="btn btn-sm btn-info" title="View Order Genrated PDF"><i class="fa fa-file-pdf-o"></i></a>
-                      <button *ngIf="row.esignResponseUrl == ''"  class="btn btn-sm btn-success" (click)="SendEsign(row.FileName,row.GenOrderNumber)" title="Esign"><i class="bi bi-pen"></i>Esign</button>               
-                &nbsp;<a *ngIf="row.esignResponseUrl != '' && row.IsEsign !=0" href="{{row.esignResponseUrl}}" target="_blank" class="btn btn-sm btn-info" title="Download Esign PDF"><i class="fa fa-download has-pdf"></i></a>                
+                      <!--<button *ngIf="row.esignResponseUrl == ''"  class="btn btn-sm btn-success" (click)="SendEsign(row.FileName,row.GenOrderNumber)" title="Esign"><i class="bi bi-pen"></i>Esign</button>               
+                &nbsp;<a *ngIf="row.esignResponseUrl != '' && row.IsEsign !=0" href="{{row.esignResponseUrl}}" target="_blank" class="btn btn-sm btn-info" title="Download Esign PDF"><i class="fa fa-download has-pdf"></i></a>-->                
                 &nbsp;<button type="button" (click)="View_OnClick(mymodalOrderview,row.GenOrderNumber)" [attr.disabled]="isDisabledGrid ? true : null" title="Order Wise List" class="btn btn-sm btn-info"><i class="fa fa-bars"></i></button>
 
               </td>
