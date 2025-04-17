@@ -183,4 +183,16 @@ export class NocpaymentService {
       catchError(this.handleErrorObservable)
     ).toPromise();
   }
+  //public async GetEmitraTransactionStatus(request: TransactionStatusDataModel) {
+  //  const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+  //  const body = JSON.stringify(request);
+
+  //  return await this.http.post(
+  //    this.APIUrl + "/GetEmitraTransactionStatusNew1",
+  //    body,
+  //    { headers: headers }
+  //  ).pipe(
+  //    catchError(this.handleErrorObservable)
+  //  ).toPromise();
+  //}
 }
