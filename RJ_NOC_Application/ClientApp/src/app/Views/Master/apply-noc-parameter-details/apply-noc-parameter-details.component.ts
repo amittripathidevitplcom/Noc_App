@@ -89,6 +89,9 @@ export class ApplyNocParameterDetailsComponent implements OnInit {
           // data
           if (this.State == 0) {
             this.ApplyNocApplicationList = data['Data'];
+            console.log('sdfjksdgfyusdfb')
+            console.log(this.ApplyNocApplicationList)
+            console.log('sdfjksdgfyusdfb')
           }
           else {
             this.toastr.error(this.ErrorMessage);

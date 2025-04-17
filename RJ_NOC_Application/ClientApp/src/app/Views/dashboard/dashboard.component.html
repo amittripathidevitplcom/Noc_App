@@ -19,7 +19,7 @@
   <div class="row" *ngIf="this.sSOLoginDataModel.RoleID==10 && this.sSOLoginDataModel.DepartmentID !=3 && this.sSOLoginDataModel.DepartmentID !=12">
     <div class="card">
       <div class="card-header d-flex justify-content-between align-items-center">
-        <h5> <b>NOC Detail For Session {{sSOLoginDataModel.SessionName}}</b></h5>
+        <h5> <b><!--<span *ngIf="this.sSOLoginDataModel.DepartmentID==2">Diploma Course</span>--> NOC Detail For Session {{sSOLoginDataModel.SessionName}}</b></h5>
       </div>
       <div class="card-body">
         <div class="row">
@@ -361,6 +361,136 @@
       </div>
     </div>
   </div>
+
+
+  <!--<div class="row" *ngIf="this.sSOLoginDataModel.RoleID==10 && this.sSOLoginDataModel.DepartmentID ==2">
+    <div class="card">
+      <div class="card-header d-flex justify-content-between align-items-center">
+        <h5> <b>Degree Course NOC Detail For Session {{sSOLoginDataModel.SessionName}}</b></h5>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-lg-2 col-md-4 col-sm-6 col-12">
+            <div class="card staticsCards ">
+              <div class="card-body">
+                <div class="">
+                  <div class="dashCardIcon">
+                    <i class="fa fa-bank"></i>
+                  </div>
+                  <div class="dashCardContent">
+                    <h4>Total Legal Entity</h4>
+                    <h2>{{dashboardDataModel.DegreeTotalLegalEntity}}</h2>
+                  </div>
+                </div>
+              </div>
+              <a routerLink="/legalentitydepartmentwise">View more <i class="fa fa-chevron-circle-right"></i></a>
+            </div>
+          </div>
+          <div class="col-lg-2 col-md-4 col-sm-6 col-12">
+            <div class="card staticsCards ">
+              <div class="card-body">
+                <div class="">
+                  <div class="dashCardIcon">
+                    <i class="fa fa-bank"></i>
+                  </div>
+                  <div class="dashCardContent">
+                    <h4>Total College</h4>
+                    <h2>{{dashboardDataModel.DegreeTotalCollege}}</h2>
+                  </div>
+                </div>
+              </div>
+              <a routerLink="/totalcollegereports">View more <i class="fa fa-chevron-circle-right"></i></a>
+            </div>
+          </div>
+
+          <div class="col-lg-2 col-md-4 col-sm-6 col-12">
+            <div class="card staticsCards ">
+              <div class="card-body">
+                <div class="">
+                  <div class="dashCardIcon">
+                    <i class="fa fa-book"></i>
+                  </div>
+                  <div class="dashCardContent">
+                    <h4>Total Application</h4>
+                    <h2>{{dashboardDataModel.DegreeTotalApplication}}</h2>
+                  </div>
+                </div>
+              </div>
+              <a routerLink="/totalapplicationlist/ALL">View more <i class="fa fa-chevron-circle-right"></i></a>
+            </div>
+          </div>
+          <div class="col-lg-2 col-md-4 col-sm-6 col-12" *ngIf="this.sSOLoginDataModel.DepartmentID !=5">
+            <div class="card staticsCards ">
+              <div class="card-body">
+                <div class="">
+                  <div class="dashCardIcon">
+                    <i class="fa fa-book"></i>
+                  </div>
+                  <div class="dashCardContent">
+                    <h4>Total Draft Application</h4>
+                    <h2>{{dashboardDataModel.TotalDraftEntryCollege}}</h2>
+                  </div>
+                </div>
+              </div>
+              <a href="/totaldraftentrycollege">View more <i class="fa fa-chevron-circle-right"></i></a>
+            </div>
+          </div>
+          
+
+
+          <div class="col-lg-2 col-md-4 col-sm-6 col-12">
+            <div class="card staticsCards ">
+              <div class="card-body">
+                <div class="">
+                  <div class="dashCardIcon">
+                    <i class="fa fa-hourglass-end"></i>
+                  </div>
+                  <div class="dashCardContent">
+                    <h4>Total Lock & Submitted Application</h4>
+                    <h2>{{dashboardDataModel.DegreePendingtoSubmit}}</h2>
+                  </div>
+                </div>
+              </div>
+              <a routerLink="/totalapplicationlist/PendingSubmit">View more <i class="fa fa-chevron-circle-right"></i></a>
+            </div>
+          </div>
+          <div class="col-lg-2 col-md-4 col-sm-6 col-12">
+            <div class="card staticsCards ">
+              <div class="card-body">
+                <div class="">
+                  <div class="dashCardIcon">
+                    <i class="fa fa-lock"></i>
+                  </div>
+                  <div class="dashCardContent">
+                    <h4>Total Submitted Application</h4>
+                    <h2>{{dashboardDataModel.DegreeTotalSubmittedApplication}}</h2>
+                  </div>
+                </div>
+              </div>
+              <a routerLink="/totalapplicationlist/Submit">View more <i class="fa fa-chevron-circle-right"></i></a>
+            </div>
+          </div>
+          <div class="col-lg-2 col-md-4 col-sm-6 col-12">
+            <div class="card staticsCards ">
+              <div class="card-body">
+                <div class="">
+                  <div class="dashCardIcon">
+                    <i class="fa fa-check"></i>
+                  </div>
+                  <div class="dashCardContent">
+                    <h4>NOC Issued</h4>
+                    <h2>{{dashboardDataModel.DegreeNOCIssued}}</h2>
+                  </div>
+                </div>
+              </div>
+              <a routerLink="/totalapplicationlist/NOCIssued">View more <i class="fa fa-chevron-circle-right"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>-->
+
 
   <div class="row" *ngIf="this.sSOLoginDataModel.RoleID==42 && this.sSOLoginDataModel.DepartmentID ==12">
     <div class="card">
@@ -1024,7 +1154,7 @@
     </div>-->
     <div class="card">
       <div class="card-header d-flex justify-content-between align-items-center">
-        <h5><b><span>{{this.DepartmentID==12?'Affiliatation Details For Session':'NOC Detail For Session'}}</span> {{sSOLoginDataModel.SessionName}}</b></h5>        
+        <h5><b><span>{{this.DepartmentID==12?'Affiliatation Details For Session':'NOC Detail For Session'}}</span> {{sSOLoginDataModel.SessionName}}</b></h5>
       </div>
       <div class="card-body">
         <div class="row">
@@ -1079,7 +1209,7 @@
               <a routerLink="/rejectedapplicationlist">View more <i class="fa fa-chevron-circle-right"></i></a>
             </div>
           </div>
-          <div class="col-lg-2 col-md-4 col-sm-6 col-12" >
+          <div class="col-lg-2 col-md-4 col-sm-6 col-12">
             <div class="card staticsCards">
               <div class="card-body">
                 <div class="">

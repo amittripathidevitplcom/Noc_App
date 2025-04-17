@@ -231,6 +231,7 @@ export class ApplyNocApplicationDataModel {
   public InspectionIntimation?: number = 0;
   public FDRIntimation?: number = 0;
   public FDRIntimationDate?: string = '';
+  public IsApplied2022?: boolean = false;
 
 }
 export class ApplyNocApplicationParameterDataModel {

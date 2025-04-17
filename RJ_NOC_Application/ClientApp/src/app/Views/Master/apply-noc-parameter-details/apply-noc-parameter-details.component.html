@@ -116,15 +116,15 @@
                   </a>
                 </li>
 
-                <!--<li>-->
-                  <!--<a *ngIf="item.IsMakePayment==true && item.IsMakePayment_ApplicationFee==true && item.IsFinalSubmit==true && item.DepartmentID!=4 && item.DepartmentID!=5 && item.DepartmentID!=3" class="dropdown-item list-group-item list-group-item-action list-group-item-danger" href="javascript:void(0)" title="Add Offline Payment Details" (click)="OpenOfflinePaymentActionPopUP(mymodalAddOfflinePayment,item)">-->
-                  <!--<a *ngIf="item.IsFinalSubmit==false && item.ManagementType!='Government' && item.IsOpenNOCApplication==true&&item.IsOpenDefaulter==false&& item.IsDefaulter==false && item.OpenApplicationSession==sSOLoginDataModel.SessionID && item.IsApplied2022==true && item.DepartmentID==6" class="dropdown-item list-group-item list-group-item-action list-group-item-danger" href="javascript:void(0)" title="Add Offline Payment Details" (click)="OpenOfflinePaymentActionPopUP(mymodalAddOfflinePayment,item)">
+                <li>
+                  
+                  <a *ngIf="item.IsFinalSubmit==false && item.ManagementType!='Government' && item.IsOpenNOCApplication==true&&item.IsOpenDefaulter==false&& item.IsDefaulter==false && item.OpenApplicationSession==sSOLoginDataModel.SessionID && item.IsApplied2022==true && item.DepartmentID==6" class="dropdown-item list-group-item list-group-item-action list-group-item-danger" href="javascript:void(0)" title="Add Offline Payment Details" (click)="OpenOfflinePaymentActionPopUP(mymodalAddOfflinePayment,item)">
                     Add Offline Payment Details
                   </a>
-                </li>-->
+                </li>
 
                 <!--<li *ngIf="item.DepartmentID !=4 && item.DepartmentID!=3 && item.DepartmentID!=2 && item.IsOpenNOCApplication==true">-->
-                <li *ngIf="item.IsOnlineOfflinePayment=='Online' && item.IsFinalSubmit==false && item.IsOpenNOCApplication==true ">
+                <li *ngIf="item.IsOnlineOfflinePayment=='Online' && item.IsFinalSubmit==false && item.IsOpenNOCApplication==true && item.IsApplied2022!=true">
                   <a class="dropdown-item list-group-item list-group-item-action list-group-item-danger" href="javascript:void(0)" *ngIf="item.IsMakePayment==false &&( (item.DepartmentID==2 && item.GeoTagging=='Completed')||item.DepartmentID!=2 )" title="Payment" (click)="PaymentApplyNocApplication_click(mymodalpayment,item.ApplyNocApplicationID)">
                     Payment
                   </a>
@@ -136,7 +136,7 @@
 
                 </li>
 
-                <li *ngIf="item.IsOnlineOfflinePayment=='Online' && item.IsOpenNOCApplication==true">
+                <li *ngIf="item.IsOnlineOfflinePayment=='Online' && item.IsOpenNOCApplication==true && item.IsApplied2022!=true">
                   <a class="dropdown-item list-group-item list-group-item-action list-group-item-danger" href="javascript:void(0)" title="Payment History" (click)="PaymentHistoryApplyNocApplication_click(mymodalpaymenthistory,item.ApplyNocApplicationID)">
                     Payment History
                   </a>

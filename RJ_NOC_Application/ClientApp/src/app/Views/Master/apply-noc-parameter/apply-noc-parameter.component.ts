@@ -169,7 +169,7 @@ export class ApplyNocParameterComponent implements OnInit {
 
   public isShowPriceDetails: boolean = false;
   public IsTermsChecked: boolean = false;
-//  public IsApplied2022: boolean = false;
+  public IsApplied2022: boolean = false;
   public CollegeLableName: string = "College";
 
   public IsShowCollegeList: boolean = true;
@@ -1086,6 +1086,18 @@ export class ApplyNocParameterComponent implements OnInit {
       }
       HasData = IfSelectedParamenter;
     }
+    else if (this.request.DepartmentID == 9) {
+      let IfSelectedParamenter = true;
+      //for (var i = 0; i < this.ApplyNocParameterMasterList_ddl.length; i++) {
+      //  if (this.ApplyNocParameterMasterList_ddl[i].IsChecked == true) {
+      //    //IfSelectedParamenter = true;
+      //  }
+      //  else {
+      //    IfSelectedParamenter = false;
+      //  }
+      //}
+      HasData = IfSelectedParamenter;
+    }
     else if (this.request.DepartmentID == 6) {
       let IfSelectedParamenter = true;
       for (var i = 0; i < this.ApplyNocParameterMasterList_ddl.length; i++) {
@@ -1374,7 +1386,7 @@ export class ApplyNocParameterComponent implements OnInit {
         if (!isValid) {
           return;
         }
-        //this.request.IsApplied2022 = this.IsApplied2022;
+        this.request.IsApplied2022 = this.IsApplied2022;
         this.loaderService.requestStarted();
         //post
         await this.applyNocParameterService.SaveApplyNocApplication(this.request)
