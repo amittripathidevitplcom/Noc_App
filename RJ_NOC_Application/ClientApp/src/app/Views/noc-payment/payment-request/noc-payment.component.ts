@@ -8,7 +8,7 @@ import { NocpaymentService } from '../../../Services/NocPayment/noc-payment.serv
 import { RequestDetails, EmitraRequestDetails, TransactionStatusDataModel } from '../../../Models/PaymentDataModel';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators, FormArray } from '@angular/forms';
 import { GlobalConstants } from '../../../Common/GlobalConstants';
-
+import { ModalDismissReasons, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 @Injectable({
   providedIn: 'root'
 })
@@ -30,8 +30,9 @@ export class NocPaymentComponent implements OnInit {
   request = new RequestDetails();
   emitraRequest = new EmitraRequestDetails();
   transactionStatusRequest = new TransactionStatusDataModel();
-
-  constructor(private loaderService: LoaderService, private toastr: ToastrService, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private formBuilder: FormBuilder, private nocpaymentService: NocpaymentService) {
+  modalReference!: NgbModalRef;
+  closeResult!: string;
+  constructor(private loaderService: LoaderService, private toastr: ToastrService, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private formBuilder: FormBuilder, private nocpaymentService: NocpaymentService, private modalService: NgbModal) {
 
   }
 
@@ -399,6 +400,7 @@ export class NocPaymentComponent implements OnInit {
           this.ErrorMessage = data['ErrorMessage'];
           if (!this.State) {
             this.toastr.success(this.SuccessMessage)
+            this.modalService.dismissAll();
           }
           else {
             this.toastr.error(this.ErrorMessage)
