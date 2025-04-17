@@ -61,7 +61,8 @@ export class ApplyNocParameterDetailsComponent implements OnInit {
   public file: any = '';
   public AddUpdatetext: string = 'Add';
   public ApplicationFee: string = '0';
-
+  public MaxDate: Date = new Date();
+  public MinDate: Date = new Date();
 
   constructor(private fileUploadService: FileUploadService, private applyNocParameterService: ApplyNocParameterService, private toastr: ToastrService, private loaderService: LoaderService, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private modalService: NgbModal, private nocPaymentComponent: NocPaymentComponent) {
   }
@@ -909,6 +910,14 @@ export class ApplyNocParameterDetailsComponent implements OnInit {
     this.request.DepartmentID = item.DepartmentID;
     this.ApplicationFinalSubmit = item.IsFinalSubmit;
     this.ApplicationFee = (Number(item.TotalFeeAmount) - Number(item.CurrentYearPaymentAmount)).toString();
+    if (this.request.DepartmentID == 6) {
+      this.MinDate = new Date(2022, 0, 1);
+      this.MaxDate = new Date(2022, 11, 1);
+    }
+    else {
+      this.MinDate = new Date(2000, 0, 1);
+      this.MaxDate = new Date();
+    }
     await this.GetPaymentMode();
     //if (this.request.DepartmentID == 4 || this.request.DepartmentID == 3) {
     //  await this.GetPaymentMode();
@@ -937,7 +946,7 @@ export class ApplyNocParameterDetailsComponent implements OnInit {
     if ((this.request.DateofIssuance == '') || (this.request.DateofIssuance == null)) {
       isValid = false;
     }
-    if (this.request.DepartmentID != 4 && this.request.DepartmentID != 3) {
+    if (this.request.DepartmentID != 4 && this.request.DepartmentID != 3 && this.request.DepartmentID != 6) {
       if ((this.request.DateofExpiry == '') || (this.request.DateofExpiry == null)) {
         isValid = false;
       }

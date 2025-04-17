@@ -38,6 +38,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AadharServiceDataModel } from '../../../Models/AadharServiceDataModel';
 import { AadharServiceDetails } from '../../../Services/AadharServiceDetails/aadhar-service-details.service';
 import { SSOLoginService } from '../../../Services/SSOLogin/ssologin.service';
+import { FileUploadService } from '../../../Services/FileUpload/file-upload.service';
 
 
 @Injectable({
@@ -191,7 +192,7 @@ export class FinalCheckListMGThreeComponent implements OnInit {
   constructor(private sSOLoginService: SSOLoginService,private aadharServiceDetails: AadharServiceDetails,private formBuilder: FormBuilder,private committeeMasterService: CommitteeMasterService,private hostelDetailService: HostelDetailService, private threehospitalDetailService: HospitalDetailService, private oldnocdetailService: OldnocdetailService, private buildingDetailsMasterService: BuildingDetailsMasterService, private toastr: ToastrService, private loaderService: LoaderService, private applyNOCApplicationService: ApplyNOCApplicationService,
     private landDetailsService: LandDetailsService, private medicalDocumentScrutinyService: MedicalDocumentScrutinyService,
      private staffDetailService: StaffDetailService, private hospitalDetailService: ParamedicalHospitalService, private TrusteeGeneralInfoService: TrusteeGeneralInfoService,
-    private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private modalService: NgbModal, private collegeService: CollegeService) { }
+    private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private modalService: NgbModal, private collegeService: CollegeService, private fileUploadService: FileUploadService) { }
 
 
 
@@ -234,6 +235,7 @@ export class FinalCheckListMGThreeComponent implements OnInit {
         txtCMNameOfPerson: ['', Validators.required],
         txtCMMobileNumber: ['', [Validators.required, Validators.pattern(this.MobileNoRegex)]],
         txtSSOID: ['', Validators.required]
+        //fCommitteeMemberDocument: ['']
       })
   }
   get form_CommitteeMember() { return this.CommitteeMemberDetails.controls; }
@@ -1540,6 +1542,11 @@ export class FinalCheckListMGThreeComponent implements OnInit {
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
           this.request_MemberList.ApplicationCommitteeList = data['Data'];
+          //if (this.request_MemberList.ApplicationCommitteeList.length > 0) {
+          //  this.request_MemberList.CommitteeDocument = data['Data'][0]['CommitteeDocument'];
+          //  this.request_MemberList.CommitteeDocumentPath = data['Data'][0]['CommitteeDocumentPath'];
+          //  this.request_MemberList.CommitteeDocument_DisName = data['Data'][0]['CommitteeDocument_DisName'];
+          //}
         }, error => console.error(error));
     }
     catch (Ex) {
@@ -1768,5 +1775,106 @@ export class FinalCheckListMGThreeComponent implements OnInit {
     event.preventDefault();
     return false;
   }
+
+
+
+  //public file!: File;
+  //async onFilechange(event: any) {
+  //  try {
+  //    this.loaderService.requestStarted();
+  //    this.file = event.target.files[0];
+  //    if (this.file) {
+  //      if (this.file.type == 'application/pdf') {
+  //        //size validation
+  //        if (this.file.size > 2000000) {
+  //          this.request_MemberList.CommitteeDocument = '';
+  //          this.request_MemberList.CommitteeDocumentPath = '';
+  //          this.request_MemberList.CommitteeDocument_DisName = '';
+  //          this.toastr.warning('Select less then 2MB File');
+  //          return
+  //        }
+  //        if (this.file.size < 100000) {
+  //          this.request_MemberList.CommitteeDocument = '';
+  //          this.request_MemberList.CommitteeDocumentPath = '';
+  //          this.request_MemberList.CommitteeDocument_DisName = '';
+  //          this.toastr.warning('Select more then 100kb File');
+  //          return
+  //        }
+  //      }
+  //      else {// type validation
+  //        this.request_MemberList.CommitteeDocument = '';
+  //        this.request_MemberList.CommitteeDocumentPath = '';
+  //        this.request_MemberList.CommitteeDocument_DisName = '';
+  //        this.toastr.warning('Select Only pdf file');
+  //        return
+  //      }
+  //      // upload to server folder
+  //      await this.fileUploadService.UploadDocument(this.file).then((data: any) => {
+  //        this.State = data['State'];
+  //        this.SuccessMessage = data['SuccessMessage'];
+  //        this.ErrorMessage = data['ErrorMessage'];
+  //        if (this.State == 0) {
+  //          this.request_MemberList.CommitteeDocument = data['Data'][0]["FileName"];
+  //          this.request_MemberList.CommitteeDocumentPath = data['Data'][0]["FilePath"];
+  //          this.request_MemberList.CommitteeDocument_DisName = data['Data'][0]["Dis_FileName"];
+  //        }
+  //        if (this.State == 1) {
+  //          this.toastr.error(this.ErrorMessage)
+  //        }
+  //        else if (this.State == 2) {
+  //          this.toastr.warning(this.ErrorMessage)
+  //        }
+  //      });
+  //    }
+  //    else {
+  //      this.request_MemberList.CommitteeDocument = '';
+  //      this.request_MemberList.CommitteeDocumentPath = '';
+  //      this.request_MemberList.CommitteeDocument_DisName = '';
+  //    }
+  //  }
+  //  catch (Ex) {
+  //    console.log(Ex);
+  //  }
+  //  finally {
+  //    setTimeout(() => {
+  //      event.target.value = null;
+  //      this.loaderService.requestEnded();
+  //    }, 200);
+  //  }
+  //}
+
+  //async DeleteImage(file: string) {
+  //  try {
+
+  //    if (confirm("Are you sure you want to delete this ?")) {
+  //      this.loaderService.requestStarted();
+  //      // delete from server folder
+  //      await this.fileUploadService.DeleteDocument(file).then((data: any) => {
+  //        this.State = data['State'];
+  //        this.SuccessMessage = data['SuccessMessage'];
+  //        this.ErrorMessage = data['ErrorMessage'];
+  //        if (this.State == 0) {
+  //          this.request_MemberList.CommitteeDocument = '';
+  //          this.request_MemberList.CommitteeDocumentPath = '';
+  //          this.request_MemberList.CommitteeDocument_DisName = '';
+  //        }
+  //        if (this.State == 1) {
+  //          this.toastr.error(this.ErrorMessage)
+  //        }
+  //        else if (this.State == 2) {
+  //          this.toastr.warning(this.ErrorMessage)
+  //        }
+  //      });
+  //    }
+  //  }
+  //  catch (Ex) {
+  //    console.log(Ex);
+  //  }
+  //  finally {
+  //    setTimeout(() => {
+  //      this.loaderService.requestEnded();
+  //    }, 200);
+  //  }
+  //}
 }
 

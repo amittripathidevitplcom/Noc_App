@@ -1921,13 +1921,13 @@
             </div>
           </div>
           <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-            <label for="txtDateofIssuance" class="form-label">{{(request.DepartmentID==4 ||request.DepartmentID==3)?'Date':'Date of Issuance'}}<span style="color:red;">*</span></label>
-            <input type="date" class="form-control" id="txtDateofIssuance" name="txtDateofIssuance" [(ngModel)]="request.DateofIssuance">
+            <label for="txtDateofIssuance" class="form-label">{{(request.DepartmentID==4 ||request.DepartmentID==3)?'Date':request.DepartmentID==6?'Date of Issuance/Deposit':'Date of Issuance'}}<span style="color:red;">*</span></label>
+            <input type="date" class="form-control" id="txtDateofIssuance" name="txtDateofIssuance" [(ngModel)]="request.DateofIssuance" max="{{MaxDate | date:'yyyy-MM-dd'}}" min="{{MinDate | date:'yyyy-MM-dd'}}" onkeypress="return false;">
             <div *ngIf="isSubmitted" class="text-danger">
               <p *ngIf="request.DateofIssuance=='' ||request.DateofIssuance==null"><i aria-hidden="true"></i> This field is required .!</p>
             </div>
           </div>
-          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" [hidden]="(request.DepartmentID==4||request.DepartmentID==3)">
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" [hidden]="(request.DepartmentID==4||request.DepartmentID==3||request.DepartmentID==6)">
             <label for="txtDateofExpiry" class="form-label">Date of Expiry <span style="color:red;">*</span></label>
             <input type="date" class="form-control" id="txtDateofExpiry" name="txtDateofExpiry" [(ngModel)]="request.DateofExpiry">
             <div *ngIf="isSubmitted" class="text-danger">
@@ -1935,7 +1935,7 @@
             </div>
           </div>
           <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-            <label> {{(request.DepartmentID==4)?'Upload DD':request.DepartmentID==3?'Upload Receipt Document':'Upload DD/BC Transaction Recept'}}  <span style="color:red;">*</span></label>
+            <label> {{(request.DepartmentID==4)?'Upload DD':request.DepartmentID==3?'Upload Receipt Document':request.DepartmentID==6?'Upload Proof Of Fees Deposit':'Upload DD/BC Transaction Recept'}}  <span style="color:red;">*</span></label>
             <div class="d-flex">
               <input type="file" [(ngModel)]="request.FileName" [ngModelOptions]="{standalone: true}" id="fileTransactionReceptDocument" (input)="onFilechangeItem($event)" class="form-control d-none" />
               <label class="btn upload" for="fileTransactionReceptDocument">
@@ -1954,7 +1954,7 @@
           </div>
         </div>
       </div>
-      <div class="card-footer" [hidden]="(this.request.DepartmentID==4||this.request.DepartmentID==3) && ApplicationFinalSubmit==true">
+      <div class="card-footer" [hidden]="(this.request.DepartmentID==4||this.request.DepartmentID==3||this.request.DepartmentID==6) && ApplicationFinalSubmit==true">
 
         <button type="button" class="btn btn-primary" (click)="AddOfflineFeeData()" title="Add">{{AddUpdatetext}}</button>&nbsp;
         <button type="button" class="btn btn-danger" (click)="ResetOfflinepaymentdetails()" title="Add">Reset</button>
@@ -1981,7 +1981,7 @@
                 <th>Payment Mode</th>
                 <th>Amount</th>
                 <th>{{(request.DepartmentID==4 ||request.DepartmentID==3)?'Date':'Date of Issuance'}}</th>
-                <th [hidden]="(request.DepartmentID==4 || request.DepartmentID==3)">Date of Expiry</th>
+                <th [hidden]="(request.DepartmentID==4 || request.DepartmentID==3|| request.DepartmentID==6)">Date of Expiry</th>
                 <th>Transaction Recept</th>
                 <th [hidden]="(this.request.DepartmentID==4 ||this.request.DepartmentID==3) && ApplicationFinalSubmit==true">Action</th>
               </tr>
@@ -1995,11 +1995,11 @@
                 <td>{{item.PaymenyModeName}}</td>
                 <td>{{item.Amount}}</td>
                 <td>{{item.DateofIssuance | date:'dd-MM-yyyy'}}</td>
-                <td [hidden]="(request.DepartmentID==4 ||request.DepartmentID==3)">{{item.DateofExpiry | date:'dd-MM-yyyy'}}</td>
+                <td [hidden]="(request.DepartmentID==4 ||request.DepartmentID==3||request.DepartmentID==6)">{{item.DateofExpiry | date:'dd-MM-yyyy'}}</td>
                 <td><a class="btn btn-sm btn-primary" target="_blank" title="View Transaction Recept" href="{{item.FilePath}}"><i class="fa fa-eye"></i></a></td>
-                <td [hidden]="(this.request.DepartmentID==4 ||this.request.DepartmentID==3) && ApplicationFinalSubmit==true">
+                <td [hidden]="(this.request.DepartmentID==4 ||this.request.DepartmentID==3 || this.request.DepartmentID==6) && ApplicationFinalSubmit==true">
                   <button *ngIf="item.PaymentType=='Application'" type="button" class="btn btn-sm btn-primary" title="Edit" (click)="EditOffLinePaymentDetails(item)"><i class="fa fa-edit"></i></button>
-                  &nbsp; <button type="button" *ngIf="item.PaymentType=='Application'" class="btn btn-sm btn-danger" title="Delete Transaction" (click)="DeleteOffLinePaymentDetails(item.ApplyNOCID,item.PaymentOfflineID)"><i class="fa fa-trash-o"></i></button>
+                  &nbsp; <button type="button" [hidden]="this.request.DepartmentID==6" *ngIf="item.PaymentType=='Application'" class="btn btn-sm btn-danger" title="Delete Transaction" (click)="DeleteOffLinePaymentDetails(item.ApplyNOCID,item.PaymentOfflineID)"><i class="fa fa-trash-o"></i></button>
                 </td>
               </tr>
             </tbody>
