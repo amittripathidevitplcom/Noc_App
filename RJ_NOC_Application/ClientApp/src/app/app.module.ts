@@ -493,6 +493,7 @@ import { DocumentScrutinyCourseMgThreeComponent } from './Views/DocumentScrutiny
 import { EsignSuccessComponent } from './Views/noc-payment/esign-success/esign-success.component';
 import { BTERApplicationopensessionmasterComponent } from './Views/DTE_Affiliation/bterapplicationopensessionmaster/bterapplicationopensessionmaster.component';
 import { DCEAdminViewAllCommentComponent } from './Views/DCE/dceadmin-view-all-comment/dceadmin-view-all-comment.component';
+import { PaymentHistoryReportCollegeWiseComponent } from './Views/Reports/payment-history-report-college-wise/payment-history-report-college-wise.component';
 
 
  
@@ -985,6 +986,7 @@ import { DCEAdminViewAllCommentComponent } from './Views/DCE/dceadmin-view-all-c
     EsignSuccessComponent,
     BTERApplicationopensessionmasterComponent,
     DCEAdminViewAllCommentComponent,
+    PaymentHistoryReportCollegeWiseComponent,
   ],
   imports: [
     CommonModule,
