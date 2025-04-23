@@ -16,11 +16,11 @@ import { RequiredDocumentsDataModel_Documents } from '../../../Models/TabDetailD
 import { CollegeService } from '../../../services/collegedetailsform/College/college.service';
 
 @Component({
-  selector: 'app-mgthree-applications-list',
-  templateUrl: './mgthree-applications-list.component.html',
-  styleUrls: ['./mgthree-applications-list.component.css']
+  selector: 'app-mgthree-document-scrutiny-list',
+  templateUrl: './mgthree-document-scrutiny-list.component.html',
+  styleUrls: ['./mgthree-document-scrutiny-list.component.css']
 })
-export class MGThreeApplicationsListComponent implements OnInit {
+export class MGThreeDocumentScrutinyListComponent implements OnInit {
 
   sSOLoginDataModel = new SSOLoginDataModel();
   request = new CommonDataModel_ApplicationListFilter();
@@ -48,13 +48,8 @@ export class MGThreeApplicationsListComponent implements OnInit {
 
   async GetApplyNOCApplicationListByRole() {
     try {
-      if (this.QueryStatus == 'Pending') {
-        this.request.ActionName = 'Apply NOC,Forward To';
-      }
-      else if (this.QueryStatus == 'Completed') {
-        this.request.ActionName = 'Forward To';
-      }
-      else if (this.QueryStatus == 'DCPending') {
+
+      if (this.QueryStatus == 'DCPending') {
         this.request.ActionName = 'Forward To,Forward after document scrutiny,Revert,ReSubmit Application';
       }
       else if (this.QueryStatus == 'DCCompleted' && this.sSOLoginDataModel.RoleID != 16) {
@@ -63,7 +58,9 @@ export class MGThreeApplicationsListComponent implements OnInit {
       else if (this.QueryStatus == 'DCCompleted' && this.sSOLoginDataModel.RoleID == 16) {
         this.request.ActionName = 'Forward Inspection Report';
       }
-      
+      else if (this.QueryStatus == 'DCRevert') {
+        this.request.ActionName = 'Revert';
+      }
       
       this.loaderService.requestStarted();
       await this.medicalDocumentScrutinyService.GetApplyNOCApplicationList(this.request)

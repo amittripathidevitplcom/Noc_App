@@ -30,11 +30,17 @@
                     <td>{{item.ApplicationNo}}</td>
                     <td>
                       <span *ngFor="let witem of WorkflowPermissionslst let idxx =index">
-                        <a *ngIf="witem.PermissionCode=='Forward' && QueryStatus == 'Pending'" (click)="ApplicationForward(item.DepartmentID,item.CollegeID,item.ApplyNOCID)" href="javascript:void(0)" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></a>
+                        <a *ngIf="witem.PermissionCode=='DocumentScrutinyForward' && (QueryStatus == 'InspectionPending' || QueryStatus == 'IPending')" href="javascript:void(0)" (click)="DocumentScrutinyForward(item.DepartmentID,item.CollegeID,item.ApplyNOCID,item.ApplicationNo)" class="btn btn-sm btn-success"><i class="fa fa-edit"></i></a>
+                        <a *ngIf="witem.PermissionCode=='DocumentScrutiny' && QueryStatus == 'InspectionPending' && sSOLoginDataModel.RoleID!=5" href="javascript:void(0)" (click)="DocumentScrutiny(item.DepartmentID,item.CollegeID,item.ApplyNOCID,item.ApplicationNo)" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></a>
+                        <a *ngIf="witem.PermissionCode=='DocumentScrutinyForward' && QueryStatus == 'AfterInspectionPending'" href="javascript:void(0)" (click)="DocumentScrutinyForward(item.DepartmentID,item.CollegeID,item.ApplyNOCID,item.ApplicationNo)" class="btn btn-sm btn-success"><i class="fa fa-edit"></i></a>
+                        <a *ngIf="witem.PermissionCode=='DocumentScrutinyForward' &&  QueryStatus == 'APending'" href="javascript:void(0)" (click)="DocumentScrutinyForward(item.DepartmentID,item.CollegeID,item.ApplyNOCID,item.ApplicationNo)" class="btn btn-sm btn-success"><i class="fa fa-edit"></i></a>
                        </span>
+                      <a *ngIf="item.InspectionReport!='' && item.UploadedInspectionReport==''" target="_blank" href="{{item.InspectionReportPath}}" title="Download Inspection Report" class="btn btn-sm btn-success"><i class="fa fa-download">Download Inspection Report</i></a>
+
                       <a href="javascript:void(0)" title="Application Preview" (click)="ApplicationPreview_OnClick(item.DepartmentID,item.CollegeID)" class="btn btn-sm btn-secondary">
                         <i class="fa fa-eye"></i>
                       </a>
+                      <button type="button" class="btn btn-sm btn-warning" title="View All Documents" (click)="GetApplyNOCAllDocumentList(documentmymodal,item.ApplyNOCID)"><i class="fa fa-file-o"></i></button>
                       &nbsp;<button type="button" class="btn btn-sm btn-info" title="View Application trail" (click)="GetApplicationTrail(mymodal,item.ApplyNOCID)"><i class="fa fa-list"></i></button>
                     </td>
 

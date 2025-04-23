@@ -109,4 +109,21 @@ export class NOCIssuedForAHDegreeDataModel {
   public ApproveReject: string = '';
   public PdfFilePath: string = '';
   public NOCFormat: string = '';
-    }   
+}
+export class ApplyNOCDocument_DataModel {
+  public DocumentID: number = 0;
+  public ApplyNOCID: number = 0;
+  public DocumentType: string = '';
+  public DocumentName: string = '';
+  public DocumentName_DisName: string = '';
+  public DocumentNamePath: string = '';
+  public RoleID: number = 0;
+  public CreatedBy: number = 0;
+  public Showbutton?: boolean = false;
+
+}   
+export class ApplyNOCDocumentFilter_DataModel {
+  public DocumentID: number = 0;
+  public ApplyNOCID: number = 0;
+  public DocumentType: string = '';
+}   

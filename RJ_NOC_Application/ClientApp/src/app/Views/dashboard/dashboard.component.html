@@ -383,7 +383,7 @@
                   </div>
                 </div>
               </div>
-              <a routerLink="/legalentitydepartmentwise">View more <i class="fa fa-chevron-circle-right"></i></a>
+              <a routerLink="/legalentitydepartmentwise/UG">View more <i class="fa fa-chevron-circle-right"></i></a>
             </div>
           </div>
           <div class="col-lg-2 col-md-4 col-sm-6 col-12">
@@ -435,7 +435,7 @@
               <a href="/totaldraftentrycollege">View more <i class="fa fa-chevron-circle-right"></i></a>
             </div>
           </div>
-          
+
 
 
           <div class="col-lg-2 col-md-4 col-sm-6 col-12">
@@ -1497,18 +1497,18 @@
                   <div class="dashCardContent text-start">
                     <h4>Pending</h4>
                     <h2>
-                      <a href="/applicationslist/DCPending" style="background: none;">{{dashboardDataModel.DCPending}}</a>
+                      <a href="/dsapplicationslist/DCPending" style="background: none;">{{dashboardDataModel.DCPending}}</a>
                     </h2>
                   </div>
                   <div class="dashCardContent text-start" *ngIf="this.sSOLoginDataModel.RoleID!=16">
                     <h4>Revert</h4>
                     <h2>
-                      <a href="/applicationslist/DCRevert" style="background: none;">{{dashboardDataModel.DCRevert}}</a>
+                      <a href="/dsapplicationslist/DCRevert" style="background: none;">{{dashboardDataModel.DCRevert}}</a>
                     </h2>
                   </div>
                   <div class="dashCardContent">
                     <h4>Completed</h4>
-                    <a href="/applicationslist/DCCompleted" style="background: none;"><h2>{{dashboardDataModel.DCCompleted}}</h2></a>
+                    <a href="/dsapplicationslist/DCCompleted" style="background: none;"><h2>{{dashboardDataModel.DCCompleted}}</h2></a>
                   </div>
                 </div>
               </div>
@@ -1522,12 +1522,37 @@
                   <div class="dashCardContent text-start">
                     <h4>Pending</h4>
                     <h2>
-                      <a href="/applicationslist/DCPending" style="background: none;">{{dashboardDataModel.Pending}}</a>
+                      <a href="/dsapplicationslist/DCPending" style="background: none;">{{dashboardDataModel.Pending}}</a>
                     </h2>
                   </div>
                   <div class="dashCardContent">
                     <h4>Completed</h4>
-                    <a href="/applicationslist/DCCompleted" style="background: none;"><h2>{{dashboardDataModel.Completed}}</h2></a>
+                    <a href="/dsapplicationslist/DCCompleted" style="background: none;"><h2>{{dashboardDataModel.Completed}}</h2></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-4 col-sm-6 col-12" *ngIf="this.sSOLoginDataModel.RoleID==5 || this.sSOLoginDataModel.RoleID==2">
+            <div class="card staticsCards">
+              <div class="card-header text-center text-white" style="background: rgba(0, 0, 0, 0.2) !important;"><h5>Inspection Reports</h5></div>
+              <div class="card-body">
+                <div class="d-flex justify-content-between">
+                  <div class="dashCardContent text-start">
+                    <h4>Pending</h4>
+                    <h2>
+                      <a href="/dsaiapplicationslist/InspectionPending" style="background: none;">{{dashboardDataModel.InspectionPending}}</a>
+                    </h2>
+                  </div>
+                  <!--<div class="dashCardContent text-start" *ngIf="this.sSOLoginDataModel.RoleID!=2">
+            <h4>Revert</h4>
+            <h2>
+              <a href="/dsaiapplicationslist/InspectionRevert" style="background: none;">{{dashboardDataModel.InspectionRevert}}</a>
+            </h2>
+          </div>-->
+                  <div class="dashCardContent">
+                    <h4>Completed</h4>
+                    <a href="/dsaiapplicationslist/InspectionCompleted" style="background: none;"><h2>{{dashboardDataModel.InspectionCompleted}}</h2></a>
                   </div>
                 </div>
               </div>
@@ -1541,13 +1566,13 @@
                   <div class="dashCardContent text-start">
                     <h4>Pending</h4>
                     <h2>
-                      <a href="/applicationslist/IPending" style="background: none;">{{dashboardDataModel.IPending}}</a>
+                      <a href="/dsaiapplicationslist/IPending" style="background: none;">{{dashboardDataModel.IPending}}</a>
                     </h2>
                   </div>
 
                   <div class="dashCardContent">
                     <h4>Completed</h4>
-                    <a href="/applicationslist/ICompleted" style="background: none;"><h2>{{dashboardDataModel.ICompleted}}</h2></a>
+                    <a href="/dsaiapplicationslist/ICompleted" style="background: none;"><h2>{{dashboardDataModel.ICompleted}}</h2></a>
                   </div>
                 </div>
               </div>
@@ -1561,39 +1586,16 @@
                   <div class="dashCardContent text-start">
                     <h4>Pending</h4>
                     <h2>
-                      <a href="/applicationslist/AfterInspectionPending" style="background: none;">{{dashboardDataModel.AfterInspectionPending}}</a>
+                      <a href="/dsaiapplicationslist/AfterInspectionPending" style="background: none;">{{dashboardDataModel.AfterInspectionPending}}</a>
                     </h2>
                   </div>
-
                   <div class="dashCardContent">
-                    <h4>Completed</h4>
-                    <a href="/applicationslist/AfterInspectionCompleted" style="background: none;"><h2>{{dashboardDataModel.AfterInspectionCompleted}}</h2></a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-3 col-md-4 col-sm-6 col-12" *ngIf="this.sSOLoginDataModel.RoleID==5 || this.sSOLoginDataModel.RoleID==2">
-            <div class="card staticsCards">
-              <div class="card-header text-center text-white" style="background: rgba(0, 0, 0, 0.2) !important;"><h5>Inspection Reports</h5></div>
-              <div class="card-body">
-                <div class="d-flex justify-content-between">
-                  <div class="dashCardContent text-start">
-                    <h4>Pending</h4>
-                    <h2>
-                      <a href="/applicationslist/InspectionPending" style="background: none;">{{dashboardDataModel.InspectionPending}}</a>
-                    </h2>
-                  </div>
-                  <div class="dashCardContent text-start" *ngIf="this.sSOLoginDataModel.RoleID!=2">
                     <h4>Revert</h4>
-                    <h2>
-                      <a href="/applicationslist/InspectionRevert" style="background: none;">{{dashboardDataModel.InspectionRevert}}</a>
-                    </h2>
+                    <a href="/dsaiapplicationslist/AfterInspectionRevert" style="background: none;"><h2>{{dashboardDataModel.AfterInspectionRevert}}</h2></a>
                   </div>
                   <div class="dashCardContent">
                     <h4>Completed</h4>
-                    <a href="/applicationslist/InspectionCompleted" style="background: none;"><h2>{{dashboardDataModel.InspectionCompleted}}</h2></a>
+                    <a href="/dsaiapplicationslist/AfterInspectionCompleted" style="background: none;"><h2>{{dashboardDataModel.AfterInspectionCompleted}}</h2></a>
                   </div>
                 </div>
               </div>
@@ -1607,18 +1609,18 @@
                   <div class="dashCardContent text-start">
                     <h4>Pending</h4>
                     <h2>
-                      <a href="/applicationslist/AfterInspectionPending" style="background: none;">{{dashboardDataModel.AfterInspectionPending}}</a>
-                    </h2>
-                  </div>
-                  <!--<div class="dashCardContent text-start">
-                    <h4>Revert</h4>
-                    <h2>
-                      <a href="/applicationslist/AfterInspectionRevert" style="background: none;">{{dashboardDataModel.AfterInspectionRevert}}</a>
+                      <a href="/dsaiapplicationslist/AfterInspectionPending" style="background: none;">{{dashboardDataModel.AfterInspectionPending}}</a>
                     </h2>
                   </div>-->
+                  <div class="dashCardContent text-start">
+                    <h4>Revert</h4>
+                    <h2>
+                      <a href="/dsaiapplicationslist/AfterInspectionRevert" style="background: none;">{{dashboardDataModel.AfterInspectionRevert}}</a>
+                    </h2>
+                  </div>
                   <div class="dashCardContent">
                     <h4>Completed</h4>
-                    <a href="/applicationslist/AfterInspectionCompleted" style="background: none;"><h2>{{dashboardDataModel.AfterInspectionCompleted}}</h2></a>
+                    <a href="/dsaiapplicationslist/AfterInspectionCompleted" style="background: none;"><h2>{{dashboardDataModel.AfterInspectionCompleted}}</h2></a>
                   </div>
                 </div>
               </div>
@@ -1632,12 +1634,12 @@
                   <div class="dashCardContent text-start">
                     <h4>Pending</h4>
                     <h2>
-                      <a href="/applicationslist/APending" style="background: none;">{{dashboardDataModel.Pending}}</a>
+                      <a href="/dsaiapplicationslist/APending" style="background: none;">{{dashboardDataModel.Pending}}</a>
                     </h2>
                   </div>
                   <div class="dashCardContent">
                     <h4>Completed</h4>
-                    <a href="/applicationslist/ACompleted" style="background: none;"><h2>{{dashboardDataModel.Completed}}</h2></a>
+                    <a href="/dsaiapplicationslist/ACompleted" style="background: none;"><h2>{{dashboardDataModel.Completed}}</h2></a>
                   </div>
                 </div>
               </div>
@@ -1651,17 +1653,18 @@
                   <div class="dashCardContent text-start">
                     <h4>Pending</h4>
                     <h2>
-                      <a href="/applicationslist/JSPending" style="background: none;">{{dashboardDataModel.JSPending}}</a>
+                      <a href="/dsaiapplicationslist/JSPending" style="background: none;">{{dashboardDataModel.JSPending}}</a>
                     </h2>
                   </div>
                   <div class="dashCardContent">
                     <h4>Completed</h4>
-                    <a href="/applicationslist/JSCompleted" style="background: none;"><h2>{{dashboardDataModel.JSCompleted}}</h2></a>
+                    <a href="/dsaiapplicationslist/JSCompleted" style="background: none;"><h2>{{dashboardDataModel.JSCompleted}}</h2></a>
                   </div>
                 </div>
               </div>
             </div>
           </div>
+         
         </div>
       </div>
     </div>

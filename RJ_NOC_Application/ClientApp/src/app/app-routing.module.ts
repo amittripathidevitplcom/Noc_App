@@ -289,6 +289,9 @@ import { DegreeNOCApplicationsComponent } from './Views/DocumentScrutinyTab_AH/d
 import { EsignSuccessComponent } from './Views/noc-payment/esign-success/esign-success.component';
 import { BTERApplicationopensessionmasterComponent } from './Views/DTE_Affiliation/bterapplicationopensessionmaster/bterapplicationopensessionmaster.component';
 import { DCEAdminViewAllCommentComponent } from './Views/DCE/dceadmin-view-all-comment/dceadmin-view-all-comment.component';
+import { MGThreeAfterInspectionApplicationListComponent } from './Views/DocumentScrutinyTab/mgthree-after-inspection-application-list/mgthree-after-inspection-application-list.component';
+import { MGThreeDocumentScrutinyListComponent } from './Views/DocumentScrutinyTab/mgthree-document-scrutiny-list/mgthree-document-scrutiny-list.component';
+
 
 const routes: Routes = [
   {
@@ -1039,6 +1042,9 @@ const routes: Routes = [
         path: 'legalentitydepartmentwise', component: LegalEntityDepartmentWiseComponent
       },
       {
+        path: 'legalentitydepartmentwise/:Status', component: LegalEntityDepartmentWiseComponent
+      },
+      {
         path: 'nocformatmaster', component: NOCFormatMasterComponent
       },
       {
@@ -1100,6 +1106,12 @@ const routes: Routes = [
       },
       {
         path: 'applicationslist/:Status', component: MGThreeApplicationsListComponent
+      },
+      {
+        path: 'dsapplicationslist/:Status', component: MGThreeDocumentScrutinyListComponent
+      },
+      {
+        path: 'dsaiapplicationslist/:Status', component: MGThreeAfterInspectionApplicationListComponent
       },
       {
         path: 'applicationforward/:DepartmentID/:CollegeID/:ApplyNOCID/:Status', component: ApplicationForwardGThreeComponent

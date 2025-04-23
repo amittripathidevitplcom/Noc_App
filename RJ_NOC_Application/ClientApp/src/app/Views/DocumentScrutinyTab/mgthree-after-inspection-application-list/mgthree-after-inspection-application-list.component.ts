@@ -16,11 +16,11 @@ import { RequiredDocumentsDataModel_Documents } from '../../../Models/TabDetailD
 import { CollegeService } from '../../../services/collegedetailsform/College/college.service';
 
 @Component({
-  selector: 'app-mgthree-applications-list',
-  templateUrl: './mgthree-applications-list.component.html',
-  styleUrls: ['./mgthree-applications-list.component.css']
+  selector: 'app-mgthree-after-inspection-application-list',
+  templateUrl: './mgthree-after-inspection-application-list.component.html',
+  styleUrls: ['./mgthree-after-inspection-application-list.component.css']
 })
-export class MGThreeApplicationsListComponent implements OnInit {
+export class MGThreeAfterInspectionApplicationListComponent implements OnInit {
 
   sSOLoginDataModel = new SSOLoginDataModel();
   request = new CommonDataModel_ApplicationListFilter();
@@ -48,22 +48,34 @@ export class MGThreeApplicationsListComponent implements OnInit {
 
   async GetApplyNOCApplicationListByRole() {
     try {
-      if (this.QueryStatus == 'Pending') {
-        this.request.ActionName = 'Apply NOC,Forward To';
+
+      if (this.QueryStatus == 'InspectionPending' || this.QueryStatus == 'IPending') {
+        this.request.ActionName = 'Forward Inspection Report,Revert after Inspection';
       }
-      else if (this.QueryStatus == 'Completed') {
-        this.request.ActionName = 'Forward To';
+      else if (this.QueryStatus == 'InspectionCompleted') {
+        this.request.ActionName = 'Forward Inspection Report,Forward';
       }
-      else if (this.QueryStatus == 'DCPending') {
-        this.request.ActionName = 'Forward To,Forward after document scrutiny,Revert,ReSubmit Application';
-      }
-      else if (this.QueryStatus == 'DCCompleted' && this.sSOLoginDataModel.RoleID != 16) {
-        this.request.ActionName = 'Forward after document scrutiny';
-      }
-      else if (this.QueryStatus == 'DCCompleted' && this.sSOLoginDataModel.RoleID == 16) {
+      else if (this.QueryStatus == 'ICompleted') {
         this.request.ActionName = 'Forward Inspection Report';
       }
-      
+      else if (this.QueryStatus == 'AfterInspectionPending') {
+        this.request.ActionName = 'Forward,Forward To Joint Secretary after inspection,Revert after Inspection';
+      }
+      else if (this.QueryStatus == 'AfterInspectionRevert') {
+        this.request.ActionName = 'Revert after Inspection';
+      }
+      else if (this.QueryStatus == 'AfterInspectionCompleted' && this.sSOLoginDataModel.RoleID != 6) {
+        this.request.ActionName = 'Forward To Joint Secretary after inspection,Forward';
+      }
+      else if (this.QueryStatus == 'APending') {
+        this.request.ActionName = 'Forward To';
+      }
+      else if (this.QueryStatus == 'ACompleted') {
+        this.request.ActionName = 'Approve and Forward,Reject and Forward';
+      }
+      else if (this.QueryStatus == 'JSPending') {
+        this.request.ActionName = 'Approve and Forward,Reject and Forward';
+      }
       
       this.loaderService.requestStarted();
       await this.medicalDocumentScrutinyService.GetApplyNOCApplicationList(this.request)

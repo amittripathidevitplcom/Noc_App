@@ -32,6 +32,8 @@ import { BuildingDetailsMasterService } from '../../../Services/BuildingDetailsM
 import { OldnocdetailService } from '../../../Services/OldNOCDetail/oldnocdetail.service';
 import { HospitalDetailService } from '../../../Services/Tabs/HospitalDetail/hospital-detail.service';
 import { HostelDetailService } from '../../../Services/Tabs/hostel-details.service';
+import { ApplyNOCDocument_DataModel } from '../../../Models/ApplyNOCApplicationDataModel';
+import { FileUploadService } from '../../../Services/FileUpload/file-upload.service';
 
 
 @Injectable({
@@ -182,7 +184,7 @@ export class DocumentScrutinyCheckListDetailsComponent implements OnInit {
   constructor(private hostelDetailService: HostelDetailService, private threehospitalDetailService: HospitalDetailService, private oldnocdetailService: OldnocdetailService, private buildingDetailsMasterService: BuildingDetailsMasterService, private ApplyNOCPreview: ApplyNOCPreviewComponent, private toastr: ToastrService, private loaderService: LoaderService, private applyNOCApplicationService: ApplyNOCApplicationService,
     private landDetailsService: LandDetailsService, private medicalDocumentScrutinyService: MedicalDocumentScrutinyService, private facilityDetailsService: FacilityDetailsService,
     private roomDetailsService: RoomDetailsService, private staffDetailService: StaffDetailService, private hospitalDetailService: ParamedicalHospitalService, private TrusteeGeneralInfoService: TrusteeGeneralInfoService,
-    private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private modalService: NgbModal, private collegeService: CollegeService) { }
+    private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private modalService: NgbModal, private collegeService: CollegeService, private fileUploadService: FileUploadService) { }
 
 
 
@@ -376,7 +378,7 @@ export class DocumentScrutinyCheckListDetailsComponent implements OnInit {
           data = JSON.parse(JSON.stringify(data));
           this.CheckListAllCourseList = data['Data'][0]['CourseDetails'][0];
           this.CourseDetail_FinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
-         
+
         }, error => console.error(error));
     }
     catch (Ex) {
@@ -1270,18 +1272,18 @@ export class DocumentScrutinyCheckListDetailsComponent implements OnInit {
               this.CheckTabsEntryData['CollegeDetail'] <= 0 ? 'College Detail' :
                 this.CheckTabsEntryData['CollegeManagementSociety'] <= 0 ? 'College Management Society' :
                   this.CheckTabsEntryData['CourseDetails'] <= 0 ? 'Course Details' :
-                  this.CheckTabsEntryData['LandInformation'] <= 0 ? 'Land Information' :
-                    this.CheckTabsEntryData['Facility'] <= 0 ? 'Facility Detail' :
-                      this.CheckTabsEntryData['RoomDetails'] <= 0 ? 'Class Room Details' :
-                        this.CheckTabsEntryData['OtherInformation'] <= 0 ? 'Clinical Details' :
-                          this.CheckTabsEntryData['BuildingDocuments'] <= 0 ? 'Building Details' :
-                            this.CheckTabsEntryData['StaffDetails'] <= 0 ? 'Staff Details' :
-                              this.CheckTabsEntryData['OLDNOCDetails'] <= 0 ? 'OLD NOC Details' :
-                                this.CheckTabsEntryData['AcademicInformation'] <= 0 ? 'Academic Information' :
-                                  (this.CheckTabsEntryData['OtherDocument'] <= 0 && this.CheckList_OtherDocumentDetails.length > 0) ? 'Other Document' :
-                                    this.CheckTabsEntryData['HospitalDetails'] <= 0 ? 'Hospital Details' :
-                                      this.CheckTabsEntryData['HostelDetails'] <= 0 ? 'Hostel Details' :
-                                        (this.CheckTabsEntryData['CourtCase'] <= 0 && this.CheckList_courtOrderList.length > 0) ? 'Court Case Details' : '';
+                    this.CheckTabsEntryData['LandInformation'] <= 0 ? 'Land Information' :
+                      this.CheckTabsEntryData['Facility'] <= 0 ? 'Facility Detail' :
+                        this.CheckTabsEntryData['RoomDetails'] <= 0 ? 'Class Room Details' :
+                          this.CheckTabsEntryData['OtherInformation'] <= 0 ? 'Clinical Details' :
+                            this.CheckTabsEntryData['BuildingDocuments'] <= 0 ? 'Building Details' :
+                              this.CheckTabsEntryData['StaffDetails'] <= 0 ? 'Staff Details' :
+                                this.CheckTabsEntryData['OLDNOCDetails'] <= 0 ? 'OLD NOC Details' :
+                                  this.CheckTabsEntryData['AcademicInformation'] <= 0 ? 'Academic Information' :
+                                    (this.CheckTabsEntryData['OtherDocument'] <= 0 && this.CheckList_OtherDocumentDetails.length > 0) ? 'Other Document' :
+                                      this.CheckTabsEntryData['HospitalDetails'] <= 0 ? 'Hospital Details' :
+                                        this.CheckTabsEntryData['HostelDetails'] <= 0 ? 'Hostel Details' :
+                                          (this.CheckTabsEntryData['CourtCase'] <= 0 && this.CheckList_courtOrderList.length > 0) ? 'Court Case Details' : '';
             this.toastr.warning('Please do document scrutiny of the ' + tab + ' tab');
           }
         }
@@ -1294,16 +1296,16 @@ export class DocumentScrutinyCheckListDetailsComponent implements OnInit {
             var tab = this.CheckTabsEntryData['LegalEntity'] <= 0 ? 'Legal Entity' :
               this.CheckTabsEntryData['CollegeDetail'] <= 0 ? 'College Detail' :
                 this.CheckTabsEntryData['CollegeManagementSociety'] <= 0 ? 'College Management Society' :
-                 this.CheckTabsEntryData['CourseDetails'] <= 0 ? 'Course Details' :
-                  this.CheckTabsEntryData['LandInformation'] <= 0 ? 'Land Information' :
-                    this.CheckTabsEntryData['Facility'] <= 0 ? 'Facility Detail' :
-                      this.CheckTabsEntryData['RoomDetails'] <= 0 ? 'Class Room Details' :
-                        this.CheckTabsEntryData['OtherInformation'] <= 0 ? 'Clinical Details' :
-                          this.CheckTabsEntryData['BuildingDocuments'] <= 0 ? 'Building Details' :
-                            (this.CheckTabsEntryData['OtherDocument'] <= 0 && this.CheckList_OtherDocumentDetails.length > 0) ? 'Other Document' :
-                              this.CheckTabsEntryData['HospitalDetails'] <= 0 ? 'Hospital Details' :
-                                this.CheckTabsEntryData['HostelDetails'] <= 0 ? 'Hostel Details' :
-                                  (this.CheckTabsEntryData['CourtCase'] <= 0 && this.CheckList_courtOrderList.length > 0) ? 'Court Case Details' : '';
+                  this.CheckTabsEntryData['CourseDetails'] <= 0 ? 'Course Details' :
+                    this.CheckTabsEntryData['LandInformation'] <= 0 ? 'Land Information' :
+                      this.CheckTabsEntryData['Facility'] <= 0 ? 'Facility Detail' :
+                        this.CheckTabsEntryData['RoomDetails'] <= 0 ? 'Class Room Details' :
+                          this.CheckTabsEntryData['OtherInformation'] <= 0 ? 'Clinical Details' :
+                            this.CheckTabsEntryData['BuildingDocuments'] <= 0 ? 'Building Details' :
+                              (this.CheckTabsEntryData['OtherDocument'] <= 0 && this.CheckList_OtherDocumentDetails.length > 0) ? 'Other Document' :
+                                this.CheckTabsEntryData['HospitalDetails'] <= 0 ? 'Hospital Details' :
+                                  this.CheckTabsEntryData['HostelDetails'] <= 0 ? 'Hostel Details' :
+                                    (this.CheckTabsEntryData['CourtCase'] <= 0 && this.CheckList_courtOrderList.length > 0) ? 'Court Case Details' : '';
             this.toastr.warning('Please do document scrutiny of the ' + tab + ' tab');
           }
         }
@@ -1341,7 +1343,7 @@ export class DocumentScrutinyCheckListDetailsComponent implements OnInit {
             this.ErrorMessage = data['ErrorMessage'];
             if (this.State == 0) {
               this.toastr.success(this.SuccessMessage);
-              if (this.NextRoleID == 1 && (this.ActionID == 3 || this.ActionID==60)) {
+              if (this.NextRoleID == 1 && (this.ActionID == 3 || this.ActionID == 60)) {
                 await this.medicalDocumentScrutinyService.GenerateRevertLetter(0, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
                   .then((data: any) => {
                     data = JSON.parse(JSON.stringify(data));
@@ -1350,9 +1352,57 @@ export class DocumentScrutinyCheckListDetailsComponent implements OnInit {
                   .then((data: any) => {
 
                   }, error => console.error(error));
+                if (this.ActionID == 3) {
+                  this.revertdocrquest.ApplyNOCID = this.SelectedApplyNOCID;
+                  this.revertdocrquest.CreatedBy = this.sSOLoginDataModel.UserID;
+                  this.revertdocrquest.RoleID = this.sSOLoginDataModel.RoleID;
+                  this.revertdocrquest.DocumentType = 'RevertLetter';
+                  if (this.revertdocrquest.DocumentName != '') {
+                    await this.commonMasterService.SaveApplyNOCDocument(this.revertdocrquest)
+                      .then((data: any) => {
+
+                      }, error => console.error(error));
+                  }
+                }
+                if (this.ActionID == 60) {
+                  this.revertdocainsrquest.ApplyNOCID = this.SelectedApplyNOCID;
+                  this.revertdocainsrquest.CreatedBy = this.sSOLoginDataModel.UserID;
+                  this.revertdocainsrquest.RoleID = this.sSOLoginDataModel.RoleID;
+                  this.revertdocainsrquest.DocumentType = 'RevertLetterAfterInspection';
+                  if (this.revertdocainsrquest.DocumentName != '') {
+                    await this.commonMasterService.SaveApplyNOCDocument(this.revertdocainsrquest)
+                      .then((data: any) => {
+
+                      }, error => console.error(error));
+                  }
+                }
+                
+                
+              }
+              if (this.ActionID == 45 && this.sSOLoginDataModel.RoleID == 2) {
+                this.rncdocrquest.ApplyNOCID = this.SelectedApplyNOCID;
+                this.rncdocrquest.CreatedBy = this.sSOLoginDataModel.UserID;
+                this.rncdocrquest.RoleID = this.sSOLoginDataModel.RoleID;
+                this.rncdocrquest.DocumentType = 'RNCComments';
+                this.scrutinydocainsrquest.ApplyNOCID = this.SelectedApplyNOCID;
+                this.scrutinydocainsrquest.CreatedBy = this.sSOLoginDataModel.UserID;
+                this.scrutinydocainsrquest.RoleID = this.sSOLoginDataModel.RoleID;
+                this.scrutinydocainsrquest.DocumentType = 'ScrutinyCommitteeComments';
+                if (this.rncdocrquest.DocumentName != '') {
+                  await this.commonMasterService.SaveApplyNOCDocument(this.rncdocrquest)
+                    .then((data: any) => {
+
+                    }, error => console.error(error));
+                }
+                if (this.scrutinydocainsrquest.DocumentName != '') {
+                  await this.commonMasterService.SaveApplyNOCDocument(this.scrutinydocainsrquest)
+                    .then((data: any) => {
+
+                    }, error => console.error(error));
+                }
               }
               this.routers.navigate(['/applicationslist' + "/" + encodeURI(this.commonMasterService.Encrypt(this.QueryStatus.toString()))]);
-
+    
             }
             else if (this.State == 2) {
               this.toastr.warning(this.ErrorMessage)
@@ -1475,7 +1525,7 @@ export class DocumentScrutinyCheckListDetailsComponent implements OnInit {
               // ActionID=77/69
               //92---84    77-----69
               if (this.QueryStatus == 'DCPending') {
-                this.WorkFlowActionList = this.WorkFlowActionList.filter((x: { ActionID: number; }) => x.ActionID == 84 || x.ActionID==3);
+                this.WorkFlowActionList = this.WorkFlowActionList.filter((x: { ActionID: number; }) => x.ActionID == 84 || x.ActionID == 3);
               }
               if (this.QueryStatus == 'InspectionPending') {
                 this.WorkFlowActionList = this.WorkFlowActionList.filter((x: { ActionID: number; }) => x.ActionID == 45);
@@ -1561,4 +1611,131 @@ export class DocumentScrutinyCheckListDetailsComponent implements OnInit {
       //this.ShowHideNextAction = false;
     }
   }
+
+
+
+
+  //Upload Document
+  public revertdocrquest = new ApplyNOCDocument_DataModel();
+  public revertdocainsrquest = new ApplyNOCDocument_DataModel();
+  public file: any = '';
+  async onFilechange(event: any, Type: string, Controlname: string) {
+    try {
+      this.loaderService.requestStarted();
+      this.file = event.target.files[0];
+      if (this.file) {
+        if (this.file.type == 'application/pdf') {
+          //size validation
+          if (this.file.size > 2000000) {
+            this.ResetFile(Type, '', '', '', Controlname, 'Select less then 2MB File', 0);
+            return
+          }
+          if (this.file.size < 100000) {
+            this.ResetFile(Type, '', '', '', Controlname, 'Select more then 100kb File', 0);
+            return
+          }
+        }
+        else {// type validation
+          this.ResetFile(Type, '', '', '', Controlname, 'Select Only pdf file', 0);
+          return
+        }
+        // upload to server folder
+        await this.fileUploadService.UploadDocument(this.file).then((data: any) => {
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          if (this.State == 0) {
+            this.ResetFile(Type, data['Data'][0]["FileName"], data['Data'][0]["FilePath"], data['Data'][0]["Dis_FileName"], Controlname, '', 0);
+          }
+          if (this.State == 1) {
+            this.toastr.error(this.ErrorMessage)
+          }
+          else if (this.State == 2) {
+            this.toastr.warning(this.ErrorMessage)
+          }
+        });
+      }
+      else {
+        this.ResetFile(Type, '', '', '', Controlname, '', 0);
+      }
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        event.target.value = null;
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+  async DeleteImage(file: string, Type: string, Controlname: string) {
+    try {
+
+      if (confirm("Are you sure you want to delete this ?")) {
+        this.loaderService.requestStarted();
+        // delete from server folder
+        await this.fileUploadService.DeleteDocument(file).then((data: any) => {
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          if (this.State == 0) {
+            this.ResetFile(Type, '', '', '', Controlname, '', 0);
+          }
+          if (this.State == 1) {
+            this.toastr.error(this.ErrorMessage)
+          }
+          else if (this.State == 2) {
+            this.toastr.warning(this.ErrorMessage)
+          }
+        });
+      }
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+  async ResetFile(Type: string, FileName: string, FilePath: string, DisName: string, ControlName: string, Message: string, idx: number) {
+    if (Message != '') { this.toastr.warning(Message); }
+    if (Type == 'RevertLetter') {
+      this.revertdocrquest.DocumentName = FileName;
+      this.revertdocrquest.DocumentName_DisName = DisName;
+      this.revertdocrquest.DocumentNamePath = FilePath;
+      this.file = document.getElementById(ControlName);
+      this.file.value = '';
+    }
+    if (Type == 'RevertLetterAfterInspection') {
+      this.revertdocainsrquest.DocumentName = FileName;
+      this.revertdocainsrquest.DocumentName_DisName = DisName;
+      this.revertdocainsrquest.DocumentNamePath = FilePath;
+      this.file = document.getElementById(ControlName);
+      this.file.value = '';
+    }
+    if (Type == 'RNCComments') {
+      this.rncdocrquest.DocumentName = FileName;
+      this.rncdocrquest.DocumentName_DisName = DisName;
+      this.rncdocrquest.DocumentNamePath = FilePath;
+      this.file = document.getElementById(ControlName);
+      this.file.value = '';
+    }
+    if (Type == 'ScrutinyCommitteeComments') {
+      this.scrutinydocainsrquest.DocumentName = FileName;
+      this.scrutinydocainsrquest.DocumentName_DisName = DisName;
+      this.scrutinydocainsrquest.DocumentNamePath = FilePath;
+      this.file = document.getElementById(ControlName);
+      this.file.value = '';
+    }
+  }
+
+
+
+  public rncdocrquest = new ApplyNOCDocument_DataModel();
+  public scrutinydocainsrquest = new ApplyNOCDocument_DataModel();
 }

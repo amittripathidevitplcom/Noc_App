@@ -234,8 +234,8 @@ export class FinalCheckListMGThreeComponent implements OnInit {
       {
         txtCMNameOfPerson: ['', Validators.required],
         txtCMMobileNumber: ['', [Validators.required, Validators.pattern(this.MobileNoRegex)]],
-        txtSSOID: ['', Validators.required]
-        //fCommitteeMemberDocument: ['']
+        txtSSOID: ['', Validators.required],
+        fCommitteeMemberDocument: ['']
       })
   }
   get form_CommitteeMember() { return this.CommitteeMemberDetails.controls; }
@@ -1432,16 +1432,16 @@ export class FinalCheckListMGThreeComponent implements OnInit {
                 this.WorkFlowActionList = this.WorkFlowActionList.filter((x: { ActionID: number; }) => x.ActionID == 84 || x.ActionID==3);
               }
               if (this.QueryStatus == 'InspectionPending' || this.QueryStatus == 'IPending') {
-                this.WorkFlowActionList = this.WorkFlowActionList.filter((x: { ActionID: number; }) => x.ActionID == 69 || x.ActionID==60);
+                this.WorkFlowActionList = this.WorkFlowActionList.filter((x: { ActionID: number; }) => x.ActionID == 69);
               }
               if (this.QueryStatus == 'AfterInspectionPending' && this.sSOLoginDataModel.RoleID==3) {
-                this.WorkFlowActionList = this.WorkFlowActionList.filter((x: { ActionID: number; }) => x.ActionID ==45);
+                this.WorkFlowActionList = this.WorkFlowActionList.filter((x: { ActionID: number; }) => x.ActionID ==45 || x.ActionID==60);
               }
               if (this.QueryStatus == 'AfterInspectionPending' && this.sSOLoginDataModel.RoleID == 5) {
-                this.WorkFlowActionList = this.WorkFlowActionList.filter((x: { ActionID: number; }) => x.ActionID == 63);
+                this.WorkFlowActionList = this.WorkFlowActionList.filter((x: { ActionID: number; }) => x.ActionID == 63 || x.ActionID == 60);
               }
               if (this.QueryStatus == 'AfterInspectionPending' && this.sSOLoginDataModel.RoleID == 6) {
-                this.WorkFlowActionList = this.WorkFlowActionList.filter((x: { ActionID: number; }) => x.ActionID == 49);
+                this.WorkFlowActionList = this.WorkFlowActionList.filter((x: { ActionID: number; }) => x.ActionID == 49 || x.ActionID == 60);
               }
               this.ActionID = this.WorkFlowActionList[0]['ActionID'];
               await this.OnChangeCurrentAction()
@@ -1506,7 +1506,7 @@ export class FinalCheckListMGThreeComponent implements OnInit {
     else if (IsNextAction == false && IsRevert == true) {
       this.ShowHideNextUser = true;
       this.ShowHideNextRole = true;
-      if (this.sSOLoginDataModel.RoleID != 5) {
+      if (this.sSOLoginDataModel.RoleID != 5 || (this.sSOLoginDataModel.RoleID == 5 && this.QueryStatus =='InspectionPending')) {
         if (this.UserRoleList.length > 0) {
           this.UserRoleList = this.UserRoleList.filter((x: { RoleID: number; }) => x.RoleID != 1);
         }
@@ -1542,11 +1542,11 @@ export class FinalCheckListMGThreeComponent implements OnInit {
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
           this.request_MemberList.ApplicationCommitteeList = data['Data'];
-          //if (this.request_MemberList.ApplicationCommitteeList.length > 0) {
-          //  this.request_MemberList.CommitteeDocument = data['Data'][0]['CommitteeDocument'];
-          //  this.request_MemberList.CommitteeDocumentPath = data['Data'][0]['CommitteeDocumentPath'];
-          //  this.request_MemberList.CommitteeDocument_DisName = data['Data'][0]['CommitteeDocument_DisName'];
-          //}
+          if (this.request_MemberList.ApplicationCommitteeList.length > 0) {
+            this.request_MemberList.CommitteeDocument = data['Data'][0]['CommitteeDocument'];
+            this.request_MemberList.CommitteeDocumentPath = data['Data'][0]['CommitteeDocumentPath'];
+            this.request_MemberList.CommitteeDocument_DisName = data['Data'][0]['CommitteeDocument_DisName'];
+          }
         }, error => console.error(error));
     }
     catch (Ex) {
@@ -1650,7 +1650,7 @@ export class FinalCheckListMGThreeComponent implements OnInit {
       this.toastr.error("Please add Member Details");
       isValid = false;
     }
-    if (this.request_MemberList.ApplicationCommitteeList.length < 3) {
+    if (this.request_MemberList.ApplicationCommitteeList.length < 2) {
       this.toastr.error("Please add three Member Details");
       isValid = false;
     }
@@ -1778,103 +1778,103 @@ export class FinalCheckListMGThreeComponent implements OnInit {
 
 
 
-  //public file!: File;
-  //async onFilechange(event: any) {
-  //  try {
-  //    this.loaderService.requestStarted();
-  //    this.file = event.target.files[0];
-  //    if (this.file) {
-  //      if (this.file.type == 'application/pdf') {
-  //        //size validation
-  //        if (this.file.size > 2000000) {
-  //          this.request_MemberList.CommitteeDocument = '';
-  //          this.request_MemberList.CommitteeDocumentPath = '';
-  //          this.request_MemberList.CommitteeDocument_DisName = '';
-  //          this.toastr.warning('Select less then 2MB File');
-  //          return
-  //        }
-  //        if (this.file.size < 100000) {
-  //          this.request_MemberList.CommitteeDocument = '';
-  //          this.request_MemberList.CommitteeDocumentPath = '';
-  //          this.request_MemberList.CommitteeDocument_DisName = '';
-  //          this.toastr.warning('Select more then 100kb File');
-  //          return
-  //        }
-  //      }
-  //      else {// type validation
-  //        this.request_MemberList.CommitteeDocument = '';
-  //        this.request_MemberList.CommitteeDocumentPath = '';
-  //        this.request_MemberList.CommitteeDocument_DisName = '';
-  //        this.toastr.warning('Select Only pdf file');
-  //        return
-  //      }
-  //      // upload to server folder
-  //      await this.fileUploadService.UploadDocument(this.file).then((data: any) => {
-  //        this.State = data['State'];
-  //        this.SuccessMessage = data['SuccessMessage'];
-  //        this.ErrorMessage = data['ErrorMessage'];
-  //        if (this.State == 0) {
-  //          this.request_MemberList.CommitteeDocument = data['Data'][0]["FileName"];
-  //          this.request_MemberList.CommitteeDocumentPath = data['Data'][0]["FilePath"];
-  //          this.request_MemberList.CommitteeDocument_DisName = data['Data'][0]["Dis_FileName"];
-  //        }
-  //        if (this.State == 1) {
-  //          this.toastr.error(this.ErrorMessage)
-  //        }
-  //        else if (this.State == 2) {
-  //          this.toastr.warning(this.ErrorMessage)
-  //        }
-  //      });
-  //    }
-  //    else {
-  //      this.request_MemberList.CommitteeDocument = '';
-  //      this.request_MemberList.CommitteeDocumentPath = '';
-  //      this.request_MemberList.CommitteeDocument_DisName = '';
-  //    }
-  //  }
-  //  catch (Ex) {
-  //    console.log(Ex);
-  //  }
-  //  finally {
-  //    setTimeout(() => {
-  //      event.target.value = null;
-  //      this.loaderService.requestEnded();
-  //    }, 200);
-  //  }
-  //}
+  public file!: File;
+  async onFilechange(event: any) {
+    try {
+      this.loaderService.requestStarted();
+      this.file = event.target.files[0];
+      if (this.file) {
+        if (this.file.type == 'application/pdf') {
+          //size validation
+          if (this.file.size > 2000000) {
+            this.request_MemberList.CommitteeDocument = '';
+            this.request_MemberList.CommitteeDocumentPath = '';
+            this.request_MemberList.CommitteeDocument_DisName = '';
+            this.toastr.warning('Select less then 2MB File');
+            return
+          }
+          if (this.file.size < 100000) {
+            this.request_MemberList.CommitteeDocument = '';
+            this.request_MemberList.CommitteeDocumentPath = '';
+            this.request_MemberList.CommitteeDocument_DisName = '';
+            this.toastr.warning('Select more then 100kb File');
+            return
+          }
+        }
+        else {// type validation
+          this.request_MemberList.CommitteeDocument = '';
+          this.request_MemberList.CommitteeDocumentPath = '';
+          this.request_MemberList.CommitteeDocument_DisName = '';
+          this.toastr.warning('Select Only pdf file');
+          return
+        }
+        // upload to server folder
+        await this.fileUploadService.UploadDocument(this.file).then((data: any) => {
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          if (this.State == 0) {
+            this.request_MemberList.CommitteeDocument = data['Data'][0]["FileName"];
+            this.request_MemberList.CommitteeDocumentPath = data['Data'][0]["FilePath"];
+            this.request_MemberList.CommitteeDocument_DisName = data['Data'][0]["Dis_FileName"];
+          }
+          if (this.State == 1) {
+            this.toastr.error(this.ErrorMessage)
+          }
+          else if (this.State == 2) {
+            this.toastr.warning(this.ErrorMessage)
+          }
+        });
+      }
+      else {
+        this.request_MemberList.CommitteeDocument = '';
+        this.request_MemberList.CommitteeDocumentPath = '';
+        this.request_MemberList.CommitteeDocument_DisName = '';
+      }
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        event.target.value = null;
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
 
-  //async DeleteImage(file: string) {
-  //  try {
+  async DeleteImage(file: string) {
+    try {
 
-  //    if (confirm("Are you sure you want to delete this ?")) {
-  //      this.loaderService.requestStarted();
-  //      // delete from server folder
-  //      await this.fileUploadService.DeleteDocument(file).then((data: any) => {
-  //        this.State = data['State'];
-  //        this.SuccessMessage = data['SuccessMessage'];
-  //        this.ErrorMessage = data['ErrorMessage'];
-  //        if (this.State == 0) {
-  //          this.request_MemberList.CommitteeDocument = '';
-  //          this.request_MemberList.CommitteeDocumentPath = '';
-  //          this.request_MemberList.CommitteeDocument_DisName = '';
-  //        }
-  //        if (this.State == 1) {
-  //          this.toastr.error(this.ErrorMessage)
-  //        }
-  //        else if (this.State == 2) {
-  //          this.toastr.warning(this.ErrorMessage)
-  //        }
-  //      });
-  //    }
-  //  }
-  //  catch (Ex) {
-  //    console.log(Ex);
-  //  }
-  //  finally {
-  //    setTimeout(() => {
-  //      this.loaderService.requestEnded();
-  //    }, 200);
-  //  }
-  //}
+      if (confirm("Are you sure you want to delete this ?")) {
+        this.loaderService.requestStarted();
+        // delete from server folder
+        await this.fileUploadService.DeleteDocument(file).then((data: any) => {
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          if (this.State == 0) {
+            this.request_MemberList.CommitteeDocument = '';
+            this.request_MemberList.CommitteeDocumentPath = '';
+            this.request_MemberList.CommitteeDocument_DisName = '';
+          }
+          if (this.State == 1) {
+            this.toastr.error(this.ErrorMessage)
+          }
+          else if (this.State == 2) {
+            this.toastr.warning(this.ErrorMessage)
+          }
+        });
+      }
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
 }
 

@@ -7,6 +7,7 @@ import { CommonDataModel_TotalApplicationSearchFilter, CommonDataModel_TotalDraf
 import { PaymentDetailsDataModel_Filter } from '../../Models/PaymentReportModel';
 import { NOCFormatMasterModel } from '../../Models/NOCFormatMasterModel';
 import { Observable } from 'rxjs';
+import { ApplyNOCDocumentFilter_DataModel, ApplyNOCDocument_DataModel } from '../../Models/ApplyNOCApplicationDataModel';
 @Injectable({
   providedIn: 'root'
 })
@@ -922,6 +923,29 @@ export class CommonMasterService {
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
     const request = { CollegeID: CollegeID, IsDraftSubmited: IsDraftSubmited, Deficiency: Deficiency }
     return await this.http.post(this.APIUrl_CommonMaster + "/DraftFinalSubmit", request, httpOptions)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+
+  public async SaveApplyNOCDocument(request: ApplyNOCDocument_DataModel) {
+    const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
+    return await this.http.post(this.APIUrl_CommonMaster + "/SaveApplyNOCDocument", request, httpOptions)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+
+  public async SaveApplyNOCDocumentList(request: ApplyNOCDocument_DataModel[]) {
+    const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
+    return await this.http.post(this.APIUrl_CommonMaster + "/SaveApplyNOCDocumentList", request, httpOptions)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+  public async GetApplyNOCDocumentList(request: ApplyNOCDocumentFilter_DataModel) {
+    const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
+    return await this.http.post(this.APIUrl_CommonMaster + "/GetApplyNOCDocumentList", request, httpOptions)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();

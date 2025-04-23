@@ -2729,21 +2729,66 @@
 
 
 
-      <!--<div class="col-lg-3 col-md-3 col-sm-3 col-12 mb-3" *ngIf="NextRoleID == 1 && ActionID == 3">
-        <label class="form-label">Upload Document</label>
-        <div class="d-flex">
-          <input type="file" style="display:none;" class="form-control" id="fCollegeRevertDocument" name="fCollegeRevertDocument" >
-          <label class="btn upload" for="fCollegeRevertDocument">
-            <span class="filename">Choose file</span>-->
-            <!--{{request_MemberList.CommitteeDocument === '' ? 'No File Choosen' : request_MemberList.CommitteeDocument_DisName}}-->
-          <!--</label>-->
-          <!--<div class="btn-group" *ngIf="request_MemberList.CommitteeDocument!=''">
-            <a class="btn btn-outline-primary" target="_blank" href="{{request_MemberList.CommitteeDocumentPath}}"><i class="fa fa-eye"></i></a>
-            <button type="button" class="btn btn-outline-danger" (click)="DeleteImage(request_MemberList.CommitteeDocument)"><i class="fa fa-trash-o"></i></button>
-          </div>-->
-        <!--</div>
-      </div>-->
-    
+    <div class="col-lg-3 col-md-3 col-sm-3 col-12 mb-3" *ngIf="NextRoleID == 1 && ActionID == 3">
+      <label class="form-label">Upload Document</label>
+      <div class="d-flex">
+        <input type="file" style="display:none;" class="form-control" id="fCollegeRevertDocument" name="fCollegeRevertDocument" (change)="onFilechange($event,'RevertLetter','fCollegeRevertDocument')">
+        <label class="btn upload" for="fCollegeRevertDocument">
+          <span class="filename">Choose file</span>
+          {{revertdocrquest.DocumentName === '' ? 'No File Choosen' : revertdocrquest.DocumentName_DisName}}
+        </label>
+        <div class="btn-group" *ngIf="revertdocrquest.DocumentName!=''">
+          <a class="btn btn-outline-primary" target="_blank" href="{{revertdocrquest.DocumentNamePath}}"><i class="fa fa-eye"></i></a>
+          <button type="button" class="btn btn-outline-danger" (click)="DeleteImage(revertdocrquest.DocumentName,'RevertLetter','fCollegeRevertDocument')"><i class="fa fa-trash-o"></i></button>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-3 col-md-3 col-sm-3 col-12 mb-3" *ngIf="NextRoleID == 1 && ActionID ==60">
+      <label class="form-label">Upload Document</label>
+      <div class="d-flex">
+        <input type="file" style="display:none;" class="form-control" id="fCollegeRevertAIDocument" name="fCollegeRevertAIDocument" (change)="onFilechange($event,'RevertLetterAfterInspection','fCollegeRevertAIDocument')">
+        <label class="btn upload" for="fCollegeRevertAIDocument">
+          <span class="filename">Choose file</span>
+          {{revertdocainsrquest.DocumentName === '' ? 'No File Choosen' : revertdocainsrquest.DocumentName_DisName}}
+        </label>
+        <div class="btn-group" *ngIf="revertdocainsrquest.DocumentName!=''">
+          <a class="btn btn-outline-primary" target="_blank" href="{{revertdocainsrquest.DocumentNamePath}}"><i class="fa fa-eye"></i></a>
+          <button type="button" class="btn btn-outline-danger" (click)="DeleteImage(revertdocainsrquest.DocumentName,'RevertLetterAfterInspection','fCollegeRevertAIDocument')"><i class="fa fa-trash-o"></i></button>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-3 col-md-3 col-sm-3 col-12 mb-3" *ngIf="sSOLoginDataModel.RoleID==2 && ActionID == 45">
+      <label class="form-label">Upload RNC Comments</label>
+      <div class="d-flex">
+        <input type="file" style="display:none;" class="form-control" id="fUploadRNC" name="fUploadRNC" (change)="onFilechange($event,'RNCComments','fUploadRNC')">
+        <label class="btn upload" for="fUploadRNC">
+          <span class="filename">Choose file</span>
+          {{rncdocrquest.DocumentName === '' ? 'No File Choosen' : rncdocrquest.DocumentName_DisName}}
+        </label>
+        <div class="btn-group" *ngIf="rncdocrquest.DocumentName!=''">
+          <a class="btn btn-outline-primary" target="_blank" href="{{rncdocrquest.DocumentNamePath}}"><i class="fa fa-eye"></i></a>
+          <button type="button" class="btn btn-outline-danger" (click)="DeleteImage(rncdocrquest.DocumentName,'RNCComments','fUploadRNC')"><i class="fa fa-trash-o"></i></button>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-3 col-md-3 col-sm-3 col-12 mb-3" *ngIf="sSOLoginDataModel.RoleID==2 && ActionID == 45">
+      <label class="form-label">Upload the MOM/Comments of the state-level scrutiny committee</label>
+      <div class="d-flex">
+        <input type="file" style="display:none;" class="form-control" id="fScrutinyCommitteeDoc" name="fScrutinyCommitteeDoc" (change)="onFilechange($event,'ScrutinyCommitteeComments','fScrutinyCommitteeDoc')">
+        <label class="btn upload" for="fScrutinyCommitteeDoc">
+          <span class="filename">Choose file</span>
+          {{scrutinydocainsrquest.DocumentName === '' ? 'No File Choosen' : scrutinydocainsrquest.DocumentName_DisName}}
+        </label>
+        <div class="btn-group" *ngIf="scrutinydocainsrquest.DocumentName!=''">
+          <a class="btn btn-outline-primary" target="_blank" href="{{scrutinydocainsrquest.DocumentNamePath}}"><i class="fa fa-eye"></i></a>
+          <button type="button" class="btn btn-outline-danger" (click)="DeleteImage(scrutinydocainsrquest.DocumentName,'ScrutinyCommitteeComments','fScrutinyCommitteeDoc')"><i class="fa fa-trash-o"></i></button>
+        </div>
+      </div>
+    </div>
+
   </div>
   <div class="row  m-2" *ngIf="sSOLoginDataModel.RoleID!=16">
     <div class="col-lg-12 col-md-12 col-sm-12 col-12 mb-3">

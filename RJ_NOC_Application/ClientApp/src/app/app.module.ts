@@ -493,6 +493,9 @@ import { DocumentScrutinyCourseMgThreeComponent } from './Views/DocumentScrutiny
 import { EsignSuccessComponent } from './Views/noc-payment/esign-success/esign-success.component';
 import { BTERApplicationopensessionmasterComponent } from './Views/DTE_Affiliation/bterapplicationopensessionmaster/bterapplicationopensessionmaster.component';
 import { DCEAdminViewAllCommentComponent } from './Views/DCE/dceadmin-view-all-comment/dceadmin-view-all-comment.component';
+import { MGThreeAfterInspectionApplicationListComponent } from './Views/DocumentScrutinyTab/mgthree-after-inspection-application-list/mgthree-after-inspection-application-list.component';
+import { MGThreeDocumentScrutinyListComponent } from './Views/DocumentScrutinyTab/mgthree-document-scrutiny-list/mgthree-document-scrutiny-list.component';
+
 
 
  
@@ -985,6 +988,8 @@ import { DCEAdminViewAllCommentComponent } from './Views/DCE/dceadmin-view-all-c
     EsignSuccessComponent,
     BTERApplicationopensessionmasterComponent,
     DCEAdminViewAllCommentComponent,
+    MGThreeAfterInspectionApplicationListComponent,
+    MGThreeDocumentScrutinyListComponent,
   ],
   imports: [
     CommonModule,
