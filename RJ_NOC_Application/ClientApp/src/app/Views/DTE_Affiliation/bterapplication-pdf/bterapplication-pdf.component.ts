@@ -116,6 +116,7 @@ export class BTERApplicationPDFComponent implements OnInit {
   @Input() Status: any;
 
   public paymentResponseDataModel: any[] = [];
+  public PaymentHistoryDetails: any[] = [];
   public OfflinePaymentDataModel: any[] = [];
   public AffiliationRegStatus: any = '';
   public BTERRegID: number = 0;
@@ -153,7 +154,8 @@ export class BTERApplicationPDFComponent implements OnInit {
     await this.ViewTotalCollegeDataByID(this.BTERRegID);
     await this.GetAllDTEAffiliationCourseList();
      await this.GetDTEAffiliationOtherDetailsPreviewData();    
-     await this.GetPreviewPaymentDetails(this.BTERRegID);
+    await this.GetPreviewPaymentDetails(this.BTERRegID);
+    await this.GetApplyBTERPaymentHistoryApplicationID();
     // this.loaderService.requestEnded();
   }
   public UserSSOID: string = '';
@@ -201,7 +203,8 @@ export class BTERApplicationPDFComponent implements OnInit {
     }
   }
   @ViewChild('content') content: ElementRef | any;
-  btnSavePDF_Click(): void { 
+  btnSavePDF_Click(): void {
+    debugger;
     this.loaderService.requestStarted();
     let dt = new Date();
     let Imgpath = ''
@@ -251,7 +254,9 @@ export class BTERApplicationPDFComponent implements OnInit {
       pDFData.push({ "ContentName": "#CollegeContactDetails" })
       pDFData.push({ "ContentName": "#CollegeGeneralContactDetails" })
       pDFData.push({ "ContentName": "#CourseBasicDetails" })
-      if (this.paymentResponseDataModel.length > 0) {
+      pDFData.push({ "ContentName": "#BTEROtherDetails" })
+      console.log(this.PaymentHistoryDetails);
+      if (this.PaymentHistoryDetails.length > 0) {
         pDFData.push({ "ContentName": "#OnlinePayment" })
       }
       //pDFData.push({ "ContentName": "#ApplyNOCDetails" })
@@ -506,6 +511,27 @@ export class BTERApplicationPDFComponent implements OnInit {
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
           this.paymentResponseDataModel = data['Data'];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  async GetApplyBTERPaymentHistoryApplicationID() {
+    try {
+      this.loaderService.requestStarted();
+      await this.applyNocParameterService.GetApplyBTERPaymentHistoryApplicationID(this.BTERRegID, 'BTER')
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.PaymentHistoryDetails = data['Data'][0]['data'];
         }, error => console.error(error));
     }
     catch (Ex) {
