@@ -1,3 +1,4 @@
+<app-loader></app-loader>
 <div class="card tabCard1 mb-0">
   <div class="card-header">
     <b><i class="bi bi-table"></i>&nbsp;Application List</b>
@@ -34,6 +35,7 @@
                         <a *ngIf="witem.PermissionCode=='DocumentScrutiny' && QueryStatus == 'InspectionPending' && sSOLoginDataModel.RoleID!=5" href="javascript:void(0)" (click)="DocumentScrutiny(item.DepartmentID,item.CollegeID,item.ApplyNOCID,item.ApplicationNo)" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></a>
                         <a *ngIf="witem.PermissionCode=='DocumentScrutinyForward' && QueryStatus == 'AfterInspectionPending'" href="javascript:void(0)" (click)="DocumentScrutinyForward(item.DepartmentID,item.CollegeID,item.ApplyNOCID,item.ApplicationNo)" class="btn btn-sm btn-success"><i class="fa fa-edit"></i></a>
                         <a *ngIf="witem.PermissionCode=='DocumentScrutinyForward' &&  QueryStatus == 'APending'" href="javascript:void(0)" (click)="DocumentScrutinyForward(item.DepartmentID,item.CollegeID,item.ApplyNOCID,item.ApplicationNo)" class="btn btn-sm btn-success"><i class="fa fa-edit"></i></a>
+                        <button type="button" class="btn btn-sm btn-primary" *ngIf="witem.PermissionCode=='ViewCheckList' && QueryStatus != 'DCPending'" title="Inspection Details" (click)="ViewApplicationInspectionDetails(mymodalViewPVDetails,item.ApplyNOCID,item.DepartmentID,item.CollegeID,item.ApplicationNo)"><i class="fa fa-list"></i></button>
                        </span>
                       <a *ngIf="item.InspectionReport!='' && item.UploadedInspectionReport==''" target="_blank" href="{{item.InspectionReportPath}}" title="Download Inspection Report" class="btn btn-sm btn-success"><i class="fa fa-download">Download Inspection Report</i></a>
 
