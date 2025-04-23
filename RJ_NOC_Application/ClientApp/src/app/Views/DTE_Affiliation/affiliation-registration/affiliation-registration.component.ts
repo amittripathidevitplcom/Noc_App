@@ -58,7 +58,7 @@ export class AffiliationRegistrationComponent {
   public ShowAffilationType: boolean = false;
   public ApplyAffiliation: string = '';
   public LegalEntityManagementType: string = '';
-  public ApplyAffiliationFY: number = 65;
+  public ApplyAffiliationFY: number = 66;
   public legalEntityListData: any = [];
   modalReference!: NgbModalRef;
   closeResult!: string;

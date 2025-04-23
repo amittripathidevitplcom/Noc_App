@@ -1,0 +1,94 @@
+<app-loader></app-loader>
+<div class="container-fluid breadcrumbBox py-2">
+  <div class="row align-items-center">
+    <div class="col-md-6">
+      <h3>Payment History</h3>
+    </div>
+    <div class="col-md-6 d-flex justify-content-end">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item active" aria-current="page">Payment</li>
+        </ol>
+      </nav>
+    </div>
+  </div>
+</div>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card mb-0">
+        <div class="card-header">
+          <b>
+            <i class="bi bi-table"></i> Search Fields
+          </b>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <label for="ddlDepartmentID" class="form-label">
+                <span>Department</span>
+              </label>
+              <select class="form-select" id="ddlDepartmentID" name="ddlDepartmentID" [(ngModel)]="request.DepartmentID">
+                <option value="0">All</option>
+                <option *ngFor="let item of DepartmentList" value="{{item.DepartmentID}}">{{item.Name}}</option>
+              </select>
+            </div>
+           
+
+          </div>
+        </div>
+        <div class="card-footer text-end">
+          <button type="submit" (click)="GetPaymenthistoryList()" class="btn btn-primary"><i class="fa fa-search"></i>&nbsp;Search</button>
+          <button type="submit" (click)="ResetControl()" class="btn btn-danger"><i class="bi bi-bootstrap-reboot"></i>&nbsp;Reset</button>
+          <button type="submit" (click)="btnExportTable_Click()" class="btn btn-success"><i class="fa fa-file-excel-o"></i> &nbsp;Export Record</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <div class="row">
+    <div class="card mb-0">
+      <div class="card-header d-xxl-flex d-xl-flex d-md-flex d-sm-block justify-content-between align-items-center">
+        <b><i class="bi bi-table"></i>Payment History List </b>
+        <div class="d-flex align-items-center table-filter mr-15">
+          <i class="fa fa-search"></i>
+          <input type="text" class="form-control" placeholder="Search Here" [(ngModel)]="searchText" />
+        </div>
+      </div>
+      <div class="table-responsive" style="height: calc(100vh - 350px) !important;">
+        <table class="table table-hover table-striped-columns" id="tabellist">
+          <thead>
+            <tr>
+              <th>Sr. No.</th>
+              <th>Application ID</th>
+              <th>Request ID</th>
+              <th>Institution Name</th>
+              <th>Service ID</th>
+              <th>Transaction ID</th>
+              <th>Status</th>
+              <th>Response</th>
+              <th>Created</th>             
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let row of PaymentHistoryList  | tableSearchFilter:searchText; let idx=index;">
+              <td style="text-align:center;">{{idx+1}}</td>
+              <td>{{row.CollegeRegistrationNo}}</td>
+              <td>{{row.DistrictName}}</td>
+              <td>{{row.CollegeName}}</td>
+              <td>{{row.LegalManagementType}}</td>
+              <td>{{row.CollegeManagementType}}</td>
+              <td>{{row.CollegeEmail}}</td>
+              <td>{{row.CollegeStatus}}</td>
+              <td>{{row.MappingSSOID}}</td>              
+              <td>
+                <button type="button" (click)="VeryfyPayment()" [attr.disabled]="isDisabledGrid ? true : null" title="View" class="btn btn-sm btn-info">Verify Payment</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
