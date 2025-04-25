@@ -1583,13 +1583,13 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-  public async GetLegelEntityDepartmentWise(DepartmentID: number) {
+  public async GetLegelEntityDepartmentWise(DepartmentID: number, Type: string='NA') {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     };
-    return await this.http.get(this.APIUrl_CommonMaster + "/GetLegelEntityDepartmentWise/" + DepartmentID)
+    return await this.http.get(this.APIUrl_CommonMaster + "/GetLegelEntityDepartmentWise/" + DepartmentID + "/" + Type)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();

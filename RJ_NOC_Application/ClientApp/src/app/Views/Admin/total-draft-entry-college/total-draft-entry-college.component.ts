@@ -30,6 +30,7 @@ export class TotalDraftEntryCollegeComponent implements OnInit {
   public DistrictList: any = [];
   public TotalDraftentryCollege: any = [];
   public DraftEntryCollegeDetailsList: any = [];
+  public CollegeType: any = 'NA';
 
 
   constructor(private loaderService: LoaderService, private toastr: ToastrService, private commonMasterService: CommonMasterService, private modalService: NgbModal, private routers: Router, private router: ActivatedRoute) {
@@ -38,7 +39,10 @@ export class TotalDraftEntryCollegeComponent implements OnInit {
 
   async ngOnInit() {
     this.sSOLoginDataModel = JSON.parse(String(localStorage.getItem('SSOLoginUser')));
+    this.CollegeType = this.router.snapshot.paramMap.get('Type')?.toString();
     this.request.DepartmentID = this.sSOLoginDataModel.DepartmentID;
+    this.request.CollegeType = (this.CollegeType != '' && this.CollegeType != undefined && this.CollegeType != 'undefined') ? this.CollegeType : 'NA';
+    this.request.SessionID = this.sSOLoginDataModel.SessionID;
     await this.LoadMaster();
     await this.GetTotalDraftentryCollege();
   }

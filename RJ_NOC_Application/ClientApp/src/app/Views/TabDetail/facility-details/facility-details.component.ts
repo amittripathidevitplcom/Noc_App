@@ -130,6 +130,7 @@ export class FacilityDetailsComponent implements OnInit {
     this.GetFacilities(this.SelectedDepartmentID, this.SelectedCollageID, 0, 'Facilities');
     this.GetFacilityDetailAllList();
     this.Unit = this.SelectedDepartmentID == 4 ? 'Sq.Meter' : 'Sq. Feet';
+    await this.GetFacilityDetailsforAHdegree();
   }
   get form() { return this.FacilitiesForm.controls; }
 
@@ -693,5 +694,34 @@ export class FacilityDetailsComponent implements OnInit {
       }
     }
 
+  }
+
+
+  public RequriedAHFacility: any = [];
+  async GetFacilityDetailsforAHdegree() {
+    try {
+      this.loaderService.requestStarted();
+      if (this.SelectedDepartmentID == 2) {
+        await this.commonMasterService.CheckAHStaff(this.SelectedCollageID)
+          .then((data: any) => {
+            data = JSON.parse(JSON.stringify(data));
+            this.State = data['State'];
+            this.SuccessMessage = data['SuccessMessage'];
+            this.ErrorMessage = data['ErrorMessage'];
+            this.RequriedAHFacility = data['Data'][0]['data']['Table2'];
+            console.log('RequriedAHFacility');
+            console.log(this.RequriedAHFacility);
+            console.log('RequriedAHFacility');
+          }, error => console.error(error));
+      }
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
   }
 }

@@ -45,6 +45,7 @@ export class TotalApplicationListByDepartmentComponent implements OnInit {
   public ApplicationCountList: any = [];
   public SuvdivisionList: any = [];
   public QueryStringStatus: any = 'ALL';
+  public Type: any = 'NA';
   //request = new DCENOCReportSearchFilterDataModel();
 
 
@@ -56,7 +57,9 @@ export class TotalApplicationListByDepartmentComponent implements OnInit {
   async ngOnInit() {
     this.sSOLoginDataModel = JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     this.QueryStringStatus = this.router.snapshot.paramMap.get('Status')?.toString();
+    this.Type = this.router.snapshot.paramMap.get('Type')?.toString();
     this.request.Status = this.QueryStringStatus;
+    this.request.Type = (this.Type != '' && this.Type != undefined && this.Type != 'undefined') ? this.Type : 'NA';
     await this.LoadMaster();
     await this.GetRoleListForApporval();
     await this.GetApplicationCountRoleWise();

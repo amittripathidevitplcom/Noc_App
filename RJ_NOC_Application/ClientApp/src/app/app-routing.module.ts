@@ -946,10 +946,11 @@ const routes: Routes = [
         path: 'totalcollegereports', component: TotalCollegeDepartmentWiseReportsComponent
       },
       {
+        path: 'totalcollegereports/:Status', component: TotalCollegeDepartmentWiseReportsComponent
+      },
+      {
         path: 'collegesubmitstatisticsreport', component: CollegeSubmitStatisticsReportDCEComponent
       },
-
-
       {
         path: 'statisticsdraftcollegereport', component: StatisticsDraftCollgerReportComponent
       },
@@ -958,6 +959,9 @@ const routes: Routes = [
       },
       {
         path: 'totalapplicationlist/:Status', component: TotalApplicationListByDepartmentComponent
+      },
+      {
+        path: 'totalapplicationlist/:Status/:Type', component: TotalApplicationListByDepartmentComponent
       },
       {
         path: 'papplicationlist', component: PrevoiusYearApplicationsComponent

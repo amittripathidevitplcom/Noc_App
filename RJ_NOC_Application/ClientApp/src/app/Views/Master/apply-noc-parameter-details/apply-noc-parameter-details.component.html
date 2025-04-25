@@ -235,7 +235,7 @@
               <span *ngIf="item.NOCPdfFileDataModel==null || item.NOCPdfFileDataModel.length<=0"><b>Under Process..</b> </span>
               <!--<span *ngIf="item.IsNOCIssued==false || item.NOCFilePath ==''"><b>Under Process..</b> </span>-->
             </td>
-            <td><button type="button" class="btn btn-sm btn-info" title="View" (click)="GetApplicationTrail(Trailsmodal,item.ApplyNocApplicationID)"><i class="fa fa-bars"></i></button></td>
+            <td><button *ngIf="item.DepartmentID !=6" type="button" class="btn btn-sm btn-info" title="View" (click)="GetApplicationTrail(Trailsmodal,item.ApplyNocApplicationID)"><i class="fa fa-bars"></i></button></td>
 
           </tr>
         </tbody>

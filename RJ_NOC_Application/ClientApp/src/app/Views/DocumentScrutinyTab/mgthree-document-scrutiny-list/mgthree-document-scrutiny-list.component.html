@@ -37,6 +37,7 @@
                         <a *ngIf="witem.PermissionCode=='CheckList' && QueryStatus == 'DCPending'" href="javascript:void(0)" (click)="OpenCheckList(checklistmodel,item.ApplyNOCID,item.DepartmentID,item.CollegeID,item.ApplicationNo)" class="btn btn-sm btn-success"><i class="fa fa-list-ol"></i></a>
                         <a *ngIf="witem.PermissionCode=='DownloadInspectionReport'&& item.UploadedInspectionReport!=''" target="_blank" href="{{item.UploadedInspectionReportPath}}" title="Download Inspection Report" class="btn btn-sm btn-success"><i class="fa fa-download"></i></a>
                       </span>
+                      <a *ngIf="item.InspectionReport!='' && item.UploadedInspectionReport==''" target="_blank" href="{{item.InspectionReportPath}}" title="Download Inspection Report" class="btn btn-sm btn-success"><i class="fa fa-download">Download Inspection Report</i></a>
                       <a href="javascript:void(0)" title="Application Preview" (click)="ApplicationPreview_OnClick(item.DepartmentID,item.CollegeID)" class="btn btn-sm btn-secondary">
                         <i class="fa fa-eye"></i>
                       </a>

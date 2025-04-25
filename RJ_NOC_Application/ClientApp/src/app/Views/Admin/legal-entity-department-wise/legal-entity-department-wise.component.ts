@@ -41,15 +41,17 @@ export class LegalEntityDepartmentWiseComponent implements OnInit {
 
   //
   public SSOID: string = '';
+  public QueryStringStatus: any = '';
 
   async ngOnInit() {
     this.sSOLoginDataModel = JSON.parse(String(localStorage.getItem('SSOLoginUser')));
+    this.QueryStringStatus = this.router.snapshot.paramMap.get('Status')?.toString();
     await this.GetApplicationList();
   }
   async GetApplicationList() {
     try {
       this.loaderService.requestStarted();
-      await this.commonMasterService.GetLegelEntityDepartmentWise(this.sSOLoginDataModel.DepartmentID)
+      await this.commonMasterService.GetLegelEntityDepartmentWise(this.sSOLoginDataModel.DepartmentID, (this.QueryStringStatus != '' && this.QueryStringStatus != undefined && this.QueryStringStatus != 'undefined') ? this.QueryStringStatus:'NA')
         .then((data: any) => {
 
           data = JSON.parse(JSON.stringify(data));
@@ -57,7 +59,6 @@ export class LegalEntityDepartmentWiseComponent implements OnInit {
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
           this.legalEntityListData = data['Data'][0];
-          console.log(this.legalEntityListData);
         }, (error: any) => console.error(error));
     }
     catch (Ex) {

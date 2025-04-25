@@ -26,6 +26,7 @@ export class CommonDataModel_TotalApplicationSearchFilter {
   public ApplicationStatusID: number = 0
   public ApplicationCurrentRole: number = 0
   public SessionYear: number = 0
+  public Type?: string = 'NA'
 }
 
 export class CommonDataModel_TotalDraftEntrySearchFilter {
@@ -36,6 +37,8 @@ export class CommonDataModel_TotalDraftEntrySearchFilter {
   public DistrictID: number = 0;
   public CollegeName: string = '';
   public Type: string = '';
+  public CollegeType?: string = 'NA';
+  public SessionID?: number = 65;
 }
 export class UnlockApplicationDataModel {
   public DepartmentID: number = 0;

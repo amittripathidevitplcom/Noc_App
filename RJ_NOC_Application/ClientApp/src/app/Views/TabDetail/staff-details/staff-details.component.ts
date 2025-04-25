@@ -17,6 +17,7 @@ import { DatePipe } from '@angular/common';
 import { resolveAny } from 'dns';
 import { request } from 'http';
 import { CollegeService } from '../../../services/collegedetailsform/College/college.service';
+import { Console } from 'console';
 type AOA = any[][];
 
 @Injectable({
@@ -195,6 +196,7 @@ export class StaffDetailsComponent implements OnInit {
     await this.GetStaffDetailList_DepartmentCollegeWise(this.SelectedDepartmentID, this.SelectedCollageID, 0);
     await this.GetAHDepartmentList();
     await this.GetMgoneDepartmentList();
+    await this.GetStaffDetailsforAHdegree();
     this.loaderService.requestEnded();
   }
   get form() { return this.StaffDetailForm.controls; }
@@ -646,8 +648,8 @@ export class StaffDetailsComponent implements OnInit {
     }
   }
 
-  async SaveData() {    
-    try {      
+  async SaveData() {
+    try {
       this.isRoleMapping = false;
       this.isSpecializationSubject = false;
       this.FormValid = true;
@@ -678,7 +680,7 @@ export class StaffDetailsComponent implements OnInit {
       const Joining = new Date(this.request.DateOfJoining);
       const SYear = Joining.getFullYear();
       const cYear = new Date().getFullYear();
-      if ((Number(this.request.NumberofExperience) > Number(cYear - SYear)) && this.SelectedDepartmentID!=6) {
+      if ((Number(this.request.NumberofExperience) > Number(cYear - SYear)) && this.SelectedDepartmentID != 6) {
         this.toastr.warning('Your experience is more from the date of joining till today, so please fill it correctly.');
         return;
       }
@@ -714,7 +716,7 @@ export class StaffDetailsComponent implements OnInit {
         }
 
       }
-      if (this.SelectedDepartmentID==5) {
+      if (this.SelectedDepartmentID == 5) {
         if (this.request.MgoneDepartmentID == undefined || this.request.MgoneDepartmentID == 0) {
           this.FormValid = false;
         }
@@ -724,7 +726,7 @@ export class StaffDetailsComponent implements OnInit {
         if ((this.request.AHDepartmentID == undefined || this.request.AHDepartmentID == 0) && this.request.TeachingType == 'Teaching') {
           this.FormValid = false;
         }
-        
+
         if (this.request.NETQualified == '') {
           this.FormValid = false;
         }
@@ -1619,6 +1621,34 @@ export class StaffDetailsComponent implements OnInit {
             this.IsAHDegreeCollege = true;
           }
         }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+  public CheckAHStaff: any = [];
+  public RequriedAHStaff: any = [];
+  async GetStaffDetailsforAHdegree() {
+    try {
+      this.loaderService.requestStarted();
+      if (this.SelectedDepartmentID == 2 && this.IsAHDegreeCollege) {
+        await this.commonMasterService.CheckAHStaff(this.SelectedCollageID)
+          .then((data: any) => {
+            data = JSON.parse(JSON.stringify(data));
+            this.State = data['State'];
+            this.SuccessMessage = data['SuccessMessage'];
+            this.ErrorMessage = data['ErrorMessage'];
+            this.CheckAHStaff = data['Data'][0]['data']['Table'];
+            this.RequriedAHStaff = data['Data'][0]['data']['Table1'];
+            this.CheckAHStaff = this.CheckAHStaff.filter((element: any) => element.IsManadatory == true);
+          }, error => console.error(error));
+      }
     }
     catch (Ex) {
       console.log(Ex);

@@ -28,6 +28,7 @@ export class TotalCollegeReportSearchFilter {
   public DistrictID: number = 0
   public IsDefaulter: number = 0
   public CollegeName: string = ''
+  public Type?: string = 'NA'
 }
 export class DCECollegesReportSearchFilter {
   public DepartmentID: number = 0;

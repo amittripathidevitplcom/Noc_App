@@ -19,7 +19,7 @@
   <div class="row" *ngIf="this.sSOLoginDataModel.RoleID==10 && this.sSOLoginDataModel.DepartmentID !=3 && this.sSOLoginDataModel.DepartmentID !=12">
     <div class="card">
       <div class="card-header d-flex justify-content-between align-items-center">
-        <h5> <b><!--<span *ngIf="this.sSOLoginDataModel.DepartmentID==2">Diploma Course</span>--> NOC Detail For Session {{sSOLoginDataModel.SessionName}}</b></h5>
+        <h5> <b><span *ngIf="this.sSOLoginDataModel.DepartmentID==2">Diploma Course</span> NOC Detail For Session {{sSOLoginDataModel.SessionName}}</b></h5>
       </div>
       <div class="card-body">
         <div class="row">
@@ -363,7 +363,7 @@
   </div>
 
 
-  <!--<div class="row" *ngIf="this.sSOLoginDataModel.RoleID==10 && this.sSOLoginDataModel.DepartmentID ==2">
+  <div class="row" *ngIf="this.sSOLoginDataModel.RoleID==10 && this.sSOLoginDataModel.DepartmentID ==2">
     <div class="card">
       <div class="card-header d-flex justify-content-between align-items-center">
         <h5> <b>Degree Course NOC Detail For Session {{sSOLoginDataModel.SessionName}}</b></h5>
@@ -399,7 +399,7 @@
                   </div>
                 </div>
               </div>
-              <a routerLink="/totalcollegereports">View more <i class="fa fa-chevron-circle-right"></i></a>
+              <a routerLink="/totalcollegereports/UG">View more <i class="fa fa-chevron-circle-right"></i></a>
             </div>
           </div>
 
@@ -416,7 +416,7 @@
                   </div>
                 </div>
               </div>
-              <a routerLink="/totalapplicationlist/ALL">View more <i class="fa fa-chevron-circle-right"></i></a>
+              <a routerLink="/totalapplicationlist/ALL/UG">View more <i class="fa fa-chevron-circle-right"></i></a>
             </div>
           </div>
           <div class="col-lg-2 col-md-4 col-sm-6 col-12" *ngIf="this.sSOLoginDataModel.DepartmentID !=5">
@@ -428,11 +428,11 @@
                   </div>
                   <div class="dashCardContent">
                     <h4>Total Draft Application</h4>
-                    <h2>{{dashboardDataModel.TotalDraftEntryCollege}}</h2>
+                    <h2>{{dashboardDataModel.TotalDraftEntryDegreeCollege}}</h2>
                   </div>
                 </div>
               </div>
-              <a href="/totaldraftentrycollege">View more <i class="fa fa-chevron-circle-right"></i></a>
+              <a href="/totaldraftentrycollege/UG">View more <i class="fa fa-chevron-circle-right"></i></a>
             </div>
           </div>
 
@@ -451,7 +451,7 @@
                   </div>
                 </div>
               </div>
-              <a routerLink="/totalapplicationlist/PendingSubmit">View more <i class="fa fa-chevron-circle-right"></i></a>
+              <a routerLink="/totalapplicationlist/PendingSubmit/UG">View more <i class="fa fa-chevron-circle-right"></i></a>
             </div>
           </div>
           <div class="col-lg-2 col-md-4 col-sm-6 col-12">
@@ -467,7 +467,7 @@
                   </div>
                 </div>
               </div>
-              <a routerLink="/totalapplicationlist/Submit">View more <i class="fa fa-chevron-circle-right"></i></a>
+              <a routerLink="/totalapplicationlist/Submit/UG">View more <i class="fa fa-chevron-circle-right"></i></a>
             </div>
           </div>
           <div class="col-lg-2 col-md-4 col-sm-6 col-12">
@@ -483,13 +483,13 @@
                   </div>
                 </div>
               </div>
-              <a routerLink="/totalapplicationlist/NOCIssued">View more <i class="fa fa-chevron-circle-right"></i></a>
+              <a routerLink="/totalapplicationlist/NOCIssued/UG">View more <i class="fa fa-chevron-circle-right"></i></a>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </div>-->
+  </div>
 
 
   <div class="row" *ngIf="this.sSOLoginDataModel.RoleID==44 && this.sSOLoginDataModel.DepartmentID ==12">

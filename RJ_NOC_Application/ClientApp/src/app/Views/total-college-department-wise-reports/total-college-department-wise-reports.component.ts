@@ -37,6 +37,7 @@ export class TotalCollegeDepartmentWiseReportsComponent implements OnInit {
   public collegeContactDetailsList: any = [];
   public collegeNearestGovernmentHospitalsList: any = [];
   public DTECollegeLevel: any = [];
+  public QueryStringStatus: any = '';
   
 
 
@@ -45,6 +46,8 @@ export class TotalCollegeDepartmentWiseReportsComponent implements OnInit {
 
   async ngOnInit() {
     this.sSOLoginDataModel = JSON.parse(String(localStorage.getItem('SSOLoginUser')));
+    this.QueryStringStatus = this.router.snapshot.paramMap.get('Status')?.toString();
+    this.request.Type = (this.QueryStringStatus != '' && this.QueryStringStatus != undefined && this.QueryStringStatus != 'undefined') ? this.QueryStringStatus : 'NA';
     await this.LoadMaster();
     await this.GetTotalCollegeList();
   }
