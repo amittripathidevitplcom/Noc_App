@@ -55,6 +55,14 @@
                 <option value="2">No</option>
               </select>
             </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="sSOLoginDataModel.DepartmentID==2">
+              <label for="ddlIsGeoTagging" class="form-label">Is GeoTagging:</label>
+              <select class="form-select" id="ddlIsGeoTagging" name="ddlIsGeoTagging" [(ngModel)]="request.IsGeoTagging">
+                <option value="0">All</option>
+                <option value="1">Yes</option>
+                <option value="2">No</option>
+              </select>
+            </div>
             <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
               <label for="ddlDistrictID" class="form-label">College Name</label>
               <input type="text" class="form-control" id="txtCollegeName" name="txtCollegeName" [(ngModel)]="request.CollegeName">

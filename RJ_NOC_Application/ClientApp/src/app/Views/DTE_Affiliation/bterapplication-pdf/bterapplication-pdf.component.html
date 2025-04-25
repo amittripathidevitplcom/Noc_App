@@ -76,7 +76,7 @@
                       <label>Act (Which Act You Registered)  :- {{legalEntityListData1.RegisteredAct}}</label>
                     </td>
                     <td *ngIf="legalEntityListData1.RegisteredAct=='Other'">
-                      <label>Act (Which Act You Registered)  :- {{legalEntityListData1.RegisteredActName}}</label>
+                      <label>Act Name (Which Act You Registered)  :- {{legalEntityListData1.RegisteredActName}}</label>
                     </td>
 
                   </tr>
@@ -139,38 +139,43 @@
                   <tbody>
                     <tr>
                       <td>
-                        <img src="{{legalEntityListData1.TrustLogoDoc}}" alt="Trust Logo" style="    width: 50px !important;
-    height: 50px !important;" class="img-thumbnail" />
-                      <td>
-                        <a *ngIf="!legalEntityListData1.TrusteeMemberProofDocPath.includes('.pdf')" data-fancybox="gallery" href="{{legalEntityListData1.TrusteeMemberProofDocPath}}" data-caption="Image 10" title="click here to zoom">
-                          <img src="{{legalEntityListData1.TrusteeMemberProofDocPath}}" alt="Trustee Member Proof" style="    width: 50px !important;
-    height: 50px !important;" class="img-thumbnail" />
-                        </a>
-                        <a class="bi bi-file-earmark-pdf-fill" *ngIf="legalEntityListData1.TrusteeMemberProofDocPath.includes('.pdf')" data-fancybox="gallery" href="{{legalEntityListData1.TrusteeMemberProofDocPath}}" data-caption="Image 10" title="click here to zoom" style="    font-size: 25px"></a>
-                        <label *ngIf="legalEntityListData1.Dis_TrusteeMemberProofDocName!='N/A'">{{legalEntityListData1.Dis_TrusteeMemberProofDocName}}</label>
+                        <label>{{legalEntityListData1.TrustLogoDoc != '' ? 'Available' : '' }}</label>                       
+                        <img src="{{legalEntityListData1.TrustLogoDoc}}" alt="Trust Logo" style="    width: 50px !important; height: 50px !important;" class="img-thumbnail" />
                       </td>
                       <td>
+                        <label>{{legalEntityListData1.TrusteeMemberProofDocPath != '' ? 'Available' : '' }}</label>
+                        <a *ngIf="!legalEntityListData1.TrusteeMemberProofDocPath.includes('.pdf')" data-fancybox="gallery" href="{{legalEntityListData1.TrusteeMemberProofDocPath}}" data-caption="Image 10" title="click here to zoom">
+                          <img src="{{legalEntityListData1.TrusteeMemberProofDocPath}}" alt="Trustee Member Proof" style="    width: 50px !important;height: 50px !important;" class="img-thumbnail" />
+                        </a>
+                        <a class="bi bi-file-earmark-pdf-fill" *ngIf="legalEntityListData1.TrusteeMemberProofDocPath.includes('.pdf')" data-fancybox="gallery" href="{{legalEntityListData1.TrusteeMemberProofDocPath}}" data-caption="Image 10" title="click here to zoom" style="    font-size: 25px"></a>
+                        <!--<label *ngIf="legalEntityListData1.Dis_TrusteeMemberProofDocName!='N/A'">{{legalEntityListData1.Dis_TrusteeMemberProofDocName}}</label>-->
+                      </td>
+                      <td>
+                        <label>{{legalEntityListData1.SocietyPanProofDocPath != '' ? 'Available' : '' }}</label>
                         <a *ngIf="!legalEntityListData1.SocietyPanProofDocPath.includes('.pdf')" data-fancybox="gallery" href="{{legalEntityListData1.SocietyPanProofDocPath}}" data-caption="Image 10" title="click here to zoom">
                           <img src="{{legalEntityListData1.SocietyPanProofDocPath}}" alt="Society Pan Proof" style="    width: 50px !important;
     height: 50px !important;" class="img-thumbnail" />
                         </a>
                         <a class="bi bi-file-earmark-pdf-fill" *ngIf="legalEntityListData1.SocietyPanProofDocPath.includes('.pdf')" data-fancybox="gallery" href="{{legalEntityListData1.SocietyPanProofDocPath}}" data-caption="Image 10" title="click here to zoom" style="    font-size: 25px"></a>
-                        <label *ngIf="legalEntityListData1.Dis_SocietyPanProofDocName!='N/A'">{{legalEntityListData1.Dis_SocietyPanProofDocName}}</label>
+                        <!--<label *ngIf="legalEntityListData1.Dis_SocietyPanProofDocName!='N/A'">{{legalEntityListData1.Dis_SocietyPanProofDocName}}</label>-->
                       </td>
                       <td>
+                        <label>{{legalEntityListData1.RegistrationDocPath != '' ? 'Available' : '' }}</label>
                         <a *ngIf="!legalEntityListData1.RegistrationDocPath.includes('.pdf')" data-fancybox="gallery" href="{{legalEntityListData1.RegistrationDocPath}}" data-caption="Image 10" title="click here to zoom">
                           <img src="{{legalEntityListData1.RegistrationDocPath}}" alt="Registration Doc" style="    width: 50px !important;
     height: 50px !important;" class="img-thumbnail" />
                         </a>
                         <a class="bi bi-file-earmark-pdf-fill" *ngIf="legalEntityListData1.RegistrationDocPath.includes('.pdf')" data-fancybox="gallery" href="{{legalEntityListData1.RegistrationDocPath}}" data-caption="Image 10" title="click here to zoom" style="    font-size: 25px"></a>
-                        <label *ngIf="legalEntityListData1.Dis_RegistrationDocName!='N/A'">{{legalEntityListData1.Dis_RegistrationDocName}}</label>
+                        <!--<label *ngIf="legalEntityListData1.Dis_RegistrationDocName!='N/A'">{{legalEntityListData1.Dis_RegistrationDocName}}</label>-->
+
+
                       </td>
                     </tr>
                   </tbody>
                 </table>
               </div>
             </div>
-          </div>          
+          </div>
           <div class="row" *ngIf="legalEntityMemberDetailData.length>0">
             <div class="col-md-12">
               <div class="card mb-0">
@@ -293,7 +298,7 @@
                     </td>
                     <td>
                       <label>College Status :-{{collegeListData.CollegeStatus}}</label>
-                    </td>                    
+                    </td>
                   </tr>
                   <br />
                   <tr>
@@ -315,7 +320,7 @@
                       <label>College Name in English :-{{collegeListData.CollegeNameEn}}</label>
                     </td>
                     <td *ngIf="collegeListData.CollegeStatus!='New'">
-                      <label>Present Status of College :-{{collegeListData.PresentCollegeStatus}}</label>
+                      <label>Present Status of College :-{{collegeListData.CollegeStatus}}</label>
                     </td>
                     <td>
                       <label>College Type :-{{collegeListData.CollegeType}}</label>
@@ -335,23 +340,23 @@
 
                   </tr>
                   <br />
-                  <tr>                   
+                  <tr>
                     <td>
                       <label>Address at which college is running is same as given in AICTE EOA :-{{collegeListData.AddressofCollegeasgiveninAICTEEOA}}</label>
-                    </td>                    
+                    </td>
                   </tr>
                   <br />
-                  <tr>                   
+                  <tr>
                     <td>
                       <label>Address at which college is running is same as given in AICTE EOA :-{{collegeListData.AICTEEOAAdress}}</label>
-                    </td>                   
+                    </td>
                   </tr>
                   <br />
-                  <tr *ngIf="collegeListData.AICTEEOAAdress=='No'">                    
+                  <tr *ngIf="collegeListData.AICTEEOAAdress=='No'">
                     <td>
                       <label>Address at which college is running is same as given in AICTE EOA :-{{collegeListData.AICTEEOADifferentAddress}}</label>
-                    </td>                   
-                  </tr>                 
+                    </td>
+                  </tr>
                   <tr>
                     <td>
                       <label>IS Your College NAAC Accredited :-{{collegeListData.CollegeNAACAccredited}}</label>
@@ -385,7 +390,7 @@
                       <label>District :-{{collegeListData.District_Eng}}</label>
                     </td>
                     <td>
-                      <label>Subdivision :-{{collegeListData.SubdivisionName}}{{collegeListData.SubdivisionName}}</label>
+                      <label>Subdivision :-{{collegeListData.SubdivisionName}}</label>
                     </td>
                   </tr>
                   <tr>
@@ -519,7 +524,7 @@
               </div>
             </div>
           </div>
-  <!--end-->
+          <!--end-->
         </div>
         <div class="card-header">
           <b><i class="bi bi-table"></i>&nbsp; Course Details</b>
@@ -559,87 +564,74 @@
 
           </div>
         </div>
+        <div class="row">
+          <div class="table-responsive">
+            <table class="table table-hover table-striped-columns text-left" id="BTEROtherDetails" #content>
+              <thead>
+                <tr>
+                  <td colspan="4" style="font-weight: 800;font-size: 18px;">
+                    <b><i class="bi bi-table"></i>&nbsp;BTER Affiliation Other Details</b>
+                  </td>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td *ngIf="this.AffiliationRegStatus !='Existing'">
+                    <div>
+                      <label>Whether the Institute and the course(s) to be commenced are approved by the Government of Rajasthan and NOC has been issued?<span style="color:red;">*</span></label>
 
-        <div class="card">          
-          <div class="card">
-            <div class="card-header">
-              <b><i class="bi bi-table"></i>BTER Affiliation Other Details</b>
-            </div>
-            <div class="card-body border">
-              <div class="row" *ngIf="this.AffiliationRegStatus !='Existing'">
-
-                <div class="col-lg-12 col-md-12 col-sm-12 col-6 mb-3">
-                  <label>Whether the Institute and the course(s) to be commenced are approved by the Government of Rajasthan and NOC has been issued?<span style="color:red;">*</span></label>
-                </div>
-                <div class="col-lg-6 col-md-6 col-sm-6 col-6 mb-3">
-                  <input class="form-control disabled mt-1" disabled value="{{DTEAffiliationOtherDetailsPreviewData.StatusNOCIssued}}" />
-                </div>
-              </div>
-              <div class="row" *ngIf="this.AffiliationRegStatus !='Existing'">
-                <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
-                  <label>NOC Number:</label>
-                  <input class="form-control disabled mt-1" disabled value="{{DTEAffiliationOtherDetailsPreviewData.NocNumber}}" />
-                </div>
-                <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
-                  <label>NOC Issue Date:</label>
-                  <input class="form-control disabled mt-1" disabled value="{{DTEAffiliationOtherDetailsPreviewData.NocIssueDate}}" />
-                </div>
-                <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
-                  <label><b>Attach copy of the approval letter (NOC) :</b></label>
-                  <div class="clearfix"></div>
-                  <a class="bi bi-file-earmark-pdf-fill" *ngIf="DTEAffiliationOtherDetailsPreviewData.UploadNocApproval !=''" data-fancybox="gallery" href="{{DTEAffiliationOtherDetailsPreviewData.UploadNocApprovalDocPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
-                </div>
-              </div>
-            </div>
-
-          </div>
-          <div class="card-header d-flex justify-content-between align-items-center">
-            <b class="text-center">&nbsp;Details Of AICTE EOA / LOA</b>
-          </div>
-          <div class="card">
-            <div class="card-body border">
-              <div class="row">
-                <div class="col-lg-6 col-md-6 col-sm-6 col-6 mb-3">
-                  <label>AICTE EOA / LOA <span style="color:red;">*</span></label>
-                  <input class="form-control disabled mt-1" disabled value="{{DTEAffiliationOtherDetailsPreviewData.AICTEEOALOA}}" />
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
-                  <label for="txtAICTELAO_No" class="form-label">AICTE LOA No:<span style="color:red;">*</span></label>
-                  <input class="form-control disabled mt-1" disabled value="{{DTEAffiliationOtherDetailsPreviewData.AICTELAO_No}}" />
-                </div>
-                <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
-                  <label for="txtAICTELAO_No" class="form-label">EOA /LOA Date:<span style="color:red;">*</span></label>
-                  <input class="form-control disabled mt-1" disabled value="{{DTEAffiliationOtherDetailsPreviewData.EOA_LOA_Date}}" />
-                </div>
-                <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
-                  <label><b>Attach copy of the approval letter (NOC) :</b></label>
-                  <div class="clearfix"></div>
-                  <a class="bi bi-file-earmark-pdf-fill" *ngIf="DTEAffiliationOtherDetailsPreviewData.UploadLOAApproval !=''" data-fancybox="gallery" href="{{DTEAffiliationOtherDetailsPreviewData.UploadLOAApprovalDocPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="card-header d-flex justify-content-between align-items-center">
-            <b class="text-center">&nbsp;Application Form</b>
-          </div>
-          <div class="card">
-            <div class="card-body border">
-              <div class="row">
-                <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
-                  <label><b>Attach copy of the approval letter (NOC) :</b></label>
-                  <div class="clearfix"></div>
-                  <a class="bi bi-file-earmark-pdf-fill" *ngIf="DTEAffiliationOtherDetailsPreviewData.UploadApplicationForm !=''" data-fancybox="gallery" href="{{DTEAffiliationOtherDetailsPreviewData.UploadApplicationFormDocPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
-                </div>
-              </div>
-            </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-6 mb-3">
+                      <input class="form-control disabled mt-1" disabled value="{{DTEAffiliationOtherDetailsPreviewData.StatusNOCIssued}}" />
+                    </div>                
+                  </td>
+                  <td *ngIf="this.AffiliationRegStatus !='Existing'">
+                      <label>NOC Number:</label>
+                      <input class="form-control disabled mt-1" disabled value="{{DTEAffiliationOtherDetailsPreviewData.NocNumber}}" />                  
+                   </td>
+                  <td *ngIf="this.AffiliationRegStatus !='Existing'">
+                      <label>NOC Issue Date:</label>
+                      <input class="form-control disabled mt-1" disabled value="{{DTEAffiliationOtherDetailsPreviewData.NocIssueDate}}" />
+                    </td>
+                  <td *ngIf="this.AffiliationRegStatus !='Existing'">
+                      <label><b>Attach copy of the approval letter (NOC) :</b></label>                      
+                      <a class="bi bi-file-earmark-pdf-fill" *ngIf="DTEAffiliationOtherDetailsPreviewData.UploadNocApproval !=''" data-fancybox="gallery" href="{{DTEAffiliationOtherDetailsPreviewData.UploadNocApprovalDocPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                    </td>
+                </tr>
+                <tr>
+                  <td>
+                    <label>AICTE EOA / LOA : {{DTEAffiliationOtherDetailsPreviewData.AICTEEOALOA}}</label>
+                     
+                   </td>
+                  <td>
+                    <label for="txtAICTELAO_No" class="form-label">AICTE LOA No: {{DTEAffiliationOtherDetailsPreviewData.AICTELAO_No}}</label>                      
+                    </td>
+                  <td>
+                    <label for="txtAICTELAO_No" class="form-label">EOA /LOA Date: {{DTEAffiliationOtherDetailsPreviewData.EOA_LOA_Date}}</label>                     
+                   </td>
+                  <td>
+                    <label><b>Attach copy of the approval letter (NOC) :</b>{{ DTEAffiliationOtherDetailsPreviewData.UploadLOAApprovalDocPath != '' ? 'Available' : '' }}</label>
+                    <div class="clearfix"></div>
+                    <a class="bi bi-file-earmark-pdf-fill" *ngIf="DTEAffiliationOtherDetailsPreviewData.UploadLOAApproval !=''" data-fancybox="gallery" href="{{DTEAffiliationOtherDetailsPreviewData.UploadLOAApprovalDocPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+               
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="4">
+                    <label><b>Attach copy of the approval letter (NOC) :</b>{{ DTEAffiliationOtherDetailsPreviewData.UploadApplicationFormDocPath != '' ? 'Available' : '' }}</label>
+                      <div class="clearfix"></div>
+                      <a class="bi bi-file-earmark-pdf-fill" *ngIf="DTEAffiliationOtherDetailsPreviewData.UploadApplicationForm !=''" data-fancybox="gallery" href="{{DTEAffiliationOtherDetailsPreviewData.UploadApplicationFormDocPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                  </td>
+                </tr>            
+                </tbody>
+            </table>
           </div>
         </div>
+       
         <!--Payment Details-->
         <div class="card-body">
           <div class="row">
-            <div class="table-responsive" *ngIf="paymentResponseDataModel.length>0">
+            <div class="table-responsive" *ngIf="PaymentHistoryDetails.length>0">
               <table class="table table-hover table-striped-columns" id="OnlinePayment" #content>
                 <thead>
                   <tr>
@@ -650,28 +642,99 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <th>S.No.</th>
-                    <th>PRN</th>
-                    <th>Status</th>
-                    <th>Transaction Amount</th>
-                    <th>RPP Transaction ID</th>
-                    <th>Created Date</th>
-                    <th>Payment Time Statmp</th>
+                    <th>Sr. No.</th>
+                    <th>PRN No</th>
+                    <th>Transaction Date</th>
+                    <th>Payment Status</th>
+                    <th>Is Refunded</th>
+                    <th>Amount</th>
+                    <th>Message</th>
                   </tr>
-                  <tr *ngFor="let row of paymentResponseDataModel;let idx=index;">
+                  <tr *ngFor="let paymentdetails of PaymentHistoryDetails;let idx=index;">
                     <td>{{idx+1}}</td>
-                    <td>{{row.PRN}}</td>
-                    <td>{{row.STATUS}}</td>
-                    <td>{{row.AMOUNT}}</td>
-                    <td>{{row.RPPTXNID}}</td>
-                    <td>{{row.CreatedDate}}</td>
-                    <td>{{row.PAYMENTMODETIMESTAMP}}</td>
+                    <td>
+                      <label>{{paymentdetails.PaymentID}}</label>
+                    </td>
+                    <td>
+                      <label>{{paymentdetails.TransactionDate}}</label>
+                    </td>
+                    <td>
+                      <label>{{paymentdetails.STATUS}} </label>
+                    </td>
+                    <td>
+                      <label>{{paymentdetails.strRefund}}</label>
+                    </td>
+                    <td>
+                      <label>{{paymentdetails.Amount}}</label>
+                    </td>
+                    <td>
+                      <label>{{paymentdetails.ResponseMessage}}</label>
+                    </td>
                   </tr>
                 </tbody>
               </table>
             </div>
           </div>
         </div>
+        <!--<div class="card-body">
+    <div class="card mb-0" *ngIf="PaymentHistoryDetails.length>0" id="OnlinePayment" #content>
+      <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+          <div class="card">
+            <div class="card-header">
+              <b>Payment History</b>
+            </div>
+            <div class="card-body">
+              <div class="row">
+                <div class="table-responsive maxheight600px">
+                  <table class="table table-hover table-striped-columns">
+                    <thead>
+                      <tr>
+                        <th>Sr. No.</th>
+                        <th>PRN No</th>
+                        <th>Transaction Date</th>
+                        <th>Payment Status</th>
+                        <th>Is Refunded</th>
+                        <th>Amount</th>
+                        <th>Message</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let paymentdetails of PaymentHistoryDetails;let idx=index;">
+                        <td>{{idx+1}}</td>
+                        <td>
+                          <label>{{paymentdetails.PaymentID}}</label>
+                        </td>
+                        <td>
+                          <label>{{paymentdetails.TransactionDate}}</label>
+                        </td>
+                        <td>
+                          <label>{{paymentdetails.STATUS}} </label>
+                        </td>
+                        <td>
+                          <label>{{paymentdetails.strRefund}}</label>
+                        </td>
+                        <td>
+                          <label>{{paymentdetails.Amount}}</label>
+                        </td>
+                        <td>
+                          <label>{{paymentdetails.ResponseMessage}}</label>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td colspan="7" *ngIf="PaymentHistoryDetails.length==0" style="color:red"> No Data Found.!</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>-->
 
         <div class="card-footer">
           <input type="button" value="Preview Download PDF" class="btn btn-sm btn-primary" (click)="btnSavePDF_Click()" />

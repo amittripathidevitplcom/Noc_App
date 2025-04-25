@@ -1621,3 +1621,10 @@ b, strong, label.form-label, .fw-bold, .mat-tab-label span, .table th, .form-hor
   width: calc(100% / 1);
 }
 
+
+
+@media (max-width: 990px) {
+  .ShowSideBar {
+    padding-top: 73px !important;
+  }
+}
