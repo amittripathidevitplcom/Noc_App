@@ -202,4 +202,25 @@ export class TotalDraftEntryCollegeComponent implements OnInit {
   async ApplicationPreview_OnClick(DepartmentID: number, CollegeID: number) {
     this.routers.navigate(['/applicationsummary' + "/" + encodeURI(this.commonMasterService.Encrypt(DepartmentID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(CollegeID.toString()))]);
   }
+
+  async GetTotalDraftentryCollegeSearch() {
+    try {
+      this.loaderService.requestStarted();
+      this.request.DepartmentID = this.sSOLoginDataModel.DepartmentID;
+      this.request.Type = 'SummarySearch';
+      await this.commonMasterService.GetTotalDraftentryCollege(this.request)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.TotalDraftentryCollege = data['Data'][0];
+        }, (error: any) => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
 }
