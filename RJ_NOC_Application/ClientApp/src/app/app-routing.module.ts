@@ -291,7 +291,7 @@ import { BTERApplicationopensessionmasterComponent } from './Views/DTE_Affiliati
 import { DCEAdminViewAllCommentComponent } from './Views/DCE/dceadmin-view-all-comment/dceadmin-view-all-comment.component';
 import { MGThreeAfterInspectionApplicationListComponent } from './Views/DocumentScrutinyTab/mgthree-after-inspection-application-list/mgthree-after-inspection-application-list.component';
 import { MGThreeDocumentScrutinyListComponent } from './Views/DocumentScrutinyTab/mgthree-document-scrutiny-list/mgthree-document-scrutiny-list.component';
-
+import { PaymentHistoryReportCollegeWiseComponent } from './Views/Reports/payment-history-report-college-wise/payment-history-report-college-wise.component';
 
 const routes: Routes = [
   {
@@ -1217,6 +1217,10 @@ const routes: Routes = [
       {
         path: 'dceadminviewallcomment/:Status', component: DCEAdminViewAllCommentComponent
       },
+      {
+        path: 'paymenthistory', component: PaymentHistoryReportCollegeWiseComponent
+      },
+     
 
     ]
     //, canActivate: [SkipLocationChangeGuard],

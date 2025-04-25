@@ -6,6 +6,7 @@ import { DTEAffiliationRegistrationDataModel, BTERFeeMasterDataModel } from '../
 import { BTERApplicationOpensessionDataModel } from '../../../Models/BTERApplicationOpensessionMasterDataModel';
 import { TotalCollegeReportSearchFilter, Generateorderforbter } from '../../../Models/SearchFilterDataModel';
 import { GlobalConstants } from '../../../Common/GlobalConstants';
+import { BTERPaymentHistoryeMitraDataModel } from '../../../Models/SearchFilterDataModel';
 @Injectable({
   providedIn: 'root'
 })
@@ -36,40 +37,7 @@ export class DTEAffiliationRegistrationService {
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();
-  }
-  //public async ApplicationSubmit(DTE_ARId: number,ActionName:string) {
-  //  const httpOptions = {
-  //    headers: new HttpHeaders({
-  //      'Content-Type': 'application/json'
-  //    })
-  //  };
-  //  return await this.http.get(this.APIUrl + "/ApplicationSubmit/" + DTE_ARId + "/" + ActionName)
-  //    .pipe(
-  //      catchError(this.handleErrorObservable)
-  //    ).toPromise();
-  //}
-  //public async Generateorder_SaveData(request: Generateorderforbter) {
-  //  const headers = { 'content-type': 'application/json' }
-  //  const body = JSON.stringify(request);
-  //  return await this.http.post(this.APIUrl + "/Generateorder_SaveData", body, { 'headers': headers })
-  //    .pipe(
-  //      catchError(this.handleErrorObservable)
-  //    ).toPromise();
-  //}
-  //public async Generateorder_SaveData(request: Generateorderforbter) {
-  //  const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-  //  const body = JSON.stringify(request);
-
-  //  try {
-  //    return await this.http.post(this.APIUrl + "/Generateorder_SaveData", body, { headers })
-  //      .pipe(
-  //        catchError(this.handleErrorObservable)
-  //      ).toPromise();
-  //  } catch (error) {
-  //    console.error("Error in Generateorder_SaveData:", error);
-  //    throw error;
-  //  }
-  //}
+  }  
   public async ApplicationSubmit(DTE_ARId: number, ActionName: string, AMOUNT:number) {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -168,6 +136,21 @@ export class DTEAffiliationRegistrationService {
   public async DeleteData(ID: number, UserID: number) {
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
     return await this.http.post(this.APIUrl + '/DeleteDataOpenSessionApplicationList/' + ID + "/" + UserID, httpOptions)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }  
+  public async GetPaymenthistoryList(request: BTERPaymentHistoryeMitraDataModel, DepartmentID: number) {
+    const headers = { 'content-type': 'application/json' }
+    const body = JSON.stringify(request);
+    return await this.http.post(this.APIUrl + '/GetPaymenthistoryList/' + DepartmentID , body, { 'headers': headers })
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+  public async GetAllCollegeList() {
+    const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
+    return await this.http.get(this.APIUrl + '/GetAllCollegeList/', httpOptions)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();

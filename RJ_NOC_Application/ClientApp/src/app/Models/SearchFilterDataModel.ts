@@ -294,3 +294,14 @@ export class GenerateorderforbterList {
   public CourseStatusId: number = 0; 
   public ActiveStatus: boolean = false;
 }
+export class BTERPaymentHistoryeMitraDataModel
+   {
+     public DepartmentID: number = 0;
+     public CollegeID: number = 0;
+     public CollegeName: string = '';
+     public PRNNO: string = '';
+     public TokenNo: string = '';
+     public TransctionStatus: string = '0';
+     public TransctionDate: string = '';
+     public TransctionToDate: string = '';
+    }

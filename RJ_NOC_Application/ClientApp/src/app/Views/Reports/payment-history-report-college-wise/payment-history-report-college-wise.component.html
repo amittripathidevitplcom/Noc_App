@@ -25,15 +25,47 @@
         <div class="card-body">
           <div class="row">
             <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-              <label for="ddlDepartmentID" class="form-label">
-                <span>Department</span>
-              </label>
-              <select class="form-select" id="ddlDepartmentID" name="ddlDepartmentID" [(ngModel)]="request.DepartmentID">
-                <option value="0">All</option>
-                <option *ngFor="let item of DepartmentList" value="{{item.DepartmentID}}">{{item.Name}}</option>
+              <label for="txtCollegeName" class="form-label mb-0">College List</label>
+              <div class="ng-autocomplete w-100">
+                <ng-autocomplete [data]="filteredCollegeList" id="CollegeName" [(ngModel)]="CollegeName" [searchKeyword]="SearchLevel_keyword"
+                                 placeholder="Search by College Name" (selected)='selectEvent($event)' (inputChanged)='onChangeSearch($event)'
+                                 (inputCleared)='txtSearchLevel_closed()' [itemTemplate]="itemTemplate"
+                                 [minQueryLength]="1" [notFoundTemplate]="notFoundTemplate">
+                </ng-autocomplete>
+                <ng-template #itemTemplate let-item>
+                  <a [innerHTML]="item.CollegeName"></a>
+                </ng-template>
+                <ng-template #notFoundTemplate let-notFound>
+                  <div [innerHTML]="notFound"></div>
+                </ng-template>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <label for="txtPRNNumber" class="form-label mb-0"> Search By PRN Number<span style="color:red;">*</span> </label>
+              <input type="text" class="form-control" placeholder="Search By Transction Number" id="txtPRNNumber" name="txtPRNNumber" [(ngModel)]="request.PRNNO">
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <label for="txtTokenNumber" class="form-label mb-0">Search By Token Number<span style="color:red;">*</span> </label>
+              <input type="text" class="form-control" placeholder="Search By Token Number" id="txtTokenNumber" name="txtTokenNumber" [(ngModel)]="request.TokenNo">
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <label for="ddlStatus" class="form-label">Status:</label>
+              <select class="form-select" id="ddlStatus" name="ddlStatus" [(ngModel)]="request.TransctionStatus">
+                <option value="0">--All--</option>
+                <option value="SUCCESS">SUCCESS</option>
+                <option value="FAILED">FAILED</option>
+                <option value="PENDING">PENDING</option>
+                <option value="CANCEL">Refund</option>
               </select>
             </div>
-           
+            <div class="col-lg-3 col-md-3 col-sm-3 col-12 mb-3">
+             <label for="txtTransctionDate" class="form-label">From Date <span style="color:red;">*</span></label>
+             <input type="date" placeholder="DD/MM/YYYY" class="form-control" id="txtTransctionDate" [(ngModel)]="request.TransctionDate" onkeypress="return false;" />
+            </div>
+             <div class="col-lg-3 col-md-3 col-sm-3 col-12 mb-3">
+             <label for="txtTransctionToDate" class="form-label">To Date <span style="color:red;">*</span></label>
+             <input type="date" placeholder="DD/MM/YYYY" class="form-control" id="txtTransctionToDate" [(ngModel)]="request.TransctionToDate" onkeypress="return false;" />
+            </div>          
 
           </div>
         </div>
@@ -49,46 +81,55 @@
   <div class="row">
     <div class="card mb-0">
       <div class="card-header d-xxl-flex d-xl-flex d-md-flex d-sm-block justify-content-between align-items-center">
-        <b><i class="bi bi-table"></i>Payment History List </b>
+        <b><i class="bi bi-table"></i> Payment History List </b>
         <div class="d-flex align-items-center table-filter mr-15">
           <i class="fa fa-search"></i>
           <input type="text" class="form-control" placeholder="Search Here" [(ngModel)]="searchText" />
         </div>
       </div>
-      <div class="table-responsive" style="height: calc(100vh - 350px) !important;">
-        <table class="table table-hover table-striped-columns" id="tabellist">
-          <thead>
-            <tr>
-              <th>Sr. No.</th>
-              <th>Application ID</th>
-              <th>Request ID</th>
-              <th>Institution Name</th>
-              <th>Service ID</th>
-              <th>Transaction ID</th>
-              <th>Status</th>
-              <th>Response</th>
-              <th>Created</th>             
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let row of PaymentHistoryList  | tableSearchFilter:searchText; let idx=index;">
-              <td style="text-align:center;">{{idx+1}}</td>
-              <td>{{row.CollegeRegistrationNo}}</td>
-              <td>{{row.DistrictName}}</td>
-              <td>{{row.CollegeName}}</td>
-              <td>{{row.LegalManagementType}}</td>
-              <td>{{row.CollegeManagementType}}</td>
-              <td>{{row.CollegeEmail}}</td>
-              <td>{{row.CollegeStatus}}</td>
-              <td>{{row.MappingSSOID}}</td>              
-              <td>
-                <button type="button" (click)="VeryfyPayment()" [attr.disabled]="isDisabledGrid ? true : null" title="View" class="btn btn-sm btn-info">Verify Payment</button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+      <div class="card-body">
+        <div class="table-responsive" style="height: calc(100vh - 150px) !important;">
+          <table class="table table-hover table-striped-columns" id="tabellist">
+            <thead>
+              <tr>
+                <th>Sr. No.</th>
+                <th>Action</th>
+                <th>College Name</th>
+                <th>Full Address</th>
+                <th>Status</th>
+                <th>Amount</th>
+                <th>Receipt Number</th>
+                <th>Token No</th>
+                <th>Response</th>
+                <th>PRN</th>
+                <th>TransactionDate</th>
+
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let row of PaymentHistoryList  | tableSearchFilter:searchText; let idx=index;">
+                <td style="text-align:center;">{{idx+1}}</td>
+                <td>
+                  <button *ngIf="row.TransctionStatus=='PENDING'" type="button" id="btnCheckStatus" class="btn btn-primary btn-sm" (click)="CheckStatus_click(row)">Verify Status</button>
+                </td>
+                <td>{{row.CollegeName}}</td>
+                <td>
+                  <textarea>{{row.FullAddress}}</textarea>                 
+                </td>
+                <td>{{row.TransctionStatus}}</td>
+                <td>{{row.Amount}}</td>
+                <td>{{row.Receipt_Number}}</td>
+                <td>{{row.TokenNo}}</td>
+                <td>
+                  <textarea>{{row.TransctionMSG}}</textarea>                  
+                </td>
+                <td>{{row.PRNNO}}</td>
+                <td>{{row.TransctionDate}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>        
       </div>
     </div>
-  </div>
 </div>
