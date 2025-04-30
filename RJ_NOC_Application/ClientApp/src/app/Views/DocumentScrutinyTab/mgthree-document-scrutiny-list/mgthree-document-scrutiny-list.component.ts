@@ -49,13 +49,16 @@ export class MGThreeDocumentScrutinyListComponent implements OnInit {
   async GetApplyNOCApplicationListByRole() {
     try {
 
-      if (this.QueryStatus == 'DCPending') {
+      if (this.QueryStatus == 'DCPending' && this.sSOLoginDataModel.RoleID != 45) {
         this.request.ActionName = 'Forward To,Forward after document scrutiny,Revert,ReSubmit Application';
       }
-      else if (this.QueryStatus == 'DCCompleted' && this.sSOLoginDataModel.RoleID != 16) {
+      else if (this.QueryStatus == 'DCPending' && this.sSOLoginDataModel.RoleID == 45) {
+        this.request.ActionName = 'Forward Inspection Report';
+      }
+      else if (this.QueryStatus == 'DCCompleted' && this.sSOLoginDataModel.RoleID != 16 && this.sSOLoginDataModel.RoleID != 45) {
         this.request.ActionName = 'Forward after document scrutiny';
       }
-      else if (this.QueryStatus == 'DCCompleted' && this.sSOLoginDataModel.RoleID == 16) {
+      else if (this.QueryStatus == 'DCCompleted' && (this.sSOLoginDataModel.RoleID == 16 || this.sSOLoginDataModel.RoleID == 45)) {
         this.request.ActionName = 'Forward Inspection Report';
       }
       else if (this.QueryStatus == 'DCRevert') {
@@ -460,6 +463,9 @@ export class MGThreeDocumentScrutinyListComponent implements OnInit {
           this.ErrorMessage = data['ErrorMessage'];
           if (data['Data'].length > 0) {
             this.UserRoleList = data['Data'];
+            if (this.sSOLoginDataModel.RoleID == 16) {
+              this.UserRoleList = this.UserRoleList.filter((x: { RoleID: number; }) => x.RoleID == 5);
+            }
           }
         })
     }
@@ -1327,6 +1333,92 @@ export class MGThreeDocumentScrutinyListComponent implements OnInit {
       }, (reason) => {
         this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
       });
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+
+
+
+
+
+
+
+  //cmho
+  public NextUserListRoleWise: any = [];
+  public ForwardNextUserID: number = 0;
+  public isForwardCMHO: boolean = false;
+
+
+  async OpenForwardCMHO(content: any, ApplyNOCID: number, DepartmentID: number, CollegeID: number, ApplicationNo: string) {
+
+    this.ApplicationNo = ApplicationNo;
+    this.SelectedCollageID = CollegeID;
+    this.SelectedDepartmentID = DepartmentID;
+    this.SelectedApplyNOCID = ApplyNOCID;
+    try {
+      await this.commonMasterService.GetUserDetailsByRoleID(45, this.sSOLoginDataModel.DepartmentID, this.SelectedApplyNOCID)
+        .then(async (data: any) => {
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          if (data['Data'].length > 0) {
+            this.NextUserListRoleWise = data['Data'];
+            if (this.NextUserListRoleWise.length > 0) {
+              this.ForwardNextUserID = this.NextUserListRoleWise[0]['UId'];
+            }
+          }
+        })
+      this.modalService.open(content, { size: 'sm', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' }).result.then((result) => {
+        this.closeResult = `Closed with: ${result}`;
+      }, (reason) => {
+        this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+      });
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+  async ForwardtoCMHO() {
+    this.isForwardCMHO = true;
+    try {
+      if (this.ForwardNextUserID <= 0) {
+        return;
+      }
+      if (confirm("Are you sure you want to submit?")) {
+
+        await this.applyNOCApplicationService.DocumentScrutiny(this.sSOLoginDataModel.RoleID, this.sSOLoginDataModel.UserID, 69, this.SelectedApplyNOCID, this.SelectedDepartmentID, '', 45, this.ForwardNextUserID, this.NextActionID)
+          .then(async (data: any) => {
+            data = JSON.parse(JSON.stringify(data));
+            this.State = data['State'];
+            this.SuccessMessage = data['SuccessMessage'];
+            this.ErrorMessage = data['ErrorMessage'];
+            if (this.State == 0) {
+              this.toastr.success(this.SuccessMessage);
+              this.routers.navigate(['/applicationslist' + "/" + encodeURI(this.commonMasterService.Encrypt(this.QueryStatus.toString()))]);
+              this.modalService.dismissAll('After Success');
+            }
+            else if (this.State == 2) {
+              this.toastr.warning(this.ErrorMessage)
+            }
+            else {
+              this.toastr.error(this.ErrorMessage)
+            }
+          }, error => console.error(error));
+      }
     }
     catch (Ex) {
       console.log(Ex);

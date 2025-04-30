@@ -709,9 +709,6 @@ export class FacilityDetailsComponent implements OnInit {
             this.SuccessMessage = data['SuccessMessage'];
             this.ErrorMessage = data['ErrorMessage'];
             this.RequriedAHFacility = data['Data'][0]['data']['Table2'];
-            console.log('RequriedAHFacility');
-            console.log(this.RequriedAHFacility);
-            console.log('RequriedAHFacility');
           }, error => console.error(error));
       }
     }

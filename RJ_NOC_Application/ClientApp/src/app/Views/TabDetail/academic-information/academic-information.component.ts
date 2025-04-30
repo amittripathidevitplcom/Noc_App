@@ -175,7 +175,7 @@ export class AcademicInformationComponent implements OnInit {
   async GetAllFinancialYear() {
     try {
       this.loaderService.requestStarted();
-      await this.commonMasterService.GetAllFinancialYear_AcademicInformation()
+      await this.commonMasterService.GetAllFinancialYear_AcademicInformation(this.SelectedDepartmentID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];

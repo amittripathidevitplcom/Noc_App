@@ -443,6 +443,11 @@ export class ApplicationDetailEntryComponent implements OnInit {
                     this.isCheck30Female = true;
                     return;
                   }
+                  if (data['Data'][0]['data'][0]['IsEligible'] == 0) {
+                    this.toastr.error(data['Data'][0]['data'][0]['OutMessage'])
+                    this.isCheck30Female = true;
+                    return;
+                  }
 
                 }
 

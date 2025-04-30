@@ -580,13 +580,13 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-  public async GetAllFinancialYear_AcademicInformation() {
+  public async GetAllFinancialYear_AcademicInformation(DepartmentID: number) {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     };
-    return await this.http.get(this.APIUrl_CommonMaster + "/GetAllFinancialYear_AcademicInformation")
+    return await this.http.get(this.APIUrl_CommonMaster + "/GetAllFinancialYear_AcademicInformation/" + DepartmentID)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();

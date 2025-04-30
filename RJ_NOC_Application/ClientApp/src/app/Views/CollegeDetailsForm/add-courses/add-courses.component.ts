@@ -753,6 +753,11 @@ export class AddCoursesComponent implements OnInit {
               return element.Name == 'Diploma';
             });
           }
+          if (this.SelectedDepartmentID == 6 && this.CollegeLevel == 'UG') {
+            this.CourseLevelList = this.CourseLevelList.filter((element: any) => {
+              return element.Name != 'PG';
+            });
+          }
         }, error => console.error(error));
     }
     catch (Ex) {

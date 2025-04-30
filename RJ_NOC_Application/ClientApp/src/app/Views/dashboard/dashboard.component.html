@@ -1462,7 +1462,7 @@
 
   <!--Registrar Committee-->
   <!--Medical Group 3 DashBoard start-->
-  <div class="row" *ngIf="this.sSOLoginDataModel.DepartmentID==6">
+  <div class="row" *ngIf="this.sSOLoginDataModel.DepartmentID==6 && (this.sSOLoginDataModel.RoleID==5 || this.sSOLoginDataModel.RoleID==3|| this.sSOLoginDataModel.RoleID==6|| this.sSOLoginDataModel.RoleID==16 || this.sSOLoginDataModel.RoleID==2||this.sSOLoginDataModel.RoleID==45 || this.sSOLoginDataModel.RoleID==8)">
     <div class="card">
       <div class="card-header d-flex justify-content-between align-items-center">
         <b><i class="bi bi-table"></i>&nbsp; NOC Applications ({{sSOLoginDataModel.SessionName}}) </b>
@@ -1553,6 +1553,26 @@
                   <div class="dashCardContent">
                     <h4>Completed</h4>
                     <a href="/dsaiapplicationslist/InspectionCompleted" style="background: none;"><h2>{{dashboardDataModel.InspectionCompleted}}</h2></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-4 col-sm-6 col-12" *ngIf=" this.sSOLoginDataModel.RoleID==45">
+            <div class="card staticsCards">
+              <div class="card-header text-center text-white" style="background: rgba(0, 0, 0, 0.2) !important;"><h5>Inspection Reports</h5></div>
+              <div class="card-body">
+                <div class="d-flex justify-content-between">
+                  <div class="dashCardContent text-start">
+                    <h4>Pending</h4>
+                    <h2>
+                      <a href="/dsapplicationslist/DCPending" style="background: none;">{{dashboardDataModel.InspectionPending}}</a>
+                    </h2>
+                  </div>
+
+                  <div class="dashCardContent">
+                    <h4>Completed</h4>
+                    <a href="/dsapplicationslist/DCCompleted" style="background: none;"><h2>{{dashboardDataModel.InspectionCompleted}}</h2></a>
                   </div>
                 </div>
               </div>
@@ -3137,7 +3157,7 @@
   </div>
   <!--Department of technical Education End-->
   <!--Common Dashboard at Department Level-->
-  <div class="row" *ngIf="this.sSOLoginDataModel.RoleID !=10 && this.sSOLoginDataModel.RoleID!=0 && this.sSOLoginDataModel.RoleID!=1&& this.sSOLoginDataModel.RoleID!=35 && (this.sSOLoginDataModel.RoleID!=17 && this.sSOLoginDataModel.DepartmentID !=3)&& (this.sSOLoginDataModel.RoleID!=16 && this.sSOLoginDataModel.DepartmentID !=3) && (this.sSOLoginDataModel.RoleID!=2 && this.sSOLoginDataModel.DepartmentID ==6) && (this.sSOLoginDataModel.RoleID!=3 && this.sSOLoginDataModel.DepartmentID ==6)&& (this.sSOLoginDataModel.RoleID!=6 && this.sSOLoginDataModel.DepartmentID ==6)">
+  <div class="row" *ngIf="this.sSOLoginDataModel.RoleID !=10 && this.sSOLoginDataModel.RoleID!=0 && this.sSOLoginDataModel.RoleID!=1&& this.sSOLoginDataModel.RoleID!=35 && (this.sSOLoginDataModel.RoleID!=17 && this.sSOLoginDataModel.DepartmentID !=3)&& (this.sSOLoginDataModel.RoleID!=16 && this.sSOLoginDataModel.DepartmentID !=3) && (this.sSOLoginDataModel.RoleID!=2 && this.sSOLoginDataModel.DepartmentID ==6) && (this.sSOLoginDataModel.RoleID!=3 && this.sSOLoginDataModel.DepartmentID ==6)&& (this.sSOLoginDataModel.RoleID!=6 && this.sSOLoginDataModel.DepartmentID ==6)&& (this.sSOLoginDataModel.RoleID!=45 && this.sSOLoginDataModel.DepartmentID ==6)">
     <div class="card">
       <div class="card-header d-flex justify-content-between align-items-center">
         <h5><b>NOC Details For Session {{sSOLoginDataModel.SessionName}}</b></h5>

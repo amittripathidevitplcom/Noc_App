@@ -30,6 +30,7 @@
                     <td>{{item.CollegeName}}</td>
                     <td>{{item.ApplicationNo}}</td>
                     <td>
+                      <a *ngIf="this.sSOLoginDataModel.RoleID==16 && QueryStatus == 'DCPending'" href="javascript:void(0)" (click)="OpenForwardCMHO(forwardcmhomymodal,item.ApplyNOCID,item.DepartmentID,item.CollegeID,item.ApplicationNo)" class="btn btn-sm btn-primary"><i class="fa fa-forward"> Forward to CMHO</i></a>
                       <span *ngFor="let witem of WorkflowPermissionslst let idxx =index">
                         <a *ngIf="witem.PermissionCode=='DocumentScrutiny' && QueryStatus == 'DCPending'" href="javascript:void(0)" (click)="DocumentScrutiny(item.DepartmentID,item.CollegeID,item.ApplyNOCID,item.ApplicationNo)" class="btn btn-sm btn-primary"><i class="fa fa-edit"></i></a>
                         <a *ngIf="witem.PermissionCode=='DocumentScrutinyForward' && QueryStatus == 'DCPending' && sSOLoginDataModel.RoleID!=3 && sSOLoginDataModel.RoleID!=5" href="javascript:void(0)" (click)="DocumentScrutinyForward(item.DepartmentID,item.CollegeID,item.ApplyNOCID,item.ApplicationNo)" class="btn btn-sm btn-success"><i class="fa fa-edit"></i></a>
@@ -100,6 +101,37 @@
     </div>
   </div>
 </ng-template>
+
+
+
+<ng-template #forwardcmhomymodal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title" style="font-size: 17px; font-weight: 600 !important;">Application Forward</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <i class="fa fa-close"></i>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="row m-2">
+      <div class="col-12 mb-3">
+        <label for="ddlNextUserID" class="form-label">Next User <span style="color:red;">*</span></label>
+        <select class="form-select" [(ngModel)]="ForwardNextUserID">
+          <option value="0" selected>--Select User--</option>
+          <option *ngFor="let item of NextUserListRoleWise" value="{{item.UId}}">{{item.Name}}</option>
+        </select>
+
+          <p *ngIf="isForwardCMHO&&ForwardNextUserID<=0"  class="text-danger"> This field is required .!</p>
+
+      </div>
+    </div>
+    <div class="row m-2">
+      <div class="col-md-12 mb-5">
+        <button type="button" class="btn btn-success" (click)="ForwardtoCMHO()" title="Submit">Submit</button>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
 
 <ng-template #documentmymodal let-modal>
   <div class="modal-header">
