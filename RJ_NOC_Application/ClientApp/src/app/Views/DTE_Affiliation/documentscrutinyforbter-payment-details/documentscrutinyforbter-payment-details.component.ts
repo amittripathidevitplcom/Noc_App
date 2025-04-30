@@ -44,6 +44,7 @@ export class DocumentscrutinyforbterPaymentDetailsComponent implements OnInit {
   public CollegeStatusID: number = 0;
   public Affiliationstatus: string = '';
   public ApplicationStatus: string = '';
+  public CollegeName: string = '';
   constructor(private collegeService: CollegeService, private courseMasterService: CourseMasterService, private loaderService: LoaderService, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private dTEAffiliationAddCourseService: DTEAffiliationAddCourseService, private applyNocParameterService: ApplyNocParameterService, private toastr: ToastrService, private applyNOCApplicationService: ApplyNOCApplicationService) { }
 
   async ngOnInit() {   
@@ -89,6 +90,7 @@ export class DocumentscrutinyforbterPaymentDetailsComponent implements OnInit {
           this.DeficiencyLOAHistoryDetails = data['Data'][0]['data']['Table1'];
           this.DeficiencyApplicationHistoryDetails = data['Data'][0]['data']['Table2'];
           this.DeficiencyAmountHistoryDetails = data['Data'][0]['data']['Table3'];
+          this.CollegeName = data['Data'][0]['data']['Table4'][0]['CollegeName'];
         }, error => console.error(error));
     }
     catch (Ex) {

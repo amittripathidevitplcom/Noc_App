@@ -200,4 +200,26 @@ export class TotalDraftBedCollegeListComponent {
     this.routers.navigate(['/applicationsummary' + "/" + encodeURI(this.commonMasterService.Encrypt(DepartmentID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(CollegeID.toString()))]);
   }
 
+  async GetTotalDraftentryCollegeSearch() {
+    try {
+      this.loaderService.requestStarted();
+      this.request.DepartmentID = this.sSOLoginDataModel.DepartmentID;
+      this.request.Type = 'FinalDraftSubmitSearch';
+      await this.commonMasterService.GetTotalDraftentryCollege(this.request)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          console.log(data['Data']);
+          this.TotalDraftentryCollege = data['Data'][0];
+        }, (error: any) => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
 }
