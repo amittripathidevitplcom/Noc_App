@@ -45,6 +45,7 @@ export class DocumentscrutinyforbterPaymentDetailsComponent implements OnInit {
   public Affiliationstatus: string = '';
   public ApplicationStatus: string = '';
   public CollegeName: string = '';
+  public CollegeMobileNo: string = '';
   constructor(private collegeService: CollegeService, private courseMasterService: CourseMasterService, private loaderService: LoaderService, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private dTEAffiliationAddCourseService: DTEAffiliationAddCourseService, private applyNocParameterService: ApplyNocParameterService, private toastr: ToastrService, private applyNOCApplicationService: ApplyNOCApplicationService) { }
 
   async ngOnInit() {   
@@ -91,6 +92,7 @@ export class DocumentscrutinyforbterPaymentDetailsComponent implements OnInit {
           this.DeficiencyApplicationHistoryDetails = data['Data'][0]['data']['Table2'];
           this.DeficiencyAmountHistoryDetails = data['Data'][0]['data']['Table3'];
           this.CollegeName = data['Data'][0]['data']['Table4'][0]['CollegeName'];
+          this.CollegeMobileNo = data['Data'][0]['data']['Table4'][0]['CollegeMobileNo'];
         }, error => console.error(error));
     }
     catch (Ex) {
@@ -260,7 +262,7 @@ export class DocumentscrutinyforbterPaymentDetailsComponent implements OnInit {
     try {
       this.loaderService.requestStarted();
       await this.applyNOCApplicationService.SaveBTERDocumentScrutiny(this.dsrequest)
-        .then((data: any) => {
+        .then(async(data: any) => {
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
@@ -268,6 +270,7 @@ export class DocumentscrutinyforbterPaymentDetailsComponent implements OnInit {
             this.toastr.success(this.SuccessMessage);
             this.isRemarkValid = false;
             this.isFormvalid = true;
+            await this.commonMasterService.SendMessageBTER(this.CollegeMobileNo, 'Revert', this.ApplyBterAffiliationID)
             this.routers.navigate(['/dashboard']);
             
           }
