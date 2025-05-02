@@ -40,7 +40,8 @@ export class BTERPendingtoSubmitApplicationComponent implements OnInit {
   public collegeContactDetailsList: any = [];
   public collegeNearestGovernmentHospitalsList: any = [];
   public DTECollegeLevel: any = [];
-
+  public CollegeStatusList: any = [];
+  public ManagementTypeList: any = [];
 
 
   constructor(private collegeservice: CollegeService, private draftApplicationListService: DraftApplicationListService, private routers: Router, private router: ActivatedRoute, private dceDocumentScrutinyService: DCEDocumentScrutinyService, private toastr: ToastrService, private loaderService: LoaderService, private commonMasterService: CommonMasterService, private applyNocParameterService: ApplyNocParameterService) {
@@ -50,6 +51,8 @@ export class BTERPendingtoSubmitApplicationComponent implements OnInit {
     debugger;
     this.sSOLoginDataModel = JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     await this.LoadMaster();
+    await this.GetManagementTypeList();
+    await this.GetStatusOfCollege();
     await this.GetTotalBterPendingtoSubmittedApplicationList();
   }
 
@@ -209,6 +212,49 @@ export class BTERPendingtoSubmitApplicationComponent implements OnInit {
   async ResetControl() {
     this.request = new TotalCollegeReportSearchFilter();
   }
+  async GetManagementTypeList() {
+    try {
+      this.loaderService.requestStarted();
+      await this.commonMasterService.GetCommonMasterList_DepartmentAndTypeWise(12, "AffiliationManagementType")
+        .then((data: any) => {
+          debugger;
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.ManagementTypeList = data['Data'];
+          this.loaderService.requestEnded();
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  async GetStatusOfCollege() {
+    try {
+      this.loaderService.requestStarted();
+      await this.commonMasterService.GetCommonMasterList_DepartmentAndTypeWise(12, "AffiliationCategory")
+        .then(async (data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.CollegeStatusList = data['Data'];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
 }
 
 

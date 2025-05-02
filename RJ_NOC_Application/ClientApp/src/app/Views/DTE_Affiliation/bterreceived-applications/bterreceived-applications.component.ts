@@ -49,7 +49,8 @@ export class BTERReceivedApplicationsComponent implements OnInit {
   public SelectedDTEAffiliationID: number = 0;
   closeResult: string | undefined;
   modalReference: NgbModalRef | undefined;
-
+  public CollegeStatusList: any = [];
+  public ManagementTypeList: any = [];
   constructor(private collegeservice: CollegeService, private draftApplicationListService: DraftApplicationListService, private routers: Router, private router: ActivatedRoute, private dceDocumentScrutinyService: DCEDocumentScrutinyService, private toastr: ToastrService, private loaderService: LoaderService, private commonMasterService: CommonMasterService, private applyNocParameterService: ApplyNocParameterService, private modalService: NgbModal) {
   }
 
@@ -57,6 +58,8 @@ export class BTERReceivedApplicationsComponent implements OnInit {
     debugger;
     this.sSOLoginDataModel = JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     await this.LoadMaster();
+    await this.GetManagementTypeList();
+    await this.GetStatusOfCollege();
     await this.GetTotalBterpendingtoreceivedApplicationList();
   }
 
@@ -290,6 +293,48 @@ export class BTERReceivedApplicationsComponent implements OnInit {
   //}
   async Documentscrutiny_OnClick(DepartmentID: number, DTEAffiliationID: number, Status: string, CollegeStatusId: number, ApplyBterAffiliationID: number, CollegeID: number,ApplicationStatus:string) {
     this.routers.navigate(['/bterdocumentscrutiny' + "/" + encodeURI(this.commonMasterService.Encrypt(DepartmentID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(DTEAffiliationID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(Status.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(CollegeStatusId.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(ApplyBterAffiliationID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(CollegeID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(ApplicationStatus.toString()))])    
+  }
+  async GetManagementTypeList() {
+    try {
+      this.loaderService.requestStarted();
+      await this.commonMasterService.GetCommonMasterList_DepartmentAndTypeWise(12, "AffiliationManagementType")
+        .then((data: any) => {
+          debugger;
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.ManagementTypeList = data['Data'];
+          this.loaderService.requestEnded();
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  async GetStatusOfCollege() {
+    try {
+      this.loaderService.requestStarted();
+      await this.commonMasterService.GetCommonMasterList_DepartmentAndTypeWise(12, "AffiliationCategory")
+        .then(async (data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.CollegeStatusList = data['Data'];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
   }
 }
 
