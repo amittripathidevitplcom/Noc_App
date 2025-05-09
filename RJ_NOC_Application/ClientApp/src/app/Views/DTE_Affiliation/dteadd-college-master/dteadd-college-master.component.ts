@@ -141,6 +141,7 @@ export class DTEAddCollegeMasterComponent implements OnInit {
   public AffiliationTypeStatus: string = '';
   public IsAffiliationtype: boolean = false;
   public IsAICTEEOAAdress: boolean = false;
+  public IsCollegeCode: boolean = false;
   constructor(private legalEntityListService: LegalEntityService, private collegeService: CollegeService, private toastr: ToastrService, private loaderService: LoaderService, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private _fb: FormBuilder, private fileUploadService: FileUploadService) {
   }
 
@@ -157,7 +158,7 @@ export class DTEAddCollegeMasterComponent implements OnInit {
         ddlStatusOfBuilding: ['', [DropdownValidators]],
         ddlAffiliationType: ['', [DropdownValidators]],
         //txtCollegeCode: ['', Validators.required],
-        txtCollegeCode: ['', Validators.required],
+        txtCollegeCode: [''],
         txtCollegeNameEn: ['', Validators.required],
         txtCollegeNameHi: ['', Validators.required],
         CollegeNAACAccredited: ['', Validators.required],       
@@ -194,6 +195,7 @@ export class DTEAddCollegeMasterComponent implements OnInit {
         txtCDMobileNumber: [''],// handle in sub form
         txtAddressofCollegeasgiveninAICTEEOA: ['', Validators.required],
         AICTEEOAAdress: ['', Validators.required],
+        IsCollegeCode: ['', Validators.required],
         txtAICTEEOADifferentAddress: [''],
         txtCDEmailAddress: ['', Validators.pattern("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$")],// handle in sub form
       })
@@ -263,7 +265,9 @@ export class DTEAddCollegeMasterComponent implements OnInit {
       this.SelectedDteAffiliationCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DTE_ARId')?.toString()));
     }
       
-    
+    if (this.AffiliationStatus != 'New') {
+      this.IsCollegeCode = true;
+    }
     
     this.loaderService.requestStarted();
     // department
@@ -1194,7 +1198,11 @@ export class DTEAddCollegeMasterComponent implements OnInit {
     
     if (this.AffiliationStatus=='Existing') {
       this.CollegeDetailsForm.get('ddlYearofEstablishment')?.setValidators([DropdownValidators]);
-      this.CollegeDetailsForm.get('ddlYearofEstablishment')?.updateValueAndValidity();      
+      this.CollegeDetailsForm.get('ddlYearofEstablishment')?.updateValueAndValidity();
+      this.CollegeDetailsForm.get('IsCollegeCode')?.clearValidators();
+      this.CollegeDetailsForm.get('IsCollegeCode')?.updateValueAndValidity();
+      
+
     }
     else {
       this.CollegeDetailsForm.get('ddlYearofEstablishment')?.clearValidators();
@@ -1251,10 +1259,26 @@ export class DTEAddCollegeMasterComponent implements OnInit {
         this.NAACAccreditedCertificateValidationMessage = 'This field is required .!';
       }
     }
-    if (this.request.CollegeCode.length != 3) {
-      this.toastr.error("College Code Enter must be three digits");
-      isValid = false;
+    if (this.AffiliationStatus == 'New') {
+      if (this.request.IsBTERCollegeCode == 1) {
+        if (this.request.CollegeCode.length != 3) {
+          this.toastr.error("College Code Enter must be three digits");
+          isValid = false;
+        }
+      }
+      else
+      {
+        this.CollegeDetailsForm.get('txtCollegeCode')?.clearValidators();
+        this.CollegeDetailsForm.get('txtCollegeCode')?.updateValueAndValidity();
+      }
     }
+    if (this.AffiliationStatus != 'New') {
+      if (this.request.CollegeCode.length != 3) {
+        this.toastr.error("College Code Enter must be three digits");
+        isValid = false;
+      }
+    }
+    
 
      console.log(this.request.ContactDetailsList);
 
@@ -1442,6 +1466,12 @@ export class DTEAddCollegeMasterComponent implements OnInit {
 
           //this.request.AffiliationTypeID = this.request.AffiliationTypeID;
           this.request.AffiliationTypeID = data['Data']['AffiliationTypeID'];
+         
+          if (this.AffiliationStatus == 'New') {
+            this.request.IsBTERCollegeCode = data['Data']['IsBTERCollegeCode'];
+            await this.IsCollegeCodeOrNot(this.request.IsBTERCollegeCode == 1 ? true : false)
+          }
+          
           this.request.AICTEEOAAdress = data['Data']['AICTEEOAAdress'];
           await this.IsAICTEEOAAdressOrNot(this.request.AICTEEOAAdress == 2 ? true : false);
           this.request.CollegeNAACAccredited = data['Data']['CollegeNAACAccredited'];
@@ -1565,6 +1595,26 @@ export class DTEAddCollegeMasterComponent implements OnInit {
       }
     } catch (e) {
       console.log(e);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  IsCollegeCodeOrNot(IsCollegeCode: boolean) {
+    try {
+      if (IsCollegeCode == true) {
+        this.loaderService.requestStarted();
+        this.IsCollegeCode = IsCollegeCode;
+      } else {
+        this.request.CollegeCode = '';
+        this.IsCollegeCode = IsCollegeCode;
+      }
+      
+    }
+    catch (Ex) {
+      console.log(Ex);
     }
     finally {
       setTimeout(() => {

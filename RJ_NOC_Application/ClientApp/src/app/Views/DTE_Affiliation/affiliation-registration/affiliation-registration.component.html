@@ -73,7 +73,7 @@
               </div>
               <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
                 <label for="txtMobile_Number" class="form-label mb-0">Mobile Number <span style="color:red;">*</span></label>
-                <input type="text" class="form-control" placeholder="Enter the Mobile Number" id="txtMobile_Number" name="txtMobile_Number" formControlName="txtMobile_Number" [(ngModel)]="request.Mobile_Number" maxlength="12" (keypress)="numberOnly($event)">
+                <input type="text" class="form-control" placeholder="Enter the Mobile Number" id="txtMobile_Number" name="txtMobile_Number" formControlName="txtMobile_Number" [(ngModel)]="request.Mobile_Number" maxlength="10" (keypress)="numberOnly($event)">
 
                 <div *ngIf="isSubmitted&&form.txtMobile_Number.errors" class="text-danger">
                   <p *ngIf="form.txtMobile_Number.errors.required"><i aria-hidden="true"></i> This field is required .!</p>

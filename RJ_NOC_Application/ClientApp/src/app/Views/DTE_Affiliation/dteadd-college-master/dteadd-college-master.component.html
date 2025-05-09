@@ -115,9 +115,22 @@
             </select>
             <p *ngIf="isSubmitted&&request.AffiliationTypeID<=0" class="text-danger"><i aria-hidden="true"></i>This field is required .!</p>
           </div>
-
-          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-            <!--<span style="color:red;">*</span>-->
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="this.AffiliationStatus=='New'">
+            <label class="form-label" style="margin-right:15px">is College Code Available? <span style="color:red;">*</span></label>
+            <div class="clearfix"></div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" value="1" [value]="1" id="rbIsCollegeCodeYes" name="IsCollegeCode" [(ngModel)]="request.IsBTERCollegeCode" formControlName="IsCollegeCode" (change)="IsCollegeCodeOrNot(true)">
+              <label class="form-check-label" for="rbIsCollegeCodeYes">Yes</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" value="2" [value]="2" id="rbIsCollegeCodeNo" name="IsCollegeCode" [(ngModel)]="request.IsBTERCollegeCode" formControlName="IsCollegeCode" (change)="IsCollegeCodeOrNot(false)">
+              <label class="form-check-label" for="rbIsCollegeCodeNo">No</label>
+            </div>
+            <div *ngIf="isSubmitted&&form.IsCollegeCode.errors" class="text-danger">
+              <p *ngIf="form.IsCollegeCode.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="IsCollegeCode">
             <label for="txtCollegeCode" class="form-label">College Code<span style="color:red;">*</span></label>
             <input type="text" maxlength="3" minlength="3" placeholder="Enter College Code must be three digits" class="form-control" id="txtCollegeCode" name="txtCollegeCode" [(ngModel)]="request.CollegeCode" formControlName="txtCollegeCode">
             <div *ngIf="isSubmitted&&form.txtCollegeCode.errors" class="text-danger">
@@ -168,7 +181,7 @@
             <div *ngIf="isSubmitted&&request.AICTEEOAAdress == 1&&(request.AICTEEOADifferentAddress == null || request.AICTEEOADifferentAddress == '' || request.AICTEEOADifferentAddress == undefined)" class="text-danger">
               <p><i aria-hidden="true"></i>This field is required .!</p>
             </div>
-          </div>        
+          </div>
 
           <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
             <label class="form-label" style="margin-right:15px">Is Your College NBA Accredited : <span style="color:red;">*</span></label>

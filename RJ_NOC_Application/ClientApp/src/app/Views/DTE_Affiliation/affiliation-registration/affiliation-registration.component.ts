@@ -75,7 +75,7 @@ export class AffiliationRegistrationComponent {
           ddlCollegeStatusId: ['', [DropdownValidators]],        
           ddlAffiliationType: [''],   
           txtCollege_Name: ['', Validators.required],
-          txtMobile_Number: ['', Validators.required],
+          txtMobile_Number: ['', [Validators.required, Validators.pattern("^[6-9][0-9]{9}$")]],
           txtEmail_Address: ['', Validators.required],
 
         })
