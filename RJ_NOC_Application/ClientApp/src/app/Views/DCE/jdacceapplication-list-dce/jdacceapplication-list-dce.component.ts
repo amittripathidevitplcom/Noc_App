@@ -206,7 +206,7 @@ export class JDACCEApplicationListDCEComponent implements OnInit {
     await this.GetNodalOfficerApplyNOCApplicationList(this.sSOLoginDataModel.RoleID, this.sSOLoginDataModel.UserID, this.QueryStringStatus);
 
   }
-  
+
 
 
   async GetNodalOfficerApplyNOCApplicationList(RoleId: number, UserID: number, Status: string) {
@@ -237,7 +237,7 @@ export class JDACCEApplicationListDCEComponent implements OnInit {
   async ApplicationPreview_OnClick(DepartmentID: number, CollegeID: number) {
     this.routers.navigate(['/applicationsummary' + "/" + encodeURI(this.commonMasterService.Encrypt(DepartmentID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(CollegeID.toString()))]);
   }
-  
+
 
 
 
@@ -330,7 +330,7 @@ export class JDACCEApplicationListDCEComponent implements OnInit {
     this.routers.navigate(['/checklistforcommissioner' + "/" + encodeURI(this.commonMasterService.Encrypt(DepartmentID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(CollegeID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(ApplyNOCID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(ApplicationNo.toString()))]);
   }
 
-  
+
   public ApplicationTrailList: any = [];
   async GetApplicationTrail(content: any, ApplyNOCID: number) {
     this.ApplicationTrailList = [];
@@ -426,6 +426,7 @@ export class JDACCEApplicationListDCEComponent implements OnInit {
   public IssuedYear: number = 0;
   public PNOCIssuedYear: number = 0;
   public ChangeIntoTNOC: boolean = false;
+  public ChangeIntoPNOC: boolean = false;
   async GeneratePDF_OnClick() {
     try {
       this.requestnoc = new NOCIssuedRequestDataModel();
@@ -444,10 +445,13 @@ export class JDACCEApplicationListDCEComponent implements OnInit {
             ParameterID: i.ApplyNocParameterID,
             CreatedBy: this.sSOLoginDataModel.UserID,
             Remark: this.NOCIssuedRemark,
-            NoOfIssuedYear: i.ParameterCode == 'DEC_PNOCSubject' ? this.PNOCIssuedYear: this.IssuedYear,
+            NoOfIssuedYear: i.ParameterCode == 'DEC_PNOCSubject' ? this.PNOCIssuedYear : this.IssuedYear,
             ChangeIntoTNOC: this.ChangeIntoTNOC,
-            NOCFormat: i.ParameterCode == 'DEC_NewCourse' ? this.NewCourseNOCFormat : i.ParameterCode == 'DEC_TNOCExtOfSubject' ? this.TNOCExtOfSubjectNOCFormat : i.ParameterCode == 'DEC_NewSubject' ? this.NewSubjectNOCFormat
-              : i.ParameterCode == 'DEC_PNOCSubject' && !this.ChangeIntoTNOC ? this.PNOCOfSubjectNOCFormat : i.ParameterCode == 'DEC_PNOCSubject' && this.ChangeIntoTNOC ? this.ChangePNOCintoTNOCNOCFormat : i.ParameterCode == 'DEC_ChangeManagement' ? this.ApplyNocParameterMasterList_ChangeInCollegeManagement.NOCFormat : i.ParameterCode == 'DEC_ChangeName' ? this.ApplyNocParameterMasterList_ChangeInNameOfCollege.NOCFormat : i.ParameterCode == 'DEC_ChangePlace' ? this.ApplyNocParameterMasterList_ChangeInPlaceOfCollege.NOCFormat : i.ParameterCode == 'DEC_GilsToCoed' ? this.ApplyNocParameterMasterList_ChangeinWomentoCoEducation .NOCFormat : ''
+            ChangeIntoPNOC: this.ChangeIntoPNOC,
+            NOCFormat: i.ParameterCode == 'DEC_NewCourse' ? this.NewCourseNOCFormat : i.ParameterCode == 'DEC_TNOCExtOfSubject' && !this.ChangeIntoPNOC ? this.TNOCExtOfSubjectNOCFormat :
+              i.ParameterCode == 'DEC_TNOCExtOfSubject' && this.ChangeIntoPNOC ? this.ChangeTNOCintoPNOCNOCFormat
+            : i.ParameterCode == 'DEC_NewSubject' ? this.NewSubjectNOCFormat
+              : i.ParameterCode == 'DEC_PNOCSubject' && !this.ChangeIntoTNOC ? this.PNOCOfSubjectNOCFormat : i.ParameterCode == 'DEC_PNOCSubject' && this.ChangeIntoTNOC ? this.ChangePNOCintoTNOCNOCFormat : i.ParameterCode == 'DEC_ChangeManagement' ? this.ApplyNocParameterMasterList_ChangeInCollegeManagement.NOCFormat : i.ParameterCode == 'DEC_ChangeName' ? this.ApplyNocParameterMasterList_ChangeInNameOfCollege.NOCFormat : i.ParameterCode == 'DEC_ChangePlace' ? this.ApplyNocParameterMasterList_ChangeInPlaceOfCollege.NOCFormat : i.ParameterCode == 'DEC_GilsToCoed' ? this.ApplyNocParameterMasterList_ChangeinWomentoCoEducation.NOCFormat : ''
           });
         }
       });
@@ -509,7 +513,7 @@ export class JDACCEApplicationListDCEComponent implements OnInit {
           this.toastr.warning('Please select atleast one Subject in TNOC Extension Of Subject');
           return;
         }
-        if (this.IssuedYear <= 0) {
+        if (this.IssuedYear <= 0 && !this.ChangeIntoPNOC) {
           this.isFormvalid = false;
           this.toastr.warning('Please select No Of Issued Year in TNOC Extension Of Subject');
           return;
@@ -576,7 +580,7 @@ export class JDACCEApplicationListDCEComponent implements OnInit {
           return;
         }
       }
-     
+
 
       if (!this.isFormvalid) {
         return;
@@ -655,7 +659,7 @@ export class JDACCEApplicationListDCEComponent implements OnInit {
               this.NewSubjectNOCFormat = this.ApplyNocParameterMasterList.find((x: { ParameterCode: string }) => x.ParameterCode == 'DEC_NewSubject')?.NOCFormat;
             }
             else if (ParameterCode == 'DEC_PNOCSubject') {
-              
+
               this.ApplyNocParameterMasterList_PNOCOfSubject = data['Data'];
               this.PNOCOfSubjectNOCFormat = this.ApplyNocParameterMasterList.find((x: { ParameterCode: string }) => x.ParameterCode == 'DEC_PNOCSubject')?.NOCFormat;
             }
@@ -679,7 +683,7 @@ export class JDACCEApplicationListDCEComponent implements OnInit {
       this.loaderService.requestStarted();
       // get
       if (IsChecked) {
-        if (ParameterCode == 'DEC_NewCourse' || ParameterCode == 'DEC_TNOCExtOfSubject' || ParameterCode == 'DEC_NewSubject' || ParameterCode =='DEC_PNOCSubject') {
+        if (ParameterCode == 'DEC_NewCourse' || ParameterCode == 'DEC_TNOCExtOfSubject' || ParameterCode == 'DEC_NewSubject' || ParameterCode == 'DEC_PNOCSubject') {
           await this.GetApplyNOCCourseandSubject(ApplyNOCID, ParameterID, ParameterCode);
         }
         else {
@@ -768,6 +772,7 @@ export class JDACCEApplicationListDCEComponent implements OnInit {
   public NewSubjectNOCFormat: string = '';
   public PNOCOfSubjectNOCFormat: string = '';
   public ChangePNOCintoTNOCNOCFormat: string = '';
+  public ChangeTNOCintoPNOCNOCFormat: string = '';
   async PreviewPDF(ParameterID: number, NOCFormat: string) {
     try {
       this.requestnoc = new NOCIssuedRequestDataModel();
@@ -777,8 +782,9 @@ export class JDACCEApplicationListDCEComponent implements OnInit {
         ParameterID: ParameterID,
         CreatedBy: this.sSOLoginDataModel.UserID,
         Remark: this.NOCIssuedRemark,
-        NoOfIssuedYear: ParameterID == 10 && !this.ChangeIntoTNOC ? this.IssuedYear : this.PNOCIssuedYear ,
+        NoOfIssuedYear: ParameterID == 10 && !this.ChangeIntoTNOC ? this.IssuedYear : this.PNOCIssuedYear,
         ChangeIntoTNOC: this.ChangeIntoTNOC,
+        ChangeIntoPNOC: this.ChangeIntoPNOC,
         NOCFormat: NOCFormat
       });
       debugger;
@@ -835,7 +841,7 @@ export class JDACCEApplicationListDCEComponent implements OnInit {
           this.toastr.warning('Please select atleast one Subject in TNOC Extension Of Subject');
           return;
         }
-        if (this.IssuedYear <= 0) {
+        if (this.IssuedYear <= 0 && !this.ChangeIntoPNOC) {
           this.isFormvalid = false;
           this.toastr.warning('Please select No Of Issued Year in TNOC Extension Of Subject');
           return;
@@ -935,23 +941,35 @@ export class JDACCEApplicationListDCEComponent implements OnInit {
 
 
 
-  async OnChangeTNOCFormat() {
-    if (this.ChangeIntoTNOC) {
-      this.GetTNOCFormat();
-    }
-    else {
-      this.ChangePNOCintoTNOCNOCFormat = '';
-    }
-  }
+  //async OnChangeTNOCFormat() {
+  //  if (this.ChangeIntoTNOC) {
+  //    this.GetTNOCFormat();
+  //  }
+  //  else {
+  //    this.ChangePNOCintoTNOCNOCFormat = '';
+  //  }
+  //}
 
-  async GetTNOCFormat() {
+  async GetTNOCFormat(Type: string) {
+    if (Type == 'PNOCintoTNOC') {
+      this.ChangePNOCintoTNOCNOCFormat ='';
+    }
+    if (Type == 'TNOCintoPNOC') {
+      this.ChangeTNOCintoPNOCNOCFormat = '';
+    }
+    const T = Type == 'PNOCintoTNOC' ? 1 : 7;
     this.isSubmitted = false;
     try {
       this.loaderService.requestStarted();
-      await this.commonMasterService.GetNOCFormatList(1)
+      await this.commonMasterService.GetNOCFormatList(T)
         .then(async (data: any) => {
           data = JSON.parse(JSON.stringify(data));
-          this.ChangePNOCintoTNOCNOCFormat = data['Data'][0][0]["NOCFormat"];
+          if (Type == 'PNOCintoTNOC') {
+            this.ChangePNOCintoTNOCNOCFormat = data['Data'][0][0]["NOCFormat"];
+          }
+          if (Type == 'TNOCintoPNOC') {
+            this.ChangeTNOCintoPNOCNOCFormat = data['Data'][0][0]["NOCFormat"];
+          }
         }, error => console.error(error));
     }
     catch (ex) { console.log(ex) }

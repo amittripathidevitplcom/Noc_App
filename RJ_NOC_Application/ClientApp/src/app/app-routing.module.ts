@@ -304,7 +304,7 @@ const routes: Routes = [
     path: '', component: MasterPageComponent,
     children: [
       {
-        path: 'dashboard', component: DashboardComponent,
+        path: 'dashboard', component: DashboardComponent
 
       },
       {
@@ -370,7 +370,7 @@ const routes: Routes = [
       }
       ,
       {
-        path: 'legalentity/:LegalEntityID', component: LegalEntityComponent
+        path: 'legalentity/:LegalEntityID', component: LegalEntityComponent, canActivate: [SkipLocationChangeGuard]
       },
       {
         path: 'postbasicbscncollegeofnursing', component: PostBasicBScNCollegeOfNursingComponent
@@ -395,17 +395,10 @@ const routes: Routes = [
 
       },
       {
-        path: 'addcollege', component: AddCollegeComponent,
-        //canActivate: [RedirectGuard]
+        path: 'addcollege', component: AddCollegeComponent
       },
       {
-        //path: 'addcollege/:CollegeID', component: AddCollegeComponent,
-
-        //data: { redirectTo: '/adc' }
-        path: 'addcollege/:CollegeID', component: AddCollegeComponent,
-        //data: {
-        //  redirectTo: "/people" // <--- absolute redirect to PEOPLE route.
-        //}
+        path: 'addcollege/:CollegeID', component: AddCollegeComponent, canActivate: [SkipLocationChangeGuard]
       },
       {
         path: 'basicbscnursing', component: BasicBscNursingComponent
@@ -452,29 +445,20 @@ const routes: Routes = [
       {
         path: 'applicationdetailentry/:DepartmentID/:CollegeID', component: ApplicationDetailEntryComponent,
         pathMatch: 'full'
-        // canActivate: [NeverActivate]
-        //canActivate: [RedirectGuard],
-        //data: {
-        //  externalUrl: "http://localhost:4200/applicationdetailentry/3/1"
-        //}
+        , canActivate: [SkipLocationChangeGuard] 
       },
       { path: 'bedapplicationentry/:DepartmentID/:CollegeID', component: BEDApplicationEntryComponent, pathMatch: 'full' },
       {
         path: 'applicationdetailentry/:DepartmentID/:CollegeID/:ApplyNOCID/:Status', component: RevertApplicationDetailEntryComponent,
-        pathMatch: 'full'
-        // canActivate: [NeverActivate]
-        //canActivate: [RedirectGuard],
-        //data: {
-        //  externalUrl: "http://localhost:4200/applicationdetailentry/3/1"
-        //}
+        pathMatch: 'full', canActivate: [SkipLocationChangeGuard]
       },
       {
         path: 'applicationdetailentrymgone/:DepartmentID/:CollegeID/:ApplyNOCID/:Status', component: RevertApplicationDetailEntryMGOneComponent,
-        pathMatch: 'full'
+        pathMatch: 'full', canActivate: [SkipLocationChangeGuard]
       },
       {
         path: 'applicationdetailentrydte/:DepartmentID/:CollegeID/:ApplyNOCID/:Status', component: RevertApplicationDetailEntryDTEComponent,
-        pathMatch: 'full'
+        pathMatch: 'full', canActivate: [SkipLocationChangeGuard]
       },
       {
         path: 'applynoc', component: ApplyNOCComponent
@@ -528,16 +512,16 @@ const routes: Routes = [
         path: 'workflowmasterlist', component: WorkFlowMasterListComponent
       },
       {
-        path: 'workflowmaster/:id', component: WorkFlowMasterComponent
+        path: 'workflowmaster/:id', component: WorkFlowMasterComponent, canActivate: [SkipLocationChangeGuard]
       },
       {
-        path: 'applicationpreview/:DepartmentID/:CollegeID', component: ApplicationPreviewComponent
+        path: 'applicationpreview/:DepartmentID/:CollegeID', component: ApplicationPreviewComponent, canActivate: [SkipLocationChangeGuard]
       },
       {
         path: 'applicationsummary/:DepartmentID/:CollegeID', component: ApplicationSummaryComponent
       },
       {
-        path: 'applynocapplicationlist', component: ApplyNOCApplicationListComponent
+        path: 'applynocapplicationlist', component: ApplyNOCApplicationListComponent, canActivate: [SkipLocationChangeGuard]
       },
       {
         path: 'createuser', component: CreateUserComponent
@@ -549,31 +533,31 @@ const routes: Routes = [
         path: 'applynocforparameter', component: ApplyNocParameterComponent
       },
       {
-        path: 'appnocpreview/:DepartmentID/:CollegeID/:ApplyNOCID/:ApplicationNo', component: ApplyNOCPreviewComponent
+        path: 'appnocpreview/:DepartmentID/:CollegeID/:ApplyNOCID/:ApplicationNo', component: ApplyNOCPreviewComponent, canActivate: [SkipLocationChangeGuard]
       },
       {
-        path: 'appnocpreview/:DepartmentID/:CollegeID/:ApplyNOCID/:ApplicationNoYear/:ApplicationNoID', component: ApplyNOCPreviewComponent
+        path: 'appnocpreview/:DepartmentID/:CollegeID/:ApplyNOCID/:ApplicationNoYear/:ApplicationNoID', component: ApplyNOCPreviewComponent, canActivate: [SkipLocationChangeGuard]
       },
       {
-        path: 'documentscrutinymgthree/:DepartmentID/:CollegeID/:ApplyNOCID/:ApplicationNoYear/:ApplicationNoID/:Status', component: ApplyNOCPreviewComponent
+        path: 'documentscrutinymgthree/:DepartmentID/:CollegeID/:ApplyNOCID/:ApplicationNoYear/:ApplicationNoID/:Status', component: ApplyNOCPreviewComponent, canActivate: [SkipLocationChangeGuard]
       },
       {
-        path: 'applynocjointsec/:DepartmentID/:CollegeID/:ApplyNOCID', component: ApplyNOCJointSecPreviewComponent
+        path: 'applynocjointsec/:DepartmentID/:CollegeID/:ApplyNOCID', component: ApplyNOCJointSecPreviewComponent, canActivate: [SkipLocationChangeGuard]
       },
       {
-        path: 'applynocsecretary/:DepartmentID/:CollegeID/:ApplyNOCID', component: ApplyNOCSecretaryPreviewComponent
+        path: 'applynocsecretary/:DepartmentID/:CollegeID/:ApplyNOCID', component: ApplyNOCSecretaryPreviewComponent, canActivate: [SkipLocationChangeGuard]
       },
       {
-        path: 'rncRegistratPreview/:DepartmentID/:CollegeID', component: PreviewRNCRegistratComponent
+        path: 'rncRegistratPreview/:DepartmentID/:CollegeID', component: PreviewRNCRegistratComponent, canActivate: [SkipLocationChangeGuard]
       },
       {
         path: 'scurtenyComittee', component: ScurtenyComitteeComponent
       },
       {
-        path: 'previewLegalEntity/:SSOLoginUser', component: PreviewLegalEntityComponent
+        path: 'previewLegalEntity/:SSOLoginUser', component: PreviewLegalEntityComponent, canActivate: [SkipLocationChangeGuard]
       },
       {
-        path: 'previewCollege/:CollegeID', component: PreviewCollegeComponent
+        path: 'previewCollege/:CollegeID', component: PreviewCollegeComponent, canActivate: [SkipLocationChangeGuard]
       },
       {
         path: 'applynocapplicationdetail', component: ApplyNocParameterDetailsComponent
@@ -585,7 +569,7 @@ const routes: Routes = [
         path: 'committeemasterlist', component: CommitteeMasterListComponent
       },
       {
-        path: 'committeemaster/:id', component: CommitteeMasterComponent
+        path: 'committeemaster/:id', component: CommitteeMasterComponent, canActivate: [SkipLocationChangeGuard]
       },
       {
         path: 'revertapplynoclist', component: RevertApplyNOCApplicationListComponent
@@ -619,17 +603,17 @@ const routes: Routes = [
       },
 
       {
-        path: 'userrolerights/:RoleID', component: UserRoleRightsComponent
+        path: 'userrolerights/:RoleID', component: UserRoleRightsComponent, canActivate: [SkipLocationChangeGuard]
       },
       {
         path: 'previewpaymentDetail', component: PreviewPaymentDetailComponent
       },
 
       {
-        path: 'checklistpreview/:DepartmentID/:CollegeID/:ApplyNOCID', component: DocumentScrutinyCheckListDetailsComponent
+        path: 'checklistpreview/:DepartmentID/:CollegeID/:ApplyNOCID', component: DocumentScrutinyCheckListDetailsComponent, canActivate: [SkipLocationChangeGuard]
       },
       {
-        path: 'nocchecklistmgone/:DepartmentID/:CollegeID/:ApplyNOCID/:ApplicationNoYear/:ApplicationNoID', component: NoccheckListMgoneComponent
+        path: 'nocchecklistmgone/:DepartmentID/:CollegeID/:ApplyNOCID/:ApplicationNoYear/:ApplicationNoID', component: NoccheckListMgoneComponent, canActivate: [SkipLocationChangeGuard]
       },
       {
         path: 'jointapplicationlist', component: JointApplicationListComponent
@@ -649,7 +633,7 @@ const routes: Routes = [
         path: 'animalmaster', component: AnimalMasterComponent
       },
       {
-        path: 'veterinaryhospital/:DepartmentID/:CollegeID', component: VeterinaryHospitalComponent
+        path: 'veterinaryhospital/:DepartmentID/:CollegeID', component: VeterinaryHospitalComponent, canActivate: [SkipLocationChangeGuard]
       },
       {
         path: 'streamsubjectmapping', component: StreamSubjectMappingComponent
@@ -681,7 +665,7 @@ const routes: Routes = [
         path: 'committeeforwardreport', component: CommitteeForwardReportComponent
       },
       {
-        path: 'committeeforwardreport/:Committee', component: CommitteeForwardReportComponent
+        path: 'committeeforwardreport/:Committee', component: CommitteeForwardReportComponent, canActivate: [SkipLocationChangeGuard]
       },
       {
         path: 'applynoccompletedreport', component: ApplyNOCCompletedReportComponent
@@ -693,31 +677,31 @@ const routes: Routes = [
         path: 'coursemaster', component: CourseMasterComponent
       },
       {
-        path: 'paramedicalhospitaldetail/:DepartmentID/:CollegeID', component: ParamedicalHospitalDetailComponent
+        path: 'paramedicalhospitaldetail/:DepartmentID/:CollegeID', component: ParamedicalHospitalDetailComponent, canActivate: [SkipLocationChangeGuard]
       },
       {
         path: 'classwisestudentdetail', component: ClassWiseStudentDetailsComponent
       },
       {
-        path: 'previewparamedicalhospitaldetail/:DepartmentID/:CollegeID', component: PreviewParamedicalHospitalDetailComponent
+        path: 'previewparamedicalhospitaldetail/:DepartmentID/:CollegeID', component: PreviewParamedicalHospitalDetailComponent, canActivate: [SkipLocationChangeGuard]
       },
       {
-        path: 'documentscrutinyparamedicalhospitaldetail/:DepartmentID/:CollegeID', component: DocumentScrutinyParamedicalHospitalDetailComponent
+        path: 'documentscrutinyparamedicalhospitaldetail/:DepartmentID/:CollegeID', component: DocumentScrutinyParamedicalHospitalDetailComponent, canActivate: [SkipLocationChangeGuard]
       },
       {
-        path: 'animalhusbandryappnocpreview/:DepartmentID/:CollegeID/:ApplyNOCID/:ApplicationNoYear/:ApplicationNoID', component: ApplyNocpreviewAnimalhusbandryComponent
+        path: 'animalhusbandryappnocpreview/:DepartmentID/:CollegeID/:ApplyNOCID/:ApplicationNoYear/:ApplicationNoID', component: ApplyNocpreviewAnimalhusbandryComponent, canActivate: [SkipLocationChangeGuard]
       },
       {
-        path: 'documentscrutiny/:DepartmentID/:CollegeID/:ApplyNOCID/:ApplicationNo', component: DocumentScrutinyComponent
+        path: 'documentscrutiny/:DepartmentID/:CollegeID/:ApplyNOCID/:ApplicationNo', component: DocumentScrutinyComponent, canActivate: [SkipLocationChangeGuard]
       },
       {
-        path: 'documentscrutiny/:DepartmentID/:CollegeID/:ApplyNOCID/:ApplicationNoYear/:ApplicationNoID', component: DocumentScrutinyComponent
+        path: 'documentscrutiny/:DepartmentID/:CollegeID/:ApplyNOCID/:ApplicationNoYear/:ApplicationNoID', component: DocumentScrutinyComponent, canActivate: [SkipLocationChangeGuard]
       },
       {
-        path: 'documentscrutiny/:DepartmentID/:CollegeID/:ApplyNOCID/:ApplicationNoYear/:ApplicationNoID/:Status', component: DocumentScrutinyComponent
+        path: 'documentscrutiny/:DepartmentID/:CollegeID/:ApplyNOCID/:ApplicationNoYear/:ApplicationNoID/:Status', component: DocumentScrutinyComponent, canActivate: [SkipLocationChangeGuard]
       },
       {
-        path: 'agricultureappnocpreview/:DepartmentID/:CollegeID/:ApplyNOCID/:ApplicationNoYear/:ApplicationNoID', component: ApplyNocpreviewAgricultureComponent
+        path: 'agricultureappnocpreview/:DepartmentID/:CollegeID/:ApplyNOCID/:ApplicationNoYear/:ApplicationNoID', component: ApplyNocpreviewAgricultureComponent, canActivate: [SkipLocationChangeGuard]
       },
       {
         path: 'subjectwisestudentstatistics', component: SubjectWiseStudentStatisticsComponent
@@ -764,7 +748,7 @@ const routes: Routes = [
         path: 'AHinspectioncommitteepostverification/:Status', component: AhPhysicalPostVerificationComponent
       },
       {
-        path: 'AHPostVerificationDoneList/:Status', component: AhPostVerificationDoneListComponent
+        path: 'AHPostVerificationDoneList/:Status', component: AhPostVerificationDoneListComponent, canActivate: [SkipLocationChangeGuard]
       },
 
       {
@@ -778,7 +762,7 @@ const routes: Routes = [
         path: 'AhFinalNocApplicationList/:Status', component: AhFinalNocApplicationListComponent
       },
       {
-        path: 'animalhusbandryappnocviewByNodal/:DepartmentID/:CollegeID/:ApplyNOCID/:ApplicationNoYear/:ApplicationNoID/:Status', component: AhDocumentScrutinyNodalOfficerComponent
+        path: 'animalhusbandryappnocviewByNodal/:DepartmentID/:CollegeID/:ApplyNOCID/:ApplicationNoYear/:ApplicationNoID/:Status', component: AhDocumentScrutinyNodalOfficerComponent, canActivate: [SkipLocationChangeGuard]
       },
       {
         path: 'onesteprevertbackapplist', component: OneStepRevertBackComponent
@@ -794,22 +778,22 @@ const routes: Routes = [
         path: 'jdacceapplicationlistdce/:Status', component: JDACCEApplicationListDCEComponent
       },
       {
-        path: 'checklistforcommissioner/:DepartmentID/:CollegeID/:ApplyNOCID/:ApplicationNoYear/:ApplicationNoID', component: CheckListForCommissionerComponent
+        path: 'checklistforcommissioner/:DepartmentID/:CollegeID/:ApplyNOCID/:ApplicationNoYear/:ApplicationNoID', component: CheckListForCommissionerComponent, canActivate: [SkipLocationChangeGuard]
       },
       {
-        path: 'checklistforcommissioner/:DepartmentID/:CollegeID/:ApplyNOCID/:ApplicationNoYear/:ApplicationNoID/:Status', component: CheckListForCommissionerComponent
+        path: 'checklistforcommissioner/:DepartmentID/:CollegeID/:ApplyNOCID/:ApplicationNoYear/:ApplicationNoID/:Status', component: CheckListForCommissionerComponent, canActivate: [SkipLocationChangeGuard]
       },
       {
-        path: 'checklistforsecretarydce/:DepartmentID/:CollegeID/:ApplyNOCID/:ApplicationNoYear/:ApplicationNoID', component: CheckListSecretaryDCEComponent
+        path: 'checklistforsecretarydce/:DepartmentID/:CollegeID/:ApplyNOCID/:ApplicationNoYear/:ApplicationNoID', component: CheckListSecretaryDCEComponent, canActivate: [SkipLocationChangeGuard]
       },
       {
-        path: 'checklistforcommissioner/:DepartmentID/:CollegeID/:ApplyNOCID', component: CheckListForCommissionerComponent
+        path: 'checklistforcommissioner/:DepartmentID/:CollegeID/:ApplyNOCID', component: CheckListForCommissionerComponent, canActivate: [SkipLocationChangeGuard]
       },
       {
-        path: 'revertchecklistdce/:DepartmentID/:CollegeID/:ApplyNOCID', component: RevertCheckListDCEComponent
+        path: 'revertchecklistdce/:DepartmentID/:CollegeID/:ApplyNOCID', component: RevertCheckListDCEComponent, canActivate: [SkipLocationChangeGuard]
       },
       {
-        path: 'revertchecklistdte/:DepartmentID/:CollegeID/:ApplyNOCID/:VerificationStep', component: RevertCheckListDTEComponent
+        path: 'revertchecklistdte/:DepartmentID/:CollegeID/:ApplyNOCID/:VerificationStep', component: RevertCheckListDTEComponent, canActivate: [SkipLocationChangeGuard]
       },
       {
         path: 'staffattendance', component: StaffattendanceComponent
@@ -821,7 +805,7 @@ const routes: Routes = [
         path: 'test', component: CollegeDetailsComponent
       },
       {
-        path: 'ImportExcelData', component: ImportExcelDataComponent,
+        path: 'ImportExcelData', component: ImportExcelDataComponent
 
       },
       {
@@ -843,7 +827,7 @@ const routes: Routes = [
         path: 'AgriInsepctionPostVerification/:Status', component: AgriInsepctionPostVerificationComponent
       },
       {
-        path: 'Previewbynodalofficer/:DepartmentID/:CollegeID/:ApplyNOCID/:ApplicationNoYear/:ApplicationNoID/:Status', component: AgriPreViewByNodalOfficerComponent
+        path: 'Previewbynodalofficer/:DepartmentID/:CollegeID/:ApplyNOCID/:ApplicationNoYear/:ApplicationNoID/:Status', component: AgriPreViewByNodalOfficerComponent, canActivate: [SkipLocationChangeGuard]
       },
 
       {
@@ -853,11 +837,11 @@ const routes: Routes = [
         path: 'AgriPSNocApplicationList/:Status', component: AgriPSNocApplicationListComponent
       },
       {
-        path: 'paymenttransactionlist', component: PaymentTransactionComponent,
+        path: 'paymenttransactionlist', component: PaymentTransactionComponent
 
       }
       , {
-        path: 'updatenocfees', component: UpdateNocFeesComponent,
+        path: 'updatenocfees', component: UpdateNocFeesComponent
 
       },
       {
@@ -865,13 +849,13 @@ const routes: Routes = [
       },
 
       {
-        path: 'documentscrutinymgone/:DepartmentID/:CollegeID/:LOIID/:ApplicationNoYear/:ApplicationNoID/:Status', component: DocumentScrutinyMGOneComponent
+        path: 'documentscrutinymgone/:DepartmentID/:CollegeID/:LOIID/:ApplicationNoYear/:ApplicationNoID/:Status', component: DocumentScrutinyMGOneComponent, canActivate: [SkipLocationChangeGuard]
       },
       {
-        path: 'finalchecklistmgone/:DepartmentID/:CollegeID/:LOIID/:ApplicationNoYear/:ApplicationNoID/:Status', component: ApplicationFinalCheckListMGOneComponent
+        path: 'finalchecklistmgone/:DepartmentID/:CollegeID/:LOIID/:ApplicationNoYear/:ApplicationNoID/:Status', component: ApplicationFinalCheckListMGOneComponent, canActivate: [SkipLocationChangeGuard]
       },
       {
-        path: 'secfinalchecklistmgone/:DepartmentID/:CollegeID/:LOIID/:ApplicationNoYear/:ApplicationNoID/:Status', component: SecretaryFinalCheckListMGOneComponent
+        path: 'secfinalchecklistmgone/:DepartmentID/:CollegeID/:LOIID/:ApplicationNoYear/:ApplicationNoID/:Status', component: SecretaryFinalCheckListMGOneComponent, canActivate: [SkipLocationChangeGuard]
       },
       {
         path: 'documentscrutinylistmgone/:Status', component: DocumentScrutinyListMGOneComponent
@@ -910,12 +894,7 @@ const routes: Routes = [
       },
       {
         path: 'LOIapplyentry/:DepartmentID/:CollegeID', component: LOIApplyEntryComponent,
-        pathMatch: 'full'
-        // canActivate: [NeverActivate]
-        //canActivate: [RedirectGuard],
-        //data: {
-        //  externalUrl: "http://localhost:4200/applicationdetailentry/3/1"
-        //}
+        pathMatch: 'full', canActivate: [SkipLocationChangeGuard]
       },
       {
         path: 'seatinformationmaster', component: SeatInformationMasterComponent
@@ -930,10 +909,10 @@ const routes: Routes = [
         path: 'forwardedApplications', component: ForwardedApplicationListComponent
       },
       {
-        path: 'statisticsentry/:DepartmentID/:CollegeID', component: StatisticsEntryComponent
+        path: 'statisticsentry/:DepartmentID/:CollegeID', component: StatisticsEntryComponent, canActivate: [SkipLocationChangeGuard]
       },
       {
-        path: 'previewdtestatistics/:DepartmentID/:CollegeID/:PreviewStatus/:EntryType', component: PreviewDTEStatisticsComponent
+        path: 'previewdtestatistics/:DepartmentID/:CollegeID/:PreviewStatus/:EntryType', component: PreviewDTEStatisticsComponent, canActivate: [SkipLocationChangeGuard]
       },
 
       {
@@ -967,10 +946,10 @@ const routes: Routes = [
         path: 'papplicationlist', component: PrevoiusYearApplicationsComponent
       },
       {
-        path: 'documentscrutinydte/:DepartmentID/:CollegeID/:ApplyNOCID/:ApplicationNoYear/:ApplicationNoID/:Status/:ApplicationStatus', component: DocumentScrutinyDTEComponent
+        path: 'documentscrutinydte/:DepartmentID/:CollegeID/:ApplyNOCID/:ApplicationNoYear/:ApplicationNoID/:Status/:ApplicationStatus', component: DocumentScrutinyDTEComponent, canActivate: [SkipLocationChangeGuard]
       },
       {
-        path: 'finalchecklistdte/:DepartmentID/:CollegeID/:ApplyNOCID/:ApplicationNoYear/:ApplicationNoID/:Status/:ApplicationStatus', component: FinalCheckListDTEComponent
+        path: 'finalchecklistdte/:DepartmentID/:CollegeID/:ApplyNOCID/:ApplicationNoYear/:ApplicationNoID/:Status/:ApplicationStatus', component: FinalCheckListDTEComponent, canActivate: [SkipLocationChangeGuard]
       },
       {
         path: 'applicationlandingdetailsdte/:Status', component: ApplicationLandingDetailsDTEComponent
@@ -1004,7 +983,7 @@ const routes: Routes = [
         path: 'generatereceiptlistdte/:Status', component: GenerateReceiptListDTEComponent
       },
       {
-        path: 'applynocmgone/:DepartmentID/:CollegeID', component: ApplyNOCMGOneComponent
+        path: 'applynocmgone/:DepartmentID/:CollegeID', component: ApplyNOCMGOneComponent, canActivate: [SkipLocationChangeGuard]
       },
       {
         path: 'newgrievancereport', component: NewgrievancereportComponent
@@ -1056,7 +1035,7 @@ const routes: Routes = [
       },
 
       {
-        path: 'nocdentalchairsreportmgone/:DepartmentID/:CollegeID/:NOCID/:Status', component: DentalChairsMgoneNocComponent
+        path: 'nocdentalchairsreportmgone/:DepartmentID/:CollegeID/:NOCID/:Status', component: DentalChairsMgoneNocComponent, canActivate: [SkipLocationChangeGuard]
       },
       {
         path: 'affiliationregistration', component: AffiliationRegistrationComponent
@@ -1097,13 +1076,13 @@ const routes: Routes = [
         path: 'mgonenocapplicationlist', component: MgoneNocapplicationListComponent
       },
       {
-        path: 'mgonedocumentScrutinyNodalOfficer/:DepartmentID/:CollegeID/:ApplyNOCID/:ApplicationNoYear/:ApplicationNoID/:Status', component: MGOneDocumentScrutinyNodalOfficerComponent
+        path: 'mgonedocumentScrutinyNodalOfficer/:DepartmentID/:CollegeID/:ApplyNOCID/:ApplicationNoYear/:ApplicationNoID/:Status', component: MGOneDocumentScrutinyNodalOfficerComponent, canActivate: [SkipLocationChangeGuard]
       },
       {
-        path: 'mgoneforwardnnpectionreportosd/:DepartmentID/:CollegeID/:ApplyNOCID/:ApplicationNoYear/:ApplicationNoID/:Status', component: MGOneForwardInpectionReportOSDComponent
+        path: 'mgoneforwardnnpectionreportosd/:DepartmentID/:CollegeID/:ApplyNOCID/:ApplicationNoYear/:ApplicationNoID/:Status', component: MGOneForwardInpectionReportOSDComponent, canActivate: [SkipLocationChangeGuard]
       },
       {
-        path: 'generateordersforinspection/:DepartmentID/:CollegeID/:ApplyNOCID/:ApplicationNoYear/:ApplicationNoID', component: GenerateOrderMGOneComponent
+        path: 'generateordersforinspection/:DepartmentID/:CollegeID/:ApplyNOCID/:ApplicationNoYear/:ApplicationNoID', component: GenerateOrderMGOneComponent, canActivate: [SkipLocationChangeGuard]
       },
       {
         path: 'ahinfradepartmentwise', component: AHInfraDepartmentWiseComponent
@@ -1112,16 +1091,16 @@ const routes: Routes = [
         path: 'applicationslist/:Status', component: MGThreeApplicationsListComponent
       },
       {
-        path: 'dsapplicationslist/:Status', component: MGThreeDocumentScrutinyListComponent
+        path: 'dsapplicationslist/:Status', pathMatch: 'full', component: MGThreeDocumentScrutinyListComponent
       },
       {
         path: 'dsaiapplicationslist/:Status', component: MGThreeAfterInspectionApplicationListComponent
       },
       {
-        path: 'applicationforward/:DepartmentID/:CollegeID/:ApplyNOCID/:Status', component: ApplicationForwardGThreeComponent
+        path: 'applicationforward/:DepartmentID/:CollegeID/:ApplyNOCID/:Status', component: ApplicationForwardGThreeComponent, canActivate: [SkipLocationChangeGuard]
       },
       {
-        path: 'checklistmgthree/:DepartmentID/:CollegeID/:ApplyNOCID/:ApplicationNoYear/:ApplicationNoID/:Status', component: FinalCheckListMGThreeComponent
+        path: 'checklistmgthree/:DepartmentID/:CollegeID/:ApplyNOCID/:ApplicationNoYear/:ApplicationNoID/:Status', component: FinalCheckListMGThreeComponent, canActivate: [SkipLocationChangeGuard]
       },
       {
         path: 'totaldraftentrycollege/:Type', component: TotalDraftEntryCollegeComponent
@@ -1197,13 +1176,13 @@ const routes: Routes = [
         path: 'degreenocapplications/:Status', component: DegreeNOCApplicationsComponent
       },
       {
-        path: 'forwardahdegreecollege/:DepartmentID/:CollegeID/:ApplyNOCID/:Status', component: ForwardAHDegreeCollegeComponent
+        path: 'forwardahdegreecollege/:DepartmentID/:CollegeID/:ApplyNOCID/:Status', component: ForwardAHDegreeCollegeComponent, canActivate: [SkipLocationChangeGuard]
       },
       {
-        path: 'documentscrutinyahdegree/:DepartmentID/:CollegeID/:ApplyNOCID/:ApplicationNoYear/:ApplicationNoID/:Status', component: DocumentScrutinyAHDegreeComponent
+        path: 'documentscrutinyahdegree/:DepartmentID/:CollegeID/:ApplyNOCID/:ApplicationNoYear/:ApplicationNoID/:Status', component: DocumentScrutinyAHDegreeComponent, canActivate: [SkipLocationChangeGuard]
       },
       {
-        path: 'checklistahdegree/:DepartmentID/:CollegeID/:ApplyNOCID/:ApplicationNoYear/:ApplicationNoID/:Status', component: FinalCheckListAHDegreeComponent
+        path: 'checklistahdegree/:DepartmentID/:CollegeID/:ApplyNOCID/:ApplicationNoYear/:ApplicationNoID/:Status', component: FinalCheckListAHDegreeComponent, canActivate: [SkipLocationChangeGuard]
       },
       {
         path: 'esignsuccess/:TransID', component: EsignSuccessComponent
@@ -1223,7 +1202,6 @@ const routes: Routes = [
      
 
     ]
-    //, canActivate: [SkipLocationChangeGuard],
   },
   {
     path: 'login', component: LoginComponent
