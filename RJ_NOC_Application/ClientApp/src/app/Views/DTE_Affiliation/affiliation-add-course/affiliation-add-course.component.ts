@@ -476,6 +476,7 @@ export class AffiliationAddCourseComponent {
           this.DTEAffiliationAddCourseForm.get('txtThirdYearRegularStudent')?.updateValueAndValidity();
           this.DTEAffiliationAddCourseForm.get('txtThirdYearExStudent')?.setValidators([Validators.required]);
           this.DTEAffiliationAddCourseForm.get('txtThirdYearExStudent')?.updateValueAndValidity();
+          //this.request.ShiftID = 0;
           if (this.request.GovtNOCAvailableforclosure == 'Yes')
           {
             this.DTEAffiliationAddCourseForm.get('txtNocNumber')?.setValidators([Validators.required]);

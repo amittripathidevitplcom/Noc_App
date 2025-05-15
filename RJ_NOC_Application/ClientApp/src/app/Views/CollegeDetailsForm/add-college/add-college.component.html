@@ -432,6 +432,9 @@
               <option value="0">--Select--</option>
               <option *ngFor="let item of DistrictList" value="{{item.DistrictID}}">{{item.DistrictName}}</option>
             </select>
+            <label for="ddlDistrictID" class="form-label">
+              <h6 style="color: red;">Select District As Per Latest Government Order</h6>
+            </label>
             <div *ngIf="isSubmitted&&form.ddlDistrictID.errors" class="text-danger">
               <p *ngIf="!form.ddlDistrictID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
             </div>

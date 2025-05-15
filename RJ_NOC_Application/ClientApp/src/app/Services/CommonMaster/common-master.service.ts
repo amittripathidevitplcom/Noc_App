@@ -1948,4 +1948,15 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
+  public async SendMessageBTER(MobileNo: string, MessageType: string, ID: number = 0) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl_CommonMaster + "/SendMessage/" + MobileNo + "/" + MessageType + "/" + ID)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
 }

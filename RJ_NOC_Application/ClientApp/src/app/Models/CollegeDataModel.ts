@@ -112,6 +112,7 @@ export class CollegeDataModel {
   public AddressofCollegeasgiveninAICTEEOA: string = '';
   public AICTEEOAAdress: number = null;
   public AICTEEOADifferentAddress: string = '';
+  public IsBTERCollegeCode: number = null;
 }
 export class ContactDetailsDataModel {
   public ContactID: number = 0;
