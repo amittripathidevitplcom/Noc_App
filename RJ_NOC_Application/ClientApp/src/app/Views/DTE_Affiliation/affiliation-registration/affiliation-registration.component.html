@@ -174,7 +174,7 @@
                   <div class="d-flex justify-content-center" *ngIf="row.IsSubmitedOtherDetailsform !=1">
                     <button type="button" *ngIf="row.IsMakePayment!=1 &&  this.IsOpen==true" (click)="Edit_OnClick(row.DepartmentID,row.DTE_ARId,row.DTEAffiliationID,row.AffiliationCategoryName,row.CollegeStatusId,row.IsMakePayment)" [attr.disabled]="isDisabledGrid ? true : null" title="Continue For Registration" class="btn btn-sm btn-success me-2">Continue For Registration</button>
                     <button type="button" *ngIf="row.IsMakePayment!=0" (click)="View_OnClick(row.DepartmentID,row.DTEAffiliationID,row.AffiliationCategoryName,row.CollegeStatusId)" [attr.disabled]="isDisabledGrid ? true : null" title="View" class="btn btn-sm btn-info me-2"><i class="fa fa-eye"></i></button>
-                    <a href="javascript:void(0)" *ngIf="row.IsMakePayment!=0" (click)="ApplicationSummary_OnClick(row.DepartmentID,row.DTEAffiliationID,row.AffiliationCategoryName,row.CollegeStatusId)" class="btn btn-sm btn-secondary me-2">
+                    <a href="javascript:void(0)" *ngIf="row.IsMakePayment==0" (click)="ApplicationSummary_OnClick(row.DepartmentID,row.DTEAffiliationID,row.AffiliationCategoryName,row.CollegeStatusId)" class="btn btn-sm btn-secondary me-2">
                       View BTER Application
                     </a>
                     <a class="btn btn-sm btn-info me-2"
@@ -197,7 +197,7 @@
               </div>
             </div>
           </div>
-          <div class="table-responsive d-none">
+          <!--<div class="table-responsive d-none">
             <table class="table table-bordered" id="tabellist">
               <thead>
                 <tr>
@@ -277,7 +277,7 @@
                 </tr>
               </tbody>
             </table>
-          </div>
+          </div>-->
         </div>
 
 
