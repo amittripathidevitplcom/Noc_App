@@ -66,6 +66,7 @@ export class MG1DocumentScrutinyCollegeDetailComponent implements OnInit {
     await this.ViewTotalCollegeDataByID();
   }
   async ViewTotalCollegeDataByID() {
+    debugger;
     try {
       this.loaderService.requestStarted();
       await this.mg1DocumentScrutinyService.DocumentScrutiny_CollegeDetail(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)

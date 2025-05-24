@@ -56,6 +56,7 @@ export class MG1DocumentScrutinyLandDetailComponent implements OnInit {
     await this.GetUnitOfLandArea(this.SelectedDepartmentID, 'LandUnit');
   }
   async GetLandDetailsDataList() {
+    debugger;
     try {
       this.loaderService.requestStarted();
       await this.mg1documentScrutinyService.DocumentScrutiny_LandDetails(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)

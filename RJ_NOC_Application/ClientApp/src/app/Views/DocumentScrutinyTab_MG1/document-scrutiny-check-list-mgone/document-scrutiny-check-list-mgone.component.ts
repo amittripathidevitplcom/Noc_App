@@ -177,6 +177,7 @@ export class DocumentScrutinyCheckListMGOneComponent implements OnInit {
   LegalEntityDataModel = new LegalEntityDataModel();
 
   public QueryStringStatus: any = '';
+  public CollegeMobileNo: string = '';
 
   constructor(private medicalDocumentScrutinyService: MedicalDocumentScrutinyService,private applyNocParameterService: ApplyNocParameterService, private toastr: ToastrService, private loaderService: LoaderService, private applyNOCApplicationService: ApplyNOCApplicationService,
     private landDetailsService: LandDetailsService, private mg1documentScrutinyService: MGOneDocumentScrutinyService, private facilityDetailsService: FacilityDetailsService,
@@ -209,7 +210,7 @@ export class DocumentScrutinyCheckListMGOneComponent implements OnInit {
   // Start Land Details
 
   async GetLandDetailsDataList() {
-
+    debugger;
     try {
       this.loaderService.requestStarted();
       await this.mg1documentScrutinyService.DocumentScrutiny_LandDetails(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
@@ -233,6 +234,7 @@ export class DocumentScrutinyCheckListMGOneComponent implements OnInit {
 
   //Legal Entity
   async ViewlegalEntityDataByID() {
+    debugger;
     try {
       this.loaderService.requestStarted();
       await this.mg1documentScrutinyService.DocumentScrutiny_LegalEntity(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
@@ -270,6 +272,7 @@ export class DocumentScrutinyCheckListMGOneComponent implements OnInit {
   //College Detail
 
   async ViewTotalCollegeDataByID() {
+    debugger;
     try {
       this.loaderService.requestStarted();
       await this.mg1documentScrutinyService.DocumentScrutiny_CollegeDetail(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
@@ -303,6 +306,7 @@ export class DocumentScrutinyCheckListMGOneComponent implements OnInit {
 
   //College Management Society'
   async GetSocietyAllList() {
+    debugger;
     try {
       this.loaderService.requestStarted();
       await this.mg1documentScrutinyService.DocumentScrutiny_CollegeManagementSociety(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
@@ -328,6 +332,7 @@ export class DocumentScrutinyCheckListMGOneComponent implements OnInit {
   //End College Management Society
   //Start Building Details
   async GetAllBuildingDetailsList() {
+    debugger;
     try {
       this.loaderService.requestStarted();
       await this.mg1documentScrutinyService.DocumentScrutiny_BuildingDetails(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
@@ -351,6 +356,7 @@ export class DocumentScrutinyCheckListMGOneComponent implements OnInit {
 
   //Start Required Documents
   async GetRequiredDocuments(Type: string) {
+    debugger;
     try {
       this.loaderService.requestStarted();
       await this.mg1documentScrutinyService.DocumentScrutiny_CollegeDocument(this.SelectedDepartmentID, this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID, Type)
@@ -380,6 +386,7 @@ export class DocumentScrutinyCheckListMGOneComponent implements OnInit {
 
   //Start Hospital Details
   async GetHospitalDataList() {
+    debugger;
     this.loaderService.requestStarted();
     try {
       await this.mg1documentScrutinyService.DocumentScrutiny_HospitalDetail(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
@@ -420,6 +427,7 @@ export class DocumentScrutinyCheckListMGOneComponent implements OnInit {
   public isNextRoleIDValid: boolean = false;
   public isNextUserIdValid: boolean = false;
   async DocumentScrutiny() {
+    debugger;
     this.isFormvalid = true;
     this.isNextUserIdValid = false;
     this.isNextRoleIDValid = false;
@@ -493,12 +501,14 @@ export class DocumentScrutinyCheckListMGOneComponent implements OnInit {
       }
       this.loaderService.requestStarted();
       await this.collegeService.SaveLOIWorkFlow(this.sSOLoginDataModel.RoleID, this.sSOLoginDataModel.UserID, this.ActionID, this.SelectedApplyNOCID, this.SelectedDepartmentID, this.CheckFinalRemark, this.NextRoleID, this.NextUserID, this.NextActionID)
-        .then((data: any) => {
+        .then(async (data: any) => {
+          debugger;
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
           if (this.State == 0) {
+            await this.GetMobileNumberSMSforwardnextlevel();
             this.toastr.success(this.SuccessMessage);
             this.routers.navigate(['/documentscrutinylistmgone/Pending']);
           }
@@ -518,6 +528,29 @@ export class DocumentScrutinyCheckListMGOneComponent implements OnInit {
         this.loaderService.requestEnded();
       }, 200);
     }
+  }
+  async GetMobileNumberSMSforwardnextlevel() {
+    debugger;
+    try {
+      this.loaderService.requestStarted();
+      await this.commonMasterService.GetMobileNumberSMSforwardnextlevel('0', 'ForwardCS', this.NextUserID, this.NextRoleID)
+        .then(async (data: any) => {
+          debugger;
+          data = JSON.parse(JSON.stringify(data));
+          this.CollegeMobileNo = data['Data'][0]['data'][0]['MobileNo'];
+          await this.commonMasterService.SendMessageApplyLOI(this.CollegeMobileNo, 'MGForward')
+
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+
   }
   async GetRoleListForApporval() {
     this.UserRoleList = [];

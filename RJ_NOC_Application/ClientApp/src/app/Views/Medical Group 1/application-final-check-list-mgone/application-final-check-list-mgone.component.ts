@@ -111,6 +111,7 @@ export class ApplicationFinalCheckListMGOneComponent implements OnInit {
   public AcademicInformation_FinalRemarks: any = [];
   public HospitalDetails_FinalRemarks: any = [];
   public UnitOfLand: string = '';
+  public CollegeMobileNo: string = '';
 
   closeResult: string | undefined;
   modalReference: NgbModalRef | undefined;
@@ -418,6 +419,7 @@ export class ApplicationFinalCheckListMGOneComponent implements OnInit {
   public isNextRoleIDValid: boolean = false;
   public isNextUserIdValid: boolean = false;
   async DocumentScrutiny() {
+    debugger;
     this.isFormvalid = true;
     this.isNextUserIdValid = false;
     this.isNextRoleIDValid = false;
@@ -478,8 +480,9 @@ export class ApplicationFinalCheckListMGOneComponent implements OnInit {
       }
       this.loaderService.requestStarted();
       await this.collegeService.SaveLOIWorkFlow(this.sSOLoginDataModel.RoleID, this.sSOLoginDataModel.UserID, this.ActionID, this.SelectedApplyNOCID, this.SelectedDepartmentID, this.CheckFinalRemark, this.NextRoleID, this.NextUserID, this.NextActionID)
-        .then((data: any) => {
+        .then(async(data: any) => {
           data = JSON.parse(JSON.stringify(data));
+          debugger;
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
@@ -487,9 +490,11 @@ export class ApplicationFinalCheckListMGOneComponent implements OnInit {
             this.toastr.success(this.SuccessMessage);
             if (this.sSOLoginDataModel.RoleID == 7) {
               this.routers.navigate(['/forwardbyministerlistmgone/Pending']);
+              await this.GetMobileNumberSMSforwardnextlevel();
             }
             else {
               this.routers.navigate(['/osdapplicationlistmgone/Pending']);
+              await this.GetMobileNumberSMSforwardnextlevel();
             }
           }
           else if (this.State == 2) {
@@ -508,6 +513,29 @@ export class ApplicationFinalCheckListMGOneComponent implements OnInit {
         this.loaderService.requestEnded();
       }, 200);
     }
+  }
+  async GetMobileNumberSMSforwardnextlevel() {
+    debugger;
+    try {
+      this.loaderService.requestStarted();
+      await this.commonMasterService.GetMobileNumberSMSforwardnextlevel('0', 'ForwardJS', this.NextUserID, this.NextRoleID)
+        .then(async (data: any) => {
+          debugger;
+          data = JSON.parse(JSON.stringify(data));
+          this.CollegeMobileNo = data['Data'][0]['data'][0]['MobileNo'];
+          await this.commonMasterService.SendMessageApplyLOI(this.CollegeMobileNo, 'MGForward')
+
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+
   }
   async GetRoleListForApporval() {
     this.UserRoleList = [];

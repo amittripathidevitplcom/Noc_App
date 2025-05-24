@@ -56,6 +56,7 @@ export class MG1DocumentScrutinyRequiredDocumentComponent implements OnInit {
 
   }
   async GetRequiredDocuments(Type: string) {
+    debugger;
     try {
       this.loaderService.requestStarted();
       await this.mg1documentScrutinyService.DocumentScrutiny_CollegeDocument(this.SelectedDepartmentID, this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID, Type)

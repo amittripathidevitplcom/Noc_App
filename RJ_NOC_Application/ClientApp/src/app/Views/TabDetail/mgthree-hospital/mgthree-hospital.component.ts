@@ -684,8 +684,10 @@ export class MGThreeHospitalComponent {
         Number(this.request.SurgicalBeds) +
         Number(this.request.ObstetricsBeds) + Number(this.request.PediatricsBeds) + Number(this.request.OrthoBeds)
         + Number(this.request.PsychiatryBeds) + Number(this.request.EmergencyMedicineBeds);
+      //TotalBed < 300
       if (TotalBed < 100) {
         this.toastr.warning('100 bed manadatory for own/parent hospital');
+        //this.toastr.warning('300 bed manadatory for own/parent hospital');
         return;
       }
     }

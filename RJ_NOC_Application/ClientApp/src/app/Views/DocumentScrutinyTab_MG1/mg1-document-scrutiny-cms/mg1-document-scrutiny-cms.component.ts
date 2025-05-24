@@ -51,6 +51,7 @@ export class MG1DocumentScrutinyCMSComponent implements OnInit {
   }
 
   async GetSocietyAllList() {
+    debugger;
     try {
       this.loaderService.requestStarted();
       await this.mg1documentScrutinyService.DocumentScrutiny_CollegeManagementSociety(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)

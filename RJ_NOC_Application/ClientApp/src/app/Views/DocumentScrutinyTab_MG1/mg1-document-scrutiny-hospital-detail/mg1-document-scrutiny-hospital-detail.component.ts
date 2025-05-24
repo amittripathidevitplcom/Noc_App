@@ -80,6 +80,7 @@ export class MG1DocumentScrutinyHospitalDetailComponent implements OnInit {
     }
   }
   async GetHospitalDataList() {
+    debugger;
     this.loaderService.requestStarted();
     try {
       await this.mg1DocumentScrutinyService.DocumentScrutiny_HospitalDetail(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)

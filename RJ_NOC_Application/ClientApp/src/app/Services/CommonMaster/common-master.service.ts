@@ -1959,4 +1959,26 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
+  public async GetMobileNumberSMSforwardnextlevel(CollegeID: string, ActionName: string, NextUserID: number, NextRoleID:number) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl_CommonMaster + "/GetMobileNumberSMSforwardnextlevel/" + CollegeID + "/" + ActionName + "/" + NextUserID + "/" + NextRoleID)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+  public async SendMessageApplyLOI(MobileNo: string, MessageType: string) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl_CommonMaster + "/SendMessageMGOne/" + MobileNo + "/" + MessageType)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
 }

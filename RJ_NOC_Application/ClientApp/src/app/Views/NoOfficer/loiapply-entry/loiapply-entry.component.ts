@@ -53,6 +53,10 @@ export class LOIApplyEntryComponent implements OnInit {
   public DraftbuttonName: string = 'Save Draft';
 
   public QueryStringStatus: any = '';
+  public CollegeMobileNo: string = '';
+  public ActionName: string = '';
+  public ActionID: number = 0;
+  public NextRoleID: number = 0;
   constructor(private courseMasterService: CourseMasterService, private toastr: ToastrService, private loaderService: LoaderService, private applyNOCApplicationService: ApplyNOCApplicationService,
     private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private _fb: FormBuilder, private collegeService: CollegeService) { }
 
@@ -94,6 +98,7 @@ export class LOIApplyEntryComponent implements OnInit {
     await this.GetCollegeBasicDetails();
     await this.CheckTabsEntry();
     await this.ShowDraftFinalSubmitBtn();
+    
     this.loaderService.requestEnded();
     this.maxNumberOfTabs = this.tabGroup._tabs.length - 1;
   }
@@ -226,15 +231,15 @@ export class LOIApplyEntryComponent implements OnInit {
             })
           if (this.isCheck30Female == false) {
             await this.commonMasterService.LOIFinalSubmit(this.SelectedCollageID.toString())
-              .then((data: any) => {
+              .then(async(data: any) => {
 
                 this.State = data['State'];
                 this.SuccessMessage = data['SuccessMessage'];
                 this.ErrorMessage = data['ErrorMessage'];
                 console.log(this.State);
                 if (!this.State) {
-                  this.toastr.success('Apply LOI Successfully')
-
+                  await this.GetMobileNumberSMSforwardnextlevel();
+                  this.toastr.success('Apply LOI Successfully')                
                   setTimeout(() => {
                     this.routers.navigate(['/totalcollege']);
                   }, 500);
@@ -303,4 +308,30 @@ export class LOIApplyEntryComponent implements OnInit {
       }, 200);
     }
   }
+
+  async GetMobileNumberSMSforwardnextlevel()
+  {
+    debugger;
+    try {
+      this.loaderService.requestStarted();
+      await this.commonMasterService.GetMobileNumberSMSforwardnextlevel(this.SelectedCollageID.toString(), 'LOIApply', this.ActionID, this.NextRoleID)
+        .then(async (data: any) => {
+          debugger;
+          data = JSON.parse(JSON.stringify(data));
+          this.CollegeMobileNo = data['Data'][0]['data'][0]['MobileNo'];
+          await this.commonMasterService.SendMessageApplyLOI(this.CollegeMobileNo, 'MGForward')
+
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+
+  }
+
 }

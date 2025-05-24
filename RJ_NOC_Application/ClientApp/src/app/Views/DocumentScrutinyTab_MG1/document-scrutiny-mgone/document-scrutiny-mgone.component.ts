@@ -106,6 +106,7 @@ export class DocumentScrutinyMGOneComponent implements OnInit {
   }
 
   NextStep() {
+    debugger;
     this.CheckTabsEntry();
     if (this.selectedIndex != this.maxNumberOfTabs) {
       this.selectedIndex = this.selectedIndex + 1;
@@ -119,6 +120,7 @@ export class DocumentScrutinyMGOneComponent implements OnInit {
   }
 
   PreviousStep() {
+    debugger;
     this.CheckTabsEntry();
     if (this.selectedIndex != 0) {
       this.selectedIndex = this.selectedIndex - 1;
@@ -137,6 +139,7 @@ export class DocumentScrutinyMGOneComponent implements OnInit {
   }
   public CheckTabsEntryData: any = [];
   async CheckTabsEntry() {
+    debugger;
     try {
       this.loaderService.requestStarted();
       await this.mg1DocumentScrutinyService.CheckDocumentScrutinyTabsData(this.SelectedApplyNOCID, this.sSOLoginDataModel.RoleID, this.SelectedCollageID)
@@ -155,6 +158,7 @@ export class DocumentScrutinyMGOneComponent implements OnInit {
     }
   }
   public ViewTarilCommon(ID: number, ActionType: string) {
+    debugger;
     this.modalService.open(this.tarilMymodal, { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' }).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {

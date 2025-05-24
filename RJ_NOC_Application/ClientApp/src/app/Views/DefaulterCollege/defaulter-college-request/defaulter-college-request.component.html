@@ -388,8 +388,8 @@
             <td>{{row.CollegeName}}</td>
             <td>{{row.UniversityName}}</td>
             <td>
-              <button type="button" *ngIf="row.ApplicationStatus=='Approve'" class="btn btn-sm btn-success" title="Penalty Fee" (click)="OpenPenaltyModel(Penaltymodel,row.RequestID,row.ApplicationStatus)">{{row.ApplicationStatus}}</button>
-              <button type="button" *ngIf="row.ApplicationStatus=='Reject'" class="btn btn-sm btn-danger" title="Penalty Fee" (click)="OpenPenaltyModel(Penaltymodel,row.RequestID,row.ApplicationStatus)">{{row.ApplicationStatus}}</button>
+              <button type="button" *ngIf="row.ApplicationStatus=='Approved'" class="btn btn-sm btn-success" title="Penalty Fee" (click)="OpenPenaltyModel(Penaltymodel,row.RequestID,row.ApplicationStatus)">{{row.ApplicationStatus}}</button>
+              <button type="button" *ngIf="row.ApplicationStatus=='Rejected'" class="btn btn-sm btn-danger" title="Penalty Fee" (click)="OpenPenaltyModel(Penaltymodel,row.RequestID,row.ApplicationStatus)">{{row.ApplicationStatus}}</button>
               <button type="button" *ngIf="row.ApplicationStatus=='Pending'" class="btn btn-sm btn-secondary" title="Penalty Fee" (click)="OpenPenaltyModel(Penaltymodel,row.RequestID,row.ApplicationStatus)">{{row.ApplicationStatus}}</button>
             </td>
             <td>

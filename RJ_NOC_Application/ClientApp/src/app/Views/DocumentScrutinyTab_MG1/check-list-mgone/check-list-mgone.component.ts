@@ -107,6 +107,7 @@ export class CheckListMGOneComponent implements OnInit {
     }
   }
   async GetRNCCheckListByTypeDepartment(ApplyNOCID: number, CollegeID: number) {
+    debugger;
     try {
       this.loaderService.requestStarted();
       await this.mg1documentScrutinyService.GetRNCCheckListByTypeDepartment('LOI', this.sSOLoginDataModel.DepartmentID, ApplyNOCID, this.sSOLoginDataModel.UserID, this.sSOLoginDataModel.RoleID)

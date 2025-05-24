@@ -51,6 +51,7 @@ export class MG1DocumentScrutinyBuildingDetailComponent implements OnInit {
     await this.GetAllBuildingDetailsList();
   }
   async GetAllBuildingDetailsList() {
+    debugger;
     try {
       this.loaderService.requestStarted();
       await this.mg1DocumentScrutinyService.DocumentScrutiny_BuildingDetails(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)

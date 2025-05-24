@@ -33,6 +33,7 @@ export class NodalSecretaryApplicationListMGOneComponent implements OnInit {
 
   public isLoading: boolean = false;
   public QueryStringStatus: any = '';
+  public CollegeMobileNo: string = '';
   constructor(private loaderService: LoaderService, private toastr: ToastrService,
     private router: ActivatedRoute, private routers: Router, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService,
     private mg1DocumentScrutinyService: MGOneDocumentScrutinyService, private modalService: NgbModal,
@@ -149,6 +150,7 @@ export class NodalSecretaryApplicationListMGOneComponent implements OnInit {
   public SelectedLOIID: number = 0;
 
   async ForwardApplication() {
+    debugger;
     this.isFormvalid = true;
     this.isNextUserIdValid = false;
     this.isNextRoleIDValid = false;
@@ -206,17 +208,28 @@ export class NodalSecretaryApplicationListMGOneComponent implements OnInit {
       if (!this.isFormvalid) {
         return;
       }
+      //console.log(this.sSOLoginDataModel.RoleID);
+      //console.log(this.sSOLoginDataModel.UserID);
+      //console.log(this.ActionID);
+      //console.log(this.SelectedLOIID);
+      //console.log(this.NextRoleID);
+      //console.log(this.NextUserID);
+      //console.log(this.NextActionID);     
       if (confirm("Are you sure you want to forward this application?")) {
         this.loaderService.requestStarted();
         await this.collegeservice.SaveLOIWorkFlow(this.sSOLoginDataModel.RoleID, this.sSOLoginDataModel.UserID, this.ActionID, this.SelectedLOIID, 5, '', this.NextRoleID, this.NextUserID, this.NextActionID)
-          .then((data: any) => {
+          .then(async (data: any) => {
+            debugger;
             data = JSON.parse(JSON.stringify(data));
             this.State = data['State'];
             this.SuccessMessage = data['SuccessMessage'];
             this.ErrorMessage = data['ErrorMessage'];
             if (this.State == 0) {
+              await this.GetMobileNumberSMSforwardnextlevel();
               this.toastr.success('forwarded successfully');//this.SuccessMessage
+
               this.modalService.dismissAll('After Success');
+              //await this.commonMasterService.SendMessageBTER(this.CollegeMobileNo, 'Revert', this.ApplyBterAffiliationID)
               this.routers.navigate(['/dashboard']);
             }
             else if (this.State == 2) {
@@ -237,7 +250,29 @@ export class NodalSecretaryApplicationListMGOneComponent implements OnInit {
       }, 200);
     }
   }
+  async GetMobileNumberSMSforwardnextlevel() {
+    debugger;
+    try {
+      this.loaderService.requestStarted();
+      await this.commonMasterService.GetMobileNumberSMSforwardnextlevel('0', 'ForwardPS', this.NextUserID, this.NextRoleID)
+        .then(async (data: any) => {
+          debugger;
+          data = JSON.parse(JSON.stringify(data));
+          this.CollegeMobileNo = data['Data'][0]['data'][0]['MobileNo'];
+          await this.commonMasterService.SendMessageApplyLOI(this.CollegeMobileNo, 'MGForward')
 
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+
+  }
   public UserRoleList: any[] = [];
   public UserListRoleWise: any[] = [];
   public WorkFlowActionList: any[] = [];

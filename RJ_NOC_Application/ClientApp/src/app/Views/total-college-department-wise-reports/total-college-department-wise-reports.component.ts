@@ -118,6 +118,7 @@ export class TotalCollegeDepartmentWiseReportsComponent implements OnInit {
     try {
       this.loaderService.requestStarted();
       this.request.DepartmentID = this.sSOLoginDataModel.DepartmentID;
+      this.request.SessionID = this.sSOLoginDataModel.SessionID;
       await this.collegeservice.TotalCollegeDetailsByDepartment(this.request)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));

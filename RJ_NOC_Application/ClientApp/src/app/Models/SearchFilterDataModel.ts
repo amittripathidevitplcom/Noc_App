@@ -33,6 +33,7 @@ export class TotalCollegeReportSearchFilter {
   public CollegeManagementType: number = 0;
   public CollegeRegistrationNo: string = '';
   public CollegeStatus: number = 0;
+  public SessionID: number = 0;
 }
 export class DCECollegesReportSearchFilter {
   public DepartmentID: number = 0;

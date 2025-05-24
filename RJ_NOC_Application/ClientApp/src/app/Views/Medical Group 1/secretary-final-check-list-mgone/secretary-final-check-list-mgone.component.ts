@@ -176,6 +176,7 @@ export class SecretaryFinalCheckListMGOneComponent implements OnInit {
   LegalEntityDataModel = new LegalEntityDataModel();
 
   public QueryStringStatus: any = '';
+  public CollegeMobileNo: string = '';
 
   constructor(private medicalDocumentScrutinyService: MedicalDocumentScrutinyService, private applyNocParameterService: ApplyNocParameterService, private toastr: ToastrService, private loaderService: LoaderService, private applyNOCApplicationService: ApplyNOCApplicationService,
     private landDetailsService: LandDetailsService, private mg1documentScrutinyService: MGOneDocumentScrutinyService, private facilityDetailsService: FacilityDetailsService,
@@ -478,12 +479,13 @@ export class SecretaryFinalCheckListMGOneComponent implements OnInit {
       }
       this.loaderService.requestStarted();
       await this.collegeService.SaveLOIWorkFlow(this.sSOLoginDataModel.RoleID, this.sSOLoginDataModel.UserID, this.ActionID, this.SelectedApplyNOCID, this.SelectedDepartmentID, this.CheckFinalRemark, this.NextRoleID, this.NextUserID, this.NextActionID)
-        .then((data: any) => {
+        .then(async(data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
           if (this.State == 0) {
+            await this.GetMobileNumberSMSforwardnextlevel();
             this.toastr.success(this.SuccessMessage);
               this.routers.navigate(['/osdapplicationlistmgone/Pending']);
           }
@@ -503,6 +505,29 @@ export class SecretaryFinalCheckListMGOneComponent implements OnInit {
         this.loaderService.requestEnded();
       }, 200);
     }
+  }
+  async GetMobileNumberSMSforwardnextlevel() {
+    debugger;
+    try {
+      this.loaderService.requestStarted();
+      await this.commonMasterService.GetMobileNumberSMSforwardnextlevel('0', 'ForwardJS', this.NextUserID, this.NextRoleID)
+        .then(async (data: any) => {
+          debugger;
+          data = JSON.parse(JSON.stringify(data));
+          this.CollegeMobileNo = data['Data'][0]['data'][0]['MobileNo'];
+          await this.commonMasterService.SendMessageApplyLOI(this.CollegeMobileNo, 'MGForward')
+
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+
   }
   async GetRoleListForApporval() {
     this.UserRoleList = [];
