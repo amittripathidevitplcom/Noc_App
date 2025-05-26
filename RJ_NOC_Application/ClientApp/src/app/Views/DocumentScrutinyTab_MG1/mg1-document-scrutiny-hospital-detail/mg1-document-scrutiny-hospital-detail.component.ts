@@ -93,6 +93,10 @@ export class MG1DocumentScrutinyHospitalDetailComponent implements OnInit {
             this.FinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
             this.dsrequest.FinalRemark = this.FinalRemarks.find((x: { RoleIDS: number; }) => x.RoleIDS == this.sSOLoginDataModel.RoleID)?.Remark;
             this.dsrequest.ActionID = this.FinalRemarks.find((x: { RoleIDS: number; }) => x.RoleIDS == this.sSOLoginDataModel.RoleID)?.ActionID;
+            console.log(this.HospitalParentNotDataModelList);
+            console.log(this.FinalRemarks);
+            console.log(this.dsrequest.FinalRemark);
+            console.log(this.dsrequest.ActionID);
             if (this.dsrequest.ActionID == 2) {
               this.isDisabledAction = true;
             }

@@ -119,6 +119,9 @@ export class CheckListMGOneComponent implements OnInit {
           this.CheckListData = data['Data'].filter((x: { IsCheckList: number }) => x.IsCheckList == 0);
           this.FinalCheckListData = data['Data'].filter((x: { IsCheckList: number }) => x.IsCheckList == 1);
           this.FinalRemark = this.CheckListData[0].FinalRemark;
+          console.log(this.CheckListData);
+          console.log(this.FinalCheckListData);
+          console.log(this.FinalRemark);         
         }, error => console.error(error));
     }
     catch (Ex) {

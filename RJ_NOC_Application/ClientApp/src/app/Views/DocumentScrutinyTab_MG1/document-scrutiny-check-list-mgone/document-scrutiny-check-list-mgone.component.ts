@@ -218,6 +218,9 @@ export class DocumentScrutinyCheckListMGOneComponent implements OnInit {
           data = JSON.parse(JSON.stringify(data));
           this.CheckList_LandDetailList = data['Data'][0]['LandDetails'];
           this.LandDetail_FinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
+          console.log(this.CheckList_LandDetailList);
+          console.log(this.LandDetail_FinalRemarks);
+    
         }, error => console.error(error));
     }
     catch (Ex) {
@@ -254,6 +257,9 @@ export class DocumentScrutinyCheckListMGOneComponent implements OnInit {
             if (data['Data'][0]['DocumentScrutinyFinalRemarkList'] != null) {
               this.LegalEntityFinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
             }
+            console.log(this.CheckList_legalEntityInstituteDetailData);
+            console.log(this.CheckList_legalEntityMemberDetailData);
+            console.log(this.LegalEntityFinalRemarks);
           }
         }, (error: any) => console.error(error));
     }
@@ -288,7 +294,10 @@ export class DocumentScrutinyCheckListMGOneComponent implements OnInit {
           this.CheckList_collegeContactDetailsList = data['Data'][0]['CollegeContactDetails'][0];
           this.CheckList_collegeNearestGovernmentHospitalsList = data['Data'][0]['CollegeNearestHospitalsDetails'][0];
           this.CollegeDetailFinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
-
+          console.log(this.CheckList_collegeListData);
+          console.log(this.CheckList_collegeContactDetailsList);
+          console.log(this.CheckList_collegeNearestGovernmentHospitalsList);
+          console.log(this.CollegeDetailFinalRemarks);
           //console.log(this.draftApplicatoinListData);
         }, (error: any) => console.error(error));
     }
@@ -318,6 +327,9 @@ export class DocumentScrutinyCheckListMGOneComponent implements OnInit {
           this.ErrorMessage = data['ErrorMessage'];
           this.CheckList_SocietyAllList = data['Data'][0]['CollegeManagementSocietys'];
           this.SocietyFinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
+          console.log(this.CheckList_SocietyAllList);
+          console.log(this.SocietyFinalRemarks);
+        
         }, error => console.error(error));
     }
     catch (Ex) {
@@ -340,7 +352,8 @@ export class DocumentScrutinyCheckListMGOneComponent implements OnInit {
           data = JSON.parse(JSON.stringify(data));
           this.CheckList_lstBuildingDetails = data['Data'][0]['BuildingDetails'];
           this.BuildingDetail_FinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
-
+          console.log(this.CheckList_lstBuildingDetails);
+          console.log(this.BuildingDetail_FinalRemarks);
         }, error => console.error(error));
     }
     catch (Ex) {
@@ -398,6 +411,8 @@ export class DocumentScrutinyCheckListMGOneComponent implements OnInit {
           if (data['Data'].length > 0) {
             this.CheckList_HospitalParentNotDataModelList = data['Data'][0]['HospitalDetails'];
             this.HospitalDetails_FinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
+            console.log(this.CheckList_HospitalParentNotDataModelList);
+            console.log(this.HospitalDetails_FinalRemarks);
           }
         })
     }

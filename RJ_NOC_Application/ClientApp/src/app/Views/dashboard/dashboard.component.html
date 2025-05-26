@@ -219,6 +219,38 @@
               <a routerLink="/totalapplicationlist/PDSAI">View more <i class="fa fa-chevron-circle-right"></i></a>
             </div>
           </div>
+          <div class="col-lg-2 col-md-4 col-sm-6 col-12" *ngIf="this.sSOLoginDataModel.DepartmentID==6">
+            <div class="card staticsCards ">
+              <div class="card-body">
+                <div class="">
+                  <div class="dashCardIcon">
+                    <i class="fa fa-hourglass-end"></i>
+                  </div>
+                  <div class="dashCardContent">
+                    <h4>Applications reverted to Institutions</h4>
+                    <h2>{{dashboardDataModel.ApplicationsrevertedtoInstitutions}}</h2>
+                  </div>
+                </div>
+              </div>
+              <a routerLink="/totalapplicationlist/ARTI">View more <i class="fa fa-chevron-circle-right"></i></a>
+            </div>
+          </div>
+          <div class="col-lg-2 col-md-4 col-sm-6 col-12" *ngIf="this.sSOLoginDataModel.DepartmentID==6">
+            <div class="card staticsCards ">
+              <div class="card-body">
+                <div class="">
+                  <div class="dashCardIcon">
+                    <i class="fa fa-hourglass-end"></i>
+                  </div>
+                  <div class="dashCardContent">
+                    <h4>Applications forwarded for Inspection</h4>
+                    <h2>{{dashboardDataModel.ApplicationsforwardedforInspection}}</h2>
+                  </div>
+                </div>
+              </div>
+              <a routerLink="/totalapplicationlist/AFFINSPE">View more <i class="fa fa-chevron-circle-right"></i></a>
+            </div>
+          </div>
           <div class="col-lg-2 col-md-4 col-sm-6 col-12">
             <div class="card staticsCards ">
               <div class="card-body">
@@ -236,89 +268,89 @@
             </div>
           </div>
           <!--<div class="col-lg-2 col-md-4 col-sm-6 col-12">
-            <div class="card staticsCards ">
-              <div class="card-body">
-                <div class="">
-                  <div class="dashCardIcon">
-                    <i class="fa fa-bank"></i>
-                  </div>
-                  <div class="dashCardContent">
-                    <h4>Total College</h4>
-                    <h2>{{dashboardDataModel.TotalCollege}}</h2>
-                  </div>
-                </div>
-              </div>
-              <a href="javascript:void(0)">View more <i class="fa fa-chevron-circle-right"></i></a>
-            </div>
+    <div class="card staticsCards ">
+      <div class="card-body">
+        <div class="">
+          <div class="dashCardIcon">
+            <i class="fa fa-bank"></i>
           </div>
+          <div class="dashCardContent">
+            <h4>Total College</h4>
+            <h2>{{dashboardDataModel.TotalCollege}}</h2>
+          </div>
+        </div>
+      </div>
+      <a href="javascript:void(0)">View more <i class="fa fa-chevron-circle-right"></i></a>
+    </div>
+  </div>
 
 
-          <div class="col-lg-2 col-md-4 col-sm-6 col-12">
-            <div class="card staticsCards">
-              <div class="card-body">
-                <div class="">
-                  <div class="dashCardIcon">
-                    <i class="fa fa-bank"></i>
-                  </div>
-                  <div class="dashCardContent">
-                    <h4>Total Application</h4>
-                    <h2>{{dashboardDataModel.TotalApplication}}</h2>
-                  </div>
-                </div>
-              </div>
-              <a href="javascript:void(0)">View more <i class="fa fa-chevron-circle-right"></i></a>
-            </div>
+  <div class="col-lg-2 col-md-4 col-sm-6 col-12">
+    <div class="card staticsCards">
+      <div class="card-body">
+        <div class="">
+          <div class="dashCardIcon">
+            <i class="fa fa-bank"></i>
           </div>
+          <div class="dashCardContent">
+            <h4>Total Application</h4>
+            <h2>{{dashboardDataModel.TotalApplication}}</h2>
+          </div>
+        </div>
+      </div>
+      <a href="javascript:void(0)">View more <i class="fa fa-chevron-circle-right"></i></a>
+    </div>
+  </div>
 
-          <div class="col-lg-2 col-md-4 col-sm-6 col-12">
-            <div class="card staticsCards">
-              <div class="card-body">
-                <div class="">
-                  <div class="dashCardIcon">
-                    <i class="fa fa-bank"></i>
-                  </div>
-                  <div class="dashCardContent">
-                    <h4>Total Application Pending</h4>
-                    <h2>{{dashboardDataModel.TotalApplicationPending}}</h2>
-                  </div>
-                </div>
-              </div>
-              <a href="javascript:void(0)">View more <i class="fa fa-chevron-circle-right"></i></a>
-            </div>
+  <div class="col-lg-2 col-md-4 col-sm-6 col-12">
+    <div class="card staticsCards">
+      <div class="card-body">
+        <div class="">
+          <div class="dashCardIcon">
+            <i class="fa fa-bank"></i>
           </div>
+          <div class="dashCardContent">
+            <h4>Total Application Pending</h4>
+            <h2>{{dashboardDataModel.TotalApplicationPending}}</h2>
+          </div>
+        </div>
+      </div>
+      <a href="javascript:void(0)">View more <i class="fa fa-chevron-circle-right"></i></a>
+    </div>
+  </div>
 
-          <div class="col-lg-2 col-md-4 col-sm-6 col-12">
-            <div class="card staticsCards">
-              <div class="card-body">
-                <div class="">
-                  <div class="dashCardIcon">
-                    <i class="fa fa-bank"></i>
-                  </div>
-                  <div class="dashCardContent">
-                    <h4>Total Application Reject</h4>
-                    <h2>{{dashboardDataModel.TotalApplicationReject}}</h2>
-                  </div>
-                </div>
-              </div>
-              <a href="javascript:void(0)">View more <i class="fa fa-chevron-circle-right"></i></a>
-            </div>
+  <div class="col-lg-2 col-md-4 col-sm-6 col-12">
+    <div class="card staticsCards">
+      <div class="card-body">
+        <div class="">
+          <div class="dashCardIcon">
+            <i class="fa fa-bank"></i>
           </div>
-          <div class="col-lg-2 col-md-4 col-sm-6 col-12">
-            <div class="card staticsCards">
-              <div class="card-body">
-                <div class="">
-                  <div class="dashCardIcon">
-                    <i class="fa fa-bank"></i>
-                  </div>
-                  <div class="dashCardContent">
-                    <h4>Total Application Completed</h4>
-                    <h2>{{dashboardDataModel.TotalApplicationCompleted}}</h2>
-                  </div>
-                </div>
-              </div>
-              <a href="javascript:void(0)">View more <i class="fa fa-chevron-circle-right"></i></a>
-            </div>
-          </div>-->
+          <div class="dashCardContent">
+            <h4>Total Application Reject</h4>
+            <h2>{{dashboardDataModel.TotalApplicationReject}}</h2>
+          </div>
+        </div>
+      </div>
+      <a href="javascript:void(0)">View more <i class="fa fa-chevron-circle-right"></i></a>
+    </div>
+  </div>
+  <div class="col-lg-2 col-md-4 col-sm-6 col-12">
+    <div class="card staticsCards">
+      <div class="card-body">
+        <div class="">
+          <div class="dashCardIcon">
+            <i class="fa fa-bank"></i>
+          </div>
+          <div class="dashCardContent">
+            <h4>Total Application Completed</h4>
+            <h2>{{dashboardDataModel.TotalApplicationCompleted}}</h2>
+          </div>
+        </div>
+      </div>
+      <a href="javascript:void(0)">View more <i class="fa fa-chevron-circle-right"></i></a>
+    </div>
+  </div>-->
         </div>
       </div>
     </div>
@@ -1504,7 +1536,6 @@
               </div>
             </div>
           </div>
-
           <div class="col-lg-3 col-md-4 col-sm-6 col-12" *ngIf="this.sSOLoginDataModel.RoleID==5 || this.sSOLoginDataModel.RoleID==3 || this.sSOLoginDataModel.RoleID==6|| this.sSOLoginDataModel.RoleID==16">
             <div class="card staticsCards">
               <div class="card-header text-center text-white" style="background: rgba(0, 0, 0, 0.2) !important;"><h5>Document Scrutiny</h5></div>
@@ -1700,7 +1731,38 @@
               </div>
             </div>
           </div>
-         
+          <div class="col-lg-2 col-md-4 col-sm-6 col-12" *ngIf="this.sSOLoginDataModel.DepartmentID==6">
+            <div class="card staticsCards ">
+              <div class="card-body">
+                <div class="">
+                  <div class="dashCardIcon">
+                    <i class="fa fa-hourglass-end"></i>
+                  </div>
+                  <div class="dashCardContent">
+                    <h4>Applications reverted to Institutions</h4>
+                    <h2>{{dashboardDataModel.ApplicationsrevertedtoInstitutions}}</h2>
+                  </div>
+                </div>
+              </div>
+              <a routerLink="/totalapplicationlist/ARTI">View more <i class="fa fa-chevron-circle-right"></i></a>
+            </div>
+          </div>
+          <div class="col-lg-2 col-md-4 col-sm-6 col-12" *ngIf="this.sSOLoginDataModel.DepartmentID==6">
+            <div class="card staticsCards ">
+              <div class="card-body">
+                <div class="">
+                  <div class="dashCardIcon">
+                    <i class="fa fa-hourglass-end"></i>
+                  </div>
+                  <div class="dashCardContent">
+                    <h4>Applications forwarded for Inspection</h4>
+                    <h2>{{dashboardDataModel.ApplicationsforwardedforInspection}}</h2>
+                  </div>
+                </div>
+              </div>
+              <a routerLink="/totalapplicationlist/AFFINSPE">View more <i class="fa fa-chevron-circle-right"></i></a>
+            </div>
+          </div>
         </div>
       </div>
     </div>
