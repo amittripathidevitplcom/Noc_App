@@ -497,6 +497,9 @@ import { MGThreeAfterInspectionApplicationListComponent } from './Views/Document
 import { MGThreeDocumentScrutinyListComponent } from './Views/DocumentScrutinyTab/mgthree-document-scrutiny-list/mgthree-document-scrutiny-list.component';
 
 import { PaymentHistoryReportCollegeWiseComponent } from './Views/Reports/payment-history-report-college-wise/payment-history-report-college-wise.component';
+import { DocumentScrutinyOnlinepaymentDetailsDceComponent } from './Views/DocumentScrutinyTabDCE/document-scrutiny-onlinepayment-details-dce/document-scrutiny-onlinepayment-details-dce.component';
+import { AdminDashboardComponent } from './Views/admin-dashboard/admin-dashboard.component';
+import { InfrastructureMedicalCollegeFacilitiesMgoneComponent } from './Views/TabDetail/infrastructure-medical-college-facilities-mgone/infrastructure-medical-college-facilities-mgone.component';
 
 
  
@@ -992,6 +995,9 @@ import { PaymentHistoryReportCollegeWiseComponent } from './Views/Reports/paymen
     MGThreeAfterInspectionApplicationListComponent,
     MGThreeDocumentScrutinyListComponent,
     PaymentHistoryReportCollegeWiseComponent,
+    DocumentScrutinyOnlinepaymentDetailsDceComponent,
+    AdminDashboardComponent,
+    InfrastructureMedicalCollegeFacilitiesMgoneComponent,
   ],
   imports: [
     CommonModule,

@@ -1800,218 +1800,79 @@
   </div>
 </div>
 <!--end payment details-->
-<app-preview-apply-noc-detail></app-preview-apply-noc-detail>
-<div class="row">
-  <div class="col-md-12">
-    <div class="card mb-0">
-      <div class="card-header">
-        <b><i class="bi bi-table"></i> Application Geo Tagging Status Details </b>
-      </div>
-      <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+<!--start Online payment details-->
+<div class="card" *ngIf="paymentResponseDataModel.length>0">
+  <div class="card-header">
+    <b>Online Payment Details</b>
+  </div>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-md-12">
         <div class="table-responsive">
-          <table class="table table-bordered table-hover table-striped">
+          <table class="table table-hover table-striped">
             <thead>
               <tr>
-                <th>Sr.No.</th>
-                <th>Geo Tagging Status</th>
-                <th>Latitude</th>
-                <th>Longitude</th>
-                <th>Image 1</th>
-                <th>Image 2</th>
+                <th>
+                  Compliance<br />
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="rdOfflinepaymentSelectAllActionType" id="rdOfflinepaymentSelectAllYes" value="Yes" (change)="selectAll('Yes')">
+                    <label class="form-check-label">Yes</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="rdOfflinepaymentSelectAllActionType" id="rdOfflinepaymentSelectAllNo" value="No" (change)="selectAll('No')">
+                    <label class="form-check-label">No</label>
+                  </div>
+                </th>
+                <th>S.No.</th>
+                <!--<th>Transaction ID</th>-->
+                <th>AUIN No.</th>
+                <th>Status</th>
+                <th>Transaction Amount</th>
+                <th>Payment Time Statmp</th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td> 1</td>
-                <td>{{ApplyNocApplicationDetail.IsApplicationGeoTag}}</td>
-                <td>{{ApplyNocApplicationDetail.ApplicationGeoLatitude}}</td>
-                <td>{{ApplyNocApplicationDetail.ApplicationGeoLongitude}}</td>
+              <tr *ngFor="let row of paymentResponseDataModel; let idx=index;">
                 <td>
-                  <a *ngIf="ApplyNocApplicationDetail.ApplicationGeoImage1Path!='N/A'" data-fancybox="gallery" href="{{ApplyNocApplicationDetail.ApplicationGeoImage1Path}}" data-caption="Image 10" title="click here to zoom">
-                    <img src="{{ApplyNocApplicationDetail.ApplicationGeoImage1Path}}" alt="Image 1" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
-                  </a>
-                </td>
-                <td>
-                  <a *ngIf="ApplyNocApplicationDetail.ApplicationGeoImage2Path!='N/A'" data-fancybox="gallery" href="{{ApplyNocApplicationDetail.ApplicationGeoImage2Path}}" data-caption="Image 10" title="click here to zoom">
-                    <img src="{{ApplyNocApplicationDetail.ApplicationGeoImage2Path}}" alt="Image 2" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
-                  </a>
+                  <div class="col-lg-12 col-md-12 col-sm-6 col-12 mb-3">
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" name="rdOfflinePaymentActionType{{idx+1}}" id="rdOfflinePaymentActionTypeYes{{idx+1}}" [(ngModel)]="row.Action" value="Yes" (change)="ClickOnAction(idx)">
+                      <label class="form-check-label">Yes</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" name="rdOfflinePaymentActionType{{idx+1}}" id="rdOfflinePaymentActionTypeNo{{idx+1}}" value="No" [(ngModel)]="row.Action" (change)="ClickOnAction(idx)">
+                      <label class="form-check-label">No</label>
+                    </div>
+                  </div>
+                  <div class="row" [hidden]="row.Action !='No'">
+                    <div class="col-lg-11 col-md-11 col-sm-6 col-12 mb-3">
+                      <label>Remark : </label>
+                      <textarea type="text" class="form-control" name="txtOfflinePaymentRemark{{idx+1}}" id="txtOfflinePaymentRemark{{idx+1}}" [(ngModel)]="row.Remark"></textarea>
+                    </div>
+                  </div>
 
                 </td>
+                <td>{{idx+1}}</td>
+                <!--<td>
+                  <button type="button" class="btn btn-sm btn-primary" title="View History" (click)="ViewOfflinePaymentHistory(paymenthistorymymodal,row.PaymentID)"><i class="fa fa-history"></i></button>
+                </td>-->
+                <td>{{row.PRN}}</td>
+                <td>{{row.STATUS}}</td>
+                <td>{{row.AMOUNT}}</td>
+                <td>{{row.PAYMENTMODETIMESTAMP}}</td>
+                <!--<td><a href="{{row.FilePath}}" target="_blank" class="btn btn-primary"><i class="fa fa-eye"></i></a></td>
+                <td><button type="button" class="btn btn-sm btn-info" title="View" (click)="ViewTaril(row.PaymentID,'OfflinePaymentTrail')"><i class="fa fa-bars" aria-hidden="true"></i></button></td>-->
+              </tr>
+              <tr *ngIf="paymentResponseDataModel.length<=0">
+                <td colspan="7" style="color:red">No Data Found.!</td>
               </tr>
             </tbody>
           </table>
         </div>
       </div>
     </div>
-  </div>
-</div>
-<div class="row" *ngIf="sSOLoginDataModel.RoleID==19">
-  <div class="col-lg-12 col-md-12 col-sm-12 col-12 mb-3">
-    <app-add-application-penalty-dce></app-add-application-penalty-dce>
-  </div>
-</div>
-<!--<app-preview-fdr-detail></app-preview-fdr-detail>
-<app-preview-payment-detail></app-preview-payment-detail>-->
-<!--Class Wise Student Details-->
-<!--<div class="card mb-0">
-  <div class="card-header d-xxl-flex d-xl-flex d-md-flex d-sm-block justify-content-between align-items-center">
-    <b><i class="bi bi-table"></i> Class Wise Statistics </b>
-    <div class="d-flex align-items-center">
-      <div class="btn-group mr-15" role="group" aria-label="Basic outlined example">
-      </div>
-      <div class="d-flex align-items-center table-filter mr-15">
-      </div>
-    </div>
-  </div>
-  <div class="card-body">
-    <div class="table-responsive">
-      <table class="table table-hover table-striped-columns" id="tabellist" #content>
-        <thead>
-          <tr>
-            <th>
-              Compliance
-            </th>
-            <th>Remark</th>
-            <th>Sr. No</th>
-            <th>Faculty</th>
-            <th>Class</th>
 
-            <th>Section</th>
-
-            <th>SC Boys</th>
-            <th>SC Girls</th>
-            <th>ST Boys</th>
-            <th>ST Girls</th>
-            <th>OBC Boys</th>
-            <th>OBC Girls</th>
-
-            <th>MBC Boys</th>
-            <th>MBC Girls</th>
-            <th>Gen Boys</th>
-            <th>Gen Girls</th>
-            <th>EWS Boys</th>
-            <th>EWS  Girls</th>
-            <th>Total Boys</th>
-            <th>Total Girls</th>
-            <th>Total Minority Boys</th>
-            <th>Total Minority Girls</th>
-            <th>Total PH Boys</th>
-            <th>Total PH Girls</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let item of CheckList_ClassWiseStudentDetailsList let idx=index;">
-            <td>
-              {{item.Action}}
-            </td>
-            <td>
-              {{item.Action=='No'?item.Remark:''}}
-            </td>
-            <td>{{idx+1}}</td>
-            <td>
-              {{item.CourseName}}
-
-            </td>
-            <td>
-              {{item.Class}}
-            </td>
-            <td>
-              <input type="text" disabled class="form-control" id="txSCSection{{idx}}" name="txSection{{idx}}" [(ngModel)]="item.Section" autocomplete="off">
-
-            </td>
-
-            <td>
-              <input type="text" disabled class="form-control" id="txSCBoysTotal{{idx}}" name="txSCBoysTotal{{idx}}" [(ngModel)]="item.SCBoysCount" autocomplete="off">
-
-            </td>
-            <td>
-              <input type="text" disabled class="form-control" id="txSCGirlsTotal{{idx}}" name="txSCGirlsTotal{{idx}}" [(ngModel)]="item.SCGirlsCount" autocomplete="off">
-            </td>
-
-            <td>
-              <input type="text" disabled class="form-control" id="txSTBoysTotal{{idx}}" name="txSTBoysTotal{{idx}}" [(ngModel)]="item.STBoysCount" autocomplete="off">
-            </td>
-            <td>
-              <input type="text" disabled class="form-control" id="txSTBoysTotal{{idx}}" name="txSTBoysTotal{{idx}}" [(ngModel)]="item.STGirlsCount" autocomplete="off">
-            </td>
-
-            <td>
-              <input type="text" disabled class="form-control" id="txOBCBoysTotal{{idx}}" name="txOBCBoysTotal{{idx}}" [(ngModel)]="item.OBCBoysCount" autocomplete="off">
-            </td>
-            <td>
-              <input type="text" disabled class="form-control" id="txOBCGirlsCount{{idx}}" name="txOBCGirlsCount{{idx}}" [(ngModel)]="item.OBCGirlsCount" autocomplete="off">
-            </td>
-
-            <td>
-              <input type="text" disabled class="form-control" id="txMBCBoysTotal{{idx}}" name="txMBCBoysTotal{{idx}}" [(ngModel)]="item.MBCBoysCount" autocomplete="off">
-            </td>
-            <td>
-              <input type="text" disabled class="form-control" id="txMBCBoysTotal{{idx}}" name="txMBCBoysTotal{{idx}}" [(ngModel)]="item.MBCGirlsCount" autocomplete="off">
-            </td>
-
-            <td>
-              <input type="text" disabled class="form-control" id="txMBCBoysTotal{{idx}}" name="txGenBoysTotal{{idx}}" [(ngModel)]="item.GenBoysCount" autocomplete="off">
-            </td>
-            <td>
-              <input type="text" disabled class="form-control" id="txMBCBoysTotal{{idx}}" name="txGenGirlsTotal{{idx}}" [(ngModel)]="item.GenGirlsCount" autocomplete="off">
-            </td>
-
-            <td>
-              <input type="text" disabled class="form-control" id="txEWSBoysTotal{{idx}}" name="txEWSBoysTotal{{idx}}" [(ngModel)]="item.EWSBoysCount" autocomplete="off">
-            </td>
-            <td>
-              <input type="text" disabled class="form-control" id="txEWSGirlsTotal{{idx}}" name="txEWSGirlsTotal{{idx}}" [(ngModel)]="item.EWSGirlsCount" autocomplete="off">
-            </td>
-            <td>
-              <input type="text" disabled class="form-control" id="txTotalBoys{{idx}}" name="txTotalBoys{{idx}}" [(ngModel)]="item.TotalBoys" autocomplete="off">
-            </td>
-            <td>
-              <input type="text" disabled class="form-control" id="txTotalGirls{{idx}}" name="txTotalGirls{{idx}}" [(ngModel)]="item.TotalGirls" autocomplete="off">
-
-            </td>
-
-            <td>
-              <input type="text" disabled class="form-control" id="txOFTotalMinorityBoys{{idx}}" name="txOFTotalMinorityBoys{{idx}}" [(ngModel)]="item.OFTotalMinorityBoys" autocomplete="off">
-            </td>
-            <td>
-              <input type="text" disabled class="form-control" id="txOFTotalMinorityGirls{{idx}}" name="txOFTotalMinorityGirls{{idx}}" [(ngModel)]="item.OFTotalMinorityGirls" autocomplete="off">
-            </td>
-
-            <td>
-              <input type="text" disabled class="form-control" id="txOFTotalPHBoys{{idx}}" name="txOFTotalPHBoys{{idx}}" [(ngModel)]="item.OFTotalPHBoys" autocomplete="off">
-            </td>
-            <td>
-              <input type="text" disabled class="form-control" id="txOFTotalPHGirls{{idx}}" name="txOFTotalPHGirls{{idx}}" [(ngModel)]="item.OFTotalPHGirls" autocomplete="off">
-            </td>
-          </tr>
-        </tbody>
-        <tfoot>
-          <tr class="fw-bold">
-            <td colspan="6">Total</td>
-
-            <td>{{SCBoysCountFooter}}</td>
-            <td>{{SCGirlsCountFooter}}</td>
-            <td>{{STBoysCountFooter}}</td>
-            <td>{{STGirlsCountFooter}}</td>
-            <td>{{OBCBoysCountFooter}}</td>
-            <td>{{OBCGirlsCountFooter}}</td>
-            <td>{{MBCBoysCountFooter}}</td>
-            <td>{{MBCGirlsCountFooter}}</td>
-            <td>{{GenBoysCountFooter}}</td>
-            <td>{{GenGirlsCountFooter}}</td>
-            <td>{{EWSBoysCountFooter}}</td>
-            <td>{{EWSGirlsCountFooter}}</td>
-            <td>{{TotalBoysFooter}}</td>
-            <td>{{TotalGirlsFooter}}</td>
-            <td>{{OFTotalMinorityBoysFooter}}</td>
-            <td>{{OFTotalMinorityGirlsFooter}}</td>
-            <td>{{OFTotalPHBoysFooter}}</td>
-            <td>{{OFTotalPHGirlsFooter}}</td>
-          </tr>
-        </tfoot>
-      </table>
-    </div>
-    <div class="row" *ngIf="ClassWiseStudentFinalRemarks.length>0">
+    <div class="row" *ngIf="OnlinePaymentFinalRemarks.length>0">
       <div class="table-responsive">
         <table class="table table-bordered table-hover table-striped">
           <thead>
@@ -2023,192 +1884,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let item1 of ClassWiseStudentFinalRemarks ; let idx =index">
-              <td>{{idx+1}}</td>
-              <td>{{item1.RoleID}}</td>
-              <td>{{item1.ActionName}}</td>
-              <td>{{item1.Remark}}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </div>
-
-</div>-->
-<!--End Class Wise Student Details-->
-<!--subject wise data-->
-<!--<div class="card mb-0">
-  <div class="card-header d-xxl-flex d-xl-flex d-md-flex d-sm-block justify-content-between align-items-center">
-    <b><i class="bi bi-table"></i>Subject Wise Student Statistics </b>
-    <div class="d-flex align-items-center">
-      <div class="btn-group mr-15" role="group" aria-label="Basic outlined example">
-
-      </div>
-      <div class="d-flex align-items-center table-filter mr-15">
-
-      </div>
-    </div>
-  </div>
-  <div class="card-body">
-    <div class="table-responsive">
-      <table class="table table-hover table-striped-columns" id="tabellist" #content>
-        <thead>
-          <tr>
-            <th>
-              Compliance
-            </th>
-            <th>Remark</th>
-            <th>Sr. No</th>
-            <th>Faculty</th>
-            <th>SubjectName</th>
-
-            <th>1st Year Boys</th>
-            <th>1st Year Girls</th>
-
-            <th>2nd Year Boys</th>
-            <th>2nd Year Girls </th>
-
-            <th>3rd Year Boys</th>
-            <th>3rd Year Girls</th>
-
-            <th>Previous Boys</th>
-            <th>Previous Girls</th>
-
-            <th>Final Boys</th>
-            <th>Final Girls</th>
-
-            <th>Diploma Boys</th>
-            <th>Diploma Girls</th>
-
-            <th>Other Boys</th>
-            <th>Other Girls</th>
-
-            <th>Total</th>
-
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let item of CheckList_SubjectWiseStudentDetailsList let idx=index;">
-
-            <td>
-              {{item.Action}}
-            </td>
-            <td>
-              {{item.Action=='No'?item.Remark:''}}
-            </td>
-
-            <td>{{idx+1}}</td>
-            <td>
-              {{item.CourseName}}
-
-            </td>
-            <td>
-              {{item.SubjectName}}
-            </td>
-
-            <td>
-              <input type="text" disabled class="form-control" id="txSCBoysTotal{{idx}}" name="txSCBoysTotal{{idx}}" [(ngModel)]="item.FirstYearBoysCount" autocomplete="off">
-
-            </td>
-            <td>
-              <input type="text" disabled class="form-control" id="txSCGirlsTotal{{idx}}" name="txSCGirlsTotal{{idx}}" [(ngModel)]="item.FirstYearGirlsCount" autocomplete="off">
-            </td>
-
-            <td>
-              <input type="text" disabled class="form-control" id="txSTBoysTotal{{idx}}" name="txSTBoysTotal{{idx}}" [(ngModel)]="item.SecYearBoysCount" autocomplete="off">
-            </td>
-            <td>
-              <input type="text" disabled class="form-control" id="txSTBoysTotal{{idx}}" name="txSTBoysTotal{{idx}}" [(ngModel)]="item.SecYearGirlsCount" autocomplete="off">
-            </td>
-
-            <td>
-              <input type="text" disabled class="form-control" id="txOBCBoysTotal{{idx}}" name="txOBCBoysTotal{{idx}}" [(ngModel)]="item.ThirdYearBoysCount" autocomplete="off">
-            </td>
-            <td>
-              <input type="text" disabled class="form-control" id="txOBCGirlsCount{{idx}}" name="txOBCGirlsCount{{idx}}" [(ngModel)]="item.ThirdYearGirlsCount" autocomplete="off">
-            </td>
-
-            <td>
-              <input type="text" disabled class="form-control" id="txMBCBoysTotal{{idx}}" name="txMBCBoysTotal{{idx}}" [(ngModel)]="item.PervYearBoysCount" autocomplete="off">
-            </td>
-            <td>
-              <input type="text" disabled class="form-control" id="txMBCBoysTotal{{idx}}" name="txMBCBoysTotal{{idx}}" [(ngModel)]="item.PervYearGirlsCount" autocomplete="off">
-            </td>
-
-            <td>
-              <input type="text" disabled class="form-control" id="txMBCBoysTotal{{idx}}" name="txGenBoysTotal{{idx}}" [(ngModel)]="item.FinalYearBoysCount" autocomplete="off">
-            </td>
-            <td>
-              <input type="text" disabled class="form-control" id="txMBCBoysTotal{{idx}}" name="txGenGirlsTotal{{idx}}" [(ngModel)]="item.FinalYearGirlsCount" autocomplete="off">
-            </td>
-
-
-            <td>
-              <input type="text" disabled class="form-control" id="txTotalBoys{{idx}}" name="txTotalBoys{{idx}}" [(ngModel)]="item.DiplomaBoysCount" autocomplete="off">
-            </td>
-            <td>
-              <input type="text" disabled class="form-control" id="txTotalGirls{{idx}}" name="txTotalGirls{{idx}}" [(ngModel)]="item.DiplomaGirlsCount" autocomplete="off">
-            </td>
-
-            <td>
-              <input type="text" disabled class="form-control" id="txOtherBoysCount{{idx}}" name="txTotalBoys{{idx}}" [(ngModel)]="item.OtherBoysCount" autocomplete="off">
-            </td>
-            <td>
-              <input type="text" disabled class="form-control" id="txOtherGirlsCount{{idx}}" name="txTotalGirls{{idx}}" [(ngModel)]="item.OtherGirlsCount" autocomplete="off">
-            </td>
-
-            <td>
-              <input type="text" class="form-control" disabled id="txTotal{{idx}}" name="txTotalGirls{{idx}}" [(ngModel)]="item.Total" autocomplete="off">
-            </td>
-          </tr>
-        </tbody>
-
-        <tfoot>
-          <tr class="fw-bold">
-            <td colspan="4">Total</td>
-
-            <td></td>
-            <td>{{FirstYearBoysCountFooter}}</td>
-            <td>{{FirstYearGirlsCountFooter}}</td>
-
-            <td>{{SecYearBoysCountFooter}}</td>
-            <td>{{SecYearGirlsCountFooter}}</td>
-
-            <td>{{ThirdYearBoysCountFooter}}</td>
-            <td>{{ThirdYearGirlsCountFooter}}</td>
-
-            <td>{{PervYearBoysCountFooter}}</td>
-            <td>{{PervYearGirlsCountFooter}}</td>
-
-            <td>{{FinalYearBoysCountFooter}}</td>
-            <td>{{FinalYearGirlsCountFooter}}</td>
-
-            <td>{{DiplomaBoysCountFooter}}</td>
-            <td>{{DiplomaGirlsCountFooter}}</td>
-
-            <td>{{OtherBoysCountFooter}}</td>
-            <td>{{OtherGirlsCountFooter}}</td>
-            <td>{{TotalFooter}}</td>
-          </tr>
-        </tfoot>
-      </table>
-    </div>
-
-
-    <div class="row" *ngIf="SubjectWiseStudentFinalRemarks.length>0">
-      <div class="table-responsive">
-        <table class="table table-bordered table-hover table-striped">
-          <thead>
-            <tr>
-              <th>Sr.No.</th>
-              <th>Role</th>
-              <th>Action</th>
-              <th>Remark</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let item1 of SubjectWiseStudentFinalRemarks ; let idx =index">
+            <tr *ngFor="let item1 of OnlinePaymentFinalRemarks ; let idx =index">
               <td>{{idx+1}}</td>
               <td>{{item1.RoleID}}</td>
               <td>{{item1.ActionName}}</td>
@@ -2219,92 +1895,514 @@
       </div>
 
     </div>
-
-
-
-
-
-
   </div>
+</div>
+    <!--end Online payment details-->
+    <app-preview-apply-noc-detail></app-preview-apply-noc-detail>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card mb-0">
+          <div class="card-header">
+            <b><i class="bi bi-table"></i> Application Geo Tagging Status Details </b>
+          </div>
+          <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+            <div class="table-responsive">
+              <table class="table table-bordered table-hover table-striped">
+                <thead>
+                  <tr>
+                    <th>Sr.No.</th>
+                    <th>Geo Tagging Status</th>
+                    <th>Latitude</th>
+                    <th>Longitude</th>
+                    <th>Image 1</th>
+                    <th>Image 2</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td> 1</td>
+                    <td>{{ApplyNocApplicationDetail.IsApplicationGeoTag}}</td>
+                    <td>{{ApplyNocApplicationDetail.ApplicationGeoLatitude}}</td>
+                    <td>{{ApplyNocApplicationDetail.ApplicationGeoLongitude}}</td>
+                    <td>
+                      <a *ngIf="ApplyNocApplicationDetail.ApplicationGeoImage1Path!='N/A'" data-fancybox="gallery" href="{{ApplyNocApplicationDetail.ApplicationGeoImage1Path}}" data-caption="Image 10" title="click here to zoom">
+                        <img src="{{ApplyNocApplicationDetail.ApplicationGeoImage1Path}}" alt="Image 1" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                      </a>
+                    </td>
+                    <td>
+                      <a *ngIf="ApplyNocApplicationDetail.ApplicationGeoImage2Path!='N/A'" data-fancybox="gallery" href="{{ApplyNocApplicationDetail.ApplicationGeoImage2Path}}" data-caption="Image 10" title="click here to zoom">
+                        <img src="{{ApplyNocApplicationDetail.ApplicationGeoImage2Path}}" alt="Image 2" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                      </a>
 
-</div>-->
-<!--end subject wise data-->
-
-<div class="row m-2" [hidden]="sSOLoginDataModel.RoleID==16 || QueryStringStatus!='Pending'">
-  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-    <label for="ddlAction" class="form-label">Application On Action <span style="color:red;">*</span></label>
-    <select class="form-select" (change)="OnChangeCurrentAction()" [(ngModel)]="ActionID">
-      <option value="0" disabled selected>--Select Action--</option>
-      <option *ngFor="let item of WorkFlowActionList" value="{{item.ActionID}}">{{sSOLoginDataModel.RoleID==19&&item.ActionName=='Approve'?'Forward':item.ActionName}}</option>
-    </select>
-    <div *ngIf="isActionTypeValid&&ActionID<=0" class="text-danger">
-      <p *ngIf="isActionTypeValid&&ActionID<=0"> This field is required .!</p>
-    </div>
-  </div>
-
-  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="ShowHideNextRole">
-    <label for="ddlDistrictID" class="form-label">Next Role <span style="color:red;">*</span></label>
-
-    <select class="form-select" (change)="NextGetUserDetailsByRoleID()" [(ngModel)]="NextRoleID">
-      <option value="0" selected>--Select Role--</option>
-      <option *ngFor="let item of UserRoleList" value="{{item.RoleID}}">{{item.RoleName}}</option>
-    </select>
-    <div *ngIf="isNextRoleIDValid&&NextRoleID<=0" class="text-danger">
-      <p *ngIf="isNextRoleIDValid&&NextRoleID<=0"> This field is required .!</p>
-    </div>
-  </div>
-
-  <!--<div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="ShowHideNextAction">
-    <label for="ddlAction" class="form-label">Next Action <span style="color:red;">*</span></label>
-    <select class="form-select" [(ngModel)]="NextActionID">
-      <option value="0" disabled selected>--Select Action--</option>
-      <option *ngFor="let item of NextWorkFlowActionList" value="{{item.ActionID}}">{{item.ActionName}}</option>
-    </select>
-    <div *ngIf="isNextActionValid&&NextActionID<=0" class="text-danger">
-      <p *ngIf="isNextActionValid&&NextActionID<=0"> This field is required .!</p>
-    </div>
-  </div>-->
-
-  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="ShowHideNextUser">
-    <label for="ddlDistrictID" class="form-label">Next User <span style="color:red;">*</span></label>
-    <select class="form-select" [(ngModel)]="NextUserID">
-      <option value="0" selected>--Select User--</option>
-      <option *ngFor="let item of UserListRoleWise" value="{{item.UId}}">{{item.Name}}</option>
-    </select>
-    <div *ngIf="isNextUserIdValid&&NextUserID<=0" class="text-danger">
-      <p *ngIf="isNextUserIdValid&&NextUserID<=0"> This field is required .!</p>
-    </div>
-  </div>
-
-  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="sSOLoginDataModel.RoleID==19">
-    <label class="form-label">Upload Document</label>
-    <div class="d-flex">
-      <input type="file" style="display:none" name="UploadDocument" id="UploadDocument" class="form-control" (change)="ValidateDocumentImage($event)" />
-      <label class="btn upload" for="UploadDocument">
-        <span class="filename">Choose file</span>
-        {{UploadDocument === '' ? 'No File Choosen' : UploadDocument_Dis_FileName}}
-      </label>
-      <div class="btn-group" *ngIf="UploadDocument != ''">
-        <a class="btn btn-outline-primary" target="_blank" href="{{UploadDocumentPath}}"><i class="fa fa-eye"></i></a>
-        <button type="button" class="btn btn-outline-danger" (click)="DeleteImage(UploadDocument)"><i class="fa fa-trash-o"></i></button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-</div>
-
-<div class="row  m-2" [hidden]="sSOLoginDataModel.RoleID==16 || QueryStringStatus!='Pending'">
-  <div class="col-lg-12 col-md-12 col-sm-12 col-12 mb-3">
-    <label>Remarks  <span style="color:red;">*</span></label>
-    <textarea id="CheckFinalRemark" class="form-control" [(ngModel)]="CheckFinalRemark"></textarea>
-    <div *ngIf="isRemarkValid&&CheckFinalRemark==''" class="text-danger">
-      <p *ngIf="isRemarkValid&&CheckFinalRemark==''"> This field is required .!</p>
+    <div class="row" *ngIf="sSOLoginDataModel.RoleID==19">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-12 mb-3">
+        <app-add-application-penalty-dce></app-add-application-penalty-dce>
+      </div>
     </div>
-  </div>
+    <!--<app-preview-fdr-detail></app-preview-fdr-detail>
+    <app-preview-payment-detail></app-preview-payment-detail>-->
+    <!--Class Wise Student Details-->
+    <!--<div class="card mb-0">
+      <div class="card-header d-xxl-flex d-xl-flex d-md-flex d-sm-block justify-content-between align-items-center">
+        <b><i class="bi bi-table"></i> Class Wise Statistics </b>
+        <div class="d-flex align-items-center">
+          <div class="btn-group mr-15" role="group" aria-label="Basic outlined example">
+          </div>
+          <div class="d-flex align-items-center table-filter mr-15">
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-hover table-striped-columns" id="tabellist" #content>
+            <thead>
+              <tr>
+                <th>
+                  Compliance
+                </th>
+                <th>Remark</th>
+                <th>Sr. No</th>
+                <th>Faculty</th>
+                <th>Class</th>
 
-</div>
-<div class="row  m-2" [hidden]="sSOLoginDataModel.RoleID==16 || QueryStringStatus!='Pending'">
-  <div class="col-md-12">
-    <button type="button" class="btn btn-primary" (click)="DocumentScrutiny()" title="Submit">Submit</button>
-  </div>
-</div>
+                <th>Section</th>
+
+                <th>SC Boys</th>
+                <th>SC Girls</th>
+                <th>ST Boys</th>
+                <th>ST Girls</th>
+                <th>OBC Boys</th>
+                <th>OBC Girls</th>
+
+                <th>MBC Boys</th>
+                <th>MBC Girls</th>
+                <th>Gen Boys</th>
+                <th>Gen Girls</th>
+                <th>EWS Boys</th>
+                <th>EWS  Girls</th>
+                <th>Total Boys</th>
+                <th>Total Girls</th>
+                <th>Total Minority Boys</th>
+                <th>Total Minority Girls</th>
+                <th>Total PH Boys</th>
+                <th>Total PH Girls</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of CheckList_ClassWiseStudentDetailsList let idx=index;">
+                <td>
+                  {{item.Action}}
+                </td>
+                <td>
+                  {{item.Action=='No'?item.Remark:''}}
+                </td>
+                <td>{{idx+1}}</td>
+                <td>
+                  {{item.CourseName}}
+
+                </td>
+                <td>
+                  {{item.Class}}
+                </td>
+                <td>
+                  <input type="text" disabled class="form-control" id="txSCSection{{idx}}" name="txSection{{idx}}" [(ngModel)]="item.Section" autocomplete="off">
+
+                </td>
+
+                <td>
+                  <input type="text" disabled class="form-control" id="txSCBoysTotal{{idx}}" name="txSCBoysTotal{{idx}}" [(ngModel)]="item.SCBoysCount" autocomplete="off">
+
+                </td>
+                <td>
+                  <input type="text" disabled class="form-control" id="txSCGirlsTotal{{idx}}" name="txSCGirlsTotal{{idx}}" [(ngModel)]="item.SCGirlsCount" autocomplete="off">
+                </td>
+
+                <td>
+                  <input type="text" disabled class="form-control" id="txSTBoysTotal{{idx}}" name="txSTBoysTotal{{idx}}" [(ngModel)]="item.STBoysCount" autocomplete="off">
+                </td>
+                <td>
+                  <input type="text" disabled class="form-control" id="txSTBoysTotal{{idx}}" name="txSTBoysTotal{{idx}}" [(ngModel)]="item.STGirlsCount" autocomplete="off">
+                </td>
+
+                <td>
+                  <input type="text" disabled class="form-control" id="txOBCBoysTotal{{idx}}" name="txOBCBoysTotal{{idx}}" [(ngModel)]="item.OBCBoysCount" autocomplete="off">
+                </td>
+                <td>
+                  <input type="text" disabled class="form-control" id="txOBCGirlsCount{{idx}}" name="txOBCGirlsCount{{idx}}" [(ngModel)]="item.OBCGirlsCount" autocomplete="off">
+                </td>
+
+                <td>
+                  <input type="text" disabled class="form-control" id="txMBCBoysTotal{{idx}}" name="txMBCBoysTotal{{idx}}" [(ngModel)]="item.MBCBoysCount" autocomplete="off">
+                </td>
+                <td>
+                  <input type="text" disabled class="form-control" id="txMBCBoysTotal{{idx}}" name="txMBCBoysTotal{{idx}}" [(ngModel)]="item.MBCGirlsCount" autocomplete="off">
+                </td>
+
+                <td>
+                  <input type="text" disabled class="form-control" id="txMBCBoysTotal{{idx}}" name="txGenBoysTotal{{idx}}" [(ngModel)]="item.GenBoysCount" autocomplete="off">
+                </td>
+                <td>
+                  <input type="text" disabled class="form-control" id="txMBCBoysTotal{{idx}}" name="txGenGirlsTotal{{idx}}" [(ngModel)]="item.GenGirlsCount" autocomplete="off">
+                </td>
+
+                <td>
+                  <input type="text" disabled class="form-control" id="txEWSBoysTotal{{idx}}" name="txEWSBoysTotal{{idx}}" [(ngModel)]="item.EWSBoysCount" autocomplete="off">
+                </td>
+                <td>
+                  <input type="text" disabled class="form-control" id="txEWSGirlsTotal{{idx}}" name="txEWSGirlsTotal{{idx}}" [(ngModel)]="item.EWSGirlsCount" autocomplete="off">
+                </td>
+                <td>
+                  <input type="text" disabled class="form-control" id="txTotalBoys{{idx}}" name="txTotalBoys{{idx}}" [(ngModel)]="item.TotalBoys" autocomplete="off">
+                </td>
+                <td>
+                  <input type="text" disabled class="form-control" id="txTotalGirls{{idx}}" name="txTotalGirls{{idx}}" [(ngModel)]="item.TotalGirls" autocomplete="off">
+
+                </td>
+
+                <td>
+                  <input type="text" disabled class="form-control" id="txOFTotalMinorityBoys{{idx}}" name="txOFTotalMinorityBoys{{idx}}" [(ngModel)]="item.OFTotalMinorityBoys" autocomplete="off">
+                </td>
+                <td>
+                  <input type="text" disabled class="form-control" id="txOFTotalMinorityGirls{{idx}}" name="txOFTotalMinorityGirls{{idx}}" [(ngModel)]="item.OFTotalMinorityGirls" autocomplete="off">
+                </td>
+
+                <td>
+                  <input type="text" disabled class="form-control" id="txOFTotalPHBoys{{idx}}" name="txOFTotalPHBoys{{idx}}" [(ngModel)]="item.OFTotalPHBoys" autocomplete="off">
+                </td>
+                <td>
+                  <input type="text" disabled class="form-control" id="txOFTotalPHGirls{{idx}}" name="txOFTotalPHGirls{{idx}}" [(ngModel)]="item.OFTotalPHGirls" autocomplete="off">
+                </td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr class="fw-bold">
+                <td colspan="6">Total</td>
+
+                <td>{{SCBoysCountFooter}}</td>
+                <td>{{SCGirlsCountFooter}}</td>
+                <td>{{STBoysCountFooter}}</td>
+                <td>{{STGirlsCountFooter}}</td>
+                <td>{{OBCBoysCountFooter}}</td>
+                <td>{{OBCGirlsCountFooter}}</td>
+                <td>{{MBCBoysCountFooter}}</td>
+                <td>{{MBCGirlsCountFooter}}</td>
+                <td>{{GenBoysCountFooter}}</td>
+                <td>{{GenGirlsCountFooter}}</td>
+                <td>{{EWSBoysCountFooter}}</td>
+                <td>{{EWSGirlsCountFooter}}</td>
+                <td>{{TotalBoysFooter}}</td>
+                <td>{{TotalGirlsFooter}}</td>
+                <td>{{OFTotalMinorityBoysFooter}}</td>
+                <td>{{OFTotalMinorityGirlsFooter}}</td>
+                <td>{{OFTotalPHBoysFooter}}</td>
+                <td>{{OFTotalPHGirlsFooter}}</td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+        <div class="row" *ngIf="ClassWiseStudentFinalRemarks.length>0">
+          <div class="table-responsive">
+            <table class="table table-bordered table-hover table-striped">
+              <thead>
+                <tr>
+                  <th>Sr.No.</th>
+                  <th>Role</th>
+                  <th>Action</th>
+                  <th>Remark</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item1 of ClassWiseStudentFinalRemarks ; let idx =index">
+                  <td>{{idx+1}}</td>
+                  <td>{{item1.RoleID}}</td>
+                  <td>{{item1.ActionName}}</td>
+                  <td>{{item1.Remark}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </div>-->
+    <!--End Class Wise Student Details-->
+    <!--subject wise data-->
+    <!--<div class="card mb-0">
+      <div class="card-header d-xxl-flex d-xl-flex d-md-flex d-sm-block justify-content-between align-items-center">
+        <b><i class="bi bi-table"></i>Subject Wise Student Statistics </b>
+        <div class="d-flex align-items-center">
+          <div class="btn-group mr-15" role="group" aria-label="Basic outlined example">
+
+          </div>
+          <div class="d-flex align-items-center table-filter mr-15">
+
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-hover table-striped-columns" id="tabellist" #content>
+            <thead>
+              <tr>
+                <th>
+                  Compliance
+                </th>
+                <th>Remark</th>
+                <th>Sr. No</th>
+                <th>Faculty</th>
+                <th>SubjectName</th>
+
+                <th>1st Year Boys</th>
+                <th>1st Year Girls</th>
+
+                <th>2nd Year Boys</th>
+                <th>2nd Year Girls </th>
+
+                <th>3rd Year Boys</th>
+                <th>3rd Year Girls</th>
+
+                <th>Previous Boys</th>
+                <th>Previous Girls</th>
+
+                <th>Final Boys</th>
+                <th>Final Girls</th>
+
+                <th>Diploma Boys</th>
+                <th>Diploma Girls</th>
+
+                <th>Other Boys</th>
+                <th>Other Girls</th>
+
+                <th>Total</th>
+
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of CheckList_SubjectWiseStudentDetailsList let idx=index;">
+
+                <td>
+                  {{item.Action}}
+                </td>
+                <td>
+                  {{item.Action=='No'?item.Remark:''}}
+                </td>
+
+                <td>{{idx+1}}</td>
+                <td>
+                  {{item.CourseName}}
+
+                </td>
+                <td>
+                  {{item.SubjectName}}
+                </td>
+
+                <td>
+                  <input type="text" disabled class="form-control" id="txSCBoysTotal{{idx}}" name="txSCBoysTotal{{idx}}" [(ngModel)]="item.FirstYearBoysCount" autocomplete="off">
+
+                </td>
+                <td>
+                  <input type="text" disabled class="form-control" id="txSCGirlsTotal{{idx}}" name="txSCGirlsTotal{{idx}}" [(ngModel)]="item.FirstYearGirlsCount" autocomplete="off">
+                </td>
+
+                <td>
+                  <input type="text" disabled class="form-control" id="txSTBoysTotal{{idx}}" name="txSTBoysTotal{{idx}}" [(ngModel)]="item.SecYearBoysCount" autocomplete="off">
+                </td>
+                <td>
+                  <input type="text" disabled class="form-control" id="txSTBoysTotal{{idx}}" name="txSTBoysTotal{{idx}}" [(ngModel)]="item.SecYearGirlsCount" autocomplete="off">
+                </td>
+
+                <td>
+                  <input type="text" disabled class="form-control" id="txOBCBoysTotal{{idx}}" name="txOBCBoysTotal{{idx}}" [(ngModel)]="item.ThirdYearBoysCount" autocomplete="off">
+                </td>
+                <td>
+                  <input type="text" disabled class="form-control" id="txOBCGirlsCount{{idx}}" name="txOBCGirlsCount{{idx}}" [(ngModel)]="item.ThirdYearGirlsCount" autocomplete="off">
+                </td>
+
+                <td>
+                  <input type="text" disabled class="form-control" id="txMBCBoysTotal{{idx}}" name="txMBCBoysTotal{{idx}}" [(ngModel)]="item.PervYearBoysCount" autocomplete="off">
+                </td>
+                <td>
+                  <input type="text" disabled class="form-control" id="txMBCBoysTotal{{idx}}" name="txMBCBoysTotal{{idx}}" [(ngModel)]="item.PervYearGirlsCount" autocomplete="off">
+                </td>
+
+                <td>
+                  <input type="text" disabled class="form-control" id="txMBCBoysTotal{{idx}}" name="txGenBoysTotal{{idx}}" [(ngModel)]="item.FinalYearBoysCount" autocomplete="off">
+                </td>
+                <td>
+                  <input type="text" disabled class="form-control" id="txMBCBoysTotal{{idx}}" name="txGenGirlsTotal{{idx}}" [(ngModel)]="item.FinalYearGirlsCount" autocomplete="off">
+                </td>
+
+
+                <td>
+                  <input type="text" disabled class="form-control" id="txTotalBoys{{idx}}" name="txTotalBoys{{idx}}" [(ngModel)]="item.DiplomaBoysCount" autocomplete="off">
+                </td>
+                <td>
+                  <input type="text" disabled class="form-control" id="txTotalGirls{{idx}}" name="txTotalGirls{{idx}}" [(ngModel)]="item.DiplomaGirlsCount" autocomplete="off">
+                </td>
+
+                <td>
+                  <input type="text" disabled class="form-control" id="txOtherBoysCount{{idx}}" name="txTotalBoys{{idx}}" [(ngModel)]="item.OtherBoysCount" autocomplete="off">
+                </td>
+                <td>
+                  <input type="text" disabled class="form-control" id="txOtherGirlsCount{{idx}}" name="txTotalGirls{{idx}}" [(ngModel)]="item.OtherGirlsCount" autocomplete="off">
+                </td>
+
+                <td>
+                  <input type="text" class="form-control" disabled id="txTotal{{idx}}" name="txTotalGirls{{idx}}" [(ngModel)]="item.Total" autocomplete="off">
+                </td>
+              </tr>
+            </tbody>
+
+            <tfoot>
+              <tr class="fw-bold">
+                <td colspan="4">Total</td>
+
+                <td></td>
+                <td>{{FirstYearBoysCountFooter}}</td>
+                <td>{{FirstYearGirlsCountFooter}}</td>
+
+                <td>{{SecYearBoysCountFooter}}</td>
+                <td>{{SecYearGirlsCountFooter}}</td>
+
+                <td>{{ThirdYearBoysCountFooter}}</td>
+                <td>{{ThirdYearGirlsCountFooter}}</td>
+
+                <td>{{PervYearBoysCountFooter}}</td>
+                <td>{{PervYearGirlsCountFooter}}</td>
+
+                <td>{{FinalYearBoysCountFooter}}</td>
+                <td>{{FinalYearGirlsCountFooter}}</td>
+
+                <td>{{DiplomaBoysCountFooter}}</td>
+                <td>{{DiplomaGirlsCountFooter}}</td>
+
+                <td>{{OtherBoysCountFooter}}</td>
+                <td>{{OtherGirlsCountFooter}}</td>
+                <td>{{TotalFooter}}</td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+
+
+        <div class="row" *ngIf="SubjectWiseStudentFinalRemarks.length>0">
+          <div class="table-responsive">
+            <table class="table table-bordered table-hover table-striped">
+              <thead>
+                <tr>
+                  <th>Sr.No.</th>
+                  <th>Role</th>
+                  <th>Action</th>
+                  <th>Remark</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item1 of SubjectWiseStudentFinalRemarks ; let idx =index">
+                  <td>{{idx+1}}</td>
+                  <td>{{item1.RoleID}}</td>
+                  <td>{{item1.ActionName}}</td>
+                  <td>{{item1.Remark}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+        </div>
+
+
+
+
+
+
+      </div>
+
+    </div>-->
+    <!--end subject wise data-->
+
+    <div class="row m-2" [hidden]="sSOLoginDataModel.RoleID==16 || QueryStringStatus!='Pending'">
+      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+        <label for="ddlAction" class="form-label">Application On Action <span style="color:red;">*</span></label>
+        <select class="form-select" (change)="OnChangeCurrentAction()" [(ngModel)]="ActionID">
+          <option value="0" disabled selected>--Select Action--</option>
+          <option *ngFor="let item of WorkFlowActionList" value="{{item.ActionID}}">{{sSOLoginDataModel.RoleID==19&&item.ActionName=='Approve'?'Forward':item.ActionName}}</option>
+        </select>
+        <div *ngIf="isActionTypeValid&&ActionID<=0" class="text-danger">
+          <p *ngIf="isActionTypeValid&&ActionID<=0"> This field is required .!</p>
+        </div>
+      </div>
+
+      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="ShowHideNextRole">
+        <label for="ddlDistrictID" class="form-label">Next Role <span style="color:red;">*</span></label>
+
+        <select class="form-select" (change)="NextGetUserDetailsByRoleID()" [(ngModel)]="NextRoleID">
+          <option value="0" selected>--Select Role--</option>
+          <option *ngFor="let item of UserRoleList" value="{{item.RoleID}}">{{item.RoleName}}</option>
+        </select>
+        <div *ngIf="isNextRoleIDValid&&NextRoleID<=0" class="text-danger">
+          <p *ngIf="isNextRoleIDValid&&NextRoleID<=0"> This field is required .!</p>
+        </div>
+      </div>
+
+      <!--<div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="ShowHideNextAction">
+        <label for="ddlAction" class="form-label">Next Action <span style="color:red;">*</span></label>
+        <select class="form-select" [(ngModel)]="NextActionID">
+          <option value="0" disabled selected>--Select Action--</option>
+          <option *ngFor="let item of NextWorkFlowActionList" value="{{item.ActionID}}">{{item.ActionName}}</option>
+        </select>
+        <div *ngIf="isNextActionValid&&NextActionID<=0" class="text-danger">
+          <p *ngIf="isNextActionValid&&NextActionID<=0"> This field is required .!</p>
+        </div>
+      </div>-->
+
+      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="ShowHideNextUser">
+        <label for="ddlDistrictID" class="form-label">Next User <span style="color:red;">*</span></label>
+        <select class="form-select" [(ngModel)]="NextUserID">
+          <option value="0" selected>--Select User--</option>
+          <option *ngFor="let item of UserListRoleWise" value="{{item.UId}}">{{item.Name}}</option>
+        </select>
+        <div *ngIf="isNextUserIdValid&&NextUserID<=0" class="text-danger">
+          <p *ngIf="isNextUserIdValid&&NextUserID<=0"> This field is required .!</p>
+        </div>
+      </div>
+
+      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="sSOLoginDataModel.RoleID==19">
+        <label class="form-label">Upload Document</label>
+        <div class="d-flex">
+          <input type="file" style="display:none" name="UploadDocument" id="UploadDocument" class="form-control" (change)="ValidateDocumentImage($event)" />
+          <label class="btn upload" for="UploadDocument">
+            <span class="filename">Choose file</span>
+            {{UploadDocument === '' ? 'No File Choosen' : UploadDocument_Dis_FileName}}
+          </label>
+          <div class="btn-group" *ngIf="UploadDocument != ''">
+            <a class="btn btn-outline-primary" target="_blank" href="{{UploadDocumentPath}}"><i class="fa fa-eye"></i></a>
+            <button type="button" class="btn btn-outline-danger" (click)="DeleteImage(UploadDocument)"><i class="fa fa-trash-o"></i></button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row  m-2" [hidden]="sSOLoginDataModel.RoleID==16 || QueryStringStatus!='Pending'">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-12 mb-3">
+        <label>Remarks  <span style="color:red;">*</span></label>
+        <textarea id="CheckFinalRemark" class="form-control" [(ngModel)]="CheckFinalRemark"></textarea>
+        <div *ngIf="isRemarkValid&&CheckFinalRemark==''" class="text-danger">
+          <p *ngIf="isRemarkValid&&CheckFinalRemark==''"> This field is required .!</p>
+        </div>
+      </div>
+
+    </div>
+    <div class="row  m-2" [hidden]="sSOLoginDataModel.RoleID==16 || QueryStringStatus!='Pending'">
+      <div class="col-md-12">
+        <button type="button" class="btn btn-primary" (click)="DocumentScrutiny()" title="Submit">Submit</button>
+      </div>
+    </div>
 

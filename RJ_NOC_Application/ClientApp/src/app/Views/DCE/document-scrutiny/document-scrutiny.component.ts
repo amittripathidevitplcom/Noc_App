@@ -165,6 +165,7 @@ export class DocumentScrutinyComponent implements OnInit {
   //private checkListDetailsComponent: DocumentScrutinyCheckListDetailsComponent;
 
   @ViewChild('TarilMymodal') tarilMymodal: TemplateRef<any> | undefined;
+  public FYearID: number = 0;
   constructor(private toastr: ToastrService, private loaderService: LoaderService, private applyNOCApplicationService: ApplyNOCApplicationService,
     private landDetailsService: LandDetailsService, private medicalDocumentScrutinyService: MedicalDocumentScrutinyService, private facilityDetailsService: FacilityDetailsService,
     private roomDetailsService: RoomDetailsService, private staffDetailService: StaffDetailService,
@@ -178,6 +179,7 @@ export class DocumentScrutinyComponent implements OnInit {
     this.SelectedApplyNOCID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplyNOCID')?.toString()));
     this.ApplicationNo = this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplicationNoYear')?.toString()) + "/" + this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplicationNoID')?.toString());
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
+    this.FYearID = this.sSOLoginDataModel.SessionID;
     await this.GetCollageDetails();
     await this.CheckTabsEntry();
     try {

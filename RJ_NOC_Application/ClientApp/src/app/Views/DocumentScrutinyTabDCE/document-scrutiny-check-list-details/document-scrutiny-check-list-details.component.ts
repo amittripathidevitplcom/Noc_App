@@ -26,7 +26,7 @@ import { LegalEntityDataModel } from '../../../Models/TrusteeGeneralInfoDataMode
 import { ApplyNocParameterService } from '../../../Services/Master/apply-noc-parameter.service';
 import { FileUploadService } from '../../../Services/FileUpload/file-upload.service';
 import { ApplyNocApplicationDataModel } from '../../../Models/ApplyNocParameterDataModel';
-
+import { NocpaymentService } from '../../../Services/NocPayment/noc-payment.service';
 
 @Injectable({
   providedIn: 'root'
@@ -216,14 +216,16 @@ export class DocumentScrutinyCheckListDetailsComponentDce implements OnInit {
   OtherBoysCountFooter: number = 0
   OtherGirlsCountFooter: number = 0
   TotalFooter: number = 0
-
+  
   public QueryStringStatus: any = '';
-
+  public paymentResponseDataModel: any[] = [];
+  public OnlinePaymentFinalRemarks: any = [];
+  FYID: number = 0
   constructor(private applyNocParameterService: ApplyNocParameterService, private toastr: ToastrService, private loaderService: LoaderService, private applyNOCApplicationService: ApplyNOCApplicationService,
     private landDetailsService: LandDetailsService, private dcedocumentScrutinyService: DCEDocumentScrutinyService, private facilityDetailsService: FacilityDetailsService,
     private roomDetailsService: RoomDetailsService, private staffDetailService: StaffDetailService, private TrusteeGeneralInfoService: TrusteeGeneralInfoService,
     private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private modalService: NgbModal, private collegeService: CollegeService
-    , private fileUploadService: FileUploadService
+    , private fileUploadService: FileUploadService, private nocpaymentService: NocpaymentService
   ) { }
 
 
@@ -234,6 +236,7 @@ export class DocumentScrutinyCheckListDetailsComponentDce implements OnInit {
     this.SelectedApplyNOCID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplyNOCID')?.toString()));
     this.QueryStringStatus = this.router.snapshot.paramMap.get('Status')?.toString();
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
+    this.FYID = this.sSOLoginDataModel.SessionID;
     this.CountTotalRevertDCE();
     this.GetLandDetailsDataList();
     this.GetFacilityDetailAllList();
@@ -261,6 +264,7 @@ export class DocumentScrutinyCheckListDetailsComponentDce implements OnInit {
     this.getFDRDetailId(this.SelectedCollageID);
     this.GetOfflinePaymentDetails();
     this.ViewApplyNocApplication(this.SelectedApplyNOCID);
+    await this.GetOnlinelinePaymentDetails(this.SelectedCollageID);
   }
 
 
@@ -864,11 +868,29 @@ export class DocumentScrutinyCheckListDetailsComponentDce implements OnInit {
 
 
       if (this.SelectedDepartmentID == 3) {
-        if (this.CollegeType_IsExisting) {
+        if (this.CollegeType_IsExisting)
+        {
+          if (this.FYID >65) {
+            if (this.CheckTabsEntryData['LegalEntity'] <= 0 || this.CheckTabsEntryData['CollegeDetail'] <= 0 || this.CheckTabsEntryData['CollegeManagementSociety'] <= 0 || this.CheckTabsEntryData['LandInformation'] <= 0
+              || this.CheckTabsEntryData['Facility'] <= 0 || this.CheckTabsEntryData['RequiredDocument'] <= 0 || this.CheckTabsEntryData['RoomDetails'] <= 0 || this.CheckTabsEntryData['OtherInformation'] <= 0
+              || this.CheckTabsEntryData['BuildingDocuments'] <= 0 || this.CheckTabsEntryData['StaffDetails'] <= 0 || this.CheckTabsEntryData['OLDNOCDetails'] <= 0 || this.CheckTabsEntryData['AcademicInformation'] <= 0
+              || this.CheckTabsEntryData['OtherDocument'] <= 0 || this.CheckTabsEntryData['HostelDetails'] <= 0 || this.CheckTabsEntryData['FDRDetails'] <= 0 || this.CheckTabsEntryData['OnlinePaymentDetails'] <= 0) {   //|| this.CheckTabsEntryData['ClassWiseStudentDetail'] <= 0|| this.CheckTabsEntryData['SubjectWiseStudentDetail'] <= 0
+              this.isFormvalid = false;
+              this.toastr.warning('Please do document scrutiny all tabs');
+            } else {
+              if (this.CheckTabsEntryData['LegalEntity'] <= 0 || this.CheckTabsEntryData['CollegeDetail'] <= 0 || this.CheckTabsEntryData['CollegeManagementSociety'] <= 0 || this.CheckTabsEntryData['LandInformation'] <= 0
+                || this.CheckTabsEntryData['Facility'] <= 0 || this.CheckTabsEntryData['RequiredDocument'] <= 0 || this.CheckTabsEntryData['RoomDetails'] <= 0 || this.CheckTabsEntryData['OtherInformation'] <= 0
+                || this.CheckTabsEntryData['BuildingDocuments'] <= 0 || this.CheckTabsEntryData['StaffDetails'] <= 0 || this.CheckTabsEntryData['OLDNOCDetails'] <= 0 || this.CheckTabsEntryData['AcademicInformation'] <= 0
+                || this.CheckTabsEntryData['OtherDocument'] <= 0 || this.CheckTabsEntryData['HostelDetails'] <= 0 || this.CheckTabsEntryData['FDRDetails'] <= 0 || this.CheckTabsEntryData['OfflinePaymentDetails'] <= 0 ) {   //|| this.CheckTabsEntryData['ClassWiseStudentDetail'] <= 0|| this.CheckTabsEntryData['SubjectWiseStudentDetail'] <= 0
+                this.isFormvalid = false;
+                this.toastr.warning('Please do document scrutiny all tabs');
+              }
+            }
+          }
           if (this.CheckTabsEntryData['LegalEntity'] <= 0 || this.CheckTabsEntryData['CollegeDetail'] <= 0 || this.CheckTabsEntryData['CollegeManagementSociety'] <= 0 || this.CheckTabsEntryData['LandInformation'] <= 0
             || this.CheckTabsEntryData['Facility'] <= 0 || this.CheckTabsEntryData['RequiredDocument'] <= 0 || this.CheckTabsEntryData['RoomDetails'] <= 0 || this.CheckTabsEntryData['OtherInformation'] <= 0
             || this.CheckTabsEntryData['BuildingDocuments'] <= 0 || this.CheckTabsEntryData['StaffDetails'] <= 0 || this.CheckTabsEntryData['OLDNOCDetails'] <= 0 || this.CheckTabsEntryData['AcademicInformation'] <= 0
-            || this.CheckTabsEntryData['OtherDocument'] <= 0 || this.CheckTabsEntryData['HostelDetails'] <= 0 || this.CheckTabsEntryData['FDRDetails'] <= 0|| this.CheckTabsEntryData['OfflinePaymentDetails'] <= 0) {   //|| this.CheckTabsEntryData['ClassWiseStudentDetail'] <= 0|| this.CheckTabsEntryData['SubjectWiseStudentDetail'] <= 0
+            || this.CheckTabsEntryData['OtherDocument'] <= 0 || this.CheckTabsEntryData['HostelDetails'] <= 0 || this.CheckTabsEntryData['FDRDetails'] <= 0 || this.CheckTabsEntryData['OfflinePaymentDetails'] <= 0 || this.CheckTabsEntryData['OnlinePaymentDetails'] <= 0) {   //|| this.CheckTabsEntryData['ClassWiseStudentDetail'] <= 0|| this.CheckTabsEntryData['SubjectWiseStudentDetail'] <= 0
             this.isFormvalid = false;
             this.toastr.warning('Please do document scrutiny all tabs');
           }
@@ -1474,6 +1496,55 @@ export class DocumentScrutinyCheckListDetailsComponentDce implements OnInit {
             this.toastr.error(this.ErrorMessage);
           }
         }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  async GetPreviewPaymentDetails(SelectedCollageID: number) {
+    try {
+      this.loaderService.requestStarted();
+      await this.nocpaymentService.GetPreviewPaymentDetails(SelectedCollageID, this.sSOLoginDataModel.SessionID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.paymentResponseDataModel = data['Data'];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  async GetOnlinelinePaymentDetails(SelectedCollageID: number) {
+    try {
+
+      this.loaderService.requestStarted();
+      await this.dcedocumentScrutinyService.DocumentScrutiny_OnlinePaymentDetail(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
+        .then((data: any) => {
+          debugger;
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+
+          // data
+          this.paymentResponseDataModel = data['Data'][0]['OnlinePaymentDetails'][0];
+          this.OnlinePaymentFinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
+          this.dsrequest.FinalRemark = this.OnlinePaymentFinalRemarks.find((x: { RoleIDS: number; }) => x.RoleIDS == this.sSOLoginDataModel.RoleID)?.Remark;
+          this.dsrequest.ActionID = this.OnlinePaymentFinalRemarks.find((x: { RoleIDS: number; }) => x.RoleIDS == this.sSOLoginDataModel.RoleID)?.ActionID;
+        }, (error: any) => console.error(error));
     }
     catch (Ex) {
       console.log(Ex);

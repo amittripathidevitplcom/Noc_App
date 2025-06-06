@@ -292,6 +292,7 @@ import { DCEAdminViewAllCommentComponent } from './Views/DCE/dceadmin-view-all-c
 import { MGThreeAfterInspectionApplicationListComponent } from './Views/DocumentScrutinyTab/mgthree-after-inspection-application-list/mgthree-after-inspection-application-list.component';
 import { MGThreeDocumentScrutinyListComponent } from './Views/DocumentScrutinyTab/mgthree-document-scrutiny-list/mgthree-document-scrutiny-list.component';
 import { PaymentHistoryReportCollegeWiseComponent } from './Views/Reports/payment-history-report-college-wise/payment-history-report-college-wise.component';
+import { AdminDashboardComponent } from './Views/admin-dashboard/admin-dashboard.component';
 
 const routes: Routes = [
   {
@@ -1210,7 +1211,10 @@ const routes: Routes = [
       {
         path: 'paymenthistory', component: PaymentHistoryReportCollegeWiseComponent
       },
-     
+      {
+        path: 'admindashboard', component: AdminDashboardComponent
+
+      },
 
     ]
   },

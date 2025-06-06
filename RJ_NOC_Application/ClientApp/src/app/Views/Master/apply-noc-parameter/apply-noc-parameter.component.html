@@ -2695,6 +2695,7 @@
             <li>Once you did the payment you need to upload proof of payment (receipt) from applied noc, <a href="#"> Upload Reciept</a></li>
             <li>Note: here only those subjects or courses will be visible for which draft is complete.</li>
             <li *ngIf="SelectedDepartmentID !=2">If NOC is for name change, location change, merger, coed to girl please fill details in <a href="#">College Amendment</a></li>
+            <li *ngIf="SelectedDepartmentID ==3">Please choose your application type carefully, application type cannot be changed at any conditions after final submission.</li>
           </ol>
           <ol class="text-danger" *ngIf="SelectedDepartmentID ==4">
             <li>Submit your application with appropriate option like- new course, increase in intake etc.</li>
