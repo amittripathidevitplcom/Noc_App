@@ -63,6 +63,7 @@ export class InfrastructureMedicalCollegeFacilitiesMgoneComponent implements OnI
   medicalcollegelecturetheatreForm!: FormGroup;
   legalentityAddInstituteForm!: FormGroup;
   medicalcollegelemuseumForm!: FormGroup;
+  InfrastructureMedicalcollegeForm!: FormGroup;
 
   request = new InfrastructureMedicalCollegeFacilitiesDataModel();  
   LectureTheatreDetails = new LectureTheatreDetailsDataModel();
@@ -166,72 +167,17 @@ export class InfrastructureMedicalCollegeFacilitiesMgoneComponent implements OnI
   public holdDepartmentID: number = 0;
   public isValidByLawsDocument: boolean = true;
   public ImageValidationMessage_ByLawsDocument: string = '';
-
+  public QueryStringDepartmentID: number = 0;
+  public QueryStringCollegeID: number = 0;
+  public SearchRecordID: string = '';
   constructor(private rightClickDisable: DisableRightClickService, private formBuilder: FormBuilder, private legalEntityService: LegalEntityService, private commonMasterService: CommonMasterService, private toastr: ToastrService, private loaderService: LoaderService, private router: ActivatedRoute, private routers: Router, private cdRef: ChangeDetectorRef, private fileUploadService: FileUploadService, private aadharServiceDetails: AadharServiceDetails) {
 
   }
-
-  //init() {
-  //  this.loaderService.getSpinnerObserver().subscribe((status) => {
-  //    this.cdRef.detectChanges();
-  //  });
-  //}
-
   async ngOnInit() {
 
     this.rightClickDisable.disableRightClick();
     this.loaderService.requestStarted();
-
-    try {
-      this.legalentityOlRegistrationForm = this.formBuilder.group(
-        {
-          LegalEntity: [''],
-          ddlRegistrationState: ['', [DropdownValidators]],
-          ddlRegistrationDistrict: ['', [DropdownValidators]],
-          OldRegistrationNo: ['', Validators.required],
-        });
-
-      this.legalentityForm_Registration = this.formBuilder.group(
-        {
-          txtNewRegistrationRegistration: ['', Validators.required],
-          txtMobileNumberRegistration: ['', [Validators.required, Validators.pattern("^[6-9][0-9]{9}$"), Validators.minLength(10), Validators.maxLength(10)]],
-          txtEmailIDRegistration: ['', [Validators.required, Validators.email, Validators.pattern("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$")]],
-          txtAadharNumber: ['', [Validators.required, Validators.pattern("^[2-9]{1}[0-9]{3}[0-9]{4}[0-9]{4}$"), Validators.minLength(12), Validators.maxLength(12)]]
-
-        });
-
-
-      this.legalentityForm = this.formBuilder.group(
-        {
-          txtNewRegistration: ['', Validators.required],
-          txtPreMobileNumber: ['', [Validators.required, Validators.pattern("^[6-9][0-9]{9}$"), Validators.minLength(10), Validators.maxLength(10)]],
-          txtPreEmailID: ['', [Validators.required, Validators.email, Validators.pattern("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$")]],
-
-          txtSocietyName: ['', Validators.required],
-          ddlSocietyPresentStatus: ['', [DropdownValidators]],
-          ddlState: ['', [DropdownValidators]],
-          ddlDistricts: ['', [DropdownValidators]],
-          ddlRegisteredAct: ['', [DropdownValidators]],
-          txtSocietyRegistrationDate: ['', Validators.required],
-          txtElectionPresentManagementCommitteeDate: ['', Validators.required],
-          txtSocietyRegisteredAddress: ['', Validators.required],
-          txtPincode: ['', [Validators.required, Validators.pattern("^[0-9]*$"), Validators.minLength(6), Validators.maxLength(6)]],
-          TrustLogoDoc: [''],
-          TrusteeMemberProofDoc: [''],
-          OtherInstitution: ['', Validators.required],
-          WomenMembers: ['', Validators.required],
-          DateOfElection: ['', Validators.required],
-          txtManagementCommitteecertified: ['', [Validators.required, Validators.pattern('^[a-zA-Z \-\']+')]],
-          txtSocietyPANNumber: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(10), Validators.pattern("^[A-Za-z]{5}[0-9]{4}[A-Za-z]$")]],
-          txtSocietyPanProofDoc: [''],
-          fRegistrationDocument: [''],
-          fLawsdocument: [''],
-          txtRegisteredActName: [''],
-          ddlFirstInception: [''],
-          fFirstInceptiondocument: [''],
-
-        });
-      //this.EnableDisableControls(true);
+       
       this.medicalcollegelecturetheatreForm = this.formBuilder.group(
         {
           
@@ -246,509 +192,62 @@ export class InfrastructureMedicalCollegeFacilitiesMgoneComponent implements OnI
           txtMuseumSize: ['', Validators.required],
           txtMuseumPhoto: ['']
         });
-      this.legalentityAddInstituteForm = this.formBuilder.group(
-        {
-          //Institute details
-          txtInstituteRegistrationNo: ['', Validators.required],
-          txtInstituteName: ['', Validators.required],
-          txtInstitutePersonName: ['', Validators.required],
-          txtInstituteDesignation: ['', Validators.required],
-          txtInstituteContactNumber: ['', [Validators.required, Validators.pattern("^[0-9]*$"), Validators.minLength(10), Validators.maxLength(10)]],
-          ddlInstituteStateID: ['', [DropdownValidators]]
-        });
-
-
-      this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
-      this.QueryStringLegalEntityID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('LegalEntityID')?.toString()));
-      console.log(this.sSOLoginDataModel);
-      if (this.sSOLoginDataModel.SSOID == "null" && this.sSOLoginDataModel.RoleID == 0) {
-        this.toastr.error("Unable to service request.!");
-        this.routers.navigate(['/ssologin']);
-        this.loaderService.requestEnded();
-        return;
-      }
-      /*this.GetDistrict();*/
-      //this.GetSocietyPresentStatusList();
-      //this.GetRegistrationDistrictListByRegistrationStateID(this.RegistrationState)
-      //this.GetStateList();
-      //this.GetMemberPost();
-      //await this.GetRegisteredActList();
-      this.SetDOBmindate();
-      //this.SetElectionPresentManagementCommitteeDatemindate();
-
-      this.QueryStringLegalEntityID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('LegalEntityID')?.toString()));
-      // get Legal Entity by id
-      if (this.QueryStringLegalEntityID > 0) {
-        //await this.GetApplicationList(this.QueryStringLegalEntityID);
-      }
-      else {
-       // await this.CheckExistsLegalEntity(this.sSOLoginDataModel.SSOID, this.sSOLoginDataModel.RoleID);
-      }
-      this.AnnexureDocumentPath = GlobalConstants.ImagePathURL + 'DCECMCAnn6.pdf';
-      this.AnnexureName = 'Download Annexure-6';
-     // await this.GetDepartmentList();
+    this.InfrastructureMedicalcollegeForm = this.formBuilder.group({
+      rdMGOneDemonstrationRoom:[''],
+      rdHistology:[''],
+      rdClinicalPhysiology:[''],
+      rdBiochemistry:[''],
+      rdHistopathologyCytopathology:[''],
+      rdClinicalPathologyHaematolog:[''],
+      rdMicrobiology:[''],
+      rdClinicalPharmacologyandComputerAssistedLearning:[''],
+      rdDissectionHall:[''],
+      txtDissectionHallNumber:[''],
+      txtDissectionHallCapacity:[''],
+      txtDissectionHallsize:[''],
+      rdSkillLaboratory:[''],
+      txtLaboratoryNumber:[''],
+      txtLaboratoryCapacity:[''],
+      rdCentralresearch:[''],
+      rdCentralLibrary:[''],
+      txtCentralLibraryArea:[''],
+      txtCentralLibrarySeatingCapacity:[''],
+      txtCentralLibraryBooks:[''],
+      JournalsIndianForeign:[''],
+      rdRuralHealthTrainingCentre:[''],
+      txtRuralHealth:[''],
+      rdUrbanHealthTrainingCentre:[''],
+      txtUrbanHealth:[''],
+      rdPowerBackup:[''],
+      txtPowerBackupCapacity:[''],
+    })
+    // query string
+    this.QueryStringDepartmentID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DepartmentID')?.toString()));
+    //this.QueryStringCollegeID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
+    this.SearchRecordID = this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString());
+    if (this.SearchRecordID.length > 20) {
+      await this.commonMasterService.GetCollegeID_SearchRecordIDWise(this.SearchRecordID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.request.CollegeID = data['Data']['CollegeID'];
+          this.QueryStringCollegeID = data['Data']['CollegeID'];
+          if (this.request.CollegeID == null || this.request.CollegeID == 0 || this.request.CollegeID == undefined) {
+            this.routers.navigate(['/draftapplicationlist']);
+          }
+        }, error => console.error(error));
     }
-    catch (Ex) {
-      console.log(Ex);
+    else {
+      this.routers.navigate(['/draftapplicationlist']);
     }
-    finally {
-      setTimeout(() => {
-        this.loaderService.requestEnded();
-      }, 0);
+    this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
+    console.log(this.request.CollegeID);
+    console.log(this.QueryStringCollegeID);
     }
-  }
-  get form() { return this.legalentityForm.controls; }
-  get ORform() { return this.legalentityOlRegistrationForm.controls; }
+    
   get AMform() { return this.medicalcollegelecturetheatreForm.controls; }
-  get museumform() { return this.medicalcollegelemuseumForm.controls; }
-  get AIform() { return this.legalentityAddInstituteForm.controls; }
-  get FormRegistration() { return this.legalentityForm_Registration.controls; }
-
-  //async GetApplicationList(LegalEntityID: any) {
-  //  try {
-  //    this.holdDepartmentID = this.request.ProcessDepartmentID;
-  //    this.loaderService.requestStarted();
-  //    await this.legalEntityService.ViewlegalEntityDataByID(LegalEntityID, this.UserID, this.sSOLoginDataModel.SSOID)
-  //      .then(async (data: any) => {
-  //        debugger;
-  //        data = JSON.parse(JSON.stringify(data));
-  //        this.ShowHideLegalEntity = true;
-  //        this.IsDepartmentShowHide = false;
-  //        this.isRegisterNoBox = false;
-  //        this.isDisabled = true;
-  //       // this.EnableDisableControls(false);
-  //        this.request.LegalEntityID = data['Data'][0]['data']['Table']['0']['LegalEntityID'];
-  //        if (data['Data'][0]['data']['Table']['0']['IsLegalEntity'] == 'Society') {
-  //          this.request.IsLegalEntity = '1';
-  //        }
-  //        if (data['Data'][0]['data']['Table']['0']['IsLegalEntity'] == 'Trust') {
-  //          this.request.IsLegalEntity = '2';
-  //        }
-  //        if (data['Data'][0]['data']['Table']['0']['IsLegalEntity'] == 'Company') {
-  //          this.request.IsLegalEntity = '3';
-  //        }
-  //        if (data['Data'][0]['data']['Table']['0']['IsLegalEntity'] == 'Other Entity') {
-  //          this.request.IsLegalEntity = '4';
-  //        }
-  //        this.isFormsFill = true;
-  //        this.request.RegistrationNo = data['Data'][0]['data']['Table']['0']['RegistrationNo'];
-  //        this.request.PresidentMobileNo = data['Data'][0]['data']['Table']['0']['PresidentMobileNo'];
-  //        this.request.PresidentAadhaarNumber = data['Data'][0]['data']['Table2']['0']['PresidentAadhaarNumber'];
-  //        this.request.PresidentEmail = data['Data'][0]['data']['Table']['0']['PresidentEmail'];
-  //        this.request.SocietyName = data['Data'][0]['data']['Table']['0']['SocietyName'];
-  //        this.request.SocietyPresentStatus = data['Data'][0]['data']['Table']['0']['SocietyPresentStatus'];
-  //        this.legalentityForm.get('ddlState')?.disable();
-  //        this.legalentityForm.get('ddlDistricts')?.disable();
-  //        this.request.StateID = data['Data'][0]['data']['Table']['0']['StateID'];
-  //        this.GetDistrictListByStateID(this.request.StateID);
-  //        this.request.DistrictID = data['Data'][0]['data']['Table']['0']['DistrictID'];
-
-  //        //this.GetRegisteredActList();
-  //        this.request.RegisteredActID = data['Data'][0]['data']['Table']['0']['RegisteredActID'];
-  //        await this.SelectRegistredAct(this.request.RegisteredActID);
-  //        this.request.RegisteredActName = data['Data'][0]['data']['Table']['0']['RegisteredActName'];
-  //        this.request.SocietyRegistrationDate = data['Data'][0]['data']['Table']['0']['SocietyRegistrationDate'];
-  //        this.request.ElectionPresentManagementCommitteeDate = data['Data'][0]['data']['Table']['0']['ElectionPresentManagementCommitteeDate'];
-  //        this.request.SocietyRegisteredAddress = data['Data'][0]['data']['Table']['0']['SocietyRegisteredAddress'];
-  //        this.request.Pincode = data['Data'][0]['data']['Table']['0']['Pincode'];
-  //        this.request.IsOtherInstitution = data['Data'][0]['data']['Table']['0']['IsOtherInstitution'];
-  //        this.SelectOtherInstitution(this.request.IsOtherInstitution);
-  //        this.request.IsWomenMembers = data['Data'][0]['data']['Table']['0']['IsWomenMembers'];
-  //        this.request.IsDateOfElection = data['Data'][0]['data']['Table']['0']['IsDateOfElection'];
-
-  //        if (data['Data'][0]['data']['Table']['0']['ManagementCommitteeCertified'] != '') {
-  //          this.request.ManagementCommitteeCertified = 'Yes';
-  //        }
-  //        else {
-  //          this.request.ManagementCommitteeCertified = 'No';
-  //        }
-  //        this.request.SocietyPANNumber = data['Data'][0]['data']['Table']['0']['SocietyPANNumber'];
-
-  //        //Document fill
-  //        this.request.TrustLogoDoc = data['Data'][0]['data']['Table']['0']['TrustLogoDoc'];
-  //        if (this.request.TrustLogoDoc != '') {
-  //          this.showTrustLogoDoc = true;
-  //        }
-  //        this.request.TrustLogoDocPath = data['Data'][0]['data']['Table']['0']['TrustLogoDocPath'];
-  //        this.request.Dis_TrustLogoDocName = data['Data'][0]['data']['Table']['0']['Dis_TrustLogoDocName'];
-  //        this.request.TrusteeMemberProofDoc = data['Data'][0]['data']['Table']['0']['TrusteeMemberProofDoc'];
-  //        if (this.request.TrusteeMemberProofDoc != '') {
-  //          this.showTrusteeMemberProofDoc = true;
-  //        }
-  //        this.request.TrusteeMemberProofDocPath = data['Data'][0]['data']['Table']['0']['TrusteeMemberProofDocPath'];
-  //        this.request.Dis_TrusteeMemberProofDocName = data['Data'][0]['data']['Table']['0']['Dis_TrusteeMemberProofDocName'];
-  //        this.request.SocietyPanProofDoc = data['Data'][0]['data']['Table']['0']['SocietyPanProofDoc'];
-  //        if (this.request.SocietyPanProofDoc != '') {
-  //          this.showSocietyPanProofDoc = true;
-  //        }
-  //        this.request.SocietyPanProofDocPath = data['Data'][0]['data']['Table']['0']['SocietyPanProofDocPath'];
-  //        this.request.Dis_SocietyPanProofDocName = data['Data'][0]['data']['Table']['0']['Dis_SocietyPanProofDocName'];
-
-  //        this.request.RegistrationDoc = data['Data'][0]['data']['Table']['0']['RegistrationDoc'];
-  //        this.request.Dis_RegistrationDocName = data['Data'][0]['data']['Table']['0']['Dis_RegistrationDocName'];
-  //        this.request.RegistrationDocPath = data['Data'][0]['data']['Table']['0']['RegistrationDocPath'];
-  //        this.request.ProcessDepartmentID = data['Data'][0]['data']['Table']['0']['ProcessDepartmentID'];
-
-  //        if (this.request.ProcessDepartmentID == 9) {
-  //          this.request.ByLawsDocument = data['Data'][0]['data']['Table']['0']['ByLawsDocument'];
-  //          this.request.Dis_ByLawsDocumentName = data['Data'][0]['data']['Table']['0']['Dis_ByLawsDocumentName'];
-  //          this.request.ByLawsDocumentPath = data['Data'][0]['data']['Table']['0']['ByLawsDocumentPath'];
-  //        }
-
-  //        if (this.request.ProcessDepartmentID == 2) {
-  //          this.request.FirstInception = data['Data'][0]['data']['Table']['0']['FirstInception'];
-  //          this.request.FirstInceptionDocument = data['Data'][0]['data']['Table']['0']['FirstInceptionDocument'];
-  //          this.request.Dis_FirstInceptionDocumentName = data['Data'][0]['data']['Table']['0']['Dis_FirstInceptionDocumentName'];
-  //          this.request.FirstInceptionDocumentPath = data['Data'][0]['data']['Table']['0']['FirstInceptionDocumentPath'];
-  //        }
-
-  //        //legalentityAddMember
-  //        this.request.MemberDetails = JSON.parse(JSON.stringify(data['Data'][0]['data']['Table2']));
-  //        console.log(this.request.MemberDetails);
-  //        this.request.InstituteDetails = JSON.parse(JSON.stringify(data['Data'][0]['data']['Table1']));
-  //        this.issaveCancelBtn = true;
-
-  //      }, error => console.error(error));
-  //  }
-  //  catch (Ex) {
-  //    console.log(Ex);
-  //  }
-  //  finally {
-  //    setTimeout(() => {
-  //      this.loaderService.requestEnded();
-  //    }, 200);
-  //  }
-  //}
-
-
-  //async CheckExistsLegalEntity(SSOID: string, RoleID: number) {
-  //  try {
-  //    this.loaderService.requestStarted();
-  //    await this.legalEntityService.CheckExistsLegalEntity(SSOID, RoleID)
-  //      .then((data: any) => {
-  //        data = JSON.parse(JSON.stringify(data));
-  //        this.State = data['State'];
-  //        this.SuccessMessage = data['SuccessMessage'];
-  //        this.ErrorMessage = data['ErrorMessage'];
-  //        if (this.State == 2) {
-  //          this.routers.navigate(['/totallegalentitypreview']);
-  //        }
-  //      }, error => console.error(error));
-  //  }
-  //  catch (Ex) {
-  //    console.log(Ex);
-  //  }
-  //  finally {
-  //    setTimeout(() => {
-  //      this.loaderService.requestEnded();
-  //    }, 200);
-  //  }
-  //}
-
-  //async GetMemberPost() {
-  //  try {
-  //    this.loaderService.requestStarted();
-  //    await this.commonMasterService.GetRoleListByLevel(2)
-  //      .then((data: any) => {
-  //        data = JSON.parse(JSON.stringify(data));
-  //        this.State = data['State'];
-  //        this.SuccessMessage = data['SuccessMessage'];
-  //        this.ErrorMessage = data['ErrorMessage'];
-  //        this.lstMemberPost = data['Data'];
-  //        if (this.request.MemberDetails.length == 0) {
-  //          this.memberdetails.MemberPostID = this.lstMemberPost[0].RoleID;
-  //        }
-  //      }, error => console.error(error));
-  //  }
-  //  catch (Ex) {
-  //    console.log(Ex);
-  //  }
-  //  finally {
-  //    setTimeout(() => {
-  //      this.loaderService.requestEnded();
-  //    }, 200);
-  //  }
-  //}
-  //async GetDistrict() {
-  //  try {
-  //    this.lstDistrict = [];
-  //    this.loaderService.requestStarted();
-  //    await this.commonMasterService.GetDistrictList()
-  //      .then((data: any) => {
-  //        data = JSON.parse(JSON.stringify(data));
-  //        this.State = data['State'];
-  //        this.SuccessMessage = data['SuccessMessage'];
-  //        this.ErrorMessage = data['ErrorMessage'];
-  //        this.lstDistrict = data['Data'];
-  //      }, error => console.error(error));
-  //  }
-  //  catch (Ex) {
-  //    console.log(Ex);
-  //  }
-  //  finally {
-  //    setTimeout(() => {
-  //      this.loaderService.requestEnded();
-  //    }, 200);
-  //  }
-  //}
-  //async GetSocietyPresentStatusList() {
-  //  try {
-  //    this.loaderService.requestStarted();
-  //    await this.commonMasterService.GetCommonMasterList_DepartmentAndTypeWise(0, 'SocietyPresentStatus')
-  //      .then((data: any) => {
-  //        data = JSON.parse(JSON.stringify(data));
-  //        this.State = data['State'];
-  //        this.SuccessMessage = data['SuccessMessage'];
-  //        this.ErrorMessage = data['ErrorMessage'];
-  //        this.lstSocietyPresentStatus = data['Data'];
-  //      }, error => console.error(error));
-  //  }
-  //  catch (Ex) {
-  //    console.log(Ex);
-  //  }
-  //  finally {
-  //    setTimeout(() => {
-  //      this.loaderService.requestEnded();
-  //    }, 200);
-  //  }
-  //}
-
-  //async GetRegisteredActList() {
-  //  try {
-  //    this.loaderService.requestStarted();
-  //    await this.commonMasterService.GetCommonMasterList_DepartmentAndTypeWise(0, 'RegisteredAct')
-  //      .then((data: any) => {
-  //        data = JSON.parse(JSON.stringify(data));
-  //        this.State = data['State'];
-  //        this.SuccessMessage = data['SuccessMessage'];
-  //        this.ErrorMessage = data['ErrorMessage'];
-  //        this.lstRegisteredAct = data['Data'];
-  //      }, error => console.error(error));
-  //  }
-  //  catch (Ex) {
-  //    console.log(Ex);
-  //  }
-  //  finally {
-  //    setTimeout(() => {
-  //      this.loaderService.requestEnded();
-  //    }, 200);
-  //  }
-  //}
-  //async GetStateList() {
-  //  try {
-  //    this.loaderService.requestStarted();
-  //    await this.commonMasterService.GetStateList()
-  //      .then((data: any) => {
-  //        data = JSON.parse(JSON.stringify(data));
-  //        this.State = data['State'];
-  //        this.SuccessMessage = data['SuccessMessage'];
-  //        this.ErrorMessage = data['ErrorMessage'];
-  //        this.lstState = data['Data'];
-  //      }, error => console.error(error));
-  //  }
-  //  catch (Ex) {
-  //    console.log(Ex);
-  //  }
-  //  finally {
-  //    setTimeout(() => {
-  //      this.loaderService.requestEnded();
-  //    }, 200);
-  //  }
-  //}
-  //async GetDistrictListByStateID(StateID: number) {
-  //  try {
-  //    this.lstStateDistrict = [];
-  //    this.request.DistrictID = 0;
-  //    this.loaderService.requestStarted();
-  //    await this.commonMasterService.GetDistrictListByStateID(StateID)
-  //      .then((data: any) => {
-  //        data = JSON.parse(JSON.stringify(data));
-  //        this.State = data['State'];
-  //        this.SuccessMessage = data['SuccessMessage'];
-  //        this.ErrorMessage = data['ErrorMessage'];
-  //        this.lstStateDistrict = data['Data'];
-  //      }, error => console.error(error));
-  //  }
-  //  catch (Ex) {
-  //    console.log(Ex);
-  //  }
-  //  finally {
-  //    setTimeout(() => {
-  //      this.loaderService.requestEnded();
-  //    }, 200);
-  //  }
-  //}
-
-  //async GetRegistrationDistrictListByRegistrationStateID(StateID: number) {
-  //  try {
-  //    this.lstDistrict = [];
-
-  //    this.loaderService.requestStarted();
-  //    if (StateID != 6) {
-  //      this.IsSocietyRegistration = false;
-  //    }
-  //    else {
-  //      this.IsSocietyRegistration = true;
-  //    }
-
-  //    await this.commonMasterService.GetDistrictListByStateID(StateID)
-  //      .then((data: any) => {
-  //        data = JSON.parse(JSON.stringify(data));
-  //        this.State = data['State'];
-  //        this.SuccessMessage = data['SuccessMessage'];
-  //        this.ErrorMessage = data['ErrorMessage'];
-  //        this.lstDistrict = data['Data'];
-  //      }, error => console.error(error));
-  //  }
-  //  catch (Ex) {
-  //    console.log(Ex);
-  //  }
-  //  finally {
-  //    setTimeout(() => {
-  //      this.loaderService.requestEnded();
-  //    }, 200);
-  //  }
-  //}
-
-  //async SaveData() {
-  //  try {
-
-  //    this.isValidLecturePhoto = false;
-  //    this.isValidMemberSignature = false;
-  //    this.isValidTrustLogoDoc = false;
-  //    this.isValidTrusteeMemberProofDoc = false;
-  //    this.isValidPresidentAadhaarProofDoc = false;
-  //    this.isValidSocietyPanProofDoc = false;
-  //    this.isSubmitted = true;
-  //    let isValid = true;
-  //    console.log(this.legalentityForm);
-  //    if (this.legalentityForm.invalid) {
-  //      isValid = false;
-  //    }
-  //    if (this.request.TrusteeMemberProofDoc == '') {
-  //      this.IsTrusteeMemberProofDoc = 'This field is required .!';
-  //      isValid = false;
-  //    }
-  //    if (this.request.SocietyPanProofDoc == '') {
-  //      this.IsSocietyPanProofDoc = 'This field is required .!';
-  //      isValid = false;
-  //    }
-  //    if (this.request.ProcessDepartmentID == 2) {
-  //      if (this.request.FirstInception == '') {
-  //        return;
-  //      }
-  //      if (this.request.FirstInception == 'Yes' && this.request.FirstInceptionDocument == '') {
-  //        return;
-  //      }
-  //    }
-  //    var GetPresident = this.request.request.MemberDetails.find((x: { MembersPostName: string; }) => x.MembersPostName == 'President')?.MembersPostName;
-  //    var GetSecretary = this.request.MemberDetails.find((x: { MembersPostName: string; }) => x.MembersPostName == 'Secretary')?.MembersPostName;
-  //    var GetTreasurer = this.request.MemberDetails.find((x: { MembersPostName: string; }) => x.MembersPostName == 'Treasurer')?.MembersPostName;
-  //    var GetDirector = this.request.MemberDetails.find((x: { MembersPostName: string; }) => x.MembersPostName == 'Director')?.MembersPostName;
-  //    if ((GetPresident == undefined || GetPresident == '' || GetPresident == null ||
-  //      GetSecretary == undefined || GetSecretary == '' || GetSecretary == null ||
-  //      GetTreasurer == undefined || GetTreasurer == '' || GetTreasurer == null) && this.request.ProcessDepartmentID != 6) {
-  //      this.toastr.warning("Add President, Secretary and Treasurer in Society member");
-  //      isValid = false;
-  //    }
-  //    if ((GetPresident == undefined || GetPresident == '' || GetPresident == null) && this.request.ProcessDepartmentID == 6 && this.request.IsLegalEntity != '3') {
-  //      this.toastr.warning("Add President in Society member");
-  //      isValid = false;
-  //    }
-  //    if ((GetDirector == undefined || GetDirector == '' || GetDirector == null) && this.request.ProcessDepartmentID == 6 && this.request.IsLegalEntity == '3') {
-  //      this.toastr.warning("Add Director in Society member");
-  //      isValid = false;
-  //    }
-
-
-  //    var Presidentlength = this.request.MemberDetails.filter((x: { MembersPostName: string; }) => x.MembersPostName == 'President');
-  //    var Secretarylength = this.request.MemberDetails.filter((x: { MembersPostName: string; }) => x.MembersPostName == 'Secretary');
-  //    var Treasurerlength = this.request.MemberDetails.filter((x: { MembersPostName: string; }) => x.MembersPostName == 'Treasurer');
-  //    if (Presidentlength.length > 1) {
-  //      this.toastr.warning("Add Only One President");
-  //      isValid = false;
-  //    }
-  //    if (Secretarylength.length > 1) {
-  //      this.toastr.warning("Add Only One Secretary");
-  //      isValid = false;
-  //    }
-  //    if (Treasurerlength.length > 1) {
-  //      this.toastr.warning("Add Only One Treasurer");
-  //      isValid = false;
-  //    }
-  //    if (this.request.IsOtherInstitution == 'Yes') {
-  //      if (this.request.InstituteDetails.length <= 0) {
-  //        this.toastr.warning("Add atleast one institute details");
-  //        isValid = false;
-  //      }
-  //    }
-  //    if (this.QueryStringLegalEntityID > 0) {
-
-  //    }
-  //    else {
-  //      if (this.request.IsLegalEntity == '1') {
-  //        if (this.request.StateID != this.RegistrationState || this.request.DistrictID != this.RegistrationDistrict) {
-  //          this.toastr.warning("Please select State and District same as Society");
-  //          isValid = false;
-  //        }
-  //      }
-  //    }
-  //    if (this.IsActOther) {
-  //      if (this.request.RegisteredActName == '') {
-  //        isValid = false;
-  //      }
-  //    }
-  //    if (this.request.RegistrationDoc == '') {
-  //      isValid = false;
-  //    }
-
-  //    //check all
-  //    if (!isValid) {
-  //      return;
-  //    }
-  //    this.loaderService.requestStarted();
-  //    //post
-  //    this.request.SSOID = this.sSOLoginDataModel.SSOID;
-  //    await this.legalEntityService.SaveData(this.request)
-  //      .then((data: any) => {
-  //        data = JSON.parse(JSON.stringify(data));
-  //        this.State = data['State'];
-  //        this.SuccessMessage = data['SuccessMessage'];
-  //        this.ErrorMessage = data['ErrorMessage'];
-  //        if (this.State == 0) {
-  //          this.toastr.success(this.SuccessMessage);
-  //          //window.location.reload();
-  //          if (this.request.LegalEntityID > 0) { this.routers.navigate(['/totallegalentitypreview']); }
-  //          else {
-  //            if (this.request.ProcessDepartmentID == 12) {
-  //              this.routers.navigate(['/affiliationregistration']);
-  //            } else {
-  //              this.routers.navigate(['/addcollege']);
-  //            }
-
-  //          }
-  //        }
-  //        else if (this.State == 2) {
-  //          this.toastr.warning(this.ErrorMessage)
-  //        }
-  //        else {
-  //          this.toastr.error(this.ErrorMessage)
-  //        }
-  //      }, error => {
-  //        this.toastr.warning("Unable to connect to server .!");
-  //      })
-  //  }
-  //  catch (Ex) {
-  //    console.log(Ex);
-  //  }
-  //  finally {
-  //    setTimeout(() => {
-  //      this.loaderService.requestEnded();
-  //    }, 200);
-  //  }
-  //  //this.routers.navigate(['/addcollege']);
-  //}
-
+  get museumform() { return this.medicalcollegelemuseumForm.controls; } 
+  get InfrastructureMedicalcollege() { return this.InfrastructureMedicalcollegeForm.controls; } 
+ 
   async AddLecturetheatre() {
     debugger;
     try {
@@ -804,7 +303,7 @@ export class InfrastructureMedicalCollegeFacilitiesMgoneComponent implements OnI
     }
   }
 
-  ReseLecturetheatre() {
+  async ReseLecturetheatre() {
     this.LectureTheatreDetails.LectureTheatreID = 0;
     this.LectureTheatreDetails.LectureTheatreCapacity = '';
     this.LectureTheatreDetails.LectureTheatreSize = '';
@@ -874,7 +373,7 @@ export class InfrastructureMedicalCollegeFacilitiesMgoneComponent implements OnI
     }
   }
 
-  ReseMuseum() {
+  async ReseMuseum() {
     this.MuseumDetails.MuseumID = 0;
     this.MuseumDetails.MuseumCapacity = '';
     this.MuseumDetails.MuseumSize = '';
@@ -889,7 +388,7 @@ export class InfrastructureMedicalCollegeFacilitiesMgoneComponent implements OnI
     const btnAdd = document.getElementById('btnAddMuseum')
     if (btnAdd) { btnAdd.innerHTML = "Add"; }
   }
-  async DeleteMember(Index: number) {
+  async DeleteLectureImage(Index: number) {
     try {
       if (confirm("Are you sure you want to delete this ?")) {
         this.loaderService.requestStarted();
@@ -903,70 +402,23 @@ export class InfrastructureMedicalCollegeFacilitiesMgoneComponent implements OnI
       }, 200);
     }
   }
-
-
-  //async AddInstitute() {
-  //  try {
-  //    this.loaderService.requestStarted();
-  //    this.isInstitueAdded = true;
-  //    if (this.legalentityAddInstituteForm.invalid) {
-  //      return;
-  //    }
-  //    this.request.InstituteDetails.push({
-  //      InstituteID: 0,
-  //      InstituteName: this.institutedetails.InstituteName,
-  //      InstituteContactNumber: this.institutedetails.InstituteContactNumber,
-  //      InstituteDesignation: this.institutedetails.InstituteDesignation,
-  //      InstitutePersonName: this.institutedetails.InstitutePersonName,
-  //      RegistrationNo: this.institutedetails.RegistrationNo,
-  //      StateID: this.institutedetails.StateID,
-  //      StateName: this.lstState.find((x: { StateID: number; }) => x.StateID == this.institutedetails.StateID).StateName
-  //    });
-  //    this.institutedetails = new LegalEntityInstituteDetailsDataModel();
-  //    this.isInstitueAdded = false;
-  //  }
-  //  catch (ex) { console.log(ex) }
-  //  finally {
-  //    setTimeout(() => {
-  //      this.loaderService.requestEnded();
-  //    }, 200);
-  //  }
-  //}
-  //async DeleteInstitute(Index: number) {
-  //  this.isSubmitted = false;
-  //  try {
-  //    if (confirm("Are you sure you want to delete this ?")) {
-  //      this.loaderService.requestStarted();
-  //      this.request.InstituteDetails.splice(Index, 1);
-  //    }
-  //  }
-  //  catch (ex) { }
-  //  finally {
-  //    setTimeout(() => {
-  //      this.loaderService.requestEnded();
-  //    }, 200);
-  //  }
-
-  //}
-
-  //async SelectOtherInstitution(OtherInstitution: string) {
-  //  if (OtherInstitution == 'Yes')
-  //    this.IsOtherInstitution = true
-  //  else
-  //    this.IsOtherInstitution = false
-  //}
-
-
- 
-
+  async DeleteMuseumMember(Index: number) {
+    try {
+      if (confirm("Are you sure you want to delete this ?")) {
+        this.loaderService.requestStarted();
+        this.request.MuseumDetails.splice(Index, 1);
+      }
+    }
+    catch (ex) { }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
   btnCancel_Click() {
     this.routers.navigate(['/dashboard']);
-  }
-
-
-
-  
-
+  }  
   numberOnly(event: any): boolean {
     const charCode = (event.which) ? event.which : event.keyCode;
     if (charCode > 31 && (charCode < 48 || charCode > 57)) {
@@ -974,7 +426,6 @@ export class InfrastructureMedicalCollegeFacilitiesMgoneComponent implements OnI
     }
     return true;
   }
-
   ResetControl() {
     try {
       this.loaderService.requestStarted();
@@ -1009,55 +460,7 @@ export class InfrastructureMedicalCollegeFacilitiesMgoneComponent implements OnI
         this.isSubmitted_Registration = false;
       }, 200);
     }
-  }
-  NewRegistration() {
-    try {
-      this.loaderService.requestStarted();
-      //this.RegistrationDistrict = 0;
-      this.RegistrationState = 6;
-      this.OldRegistrationNo = '';
-      this.isRegisterNoBox = false;
-      this.isFormsFill = false;
-      this.isGetRegistration = false;
-      this.isSocietyList = false;
-      this.ScoietyData = {};
-      this.isDisabled = false;
-      //this.EnableDisableControls(true);
-      this.issaveCancelBtn = false;
-      this.isSocietyNewReg = false;
-      this.isDisabledNewRegistration = false;
-      this.isInstitueAdded = false;
-      this.isMemberAdded = false;
-      this.isLectureTheatre = false;
-      this.isMemberSignature = false;
-      this.isPresidentAadhaarProofDoc = false;
-      this.isSocietyNewReg = true;
-      const ModelOTP = document.getElementById('ModalOtpVerify');
-      if (ModelOTP) ModelOTP.style.display = 'none';
-      const ModelWarning = document.getElementById('NotRegistered');
-      if (ModelWarning) ModelWarning.style.display = 'none';
-    }
-    catch (ex) { console.log(ex) }
-    finally {
-      setTimeout(() => {
-        this.loaderService.requestEnded();
-        this.isSubmitted_Registration = false;
-      }, 200);
-    }
-  }
-
-  CloseOTPModel() {
-    const display = document.getElementById('ModalOtpVerify');
-    if (display) display.style.display = 'none';
-  }
-  CloseWarningOTPModel() {
-    const display = document.getElementById('NotRegistered');
-    if (display) display.style.display = 'none';
-  }
-  
-
-
- 
+  } 
   async ValidateImage(event: any, Type: string) {
     debugger;    
     try {
@@ -1272,7 +675,6 @@ export class InfrastructureMedicalCollegeFacilitiesMgoneComponent implements OnI
       }, 200);
     }
   }
-
   async DeleteImage(Type: string, file: string) {
     try {
       this.loaderService.requestStarted();
@@ -1343,8 +745,6 @@ export class InfrastructureMedicalCollegeFacilitiesMgoneComponent implements OnI
       }, 200);
     }
   }
-
-
   timer(minute: number) {
     clearInterval(this.StartTimer);
     this.ShowTimer = true;
@@ -1375,7 +775,6 @@ export class InfrastructureMedicalCollegeFacilitiesMgoneComponent implements OnI
       }
     }, 1000);
   }
-
   alphaOnly(event: any): boolean {  // Accept only alpha numerics, not special characters 
     var regex = new RegExp("^[a-zA-Z ]+$");
     var str = String.fromCharCode(!event.charCode ? event.which : event.charCode);
@@ -1385,15 +784,12 @@ export class InfrastructureMedicalCollegeFacilitiesMgoneComponent implements OnI
     event.preventDefault();
     return false;
   }
-
   SetDOBmindate() {
 
     const mindate1 = new Date();
     mindate1.setFullYear(mindate1.getFullYear() - 100);
     this.MinDate_DOB = new Date(mindate1.getFullYear(), mindate1.getMonth(), mindate1.getDate());
-  }
-
- 
+  } 
   alphanumbersSpaceOnly(event: any): boolean {  // Accept only alpha numerics, not special characters 
     var regex = new RegExp("^[a-zA-Z0-9 ]+$");
     var str = String.fromCharCode(!event.charCode ? event.which : event.charCode);
@@ -1412,7 +808,6 @@ export class InfrastructureMedicalCollegeFacilitiesMgoneComponent implements OnI
     event.preventDefault();
     return false;
   }
-
   public CurrentIndex: number = -1;
   public isDisabledGrid: boolean = false;
   async EditLectureDetail(idx: number) {
@@ -1440,5 +835,195 @@ export class InfrastructureMedicalCollegeFacilitiesMgoneComponent implements OnI
     this.showMuseumPhoto = this.MuseumDetails.MuseumPhoto != '' ? true : false;    
     const btnAdd = document.getElementById('btnAddMuseum')
     if (btnAdd) { btnAdd.innerHTML = "Update"; }
+  }
+
+  //public isSubmitted: boolean = false
+  public isformvalid: boolean = true;
+  //async SaveData() {
+  //  this.isSubmitted = true;
+  //  this.isformvalid = true;
+  //  if (this.request.IsHillytribalArea == 'Yes' && this.request.IsInstitutionParentHospital == '') {
+  //    this.isformvalid = false;
+  //  }
+  //  if (((this.request.IsHillytribalArea == 'Yes' && this.request.IsInstitutionParentHospital == 'Yes') || this.request.IsHillytribalArea == 'No') && this.request.HospitalStatus == '') {
+  //    this.isformvalid = false;
+  //  }
+  //  if (((this.request.IsHillytribalArea == 'Yes' && this.request.IsInstitutionParentHospital == 'Yes') || this.request.IsHillytribalArea == 'No')) {
+  //    var TotalBed =
+  //      Number(this.request.MedicalBeds) +
+  //      Number(this.request.SurgicalBeds) +
+  //      Number(this.request.ObstetricsBeds) + Number(this.request.PediatricsBeds) + Number(this.request.OrthoBeds)
+  //      + Number(this.request.PsychiatryBeds) + Number(this.request.EmergencyMedicineBeds);
+  //    //TotalBed < 300
+  //    if (TotalBed < 100) {
+  //      this.toastr.warning('100 bed manadatory for own/parent hospital');
+  //      //this.toastr.warning('300 bed manadatory for own/parent hospital');
+  //      return;
+  //    }
+  //  }
+  //  if ((this.request.IsHillytribalArea == 'Yes' && this.request.IsInstitutionParentHospital == 'Yes') || this.request.IsHillytribalArea == 'No') {
+  //    if (this.request.HospitalMOU == '') {
+  //      this.isformvalid = false;
+  //    }
+  //    if (this.request.BedOccupancy == '') {
+  //      this.isformvalid = false;
+  //    }
+  //    if (this.request.FireNOC == '') {
+  //      this.isformvalid = false;
+  //    }
+  //    if (this.request.PollutionCertificate == '') {
+  //      this.isformvalid = false;
+  //    }
+  //    if (this.request.ClinicalEstablishment == '') {
+  //      this.isformvalid = false;
+  //    }
+  //    if (this.request.UndertakingNotAffiliated == '') {
+  //      this.isformvalid = false;
+  //    }
+  //    if (this.request.StaffInformation == '') {
+  //      this.isformvalid = false;
+  //    }
+  //  }
+
+  //  if (((this.request.IsHillytribalArea == 'Yes' && this.request.IsInstitutionParentHospital == 'Yes') || this.request.IsHillytribalArea == 'No') && this.request.HospitalStatus == 'Own' && this.request.OwnerName == '') {
+  //    this.isformvalid = false;
+  //  }
+  //  if (((this.request.IsHillytribalArea == 'Yes' && this.request.IsInstitutionParentHospital == 'Yes') || this.request.IsHillytribalArea == 'No') && this.request.HospitalStatus == 'Parental' && this.request.SocietyMemberID <= 0) {
+  //    this.isformvalid = false;
+  //  }
+  //  if (this.request.IsHillytribalArea == 'Yes' && this.request.IsInstitutionParentHospital == 'No') {
+  //    this.HospitalForm.get('txtHospitalName')?.clearValidators();
+  //    this.HospitalForm.get('txtHospitalName')?.updateValueAndValidity();
+  //    this.HospitalForm.get('txtRegistrationNo')?.clearValidators();
+  //    this.HospitalForm.get('txtRegistrationNo')?.updateValueAndValidity();
+  //    this.HospitalForm.get('txtHospitalContactNo')?.clearValidators();
+  //    this.HospitalForm.get('txtHospitalContactNo')?.updateValueAndValidity();
+  //    this.HospitalForm.get('txtHospitalEmailID')?.clearValidators();
+  //    this.HospitalForm.get('txtHospitalEmailID')?.updateValueAndValidity();
+  //    this.HospitalForm.get('txtAddressLine1')?.clearValidators();
+  //    this.HospitalForm.get('txtAddressLine1')?.updateValueAndValidity();
+  //    this.HospitalForm.get('rbRuralUrban')?.clearValidators();
+  //    this.HospitalForm.get('rbRuralUrban')?.updateValueAndValidity();
+  //    this.HospitalForm.get('ddlDivisionID')?.clearValidators();
+  //    this.HospitalForm.get('ddlDivisionID')?.updateValueAndValidity();
+  //    this.HospitalForm.get('ddlDistrictID')?.clearValidators();
+  //    this.HospitalForm.get('ddlDistrictID')?.updateValueAndValidity();
+  //    this.HospitalForm.get('ddlTehsilID')?.clearValidators();
+  //    this.HospitalForm.get('ddlTehsilID')?.updateValueAndValidity();
+  //    this.HospitalForm.get('txtCityTownVillage')?.clearValidators();
+  //    this.HospitalForm.get('txtCityTownVillage')?.updateValueAndValidity();
+  //    this.HospitalForm.get('txtPincode')?.clearValidators();
+  //    this.HospitalForm.get('txtPincode')?.updateValueAndValidity();
+  //    //this.HospitalForm.get('fHospitalMOU')?.clearValidators();
+  //    //this.HospitalForm.get('fHospitalMOU')?.updateValueAndValidity();
+  //    this.HospitalForm.get('txtBedCapacity')?.clearValidators();
+  //    this.HospitalForm.get('txtBedCapacity')?.updateValueAndValidity();
+  //    this.HospitalForm.get('txtMedicalBeds')?.clearValidators();
+  //    this.HospitalForm.get('txtMedicalBeds')?.updateValueAndValidity();
+  //    this.HospitalForm.get('txtSurgicalBeds')?.clearValidators();
+  //    this.HospitalForm.get('txtSurgicalBeds')?.updateValueAndValidity();
+  //    this.HospitalForm.get('txtObstetricsBeds')?.clearValidators();
+  //    this.HospitalForm.get('txtObstetricsBeds')?.updateValueAndValidity();
+  //    this.HospitalForm.get('txtPediatricsBeds')?.clearValidators();
+  //    this.HospitalForm.get('txtPediatricsBeds')?.updateValueAndValidity();
+  //    this.HospitalForm.get('txtOrthoBeds')?.clearValidators();
+  //    this.HospitalForm.get('txtOrthoBeds')?.updateValueAndValidity();
+  //    this.HospitalForm.get('txtEmergencyMedicineBeds')?.clearValidators();
+  //    this.HospitalForm.get('txtEmergencyMedicineBeds')?.updateValueAndValidity();
+  //    this.HospitalForm.get('txtPsychiatryBeds')?.clearValidators();
+  //    this.HospitalForm.get('txtPsychiatryBeds')?.updateValueAndValidity();
+  //    this.HospitalForm.get('ddlTehsilID')?.clearValidators();
+  //    this.HospitalForm.get('ddlTehsilID')?.updateValueAndValidity();
+  //    this.HospitalForm.get('ddlTehsilID')?.clearValidators();
+  //    this.HospitalForm.get('ddlTehsilID')?.updateValueAndValidity();
+  //    //this.HospitalForm.get('fBedOccupancy')?.clearValidators();
+  //    //this.HospitalForm.get('fBedOccupancy')?.updateValueAndValidity();
+  //    //this.HospitalForm.get('fFireNOC')?.clearValidators();
+  //    //this.HospitalForm.get('fFireNOC')?.updateValueAndValidity();
+  //    //this.HospitalForm.get('fPollutionCertificate')?.clearValidators();
+  //    //this.HospitalForm.get('fPollutionCertificate')?.updateValueAndValidity();
+  //    //this.HospitalForm.get('fClinicalEstablishment')?.clearValidators();
+  //    //this.HospitalForm.get('fClinicalEstablishment')?.updateValueAndValidity();
+  //    //this.HospitalForm.get('fUndertakingNotAffiliated')?.clearValidators();
+  //    //this.HospitalForm.get('fUndertakingNotAffiliated')?.updateValueAndValidity();
+  //    //this.HospitalForm.get('fStaffInformation')?.clearValidators();
+  //    //this.HospitalForm.get('fStaffInformation')?.updateValueAndValidity();
+  //    this.HospitalForm.get('txtCollegeDistance')?.clearValidators();
+  //    this.HospitalForm.get('txtCollegeDistance')?.updateValueAndValidity();
+  //    this.HospitalForm.get('txtNumberofdeliveries')?.clearValidators();
+  //    this.HospitalForm.get('txtNumberofdeliveries')?.updateValueAndValidity();
+  //    this.HospitalForm.get('ddlCityID')?.clearValidators();
+  //    this.HospitalForm.get('ddlCityID')?.updateValueAndValidity();
+  //    this.HospitalForm.get('ddlPanchayatSamitiID')?.clearValidators();
+  //    this.HospitalForm.get('ddlPanchayatSamitiID')?.updateValueAndValidity();
+  //  }
+  //  else {
+  //    if (this.request.RuralUrban == 1) {
+  //      this.HospitalForm.get('ddlCityID')?.clearValidators();
+  //      this.HospitalForm.get('ddlCityID')?.updateValueAndValidity();
+  //      this.HospitalForm.get('ddlPanchayatSamitiID')?.setValidators([DropdownValidators]);
+  //      this.HospitalForm.get('ddlPanchayatSamitiID')?.updateValueAndValidity();
+  //    }
+  //    if (this.request.RuralUrban == 2) {
+  //      this.HospitalForm.get('ddlPanchayatSamitiID')?.clearValidators();
+  //      this.HospitalForm.get('ddlPanchayatSamitiID')?.updateValueAndValidity();
+  //      this.HospitalForm.get('ddlCityID')?.setValidators([DropdownValidators]);
+  //      this.HospitalForm.get('ddlCityID')?.updateValueAndValidity();
+  //    }
+  //  }
+  //  if (this.request.IsHillytribalArea == 'No' && this.request.CollegeDistance > 30) {
+  //    return;
+  //  }
+  //  if (this.request.IsHillytribalArea == 'Yes' && this.request.CollegeDistance > 50) {
+  //    return;
+  //  }
+  //  if (this.HospitalForm.invalid) {
+  //    this.isformvalid = false;
+  //  }
+  //  if (this.request.IsHillytribalArea == 'Yes' && this.request.IsInstitutionParentHospital == 'No') {
+  //    if (this.request.MGThreeAffiliatedHospitalList.length <= 0) {
+  //      this.toastr.warning('Please add one Affiliated Hospital');
+  //      return;
+  //    }
+  //  }
+
+  //  console.log(this.HospitalForm);
+  //  if (!this.isformvalid) {
+  //    return
+  //  }
+  //  // save data
+  //  try {
+  //    this.loaderService.requestStarted();
+  //    await this.hospitalDetailService.SaveMGThreeHospitalData(this.request)
+  //      .then(async (data: any) => {
+  //        this.State = data['State'];
+  //        this.SuccessMessage = data['SuccessMessage'];
+  //        this.ErrorMessage = data['ErrorMessage'];
+  //        //console.log(this.State);
+
+  //        if (!this.State) {
+  //          this.toastr.success(this.SuccessMessage);
+  //          await this.GetMGThreeHospitalDetailList_DepartmentCollegeWise(this.SelectedDepartmentID, this.SelectedCollageID, 0);
+  //          // reset
+  //          this.ResetDetails();
+  //        }
+  //        else {
+  //          this.toastr.error(this.ErrorMessage)
+  //        }
+  //        // get data
+  //      })
+  //  }
+  //  catch (ex) { console.log(ex) }
+  //  finally {
+  //    setTimeout(() => {
+  //      this.loaderService.requestEnded();
+  //    }, 200);
+  //  }
+
+  //  this.isSubmitted = false;
+
+  //}
+  async SaveData() {
+
   }
 }

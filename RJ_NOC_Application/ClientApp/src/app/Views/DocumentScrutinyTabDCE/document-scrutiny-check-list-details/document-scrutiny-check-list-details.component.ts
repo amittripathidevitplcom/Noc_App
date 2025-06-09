@@ -805,6 +805,7 @@ export class DocumentScrutinyCheckListDetailsComponentDce implements OnInit {
   public isNextRoleIDValid: boolean = false;
   public isNextUserIdValid: boolean = false;
   async DocumentScrutiny() {
+    debugger;
     this.isFormvalid = true;
     this.isNextUserIdValid = false;
     this.isNextRoleIDValid = false;
@@ -867,9 +868,12 @@ export class DocumentScrutinyCheckListDetailsComponentDce implements OnInit {
       }
 
 
-      if (this.SelectedDepartmentID == 3) {
+      if (this.SelectedDepartmentID == 3)
+      {
+
         if (this.CollegeType_IsExisting)
         {
+         // console.log(this.FYID);
           if (this.FYID >65) {
             if (this.CheckTabsEntryData['LegalEntity'] <= 0 || this.CheckTabsEntryData['CollegeDetail'] <= 0 || this.CheckTabsEntryData['CollegeManagementSociety'] <= 0 || this.CheckTabsEntryData['LandInformation'] <= 0
               || this.CheckTabsEntryData['Facility'] <= 0 || this.CheckTabsEntryData['RequiredDocument'] <= 0 || this.CheckTabsEntryData['RoomDetails'] <= 0 || this.CheckTabsEntryData['OtherInformation'] <= 0
@@ -877,23 +881,24 @@ export class DocumentScrutinyCheckListDetailsComponentDce implements OnInit {
               || this.CheckTabsEntryData['OtherDocument'] <= 0 || this.CheckTabsEntryData['HostelDetails'] <= 0 || this.CheckTabsEntryData['FDRDetails'] <= 0 || this.CheckTabsEntryData['OnlinePaymentDetails'] <= 0) {   //|| this.CheckTabsEntryData['ClassWiseStudentDetail'] <= 0|| this.CheckTabsEntryData['SubjectWiseStudentDetail'] <= 0
               this.isFormvalid = false;
               this.toastr.warning('Please do document scrutiny all tabs');
-            } else {
-              if (this.CheckTabsEntryData['LegalEntity'] <= 0 || this.CheckTabsEntryData['CollegeDetail'] <= 0 || this.CheckTabsEntryData['CollegeManagementSociety'] <= 0 || this.CheckTabsEntryData['LandInformation'] <= 0
-                || this.CheckTabsEntryData['Facility'] <= 0 || this.CheckTabsEntryData['RequiredDocument'] <= 0 || this.CheckTabsEntryData['RoomDetails'] <= 0 || this.CheckTabsEntryData['OtherInformation'] <= 0
-                || this.CheckTabsEntryData['BuildingDocuments'] <= 0 || this.CheckTabsEntryData['StaffDetails'] <= 0 || this.CheckTabsEntryData['OLDNOCDetails'] <= 0 || this.CheckTabsEntryData['AcademicInformation'] <= 0
-                || this.CheckTabsEntryData['OtherDocument'] <= 0 || this.CheckTabsEntryData['HostelDetails'] <= 0 || this.CheckTabsEntryData['FDRDetails'] <= 0 || this.CheckTabsEntryData['OfflinePaymentDetails'] <= 0 ) {   //|| this.CheckTabsEntryData['ClassWiseStudentDetail'] <= 0|| this.CheckTabsEntryData['SubjectWiseStudentDetail'] <= 0
-                this.isFormvalid = false;
-                this.toastr.warning('Please do document scrutiny all tabs');
-              }
+            } 
+          }
+          else {
+            if (this.CheckTabsEntryData['LegalEntity'] <= 0 || this.CheckTabsEntryData['CollegeDetail'] <= 0 || this.CheckTabsEntryData['CollegeManagementSociety'] <= 0 || this.CheckTabsEntryData['LandInformation'] <= 0
+              || this.CheckTabsEntryData['Facility'] <= 0 || this.CheckTabsEntryData['RequiredDocument'] <= 0 || this.CheckTabsEntryData['RoomDetails'] <= 0 || this.CheckTabsEntryData['OtherInformation'] <= 0
+              || this.CheckTabsEntryData['BuildingDocuments'] <= 0 || this.CheckTabsEntryData['StaffDetails'] <= 0 || this.CheckTabsEntryData['OLDNOCDetails'] <= 0 || this.CheckTabsEntryData['AcademicInformation'] <= 0
+              || this.CheckTabsEntryData['OtherDocument'] <= 0 || this.CheckTabsEntryData['HostelDetails'] <= 0 || this.CheckTabsEntryData['FDRDetails'] <= 0 || this.CheckTabsEntryData['OfflinePaymentDetails'] <= 0) {   //|| this.CheckTabsEntryData['ClassWiseStudentDetail'] <= 0|| this.CheckTabsEntryData['SubjectWiseStudentDetail'] <= 0
+              this.isFormvalid = false;
+              this.toastr.warning('Please do document scrutiny all tabs');
             }
           }
-          if (this.CheckTabsEntryData['LegalEntity'] <= 0 || this.CheckTabsEntryData['CollegeDetail'] <= 0 || this.CheckTabsEntryData['CollegeManagementSociety'] <= 0 || this.CheckTabsEntryData['LandInformation'] <= 0
-            || this.CheckTabsEntryData['Facility'] <= 0 || this.CheckTabsEntryData['RequiredDocument'] <= 0 || this.CheckTabsEntryData['RoomDetails'] <= 0 || this.CheckTabsEntryData['OtherInformation'] <= 0
-            || this.CheckTabsEntryData['BuildingDocuments'] <= 0 || this.CheckTabsEntryData['StaffDetails'] <= 0 || this.CheckTabsEntryData['OLDNOCDetails'] <= 0 || this.CheckTabsEntryData['AcademicInformation'] <= 0
-            || this.CheckTabsEntryData['OtherDocument'] <= 0 || this.CheckTabsEntryData['HostelDetails'] <= 0 || this.CheckTabsEntryData['FDRDetails'] <= 0 || this.CheckTabsEntryData['OfflinePaymentDetails'] <= 0 || this.CheckTabsEntryData['OnlinePaymentDetails'] <= 0) {   //|| this.CheckTabsEntryData['ClassWiseStudentDetail'] <= 0|| this.CheckTabsEntryData['SubjectWiseStudentDetail'] <= 0
-            this.isFormvalid = false;
-            this.toastr.warning('Please do document scrutiny all tabs');
-          }
+          //if (this.CheckTabsEntryData['LegalEntity'] <= 0 || this.CheckTabsEntryData['CollegeDetail'] <= 0 || this.CheckTabsEntryData['CollegeManagementSociety'] <= 0 || this.CheckTabsEntryData['LandInformation'] <= 0
+          //  || this.CheckTabsEntryData['Facility'] <= 0 || this.CheckTabsEntryData['RequiredDocument'] <= 0 || this.CheckTabsEntryData['RoomDetails'] <= 0 || this.CheckTabsEntryData['OtherInformation'] <= 0
+          //  || this.CheckTabsEntryData['BuildingDocuments'] <= 0 || this.CheckTabsEntryData['StaffDetails'] <= 0 || this.CheckTabsEntryData['OLDNOCDetails'] <= 0 || this.CheckTabsEntryData['AcademicInformation'] <= 0
+          //  || this.CheckTabsEntryData['OtherDocument'] <= 0 || this.CheckTabsEntryData['HostelDetails'] <= 0 || this.CheckTabsEntryData['FDRDetails'] <= 0 || this.CheckTabsEntryData['OfflinePaymentDetails'] <= 0 || this.CheckTabsEntryData['OnlinePaymentDetails'] <= 0) {   //|| this.CheckTabsEntryData['ClassWiseStudentDetail'] <= 0|| this.CheckTabsEntryData['SubjectWiseStudentDetail'] <= 0
+          //  this.isFormvalid = false;
+          //  this.toastr.warning('Please do document scrutiny all tabs');
+          //}
         }
         else {
           if (this.CheckTabsEntryData['LegalEntity'] <= 0 || this.CheckTabsEntryData['CollegeDetail'] <= 0 || this.CheckTabsEntryData['CollegeManagementSociety'] <= 0 || this.CheckTabsEntryData['LandInformation'] <= 0

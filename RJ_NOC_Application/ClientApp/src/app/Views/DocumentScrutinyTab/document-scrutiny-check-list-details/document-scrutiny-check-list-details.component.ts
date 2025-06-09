@@ -887,6 +887,7 @@ export class DocumentScrutinyCheckListDetailsComponent implements OnInit {
   }
   public CheckTabsEntryData: any = [];
   async CheckTabsEntry() {
+    debugger;
     try {
       this.loaderService.requestStarted();
       await this.medicalDocumentScrutinyService.CheckDocumentScrutinyTabsData(this.SelectedApplyNOCID, this.sSOLoginDataModel.RoleID, this.SelectedCollageID)
@@ -1210,6 +1211,7 @@ export class DocumentScrutinyCheckListDetailsComponent implements OnInit {
   public ShowHideNextRole: boolean = true;
   public ShowHideNextUser: boolean = true;
   async DocumentScrutiny() {
+    debugger;
     this.isFormvalid = true;
     this.isNextUserIdValid = false;
     this.isNextRoleIDValid = false;

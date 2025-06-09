@@ -1,5 +1,6 @@
 
 export class InfrastructureMedicalCollegeFacilitiesDataModel {
+  public CollegeID: number = 0;
   public MedicalCollegeFID: number = 0;
   public DemonstrationRoom: string = '';
   public Histology: string = '';
@@ -43,7 +44,8 @@ export class InfrastructureMedicalCollegeFacilitiesDataModel {
   public SSOID: string = ''; 
   public LectureTheatreDetails: LectureTheatreDetailsDataModel[] = [];
   public MuseumDetails: MuseumDetailsDataModel[] = [];  
-}export class LectureTheatreDetailsDataModel {
+}
+export class LectureTheatreDetailsDataModel {
   public LectureTheatreID: number = 0;  
   public LectureTheatreCapacity: string = '';
   public LectureTheatreSize: string = ''; 

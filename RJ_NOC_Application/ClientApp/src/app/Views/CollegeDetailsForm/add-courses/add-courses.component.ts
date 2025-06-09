@@ -76,7 +76,7 @@ export class AddCoursesComponent implements OnInit {
 
   }
   async ngOnInit() {
-    console.log(this.request.NoOfEnrolledStudents);
+    //console.log(this.request.NoOfEnrolledStudents);
     this.loaderService.requestStarted();
     try {
       this.CourseMasterForm = this.formBuilder.group(

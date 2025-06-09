@@ -219,7 +219,7 @@
               <a routerLink="/totalapplicationlist/PDSAI">View more <i class="fa fa-chevron-circle-right"></i></a>
             </div>
           </div>
-          <div class="col-lg-2 col-md-4 col-sm-6 col-12" *ngIf="this.sSOLoginDataModel.DepartmentID==6">
+          <div class="col-lg-2 col-md-4 col-sm-6 col-12" *ngIf="this.sSOLoginDataModel.DepartmentID==6 && (this.sSOLoginDataModel.RoleID==10 || this.sSOLoginDataModel.RoleID==6)">
             <div class="card staticsCards ">
               <div class="card-body">
                 <div class="">
@@ -235,7 +235,7 @@
               <a routerLink="/totalapplicationlist/ARTI">View more <i class="fa fa-chevron-circle-right"></i></a>
             </div>
           </div>
-          <div class="col-lg-2 col-md-4 col-sm-6 col-12" *ngIf="this.sSOLoginDataModel.DepartmentID==6">
+          <div class="col-lg-2 col-md-4 col-sm-6 col-12" *ngIf="this.sSOLoginDataModel.DepartmentID==6  && (this.sSOLoginDataModel.RoleID==10 || this.sSOLoginDataModel.RoleID==6)">
             <div class="card staticsCards ">
               <div class="card-body">
                 <div class="">
@@ -1731,7 +1731,7 @@
               </div>
             </div>
           </div>
-          <div class="col-lg-2 col-md-4 col-sm-6 col-12" *ngIf="this.sSOLoginDataModel.DepartmentID==6">
+          <div class="col-lg-2 col-md-4 col-sm-6 col-12" *ngIf="this.sSOLoginDataModel.DepartmentID==6 && this.sSOLoginDataModel.RoleID==6">
             <div class="card staticsCards ">
               <div class="card-body">
                 <div class="">
@@ -1747,7 +1747,7 @@
               <a routerLink="/totalapplicationlist/ARTI">View more <i class="fa fa-chevron-circle-right"></i></a>
             </div>
           </div>
-          <div class="col-lg-2 col-md-4 col-sm-6 col-12" *ngIf="this.sSOLoginDataModel.DepartmentID==6">
+          <div class="col-lg-2 col-md-4 col-sm-6 col-12" *ngIf="this.sSOLoginDataModel.DepartmentID==6 && this.sSOLoginDataModel.RoleID==6">
             <div class="card staticsCards ">
               <div class="card-body">
                 <div class="">
