@@ -270,8 +270,16 @@
                         <th>Geo Tagging Status</th>
                         <th>Latitude</th>
                         <th>Longitude</th>
-                        <th>Image 1</th>
-                        <th>Image 2</th>
+                        <th>{{collegeListData.DepartmentID==3?'Library':'Image 1'}}</th>
+                        <th>{{collegeListData.DepartmentID==3?'Lab':'Image 2'}}</th>
+                        <th *ngIf="collegeListData.DepartmentID==3">Facility</th>
+                        <th *ngIf="collegeListData.DepartmentID==3">FireStation</th>
+                        <th *ngIf="collegeListData.DepartmentID==3">WithStaff</th>
+                        <th *ngIf="collegeListData.DepartmentID==3">ClassRoom</th>
+                        <th *ngIf="collegeListData.DepartmentID==3">PlayGround</th>
+                        <th *ngIf="collegeListData.DepartmentID==3">ComputerLab</th>
+                        <th *ngIf="collegeListData.DepartmentID==3">IKS</th>
+                        <th *ngIf="collegeListData.DepartmentID==3">DrinkingWater</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -287,7 +295,7 @@
                           </a>
                           <label *ngIf="row.Image1=='N/A'">{{row.Image1}}</label>
                           <!--<a class="bi bi-file-earmark-pdf-fill" *ngIf="row.HospitalDocumentPath.includes('.pdf')" data-fancybox="gallery" href="{{row.HospitalDocumentPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px">
-                    </a>-->
+    </a>-->
                         </td>
                         <td>
                           <a *ngIf="row.Image2!='N/A'" data-fancybox="gallery" href="{{row.Image2}}" data-caption="Image 10" title="click here to zoom">
@@ -295,7 +303,55 @@
                           </a>
                           <label *ngIf="row.Image1=='N/A'">{{row.Image2}}</label>
                           <!--<a class="bi bi-file-earmark-pdf-fill" *ngIf="row.HospitalDocumentPath.includes('.pdf')" data-fancybox="gallery" href="{{row.HospitalDocumentPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px">
-                    </a>-->
+    </a>-->
+                        </td>
+                        <td *ngIf="collegeListData.DepartmentID==3">
+                          <a *ngIf="row.Image3!='N/A'" data-fancybox="gallery" href="{{row.Image3}}" data-caption="Facility" title="click here to zoom">
+                            <img src="{{row.Image3}}" alt="Facility" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                          </a>
+                          <label *ngIf="row.Image3=='N/A'">{{row.Image3}}</label>
+                        </td>
+                        <td *ngIf="collegeListData.DepartmentID==3">
+                          <a *ngIf="row.Image4!='N/A'" data-fancybox="gallery" href="{{row.Image4}}" data-caption="FireStation" title="click here to zoom">
+                            <img src="{{row.Image4}}" alt="FireStation" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                          </a>
+                          <label *ngIf="row.Image4=='N/A'">{{row.Image4}}</label>
+                        </td>
+                        <td *ngIf="collegeListData.DepartmentID==3">
+                          <a *ngIf="row.Image5!='N/A'" data-fancybox="gallery" href="{{row.Image5}}" data-caption="MainBuildingWithStaff" title="click here to zoom">
+                            <img src="{{row.Image5}}" alt="MainBuildingWithStaff" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                          </a>
+                          <label *ngIf="row.Image5=='N/A'">{{row.Image5}}</label>
+                        </td>
+                        <td *ngIf="collegeListData.DepartmentID==3">
+                          <a *ngIf="row.Image6!='N/A'" data-fancybox="gallery" href="{{row.Image6}}" data-caption="ClassRoom" title="click here to zoom">
+                            <img src="{{row.Image6}}" alt="ClassRoom" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                          </a>
+                          <label *ngIf="row.Image6=='N/A'">{{row.Image6}}</label>
+                        </td>
+                        <td *ngIf="collegeListData.DepartmentID==3">
+                          <a *ngIf="row.Image7!='N/A'" data-fancybox="gallery" href="{{row.Image7}}" data-caption="PlayGround" title="click here to zoom">
+                            <img src="{{row.Image7}}" alt="PlayGround" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                          </a>
+                          <label *ngIf="row.Image7=='N/A'">{{row.Image7}}</label>
+                        </td>
+                        <td *ngIf="collegeListData.DepartmentID==3">
+                          <a *ngIf="row.Image8!='N/A'" data-fancybox="gallery" href="{{row.Image8}}" data-caption="ComputerLab" title="click here to zoom">
+                            <img src="{{row.Image8}}" alt="ComputerLab" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                          </a>
+                          <label *ngIf="row.Image8=='N/A'">{{row.Image8}}</label>
+                        </td>
+                        <td *ngIf="collegeListData.DepartmentID==3">
+                          <a *ngIf="row.Image9!='N/A'" data-fancybox="gallery" href="{{row.Image9}}" data-caption="IKS" title="click here to zoom">
+                            <img src="{{row.Image9}}" alt="IKS" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                          </a>
+                          <label *ngIf="row.Image9=='N/A'">{{row.Image2}}</label>
+                        </td>
+                        <td *ngIf="collegeListData.DepartmentID==3">
+                          <a *ngIf="row.Image10!='N/A'" data-fancybox="gallery" href="{{row.Image10}}" data-caption="DrinkingWater" title="click here to zoom">
+                            <img src="{{row.Image10}}" alt="DrinkingWater" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                          </a>
+                          <label *ngIf="row.Image10=='N/A'">{{row.Image10}}</label>
                         </td>
                       </tr>
                     </tbody>

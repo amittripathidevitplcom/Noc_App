@@ -314,7 +314,8 @@ export class ApplicationListAHDegreeComponent implements OnInit {
       isValid = false;
     }
     if (this.request_MemberList.ApplicationCommitteeList.length < 3) {
-      this.toastr.error("Please add three Member Details");
+        this.toastr.error("Please add three Member Details");
+      //this.toastr.error("Please add one Member Details");
       isValid = false;
     }
     let ifPrimaryExits = this.request_MemberList.ApplicationCommitteeList.find(f => f.IsPrimaryMember == true);

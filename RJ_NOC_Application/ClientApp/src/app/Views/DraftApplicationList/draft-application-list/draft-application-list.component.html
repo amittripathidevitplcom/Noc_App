@@ -24,7 +24,7 @@
             <div class="col-md-3 col-sm-6">                           
                 <input type="text" class="form-control" placeholder="Search Here" [(ngModel)]="searchText" id="txtsearchText" name="txtsearchText" />              
             </div>
-            <div class="col-md-2 col-sm-12">
+            <div class="col-md-2 col-sm-12" *ngIf="this.QueryStringStatus!='IsLOI'">
               <a class="btn btn-primary w-100" id="btnProceedToNoc" href="/applynocforparameter"> Proceed To NOC</a>
             </div>
           </div>
@@ -54,18 +54,21 @@
               </thead>
               <tbody>
                 <tr *ngFor="let row of draftApplicatoinListData | tableSearchFilter:searchText; let idx=index;">
+                  <td style="width:5%" *ngIf="row.DepartmentID ==12">
+                  </td>
+
                   <td style="width:5%" *ngIf="row.DepartmentID !=12">
                     <div class="d-flex">
                       <a href="javascript:void(0)" (click)="ApplicationSummary_OnClick(row.DepartmentID,row.CollegeID)" class="btn btn-sm btn-secondary">
                         <i class="fa fa-eye"></i>
                       </a>
-                      
+
                       <a href="javascript:void(0)" *ngIf="row.IsSaveDraft==0&& row.IsOpenNOCApplication==true && row.IsOpenDefaulter==false && row.IsDefaulter==false&& row.OpenApplicationSession==sSOLoginDataModel.SessionID && ((row.DepartmentID==2 && row.CollegeLevel==row.OpeneLevel) || row.DepartmentID!=2)" (click)="DraftEdit_OnClick(row.DepartmentID,row.SearchRecordID)" class="btn btn-sm btn-info">
                         <i class="fa fa-edit"></i>
                       </a>
                       <a href="javascript:void(0)" *ngIf="row.IsSaveDraft==0&& row.IsOpenNOCApplication==true && row.IsOpenDefaulter==true && row.IsDefaulter==true && row.OpenDefaulterSession==sSOLoginDataModel.SessionID && ((row.DepartmentID==2 && row.CollegeLevel==row.OpeneLevel) || row.DepartmentID!=2)" (click)="DraftEdit_OnClick(row.DepartmentID,row.SearchRecordID)" class="btn btn-sm btn-info">
                         <i class="fa fa-edit"></i>
-                      </a> 
+                      </a>
                     </div>
                   </td>
                   <td>{{idx+1}}</td>

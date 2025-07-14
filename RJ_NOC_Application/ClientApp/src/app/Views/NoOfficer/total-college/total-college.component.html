@@ -57,6 +57,8 @@
         <tbody *ngIf="draftApplicatoinListData !=null && draftApplicatoinListData.length>0">
 
           <tr *ngFor="let row of draftApplicatoinListData  | tableSearchFilter:searchText; let idx=index;">
+            <td style="display:flex" *ngIf="row.DepartmentID ==12">
+            </td>
             <td style="display:flex" *ngIf="row.DepartmentID !=12">
 
               <div class="dropdown">
@@ -64,20 +66,20 @@
                         style="background-color: #132649;">
                   Action
                 </button>
-                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" >
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                   <li> <a href="javascript:void(0)" class="dropdown-item list-group-item list-group-item-action list-group-item-danger" data-bs-toggle="modal" data-bs-target="#ViewTotalCollege" (click)="ViewTotalCollegeDataByID(row.CollegeID)">View</a></li>
                   <li *ngIf="row.TotalNOCCount<=0 && row.IsOpenNOCApplication==true&&row.IsOpenDefaulter==false&& row.IsDefaulter==false && ((row.DepartmentID==2 && row.CollegeLevel==row.OpeneLevel) || row.DepartmentID!=2)"> <a href="javascript:void(0)" class="dropdown-item list-group-item list-group-item-action list-group-item-danger" (click)="EditCollegeData(row.CollegeID)">Edit</a></li>
                   <li *ngIf="row.TotalNOCCount<=0 && row.IsOpenNOCApplication==true&&row.IsOpenDefaulter==true && row.IsDefaulter==true && ((row.DepartmentID==2 && row.CollegeLevel==row.OpeneLevel) || row.DepartmentID!=2) "> <a href="javascript:void(0)" class="dropdown-item list-group-item list-group-item-action list-group-item-danger" (click)="EditCollegeData(row.CollegeID)">Edit</a></li>
                   <!--<li *ngIf="row.IsOpenNOCApplication==true"><a href="javascript:void(0)" class="dropdown-item list-group-item list-group-item-action list-group-item-danger" (click)="DeleteData(row)">Delete</a></li>-->
                   <!--<li *ngIf="row.IsOpenNOCApplication==true&&row.IsOpenDefaulter==false"> <a href="javascript:void(0)" class="dropdown-item list-group-item list-group-item-action list-group-item-danger" data-bs-toggle="modal" data-bs-target="#SSOIDMapping" (click)="OpenSSOIDMaping(row)">SSO ID Mapping</a></li>
-    <li *ngIf="row.IsOpenNOCApplication==true&&row.IsOpenDefaulter==true && row.IsDefaulter==true"> <a href="javascript:void(0)" class="dropdown-item list-group-item list-group-item-action list-group-item-danger" data-bs-toggle="modal" data-bs-target="#SSOIDMapping" (click)="OpenSSOIDMaping(row)">SSO ID Mapping</a></li>-->
-                </ul>               
+        <li *ngIf="row.IsOpenNOCApplication==true&&row.IsOpenDefaulter==true && row.IsDefaulter==true"> <a href="javascript:void(0)" class="dropdown-item list-group-item list-group-item-action list-group-item-danger" data-bs-toggle="modal" data-bs-target="#SSOIDMapping" (click)="OpenSSOIDMaping(row)">SSO ID Mapping</a></li>-->
+                </ul>
               </div>
 
               <!--<a href="javascript:void(0)" (click)="ApplicationSummaryApplication_OnClick(row.DepartmentID,row.CollegeID)" class="btn btn-sm btn-primary"
-     style="margin-left:10px ; margin-right:10px" title="View and Dowonload Application">
-    <i class="fa fa-eye"></i>
-  </a>-->
+       style="margin-left:10px ; margin-right:10px" title="View and Dowonload Application">
+      <i class="fa fa-eye"></i>
+    </a>-->
 
 
               <a href="javascript:void(0)" (click)="ApplyLOI_OnClick(row.DepartmentID,row.SearchRecordID)" class="btn btn-sm btn-info"
@@ -96,10 +98,10 @@
                  *ngIf="row.DepartmentID==5 && row.IsLOISubmited==true && row.IsOpenNOCApplication==true" href="javascript:void(0)" title="Payment History" (click)="PaymentHistoryApplyNocApplication_click(mymodalpaymenthistory,row.CollegeID)">
                 Payment History
               </a>
-                <a class="btn btn-sm btn-success" href="javascript:void(0)"
-                   *ngIf="row.DepartmentID==5 && row.IsLOISubmited==true && row.IsMakePayment_LOI==true && row.IsLOIFinalSubmited_LOI==false && row.IsOpenNOCApplication==true" title="Final Submit LOI Application" (click)="FinalSubmitApplyNocApplication_click(row)">
-                  LOI Final Submit
-                </a>
+              <a class="btn btn-sm btn-success" href="javascript:void(0)"
+                 *ngIf="row.DepartmentID==5 && row.IsLOISubmited==true && row.IsMakePayment_LOI==true && row.IsLOIFinalSubmited_LOI==false && row.IsOpenNOCApplication==true" title="Final Submit LOI Application" (click)="FinalSubmitApplyNocApplication_click(row)">
+                LOI Final Submit
+              </a>
 
             </td>
             <td style="text-align:center;">{{idx+1}}</td>

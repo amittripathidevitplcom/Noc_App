@@ -13,6 +13,8 @@ import { DocumentScrutinyDataModel } from '../../../Models/DocumentScrutinyDataM
 import { DCEDocumentScrutinyService } from '../../../Services/DCEDocumentScrutiny/dcedocument-scrutiny.service';
 import { DocumentScrutinyComponent } from '../../DCE/document-scrutiny/document-scrutiny.component';
 import { ModalDismissReasons, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { PresentCollegeStatusDataModel } from '../../../Models/CollegeDataModel';
+
 @Component({
   selector: 'app-document-scrutiny-college-detail-dce',
   templateUrl: './document-scrutiny-college-detail.component.html',
@@ -55,6 +57,10 @@ export class DocumentScrutinyCollegeDetailComponentDce implements OnInit {
 
   public FinalRemarks: any = [];
   public isDisabledAction: boolean = false;
+
+  public PresentCollegeStatusList: any = [];
+  request = new PresentCollegeStatusDataModel();
+  
 
   async ngOnInit() {
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
@@ -252,5 +258,73 @@ export class DocumentScrutinyCollegeDetailComponentDce implements OnInit {
       }, 200);
     }
   }
- 
+
+
+  async ViewCollegePresentCollegeStatusForL1(event: any, SeletedDepartmentID: string) {
+
+    this.modalService.open(event, { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' }).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+    try {
+
+      this.loaderService.requestStarted();
+      const departmentId = Number(this.SelectedDepartmentID.toString());
+      await this.commonMasterService.GetCommonMasterList_DepartmentAndTypeWise(departmentId, "PresentCollegeStatus")
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.PresentCollegeStatusList = data['Data'];
+          this.request.PresentCollegeStatusID = Number(this.collegeListData.PresentCollegeStatusID);
+        }, error => console.error(error));
+
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+  async submitPresentCollegeStatusForm() {
+    try {
+
+      this.loaderService.requestStarted();
+      this.request.DepartmentID = Number(this.SelectedDepartmentID);
+      this.request.CollegeID = Number(this.SelectedCollageID);
+      this.request.PresentCollegeStatusID = Number(this.request.PresentCollegeStatusID);
+      if (this.request.PresentCollegeStatusID == 0) {
+
+        this.toastr.warning('Please Select Present College Status Type');
+        return;
+
+      }
+      await this.applyNOCApplicationService.SaveCollegePresentCollegeStatusForL1(this.request)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          if (this.modalService) {
+            this.modalService.dismissAll(); // Or dismiss(), depending on modal library
+          }
+        }, (error: any) => console.error(error));
+      await this.ViewTotalCollegeDataByID();
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
 }

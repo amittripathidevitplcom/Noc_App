@@ -14,4 +14,9 @@ export class GrievanceDataModel {
   public ActiveStatus: boolean = true;
   public ActiveDeactive: string = '';
   public DeleteStatus: boolean = false;
+  public GrievanceRemark: string = '';
+  public AttachmentImage: string = '';
+  public AttachmentImage_Dis_FileName: string = '';
+  public AttachmentImagePath: string = '';
+  public Action: string = '';
 } 

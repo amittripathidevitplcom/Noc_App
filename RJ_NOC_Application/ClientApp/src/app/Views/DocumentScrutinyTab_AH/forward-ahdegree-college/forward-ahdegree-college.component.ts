@@ -179,17 +179,22 @@ export class ForwardAHDegreeCollegeComponent implements OnInit {
     }
   }
   async GetRoleListForApporval() {
+    debugger;
     this.UserRoleList = [];
     this.loaderService.requestStarted();
     try {
-      await this.commonMasterService.GetRoleListForApporval(this.sSOLoginDataModel.RoleID, this.sSOLoginDataModel.DepartmentID,'UG')
+      console.log(this.sSOLoginDataModel.RoleID);
+      console.log(this.sSOLoginDataModel.DepartmentID);
+
+      await this.commonMasterService.GetRoleListForApporval(this.sSOLoginDataModel.RoleID, this.sSOLoginDataModel.DepartmentID,'NOC')
         .then(async (data: any) => {
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
           if (data['Data'].length > 0) {
+            debugger;
             this.UserRoleList = data['Data'];
-
+            console.log(this.UserRoleList);
             if (this.UserRoleList.length > 0) {
               this.UserRoleList = this.UserRoleList.filter((x: { RoleID: number; }) => x.RoleID != 1);
             }

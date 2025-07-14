@@ -293,6 +293,7 @@ import { MGThreeAfterInspectionApplicationListComponent } from './Views/Document
 import { MGThreeDocumentScrutinyListComponent } from './Views/DocumentScrutinyTab/mgthree-document-scrutiny-list/mgthree-document-scrutiny-list.component';
 import { PaymentHistoryReportCollegeWiseComponent } from './Views/Reports/payment-history-report-college-wise/payment-history-report-college-wise.component';
 import { AdminDashboardComponent } from './Views/admin-dashboard/admin-dashboard.component';
+import { BTERAdminUpdateComponent } from './Views/DTEAffiliationDetails/bteradmin-update/bteradmin-update.component';
 
 const routes: Routes = [
   {
@@ -423,6 +424,9 @@ const routes: Routes = [
 
       {
         path: 'draftapplicationlist', component: DraftApplicationListComponent
+      },
+      {
+        path: 'draftapplicationlist/:Status', component: DraftApplicationListComponent
       },
       {
         path: 'landdetails', component: LandDetailsComponent
@@ -1214,6 +1218,10 @@ const routes: Routes = [
       {
         path: 'admindashboard', component: AdminDashboardComponent
 
+      },
+      {
+        path: 'bteradminupdate/:DepartmentID/:CollegeID', component: BTERAdminUpdateComponent,
+        pathMatch: 'full'
       },
 
     ]

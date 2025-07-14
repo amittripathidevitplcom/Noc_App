@@ -93,7 +93,7 @@ export class InspectionCommitteePhysicalVerificationDCEComponent implements OnIn
   async ngOnInit() {
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     this.QueryStringStatus = this.router.snapshot.paramMap.get('Status')?.toString();
-    await this.GetPhysicalVerificationAppliationList(this.sSOLoginDataModel.SSOID, this.QueryStringStatus);
+    await this.GetPhysicalVerificationAppliationList(this.sSOLoginDataModel.SSOID, this.QueryStringStatus,this.sSOLoginDataModel.SessionID);
 
     if (this.QueryStringStatus == 'Pending') {
       this.IsDisabled = false;
@@ -105,10 +105,10 @@ export class InspectionCommitteePhysicalVerificationDCEComponent implements OnIn
     }
   }
 
-  async GetPhysicalVerificationAppliationList(SSOID: string, Status: any) {
+  async GetPhysicalVerificationAppliationList(SSOID: string, Status: any, SessionYear: number) {
     try {
       this.loaderService.requestStarted();
-      await this.dceDocumentScrutinyService.GetPhysicalVerificationAppliationList(SSOID, Status)
+      await this.dceDocumentScrutinyService.GetPhysicalVerificationAppliationList(SSOID, Status, SessionYear)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];

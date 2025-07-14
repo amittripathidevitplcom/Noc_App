@@ -1,3 +1,311 @@
+<!--<app-loader></app-loader>
+<div class="container-fluid breadcrumbBox py-2">
+  <div class="row align-items-center">
+    <div class="col-md-6">
+      <h3>Grievance</h3>
+    </div>
+    <div class="col-md-6 d-flex justify-content-end">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="#">Grievance</a></li>
+          <li class="breadcrumb-item active" aria-current="page">Submit Grievance</li>
+        </ol>
+      </nav>
+    </div>
+  </div>
+</div>
+<div class="container-fluid mainContents">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="clearfix"></div>
+      <form [formGroup]="GrievanceMasterForm" class="form-horizontal">
+        Reopen
+        <div class="card">
+          <div class="card-header d-flex justify-content-between align-items-center">
+            <b><i class="fa fa-plus"></i>&nbsp;Grievance</b>
+            <span class="text-danger">(*) Fields is compulsory</span>
+          </div>
+          <div class="card-body">
+            <div class="row">
+
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label for="ddlBugFrom" class="form-label">Bug From</label>
+                <select class="form-control" id="ddlBugFrom" name="ddlBugFrom" [(ngModel)]="request.BugFrom" formControlName="ddlBugFrom">
+                  <option value="Web Portal">Web Portal</option>
+                  <option value="Mobile Application">Mobile Application</option>
+                </select>
+
+              </div>
+
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label for="ddlDepartmentID" class="form-label">Department<span style="color:red;">*</span></label>
+                <select class="form-control" id="ddlDepartmentID" name="ddlDepartmentID" [(ngModel)]="request.DepartmentID"
+                        #SeletedDepartmentID (change)="ddlDepartment_textChange(SeletedDepartmentID.value)"
+                        formControlName="ddlDepartmentID">
+                  <option value="0" selected>--Select--</option>
+                  <option *ngFor="let item of DepartmentList" value="{{item.DepartmentID}}">{{item.DepartmentName}}</option>
+                </select>
+                <div *ngIf="isSubmitted&&form.ddlDepartmentID.errors" class="text-danger">
+                  <p *ngIf="!form.ddlDepartmentID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
+                </div>
+              </div>
+
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label for="ddlCollegeID" class="form-label">College</label>
+                <select class="form-control" id="ddlCollegeID" name="ddlCollegeID" [(ngModel)]="request.CollegeID" formControlName="ddlCollegeID">
+                  <option value="0" selected>--Select--</option>
+                  <option *ngFor="let item of CollegeDataList" value="{{item.CollegeID}}">{{item.CollegeName}}</option>
+                </select>
+              </div>
+
+
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label for="txtMobileNo" class="form-label">Mobile No.<span style="color:red;">*</span></label>
+                <input class="form-control" [attr.disabled]="isMobileEntry ? true : null" id="txtMobileNo" name="txtMobileNo" [(ngModel)]="request.MobileNo" formControlName="txtMobileNo" maxlength="10" (keypress)="numberOnly($event)">
+                <div *ngIf="isSubmitted&&form.txtMobileNo.errors" class="text-danger">
+                  <p *ngIf="form.txtMobileNo.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                  <p *ngIf="form.txtMobileNo.errors.pattern"><i aria-hidden="true"></i> Mobile `No. is not valid .!</p>
+                </div>
+
+              </div>
+
+              <div class="col-lg-12 col-md-12 col-sm-12 col-12 mb-12">
+                <label for="txtSubject" class="form-label">Subject<span style="color:red;">*</span></label>
+                <input type="text" id="txtSubject" formControlName="txtSubject" maxlength="500" class="form-control" [(ngModel)]="request.Subject" autocomplete="off">
+                <div *ngIf="isSubmitted&&form.txtSubject.errors" class="text-danger">
+                  <p *ngIf="form.txtSubject.errors.required">This field is required .!</p>
+                </div>
+              </div>
+
+              <div class="col-lg-12 col-md-12 col-sm-12 col-12 mb-12">
+                <label for="txtDescription" class="form-label">Description<span style="color:red;">*</span></label>
+                <textarea type="text" id="txtDescription" formControlName="txtDescription" maxlength="2000" class="form-control" [(ngModel)]="request.Description" autocomplete="off" style="height:250px !important"></textarea>
+                <div *ngIf="isSubmitted&&form.txtDescription.errors" class="text-danger">
+                  <p *ngIf="form.txtDescription.errors.required">This field is required .!</p>
+                </div>
+              </div>
+
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label class="form-label">Attach File</label>
+                <div class="d-flex">
+                  <input type="file" style="display:none;" class="form-control" id="fileAttachmentFile" name="fileAttachmentFile" (change)="onFilechange($event)" formControlName="fileAttachmentFile">
+                  <label class="btn upload" for="fileAttachmentFile">
+                    <span class="filename">Choose file</span>
+                    {{request.AttachmentFile === '' ? 'No File Choosen' : request.AttachmentFile_Dis_FileName}}
+                  </label>
+                  <div class="btn-group" *ngIf="request.AttachmentFile != ''">
+                    <a class="btn btn-outline-primary" target="_blank" href="{{request.AttachmentFilePath}}"><i class="fa fa-eye"></i></a>
+                    <button type="button" class="btn btn-outline-danger" (click)="DeleteImage(request.AttachmentFilePath)"><i class="fa fa-trash-o"></i></button>
+                  </div>
+                </div>
+              </div>
+
+
+            </div>
+          </div>
+          <div class="card-footer text-end">
+            <button type="submit" class="btn btn-primary" id="btnSave" name="btnSave" (click)="SaveData()">Submit</button>
+            <button type="submit" class="btn btn-danger" id="btnReset" name="btnReset" (click)="ResetControl()">Reset</button>
+          </div>
+        </div>
+      </form>-->
+<!--<div class="card mb-0">
+  <div class="card-header d-xxl-flex d-xl-flex d-md-flex d-sm-block justify-content-between align-items-center">
+    <b><i class="bi bi-table"></i> Grievance List </b>
+    <div class="d-flex align-items-center">
+      <div class="btn-group mr-15" role="group" aria-label="Basic outlined example">
+        <button type="button" class="btn btn-outline-primary" title="Copy" id="btnCopyTable" (click)="btnCopyTable_Click()"><i class="fa fa-copy"></i></button>
+        <button type="button" class="btn btn-outline-primary" title="Excel" id="btnExportTable" (click)="btnExportTable_Click()"><i class="fa fa-file-excel-o"></i></button>
+      </div>
+      <div class="d-flex align-items-center table-filter mr-15">
+        <i class="fa fa-search"></i>
+        <input type="text" class="form-control" placeholder="Search Here" [(ngModel)]="searchText" />
+      </div>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="table-responsive">
+      <table class="table table-hover table-striped-columns" id="tabellist" #content>
+        <thead>
+          <tr>
+            <th style="width:60px">Sr. No</th>
+
+            <th>Bug From</th>
+            <th>Department Name</th>
+            <th>College Name</th>
+            <th>Subject</th>
+            <th>Description</th>
+            <th style="width:60px">Attach File</th>
+
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let row of AnimalMasterData | tableSearchFilter:searchText;let idx=index;">
+            <td style="width:60px">{{idx+1}}</td>
+
+            <td>{{row.BugFrom}}</td>
+            <td>{{row.DepartmentName}}</td>
+            <td>{{row.CollegeName}}</td>
+            <td>{{row.Subject}}</td>
+            <td>{{row.Description}}</td>
+            <td style="width:60px"><a href='{{row.AttachmentFile}}' *ngIf="row.AttachmentFile!='' true:false" target="_blank">View</a></td>
+
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>-->
+<!--<div class="card mb-0">
+  <div class="card-header d-xxl-flex d-xl-flex d-md-flex d-sm-block justify-content-between align-items-center">
+    <b><i class="bi bi-table"></i> Grievance List </b>
+    <div class="d-flex align-items-center">
+      <div class="btn-group mr-15" role="group" aria-label="Basic outlined example">
+        <button type="button" class="btn btn-outline-primary" title="Copy" id="btnCopyTable" (click)="btnCopyTable_Click()"><i class="fa fa-copy"></i></button>
+        <button type="button" class="btn btn-outline-primary" title="Excel" id="btnExportTable" (click)="btnExportTable_Click()"><i class="fa fa-file-excel-o"></i></button>
+      </div>
+      <div class="d-flex align-items-center table-filter mr-15">
+        <i class="fa fa-search"></i>
+        <input type="text" class="form-control" placeholder="Search Here" [(ngModel)]="searchText" />
+      </div>
+    </div>
+  </div>
+
+  <div class="card-body">
+    <div class="table-responsive">-->
+<!--<div class="row">-->
+<!--<table class="table table-hover table-striped-columns" #content id="tabellist">
+  <thead>
+    <tr>
+      <th>Sr. No</th>
+      <th>Grievance No</th>
+      <th>Date</th>
+      <th>Bug From</th>
+      <th>Department Name</th>
+      <th>College Name</th>
+      <th>Mobile No.</th>
+      <th>Subject</th>
+      <th>Description</th>
+      <th>Grievance Status</th>
+      <th>Grievance Remark</th>
+      <th>Attachment File</th>
+      <th>Attachment Image</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr *ngFor="let row of GrievanceMasterData | tableSearchFilter:searchText; let idx=index;">
+
+      <td>{{idx+1}}</td>
+      <td>{{row.GrievanceNo}}</td>
+      <td>{{row.Date}}</td>
+      <td>{{row.BugFrom}}</td>
+      <td>{{row.DepartmentName}}</td>
+      <td>{{row.CollegeName}}</td>
+      <td>{{row.MobileNo}}</td>
+      <td>{{row.Subject}}</td>
+      <td>{{row.Description}}</td>
+      <td>{{row.GrievanceStatus}}</td>
+      <td>{{row.GrievanceRemark}}</td>
+      <td><a target="_blank" href="{{row.AttachmentFile}}"><i class="fa fa-eye"></i></a></td>
+      <td><a target="_blank" href="{{row.AttachmentImage}}" *ngIf="row.AttachmentImage!=''"><i class="fa fa-eye"></i></a></td>
+      <td>
+        <a href="javascript:void(0)" (click)="ReopenGrievancePopUP(mymodalReOpenGrievance,row.GrievanceID,row.DepartmentID,row.CollegeID,row.DepartmentName,row.CollegeName)" class="btn btn-sm btn-info" *ngIf="row.GrievanceStatus=='Completed'">Re-Open</a>
+        <a href="javascript:void(0)" (click)="GrievanceTrailPopUP(mymodalTrailGrievance,row.GrievanceID)" class="btn btn-sm btn-primary">Trail</a>
+      </td>
+    </tr>
+
+  </tbody>
+</table>-->
+<!--</div>-->
+<!--</div>
+  </div>
+</div>
+<ng-template #mymodalReOpenGrievance let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title" style="font-size: 17px; font-weight: 600 !important;">Re-Open Grievance</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <i class="fa fa-close"></i>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="dprt-mange py-3">
+      <p><strong>Department Name:</strong> ({{SelectedDepartmentName}})</p>
+      <p> <strong>College Name:  </strong>({{SelectedCollegeName}})</p>
+    </div>
+    <div class="row">
+      <div class="col-lg-12 col-md-12 mb-3">
+        <label for="txtGrievanceRemark" maxlength="200" class="form-label">Enter Grievance Remark!:<span style="color:red;">*</span></label>
+        <textarea type="text" id="txtGrievanceRemark" name="txtGrievanceRemark" class="form-control" [(ngModel)]="requestGrievance.GrievanceRemark"></textarea>
+        <div *ngIf="requestGrievance.GrievanceRemark == null || requestGrievance.GrievanceRemark == '' || requestGrievance.GrievanceRemark == undefined" class="text-danger">
+          <p><i aria-hidden="true"></i>This field is required .!</p>
+        </div>
+      </div>
+      <div class="col-lg-12 col-md-12 mb-3">
+        <label class="form-label">Attach File</label>
+        <div class="d-flex">
+          <input type="file" style="display:none;" class="form-control" id="fileAttachmentFiles" name="fileAttachmentFiles" (change)="onFilechanges($event)" formControlName="fileAttachmentFiles">
+          <label class="btn upload" for="fileAttachmentFiles">
+            <span class="filename">Choose file</span>
+            {{requestGrievance.AttachmentFile === '' ? 'No File Choosen' : requestGrievance.AttachmentFile_Dis_FileName}}
+          </label>
+          <div class="btn-group" *ngIf="requestGrievance.AttachmentFile != ''">
+            <a class="btn btn-outline-primary" target="_blank" href="{{requestGrievance.AttachmentFilePath}}"><i class="fa fa-eye"></i></a>
+            <button type="button" class="btn btn-outline-danger" (click)="DeleteImages(requestGrievance.AttachmentFilePath)"><i class="fa fa-trash-o"></i></button>
+          </div>
+        </div>
+      </div>
+      <div class=" col-md-12 text-center mb-4">
+        <button type="button" class="btn btn-primary pull-right" (click)="SubmitGrievanceStatus()">Submit</button>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #mymodalTrailGrievance let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title" style="font-size: 17px; font-weight: 600 !important;">Trail</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <i class="fa fa-close"></i>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="table-responsive">-->
+<!--<div class="row">-->
+<!--<table class="table table-hover table-striped-columns" #content id="tabellist1">
+  <thead>
+    <tr>
+      <th>Sr. No</th>
+      <th>Grievance No</th>
+      <th>Date</th>
+      <th>Mobile No.</th>
+      <th>Grievance Status</th>
+      <th>Grievance Remark</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr *ngFor="let row of GrievanceTrailData | tableSearchFilter:searchText; let idx=index;">
+
+      <td>{{idx+1}}</td>
+      <td>{{row.GrievanceNo}}</td>
+      <td>{{row.Date}}</td>
+      <td>{{row.MobileNo}}</td>
+      <td>{{row.GrievanceStatus}}</td>
+      <td>{{row.GrievanceRemark}}</td>
+    </tr>
+
+  </tbody>
+</table>-->
+<!--</div>-->
+<!--</div>
+        </div>
+      </ng-template>
+    </div>
+  </div>
+</div>-->
+
 <app-loader></app-loader>
 <div class="container-fluid breadcrumbBox py-2">
   <div class="row align-items-center">
@@ -18,7 +326,8 @@
   <div class="row">
     <div class="col-md-12">
       <div class="clearfix"></div>
-      <form [formGroup]="AnimalMasterForm" class="form-horizontal">
+      <form [formGroup]="GrievanceMasterForm" class="form-horizontal">
+        Reopen
         <div class="card">
           <div class="card-header d-flex justify-content-between align-items-center">
             <b><i class="fa fa-plus"></i>&nbsp;Grievance</b>
@@ -108,7 +417,7 @@
           </div>
         </div>
       </form>
-      <div class="card mb-0">
+      <!--<div class="card mb-0">
         <div class="card-header d-xxl-flex d-xl-flex d-md-flex d-sm-block justify-content-between align-items-center">
           <b><i class="bi bi-table"></i> Grievance List </b>
           <div class="d-flex align-items-center">
@@ -154,8 +463,153 @@
             </table>
           </div>
         </div>
-      </div>
+      </div>-->
+      <div class="card mb-0">
+        <div class="card-header d-xxl-flex d-xl-flex d-md-flex d-sm-block justify-content-between align-items-center">
+          <b><i class="bi bi-table"></i> Grievance List </b>
+          <div class="d-flex align-items-center">
+            <div class="btn-group mr-15" role="group" aria-label="Basic outlined example">
+              <button type="button" class="btn btn-outline-primary" title="Copy" id="btnCopyTable" (click)="btnCopyTable_Click()"><i class="fa fa-copy"></i></button>
+              <button type="button" class="btn btn-outline-primary" title="Excel" id="btnExportTable" (click)="btnExportTable_Click()"><i class="fa fa-file-excel-o"></i></button>
+            </div>
+            <div class="d-flex align-items-center table-filter mr-15">
+              <i class="fa fa-search"></i>
+              <input type="text" class="form-control" placeholder="Search Here" [(ngModel)]="searchText" />
+            </div>
+          </div>
+        </div>
 
+        <div class="card-body">
+          <div class="table-responsive">
+            <!--<div class="row">-->
+            <table class="table table-hover table-striped-columns" #content id="tabellist">
+              <thead>
+                <tr>
+                  <th>Sr. No</th>
+                  <th>Grievance No</th>
+                  <th>Date</th>
+                  <th>Bug From</th>
+                  <th>Department Name</th>
+                  <th>College Name</th>
+                  <th>Mobile No.</th>
+                  <th>Subject</th>
+                  <th>Description</th>
+                  <th>Grievance Status</th>
+                  <th>Grievance Remark</th>
+                  <th>Attachment File</th>
+                  <th>Attachment Image</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr *ngFor="let row of GrievanceMasterData | tableSearchFilter:searchText; let idx=index;">
+
+                  <td>{{idx+1}}</td>
+                  <td>{{row.GrievanceNo}}</td>
+                  <td>{{row.Date}}</td>
+                  <td>{{row.BugFrom}}</td>
+                  <td>{{row.DepartmentName}}</td>
+                  <td>{{row.CollegeName}}</td>
+                  <td>{{row.MobileNo}}</td>
+                  <td>{{row.Subject}}</td>
+                  <td>{{row.Description}}</td>
+                  <td>{{row.GrievanceStatus}}</td>
+                  <td>{{row.GrievanceRemark}}</td>
+                  <td><a target="_blank" href="{{row.AttachmentFile}}"><i class="fa fa-eye"></i></a></td>
+                  <td><a target="_blank" href="{{row.AttachmentImage}}" *ngIf="row.AttachmentImage!=''"><i class="fa fa-eye"></i></a></td>
+                  <td>
+                    <a href="javascript:void(0)" (click)="ReopenGrievancePopUP(mymodalReOpenGrievance,row.GrievanceID,row.DepartmentID,row.CollegeID,row.DepartmentName,row.CollegeName)" class="btn btn-sm btn-info" *ngIf="row.GrievanceStatus=='Completed'">Re-Open</a>
+                    <a href="javascript:void(0)" (click)="GrievanceTrailPopUP(mymodalTrailGrievance,row.GrievanceID)" class="btn btn-sm btn-primary">Trail</a>
+                  </td>
+                </tr>
+
+              </tbody>
+            </table>
+            <!--</div>-->
+          </div>
+        </div>
+      </div>
+      <ng-template #mymodalReOpenGrievance let-modal>
+        <div class="modal-header">
+          <h4 class="modal-title" id="modal-basic-title" style="font-size: 17px; font-weight: 600 !important;">Re-Open Grievance</h4>
+          <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <i class="fa fa-close"></i>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="dprt-mange py-3">
+            <p><strong>Department Name:</strong> ({{SelectedDepartmentName}})</p>
+            <p> <strong>College Name:  </strong>({{SelectedCollegeName}})</p>
+          </div>
+          <div class="row">
+            <div class="col-lg-12 col-md-12 mb-3">
+              <label for="txtGrievanceRemark" maxlength="200" class="form-label">Enter Grievance Remark!:<span style="color:red;">*</span></label>
+              <textarea type="text" id="txtGrievanceRemark" name="txtGrievanceRemark" class="form-control" [(ngModel)]="requestGrievance.GrievanceRemark"></textarea>
+              <div *ngIf="requestGrievance.GrievanceRemark == null || requestGrievance.GrievanceRemark == '' || requestGrievance.GrievanceRemark == undefined" class="text-danger">
+                <p><i aria-hidden="true"></i>This field is required .!</p>
+              </div>
+            </div>
+            <div class="col-lg-12 col-md-12 mb-3">
+              <label class="form-label">Attach File</label>
+              <div class="d-flex">
+                <input type="file" style="display:none;" class="form-control" id="fileAttachmentFiles" name="fileAttachmentFiles" (change)="onFilechanges($event)" formControlName="fileAttachmentFiles">
+                <label class="btn upload" for="fileAttachmentFiles">
+                  <span class="filename">Choose file</span>
+                  {{requestGrievance.AttachmentFile === '' ? 'No File Choosen' : requestGrievance.AttachmentFile_Dis_FileName}}
+                </label>
+                <div class="btn-group" *ngIf="requestGrievance.AttachmentFile != ''">
+                  <a class="btn btn-outline-primary" target="_blank" href="{{requestGrievance.AttachmentFilePath}}"><i class="fa fa-eye"></i></a>
+                  <button type="button" class="btn btn-outline-danger" (click)="DeleteImages(requestGrievance.AttachmentFilePath)"><i class="fa fa-trash-o"></i></button>
+                </div>
+              </div>
+            </div>
+            <div class=" col-md-12 text-center mb-4">
+              <button type="button" class="btn btn-primary pull-right" (click)="SubmitGrievanceStatus()">Submit</button>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+
+      <ng-template #mymodalTrailGrievance let-modal>
+        <div class="modal-header">
+          <h4 class="modal-title" id="modal-basic-title" style="font-size: 17px; font-weight: 600 !important;">Trail</h4>
+          <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <i class="fa fa-close"></i>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="table-responsive">
+            <!--<div class="row">-->
+            <table class="table table-hover table-striped-columns" #content id="tabellist1">
+              <thead>
+                <tr>
+                  <th>Sr. No</th>
+                  <th>Grievance No</th>
+                  <th>Date</th>
+                  <th>Mobile No.</th>
+                  <th>Grievance Status</th>
+                  <th>Grievance Remark</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr *ngFor="let row of GrievanceTrailData | tableSearchFilter:searchText; let idx=index;">
+
+                  <td>{{idx+1}}</td>
+                  <td>{{row.GrievanceNo}}</td>
+                  <td>{{row.Date}}</td>
+                  <td>{{row.MobileNo}}</td>
+                  <td>{{row.GrievanceStatus}}</td>
+                  <td>{{row.GrievanceRemark}}</td>
+                </tr>
+
+              </tbody>
+            </table>
+            <!--</div>-->
+          </div>
+        </div>
+      </ng-template>
     </div>
   </div>
 </div>

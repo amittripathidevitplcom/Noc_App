@@ -3,7 +3,7 @@ import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from
 import * as XLSX from 'xlsx';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { HostelDataModel, HostelDetailsDataModel_Hostel } from '../../../Models/HostelDetailsDataModel';
+import { HostelDataModel, HostelDetailsDataModel_Hostel, ResidentialQuartersDataModel_Hostel } from '../../../Models/HostelDetailsDataModel';
 import { CourseMasterService } from '../../../Services/Master/AddCourse/course-master.service';
 import { CommonMasterService } from '../../../Services/CommonMaster/common-master.service';
 import { LoaderService } from '../../../Services/Loader/loader.service';
@@ -39,7 +39,7 @@ export class HostelDetailsComponent implements OnInit {
   //Add FormBuilder
   HostelDetailsForm !: FormGroup;
   HostelForm !: FormGroup;
-
+  ResidentialQuartersDetailsForm!: FormGroup;
   public State: number = -1;
   public SuccessMessage: any = [];
   public ErrorMessage: any = [];
@@ -48,6 +48,7 @@ export class HostelDetailsComponent implements OnInit {
   holddata = new HostelDataModel();
   viewhostel = new HostelDataModel();
   hosteldetail = new HostelDetailsDataModel_Hostel();
+  ResidentialQuartersDetails = new ResidentialQuartersDataModel_Hostel();
   public hostelDataModel: HostelDataModel[] = [];
   public DivisionList: any = [];
   public PinNoRegex = new RegExp(/[0-9]{6}/)
@@ -98,6 +99,7 @@ export class HostelDetailsComponent implements OnInit {
   public seatInformationDataList: any = [];
   public courseTypeDataList: any = [];
   public AllCourseList: any = [];
+  public AccommodationTypesDataList: any = [];
 
   searchText: string = '';
   public LoginSSOID: string = '';
@@ -129,6 +131,7 @@ export class HostelDetailsComponent implements OnInit {
   public showImageFile: boolean = false;
   public showRentDocument: boolean = false;
   public isHostelSubmitted: boolean = false;
+  public isResidentialQuartersSubmitted: boolean = false;
 
   public file: any = '';
   public CurrentIndex: number = -1;
@@ -148,6 +151,8 @@ export class HostelDetailsComponent implements OnInit {
   public QueryStringStatus: any = '';
   public SelectedApplyNOCID: number = 0;
   public SearchRecordID: string = '';
+  public hostelTypeName: string = '';
+  public RegTypeName: string = '';
   constructor(private courseMasterService: CourseMasterService, private toastr: ToastrService, private loaderService: LoaderService,
     private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private _fb: FormBuilder,
     private clipboard: Clipboard, private fileUploadService: FileUploadService, private hostelDetailService: HostelDetailService, private modalService: NgbModal, private collegeService: CollegeService) {
@@ -205,8 +210,15 @@ export class HostelDetailsComponent implements OnInit {
         hostel_fileImageFileName: [''],
 
       });
+    this.ResidentialQuartersDetailsForm = this.formBuilder.group(
+      {
+        ddlAccommodationTypesID: ['', [DropdownValidators]],
+        txtResidentialNoofQuarters: ['', Validators.required]     
+
+      });
 
     this.request.HostelDetails = []
+    this.request.ResidentialQuartersDetails = []
 
     const ddlCourse = document.getElementById('ddlCourse')
     if (ddlCourse) ddlCourse.focus();
@@ -253,9 +265,11 @@ export class HostelDetailsComponent implements OnInit {
     await this.GetHostelCategory();
     await this.GetDivisionList();
     await this.GetHostelDetailList_DepartmentCollegeWise(this.SelectedDepartmentID, this.SelectedCollageID, 0)
+    await this.GetAccommodationTypesDataList();
   }
   get Hform() { return this.HostelForm.controls; }
   get form() { return this.HostelDetailsForm.controls; }
+  get Reform() { return this.ResidentialQuartersDetailsForm.controls; }
 
   LoadMaster() {
     try {
@@ -309,7 +323,7 @@ export class HostelDetailsComponent implements OnInit {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
-          this.ErrorMessage = data['ErrorMessage'];
+          this.ErrorMessage = data['ErrorMessage']; this.ResidentialQuartersDetails
           this.DistrictList = data['Data'];
         }, error => console.error(error));
     }
@@ -461,7 +475,9 @@ export class HostelDetailsComponent implements OnInit {
           ImageFileName: this.hosteldetail.ImageFileName,
           Dis_FileName: this.hosteldetail.Dis_FileName,
           HostelBlockName: this.hosteldetail.HostelBlockName,
-          ImageFilePath: this.hosteldetail.ImageFilePath
+          ImageFilePath: this.hosteldetail.ImageFilePath,
+          //ResidentialQuarters:''
+          //ResidentialQuarters:''
         });
       }
       //console.log(this.request.HostelDetails);
@@ -633,7 +649,102 @@ export class HostelDetailsComponent implements OnInit {
       }, 200);
     }
   }
-  async SaveData() {    
+
+  async btnAddResidentialQuarters_Click() {
+    debugger;
+    try {
+
+      this.isResidentialQuartersSubmitted = true;     
+      this.isFormValid = true;
+
+      //this.isFormValid = this.ValidateForm();
+
+      if (this.ResidentialQuartersDetailsForm.invalid) {
+        this.isFormValid = false;
+      }
+      this.RegTypeName = this.AccommodationTypesDataList.find((x: { ID: number; }) => x.ID == this.ResidentialQuartersDetails.AccommodationTypesID).Name;
+      console.log(this.RegTypeName);
+      if (this.RegTypeName =='Teaching' && this.ResidentialQuartersDetails.ResidentialNoofQuarters<23){
+        this.toastr.warning("Teaching Minimum 23 !");
+        return;
+      }
+      if (this.RegTypeName == 'Non-Teaching' && this.ResidentialQuartersDetails.ResidentialNoofQuarters < 30) {
+        this.toastr.warning("Non-Teaching Minimum 30 !");
+        return;
+      }
+      if (this.RegTypeName == 'Nurses' && this.ResidentialQuartersDetails.ResidentialNoofQuarters < 30) {
+        this.toastr.warning("Nurses Minimum 60 !");
+        return;
+      }
+      if (!this.isFormValid) {
+        return;
+      }
+      //Show Loading
+      this.loaderService.requestStarted();
+      if (this.CurrentIndex != -1) {
+        this.request.ResidentialQuartersDetails.splice(this.CurrentIndex, 1, this.ResidentialQuartersDetails);
+      }
+      else {
+        this.request.ResidentialQuartersDetails.push({
+          ResidentialQuartersDetailID: 0,
+          ResidentialQuarters: this.ResidentialQuartersDetails.ResidentialQuarters,
+          AccommodationTypesID: this.ResidentialQuartersDetails.AccommodationTypesID,
+          AccommodationName: this.AccommodationTypesDataList.find((x: { ID: number; }) => x.ID == this.ResidentialQuartersDetails.AccommodationTypesID).Name,        
+          ResidentialNoofQuarters: this.ResidentialQuartersDetails.ResidentialNoofQuarters,
+          DepartmentID: this.ResidentialQuartersDetails.DepartmentID,
+        });
+      }
+      //console.log(this.request.HostelDetails);
+      this.ResetResidentialQuartersDetails();
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  ResetResidentialQuartersDetails() {
+    try {
+      this.loaderService.requestStarted();
+      this.ResidentialQuartersDetails = new ResidentialQuartersDataModel_Hostel();
+      
+      this.isSubmitted = false;
+
+      this.CurrentIndex = -1;
+      const btnAdd = document.getElementById('btnAddResidentialQuarters')
+      if (btnAdd) { btnAdd.innerHTML = "Add"; }
+      this.isDisabledGrid = false;
+      this.isHostelSubmitted = false;
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  async DeleteResidentialQuartersDetail(i: number) {
+    this.isSubmitted = false;
+    try {
+      if (confirm("Are you sure you want to delete this ?")) {
+        this.loaderService.requestStarted();
+        this.request.ResidentialQuartersDetails.splice(i, 1);
+      }
+    }
+    catch (ex) { }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  async SaveData() {
+    debugger;
     try {
       if (this.SelectedDepartmentID == 5) {       
         if (this.request.HostelTypeID > 0) {
@@ -680,6 +791,13 @@ export class HostelDetailsComponent implements OnInit {
         this.isFormValid = false;
         this.toastr.error('please add atleast one hostel block details');
       }
+      if (this.SelectedDepartmentID == 5 && this.hostelTypeName == 'Residents Doctors' && this.ResidentialQuartersDetails.ResidentialQuarters == 'Yes') {
+        if (this.request.ResidentialQuartersDetails.length <= 0) {
+          this.isFormValid = false;
+          this.toastr.error('Please add Residential Quarters details');
+        }
+      }
+      
 
       //loding
       this.loaderService.requestStarted();
@@ -693,7 +811,9 @@ export class HostelDetailsComponent implements OnInit {
       }
       this.request.DepartmentID = this.SelectedDepartmentID;
       this.request.CollegeID = this.SelectedCollageID;
+      this.request.HostelCategoryType = this.hostelTypeName;
       //post
+      console.log(this.HostelForm);
       await this.hostelDetailService.SaveData(this.request)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
@@ -728,8 +848,12 @@ export class HostelDetailsComponent implements OnInit {
     //this.routers.navigate(['/addcollege']);
   }
   public LessBuiltUpArea: boolean = false;
+  public LessUGStudents: boolean = false;
+  public LessInternsStudents: boolean = false;
+  public LessResidentsDoctors: boolean = false;
   public TotalHostelBlock: number= 0;
   ValidateForm(): boolean {
+    debugger;
     this.isFormValid = true;
     this.isSubmitted = true;
     this.IsTehsilRequried = false;
@@ -753,6 +877,51 @@ export class HostelDetailsComponent implements OnInit {
         this.LessBuiltUpArea = true;
         this.isFormValid = false;
       }
+      //if (Number(this.request.UGStudents) < 120) {
+      //  this.LessUGStudents = true;
+      //  this.isFormValid = false;
+      //}
+      //if (Number(this.request.InternsStudents) < 150) {
+      //  this.LessInternsStudents = true;
+      //  this.isFormValid = false;
+      //}      
+
+      this.TotalHostelBlock = 0;
+      for (var i = 0; i < this.courseDataList.length; i++) {
+        var CourseName = this.request.HostelDetails.filter((x: { CourseID: number; }) => x.CourseID == this.courseDataList[i].ID);
+        if (CourseName.length <= 0) {
+          this.TotalHostelBlock = this.TotalHostelBlock + 1;
+        }
+      }
+      if (this.TotalHostelBlock > 0) {
+        this.toastr.warning('Please add all hostel block');
+        this.isFormValid = false;
+      }
+    }
+    if (this.SelectedDepartmentID == 5) {
+      if (this.request.BuiltUpArea == '') {
+        this.isFormValid = false;
+      }
+      if (this.hostelTypeName == 'UG Students') {
+        if (Number(this.request.UGStudents) < 120) {
+          this.LessUGStudents = true;
+          this.isFormValid = false;
+        }
+      }
+      if (this.hostelTypeName == 'Interns') {
+        if (Number(this.request.InternsStudents) < 150) {
+          this.LessInternsStudents = true;
+          this.isFormValid = false;
+        }
+      }
+      if (this.hostelTypeName == 'Residents Doctors') {
+        if (Number(this.request.ResidentsDoctors) < 81) {
+          this.LessResidentsDoctors = true;
+          this.isFormValid = false;
+        }
+      }
+      
+
       this.TotalHostelBlock = 0;
       for (var i = 0; i < this.courseDataList.length; i++) {
         var CourseName = this.request.HostelDetails.filter((x: { CourseID: number; }) => x.CourseID == this.courseDataList[i].ID);
@@ -834,6 +1003,27 @@ export class HostelDetailsComponent implements OnInit {
     this.hosteldetail.ImageFileName = this.hosteldetail.ImageFileName;
     this.hosteldetail.Dis_FileName = this.hosteldetail.Dis_FileName;
     this.showImageFile = true;
+    const btnAdd = document.getElementById('btnAdd')
+    if (btnAdd) { btnAdd.innerHTML = "Update"; }
+  }
+  async EditResidentialQuartersDetail(Item: any, idx: number) {
+    this.CurrentIndex = idx;
+
+    this.isDisabledGrid = true;
+    this.ResidentialQuartersDetails = Item;
+    this.ResidentialQuartersDetails.ResidentialQuartersDetailID = this.ResidentialQuartersDetails.ResidentialQuartersDetailID;
+    this.ResidentialQuartersDetails.ResidentialQuarters = this.ResidentialQuartersDetails.ResidentialQuarters;
+    this.ResidentialQuartersDetails.AccommodationTypesID = this.ResidentialQuartersDetails.AccommodationTypesID;
+    this.ResidentialQuartersDetails.AccommodationName = this.AccommodationTypesDataList.find((x: { ID: number; }) => x.ID == this.ResidentialQuartersDetails.AccommodationTypesID).Name;
+    this.ResidentialQuartersDetails.ResidentialNoofQuarters = this.ResidentialQuartersDetails.ResidentialNoofQuarters;
+    this.ResidentialQuartersDetails.DepartmentID = this.ResidentialQuartersDetails.DepartmentID;
+
+
+    //await this.ddlCourse_change(null, this.hosteldetail.CourseID)
+    //this.hosteldetail.ImageFilePath = this.hosteldetail.ImageFilePath;
+    //this.hosteldetail.ImageFileName = this.hosteldetail.ImageFileName;
+    //this.hosteldetail.Dis_FileName = this.hosteldetail.Dis_FileName;
+    //this.showImageFile = true;
     const btnAdd = document.getElementById('btnAdd')
     if (btnAdd) { btnAdd.innerHTML = "Update"; }
   }
@@ -946,6 +1136,11 @@ export class HostelDetailsComponent implements OnInit {
           this.request.HostelCategory = data['Data'][0]['HostelCategory'];
           this.request.HostelCategoryID = data['Data'][0]['HostelCategoryID'];
           this.request.HostelTypeID = data['Data'][0]['HostelTypeID'];
+          if (this.SelectedDepartmentID==5) {
+            await this.ChangeHostelTypeDDL(this.request.HostelTypeID);
+            await this.GetAccommodationTypesDataList();
+          }
+          
           this.request.HostelName = data['Data'][0]['HostelName'];
           this.request.Furnished = data['Data'][0]['Furnished'];
           this.request.Toilet = data['Data'][0]['Toilet'];
@@ -1006,11 +1201,53 @@ export class HostelDetailsComponent implements OnInit {
       // get
       await this.commonMasterService.GetCommonMasterList_DepartmentAndTypeWise(this.SelectedDepartmentID, "HostelType")
         .then((data: any) => {
+          debugger;
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
           // data
           this.HostelTypeList = data['Data'];
+          
+          
+          //msg
+          //if (this.State != 0) {
+          //this.toastr.error(this.ErrorMessage);
+          //}
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  async ChangeHostelTypeDDL(HostelTypeID: any) {
+    debugger;
+    console.log("Incoming HostelTypeID:", HostelTypeID);
+    console.log("HostelTypeList:", this.HostelTypeList);
+    const selected = this.HostelTypeList.find((item: any) => item.ID == HostelTypeID); // not ===
+    this.hostelTypeName = selected?.Name ?? '';
+    console.log("Selected hostelTypeName:", this.hostelTypeName);
+  }
+  async GetAccommodationTypesDataList() {
+    debugger;
+    try {
+      // loading
+      this.loaderService.requestStarted();
+      // get
+      await this.commonMasterService.GetCommonMasterList_DepartmentAndTypeWise(this.SelectedDepartmentID, "AccommodationTypes")
+        .then((data: any) => {
+          debugger;
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          // data
+          this.AccommodationTypesDataList = data['Data'];
+
+
           //msg
           //if (this.State != 0) {
           //this.toastr.error(this.ErrorMessage);
@@ -1101,6 +1338,7 @@ export class HostelDetailsComponent implements OnInit {
       this.request.FromDate = '';
       this.request.ToDate = '';
       this.request.HostelDetails = [];
+      this.request.ResidentialQuartersDetails = [];
       this.request.AddressLine1 = '';
       this.request.AddressLine2 = '';
       this.request.IsRuralUrban = '';
@@ -1129,6 +1367,9 @@ export class HostelDetailsComponent implements OnInit {
       this.request.OwnerShhipRentDocumentPath = '';
       this.request.OwnerShhipRentDocument_Dis_FileName = '';
       this.request.BuiltUpArea = '';
+      this.request.UGStudents = 0;
+      this.request.InternsStudents = 0;
+      this.request.ResidentsDoctors = 0;
 
 
       const btnAdd = document.getElementById('btnSave')

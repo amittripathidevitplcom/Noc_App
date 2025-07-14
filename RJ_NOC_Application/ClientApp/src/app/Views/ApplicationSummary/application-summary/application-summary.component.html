@@ -121,7 +121,7 @@
       <!--*ngIf="IsAHDegreeCollege==false"-->
       <div class="card mb-0">
         <div class="card-header">
-         
+
           <b><i class="bi bi-table"></i> <span>{{SelectedDepartmentID==5?'Building Details':'Building Documents '}}</span>  </b>
         </div>
         <div class="card-body">
@@ -160,16 +160,41 @@
     <div class="col-md-12" *ngIf="SelectedDepartmentID==5">
       <div class="card mb-0">
         <div class="card-header">
-          <b><i class="bi bi-table"></i> Class Room Details </b>
+          <b>
+            <i class="bi bi-table"></i> Infrastructure Medical College Facilities
+          </b>
         </div>
         <div class="card-body">
           <div class="col-md-12">
-            <app-preview-mg-one-class-room-details></app-preview-mg-one-class-room-details>
+            <app-preview-infrastructure-medical-college-facilitiesmgone></app-preview-infrastructure-medical-college-facilitiesmgone>
           </div>
         </div>
       </div>
     </div>
-
+    <div class="col-md-12" *ngIf="SelectedDepartmentID==5">
+      <div class="card mb-0">
+        <div class="card-header">
+          <b><i class="bi bi-table"></i> Hospital Facilities / Infrastructure</b>
+        </div>
+        <div class="card-body">
+          <div class="col-md-12">
+            <app-preview-hospital-detail></app-preview-hospital-detail>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-12" *ngIf="(SelectedDepartmentID==5)">
+      <div class="card mb-0">
+        <div class="card-header">
+          <b><i class="bi bi-table"></i>Clinical Material Facilities</b>
+        </div>
+        <div class="card-body">
+          <div class="col-md-12">
+            <app-preview-mgone-clinical-lab></app-preview-mgone-clinical-lab>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <div class="col-md-12" *ngIf="SelectedDepartmentID!=5">
       <div class="card mb-0">
@@ -187,7 +212,7 @@
       </div>
     </div>
     <!--*ngIf="SelectedDepartmentID!=5"-->
-    <div class="col-md-12">
+    <div class="col-md-12" *ngIf="SelectedDepartmentID!=5">
       <div class="card mb-0">
         <div class="card-header">
           <b><i class="bi bi-table"></i> Facility </b>
@@ -212,8 +237,30 @@
         </div>
       </div>
     </div>
-
-
+    <div class="col-md-12" *ngIf="SelectedDepartmentID==6 || SelectedDepartmentID==3 || SelectedDepartmentID==4 || SelectedDepartmentID==11|| SelectedDepartmentID==5">
+      <div class="card mb-0">
+        <div class="card-header">
+          <b><i class="bi bi-table"></i>Hostel Details</b>
+        </div>
+        <div class="card-body">
+          <div class="col-md-12">
+            <app-preview-hostel-details></app-preview-hostel-details>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-12" *ngIf="SelectedDepartmentID==5">
+      <div class="card mb-0">
+        <div class="card-header">
+          <b><i class="bi bi-table"></i>  Staff Details </b>
+        </div>
+        <div class="card-body">
+          <div class="col-md-12">
+            <app-preview-staff-detail></app-preview-staff-detail>
+          </div>
+        </div>
+      </div>
+    </div>
     <div class="col-md-12" *ngIf="SelectedDepartmentID!=6">
       <div class="card mb-0">
         <div class="card-header">
@@ -252,18 +299,7 @@
         </div>
       </div>
     </div>
-    <div class="col-md-12" *ngIf="SelectedDepartmentID==5">
-      <div class="card mb-0">
-        <div class="card-header">
-          <b><i class="bi bi-table"></i>  Staff Details </b>
-        </div>
-        <div class="card-body">
-          <div class="col-md-12">
-            <app-preview-staff-detail></app-preview-staff-detail>
-          </div>
-        </div>
-      </div>
-    </div>
+
     <div class="col-md-12" *ngIf="(SelectedDepartmentID==2 && IsAHDegreeCollege)">
       <div class="card mb-0">
         <div class="card-header">
@@ -276,30 +312,19 @@
         </div>
       </div>
     </div>
-    <div class="col-md-12" *ngIf="(SelectedDepartmentID==5)">
-      <div class="card mb-0">
-        <div class="card-header">
-          <b><i class="bi bi-table"></i>Department Wise Infrasturcture</b>
-        </div>
-        <div class="card-body">
-          <div class="col-md-12">
-            <app-preview-mgone-infrastructure></app-preview-mgone-infrastructure>
-          </div>
+    <!--<div class="col-md-12" *ngIf="(SelectedDepartmentID==5)">
+    <div class="card mb-0">
+      <div class="card-header">
+        <b><i class="bi bi-table"></i>Department Wise Infrasturcture</b>
+      </div>
+      <div class="card-body">
+        <div class="col-md-12">
+          <app-preview-mgone-infrastructure></app-preview-mgone-infrastructure>
         </div>
       </div>
     </div>
-    <div class="col-md-12" *ngIf="(SelectedDepartmentID==5)">
-      <div class="card mb-0">
-        <div class="card-header">
-          <b><i class="bi bi-table"></i>Clinical Lab</b>
-        </div>
-        <div class="card-body">
-          <div class="col-md-12">
-            <app-preview-mgone-clinical-lab></app-preview-mgone-clinical-lab>
-          </div>
-        </div>
-      </div>
-    </div>
+  </div>-->
+
     <div class="col-md-12" *ngIf="CollegeType_IsExisting && (SelectedDepartmentID!=5 && SelectedDepartmentID!=11) && IsAHDegreeCollege==false">
       <div class="card mb-0">
         <div class="card-header">
@@ -314,18 +339,7 @@
     </div>
 
 
-    <div class="col-md-12" *ngIf="SelectedDepartmentID==6 || SelectedDepartmentID==3 || SelectedDepartmentID==4 || SelectedDepartmentID==11|| SelectedDepartmentID==5">
-      <div class="card mb-0">
-        <div class="card-header">
-          <b><i class="bi bi-table"></i>Hostel Details</b>
-        </div>
-        <div class="card-body">
-          <div class="col-md-12">
-            <app-preview-hostel-details></app-preview-hostel-details>
-          </div>
-        </div>
-      </div>
-    </div>
+
 
   </div>
 
@@ -344,18 +358,7 @@
     </div>
   </div>
 
-  <div class="col-md-12" *ngIf="SelectedDepartmentID==5">
-    <div class="card mb-0">
-      <div class="card-header">
-        <b><i class="bi bi-table"></i>Hospital Details</b>
-      </div>
-      <div class="card-body">
-        <div class="col-md-12">
-          <app-preview-hospital-detail></app-preview-hospital-detail>
-        </div>
-      </div>
-    </div>
-  </div>
+  
   <div class="col-md-12" *ngIf="SelectedDepartmentID==9">
     <div class="card mb-0">
       <div class="card-header">
@@ -441,7 +444,7 @@
       </div>
     </div>
   </div>
-  <div class="col-md-12" *ngIf="SelectedDepartmentID !=11">
+  <div class="col-md-12" *ngIf="SelectedDepartmentID !=11 && SelectedDepartmentID !=5">
     <div class="card mb-0">
       <div class="card-header">
         <b><i class="bi bi-table"></i>Apply Noc Details</b>
@@ -456,7 +459,7 @@
   <div class="col-md-12" *ngIf="SelectedDepartmentID !=2 &&  SelectedDepartmentID !=11">
     <div class="card mb-0">
       <div class="card-header">
-        <b><i class="bi bi-table"></i>FDR Details</b>
+        <b><i class="bi bi-table"></i> FDR Details</b>
       </div>
       <div class="card-body">
         <div class="col-md-12">
@@ -468,7 +471,7 @@
   <div class="col-md-12" *ngIf="IsManagmentType &&  SelectedDepartmentID !=11">
     <div class="card mb-0">
       <div class="card-header">
-        <b><i class="bi bi-table"></i>Payment Details</b>
+        <b><i class="bi bi-table"></i> Payment Details</b>
       </div>
       <div class="card-body">
         <div class="col-md-12">
@@ -477,14 +480,10 @@
       </div>
     </div>
   </div>
-
-
-
-
   <div class="col-md-12" *ngIf="SelectedDepartmentID==9">
     <div class="card mb-0">
       <div class="card-header">
-        <b><i class="bi bi-table"></i>Clinical Facility Details</b>
+        <b><i class="bi bi-table"></i> Clinical Facility Details</b>
       </div>
       <div class="card-body">
         <div class="col-md-12">

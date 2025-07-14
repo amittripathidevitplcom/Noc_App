@@ -235,13 +235,13 @@ export class DCEDocumentScrutinyService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-  public async GetPhysicalVerificationAppliationList(SSOID: string, Status: any) {
+  public async GetPhysicalVerificationAppliationList(SSOID: string, Status: any, SessionYear: number) {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     };
-    const body = { SSOID: SSOID, Status: Status,IsWeb: true };
+    const body = { SSOID: SSOID, Status: Status, IsWeb: true, SessionYear: SessionYear };
     return await this.http.post(this.APIUrl + "/GetPhysicalVerificationAppliationList/", body, httpOptions)
       .pipe(
         catchError(this.handleErrorObservable)
@@ -346,13 +346,13 @@ export class DCEDocumentScrutinyService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-  public async GetGrievanceReport(FromDate: any, ToDate: any) {
+  public async GetGrievanceReport(FromDate: any, ToDate: any, DepartmentID: number, CollegeID: number) {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     };
-    return await this.http.get(this.APIUrl + "/GetGrievanceReport/" + FromDate + "/" + ToDate)
+    return await this.http.get(this.APIUrl + "/GetGrievanceReport/" + FromDate + "/" + ToDate + "/" + DepartmentID + "/" + CollegeID)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();
@@ -422,4 +422,5 @@ export class DCEDocumentScrutinyService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
+
 }

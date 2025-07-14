@@ -633,7 +633,7 @@ export class DTEAddCollegeMasterComponent implements OnInit {
   async GetDepartmentList() {
     try {
       this.loaderService.requestStarted();
-      await this.commonMasterService.GetDepartmentList_IsOpenNOCApplication()
+      await this.commonMasterService.GetDepartmentList()
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
@@ -1414,7 +1414,7 @@ export class DTEAddCollegeMasterComponent implements OnInit {
     this.loaderService.requestStarted();
     this.isLoading = true;
     this.IsEdit = true;
-
+    console.log(this.request.DTEAffiliationID);
     try {
       await this.collegeService.GetBterData(this.request.DTEAffiliationID)
         .then(async (data: any) => {
@@ -1447,7 +1447,7 @@ export class DTEAddCollegeMasterComponent implements OnInit {
           await this.ResetFileAndValidation('WebsiteImage', '', this.request.WebsiteImage, this.request.WebsiteImagePath, this.request.WebsiteImage_Dis_FileName, this.request.DepartmentID == 3 ? true : false);
 
 
-          await this.ddlCollegeStatus_TextChange(null, this.request.CollegeStatusID.toString());
+          //await this.ddlCollegeStatus_TextChange(null, this.request.CollegeStatusID.toString());
           this.request.PresentCollegeStatusID = data['Data']['PresentCollegeStatusID'];
           await this.ddlPresentCollegeStatus_TextChange(null, this.request.PresentCollegeStatusID.toString());
           this.SelectedCollegeLevel = this.request.CollegeLevelDetails;
@@ -1486,6 +1486,7 @@ export class DTEAddCollegeMasterComponent implements OnInit {
           //await this.ddlCollegeType_TextChange(this.request.CollegeTypeID.toString())
           this.request.CollegeMedium = data['Data']['CollegeMedium'];
           this.request.UniversityID = data['Data']['UniversityID'];
+          this.request.CollegeLevelID = data['Data']['CollegeLevelID'];
           await this.ResetFileAndValidation('UniversityAffiliationDocument', '', this.request.AffiliationUniversityDoc, this.request.AffiliationUniversityDocPath, this.request.AffiliationUniversityDoc_Dis_FileName, this.request.DepartmentID == 11 ? true : false);
           await this.ResetFileAndValidation('UniversityApproveTeachingFaculty', '', this.request.UniversityApproveTeachingFacultyDoc, this.request.UniversityApproveTeachingFacultyDocPath, this.request.UniversityApproveTeachingFacultyDoc_Dis_FileName, this.request.DepartmentID == 11 ? true : false);
           this.IsAffiliationtype = true;

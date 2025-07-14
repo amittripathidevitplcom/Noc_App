@@ -89,6 +89,7 @@ export class DocumentScrutinyHostalDetailsComponent implements OnInit {
   }
 
   async ViewItem(content: any, HostelDetailID: number) {
+    debugger;
     this.request = new HostelDataModel();
     this.modalService.open(content, { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' }).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;

@@ -15,13 +15,13 @@ export class DraftApplicationListService {
   handleErrorObservable(error: Response | any) {
     return throwError(error);
   }
-  public async DraftApplicationList(LoginSSOID: string, SessionYear:number=0) {
+  public async DraftApplicationList(LoginSSOID: string, SessionYear: number = 0, QueryStringStatus:string='') {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     };
-    return await this.http.get(this.APIUrl_CommonMaster + "/DraftApplicationList/" + LoginSSOID + "/" + SessionYear)
+    return await this.http.get(this.APIUrl_CommonMaster + "/DraftApplicationList/" + LoginSSOID + "/" + SessionYear + "/" + QueryStringStatus)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();

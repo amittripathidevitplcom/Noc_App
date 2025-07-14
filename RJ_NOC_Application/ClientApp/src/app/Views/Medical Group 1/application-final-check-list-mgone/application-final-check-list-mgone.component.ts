@@ -794,7 +794,7 @@ export class ApplicationFinalCheckListMGOneComponent implements OnInit {
           this.AssSecFinalRemark = this.AssitantSecretaryCheckListData[0].FinalRemark;
         }, error => console.error(error));
       //Account Officer
-      await this.mg1documentScrutinyService.GetRNCCheckListByRole('LOI', ApplyNOCID, 30)
+      await this.mg1documentScrutinyService.GetRNCCheckListByRole('LOI', ApplyNOCID, 36)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];

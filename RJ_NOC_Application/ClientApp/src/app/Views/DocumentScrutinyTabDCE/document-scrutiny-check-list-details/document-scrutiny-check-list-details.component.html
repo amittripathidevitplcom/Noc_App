@@ -631,8 +631,18 @@
                 <th>Geo Tagging Status</th>
                 <th>Latitude</th>
                 <th>Longitude</th>
-                <th>Image 1</th>
-                <th>Image 2</th>
+                <th>{{CheckList_collegeListData.DepartmentID==3?'Library':'Image 1'}}</th>
+                <th>{{CheckList_collegeListData.DepartmentID==3?'Lab':'Image 2'}}</th>
+                <th *ngIf="CheckList_collegeListData.DepartmentID==3">Facility</th>
+                <th *ngIf="CheckList_collegeListData.DepartmentID==3">FireStation</th>
+                <th *ngIf="CheckList_collegeListData.DepartmentID==3">WithStaff</th>
+                <th *ngIf="CheckList_collegeListData.DepartmentID==3">ClassRoom</th>
+                <th *ngIf="CheckList_collegeListData.DepartmentID==3">PlayGround</th>
+                <th *ngIf="CheckList_collegeListData.DepartmentID==3">ComputerLab</th>
+                <th *ngIf="CheckList_collegeListData.DepartmentID==3">IKS</th>
+                <th *ngIf="CheckList_collegeListData.DepartmentID==3">DrinkingWater</th>
+
+
               </tr>
             </thead>
             <tbody>
@@ -651,6 +661,55 @@
                     <img src="{{CheckList_collegeListData.Image2}}" alt="Image 2" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
                   </a>
 
+                </td>
+
+                <td *ngIf="CheckList_collegeListData.DepartmentID==3">
+                  <a *ngIf="CheckList_collegeListData.Image3!='N/A'" data-fancybox="gallery" href="{{CheckList_collegeListData.Image3}}" data-caption="Facility" title="click here to zoom">
+                    <img src="{{CheckList_collegeListData.Image3}}" alt="Facility" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                  </a>
+                  <label *ngIf="CheckList_collegeListData.Image3=='N/A'">{{row.Image3}}</label>
+                </td>
+                <td *ngIf="CheckList_collegeListData.DepartmentID==3">
+                  <a *ngIf="CheckList_collegeListData.Image4!='N/A'" data-fancybox="gallery" href="{{CheckList_collegeListData.Image4}}" data-caption="FireStation" title="click here to zoom">
+                    <img src="{{CheckList_collegeListData.Image4}}" alt="FireStation" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                  </a>
+                  <label *ngIf="CheckList_collegeListData.Image4=='N/A'">{{CheckList_collegeListData.Image4}}</label>
+                </td>
+                <td *ngIf="CheckList_collegeListData.DepartmentID==3">
+                  <a *ngIf="CheckList_collegeListData.Image5!='N/A'" data-fancybox="gallery" href="{{CheckList_collegeListData.Image5}}" data-caption="MainBuildingWithStaff" title="click here to zoom">
+                    <img src="{{CheckList_collegeListData.Image5}}" alt="MainBuildingWithStaff" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                  </a>
+                  <label *ngIf="CheckList_collegeListData.Image5=='N/A'">{{CheckList_collegeListData.Image5}}</label>
+                </td>
+                <td *ngIf="CheckList_collegeListData.DepartmentID==3">
+                  <a *ngIf="CheckList_collegeListData.Image6!='N/A'" data-fancybox="gallery" href="{{CheckList_collegeListData.Image6}}" data-caption="ClassRoom" title="click here to zoom">
+                    <img src="{{CheckList_collegeListData.Image6}}" alt="ClassRoom" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                  </a>
+                  <label *ngIf="CheckList_collegeListData.Image6=='N/A'">{{CheckList_collegeListData.Image6}}</label>
+                </td>
+                <td *ngIf="CheckList_collegeListData.DepartmentID==3">
+                  <a *ngIf="CheckList_collegeListData.Image7!='N/A'" data-fancybox="gallery" href="{{CheckList_collegeListData.Image7}}" data-caption="PlayGround" title="click here to zoom">
+                    <img src="{{CheckList_collegeListData.Image7}}" alt="PlayGround" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                  </a>
+                  <label *ngIf="CheckList_collegeListData.Image7=='N/A'">{{CheckList_collegeListData.Image7}}</label>
+                </td>
+                <td *ngIf="CheckList_collegeListData.DepartmentID==3">
+                  <a *ngIf="CheckList_collegeListData.Image8!='N/A'" data-fancybox="gallery" href="{{CheckList_collegeListData.Image8}}" data-caption="ComputerLab" title="click here to zoom">
+                    <img src="{{CheckList_collegeListData.Image8}}" alt="ComputerLab" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                  </a>
+                  <label *ngIf="CheckList_collegeListData.Image8=='N/A'">{{CheckList_collegeListData.Image8}}</label>
+                </td>
+                <td *ngIf="CheckList_collegeListData.DepartmentID==3">
+                  <a *ngIf="CheckList_collegeListData.Image9!='N/A'" data-fancybox="gallery" href="{{CheckList_collegeListData.Image9}}" data-caption="IKS" title="click here to zoom">
+                    <img src="{{CheckList_collegeListData.Image9}}" alt="IKS" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                  </a>
+                  <label *ngIf="CheckList_collegeListData.Image9=='N/A'">{{CheckList_collegeListData.Image2}}</label>
+                </td>
+                <td *ngIf="CheckList_collegeListData.DepartmentID==3">
+                  <a *ngIf="CheckList_collegeListData.Image10!='N/A'" data-fancybox="gallery" href="{{CheckList_collegeListData.Image10}}" data-caption="DrinkingWater" title="click here to zoom">
+                    <img src="{{CheckList_collegeListData.Image10}}" alt="DrinkingWater" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                  </a>
+                  <label *ngIf="CheckList_collegeListData.Image10=='N/A'">{{CheckList_collegeListData.Image10}}</label>
                 </td>
               </tr>
             </tbody>
@@ -2374,7 +2433,7 @@
         </div>
       </div>
 
-      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="sSOLoginDataModel.RoleID==19">
+      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="sSOLoginDataModel.RoleID==19 || sSOLoginDataModel.RoleID==17">
         <label class="form-label">Upload Document</label>
         <div class="d-flex">
           <input type="file" style="display:none" name="UploadDocument" id="UploadDocument" class="form-control" (change)="ValidateDocumentImage($event)" />

@@ -33,9 +33,11 @@
             </div>
             <div class="row">
               <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="collegeListData.CollegeStatus!='New'">
-                <label>Present Status of College :</label>
+
+                <label>Present Status of College :</label>  <button *ngIf="sSOLoginDataModel.RoleID==19 && this.SelectedDepartmentID==3" type="button" class="btn btn-sm btn-primary" title="View History" (click)="ViewCollegePresentCollegeStatusForL1(PresentCollegeStatusForL1mymodal,0)"><i class="fa fa-edit"></i></button>
                 <input class="form-control disabled mt-1" disabled value="{{collegeListData.PresentCollegeStatus}}" />
               </div>
+
               <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
                 <label>College Type :</label>
                 <input class="form-control disabled mt-1" disabled value="{{collegeListData.CollegeType}}" />
@@ -686,6 +688,48 @@
         </div>
       </div>
     </ng-template>
+
+    <ng-template #PresentCollegeStatusForL1mymodal let-modal>
+      <div class="modal-dialog modal-dialog-centered modal-sm" style="display: flex; justify-content: center">
+        <div class="modal-content" style="border-radius: 8px; overflow: hidden; box-shadow: 0 0 10px rgba(0,0,0,0.1); width: 280px">
+          <!-- Modal Header -->
+          <div class="modal-header" style="background-color: #003366; color: white; padding: 8px 16px;">
+            <h6 class="modal-title" style="margin: 0;">Present College Status</h6>
+            <button type="button" class="close" style="color: white; font-size: 20px;" (click)="modal.dismiss('Cross click')">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <!-- Modal Body -->
+          <div class="modal-body" style="background-color: #fff; padding: 16px;">
+            <form #statusForm="ngForm">
+              <div class="form-group" style="margin-bottom: 12px;">
+                <label for="ddlPresentCollegeStatus" style="font-weight: 600; font-size: 14px;">
+                  Present Status of College <span style="color: red;">*</span>
+                </label>
+
+                <select class="form-control form-control-sm"
+                        id="ddlPresentCollegeStatus"
+                        name="ddlPresentCollegeStatus"
+                        [(ngModel)]="request.PresentCollegeStatusID"
+                        required
+                        style="font-size: 14px;">
+                  <option [ngValue]="0">--Select--</option>
+                  <option *ngFor="let item of PresentCollegeStatusList" [ngValue]="item.ID">{{ item.Name }}</option>
+                </select>
+
+              </div>
+
+              <div style="text-align: right; margin-top: 16px;">
+                <button type="button" class="btn btn-secondary btn-sm" style="margin-right: 8px;" (click)="modal.dismiss('cancel')">Cancel</button>
+                <button type="submit" class="btn btn-primary btn-sm" (click)="submitPresentCollegeStatusForm(statusForm)">Update</button>
+              </div>
+            </form>
+          </div>
+
+        </div>
+      </div>
+    </ng-template>
+
   </div>
 </div>
 

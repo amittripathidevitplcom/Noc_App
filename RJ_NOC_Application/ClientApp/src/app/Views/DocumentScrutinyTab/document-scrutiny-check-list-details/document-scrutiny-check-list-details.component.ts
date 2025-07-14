@@ -35,6 +35,8 @@ import { HostelDetailService } from '../../../Services/Tabs/hostel-details.servi
 import { ApplyNOCDocument_DataModel } from '../../../Models/ApplyNOCApplicationDataModel';
 import { FileUploadService } from '../../../Services/FileUpload/file-upload.service';
 
+import jsPDF from 'jspdf'
+import autoTable from 'jspdf-autotable'
 
 @Injectable({
   providedIn: 'root'
@@ -1513,6 +1515,7 @@ export class DocumentScrutinyCheckListDetailsComponent implements OnInit {
     }
   }
   async GetWorkFlowActionListByRole() {
+    debugger;
     this.WorkFlowActionList = [];
     this.loaderService.requestStarted();
     try {
@@ -1530,6 +1533,10 @@ export class DocumentScrutinyCheckListDetailsComponent implements OnInit {
               }
               if (this.QueryStatus == 'InspectionPending') {
                 this.WorkFlowActionList = this.WorkFlowActionList.filter((x: { ActionID: number; }) => x.ActionID == 45);
+              }
+              //added aby amit
+              if (this.QueryStatus == 'FADCPending' || this.QueryStatus == 'ReSubmitApplication' || this.QueryStatus == 'ForwardedToSO' || this.QueryStatus == 'FADCSOPending') {
+                this.WorkFlowActionList = this.WorkFlowActionList.filter((x: { ActionID: number; }) => x.ActionID == 84 || x.ActionID == 3);
               }
      
               this.ActionID = this.WorkFlowActionList[0]['ActionID'];
@@ -1731,4 +1738,112 @@ export class DocumentScrutinyCheckListDetailsComponent implements OnInit {
 
   public rncdocrquest = new ApplyNOCDocument_DataModel();
   public scrutinydocainsrquest = new ApplyNOCDocument_DataModel();
+
+
+  public ApplicationTrailList: any = [];
+  async GetApplicationTrail(content: any, ApplyNOCID: number) {
+
+    this.ApplicationTrailList = [];
+    this.modalService.open(content, { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' }).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+    try {
+      this.loaderService.requestStarted();
+      await this.commonMasterService.GetApplicationTrail_DepartmentApplicationWise(this.SelectedApplyNOCID, this.sSOLoginDataModel.DepartmentID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.ApplicationTrailList = data['Data'];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+  public isLoadingExport: boolean = false;
+
+  btnSavePDF_Click(): void {
+
+    this.loaderService.requestStarted();
+    if (this.ApplicationTrailList.length > 0) {
+      try {
+
+
+        let doc = new jsPDF('p', 'mm', [432, 279])
+        let pDFData: any = [];
+        for (var i = 0; i < this.ApplicationTrailList.length; i++) {
+
+          pDFData.push({
+            "S.No.": i + 1,
+            "User Name": this.ApplicationTrailList[i]['ActionUser'],
+            "Next User & Role": this.ApplicationTrailList[i]['NextUserName'] + ' ' + this.ApplicationTrailList[i]['NextRoleName'],
+            "Action": this.ApplicationTrailList[i]['ActionName'],
+            "Action Date": this.ApplicationTrailList[i]['ActionDate'],
+            "Remark": this.ApplicationTrailList[i]['Remark']
+          })
+        }
+
+        let values: any;
+        let privados = ['S.No.', "User Name", "Next User & Role", "Action", "Action Date", "Remark"];
+        let header = Object.keys(pDFData[0]).filter(key => privados.includes(key));
+        values = pDFData.map((elemento: any) => Object.values(elemento));
+
+        doc.setFontSize(16);
+        doc.text(this.SelectedApplyNOCID + "FinalSubmitRemarkTrail", 100, 10, { align: 'center', maxWidth: 100 });
+
+
+        autoTable(doc,
+          {
+            head: [header],
+            body: values,
+            styles: { fontSize: 8 },
+            headStyles: {
+              fillColor: '#3f51b5',
+              textColor: '#fff',
+              halign: 'center'
+            },
+            bodyStyles: {
+              halign: 'center'
+            },
+            margin: {
+              left: 5,
+              right: 5,
+              top: 15
+            },
+            tableLineWidth: 0,
+          }
+        )
+        doc.save(this.SelectedApplyNOCID + "RemarkTrail" + '.pdf');
+      }
+      catch (Ex) {
+        console.log(Ex);
+      }
+      finally {
+        setTimeout(() => {
+          this.loaderService.requestEnded();
+          this.isLoadingExport = false;
+        }, 200);
+      }
+    }
+    else {
+      this.toastr.warning("No Record Found.!");
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+        this.isLoadingExport = false;
+      }, 200);
+    }
+
+  }
+
+
 }

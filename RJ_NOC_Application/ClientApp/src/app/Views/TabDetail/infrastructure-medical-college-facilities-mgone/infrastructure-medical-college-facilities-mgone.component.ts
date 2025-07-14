@@ -2,7 +2,7 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { InfrastructureMedicalCollegeFacilitiesDataModel, LectureTheatreDetailsDataModel, MuseumDetailsDataModel } from '../../../Models/InfrastructureMedicalCollegeFacilitiesDataModel';
+import { InfrastructureMedicalCollegeFacilitiesDataModel, LectureTheatreDetailsDataModel, MuseumDetailsDataModel, DissectionHallDetailsDataModel, SkillLaboratoryDetailsDataModel } from '../../../Models/InfrastructureMedicalCollegeFacilitiesDataModel';
 import { LoaderService } from '../../../Services/Loader/loader.service';
 import { LegalEntityService } from '../../../Services/LegalEntity/legal-entity.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -44,6 +44,15 @@ export class InfrastructureMedicalCollegeFacilitiesMgoneComponent implements OnI
   showSkillLaboratoryPhoto: boolean = false;
   showCentralLibraryPhoto: boolean = false;
   showPowerBackupPhoto: boolean = false;
+  showUploadPhotoHistologyPhoto: boolean = false;
+  showUploadPhotoClinicalPhysiologyPhoto: boolean = false;
+  showUploadPhotoBiochemistryPhoto: boolean = false;
+  showUploadPhotoHistopathologyCytopathologyPhoto: boolean = false;
+  showUploadPhotoClinicalPathologyHaematologPhoto: boolean = false;
+  showUploadPhotoMicrobiologyPhoto: boolean = false;
+  showUploadPhotoClinicalPharmacologyandComputerAssistedLearningPhoto: boolean = false;
+  showJournalsIndianForeignList: boolean = false;
+  showCentralLibrarybooksList: boolean = false;
   ShowNewRegistrationButton: boolean = true;
   showMemberSign: boolean = false;
   public ShowTimer: boolean = false;
@@ -64,10 +73,13 @@ export class InfrastructureMedicalCollegeFacilitiesMgoneComponent implements OnI
   legalentityAddInstituteForm!: FormGroup;
   medicalcollegelemuseumForm!: FormGroup;
   InfrastructureMedicalcollegeForm!: FormGroup;
-
+  medicalcollegeDissectionHallForm!: FormGroup;
+  medicalcollegeSkillLaboratoryForm!: FormGroup;
   request = new InfrastructureMedicalCollegeFacilitiesDataModel();  
   LectureTheatreDetails = new LectureTheatreDetailsDataModel();
   MuseumDetails = new MuseumDetailsDataModel();
+  DissectionHallDetails = new DissectionHallDetailsDataModel();
+  SkillLaboratoryDetails = new SkillLaboratoryDetailsDataModel();
   public State: number = -1;
   public SuccessMessage: any = [];
   public ErrorMessage: any = [];
@@ -104,6 +116,15 @@ export class InfrastructureMedicalCollegeFacilitiesMgoneComponent implements OnI
   public isPowerBackupPhoto: boolean = false;
   public isMemberSignature: boolean = false;
   public isPresidentAadhaarProofDoc: boolean = false;
+  public isUploadPhotoHistologyPhoto: boolean = false;
+  public isUploadPhotoClinicalPhysiology: boolean = false;
+  public isUploadPhotoBiochemistryPhoto: boolean = false;
+  public isUploadPhotoHistopathologyCytopathologyPhoto: boolean = false;
+  public isUploadPhotoClinicalPathologyHaematologPhoto: boolean = false;
+  public isUploadPhotoMicrobiologyPhoto: boolean = false;
+  public isUploadPhotoClinicalPharmacologyandComputerAssistedLearningPhoto: boolean = false;
+  public isCentralLibrarybooksList: boolean = false;
+  public isJournalsIndianForeignList: boolean = false;
   public OTP: string = '';
   public CustomOTP: string = '123456';
   public UserOTP: string = '';
@@ -126,6 +147,15 @@ export class InfrastructureMedicalCollegeFacilitiesMgoneComponent implements OnI
   public isValidTrusteeMemberProofDoc: boolean = false;
   public isValidPresidentAadhaarProofDoc: boolean = false;
   public isValidSocietyPanProofDoc: boolean = false;
+  public isValidUploadPhotoHistologyPhoto: boolean = false;
+  public isValidUploadPhotoClinicalPhysiology: boolean = false;
+  public isValidUploadPhotoBiochemistryPhoto: boolean = false;
+  public isValidUploadPhotoHistopathologyCytopathologyPhoto: boolean = false;
+  public isValidUploadPhotoClinicalPathologyHaematologPhoto: boolean = false;
+  public isValidUploadPhotoMicrobiologyPhoto: boolean = false;
+  public isValidUploadPhotoClinicalPharmacologyandComputerAssistedLearningPhoto: boolean = false;
+  public isValidCentralLibrarybooksList: boolean = false;
+  public isValidJournalsIndianForeignList: boolean = false;
 
   public MaskedMobileNo: string = '';
   public file: any = '';
@@ -148,17 +178,21 @@ export class InfrastructureMedicalCollegeFacilitiesMgoneComponent implements OnI
   public ImageValidationMessage_PowerBackupPhoto: string = '';
   public ImageValidationMessage_MemberSignature: string = '';
   public ImageValidationMessage_TrustLogoDoc: string = '';
-  public IsTrustLogoDoc: string = '';
-
-  public ValidationMinDate: string = '';
-
+  public ImageValidationMessage_UploadPhotoHistology: string = '';
+  public ImageValidationMessage_UploadPhotoClinicalPhysiology: string = '';
+  public ImageValidationMessage_UploadPhotoBiochemistryPhoto: string = '';
+  public ImageValidationMessage_UploadPhotoHistopathologyCytopathology: string = '';
+  public ImageValidationMessage_UploadPhotoClinicalPathologyHaematolog: string = '';
+  public ImageValidationMessage_UploadPhotoMicrobiologyPhoto: string = '';
+  public ImageValidationMessage_UploadPhotoClinicalPharmacologyandComputerAssistedLearning: string = '';
+  public ImageValidationMessage_CentralLibrarybooksList: string = '';
+  public ImageValidationMessage_JournalsIndianForeignList: string = '';
+  public IsTrustLogoDoc: string = '';  
+  public ValidationMinDate: string = '';  
   public TransactionNo: string = '';
   public VerifiedOTP: boolean = false;
-  public AadharDetails: any = {};
-
-
-  AadharRequest = new AadharServiceDataModel();
-
+  public AadharDetails: any = {};  
+  AadharRequest = new AadharServiceDataModel();  
   public QueryStringLegalEntityID: number = 0;
   public UserID: number = 0;
 
@@ -174,13 +208,15 @@ export class InfrastructureMedicalCollegeFacilitiesMgoneComponent implements OnI
 
   }
   async ngOnInit() {
-
-    this.rightClickDisable.disableRightClick();
+   // this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
+    //console.log(this.sSOLoginDataModel);
+    //this.rightClickDisable.disableRightClick();
     this.loaderService.requestStarted();
        
       this.medicalcollegelecturetheatreForm = this.formBuilder.group(
         {
           
+          txtLectureTheatreType: ['', Validators.required],
           txtLectureTheatrecapacity: ['', Validators.required],
           txtLectureTheatreSize: ['', Validators.required],          
           txtLectureTheatrePhoto: ['']         
@@ -188,10 +224,24 @@ export class InfrastructureMedicalCollegeFacilitiesMgoneComponent implements OnI
       this.medicalcollegelemuseumForm = this.formBuilder.group(
         {
           
+          txtMuseumType: ['', Validators.required],
           txtMuseum: ['', Validators.required],
           txtMuseumSize: ['', Validators.required],
           txtMuseumPhoto: ['']
         });
+    this.medicalcollegeDissectionHallForm = this.formBuilder.group(
+       {
+        txtDissectionHallNumber: ['', Validators.required],
+        txtDissectionHallCapacity: ['', Validators.required],
+        txtDissectionHallsize: ['', Validators.required],       
+        txtDissectionHallPhoto: ['']
+      });
+    this.medicalcollegeSkillLaboratoryForm = this.formBuilder.group(
+       {
+        txtLaboratoryNumber: ['', Validators.required],
+        txtLaboratorySize: ['', Validators.required],              
+        txtSkillLaboratoryPhoto: ['']    
+       });
     this.InfrastructureMedicalcollegeForm = this.formBuilder.group({
       rdMGOneDemonstrationRoom:[''],
       rdHistology:[''],
@@ -200,14 +250,7 @@ export class InfrastructureMedicalCollegeFacilitiesMgoneComponent implements OnI
       rdHistopathologyCytopathology:[''],
       rdClinicalPathologyHaematolog:[''],
       rdMicrobiology:[''],
-      rdClinicalPharmacologyandComputerAssistedLearning:[''],
-      rdDissectionHall:[''],
-      txtDissectionHallNumber:[''],
-      txtDissectionHallCapacity:[''],
-      txtDissectionHallsize:[''],
-      rdSkillLaboratory:[''],
-      txtLaboratoryNumber:[''],
-      txtLaboratoryCapacity:[''],
+      rdClinicalPharmacologyandComputerAssistedLearning:[''],  
       rdCentralresearch:[''],
       rdCentralLibrary:[''],
       txtCentralLibraryArea:[''],
@@ -220,6 +263,15 @@ export class InfrastructureMedicalCollegeFacilitiesMgoneComponent implements OnI
       txtUrbanHealth:[''],
       rdPowerBackup:[''],
       txtPowerBackupCapacity:[''],
+      txtUploadPhotoHistology:[''],
+      txtUploadPhotoClinicalPhysiology:[''],
+      txtUploadPhotoBiochemistry:[''],
+      txtUploadPhotoHistopathologyCytopathologyPhoto:[''],
+      txtUploadPhotoClinicalPathologyHaematologPhoto:[''],
+      txtUploadPhotoMicrobiologyPhoto:[''],
+      txtUploadPhotoClinicalPharmacologyandComputerAssistedLearningPhoto:[''],
+      txtCentralLibrarybooksList:[''],
+      txtJournalsIndianForeignList:[''],
     })
     // query string
     this.QueryStringDepartmentID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DepartmentID')?.toString()));
@@ -227,13 +279,16 @@ export class InfrastructureMedicalCollegeFacilitiesMgoneComponent implements OnI
     this.SearchRecordID = this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString());
     if (this.SearchRecordID.length > 20) {
       await this.commonMasterService.GetCollegeID_SearchRecordIDWise(this.SearchRecordID)
-        .then((data: any) => {
+        .then(async(data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.request.CollegeID = data['Data']['CollegeID'];
           this.QueryStringCollegeID = data['Data']['CollegeID'];
           if (this.request.CollegeID == null || this.request.CollegeID == 0 || this.request.CollegeID == undefined) {
             this.routers.navigate(['/draftapplicationlist']);
           }
+          await this.commonMasterService.GetGetInfrastructuremedicalgrouponeData(this.request.CollegeID)
+
+
         }, error => console.error(error));
     }
     else {
@@ -242,11 +297,27 @@ export class InfrastructureMedicalCollegeFacilitiesMgoneComponent implements OnI
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     console.log(this.request.CollegeID);
     console.log(this.QueryStringCollegeID);
+    
+     await this.commonMasterService.GetGetInfrastructuremedicalgrouponeData(this.request.CollegeID)
+        .then(async (data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          debugger;
+          console.log(data['Data']);
+          if (data['Data'] != null) {
+            this.GetInfrastructuremedicalgrouponecollege();
+            // await this.FilterAffiliationCourseStatusBter();
+          }
+          
+          }, error => console.error(error));
+   
+
     }
     
   get AMform() { return this.medicalcollegelecturetheatreForm.controls; }
   get museumform() { return this.medicalcollegelemuseumForm.controls; } 
   get InfrastructureMedicalcollege() { return this.InfrastructureMedicalcollegeForm.controls; } 
+  get medicalcollegeDissectionHall() { return this.medicalcollegeDissectionHallForm.controls; } 
+  get medicalcollegeSkillLaboratory() { return this.medicalcollegeSkillLaboratoryForm.controls; } 
  
   async AddLecturetheatre() {
     debugger;
@@ -258,20 +329,23 @@ export class InfrastructureMedicalCollegeFacilitiesMgoneComponent implements OnI
       if (this.medicalcollegelecturetheatreForm.invalid) {
         return;
       }     
-      if (this.LectureTheatreDetails.LectureTheatreCapacity <'180' ) {
-        this.toastr.warning("Lecture Theatre Capacity Must be 180");
+      if (this.LectureTheatreDetails.LectureTheatreCapacity <180 ) {
+        this.toastr.warning("Lecture Theatre Capacity Minimum 180 !");
+        return;
+      }
+      if (this.LectureTheatreDetails.LectureTheatreSize<=0) {
+        this.toastr.warning("Please Input Lecture Theatre Size !");
         return;
       }
       if (!this.LectureTheatreDetails.LectureTheatrePhoto) {
         this.toastr.warning("Please Select Lecture Theatre Photo");
         return;
       }
-
       if (this.CurrentIndex != -1) {
         this.request.LectureTheatreDetails.splice(this.CurrentIndex, 1, this.LectureTheatreDetails);
         console.log(this.LectureTheatreDetails);
       }
-      else {
+     else {
         console.log(this.request.LectureTheatreDetails);
         this.loaderService.requestStarted();
         this.request.LectureTheatreDetails.push({
@@ -281,18 +355,19 @@ export class InfrastructureMedicalCollegeFacilitiesMgoneComponent implements OnI
           LectureTheatrePhoto: this.LectureTheatreDetails.LectureTheatrePhoto,
           LectureTheatrePhotoPath: this.LectureTheatreDetails.LectureTheatrePhotoPath == '' ? 'N/A' : this.LectureTheatreDetails.LectureTheatrePhotoPath,
           Dis_LectureTheatrePhotoName: this.LectureTheatreDetails.Dis_LectureTheatrePhotoName,
+          LectureTheatreType: this.LectureTheatreDetails.LectureTheatreType,
         });
       }
       console.log(this.request.LectureTheatreDetails);
      // this.LectureTheatreDetails = new LectureTheatreDetailsDataModel();
-      this.isMemberAdded = false;
-      this.showLectureTheatre = false;
+      //this.isMemberAdded = false;
+      //this.showLectureTheatre = false;
       //this.showMemberSign = false;
       // this.showPresidentAadhaarProofDoc = false;
       this.ReseLecturetheatre();
       this.CurrentIndex = -1;
       this.isDisabledGrid = false;
-      const btnAdd = document.getElementById('btnAddmember')
+      const btnAdd = document.getElementById('btnLecturetheatre')
       if (btnAdd) { btnAdd.innerHTML = "Add"; }
     }
     catch (ex) { console.log(ex) }
@@ -301,23 +376,38 @@ export class InfrastructureMedicalCollegeFacilitiesMgoneComponent implements OnI
         this.loaderService.requestEnded();
       }, 200);
     }
-  }
-
+  } 
   async ReseLecturetheatre() {
     this.LectureTheatreDetails.LectureTheatreID = 0;
-    this.LectureTheatreDetails.LectureTheatreCapacity = '';
-    this.LectureTheatreDetails.LectureTheatreSize = '';
+    this.LectureTheatreDetails.LectureTheatreCapacity = 0;
+    this.LectureTheatreDetails.LectureTheatreSize = 0;
     this.LectureTheatreDetails.LectureTheatrePhoto = '';
     this.LectureTheatreDetails.LectureTheatrePhotoPath = '';
-    this.LectureTheatreDetails.Dis_LectureTheatrePhotoName = '';    
+    this.LectureTheatreDetails.Dis_LectureTheatrePhotoName = '';
+    this.LectureTheatreDetails.LectureTheatreType = '';    
     this.isMemberAdded = false;
     this.showLectureTheatre = false;    
     this.showPresidentAadhaarProofDoc = false;
     this.CurrentIndex = -1;
     this.isDisabledGrid = false;
-    const btnAdd = document.getElementById('btnAddmember')
+    const btnAdd = document.getElementById('btnLecturetheatre')
     if (btnAdd) { btnAdd.innerHTML = "Add"; }
   }
+  async DeleteLectureImage(Index: number) {
+    try {
+      if (confirm("Are you sure you want to delete this ?")) {
+        this.loaderService.requestStarted();
+        this.request.LectureTheatreDetails.splice(Index, 1);
+      }
+    }
+    catch (ex) { }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
   async AddMuseum() {
     debugger;
     try {
@@ -328,8 +418,12 @@ export class InfrastructureMedicalCollegeFacilitiesMgoneComponent implements OnI
       if (this.medicalcollegelemuseumForm.invalid) {
         return;
       }
-      if (this.MuseumDetails.MuseumCapacity < '50') {
-        this.toastr.warning("Museum Capacity Must be 50");
+      if (this.MuseumDetails.MuseumCapacity < 50) {
+        this.toastr.warning("Museum Capacity Minimum 50 !");
+        return;
+      }
+      if (this.MuseumDetails.MuseumSize <=0) {
+        this.toastr.warning("Please Input Museum Size!");
         return;
       }
       if (!this.MuseumDetails.MuseumPhoto) {
@@ -351,6 +445,7 @@ export class InfrastructureMedicalCollegeFacilitiesMgoneComponent implements OnI
           MuseumPhoto: this.MuseumDetails.MuseumPhoto,
           MuseumPhotoPath: this.MuseumDetails.MuseumPhotoPath == '' ? 'N/A' : this.MuseumDetails.MuseumPhotoPath,
           Dis_MuseumPhotoName: this.MuseumDetails.Dis_MuseumPhotoName,
+          MuseumType: this.MuseumDetails.MuseumType,
         });
       }
       console.log(this.request.MuseumDetails);
@@ -362,7 +457,7 @@ export class InfrastructureMedicalCollegeFacilitiesMgoneComponent implements OnI
       this.ReseMuseum();
       this.CurrentIndex = -1;
       this.isDisabledGrid = false;
-      const btnAdd = document.getElementById('btnLecturetheatre')
+      const btnAdd = document.getElementById('btnAddMuseum')
       if (btnAdd) { btnAdd.innerHTML = "Add"; }
     }
     catch (ex) { console.log(ex) }
@@ -372,14 +467,14 @@ export class InfrastructureMedicalCollegeFacilitiesMgoneComponent implements OnI
       }, 200);
     }
   }
-
   async ReseMuseum() {
     this.MuseumDetails.MuseumID = 0;
-    this.MuseumDetails.MuseumCapacity = '';
-    this.MuseumDetails.MuseumSize = '';
+    this.MuseumDetails.MuseumCapacity = 0;
+    this.MuseumDetails.MuseumSize = 0;
     this.MuseumDetails.MuseumPhotoPath = '';
     this.MuseumDetails.MuseumPhoto = '';
     this.MuseumDetails.Dis_MuseumPhotoName = '';
+    this.MuseumDetails.MuseumType = '';
     this.isMemberAdded = false;
     this.showLectureTheatre = false;
     this.showPresidentAadhaarProofDoc = false;
@@ -387,12 +482,12 @@ export class InfrastructureMedicalCollegeFacilitiesMgoneComponent implements OnI
     this.isDisabledGrid = false;
     const btnAdd = document.getElementById('btnAddMuseum')
     if (btnAdd) { btnAdd.innerHTML = "Add"; }
-  }
-  async DeleteLectureImage(Index: number) {
+  }  
+  async DeleteMuseumMember(Index: number) {
     try {
       if (confirm("Are you sure you want to delete this ?")) {
         this.loaderService.requestStarted();
-        this.request.LectureTheatreDetails.splice(Index, 1);
+        this.request.MuseumDetails.splice(Index, 1);
       }
     }
     catch (ex) { }
@@ -402,11 +497,168 @@ export class InfrastructureMedicalCollegeFacilitiesMgoneComponent implements OnI
       }, 200);
     }
   }
-  async DeleteMuseumMember(Index: number) {
+
+  async AddDissectionHall() {
+    debugger;
+    try {
+      this.CurrentIndex;      
+      this.isMemberAdded = true;
+      this.isLecturePhoto = false;
+      if (this.medicalcollegeDissectionHallForm.invalid) {
+        return;
+      }
+      if (this.DissectionHallDetails.DissectionHallNumber <=0) {
+        this.toastr.warning("This field is required  enter value above Zero Dissection Hall Number.!");
+        return;
+      }
+      if (this.DissectionHallDetails.DissectionHallCapacity < 75) {
+        this.toastr.warning("Dissection Hall Capacity Minimum 75 !");
+        return;
+      }
+      if (this.DissectionHallDetails.DissectionHallsize < 315) {
+        this.toastr.warning("Dissection Hall size Minimum 315 (sq.mt) !");
+        return;
+      }     
+
+      if (this.CurrentIndex != -1) {
+        this.request.DissectionHallDetails.splice(this.CurrentIndex, 1, this.DissectionHallDetails);
+        console.log(this.LectureTheatreDetails);
+      }
+      else {
+        console.log(this.request.DissectionHallDetails);
+        this.loaderService.requestStarted();
+        this.request.DissectionHallDetails.push({
+          DissectionID: 0,
+          DissectionHallNumber: this.DissectionHallDetails.DissectionHallNumber,
+          DissectionHallCapacity: this.DissectionHallDetails.DissectionHallCapacity,
+          DissectionHallsize: this.DissectionHallDetails.DissectionHallsize,
+          DissectionHallPhoto: this.DissectionHallDetails.DissectionHallPhoto,
+          DissectionHallPhotoPath: this.DissectionHallDetails.DissectionHallPhotoPath == '' ? 'N/A' : this.DissectionHallDetails.DissectionHallPhotoPath,
+          Dis_DissectionHallPhoto: this.DissectionHallDetails.Dis_DissectionHallPhoto,
+        });
+      }
+      console.log(this.request.DissectionHallDetails);
+      // this.LectureTheatreDetails = new LectureTheatreDetailsDataModel();
+     // this.isMemberAdded = false;
+      //this.showLectureTheatre = false;
+      //this.showMemberSign = false;
+      // this.showPresidentAadhaarProofDoc = false;
+      this.ReseDissectionHall();
+      this.CurrentIndex = -1;
+      this.isDisabledGrid = false;
+      const btnAdd = document.getElementById('btnDissectionHall')
+      if (btnAdd) { btnAdd.innerHTML = "Add"; }
+    }
+    catch (ex) { console.log(ex) }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  async ReseDissectionHall() {
+    this.DissectionHallDetails.DissectionID = 0;
+    this.DissectionHallDetails.DissectionHallNumber = 0;
+    this.DissectionHallDetails.DissectionHallCapacity = 0;
+    this.DissectionHallDetails.DissectionHallsize = 0;
+    this.DissectionHallDetails.DissectionHallPhoto = '';
+    this.DissectionHallDetails.DissectionHallPhotoPath = '';
+    this.DissectionHallDetails.Dis_DissectionHallPhoto = '';
+    //this.isMemberAdded = false;
+    //this.showDissectionHallPhoto = false;
+    //this.showPresidentAadhaarProofDoc = false;
+    this.CurrentIndex = -1;
+    this.isDisabledGrid = false;
+    const btnAdd = document.getElementById('btnDissectionHall')
+    if (btnAdd) { btnAdd.innerHTML = "Add"; }
+  }
+  async DeleteDissectionHall(Index: number) {
     try {
       if (confirm("Are you sure you want to delete this ?")) {
         this.loaderService.requestStarted();
-        this.request.MuseumDetails.splice(Index, 1);
+        this.request.DissectionHallDetails.splice(Index, 1);
+      }
+    }
+    catch (ex) { }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  async AddSkillLaboratory() {
+    debugger;
+    try {
+      this.CurrentIndex;      
+      this.isMemberAdded = true;
+      this.isLecturePhoto = false;
+      if (this.medicalcollegeSkillLaboratoryForm.invalid) {
+        return;
+      }
+      if (this.SkillLaboratoryDetails.SkillLaboratoryNumber <=0) {
+        this.toastr.warning("This field is required enter value above Zero Skill Laboratory Number .!");
+        return;
+      }      
+      if (this.SkillLaboratoryDetails.SkillLaboratorySize < 600) {
+        this.toastr.warning("Skill Laboratory Size Minimum 600 (sq.mt) !");
+        return;
+      }     
+
+      if (this.CurrentIndex != -1) {
+        this.request.SkillLaboratoryDetails.splice(this.CurrentIndex, 1, this.SkillLaboratoryDetails);
+        console.log(this.SkillLaboratoryDetails);
+      }
+      else {
+        console.log(this.request.SkillLaboratoryDetails);
+        this.loaderService.requestStarted();
+        this.request.SkillLaboratoryDetails.push({
+          SkillLaboratoryID: 0,
+          SkillLaboratoryNumber: this.SkillLaboratoryDetails.SkillLaboratoryNumber,          
+          SkillLaboratorySize: this.SkillLaboratoryDetails.SkillLaboratorySize,
+          SkillLaboratoryPhoto: this.SkillLaboratoryDetails.SkillLaboratoryPhoto,
+          SkillLaboratoryPhotoPath: this.SkillLaboratoryDetails.SkillLaboratoryPhotoPath == '' ? 'N/A' : this.SkillLaboratoryDetails.SkillLaboratoryPhotoPath,
+          Dis_SkillLaboratoryPhoto: this.SkillLaboratoryDetails.Dis_SkillLaboratoryPhoto,
+        });
+      }
+      console.log(this.request.SkillLaboratoryDetails);
+      // this.LectureTheatreDetails = new LectureTheatreDetailsDataModel();
+     // this.isMemberAdded = false;
+      //this.showLectureTheatre = false;
+      //this.showMemberSign = false;
+      // this.showPresidentAadhaarProofDoc = false;
+      this.ReseSkillLaboratory();
+      this.CurrentIndex = -1;
+      this.isDisabledGrid = false;
+      const btnAdd = document.getElementById('btnSkillLaboratory')
+      if (btnAdd) { btnAdd.innerHTML = "Add"; }
+    }
+    catch (ex) { console.log(ex) }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  async ReseSkillLaboratory() {
+    this.SkillLaboratoryDetails.SkillLaboratoryID = 0;
+    this.SkillLaboratoryDetails.SkillLaboratoryNumber = 0;    
+    this.SkillLaboratoryDetails.SkillLaboratorySize = 0;
+    this.SkillLaboratoryDetails.SkillLaboratoryPhoto = '';
+    this.SkillLaboratoryDetails.SkillLaboratoryPhotoPath = '';
+    this.SkillLaboratoryDetails.Dis_SkillLaboratoryPhoto = '';
+    //this.isMemberAdded = false;
+    //this.showDissectionHallPhoto = false;
+    //this.showPresidentAadhaarProofDoc = false;
+    this.CurrentIndex = -1;
+    this.isDisabledGrid = false;
+    const btnAdd = document.getElementById('btnSkillLaboratory')
+    if (btnAdd) { btnAdd.innerHTML = "Add"; }
+  }
+  async DeleteSkillLaboratory(Index: number) {
+    try {
+      if (confirm("Are you sure you want to delete this ?")) {
+        this.loaderService.requestStarted();
+        this.request.SkillLaboratoryDetails.splice(Index, 1);
       }
     }
     catch (ex) { }
@@ -464,17 +716,16 @@ export class InfrastructureMedicalCollegeFacilitiesMgoneComponent implements OnI
   async ValidateImage(event: any, Type: string) {
     debugger;    
     try {
-
       this.loaderService.requestStarted();
       this.isValidLecturePhoto = false;
       this.isValidMuseumPhoto = false;
       this.isValidDissectionHallPhoto = false;     
       this.isValidSkillLaboratoryPhoto = false;     
-      this.isValidCentralLibraryPhoto = false;     
-          
+      this.isValidCentralLibraryPhoto = false;
+      this.isValidPowerBackupPhoto = false;    
       if (event.target.files && event.target.files[0]) {
         if (event.target.files[0].type === 'application/pdf' || event.target.files[0].type === 'image/jpg' || event.target.files[0].type==='image/jpeg') {
-          if (event.target.files[0].size > 200000) {
+          if (event.target.files[0].size > 782676) {
             event.target.value = '';
 
             if (Type == 'TheatrePhoto') {
@@ -497,18 +748,18 @@ export class InfrastructureMedicalCollegeFacilitiesMgoneComponent implements OnI
             }
             if (Type == 'DissectionHallPhoto') {
               this.isValidDissectionHallPhoto = true;
-              this.request.Dis_DissectionHallPhoto = '';
-              this.request.DissectionHallPhotoPath = '';
-              this.request.DissectionHallPhoto = '';
+              this.DissectionHallDetails.Dis_DissectionHallPhoto = '';
+              this.DissectionHallDetails.DissectionHallPhotoPath = '';
+              this.DissectionHallDetails.DissectionHallPhoto = '';
               this.ImageValidationMessage_LecturePhoto = 'Select less then 2MB File';
               this.file = document.getElementById('txtDissectionHallPhoto');
               this.file.value = '';
             }
             if (Type == 'SkillLaboratoryPhoto') {
               this.isValidSkillLaboratoryPhoto = true;
-              this.request.Dis_SkillLaboratoryPhoto = '';
-              this.request.SkillLaboratoryPhotoPath = '';
-              this.request.SkillLaboratoryPhoto = '';
+              this.SkillLaboratoryDetails.Dis_SkillLaboratoryPhoto = '';
+              this.SkillLaboratoryDetails.SkillLaboratoryPhotoPath = '';
+              this.SkillLaboratoryDetails.SkillLaboratoryPhoto = '';
               this.ImageValidationMessage_SkillLaboratoryPhoto = 'Select less then 2MB File';
               this.file = document.getElementById('txtSkillLaboratoryPhoto');
               this.file.value = '';
@@ -530,7 +781,88 @@ export class InfrastructureMedicalCollegeFacilitiesMgoneComponent implements OnI
               this.ImageValidationMessage_PowerBackupPhoto = 'Select less then 2MB File';
               this.file = document.getElementById('txtPowerBackupPhoto');
               this.file.value = '';
-            }           
+            }
+            if (Type == 'UploadPhotoHistology') {
+              this.isValidUploadPhotoHistologyPhoto = true;
+              this.request.Dis_UploadPhotoHistology = '';
+              this.request.UploadPhotoHistologyPath = '';
+              this.request.UploadPhotoHistology = '';
+              this.ImageValidationMessage_UploadPhotoHistology = 'Select less then 2MB File';
+              this.file = document.getElementById('txtUploadPhotoHistology');
+              this.file.value = '';
+            }
+            if (Type == 'UploadPhotoClinicalPhysiology') {
+              this.isValidUploadPhotoClinicalPhysiology = true;
+              this.request.Dis_UploadPhotoClinicalPhysiology = '';
+              this.request.UploadPhotoClinicalPhysiologyPath = '';
+              this.request.UploadPhotoClinicalPhysiology = '';
+              this.ImageValidationMessage_UploadPhotoClinicalPhysiology = 'Select less then 2MB File';
+              this.file = document.getElementById('txtUploadPhotoClinicalPhysiology');
+              this.file.value = '';
+            }
+            if (Type == 'UploadPhotoBiochemistry') {
+              this.isValidUploadPhotoBiochemistryPhoto = true;
+              this.request.Dis_UploadPhotoBiochemistry = '';
+              this.request.UploadPhotoBiochemistryPath = '';
+              this.request.UploadPhotoBiochemistry = '';
+              this.ImageValidationMessage_UploadPhotoBiochemistryPhoto = 'Select less then 2MB File';
+              this.file = document.getElementById('txtUploadPhotoBiochemistry');
+              this.file.value = '';
+            }
+            if (Type == 'UploadPhotoHistopathologyCytopathology') {
+              this.isValidUploadPhotoHistopathologyCytopathologyPhoto = true;
+              this.request.Dis_UploadPhotoHistopathologyCytopathology = '';
+              this.request.UploadPhotoHistopathologyCytopathologyPath = '';
+              this.request.UploadPhotoHistopathologyCytopathology = '';
+              this.ImageValidationMessage_UploadPhotoHistopathologyCytopathology = 'Select less then 2MB File';
+              this.file = document.getElementById('txtUploadPhotoHistopathologyCytopathologyPhoto');
+              this.file.value = '';
+            }
+            if (Type == 'UploadPhotoClinicalPathologyHaematolog') {
+              this.isValidUploadPhotoClinicalPathologyHaematologPhoto = true;
+              this.request.Dis_UploadPhotoClinicalPathologyHaematolog = '';
+              this.request.UploadPhotoClinicalPathologyHaematologPath = '';
+              this.request.UploadPhotoClinicalPathologyHaematolog = '';
+              this.ImageValidationMessage_UploadPhotoClinicalPathologyHaematolog = 'Select less then 2MB File';
+              this.file = document.getElementById('txtUploadPhotoClinicalPathologyHaematologPhoto');
+              this.file.value = '';
+            }
+            if (Type == 'UploadPhotoMicrobiology') {
+              this.isValidUploadPhotoMicrobiologyPhoto = true;
+              this.request.Dis_UploadPhotoMicrobiology = '';
+              this.request.UploadPhotoMicrobiologyPath = '';
+              this.request.UploadPhotoMicrobiology = '';
+              this.ImageValidationMessage_UploadPhotoMicrobiologyPhoto = 'Select less then 2MB File';
+              this.file = document.getElementById('txtUploadPhotoMicrobiologyPhoto');
+              this.file.value = '';
+            }
+            if (Type == 'UploadPhotoClinicalPharmacologyandComputerAssistedLearning') {
+              this.isValidUploadPhotoClinicalPharmacologyandComputerAssistedLearningPhoto = true;
+              this.request.Dis_ClinicalPharmacologyandComputerAssistedLearning = '';
+              this.request.ClinicalPharmacologyandComputerAssistedLearningPath = '';
+              this.request.UploadPhotoClinicalPharmacologyandComputerAssistedLearning = '';
+              this.ImageValidationMessage_UploadPhotoClinicalPharmacologyandComputerAssistedLearning = 'Select less then 2MB File';
+              this.file = document.getElementById('txtUploadPhotoClinicalPharmacologyandComputerAssistedLearningPhoto');
+              this.file.value = '';
+            }
+            if (Type == 'CentralLibrarybooksList') {
+              this.isValidCentralLibrarybooksList = true;
+              this.request.Dis_CentralLibrarybooksList = '';
+              this.request.CentralLibrarybooksListPath = '';
+              this.request.CentralLibrarybooksList = '';
+              this.ImageValidationMessage_CentralLibrarybooksList = 'Select less then 2MB File';
+              this.file = document.getElementById('txtCentralLibrarybooksList');
+              this.file.value = '';
+            }
+            if (Type == 'JournalsIndianForeignList') {
+              this.isValidJournalsIndianForeignList = true;
+              this.request.Dis_JournalsIndianForeignList = '';
+              this.request.JournalsIndianForeignListPath = '';
+              this.request.JournalsIndianForeignList = '';
+              this.ImageValidationMessage_JournalsIndianForeignList = 'Select less then 2MB File';
+              this.file = document.getElementById('txtJournalsIndianForeignList');
+              this.file.value = '';
+            }
             
             return
           }          
@@ -558,18 +890,18 @@ export class InfrastructureMedicalCollegeFacilitiesMgoneComponent implements OnI
           }
           if (Type == 'DissectionHallPhoto') {
             this.isValidDissectionHallPhoto = true;
-            this.request.Dis_DissectionHallPhoto = '';
-            this.request.DissectionHallPhotoPath = '';
-            this.request.DissectionHallPhoto = '';
+            this.DissectionHallDetails.Dis_DissectionHallPhoto = '';
+            this.DissectionHallDetails.DissectionHallPhotoPath = '';
+            this.DissectionHallDetails.DissectionHallPhoto = '';
             this.ImageValidationMessage_DissectionHallPhoto = 'Select less then 2MB File';
             this.file = document.getElementById('txtDissectionHallPhoto');
             this.file.value = '';
           }
           if (Type == 'SkillLaboratoryPhoto') {
             this.isValidSkillLaboratoryPhoto = true;
-            this.request.Dis_SkillLaboratoryPhoto = '';
-            this.request.SkillLaboratoryPhotoPath = '';
-            this.request.SkillLaboratoryPhoto = '';
+            this.SkillLaboratoryDetails.Dis_SkillLaboratoryPhoto = '';
+            this.SkillLaboratoryDetails.SkillLaboratoryPhotoPath = '';
+            this.SkillLaboratoryDetails.SkillLaboratoryPhoto = '';
             this.ImageValidationMessage_SkillLaboratoryPhoto = 'Select less then 2MB File';
             this.file = document.getElementById('txtSkillLaboratoryPhoto');
             this.file.value = '';
@@ -592,6 +924,88 @@ export class InfrastructureMedicalCollegeFacilitiesMgoneComponent implements OnI
             this.file = document.getElementById('txtPowerBackupPhoto');
             this.file.value = '';
           }
+          if (Type == 'UploadPhotoHistology') {
+            this.isValidUploadPhotoHistologyPhoto = true;
+            this.request.Dis_UploadPhotoHistology = '';
+            this.request.UploadPhotoHistologyPath = '';
+            this.request.UploadPhotoHistology = '';
+            this.ImageValidationMessage_UploadPhotoHistology = 'Select less then 2MB File';
+            this.file = document.getElementById('txtUploadPhotoHistology');
+            this.file.value = '';
+          }
+          if (Type == 'UploadPhotoClinicalPhysiology') {
+            this.isValidUploadPhotoClinicalPhysiology = true;
+            this.request.Dis_UploadPhotoClinicalPhysiology = '';
+            this.request.UploadPhotoClinicalPhysiologyPath = '';
+            this.request.UploadPhotoClinicalPhysiology = '';
+            this.ImageValidationMessage_UploadPhotoClinicalPhysiology = 'Select less then 2MB File';
+            this.file = document.getElementById('txtUploadPhotoClinicalPhysiology');
+            this.file.value = '';
+          }
+          if (Type == 'UploadPhotoBiochemistry') {
+            this.isValidUploadPhotoBiochemistryPhoto = true;
+            this.request.Dis_UploadPhotoBiochemistry = '';
+            this.request.UploadPhotoBiochemistryPath = '';
+            this.request.UploadPhotoBiochemistry = '';
+            this.ImageValidationMessage_UploadPhotoBiochemistryPhoto = 'Select less then 2MB File';
+            this.file = document.getElementById('txtUploadPhotoBiochemistry');
+            this.file.value = '';
+          }
+          if (Type == 'UploadPhotoHistopathologyCytopathology') {
+            this.isValidUploadPhotoHistopathologyCytopathologyPhoto = true;
+            this.request.Dis_UploadPhotoHistopathologyCytopathology = '';
+            this.request.UploadPhotoHistopathologyCytopathologyPath = '';
+            this.request.UploadPhotoHistopathologyCytopathology = '';
+            this.ImageValidationMessage_UploadPhotoHistopathologyCytopathology = 'Select less then 2MB File';
+            this.file = document.getElementById('txtUploadPhotoHistopathologyCytopathologyPhoto');
+            this.file.value = '';
+          }
+          if (Type == 'UploadPhotoClinicalPathologyHaematolog') {
+            this.isValidUploadPhotoClinicalPathologyHaematologPhoto = true;
+            this.request.Dis_UploadPhotoClinicalPathologyHaematolog = '';
+            this.request.UploadPhotoClinicalPathologyHaematologPath = '';
+            this.request.UploadPhotoClinicalPathologyHaematolog = '';
+            this.ImageValidationMessage_UploadPhotoClinicalPathologyHaematolog = 'Select less then 2MB File';
+            this.file = document.getElementById('txtUploadPhotoClinicalPathologyHaematologPhoto');
+            this.file.value = '';
+          }
+          if (Type == 'UploadPhotoMicrobiology') {
+            this.isValidUploadPhotoMicrobiologyPhoto = true;
+            this.request.Dis_UploadPhotoMicrobiology = '';
+            this.request.UploadPhotoMicrobiologyPath = '';
+            this.request.UploadPhotoMicrobiology = '';
+            this.ImageValidationMessage_UploadPhotoMicrobiologyPhoto = 'Select less then 2MB File';
+            this.file = document.getElementById('txtUploadPhotoMicrobiologyPhoto');
+            this.file.value = '';
+          }
+          if (Type == 'UploadPhotoClinicalPharmacologyandComputerAssistedLearning') {
+            this.isValidUploadPhotoClinicalPharmacologyandComputerAssistedLearningPhoto = true;
+            this.request.Dis_ClinicalPharmacologyandComputerAssistedLearning = '';
+            this.request.ClinicalPharmacologyandComputerAssistedLearningPath = '';
+            this.request.UploadPhotoClinicalPharmacologyandComputerAssistedLearning = '';
+            this.ImageValidationMessage_UploadPhotoClinicalPharmacologyandComputerAssistedLearning = 'Select less then 2MB File';
+            this.file = document.getElementById('txtUploadPhotoClinicalPharmacologyandComputerAssistedLearningPhoto');
+            this.file.value = '';
+          }
+          if (Type == 'CentralLibrarybooksList') {
+            this.isValidCentralLibrarybooksList = true;
+            this.request.Dis_CentralLibrarybooksList = '';
+            this.request.CentralLibrarybooksListPath = '';
+            this.request.CentralLibrarybooksList = '';
+            this.ImageValidationMessage_CentralLibrarybooksList = 'Select less then 2MB File';
+            this.file = document.getElementById('txtCentralLibrarybooksList');
+            this.file.value = '';
+          }
+          if (Type == 'JournalsIndianForeignList') {
+            this.isValidJournalsIndianForeignList = true;
+            this.request.Dis_JournalsIndianForeignList = '';
+            this.request.JournalsIndianForeignListPath = '';
+            this.request.JournalsIndianForeignList = '';
+            this.ImageValidationMessage_JournalsIndianForeignList = 'Select less then 2MB File';
+            this.file = document.getElementById('txtJournalsIndianForeignList');
+            this.file.value = '';
+          }
+
           return
         }
 
@@ -622,18 +1036,18 @@ export class InfrastructureMedicalCollegeFacilitiesMgoneComponent implements OnI
             }
             if (Type == 'DissectionHallPhoto') {
               this.showDissectionHallPhoto = true;
-              this.request.Dis_DissectionHallPhoto = data['Data'][0]["Dis_FileName"];
-              this.request.DissectionHallPhotoPath = data['Data'][0]["FilePath"];
-              this.request.DissectionHallPhoto = data['Data'][0]["FileName"];             
+              this.DissectionHallDetails.Dis_DissectionHallPhoto = data['Data'][0]["Dis_FileName"];
+              this.DissectionHallDetails.DissectionHallPhotoPath = data['Data'][0]["FilePath"];
+              this.DissectionHallDetails.DissectionHallPhoto = data['Data'][0]["FileName"];             
               this.ImageValidationMessage_DissectionHallPhoto='';             
               this.file = document.getElementById('txtDissectionHallPhoto');
               this.file.value = '';
             }
             if (Type == 'SkillLaboratoryPhoto') {
               this.showSkillLaboratoryPhoto = true;
-              this.request.Dis_SkillLaboratoryPhoto = data['Data'][0]["Dis_FileName"];
-              this.request.SkillLaboratoryPhotoPath = data['Data'][0]["FilePath"];
-              this.request.SkillLaboratoryPhoto = data['Data'][0]["FileName"];             
+              this.SkillLaboratoryDetails.Dis_SkillLaboratoryPhoto = data['Data'][0]["Dis_FileName"];
+              this.SkillLaboratoryDetails.SkillLaboratoryPhotoPath = data['Data'][0]["FilePath"];
+              this.SkillLaboratoryDetails.SkillLaboratoryPhoto = data['Data'][0]["FileName"];             
               this.ImageValidationMessage_SkillLaboratoryPhoto ='';             
               this.file = document.getElementById('txtSkillLaboratoryPhoto');
               this.file.value = '';
@@ -654,6 +1068,87 @@ export class InfrastructureMedicalCollegeFacilitiesMgoneComponent implements OnI
               this.request.PowerBackupPhoto = data['Data'][0]["FileName"];
               this.ImageValidationMessage_PowerBackupPhoto = '';
               this.file = document.getElementById('txtPowerBackupPhoto');
+              this.file.value = '';
+            }
+            if (Type == 'UploadPhotoHistology') {
+              this.showUploadPhotoHistologyPhoto = true;
+              this.request.Dis_UploadPhotoHistology = data['Data'][0]["Dis_FileName"];
+              this.request.UploadPhotoHistologyPath = data['Data'][0]["FilePath"];
+              this.request.UploadPhotoHistology = data['Data'][0]["FileName"];
+              this.ImageValidationMessage_UploadPhotoHistology = '';
+              this.file = document.getElementById('txtUploadPhotoHistology');
+              this.file.value = '';
+            }
+            if (Type == 'UploadPhotoClinicalPhysiology') {
+              this.showUploadPhotoClinicalPhysiologyPhoto = true;
+              this.request.Dis_UploadPhotoClinicalPhysiology = data['Data'][0]["Dis_FileName"];
+              this.request.UploadPhotoClinicalPhysiologyPath = data['Data'][0]["FilePath"];
+              this.request.UploadPhotoClinicalPhysiology = data['Data'][0]["FileName"];
+              this.ImageValidationMessage_UploadPhotoClinicalPhysiology = '';
+              this.file = document.getElementById('txtUploadPhotoClinicalPhysiology');
+              this.file.value = '';
+            }
+            if (Type == 'UploadPhotoBiochemistry') {
+              this.showUploadPhotoBiochemistryPhoto = true;
+              this.request.Dis_UploadPhotoBiochemistry = data['Data'][0]["Dis_FileName"];
+              this.request.UploadPhotoBiochemistryPath = data['Data'][0]["FilePath"];
+              this.request.UploadPhotoBiochemistry = data['Data'][0]["FileName"];
+              this.ImageValidationMessage_UploadPhotoBiochemistryPhoto = '';
+              this.file = document.getElementById('txtUploadPhotoBiochemistry');
+              this.file.value = '';
+            }
+            if (Type == 'UploadPhotoHistopathologyCytopathology') {
+              this.showUploadPhotoHistopathologyCytopathologyPhoto = true;
+              this.request.Dis_UploadPhotoHistopathologyCytopathology = data['Data'][0]["Dis_FileName"];
+              this.request.UploadPhotoHistopathologyCytopathologyPath = data['Data'][0]["FilePath"];
+              this.request.UploadPhotoHistopathologyCytopathology = data['Data'][0]["FileName"];
+              this.ImageValidationMessage_UploadPhotoHistopathologyCytopathology = '';
+              this.file = document.getElementById('txtUploadPhotoHistopathologyCytopathologyPhoto');
+              this.file.value = '';
+            }
+            if (Type == 'UploadPhotoClinicalPathologyHaematolog') {
+              this.showUploadPhotoClinicalPathologyHaematologPhoto = true;
+              this.request.Dis_UploadPhotoClinicalPathologyHaematolog = data['Data'][0]["Dis_FileName"];
+              this.request.UploadPhotoClinicalPathologyHaematologPath = data['Data'][0]["FilePath"];
+              this.request.UploadPhotoClinicalPathologyHaematolog = data['Data'][0]["FileName"];
+              this.ImageValidationMessage_UploadPhotoClinicalPathologyHaematolog = '';
+              this.file = document.getElementById('txtUploadPhotoClinicalPathologyHaematologPhoto');
+              this.file.value = '';
+            }
+            if (Type == 'UploadPhotoMicrobiology') {
+              this.showUploadPhotoMicrobiologyPhoto = true;
+              this.request.Dis_UploadPhotoMicrobiology = data['Data'][0]["Dis_FileName"];;
+              this.request.UploadPhotoMicrobiologyPath = data['Data'][0]["FilePath"];
+              this.request.UploadPhotoMicrobiology = data['Data'][0]["FileName"];
+              this.ImageValidationMessage_UploadPhotoMicrobiologyPhoto = '';
+              this.file = document.getElementById('txtUploadPhotoMicrobiologyPhoto');
+              this.file.value = '';
+            }
+            if (Type == 'UploadPhotoClinicalPharmacologyandComputerAssistedLearning') {
+              this.showUploadPhotoClinicalPharmacologyandComputerAssistedLearningPhoto = true;
+              this.request.Dis_ClinicalPharmacologyandComputerAssistedLearning = data['Data'][0]["Dis_FileName"];
+              this.request.ClinicalPharmacologyandComputerAssistedLearningPath = data['Data'][0]["FilePath"];
+              this.request.UploadPhotoClinicalPharmacologyandComputerAssistedLearning = data['Data'][0]["FileName"];
+              this.ImageValidationMessage_UploadPhotoClinicalPharmacologyandComputerAssistedLearning = '';
+              this.file = document.getElementById('txtUploadPhotoClinicalPharmacologyandComputerAssistedLearningPhoto');
+              this.file.value = '';
+            }            
+            if (Type == 'CentralLibrarybooksList') {
+              this.showCentralLibrarybooksList = true;
+              this.request.Dis_CentralLibrarybooksList = data['Data'][0]["Dis_FileName"];
+              this.request.CentralLibrarybooksListPath = data['Data'][0]["FilePath"];
+              this.request.CentralLibrarybooksList = data['Data'][0]["FileName"];
+              this.ImageValidationMessage_CentralLibrarybooksList = '';
+              this.file = document.getElementById('txtCentralLibrarybooksList');
+              this.file.value = '';
+            }
+            if (Type == 'JournalsIndianForeignList') {
+              this.showJournalsIndianForeignList = true;
+              this.request.Dis_JournalsIndianForeignList = data['Data'][0]["Dis_FileName"];
+              this.request.JournalsIndianForeignListPath = data['Data'][0]["FilePath"];
+              this.request.JournalsIndianForeignList = data['Data'][0]["FileName"];
+              this.ImageValidationMessage_JournalsIndianForeignList = 'Select less then 2MB File';
+              this.file = document.getElementById('txtJournalsIndianForeignList');
               this.file.value = '';
             }
           }
@@ -701,16 +1196,16 @@ export class InfrastructureMedicalCollegeFacilitiesMgoneComponent implements OnI
           }
           if (Type == 'DissectionHallPhoto') {
             this.showDissectionHallPhoto = false;
-            this.request.Dis_DissectionHallPhoto = '';
-            this.request.DissectionHallPhotoPath = '';
-            this.request.DissectionHallPhoto = ''; 
+            this.DissectionHallDetails.Dis_DissectionHallPhoto = '';
+            this.DissectionHallDetails.DissectionHallPhotoPath = '';
+            this.DissectionHallDetails.DissectionHallPhoto = ''; 
             this.ImageValidationMessage_DissectionHallPhoto = '';
           }
           if (Type == 'SkillLaboratoryPhoto') {
             this.showSkillLaboratoryPhoto = false;
-            this.request.Dis_SkillLaboratoryPhoto = '';
-            this.request.SkillLaboratoryPhotoPath = '';
-            this.request.SkillLaboratoryPhoto = ''; 
+            this.SkillLaboratoryDetails.Dis_SkillLaboratoryPhoto = '';
+            this.SkillLaboratoryDetails.SkillLaboratoryPhotoPath = '';
+            this.SkillLaboratoryDetails.SkillLaboratoryPhoto = ''; 
             this.ImageValidationMessage_DissectionHallPhoto = '';
           }
           if (Type == 'CentralLibraryPhoto') {
@@ -726,6 +1221,71 @@ export class InfrastructureMedicalCollegeFacilitiesMgoneComponent implements OnI
             this.request.PowerBackupPhotoPath = '';
             this.request.PowerBackupPhoto = '';
             this.ImageValidationMessage_PowerBackupPhoto = '';           
+          }
+          if (Type == 'UploadPhotoHistology') {
+            this.showUploadPhotoHistologyPhoto = false;
+            this.request.Dis_UploadPhotoHistology = '';
+            this.request.UploadPhotoHistologyPath = '';
+            this.request.UploadPhotoHistology = '';
+            this.ImageValidationMessage_UploadPhotoHistology = '';            
+          }
+          if (Type == 'UploadPhotoClinicalPhysiology') {
+            this.showUploadPhotoClinicalPhysiologyPhoto = false;
+            this.request.Dis_UploadPhotoClinicalPhysiology = '';
+            this.request.UploadPhotoClinicalPhysiologyPath = '';
+            this.request.UploadPhotoClinicalPhysiology = '';
+            this.ImageValidationMessage_UploadPhotoClinicalPhysiology = '';            
+          }
+          if (Type == 'UploadPhotoBiochemistry') {
+            this.showUploadPhotoBiochemistryPhoto = false;
+            this.request.Dis_UploadPhotoBiochemistry = '';
+            this.request.UploadPhotoBiochemistryPath = '';
+            this.request.UploadPhotoBiochemistry = '';
+            this.ImageValidationMessage_UploadPhotoBiochemistryPhoto = '';
+           
+          }
+          if (Type == 'UploadPhotoHistopathologyCytopathology') {
+            this.showUploadPhotoHistopathologyCytopathologyPhoto = false;
+            this.request.Dis_UploadPhotoHistopathologyCytopathology = '';
+            this.request.UploadPhotoHistopathologyCytopathologyPath = '';
+            this.request.UploadPhotoHistopathologyCytopathology = '';
+            this.ImageValidationMessage_UploadPhotoHistopathologyCytopathology = '';           
+          }
+          if (Type == 'UploadPhotoClinicalPathologyHaematolog') {
+            this.showUploadPhotoClinicalPathologyHaematologPhoto = false;
+            this.request.Dis_UploadPhotoClinicalPathologyHaematolog = '';
+            this.request.UploadPhotoClinicalPathologyHaematologPath = '';
+            this.request.UploadPhotoClinicalPathologyHaematolog = '';
+            this.ImageValidationMessage_UploadPhotoClinicalPathologyHaematolog = '';           
+          }
+          if (Type == 'UploadPhotoMicrobiology') {
+            this.showUploadPhotoMicrobiologyPhoto = false;
+            this.request.Dis_UploadPhotoMicrobiology = '';
+            this.request.UploadPhotoMicrobiologyPath = '';
+            this.request.UploadPhotoMicrobiology = '';
+            this.ImageValidationMessage_UploadPhotoMicrobiologyPhoto = '';            
+          }
+          if (Type == 'UploadPhotoClinicalPharmacologyandComputerAssistedLearning') {
+            this.showUploadPhotoClinicalPharmacologyandComputerAssistedLearningPhoto = false;
+            this.request.Dis_ClinicalPharmacologyandComputerAssistedLearning = '';
+            this.request.ClinicalPharmacologyandComputerAssistedLearningPath = '';
+            this.request.UploadPhotoClinicalPharmacologyandComputerAssistedLearning = '';
+            this.ImageValidationMessage_UploadPhotoClinicalPharmacologyandComputerAssistedLearning = '';            
+          }
+          if (Type == 'CentralLibrarybooksList') {
+            this.showCentralLibrarybooksList = false;
+            this.request.Dis_CentralLibrarybooksList = '';
+            this.request.CentralLibrarybooksListPath = '';
+            this.request.CentralLibrarybooksList = '';
+            this.ImageValidationMessage_CentralLibrarybooksList = '';           
+          }
+          if (Type == 'JournalsIndianForeignList') {
+            this.showJournalsIndianForeignList = false;
+            this.request.Dis_JournalsIndianForeignList = '';
+            this.request.JournalsIndianForeignListPath = '';
+            this.request.JournalsIndianForeignList = '';
+            this.ImageValidationMessage_JournalsIndianForeignList = '';           
+            
           }
         }
         if (this.State == 1) {
@@ -836,194 +1396,263 @@ export class InfrastructureMedicalCollegeFacilitiesMgoneComponent implements OnI
     const btnAdd = document.getElementById('btnAddMuseum')
     if (btnAdd) { btnAdd.innerHTML = "Update"; }
   }
-
+  async EditDissectionHallDetail(idx: number) {
+    this.CurrentIndex = idx;
+    this.isDisabledGrid = true;
+    this.DissectionHallDetails.DissectionID = this.request.DissectionHallDetails[idx].DissectionID;
+    this.DissectionHallDetails.DissectionHallNumber = this.request.DissectionHallDetails[idx].DissectionHallNumber;
+    this.DissectionHallDetails.DissectionHallCapacity = this.request.DissectionHallDetails[idx].DissectionHallCapacity;
+    this.DissectionHallDetails.DissectionHallsize = this.request.DissectionHallDetails[idx].DissectionHallsize;
+    this.DissectionHallDetails.Dis_DissectionHallPhoto = this.request.DissectionHallDetails[idx].Dis_DissectionHallPhoto;
+    this.DissectionHallDetails.DissectionHallPhoto = this.request.DissectionHallDetails[idx].DissectionHallPhoto;
+    this.DissectionHallDetails.DissectionHallPhotoPath = this.request.DissectionHallDetails[idx].DissectionHallPhotoPath;
+    this.showDissectionHallPhoto = this.DissectionHallDetails.DissectionHallPhoto != '' ? true : false;
+    const btnAdd = document.getElementById('btnDissectionHall')
+    if (btnAdd) { btnAdd.innerHTML = "Update"; }
+  }
+  async EditSkillLaboratoryDetail(idx: number) {
+    this.CurrentIndex = idx;
+    this.isDisabledGrid = true;
+    this.SkillLaboratoryDetails.SkillLaboratoryID = this.request.SkillLaboratoryDetails[idx].SkillLaboratoryID;
+    this.SkillLaboratoryDetails.SkillLaboratoryNumber = this.request.SkillLaboratoryDetails[idx].SkillLaboratoryNumber;    
+    this.SkillLaboratoryDetails.SkillLaboratorySize = this.request.SkillLaboratoryDetails[idx].SkillLaboratorySize;
+    this.SkillLaboratoryDetails.Dis_SkillLaboratoryPhoto = this.request.SkillLaboratoryDetails[idx].Dis_SkillLaboratoryPhoto;
+    this.SkillLaboratoryDetails.SkillLaboratoryPhoto = this.request.SkillLaboratoryDetails[idx].SkillLaboratoryPhoto;
+    this.SkillLaboratoryDetails.SkillLaboratoryPhotoPath = this.request.SkillLaboratoryDetails[idx].SkillLaboratoryPhotoPath;
+    this.showSkillLaboratoryPhoto = this.SkillLaboratoryDetails.SkillLaboratoryPhoto != '' ? true : false;
+    const btnAdd = document.getElementById('btnSkillLaboratory')
+    if (btnAdd) { btnAdd.innerHTML = "Update"; }
+  }
   //public isSubmitted: boolean = false
   public isformvalid: boolean = true;
-  //async SaveData() {
-  //  this.isSubmitted = true;
-  //  this.isformvalid = true;
-  //  if (this.request.IsHillytribalArea == 'Yes' && this.request.IsInstitutionParentHospital == '') {
-  //    this.isformvalid = false;
-  //  }
-  //  if (((this.request.IsHillytribalArea == 'Yes' && this.request.IsInstitutionParentHospital == 'Yes') || this.request.IsHillytribalArea == 'No') && this.request.HospitalStatus == '') {
-  //    this.isformvalid = false;
-  //  }
-  //  if (((this.request.IsHillytribalArea == 'Yes' && this.request.IsInstitutionParentHospital == 'Yes') || this.request.IsHillytribalArea == 'No')) {
-  //    var TotalBed =
-  //      Number(this.request.MedicalBeds) +
-  //      Number(this.request.SurgicalBeds) +
-  //      Number(this.request.ObstetricsBeds) + Number(this.request.PediatricsBeds) + Number(this.request.OrthoBeds)
-  //      + Number(this.request.PsychiatryBeds) + Number(this.request.EmergencyMedicineBeds);
-  //    //TotalBed < 300
-  //    if (TotalBed < 100) {
-  //      this.toastr.warning('100 bed manadatory for own/parent hospital');
-  //      //this.toastr.warning('300 bed manadatory for own/parent hospital');
-  //      return;
-  //    }
-  //  }
-  //  if ((this.request.IsHillytribalArea == 'Yes' && this.request.IsInstitutionParentHospital == 'Yes') || this.request.IsHillytribalArea == 'No') {
-  //    if (this.request.HospitalMOU == '') {
-  //      this.isformvalid = false;
-  //    }
-  //    if (this.request.BedOccupancy == '') {
-  //      this.isformvalid = false;
-  //    }
-  //    if (this.request.FireNOC == '') {
-  //      this.isformvalid = false;
-  //    }
-  //    if (this.request.PollutionCertificate == '') {
-  //      this.isformvalid = false;
-  //    }
-  //    if (this.request.ClinicalEstablishment == '') {
-  //      this.isformvalid = false;
-  //    }
-  //    if (this.request.UndertakingNotAffiliated == '') {
-  //      this.isformvalid = false;
-  //    }
-  //    if (this.request.StaffInformation == '') {
-  //      this.isformvalid = false;
-  //    }
-  //  }
-
-  //  if (((this.request.IsHillytribalArea == 'Yes' && this.request.IsInstitutionParentHospital == 'Yes') || this.request.IsHillytribalArea == 'No') && this.request.HospitalStatus == 'Own' && this.request.OwnerName == '') {
-  //    this.isformvalid = false;
-  //  }
-  //  if (((this.request.IsHillytribalArea == 'Yes' && this.request.IsInstitutionParentHospital == 'Yes') || this.request.IsHillytribalArea == 'No') && this.request.HospitalStatus == 'Parental' && this.request.SocietyMemberID <= 0) {
-  //    this.isformvalid = false;
-  //  }
-  //  if (this.request.IsHillytribalArea == 'Yes' && this.request.IsInstitutionParentHospital == 'No') {
-  //    this.HospitalForm.get('txtHospitalName')?.clearValidators();
-  //    this.HospitalForm.get('txtHospitalName')?.updateValueAndValidity();
-  //    this.HospitalForm.get('txtRegistrationNo')?.clearValidators();
-  //    this.HospitalForm.get('txtRegistrationNo')?.updateValueAndValidity();
-  //    this.HospitalForm.get('txtHospitalContactNo')?.clearValidators();
-  //    this.HospitalForm.get('txtHospitalContactNo')?.updateValueAndValidity();
-  //    this.HospitalForm.get('txtHospitalEmailID')?.clearValidators();
-  //    this.HospitalForm.get('txtHospitalEmailID')?.updateValueAndValidity();
-  //    this.HospitalForm.get('txtAddressLine1')?.clearValidators();
-  //    this.HospitalForm.get('txtAddressLine1')?.updateValueAndValidity();
-  //    this.HospitalForm.get('rbRuralUrban')?.clearValidators();
-  //    this.HospitalForm.get('rbRuralUrban')?.updateValueAndValidity();
-  //    this.HospitalForm.get('ddlDivisionID')?.clearValidators();
-  //    this.HospitalForm.get('ddlDivisionID')?.updateValueAndValidity();
-  //    this.HospitalForm.get('ddlDistrictID')?.clearValidators();
-  //    this.HospitalForm.get('ddlDistrictID')?.updateValueAndValidity();
-  //    this.HospitalForm.get('ddlTehsilID')?.clearValidators();
-  //    this.HospitalForm.get('ddlTehsilID')?.updateValueAndValidity();
-  //    this.HospitalForm.get('txtCityTownVillage')?.clearValidators();
-  //    this.HospitalForm.get('txtCityTownVillage')?.updateValueAndValidity();
-  //    this.HospitalForm.get('txtPincode')?.clearValidators();
-  //    this.HospitalForm.get('txtPincode')?.updateValueAndValidity();
-  //    //this.HospitalForm.get('fHospitalMOU')?.clearValidators();
-  //    //this.HospitalForm.get('fHospitalMOU')?.updateValueAndValidity();
-  //    this.HospitalForm.get('txtBedCapacity')?.clearValidators();
-  //    this.HospitalForm.get('txtBedCapacity')?.updateValueAndValidity();
-  //    this.HospitalForm.get('txtMedicalBeds')?.clearValidators();
-  //    this.HospitalForm.get('txtMedicalBeds')?.updateValueAndValidity();
-  //    this.HospitalForm.get('txtSurgicalBeds')?.clearValidators();
-  //    this.HospitalForm.get('txtSurgicalBeds')?.updateValueAndValidity();
-  //    this.HospitalForm.get('txtObstetricsBeds')?.clearValidators();
-  //    this.HospitalForm.get('txtObstetricsBeds')?.updateValueAndValidity();
-  //    this.HospitalForm.get('txtPediatricsBeds')?.clearValidators();
-  //    this.HospitalForm.get('txtPediatricsBeds')?.updateValueAndValidity();
-  //    this.HospitalForm.get('txtOrthoBeds')?.clearValidators();
-  //    this.HospitalForm.get('txtOrthoBeds')?.updateValueAndValidity();
-  //    this.HospitalForm.get('txtEmergencyMedicineBeds')?.clearValidators();
-  //    this.HospitalForm.get('txtEmergencyMedicineBeds')?.updateValueAndValidity();
-  //    this.HospitalForm.get('txtPsychiatryBeds')?.clearValidators();
-  //    this.HospitalForm.get('txtPsychiatryBeds')?.updateValueAndValidity();
-  //    this.HospitalForm.get('ddlTehsilID')?.clearValidators();
-  //    this.HospitalForm.get('ddlTehsilID')?.updateValueAndValidity();
-  //    this.HospitalForm.get('ddlTehsilID')?.clearValidators();
-  //    this.HospitalForm.get('ddlTehsilID')?.updateValueAndValidity();
-  //    //this.HospitalForm.get('fBedOccupancy')?.clearValidators();
-  //    //this.HospitalForm.get('fBedOccupancy')?.updateValueAndValidity();
-  //    //this.HospitalForm.get('fFireNOC')?.clearValidators();
-  //    //this.HospitalForm.get('fFireNOC')?.updateValueAndValidity();
-  //    //this.HospitalForm.get('fPollutionCertificate')?.clearValidators();
-  //    //this.HospitalForm.get('fPollutionCertificate')?.updateValueAndValidity();
-  //    //this.HospitalForm.get('fClinicalEstablishment')?.clearValidators();
-  //    //this.HospitalForm.get('fClinicalEstablishment')?.updateValueAndValidity();
-  //    //this.HospitalForm.get('fUndertakingNotAffiliated')?.clearValidators();
-  //    //this.HospitalForm.get('fUndertakingNotAffiliated')?.updateValueAndValidity();
-  //    //this.HospitalForm.get('fStaffInformation')?.clearValidators();
-  //    //this.HospitalForm.get('fStaffInformation')?.updateValueAndValidity();
-  //    this.HospitalForm.get('txtCollegeDistance')?.clearValidators();
-  //    this.HospitalForm.get('txtCollegeDistance')?.updateValueAndValidity();
-  //    this.HospitalForm.get('txtNumberofdeliveries')?.clearValidators();
-  //    this.HospitalForm.get('txtNumberofdeliveries')?.updateValueAndValidity();
-  //    this.HospitalForm.get('ddlCityID')?.clearValidators();
-  //    this.HospitalForm.get('ddlCityID')?.updateValueAndValidity();
-  //    this.HospitalForm.get('ddlPanchayatSamitiID')?.clearValidators();
-  //    this.HospitalForm.get('ddlPanchayatSamitiID')?.updateValueAndValidity();
-  //  }
-  //  else {
-  //    if (this.request.RuralUrban == 1) {
-  //      this.HospitalForm.get('ddlCityID')?.clearValidators();
-  //      this.HospitalForm.get('ddlCityID')?.updateValueAndValidity();
-  //      this.HospitalForm.get('ddlPanchayatSamitiID')?.setValidators([DropdownValidators]);
-  //      this.HospitalForm.get('ddlPanchayatSamitiID')?.updateValueAndValidity();
-  //    }
-  //    if (this.request.RuralUrban == 2) {
-  //      this.HospitalForm.get('ddlPanchayatSamitiID')?.clearValidators();
-  //      this.HospitalForm.get('ddlPanchayatSamitiID')?.updateValueAndValidity();
-  //      this.HospitalForm.get('ddlCityID')?.setValidators([DropdownValidators]);
-  //      this.HospitalForm.get('ddlCityID')?.updateValueAndValidity();
-  //    }
-  //  }
-  //  if (this.request.IsHillytribalArea == 'No' && this.request.CollegeDistance > 30) {
-  //    return;
-  //  }
-  //  if (this.request.IsHillytribalArea == 'Yes' && this.request.CollegeDistance > 50) {
-  //    return;
-  //  }
-  //  if (this.HospitalForm.invalid) {
-  //    this.isformvalid = false;
-  //  }
-  //  if (this.request.IsHillytribalArea == 'Yes' && this.request.IsInstitutionParentHospital == 'No') {
-  //    if (this.request.MGThreeAffiliatedHospitalList.length <= 0) {
-  //      this.toastr.warning('Please add one Affiliated Hospital');
-  //      return;
-  //    }
-  //  }
-
-  //  console.log(this.HospitalForm);
-  //  if (!this.isformvalid) {
-  //    return
-  //  }
-  //  // save data
-  //  try {
-  //    this.loaderService.requestStarted();
-  //    await this.hospitalDetailService.SaveMGThreeHospitalData(this.request)
-  //      .then(async (data: any) => {
-  //        this.State = data['State'];
-  //        this.SuccessMessage = data['SuccessMessage'];
-  //        this.ErrorMessage = data['ErrorMessage'];
-  //        //console.log(this.State);
-
-  //        if (!this.State) {
-  //          this.toastr.success(this.SuccessMessage);
-  //          await this.GetMGThreeHospitalDetailList_DepartmentCollegeWise(this.SelectedDepartmentID, this.SelectedCollageID, 0);
-  //          // reset
-  //          this.ResetDetails();
-  //        }
-  //        else {
-  //          this.toastr.error(this.ErrorMessage)
-  //        }
-  //        // get data
-  //      })
-  //  }
-  //  catch (ex) { console.log(ex) }
-  //  finally {
-  //    setTimeout(() => {
-  //      this.loaderService.requestEnded();
-  //    }, 200);
-  //  }
-
-  //  this.isSubmitted = false;
-
-  //}
   async SaveData() {
+    debugger;
+    this.isSubmitted = true;
+    this.isformvalid = true;
 
+    if (this.request.LectureTheatreDetails.length<4) {
+      this.toastr.warning("Lecture Theatre Add At list 4 !");
+      return;
+    }
+    if (this.request.MuseumDetails.length < 6) {
+      this.toastr.warning("Museum Add At list 6 !");
+      return;
+    }
+    if (this.request.DissectionHallDetails.length < 1) {
+      this.toastr.warning("Dissection Hall Add At list 1 !");
+      return;
+    }
+    if (this.request.SkillLaboratoryDetails.length < 1) {
+      this.toastr.warning("Skill Laboratory Add At list 1 !");
+      return;
+    }
+    if (this.request.DemonstrationRoom=='') {
+      this.toastr.warning("Please Select Demonstration Room");
+      return;
+    }
+    if (this.request.DemonstrationRoom == 'Yes') {
+      if (this.request.Histology == '') {
+        this.toastr.warning("Please Select Histology Lab");
+        return;
+      }
+      if (this.request.Histology == 'Yes') {
+        if (this.request.UploadPhotoHistology=='') {
+          this.toastr.warning("Please Upload Histology Lab Photo");
+          return;
+        }
+      }
+      if (this.request.ClinicalPhysiology == '') {
+        this.toastr.warning("Please Select Clinical Physiology Lab");
+        return;
+      }
+      if (this.request.ClinicalPhysiology == 'Yes') {
+        if (this.request.UploadPhotoClinicalPhysiology == '') {
+          this.toastr.warning("Please Upload Clinical Physiology Lab Photo");
+          return;
+        }
+      }
+      if (this.request.Biochemistry == '') {
+        this.toastr.warning("Please Select Bio Chemistry Lab");
+        return;
+      }
+      if (this.request.Biochemistry == 'Yes') {
+        if (this.request.UploadPhotoBiochemistry == '') {
+          this.toastr.warning("Please Upload Biochemistry Lab Photo");
+          return;
+        }
+      }
+      if (this.request.HistopathologyCytopathology == '') {
+        this.toastr.warning("Please Select Histopathology Cytopathology Lab");
+        return;
+      }
+      if (this.request.HistopathologyCytopathology == 'Yes') {
+        if (this.request.UploadPhotoHistopathologyCytopathology == '') {
+          this.toastr.warning("Please Upload Biochemistry Lab Photo");
+          return;
+        }
+      }
+      if (this.request.ClinicalPathologyHaematolog == '') {
+        this.toastr.warning("Please Select Clinical Pathology Haematolog Lab");
+        return;
+      }
+      if (this.request.ClinicalPathologyHaematolog == 'Yes') {
+        if (this.request.UploadPhotoClinicalPathologyHaematolog == '') {
+          this.toastr.warning("Please Upload Clinical Pathology Haematolog Lab Photo");
+          return;
+        }
+      }
+      if (this.request.Microbiology == '') {
+        this.toastr.warning("Please Select Microbiology Lab");
+        return;
+      }
+      if (this.request.Microbiology == 'Yes') {
+        if (this.request.UploadPhotoMicrobiology == '') {
+          this.toastr.warning("Please Upload Microbiology Lab Photo");
+          return;
+        }
+      }
+      if (this.request.ClinicalPharmacologyandComputerAssistedLearning == '') {
+        this.toastr.warning("Please Select Clinical Pharmacology and Computer Assisted Learning(CAL) Lab");
+        return;
+      }
+      if (this.request.ClinicalPharmacologyandComputerAssistedLearning == 'Yes') {
+        if (this.request.UploadPhotoClinicalPharmacologyandComputerAssistedLearning == '') {
+          this.toastr.warning("Please Upload (CAL) Lab Photo");
+          return;
+        }
+      }
+    }
+    
+    
+    if (this.request.Centralresearch == '') {
+      this.toastr.warning("Please Select Central research Lab/ Cell");
+      return;
+    }
+    if (this.request.CentralLibrary == '') {
+      this.toastr.warning("Please Select Central Library");
+      return;
+    }
+    if (this.request.CentralLibrary == 'Yes') {
+      if (this.request.CentralLibraryArea <= 0 && this.request.CentralLibrarySeatingCapacity <= 0 && this.request.CentralLibraryBooks <= 0 && this.request.JournalsIndianForeign <= 0) {
+        this.toastr.warning("This field is required Must Be enter value above Zero Central Library .");
+        return;
+      }
+      if (this.request.CentralLibraryArea < 1000) {
+        this.toastr.warning("Centra lLibrary Area Minimum 1000 (sq.mt) !");
+        return;
+      }
+      if (this.request.CentralLibrarySeatingCapacity < 350) {
+        this.toastr.warning("Central Library Seating Capacity (Inside + OutSide) Minimum 350!");
+        return;
+      }
+      if (this.request.CentralLibraryBooks < 4500) {
+        this.toastr.warning("Central Library Books Minimum 4500 !");
+        return;
+      }
+      if (this.request.JournalsIndianForeign < 45) {
+        this.toastr.warning("Journals (Indian + Foreign) Minimum 45 !");
+        return;
+      }
+      if (this.request.CentralLibrarybooksList =='') {
+        this.toastr.warning("Upload Central Library books List!");
+        return;
+      }
+      if (this.request.JournalsIndianForeignList == '') {
+        this.toastr.warning("Upload Journals Indian Foreign List!");
+        return;
+      }
+    }
+    if (this.request.RuralHealthTrainingCentre == '') {
+      this.toastr.warning("Please Select Rural Health Training Centre");
+      return;
+    }
+    if (this.request.RuralHealthTrainingCentre == 'Yes') {
+      if (this.request.RuralHealth <= 0) {
+        this.toastr.warning("This field is required Must Be enter value above Zero Rural Health .");
+        return;
+      }
+    }
+    if (this.request.UrbanHealthTrainingCentre == '') {
+      this.toastr.warning("Please Select Urban Health Training Centre");
+      return;
+    }
+    if (this.request.UrbanHealthTrainingCentre == 'Yes') {
+      if (this.request.UrbanHealth <= 0) {
+        this.toastr.warning("This field is required Must Be enter value above Zero Urban Health .");
+        return;
+      }
+    }
+    if (this.request.PowerBackup == '') {
+      this.toastr.warning("Please Select Power Backup");
+      return;
+    }
+    if (this.request.PowerBackup == 'Yes') {
+      if (this.request.PowerBackupCapacity <= 0) {
+        this.toastr.warning("This field is required Must Be enter value above Zero Power Backup .");
+        return;
+      }
+    }   
+   if (!this.isformvalid) {
+      return
+    }
+    // save data
+    try {
+      this.loaderService.requestStarted();
+      await this.commonMasterService.SaveInfrastructuremedicalgrouponecollegeData(this.request)
+        .then(async (data: any) => {
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          //console.log(this.State);
+
+          if (!this.State) {
+            this.toastr.success(this.SuccessMessage);
+            await this.GetInfrastructuremedicalgrouponecollege();
+            // reset
+            //this.ResetDetails();
+          }
+          else {
+            this.toastr.error(this.ErrorMessage)
+          }
+          // get data
+        })
+    }
+    catch (ex) { console.log(ex) }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+    this.isSubmitted = false;
+
+  }
+  async GetInfrastructuremedicalgrouponecollege() {
+    debugger;
+    //Show Loading
+    this.loaderService.requestStarted();
+   // this.isLoading = true;
+    //this.IsEdit = true;
+
+    try {
+      await this.commonMasterService.GetInfrastructuremedicalgrouponecollege(this.request.CollegeID)
+        .then(async (data: any) => {
+          //this.SelectedCollegeLevel = [];
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          // data
+          debugger;
+          this.request = JSON.parse(JSON.stringify(data['Data']));
+
+        })
+    }
+    catch (ex) { console.log(ex) }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+        //this.isLoading = false;
+
+      }, 200);
+    }
   }
 }

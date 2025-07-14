@@ -1992,4 +1992,50 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
+  public async SaveInfrastructuremedicalgrouponecollegeData(request: any) {
+    const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
+
+    return await this.http.post(this.APIUrl_CommonMaster + "/SaveInfrastructuremedicalgrouponecollegeData", request, httpOptions)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+  public async GetInfrastructuremedicalgrouponecollege(collegeId: number) {
+    const headers = { 'content-type': 'application/json' }
+    return await this.http.get(this.APIUrl_CommonMaster + "/GetInfrastructuremedicalgrouponecollege/" + collegeId, { 'headers': headers })
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+  public async GetGetInfrastructuremedicalgrouponeData(CollegeID: number) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl_CommonMaster + "/GetGetInfrastructuremedicalgrouponeData/" + CollegeID)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+  public async GetBTERDetailsIDWise(CollegeID: number) {
+    debugger;
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl_CommonMaster + "/GetBTERDetailsIDWise/" + CollegeID)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+  public async GetTotalFinalDraftentryDepartmentFormat(request: CommonDataModel_TotalDraftEntrySearchFilter) {
+    const headers = { 'content-type': 'application/json' }
+    const body = JSON.stringify(request);
+    return await this.http.post(this.APIUrl_CommonMaster + "/GetTotalFinalDraftentryDepartmentFormat", body, { 'headers': headers })
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
 }

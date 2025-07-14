@@ -1,0 +1,345 @@
+
+<div class="container-fluid breadcrumbBox py-2">
+  <div class="row align-items-center">
+    <div class="col-md-6">
+    </div>
+    <div class="col-md-6 d-flex justify-content-end">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="#">BTER Affiliation</a></li>
+          <li class="breadcrumb-item active" aria-current="page">Course Info</li>
+        </ol>
+      </nav>
+    </div>
+  </div>
+</div>
+<div class="container-fluid mainContents">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="clearfix"></div>
+      <form [formGroup]="DTEAffiliationAddCourseForm" class="form-horizontal">
+        <div class="card">
+          <div class="card-header d-flex justify-content-between align-items-center">
+            <b class="text-center"><i class="fa fa-plus"></i> Add Course</b>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-lg-12 col-md-12 col-sm-12 col-12 mb-3" *ngIf="this.CollegeStatusName=='Existing'">
+                <label for="ddlAffiliationCourseTypeID" class="form-label">Course Status<span style="color:red;">*</span></label>
+                <select class="form-control" [attr.disabled]="IsEdits ? true : null" id="ddlAffiliationCourseTypeID" name="ddlAffiliationCourseTypeID" [(ngModel)]="request.CourseStatusId" formControlName="ddlAffiliationCourseTypeID" (change)="SelectionOnchange(request.CourseStatusId)">
+                  <option value="0" selected>--Select Course Status--</option>
+                  <option *ngFor="let item of StatusOfCollegeList" value="{{item.ID}}">{{item.Name}}</option>
+                </select>
+                <div *ngIf="isSubmitted&&form.ddlAffiliationCourseTypeID.errors" class="text-danger">
+                  <p *ngIf="!form.ddlAffiliationCourseTypeID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
+                </div>
+              </div>
+
+              <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
+                <label for="ddlCourseTypeId" class="form-label">Course Type<span style="color:red;">*</span></label>
+                <select class="form-select" id="ddlCourseTypeId" name="ddlCourseTypeId" [(ngModel)]="request.CourseTypeId" formControlName="ddlCourseTypeId" (change)="GetAffiliationCourseNameList(request.CourseTypeId)">
+                  <option value="0" disabled>--Course Type--</option>
+                  <option *ngFor="let item of AffilationCourseTypeList" value="{{item.ID}}">
+                    {{item.Name}}
+                  </option>
+                </select>
+                <div *ngIf="isSubmitted&&form.ddlCourseTypeId.errors" class="text-danger">
+                  <p *ngIf="!form.ddlCourseTypeId.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
+                </div>
+              </div>
+              <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3" *ngIf="this.CourseStatus !='Closed'">
+                <label for="txtCourseIntakeAsPerAICTELOA" class="form-label">Intake<span style="color:red;">*</span></label>
+                <input type="text" id="txtCourseIntakeAsPerAICTELOA" placeholder="Enter Intake" formControlName="txtCourseIntakeAsPerAICTELOA" maxlength="5" class="form-control" [(ngModel)]="request.CourseIntakeAsPerAICTELOA" (keypress)="numberOnly($event)" autocomplete="off">
+                <div *ngIf="isSubmitted &&form.txtCourseIntakeAsPerAICTELOA.errors" class="text-danger">
+                  <p *ngIf="form.txtCourseIntakeAsPerAICTELOA.errors.required">This field is required .!</p>
+                </div>
+                <!--<p *ngIf="isSubmitted&&request.CourseIntakeAsPerAICTELOA>0" class="text-danger"><i aria-hidden="true"></i>This field is required .!</p>-->
+              </div>
+              <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
+                <label for="ddlCourseID" class="form-label">Course Name<span style="color:red;">*</span></label>
+                <select class="form-select" id="ddlCourseID" name="ddlCourseID" [(ngModel)]="request.CourseId" formControlName="ddlCourseID">
+                  <option value="0" disabled>--Select Course Name--</option>
+                  <option *ngFor="let item of AffiliationCourseNameList" value="{{item.CourseID}}">
+                    {{item.CourseName}}
+                  </option>
+                </select>
+                <div *ngIf="isSubmitted&&form.ddlCourseID.errors" class="text-danger">
+                  <p *ngIf="!form.ddlCourseID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
+                </div>
+              </div>
+              <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3" *ngIf="this.CourseStatus !='Closed'">
+                <label for="ddlAffiliationShiftID" class="form-label">Shift<span style="color:red;">*</span></label>
+                <select class="form-select" id="ddlAffiliationShiftID" name="ddlAffiliationShiftID" [(ngModel)]="request.ShiftID" formControlName="ddlAffiliationShiftID">
+                  <option value="0" disabled>--Select Status Shift--</option>
+                  <option *ngFor="let item of shiftDataList" value="{{item.shiftID}}">
+                    {{item.shiftName}}
+                  </option>
+                </select>
+                <div *ngIf="isSubmitted&&form.ddlAffiliationShiftID.errors" class="text-danger">
+                  <p *ngIf="!form.ddlAffiliationShiftID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
+                </div>
+              </div>
+              <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3" *ngIf="this.CollegeStatusName=='Existing'">
+                <label for="ddlYearofstartingID" class="form-label">Year of starting<span style="color:red;">*</span></label>
+                <select class="form-select" [attr.disabled]="IsEdits ? true : null" id="ddlYearofstartingID" name="ddlYearofstartingID" [(ngModel)]="request.Yearofstarting" formControlName="ddlYearofstartingID" (change)="GetYearList(request.Yearofstarting)">
+                  <option value="0">--Select Year--</option>
+                  <option *ngFor="let item of FinancialYearList" value="{{item.FinancialYearID}}">
+                    {{item.FinancialYearName}}
+                  </option>
+                </select>
+                <div *ngIf="isSubmitted&&form.ddlYearofstartingID.errors" class="text-danger">
+                  <p *ngIf="!form.ddlYearofstartingID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
+                </div>
+              </div>
+              <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
+                <label for="ddlAffiliationBranchID" class="form-label">Branch Type<span style="color:red;">*</span></label>
+                <select class="form-select" id="ddlAffiliationBranchID" name="ddlAffiliationBranchID" [(ngModel)]="request.BterBranchTypeId" formControlName="ddlAffiliationBranchID" (change)="Branchtype(request.BterBranchTypeId)">
+                  <option value="0" disabled>--Select Status Branch--</option>
+                  <option *ngFor="let item of AffiliationBranchList" value="{{item.ID}}">
+                    {{item.Name}}
+                  </option>
+                </select>
+                <div *ngIf="isSubmitted&&form.ddlAffiliationBranchID.errors" class="text-danger">
+                  <p *ngIf="!form.ddlAffiliationBranchID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card" *ngIf="this.CollegeStatusName==='Existing' &&  this.CourseStatus !='New'">
+            <div class="card-header d-flex justify-content-between align-items-center">
+              <b class="text-center">Statistics of students in last year_({{ financialYear }}) branch wise</b>
+            </div>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-lg-4 col-md-6 col-sm-6 col-12 mb-3">
+                  <label for="txtFirstYearRegularStudent" class="form-label">First Year Regular Student:<span style="color:red;">*</span></label>
+                  <input type="text" id="txtFirstYearRegularStudent" placeholder="First Year Regular Student" formControlName="txtFirstYearRegularStudent" maxlength="4" class="form-control" [(ngModel)]="request.FirstYearRegularStudent" (input)="calculateTotal('First')" (keypress)="numberOnly($event)" autocomplete="off">
+                  <div *ngIf="isSubmitted && form.txtFirstYearRegularStudent.errors" class="text-danger">
+                    <p *ngIf="form.txtFirstYearRegularStudent.errors.required">This field is required .!</p>
+                  </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6 col-sm-6 col-12 mb-3">
+                  <label for="txtFirstYearExStudent" class="form-label">First Year Ex Student:<span style="color:red;">*</span></label>
+                  <input type="text" id="txtFirstYearEx" placeholder="First Year Ex Student" formControlName="txtFirstYearExStudent" maxlength="4" class="form-control" [(ngModel)]="request.FirstYearExStudent" (input)="calculateTotal('First')" (keypress)="numberOnly($event)" autocomplete="off">
+                  <div *ngIf="isSubmitted && form.txtFirstYearExStudent.errors" class="text-danger">
+                    <p *ngIf="form.txtFirstYearExStudent.errors.required">This field is required .!</p>
+                  </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6 col-sm-6 col-12 mb-3">
+                  <label for="txtFirstYearTotal" class="form-label">First Year Total:<span style="color:red;">*</span></label>
+                  <input type="text" id="txtFirstYearTotal" placeholder="First Year Total" formControlName="txtFirstYearTotal" maxlength="4" class="form-control" [(ngModel)]="request.FirstYearTotal" readonly>
+                </div>
+
+                <div class="col-lg-4 col-md-6 col-sm-6 col-12 mb-3">
+                  <label for="txtSecondYearRegularStudent" class="form-label">Scond Year Regular Student:<span style="color:red;">*</span></label>
+                  <input type="text" id="txtSecondYearRegularStudent" placeholder="Second Year Regular Student" formControlName="txtSecondYearRegularStudent" maxlength="4" class="form-control" [(ngModel)]="request.SecondYearRegularStudent" (input)="calculateTotal('Second')" (keypress)="numberOnly($event)" autocomplete="off">
+                  <div *ngIf="isSubmitted && form.txtSecondYearRegularStudent.errors" class="text-danger">
+                    <p *ngIf="form.txtSecondYearRegularStudent.errors.required">This field is required .!</p>
+                  </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6 col-sm-6 col-12 mb-3">
+                  <label for="txtSecondYearExStudent" class="form-label">Second Year Ex Student:<span style="color:red;">*</span></label>
+                  <input type="text" id="txtSecondYearExStudent" placeholder="Second Year Ex Student" formControlName="txtSecondYearExStudent" maxlength="4" class="form-control" [(ngModel)]="request.SecondYearExStudent" (input)="calculateTotal('Second')" (keypress)="numberOnly($event)" autocomplete="off">
+                  <div *ngIf="isSubmitted && form.txtSecondYearExStudent.errors" class="text-danger">
+                    <p *ngIf="form.txtSecondYearExStudent.errors.required">This field is required .!</p>
+                  </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6 col-sm-6 col-12 mb-3">
+                  <label for="txtSecondYearTotal" class="form-label">Second Year Total:<span style="color:red;">*</span></label>
+                  <input type="text" id="txtSecondYearTotal" placeholder="Second Year Total" formControlName="txtSecondYearTotal" maxlength="4" class="form-control" [(ngModel)]="request.SecondYearTotal" readonly>
+                </div>
+
+                <div class="col-lg-4 col-md-6 col-sm-6 col-12 mb-3">
+                  <label for="txtThirdYearRegularStudent" class="form-label">Third Year Regular Student:<span style="color:red;">*</span></label>
+                  <input type="text" id="txtThirdYearRegularStudent" placeholder="Third Year Regular Student" formControlName="txtThirdYearRegularStudent" maxlength="4" class="form-control" [(ngModel)]="request.ThirdYearRegularStudent" (input)="calculateTotal('Third')" (keypress)="numberOnly($event)" autocomplete="off">
+                  <div *ngIf="isSubmitted && form.txtThirdYearRegularStudent.errors" class="text-danger">
+                    <p *ngIf="form.txtThirdYearRegularStudent.errors.required">This field is required .!</p>
+                  </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6 col-sm-6 col-12 mb-3">
+                  <label for="txtThirdYearExStudent" class="form-label">Third Year Ex Student:<span style="color:red;">*</span></label>
+                  <input type="text" id="txtSecondYearExStudent" placeholder="Third Year Ex Student" formControlName="txtThirdYearExStudent" maxlength="4" class="form-control" [(ngModel)]="request.ThirdYearExStudent" (input)="calculateTotal('Third')" (keypress)="numberOnly($event)" autocomplete="off">
+                  <div *ngIf="isSubmitted && form.txtThirdYearExStudent.errors" class="text-danger">
+                    <p *ngIf="form.txtThirdYearExStudent.errors.required">This field is required .!</p>
+                  </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6 col-sm-6 col-12 mb-3">
+                  <label for="txtThirdYearTotal" class="form-label">Third Year Total:<span style="color:red;">*</span></label>
+                  <input type="text" id="txtThirdYearTotal" placeholder="Third Year Total" formControlName="txtThirdYearTotal" maxlength="4" class="form-control" [(ngModel)]="request.ThirdYearTotal" readonly>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card" *ngIf="this.CollegeStatusName==='Existing' &&  this.CourseStatus==='Closed'">
+            <div class="card-header d-flex justify-content-between align-items-center">
+              <b class="text-center">Govt. NOC available for closure?:</b>
+            </div>
+            <div class="card-body border">
+              <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-6 mb-3">
+                  <label>Govt. NOC available<span style="color:red;">*</span></label>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-6 mb-3">
+                  <select class="form-select" id="ddlGovtNOCAvailableforclosure" name="ddlGovtNOCAvailableforclosure" [(ngModel)]="request.GovtNOCAvailableforclosure" formControlName="ddlGovtNOCAvailableforclosure">
+                    <option value="0" disabled>--Select Status NOC Issued--</option>
+                    <option value="Yes">
+                      Yes
+                    </option>
+                    <option value="NO">
+                      NO
+                    </option>
+                  </select>
+                  <div *ngIf="isSubmitted&&form.ddlGovtNOCAvailableforclosure.errors" class="text-danger">
+                    <p *ngIf="!form.ddlGovtNOCAvailableforclosure.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
+                  </div>
+                </div>
+              </div>
+              <div class="row" *ngIf="request.GovtNOCAvailableforclosure=='Yes'">
+                <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
+                  <label for="txtNocNumber" class="form-label">NOC Number<span style="color:red;">*</span></label>
+                  <input type="text" id="txtNocNumber" placeholder="Enter the NOC Number" formControlName="txtNocNumber" maxlength="100" class="form-control" [(ngModel)]="request.NOCNumber" autocomplete="off">
+                  <!--<p class="text-danger" *ngIf="isSubmitted &&  request.GovtNOCAvailableforclosure =='Yes' && request.NocNumber==''"><i aria-hidden="true"></i>This field is required .!</p>-->
+                  <!--<p *ngIf="form.txtNocNumber.errors.required">This field is required .!</p>-->
+                  <div *ngIf="isSubmitted &&form.txtNocNumber.errors" class="text-danger">
+                    <p *ngIf="form.txtNocNumber.errors.required">This field is required .!</p>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
+                  <label for="txtNOCDate" class="form-label">NOC Date <span style="color:red;">*</span></label>
+                  <input type="date" placeholder="DD/MM/YYYY" class="form-control" id="txtNOCDate" [(ngModel)]="request.NOCDate" formControlName="txtNOCDate" max="{{MaxDate | date:'yyyy-MM-dd'}}" onkeypress="return false;" />
+                  <!--<p class="text-danger" *ngIf="isSubmitted &&  request.GovtNOCAvailableforclosure =='Yes' && request.NOCDate==''"><i aria-hidden="true"></i>This field is required .!</p>-->
+                  <div *ngIf="isSubmitted &&form.txtNOCDate.errors" class="text-danger">
+                    <p *ngIf="form.txtNOCDate.errors.required">This field is required .!</p>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
+                  <label for="ddlNOCClosingYearId" class="form-label">Year of closing<span style="color:red;">*</span></label>
+                  <select class="form-select" id="ddlNOCClosingYearId" name="ddlNOCClosingYearId" [(ngModel)]="request.NOCClosingYearId" formControlName="ddlNOCClosingYearId">
+                    <option value="0" disabled>--Select Year Branch--</option>
+                    <option *ngFor="let item of FinancialYearList" value="{{item.FinancialYearID}}">
+                      {{item.FinancialYearName}}
+                    </option>
+                  </select>
+                  <div *ngIf="isSubmitted&&form.ddlNOCClosingYearId.errors" class="text-danger">
+                    <p *ngIf="!form.ddlNOCClosingYearId.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
+                  <label>Attach copy of the approval letter (NOC): (Only pdf/image file) (Max. Size 1MB)<span style="color:red;">*</span></label>
+                  <div class="d-flex">
+                    <input type="file" style="display:none;" class="form-control" id="NOCCUploadDocument" name="NOCCUploadDocument" (change)="ValidateDocumentNOCApproval($event,'NOCCUploadDocument')" formControlName="NOCCUploadDocument">
+                    <label class="btn upload" for="NOCCUploadDocument">
+                      <span class="filename">Choose file</span>
+                      {{request.NOCCUploadDocument === '' ? 'No File Choosen' : request.NOCCUploadDocument_Dis_FileName}}
+                    </label>
+                    <div class="btn-group" *ngIf="request.NOCCUploadDocument !=''">
+                      <a class="btn btn-outline-primary" target="_blank" href="{{request.NOCCUploadDocumentPath}}"><i class="fa fa-eye"></i></a>
+                      <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('NOCCUploadDocument',request.NOCCUploadDocument)"><i class="fa fa-trash-o"></i></button>
+                    </div>
+                  </div>
+                  <!--<p class="text-danger" *ngIf="request.NOCCUploadDocument==''&& isSubmitted &&  request.NOCStatus =='Yes'"><i aria-hidden="true"></i>  This field is required .!</p>-->
+                  <div *ngIf="isSubmitted &&form.NOCCUploadDocument.errors" class="text-danger">
+                    <p *ngIf="form.NOCCUploadDocument.errors.required">This field is required .!</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card" *ngIf="this.CollegeStatusName=='Existing' &&   this.SelectedYear != this.currentFinancial &&  this.CourseStatus !='New'">
+            <div class="card-header d-flex justify-content-between align-items-center">
+              <b class="text-center">Details of Affiliation fees deposited by the college (Five years descending from last year)<span style="color:red;">*</span></b>
+            </div>
+            <div class="card-body">
+              <div class="row">
+                <div class="table-responsive" *ngIf="request.BTERAffiliationfeesDetails.length>0">
+                  <table class="table table-hover table-striped-columns mb-0" id="tabellist" #content>
+                    <thead>
+                      <tr>
+                        <th>Year</th>
+                        <th>Amount</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let row of request.BTERAffiliationfeesDetails | tableSearchFilter:searchText; let idx=index;">
+                        <td class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
+                          Year:
+                          <input type="text" value="{{row.FinancialYearName}}" disabled />
+                          <input type="text" hidden id="txtFinancialYearID_{{idx}}" value="{{row.FinancialYearID}}" [ngModelOptions]="{standalone: true}" class="form-control" [(ngModel)]="row.FinancialYearID" />
+                        </td>
+                        <td class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
+                          <input type="text" id="txtFeesAmount_{{idx}}" name="txtFeesAmount_{{idx}}" [ngModelOptions]="{standalone: true}" class="form-control" [(ngModel)]="row.FeesAmount" (keypress)="numberOnly($event)" />
+
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="card-footer text-end">
+            <button type="submit" class="btn btn-primary" id="btnSave" name="btnSave" (click)="SaveData()">Submit</button>
+            <button type="submit" class="btn btn-danger" id="btnReset" name="btnReset" (click)="ResetControl()">Reset</button>
+          </div>
+          <div class="card mb-0" *ngIf="AllDTEAffiliationCourseList.length>0">
+            <div class="card-header d-xxl-flex d-xl-flex d-md-flex d-sm-block justify-content-between align-items-center">
+              <b><i class="bi bi-table"></i>Affiliation Course List </b>
+            </div>
+            <div class="table-responsive">
+              <table class="table table-hover table-striped-columns mb-0" id="tabellist" #content>
+                <thead>
+                  <tr>
+                    <th>Sr.No.</th>
+                    <th>Course Type</th>
+                    <th>Course Name</th>
+                    <th *ngIf="this.CourseStatus !='Closed'">Course Intake</th>
+                    <th>Branch Type</th>
+                    <th *ngIf="this.CourseStatus !='Closed'">Shift</th>
+                    <th *ngIf="this.CollegeStatusName !='New'">Course Status</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let row of AllDTEAffiliationCourseList| tableSearchFilter:searchText; let idx=index;">
+                    <td style="width:40px !important"> {{idx+1}}</td>
+                    <td>{{row.AffiliationCourseTypeName}}</td>
+                    <td>{{row.CourseName}}</td>
+                    <td *ngIf="this.CourseStatus !='Closed'">{{row.CourseIntakeAsPerAICTELOA}}</td>
+                    <td>{{row.AffiliationBranchName}}</td>
+                    <td *ngIf="this.CourseStatus !='Closed'">{{row.SiftName}}</td>
+                    <td *ngIf="this.CollegeStatusName !='New'">{{row.AffiliationCourseStatus}}</td>
+                    <td>
+                      <div class="d-flex">
+                        <button type="button" (click)="Edit_OnClick(row.BTERCourseID)" [attr.disabled]="isDisabledGrid ? true : null" title="Edit"
+                                class="btn btn-sm btn-info">
+                          <i class="fa fa-edit"></i>
+                        </button>
+                        <button type="button" class="btn btn-sm btn-danger" title="Delete" (click)="Delete_OnClick(row.BTERCourseID)"
+                                [attr.disabled]="isDisabledGrid ? true : null">
+                          <i class="fa fa-trash"></i>
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+
+

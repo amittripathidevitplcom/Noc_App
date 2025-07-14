@@ -1,12 +1,9 @@
-<div class="card tabCard1 mb-0">
-  <div class="card-header">
-    <b><i class="bi bi-table"></i>&nbsp; Hospital Details</b>
-  </div>
+<div class="card tabCard1 mb-0">  
   <div class="card-body">
     <div class="clearfix"></div>
     <div class="card">
       <div class="card-header">
-        <b>Hospital Details</b>
+        <b>Hospital Facilities / Infrastructure</b>
       </div>
       <div class="card-body">
         <div class="row">
@@ -51,7 +48,7 @@
 
     <ng-template #mymodal let-modal>
       <div class="modal-header">
-        <h4 class="modal-title" id="modal-basic-title" style="font-size: 17px; font-weight: 600 !important;">Hospital Details</h4>
+        <h4 class="modal-title" id="modal-basic-title" style="font-size: 17px; font-weight: 600 !important;">Hospital Facilities / Infrastructure</h4>
         <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
           <i class="fa fa-close"></i>
         </button>
@@ -59,13 +56,17 @@
       <div class="modal-body">
         <div class="card-body">
           <div class="row mb-2">
-            <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-3">
+            <div class="col-lg-4 col-md-6 col-sm-12 col-12 mb-3">
               <label class="form-label" style="margin-right:15px"> <b>Whether the institution is a parent hospital or not :</b></label>
               <input class="form-control disabled" disabled value="{{HospitalData.ParentHospitalID==1?'Yes':'No'}}" />
             </div>
-            <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-3">
+            <div class="col-lg-4 col-md-6 col-sm-12 col-12 mb-3">
               <label class="form-label" style="margin-right:15px"> <b>Hospital Status :</b></label>
               <input class="form-control disabled" disabled value="{{HospitalData.HospitalStatus}}" />
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-12 col-12 mb-3">
+              <label class="form-label" style="margin-right:15px"> <b>Affiliated Hospital:</b></label>
+              <input class="form-control disabled" disabled value="{{HospitalData.IsAffiliatedHospital}}" />
             </div>
           </div>
           <div>
@@ -214,6 +215,203 @@
             <div class="card">
               <div class="card-header">
                 <b>
+                  <i class="bi bi-table"></i>&nbsp; Manage by of the Parental Hospital
+                </b>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="row mb-2">
+                    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                      <label><b>Manage by Name :</b></label>
+                      <input class="form-control disabled" disabled value="{{HospitalData.ManageByName}}" />
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                      <label><b>Manage by Contact No. :</b></label>
+                      <input class="form-control disabled" disabled value="{{HospitalData.ManageByPhone}}" />
+                    </div>
+                    <!-- address -->
+                    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                      <label class="form-label"><b>Address Line 1 :</b></label>
+                      <input class="form-control disabled" disabled value="{{HospitalData.AddressLine1_ManageBy}}" />
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                      <label class="form-label"><b>Address Line 2 :</b></label>
+                      <input class="form-control disabled" disabled value="{{HospitalData.AddressLine2_ManageBy}}" />
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                      <label class="form-label"><b>Area :</b></label>
+                      <input class="form-control disabled" disabled value="{{HospitalData.RuralUrban_ManageBy==1?'Rural':'Urben'}}" />
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                      <label class="form-label"><b>Division :</b></label>
+                      <input class="form-control disabled" disabled value="{{HospitalData.ManageDivisionName}}" />
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                      <label class="form-label"><b>District :</b></label>
+                      <input class="form-control disabled" disabled value="{{HospitalData.ManageDistrictName}}" />
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                      <label class="form-label"><b>Tehsil :</b></label>
+                      <input class="form-control disabled" disabled value="{{HospitalData.ManageTehsilName}}" />
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="HospitalData.RuralUrban_ManageBy==2">
+                      <label class="form-label"><b>City :</b></label>
+                      <input class="form-control disabled" disabled value="{{HospitalData.CityName_ManageBy}}" />
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="HospitalData.RuralUrban_ManageBy==1">
+                      <label class="form-label"><b>Panchayat Samiti :</b></label>
+                      <input class="form-control disabled" disabled value="{{HospitalData.ManagePanchyatSamitiName}}" />
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                      <label class="form-label"><b>City/Town/Village :</b></label>
+                      <input class="form-control disabled" disabled value="{{HospitalData.CityTownVillage_ManageBy}}" />
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                      <label class="form-label"><b>Pincode :</b></label>
+                      <input class="form-control disabled" disabled value="{{HospitalData.Pincode_ManageBy}}" />
+                    </div>
+                    <!-- end -->
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-header">
+                <b>
+                  <i class="bi bi-table"></i>&nbsp; Owner of the Parental Hospital
+                </b>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="row mb-2">
+                    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                      <label><b>Owner Name :</b></label>
+                      <input class="form-control disabled" disabled value="{{HospitalData.OwnerName}}" />
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                      <label><b>Owner Contact No. :</b></label>
+                      <input class="form-control disabled" disabled value="{{HospitalData.OwnerPhone}}" />
+                    </div>
+                    <!-- address -->
+                    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                      <label class="form-label"><b>Address Line 1 :</b></label>
+                      <input class="form-control disabled" disabled value="{{HospitalData.AddressLine1_Owner}}" />
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                      <label class="form-label"><b>Address Line 2 :</b></label>
+                      <input class="form-control disabled" disabled value="{{HospitalData.AddressLine2_Owner}}" />
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                      <label class="form-label"><b> Area :</b></label>
+                      <input class="form-control disabled" disabled value="{{HospitalData.RuralUrban_Owner==1?'Rural':'Urben'}}" />
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                      <label class="form-label"><b>Division :</b></label>
+                      <input class="form-control disabled" disabled value="{{HospitalData.OwnerDivisionName}}" />
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                      <label class="form-label"><b>District :</b></label>
+                      <input class="form-control disabled" disabled value="{{HospitalData.OwnerDistrictName}}" />
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                      <label class="form-label"><b>Tehsil :</b></label>
+                      <input class="form-control disabled" disabled value="{{HospitalData.OwnerTehsilName}}" />
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="HospitalData.RuralUrban_Owner==2">
+                      <label class="form-label"><b>City :</b></label>
+                      <input class="form-control disabled" disabled value="{{HospitalData.CityName_Owner}}" />
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="HospitalData.RuralUrban_Owner==1">
+                      <label class="form-label"><b>Panchayat Samiti :</b></label>
+                      <input class="form-control disabled" disabled value="{{HospitalData.OwnerPanchyatSamitiName}}" />
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                      <label class="form-label"><b>City/Town/Village :</b></label>
+                      <input class="form-control disabled" disabled value="{{HospitalData.CityTownVillage_Owner}}" />
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                      <label class="form-label"><b>Pincode :</b></label>
+                      <input class="form-control disabled" disabled value="{{HospitalData.Pincode_Owner}}" />
+                    </div>
+                    <!-- end -->
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="card" *ngIf="HospitalData.ParentHospitalID==1">
+              <div class="card-header">
+                <b>
+                  <i class="bi bi-table"></i>&nbsp; Other
+                </b>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-md-5 mb-5">
+                    <label><b> Whether the parent hospital is related to any other institution in the past or not :</b></label>
+                    <input class="form-control disabled" disabled value="{{HospitalData.ParentHospitalRelatedToOtherID==1?'Yes':'No'}}" />
+                  </div>
+                </div>
+                <div class="row" *ngIf="HospitalData.ParentHospitalRelatedToOtherID==1">
+                  <div class="col-md-12">
+                    <div class="row">
+                      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                        <label><b>Name of Institution :</b></label>
+                        <input class="form-control disabled" disabled value="{{HospitalData.InstitutionName}}" />
+                      </div>
+                      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                        <label><b>Organization Contact No. :</b></label>
+                        <input class="form-control disabled" disabled value="{{HospitalData.OrganizationPhone}}" />
+                      </div>
+                      <!-- address -->
+                      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                        <label class="form-label"><b>Address Line 1 :</b></label>
+                        <input class="form-control disabled" disabled value="{{HospitalData.AddressLine1_Other}}" />
+                      </div>
+                      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                        <label class="form-label"><b>Address Line 2 :</b></label>
+                        <input class="form-control disabled" disabled value="{{HospitalData.AddressLine2_Other}}" />
+                      </div>
+                      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                        <label class="form-label"><b>Area :</b></label>
+                        <input class="form-control disabled" disabled value="{{HospitalData.RuralUrban_Other==1?'Rural':'Urben'}}" />
+                      </div>
+                      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                        <label class="form-label"><b>Division :</b></label>
+                        <input class="form-control disabled" disabled value="{{HospitalData.OtherDivisionName}}" />
+                      </div>
+                      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                        <label class="form-label"><b>District :</b></label>
+                        <input class="form-control disabled" disabled value="{{HospitalData.OtherDistrictName}}" />
+                      </div>
+                      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                        <label class="form-label"><b>Tehsil :</b></label>
+                        <input class="form-control disabled" disabled value="{{HospitalData.OtherTehsilName}}" />
+                      </div>
+                      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="HospitalData.RuralUrban_Other==1">
+                        <label class="form-label"><b>City :</b></label>
+                        <input class="form-control disabled" disabled value="{{HospitalData.CityName_Other}}" />
+                      </div>
+                      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="HospitalData.RuralUrban_Other==1">
+                        <label class="form-label"><b>Panchayat Samiti :</b></label>
+                        <input class="form-control disabled" disabled value="{{HospitalData.OtherPanchyatSamitiName}}" />
+                      </div>
+                      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                        <label class="form-label"><b>City/Town/Village :</b></label>
+                        <input class="form-control disabled" disabled value="{{HospitalData.CityTownVillage_Other}}" />
+                      </div>
+                      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                        <label class="form-label"><b>Pincode :</b></label>
+                        <input class="form-control disabled" disabled value="{{HospitalData.Pincode_Other}}" />
+                      </div>
+                      <!-- end -->
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-header">
+                <b>
                   <i class="bi bi-table"></i>&nbsp; Pollution Detail
                 </b>
               </div>
@@ -237,7 +435,7 @@
             <div class="card">
               <div class="card-header">
                 <b>
-                  <i class="bi bi-table"></i>&nbsp; Distribution of beds in different areas
+                  <i class="bi bi-table"></i>&nbsp; Hospital Bed Distribution
                 </b>
               </div>
               <div class="card-body">
@@ -250,20 +448,20 @@
                   <div class="card-body">
                     <div class="row">
                       <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                        <label>General Medicine </label>
+                        <label>General Medicine (Minimum Required Bed 150) </label>
                         <input class="form-control disabled" disabled value="{{HospitalData.GeneralMedicinebed}}" />
 
                       </div>
                       <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                        <label>Paediatrics </label>
+                        <label>Paediatrics (Minimum Required Bed 75)</label>
                         <input class="form-control disabled" disabled value="{{HospitalData.PaediatricsBed}}" />
                       </div>
                       <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                        <label>Skin and V.D. </label>
+                        <label>Skin and V.D.(Minimum Required Bed 10)</label>
                         <input class="form-control disabled" disabled value="{{HospitalData.SkinandVDBed}}" />
                       </div>
                       <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                        <label>Psychiatry </label>
+                        <label>Psychiatry (Minimum Required Bed 15)</label>
                         <input class="form-control disabled" disabled value="{{HospitalData.PsychiatryBed}}" />
                       </div>
                     </div>
@@ -278,19 +476,19 @@
                   <div class="card-body">
                     <div class="row">
                       <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                        <label>General Surgery (including 10% Paediatric Surgery) </label>
+                        <label>General Surgery (including 10% Paediatric Surgery)(Minimum Required Bed 150)</label>
                         <input class="form-control disabled" disabled value="{{HospitalData.GeneralSurgeryBed}}" />
                       </div>
                       <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                        <label>Orthopaedics </label>
+                        <label>Orthopaedics (Minimum Required Bed 60)</label>
                         <input class="form-control disabled" disabled value="{{HospitalData.SurgeryOrthopaedicsBed}}" />
                       </div>
                       <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                        <label>Ophthalmology </label>
+                        <label>Ophthalmology (Minimum Required Bed 20)</label>
                         <input class="form-control disabled" disabled value="{{HospitalData.SurgeryOphthalmologyBed}}" />
                       </div>
                       <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                        <label>Otorhinolaryngology (ENT) </label>
+                        <label>Otorhinolaryngology (ENT)(Minimum Required Bed 20)</label>
                         <input class="form-control disabled" disabled value="{{HospitalData.SurgeryOtorhinolaryngologyBed}}" />
                       </div>
                     </div>
@@ -299,14 +497,18 @@
                 <div class="card">
                   <div class="card-header">
                     <b>
-                      &nbsp; OBG
+                      &nbsp;  OBG & ICU
                     </b>
                   </div>
                   <div class="card-body">
                     <div class="row">
                       <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                        <label>Obstetrics and Gynaecology</label>
+                        <label>Obstetrics and Gynaecology (Minimum Required Bed 75)</label>
                         <input class="form-control disabled" disabled value="{{HospitalData.ObstetricsGynaecologyBed}}" />
+                      </div>
+                      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                        <label>ICU (Minimum Required Bed 30)</label>
+                        <input class="form-control disabled" disabled value="{{HospitalData.ICU}}" />
                       </div>
                     </div>
                   </div>
@@ -314,38 +516,14 @@
                 <div class="card">
                   <div class="card-header">
                     <b>
-                      &nbsp; ICU
+                      &nbsp; Hospital Bed Distribution Grand Total
                     </b>
                   </div>
                   <div class="card-body">
                     <div class="row">
                       <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                        <label>ICU</label>
-                        <input class="form-control disabled" disabled value="{{HospitalData.ICUBed}}" />
-                      </div>
-                      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                        <label>ICCU</label>
-                        <input class="form-control disabled" disabled value="{{HospitalData.ICCUBed}}" />
-                      </div>
-                      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                        <label>RICU</label>
-                        <input class="form-control disabled" disabled value="{{HospitalData.RICUBed}}" />
-                      </div>
-                      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                        <label>SICU</label>
-                        <input class="form-control disabled" disabled value="{{HospitalData.SICUBed}}" />
-                      </div>
-                      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                        <label>NICU</label>
-                        <input class="form-control disabled" disabled value="{{HospitalData.NICUBed}}" />
-                      </div>
-                      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                        <label>PICU & Critical Care Burns ICU</label>
-                        <input class="form-control disabled" disabled value="{{HospitalData.PICUBed}}" />
-                      </div>
-                      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                        <label>Grand Total</label>
-                        <input class="form-control disabled" disabled value="{{HospitalData.ICUGrandTotalBed}}" />
+                        <label>Grand Total (Minimum Required Bed 605)</label>
+                        <input class="form-control disabled" disabled value="{{HospitalData.HospitalBedDistributionTotal}}" />
                       </div>
                     </div>
                   </div>
@@ -358,13 +536,204 @@
                   </div>
                   <div class="card-body">
                     <div class="row">
-                      <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
-                        <label>ICU [ICCUICU/Intensive Respiratory Care Unit/ PICU/NICU/Critical Care Burns Unit/Post-op Surgical Care Unit Obstetric HDU/ ICU</label>
+                      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                        <label>A) Major OT (Minimum Required Bed 09)</label>
+                        <input class="form-control disabled" disabled value="{{HospitalData.MajorOT}}" />
+                      </div>
+                      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                        <label>B) Minor OT (Minimum Required Bed 06)</label>
+                        <input class="form-control disabled" disabled value="{{HospitalData.MinorOT}}" />
+                      </div>
+                      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                        <label>C)ICU [ICCUICU/Intensive Respiratory Care Unit/ PICU/NICU/Critical Care Burns Unit/Post-op Surgical Care Unit Obstetric HDU/ ICU (Minimum Required Bed 30)</label>
                         <input class="form-control disabled" disabled value="{{HospitalData.OTICUBed}}" />
                       </div>
-                      <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
-                        <label>Casualty Beds</label>
+                      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                        <label>D) Casualty Beds</label>
                         <input class="form-control disabled" disabled value="{{HospitalData.CasualtyBeds}}" />
+                      </div>
+                      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                        <label>OT & ICU Grand Total</label>
+                        <input class="form-control disabled" disabled value="{{HospitalData.ICUGrandTotalBed}}" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="card">
+                  <div class="card-header">
+                    <b>
+                      &nbsp; Radiology
+                    </b>
+                  </div>
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                        <label>X-Ray static Unit 500≥mA (Minimum Required 2)</label>
+                        <input class="form-control disabled" disabled value="{{HospitalData.XRaystaticUnit500}}" />
+                      </div>
+                      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                        <label>Mobile / portable X– Ray Unit (Minimum Required 1)</label>
+                        <input class="form-control disabled" disabled value="{{HospitalData.MobileportableXRayUnit}}" />
+                      </div>
+                      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                        <label>IITV + Fluoroscopy (Minimum Required 1)</label>
+                        <input class="form-control disabled" disabled value="{{HospitalData.IITVFluoroscopy}}" />
+                      </div>
+                      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                        <label>USG (Colour) (Minimum Required 2)</label>
+                        <input class="form-control disabled" disabled value="{{HospitalData.USGColour}}" />
+                      </div>
+                      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                        <label>CT-Scan (Minimum Required 1)</label>
+                        <input class="form-control disabled" disabled value="{{HospitalData.CTScan}}" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="card">
+                  <div class="card-header">
+                    <b>
+                      &nbsp; Central Laboratory for Investigations
+                    </b>
+                  </div>
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                        <label> Biochemistry(Minimum Required 1)</label>
+                        <input class="form-control disabled" disabled value="{{HospitalData.Biochemistry}}" />
+                      </div>
+                      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                        <label>Microbiology & Pathology (Minimum Required 1)</label>
+                        <input class="form-control disabled" disabled value="{{HospitalData.MicrobiologyPathology}}" />
+                      </div>
+                      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                        <label>Haematology (Minimum Required 1)</label>
+                        <input class="form-control disabled" disabled value="{{HospitalData.Haematology}}" />
+                      </div>
+                      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                        <label> Clinical Pathology(Minimum Required 1)</label>
+                        <input class="form-control disabled" disabled value="{{HospitalData.ClinicalPathology}}" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="card">
+                  <div class="card-header">
+                    <b>
+                      &nbsp; Centrally Sterilization Services Department (CSSD)
+                    </b>
+                  </div>
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                        <label>CSSD</label>
+                        <input class="form-control disabled" disabled value="{{HospitalData.IsCSSD}}" />
+                      </div>
+                      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="HospitalData.IsCSSD=='Yes'">
+                        <label>CSSD Size</label>
+                        <input class="form-control disabled" disabled value="{{HospitalData.CSSD}}" />
+                      </div>
+                      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="HospitalData.IsCSSD=='Yes'">
+                        <label class="form-label"><b>CSSD Photo:</b></label>
+                        <div class="clearfix"></div>
+                        <a *ngIf="!HospitalData.CSSDPhoto.includes('.pdf')" data-fancybox="gallery" href="{{HospitalData.CSSDPhotoPath}}" data-caption="Image 10" title="click here to zoom">
+                          <img src="{{HospitalData.CSSDPhotoPath}}" alt="CSSD Photo" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                        </a>
+                        <a class="bi bi-file-earmark-pdf-fill" *ngIf="HospitalData.CSSDPhoto.includes('.pdf')" data-fancybox="gallery" href="{{HospitalData.CSSDPhotoPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+                <div class="card">
+                  <div class="card-header">
+                    <b>
+                      &nbsp; Laundry
+                    </b>
+                  </div>
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                        <label>Laundry</label>
+                        <input class="form-control disabled" disabled value="{{HospitalData.IsLaundry}}" />
+                      </div>
+                      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="HospitalData.IsLaundry=='Yes'">
+                        <label>Laundry Size</label>
+                        <input class="form-control disabled" disabled value="{{HospitalData.Laundry}}" />
+                      </div>
+                      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="HospitalData.IsLaundry=='Yes'">
+                        <label class="form-label"><b>Laundry Photo:</b></label>
+                        <div class="clearfix"></div>
+                        <a *ngIf="!HospitalData.LaundryPhoto.includes('.pdf')" data-fancybox="gallery" href="{{HospitalData.LaundryPhotoPath}}" data-caption="Image 10" title="click here to zoom">
+                          <img src="{{HospitalData.LaundryPhotoPath}}" alt="Laundry Photo" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                        </a>
+                        <a class="bi bi-file-earmark-pdf-fill" *ngIf="HospitalData.LaundryPhoto.includes('.pdf')" data-fancybox="gallery" href="{{HospitalData.LaundryPhotoPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+                <div class="card">
+                  <div class="card-header">
+                    <b>
+                      &nbsp; Pharmacy
+                    </b>
+                  </div>
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                        <label>Pharmacy</label>
+                        <input class="form-control disabled" disabled value="{{HospitalData.Pharmacy}}" />
+                      </div>
+
+                      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="HospitalData.Pharmacy=='Yes'">
+                        <label class="form-label"><b>Pharmacy Photo:</b></label>
+                        <div class="clearfix"></div>
+                        <a *ngIf="!HospitalData.PharmacyPhoto.includes('.pdf')" data-fancybox="gallery" href="{{HospitalData.PharmacyPhotoPath}}" data-caption="Image 10" title="click here to zoom">
+                          <img src="{{HospitalData.PharmacyPhotoPath}}" alt="Pharmacy Photo" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                        </a>
+                        <a class="bi bi-file-earmark-pdf-fill" *ngIf="HospitalData.PharmacyPhoto.includes('.pdf')" data-fancybox="gallery" href="{{HospitalData.PharmacyPhotoPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+                <div class="card">
+                  <div class="card-header">
+                    <b>
+                      &nbsp; CCTV & Biometric machines
+                    </b>
+                  </div>
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                        <label>CCTV Biometric machines</label>
+                        <input class="form-control disabled" disabled value="{{HospitalData.CCTVBiometricmachines}}" />
+                      </div>
+
+                      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="HospitalData.CCTVBiometricmachines=='Yes'">
+                        <label class="form-label"><b>Pharmacy Photo:</b></label>
+                        <div class="clearfix"></div>
+                        <a *ngIf="!HospitalData.CCTVBiometricPhoto.includes('.pdf')" data-fancybox="gallery" href="{{HospitalData.CCTVBiometricPhotoPath}}" data-caption="Image 10" title="click here to zoom">
+                          <img src="{{HospitalData.CCTVBiometricPhotoPath}}" alt="Pharmacy Photo" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                        </a>
+                        <a class="bi bi-file-earmark-pdf-fill" *ngIf="HospitalData.CCTVBiometricPhoto.includes('.pdf')" data-fancybox="gallery" href="{{HospitalData.CCTVBiometricPhotoPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+                <div class="card">
+                  <div class="card-header">
+                    <b>
+                      &nbsp; Hospital Information System
+                    </b>
+                  </div>
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                        <label>Hospital Information System</label>
+                        <input class="form-control disabled" disabled value="{{HospitalData.HospitalInformationSystem}}" />
                       </div>
                     </div>
                   </div>
@@ -583,203 +952,8 @@
               </div>
             </div>
 
-            <div class="card">
-              <div class="card-header">
-                <b>
-                  <i class="bi bi-table"></i>&nbsp; Manage by
-                </b>
-              </div>
-              <div class="card-body">
-                <div class="row">
-                  <div class="row mb-2">
-                    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                      <label><b>Manage by Name :</b></label>
-                      <input class="form-control disabled" disabled value="{{HospitalData.ManageByName}}" />
-                    </div>
-                    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                      <label><b>Manage by Contact No. :</b></label>
-                      <input class="form-control disabled" disabled value="{{HospitalData.ManageByPhone}}" />
-                    </div>
-                    <!-- address -->
-                    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                      <label class="form-label"><b>Address Line 1 :</b></label>
-                      <input class="form-control disabled" disabled value="{{HospitalData.AddressLine1_ManageBy}}" />
-                    </div>
-                    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                      <label class="form-label"><b>Address Line 2 :</b></label>
-                      <input class="form-control disabled" disabled value="{{HospitalData.AddressLine2_ManageBy}}" />
-                    </div>
-                    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                      <label class="form-label"><b>Area :</b></label>
-                      <input class="form-control disabled" disabled value="{{HospitalData.RuralUrban_ManageBy==1?'Rural':'Urben'}}" />
-                    </div>
-                    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                      <label class="form-label"><b>Division :</b></label>
-                      <input class="form-control disabled" disabled value="{{HospitalData.ManageDivisionName}}" />
-                    </div>
-                    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                      <label class="form-label"><b>District :</b></label>
-                      <input class="form-control disabled" disabled value="{{HospitalData.ManageDistrictName}}" />
-                    </div>
-                    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                      <label class="form-label"><b>Tehsil :</b></label>
-                      <input class="form-control disabled" disabled value="{{HospitalData.ManageTehsilName}}" />
-                    </div>
-                    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="HospitalData.RuralUrban_ManageBy==2">
-                      <label class="form-label"><b>City :</b></label>
-                      <input class="form-control disabled" disabled value="{{HospitalData.CityName_ManageBy}}" />
-                    </div>
-                    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="HospitalData.RuralUrban_ManageBy==1">
-                      <label class="form-label"><b>Panchayat Samiti :</b></label>
-                      <input class="form-control disabled" disabled value="{{HospitalData.ManagePanchyatSamitiName}}" />
-                    </div>
-                    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                      <label class="form-label"><b>City/Town/Village :</b></label>
-                      <input class="form-control disabled" disabled value="{{HospitalData.CityTownVillage_ManageBy}}" />
-                    </div>
-                    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                      <label class="form-label"><b>Pincode :</b></label>
-                      <input class="form-control disabled" disabled value="{{HospitalData.Pincode_ManageBy}}" />
-                    </div>
-                    <!-- end -->
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="card">
-              <div class="card-header">
-                <b>
-                  <i class="bi bi-table"></i>&nbsp; Owner
-                </b>
-              </div>
-              <div class="card-body">
-                <div class="row">
-                  <div class="row mb-2">
-                    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                      <label><b>Owner Name :</b></label>
-                      <input class="form-control disabled" disabled value="{{HospitalData.OwnerName}}" />
-                    </div>
-                    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                      <label><b>Owner Contact No. :</b></label>
-                      <input class="form-control disabled" disabled value="{{HospitalData.OwnerPhone}}" />
-                    </div>
-                    <!-- address -->
-                    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                      <label class="form-label"><b>Address Line 1 :</b></label>
-                      <input class="form-control disabled" disabled value="{{HospitalData.AddressLine1_Owner}}" />
-                    </div>
-                    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                      <label class="form-label"><b>Address Line 2 :</b></label>
-                      <input class="form-control disabled" disabled value="{{HospitalData.AddressLine2_Owner}}" />
-                    </div>
-                    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                      <label class="form-label"><b> Area :</b></label>
-                      <input class="form-control disabled" disabled value="{{HospitalData.RuralUrban_Owner==1?'Rural':'Urben'}}" />
-                    </div>
-                    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                      <label class="form-label"><b>Division :</b></label>
-                      <input class="form-control disabled" disabled value="{{HospitalData.OwnerDivisionName}}" />
-                    </div>
-                    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                      <label class="form-label"><b>District :</b></label>
-                      <input class="form-control disabled" disabled value="{{HospitalData.OwnerDistrictName}}" />
-                    </div>
-                    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                      <label class="form-label"><b>Tehsil :</b></label>
-                      <input class="form-control disabled" disabled value="{{HospitalData.OwnerTehsilName}}" />
-                    </div>
-                    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="HospitalData.RuralUrban_Owner==2">
-                      <label class="form-label"><b>City :</b></label>
-                      <input class="form-control disabled" disabled value="{{HospitalData.CityName_Owner}}" />
-                    </div>
-                    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="HospitalData.RuralUrban_Owner==1">
-                      <label class="form-label"><b>Panchayat Samiti :</b></label>
-                      <input class="form-control disabled" disabled value="{{HospitalData.OwnerPanchyatSamitiName}}" />
-                    </div>
-                    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                      <label class="form-label"><b>City/Town/Village :</b></label>
-                      <input class="form-control disabled" disabled value="{{HospitalData.CityTownVillage_Owner}}" />
-                    </div>
-                    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                      <label class="form-label"><b>Pincode :</b></label>
-                      <input class="form-control disabled" disabled value="{{HospitalData.Pincode_Owner}}" />
-                    </div>
-                    <!-- end -->
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="card" *ngIf="HospitalData.ParentHospitalID==1">
-              <div class="card-header">
-                <b>
-                  <i class="bi bi-table"></i>&nbsp; Other
-                </b>
-              </div>
-              <div class="card-body">
-                <div class="row">
-                  <div class="col-md-5 mb-5">
-                    <label><b> Whether the parent hospital is related to any other institution in the past or not :</b></label>
-                    <input class="form-control disabled" disabled value="{{HospitalData.ParentHospitalRelatedToOtherID==1?'Yes':'No'}}" />
-                  </div>
-                </div>
-                <div class="row" *ngIf="HospitalData.ParentHospitalRelatedToOtherID==1">
-                  <div class="col-md-12">
-                    <div class="row">
-                      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                        <label><b>Name of Institution :</b></label>
-                        <input class="form-control disabled" disabled value="{{HospitalData.InstitutionName}}" />
-                      </div>
-                      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                        <label><b>Organization Contact No. :</b></label>
-                        <input class="form-control disabled" disabled value="{{HospitalData.OrganizationPhone}}" />
-                      </div>
-                      <!-- address -->
-                      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                        <label class="form-label"><b>Address Line 1 :</b></label>
-                        <input class="form-control disabled" disabled value="{{HospitalData.AddressLine1_Other}}" />
-                      </div>
-                      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                        <label class="form-label"><b>Address Line 2 :</b></label>
-                        <input class="form-control disabled" disabled value="{{HospitalData.AddressLine2_Other}}" />
-                      </div>
-                      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                        <label class="form-label"><b>Area :</b></label>
-                        <input class="form-control disabled" disabled value="{{HospitalData.RuralUrban_Other==1?'Rural':'Urben'}}" />
-                      </div>
-                      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                        <label class="form-label"><b>Division :</b></label>
-                        <input class="form-control disabled" disabled value="{{HospitalData.OtherDivisionName}}" />
-                      </div>
-                      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                        <label class="form-label"><b>District :</b></label>
-                        <input class="form-control disabled" disabled value="{{HospitalData.OtherDistrictName}}" />
-                      </div>
-                      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                        <label class="form-label"><b>Tehsil :</b></label>
-                        <input class="form-control disabled" disabled value="{{HospitalData.OtherTehsilName}}" />
-                      </div>
-                      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="HospitalData.RuralUrban_Other==1">
-                        <label class="form-label"><b>City :</b></label>
-                        <input class="form-control disabled" disabled value="{{HospitalData.CityName_Other}}" />
-                      </div>
-                      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="HospitalData.RuralUrban_Other==1">
-                        <label class="form-label"><b>Panchayat Samiti :</b></label>
-                        <input class="form-control disabled" disabled value="{{HospitalData.OtherPanchyatSamitiName}}" />
-                      </div>
-                      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                        <label class="form-label"><b>City/Town/Village :</b></label>
-                        <input class="form-control disabled" disabled value="{{HospitalData.CityTownVillage_Other}}" />
-                      </div>
-                      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                        <label class="form-label"><b>Pincode :</b></label>
-                        <input class="form-control disabled" disabled value="{{HospitalData.Pincode_Other}}" />
-                      </div>
-                      <!-- end -->
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+
+
 
           </div>
         </div>

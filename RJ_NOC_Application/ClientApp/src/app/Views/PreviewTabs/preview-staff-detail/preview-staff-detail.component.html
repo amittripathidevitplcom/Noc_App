@@ -9,7 +9,7 @@
         <b>Staff Details</b>
       </div>
       <div class="card-body">
-        <div class="row">
+        <div class="row" *ngIf="SelectedDepartmentID!=5">
           <div class="col-md-3 mb-2">
             <label>Total</label>
             <input type="text" class="form-control" disabled [(ngModel)]="TotalStaffDetail" />
@@ -23,6 +23,24 @@
             <input type="text" class="form-control" disabled [(ngModel)]="TotalTeachingStaffDetail" />
           </div>
         </div>
+        <div class="row" *ngIf="SelectedDepartmentID ==5">
+          <div class="col-md-3 mb-2">
+            <label>Total</label>
+            <input type="text" class="form-control" disabled [(ngModel)]="TotalStaffDetail" />
+          </div>
+          <div class="col-md-3 mb-2">
+            <label>Doctors</label>
+            <input type="text" class="form-control" disabled [(ngModel)]="TotalDoctorsStaffDetail" />
+          </div>
+          <div class="col-md-3 mb-2">
+            <label>Nursing Staff</label>
+            <input type="text" class="form-control" disabled [(ngModel)]="TotalNursingStaffDetail" />
+          </div>
+          <div class="col-md-3 mb-2">
+            <label>Paramedical & Non-Teaching staff</label>
+            <input type="text" class="form-control" disabled [(ngModel)]="TotalParamedicalNonTeachingStaffDetail" />
+          </div>
+        </div>
         <div class="row">
           <div class="col-md-12">
             <div class="table-responsive">
@@ -34,7 +52,7 @@
                     <th>Name Of Person</th>
                     <th>Mobile No.</th>
                     <th>Highest Qualification</th>
-                    <th *ngIf="SelectedDepartmentID !=5" >Subject</th>
+                    <th *ngIf="SelectedDepartmentID !=5">Subject</th>
                     <th>Designation</th>
                     <!--<th>Date of Birth</th>-->
                     <th>Action</th>

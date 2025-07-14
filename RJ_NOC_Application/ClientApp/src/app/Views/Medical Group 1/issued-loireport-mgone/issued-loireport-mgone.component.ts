@@ -43,9 +43,10 @@ export class IssuedLOIReportMGOneComponent implements OnInit {
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     this.QueryStringStatus = this.router.snapshot.paramMap.get('Status')?.toString();
     this.AadhaarNo = this.sSOLoginDataModel.AadhaarId
+    console.log(this.sSOLoginDataModel);
     await this.GetLOIApplicationList(this.sSOLoginDataModel.RoleID, this.sSOLoginDataModel.UserID);
   }
-
+ 
   async GetLOIApplicationList(RoleId: number, UserID: number) {
     try {
       this.loaderService.requestStarted();
@@ -131,6 +132,7 @@ export class IssuedLOIReportMGOneComponent implements OnInit {
   public selectedFileName: string = '';
   public selectedLOIID: number = 0;
   async SendEsignOTP(FileName: string, LOIID: number) {
+    debugger;
     this.selectedFileName = '';
     this.UserOTP = '';
     try {

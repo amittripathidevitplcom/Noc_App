@@ -135,4 +135,11 @@ export class CollegeService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
+  public async GetBterCollegeData(CollegeID: number) {
+    const headers = { 'content-type': 'application/json' }
+    return await this.http.get(this.APIUrl + "/GetBterCollegeData/" + CollegeID, { 'headers': headers })
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
 }

@@ -56,7 +56,7 @@ export class GlobalConstants {
   //public static SystemGeneratedPDFPathURL: string = "http://172.22.33.75/api/SystemGeneratedPDF/"
   //public static SSOURL: string = "https://ssotest.rajasthan.gov.in/signin";
   //public static ApplicationTitle: string = "rj_noc";
-  //public static RPPRequstURL: string = "http://uat.rpp.rajasthan.gov.in/payments/v1/init";
+  //public static RPPRequstURL: string = "http://uat.rpp.rajasthan.gov.in/payments/v1/init";  
   //Live
   public static apiURL: string = "https://nocapi.rajasthan.gov.in/api/api/";
   public static BacktoSSOURL: string = "https://nocapi.rajasthan.gov.in/sso_landing_page.aspx?backtosso=yes";

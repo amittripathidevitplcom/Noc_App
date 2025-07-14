@@ -85,7 +85,7 @@
 
 
         <div class="row pt-3">
-          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="SelectedDepartmentID !=5">
             <label class="form-label" style="margin-right:15px">Select Type :</label>
             <div class="form-check form-check-inline">
               <input class="form-check-input" type="radio" name="rdTeachingType" id="rdTeachingTypeTeaching" [(ngModel)]="request.TeachingType" value="Teaching" formControlName="rdTeachingType" (change)="IsChnageTechingType('Teaching')">
@@ -94,7 +94,26 @@
             <div class="form-check form-check-inline">
               <input class="form-check-input" type="radio" name="rdTeachingType" id="rdTeachingTypeNonTeaching" value="NonTeaching" [(ngModel)]="request.TeachingType" formControlName="rdTeachingType" (change)="IsChnageTechingType('NonTeaching')">
               <label class="form-check-label" for="rdTeachingTypeNonTeaching">Non Teaching</label>
+            </div>           
+            <div *ngIf="isSubmitted&&form.rdTeachingType.errors" class="text-danger">
+              <p *ngIf="form.rdTeachingType.errors.required"> This field is required .!</p>
             </div>
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="SelectedDepartmentID==5">
+            <label class="form-label" style="margin-right:15px">Select Type :</label>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="rdTeachingType" id="rdTeachingTypeTeaching" [(ngModel)]="request.TeachingType" value="Doctors" formControlName="rdTeachingType" (change)="IsChnageTechingType('Doctors')">
+              <label class="form-check-label" for="rdTeachingTypeTeaching">Doctors</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="rdTeachingType" id="rdTeachingTypeNursingStaff" value="NursingStaff" [(ngModel)]="request.TeachingType" formControlName="rdTeachingType" (change)="IsChnageTechingType('NursingStaff')">
+              <label class="form-check-label" for="rdTeachingTypeNursingStaff">Nursing Staff</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="rdTeachingType" id="rdTeachingTypeNonTeaching" value="ParamedicalNonTeaching" [(ngModel)]="request.TeachingType" formControlName="rdTeachingType" (change)="IsChnageTechingType('ParamedicalNonTeaching')">
+              <label class="form-check-label" for="rdTeachingTypeNonTeaching">Paramedical & Non-Teaching staff</label>
+            </div>
+
             <div *ngIf="isSubmitted&&form.rdTeachingType.errors" class="text-danger">
               <p *ngIf="form.rdTeachingType.errors.required"> This field is required .!</p>
             </div>
@@ -662,7 +681,7 @@
           <b>Staff Details</b>
         </div>
         <div class="card-body">
-          <div class="row">
+          <div class="row" *ngIf="SelectedDepartmentID!=5">
             <div class="col-md-3 mb-2">
               <label>Total</label>
               <input type="text" class="form-control" disabled [(ngModel)]="TotalStaffDetail" />
@@ -674,6 +693,24 @@
             <div class="col-md-3 mb-2">
               <label>Teaching</label>
               <input type="text" class="form-control" disabled [(ngModel)]="TotalTeachingStaffDetail" />
+            </div>           
+          </div>
+          <div class="row" *ngIf="SelectedDepartmentID ==5">
+            <div class="col-md-3 mb-2">
+              <label>Total</label>
+              <input type="text" class="form-control" disabled [(ngModel)]="TotalStaffDetail" />
+            </div>
+            <div class="col-md-3 mb-2">
+              <label>Doctors</label>
+              <input type="text" class="form-control" disabled [(ngModel)]="TotalDoctorsStaffDetail" />
+            </div>
+            <div class="col-md-3 mb-2">
+              <label>Nursing Staff</label>
+              <input type="text" class="form-control" disabled [(ngModel)]="TotalNursingStaffDetail" />
+            </div>
+            <div class="col-md-3 mb-2">
+              <label>Paramedical & Non-Teaching staff</label>
+              <input type="text" class="form-control" disabled [(ngModel)]="TotalParamedicalNonTeachingStaffDetail" />
             </div>
           </div>
           <div class="row">

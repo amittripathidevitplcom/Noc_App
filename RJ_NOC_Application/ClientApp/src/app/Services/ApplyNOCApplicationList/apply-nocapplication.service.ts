@@ -5,6 +5,7 @@ import { catchError, } from 'rxjs/operators';
 import { ApplicationPenaltyDataModel, CommiteeInspection_RNCCheckList_DataModel, NOCIssuedForMGOneDataModel, NOCIssuedRequestDataModel, ParameterFeeMaster, NOCIssuedForAHDegreeDataModel } from '../../Models/ApplyNOCApplicationDataModel';
 import { DocumentScrutinyDataModel, BTERDocumentScrutinyDataModel } from '../../Models/DocumentScrutinyDataModel';
 import { GlobalConstants } from '../../Common/GlobalConstants';
+import { PresentCollegeStatusDataModel } from '../../Models/CollegeDataModel';
 
 @Injectable({
   providedIn: 'root'
@@ -355,6 +356,16 @@ export class ApplyNOCApplicationService {
       })
     };
     return await this.http.get(this.APIUrl + "/GetAppliedParameterEssentialityForAffiliationorder/")
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+
+  public async SaveCollegePresentCollegeStatusForL1(request: PresentCollegeStatusDataModel) {
+    const headers = { 'content-type': 'application/json' }
+    const body = JSON.stringify(request);
+    console.log(request);
+    return await this.http.post(this.APIUrl + '/SaveCollegePresentCollegeStatusForL1/', body, { 'headers': headers })
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();

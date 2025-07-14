@@ -98,6 +98,10 @@ export class HospitalDetailComponent implements OnInit {
   public showParentNotDocument: boolean = false;
   public ParentNotDocumentValidationMessage: string = '';
   public PollutionCertificateValidationMessage: string = '';
+  public CSSDPhotoValidationMessage: string = '';
+  public LaundryPhotoValidationMessage: string = '';
+  public CCTVBiometricPhotoValidationMessage: string = '';
+  public PharmacyPhotoValidationMessage: string = '';
   public NotPollutionCertificateValidationMessage: string = '';
   public showParentNotConsentForm: boolean = false;
   public ParentNotConsentFormValidationMessage: string = '';
@@ -147,24 +151,25 @@ export class HospitalDetailComponent implements OnInit {
         txtManageByPhone: ['', [Validators.required, Validators.pattern(this.LandLineRegex)]],
         txtOwnerName: ['', Validators.required],
         txtOwnerPhone: ['', [Validators.required, Validators.pattern(this.LandLineRegex)]],
-        txtGeneralMedicine: ['', [Validators.required]],
-        txtPaediatricsBed: ['', [Validators.required]],
-        txtSkinandVDBed: ['', [Validators.required]],
-        txtPsychiatryBed: ['', [Validators.required]],
+        
+        txtGeneralMedicine: ['', [Validators.required, Validators.min(150)]],
+        txtPaediatricsBed: ['', [Validators.required, Validators.min(75)]],
+        txtSkinandVDBed: ['', [Validators.required, Validators.min(10)]],
+        txtPsychiatryBed: ['', [Validators.required, Validators.min(15)]],
 
-        txtGeneralSurgery: ['', [Validators.required]],
-        txtSurgeryOrthopaedicsBed: ['', [Validators.required]],
-        txtSurgeryOphthalmologyBed: ['', [Validators.required]],
-        txtSurgeryOtorhinolaryngologyBed: ['', [Validators.required]],
+        txtGeneralSurgery: ['', [Validators.required, Validators.min(150)]],
+        txtSurgeryOrthopaedicsBed: ['', [Validators.required, Validators.min(60)]],
+        txtSurgeryOphthalmologyBed: ['', [Validators.required, Validators.min(20)]],
+        txtSurgeryOtorhinolaryngologyBed: ['', [Validators.required, Validators.min(20)]],
 
-        txtObstetricsGynaecologyBed: ['', [Validators.required]],
+        txtObstetricsGynaecologyBed: ['', [Validators.required, Validators.min(75)]],
 
-        txtICUBed: ['', [Validators.required]],
-        txtICCUBed: ['', [Validators.required]],
-        txtRICUBed: ['', [Validators.required]],
-        txtSICUBed: ['', [Validators.required]],
-        txtNICUBed: ['', [Validators.required]],
-        txtPICUBed: ['', [Validators.required]],
+        txtICUBed: [''],
+        txtICCUBed: [''],
+        txtRICUBed: [''],
+        txtSICUBed: [''],
+        txtNICUBed: [''],
+        txtPICUBed: [''],
         txtOTICUBed: ['', [Validators.required]],
         txtCasualtyBeds: ['', [Validators.required]],
         txtICUGrandTotalBed: [{ value: '', disabled: true }],
@@ -278,6 +283,32 @@ export class HospitalDetailComponent implements OnInit {
 
         txtPollutionUnitID: ['', Validators.required],
         fPollutionCertificate: [''],
+        //16-06-2025
+        //txtCardioThoracicTotalBeds: ['', [Validators.required, Validators.min(50)]],
+        txtICU: ['', [Validators.required, Validators.min(30)]],        
+        txtHospitalBedDistributionTotal: [{ value: '', disabled: true }],
+        txtMajorOT: ['', Validators.required],
+        txtMinorOT: ['', Validators.required],
+        txtXRaystaticUnit500: ['', Validators.required],
+        txtMobileportableXRayUnit: ['', Validators.required],
+        txtIITVFluoroscopy: ['', Validators.required],
+        txtUSGColour: ['', Validators.required],
+        txtCTScan: ['', Validators.required],
+        txtBiochemistry: ['', Validators.required],
+        txtCSSD: ['', Validators.required],
+        txtLaundry: ['', Validators.required],
+        rdCCTVBiometricmachines: [''],
+        rdPharmacy: [''],
+        rdIsLaundry: [''],
+        rdIsCSSD: [''],
+        rdHospitalInformationSystem: [''],
+        fCSSDPhoto: [''],
+        fLaundryPhoto: [''],
+        fPharmacyPhoto: [''],
+        fCCTVBiometricPhoto: [''],
+        txtMicrobiologyPathology: ['', Validators.required],
+        txtHaematology: ['', Validators.required],
+        txtClinicalPathology: ['', Validators.required],
       })
 
     this.HospitalParentNotForm = this.formBuilder.group(
@@ -314,7 +345,7 @@ export class HospitalDetailComponent implements OnInit {
         txtICUBed: ['', [Validators.required]],
         txtICCUBed: ['', [Validators.required]],
         txtRICUBed: ['', [Validators.required]],
-        txtSICUBed: ['', [Validators.required]],
+        txtSICUBed: [''],
         txtNICUBed: ['', [Validators.required]],
         txtPICUBed: ['', [Validators.required]],
         txtOTICUBed: ['', [Validators.required]],
@@ -1082,6 +1113,62 @@ export class HospitalDetailComponent implements OnInit {
     if (this.request.PollutionCertificate == '') {
       this.isFormValid = false;
     }
+    if (this.request.Pharmacy == '') {
+      this.toastr.warning("Please Select Pharmacy");
+      return;
+    }
+    if (this.request.IsCSSD == '') {
+      this.toastr.warning("Please Select CSSD");
+      return;
+    } else if (this.request.IsCSSD == 'Yes') {
+      if (this.request.CSSD<=0) {
+        this.toastr.warning("Please Input CSSD Size");
+        return;
+      }
+      if (this.request.CSSDPhoto == '') {
+        this.toastr.warning("Please Select Image");
+        return;
+      }
+       
+    }
+    if (this.request.IsLaundry == '') {
+      this.toastr.warning("Please Select Laundry");
+      return;
+    } else if (this.request.IsLaundry == 'Yes') {
+      if (this.request.Laundry <= 0) {
+        this.toastr.warning("Please Input Laundry Size");
+        return;
+      }
+      if (this.request.LaundryPhoto == '') {
+        this.toastr.warning("Please Select Image");
+        return;
+      }
+
+    }
+    if (this.request.Pharmacy == '') {
+      this.toastr.warning("Please Select Pharmacy");
+      return;
+    }
+    else if (this.request.Pharmacy=='Yes') {
+      if (this.request.PharmacyPhoto == '') {
+        this.toastr.warning("Please Select Image");
+        return;
+      }
+    }
+    if (this.request.CCTVBiometricmachines == '') {
+      this.toastr.warning("Please Select CCTV Biometric machines");
+      return;
+    }
+    else if (this.request.CCTVBiometricmachines == 'Yes') {
+      if (this.request.CCTVBiometricPhoto == '') {
+        this.toastr.warning("Please Select Image");
+        return;
+      }
+    }
+    if (this.request.HospitalInformationSystem == '') {
+      this.toastr.warning("Please Select Hospital Information System");
+      return;
+    }
     if (!this.isFormValid) { return }
     if (this.request.HospitalID > 0) {
       this.request.ModifyBy = 1;
@@ -1251,7 +1338,43 @@ export class HospitalDetailComponent implements OnInit {
       this.request.HospitalStatus = '';
       this.request.IsAffiliatedHospital = '';
       this.ResetFileAndValidation('All', '', '', '', '', false);
-
+      this.request.ICU=0;
+      this.request.HospitalBedDistributionTotal=0;
+      this.request.MajorOT=0;
+      this.request.MinorOT=0;
+      this.request.XRaystaticUnit500=0;
+      this.request.MobileportableXRayUnit=0;
+      this.request.IITVFluoroscopy=0;
+      this.request.USGColour=0;
+      this.request.CTScan=0;
+      this.request.Biochemistry=0;
+      this.request.CSSD=0;
+      this.request.Laundry=0;
+      this.request.CCTVBiometricmachines='';
+      this.request.Pharmacy='';
+      this.request.HospitalInformationSystem='';
+      this.request.ICUBed = 0;
+      this.request.ICCUBed=0;
+      this.request.RICUBed=0;
+      this.request.SICUBed=0;
+      this.request.NICUBed=0;
+      this.request.PICUBed=0;
+      this.request.ICUGrandTotalBed= 0;
+      this.request.OTICUBed = 0;
+      this.request.CasualtyBeds = 0;
+      this.request.GeneralMedicinebed = 0;
+      this.request.PaediatricsBed = 0;
+      this.request.SkinandVDBed = 0;
+      this.request.PsychiatryBed = 0;
+      this.request.GeneralSurgeryBed = 0;
+      this.request.SurgeryOrthopaedicsBed = 0;
+      this.request.SurgeryOphthalmologyBed = 0;
+      this.request.SurgeryOtorhinolaryngologyBed = 0;
+      this.request.ObstetricsGynaecologyBed = 0;
+      this.request.PollutionUnitID ='';
+      this.request.PollutionCertificate ='';
+      this.request.Dis_PollutionCertificate ='';
+      this.request.PollutionCertificatePath ='';
 
       this.DistrictList_ManageBy = [];
       this.DistrictList_Owner = [];
@@ -1750,7 +1873,7 @@ export class HospitalDetailComponent implements OnInit {
       this.file = event.target.files[0];
       if (this.file) {
         // (Type != 'ConsentForm' && (this.file.type === 'image/jpeg' || this.file.type === 'image/jpg')) ||
-        if (this.file.type === 'application/pdf') {
+        if (this.file.type === 'application/pdf' || this.file.type === 'image/jpeg' || this.file.type === 'image/jpg') {
           //size validation
           if (this.file.size > 2000000) {
             this.ResetFileAndValidation(Type, 'Select less then 2MB File', '', '', '', false);
@@ -1760,10 +1883,11 @@ export class HospitalDetailComponent implements OnInit {
             this.ResetFileAndValidation(Type, 'Select more then 100kb File', '', '', '', false);
             return
           }
+
         }
         else {// type validation
           //'Select Only ' + (Type == 'ConsentForm' ? 'pdf file' : 'jpg/jpeg')
-          this.ResetFileAndValidation(Type, 'Select Only pdf', '', '', '', false);
+          this.ResetFileAndValidation(Type, 'Select Only pdf/Jpeg/jpg', '', '', '', false);
           return
         }
         // upload to server folder
@@ -1811,6 +1935,18 @@ export class HospitalDetailComponent implements OnInit {
       }
       else if (Type == 'NotPollutionCertificate') {
         path = this.requestNot.PollutionCertificate;
+      }
+      else if (Type == 'CSSDPhoto') {
+        path = this.request.CSSDPhoto;
+      }
+      else if (Type == 'LaundryPhoto') {
+        path = this.request.LaundryPhoto;
+      }
+      else if (Type == 'PharmacyPhoto') {
+        path = this.request.PharmacyPhoto;
+      }
+      else if (Type == 'CCTVBiometricPhoto') {
+        path = this.request.CCTVBiometricPhoto;
       }
       // delete from server folder
       this.fileUploadService.DeleteDocument(path).then((data: any) => {
@@ -1874,6 +2010,38 @@ export class HospitalDetailComponent implements OnInit {
         this.requestNot.Dis_PollutionCertificate = dis_name;
         this.requestNot.PollutionCertificatePath = path;
         this.file = document.getElementById('fPollutionCertificate');
+        this.file.value = '';
+      }
+      if (type == 'CSSDPhoto' || type == 'All') {
+        this.CSSDPhotoValidationMessage = msg;
+        this.request.CSSDPhoto = name;
+        this.request.Dis_CSSDPhoto = dis_name;
+        this.request.CSSDPhotoPath = path;
+        this.file = document.getElementById('fCSSDPhoto');
+        this.file.value = '';
+      }
+      if (type == 'LaundryPhoto' || type == 'All') {
+        this.LaundryPhotoValidationMessage = msg;
+        this.request.LaundryPhoto = name;
+        this.request.Dis_LaundryPhoto = dis_name;
+        this.request.LaundryPhotoPath = path;
+        this.file = document.getElementById('fLaundryPhoto');
+        this.file.value = '';
+      }
+      if (type == 'PharmacyPhoto' || type == 'All') {
+        this.PharmacyPhotoValidationMessage = msg;
+        this.request.PharmacyPhoto = name;
+        this.request.Dis_PharmacyPhoto = dis_name;
+        this.request.PharmacyPhotoPath = path;
+        this.file = document.getElementById('fPharmacyPhoto');
+        this.file.value = '';
+      }
+      if (type == 'CCTVBiometricPhoto' || type == 'All') {
+        this.CCTVBiometricPhotoValidationMessage = msg;
+        this.request.CCTVBiometricPhoto = name;
+        this.request.Dis_CCTVBiometricPhoto = dis_name;
+        this.request.CCTVBiometricPhotoPath = path;
+        this.file = document.getElementById('fCCTVBiometricPhoto');
         this.file.value = '';
       }
 
@@ -2178,11 +2346,17 @@ export class HospitalDetailComponent implements OnInit {
   }
 
   async ICUGrandTotalBed() {
-    this.request.ICUGrandTotalBed = Number(this.request.ICUBed) + Number(this.request.ICCUBed) + Number(this.request.RICUBed) + Number(this.request.SICUBed)
-      + Number(this.request.NICUBed) + Number(this.request.PICUBed);
+    this.request.ICUGrandTotalBed = Number(this.request.MajorOT) + Number(this.request.MinorOT) + Number(this.request.OTICUBed) + Number(this.request.CasualtyBeds);
   }
   async ParentNotICUGrandTotalBed() {
     this.requestNot.ICUGrandTotalBed = Number(this.requestNot.ICUBed) + Number(this.requestNot.ICCUBed) + Number(this.requestNot.RICUBed) + Number(this.requestNot.SICUBed)
       + Number(this.requestNot.NICUBed) + Number(this.requestNot.PICUBed);
+  }
+  async HospitalbedDistributionGrandTotalBed() {
+    debugger;
+    this.request.HospitalBedDistributionTotal = Number(this.request.GeneralMedicinebed) + Number(this.request.PaediatricsBed) + Number(this.request.SkinandVDBed) + Number(this.request.PsychiatryBed) + Number(this.request.GeneralSurgeryBed) + Number(this.request.SurgeryOrthopaedicsBed) + Number(this.request.SurgeryOphthalmologyBed) + Number(this.request.SurgeryOtorhinolaryngologyBed) + Number(this.request.ObstetricsGynaecologyBed) + Number(this.request.ICU)
+  }
+  async HospitalbedDistributionGrandTotalBed1() {
+    debugger;
   }
 }

@@ -31,6 +31,7 @@ export class ApplyNOCMGOneComponent implements OnInit {
   public QueryStringStatus: any = '';
   public SelectedApplyNOCID: number = 0;
   public SearchRecordID: string = '';
+  public LOIApplicationDetails: any[] = [];
   constructor(private loaderService: LoaderService, private toastr: ToastrService,
     private commonMasterService: CommonMasterService, private collegeDocumentService: CollegeDocumentService, private router: ActivatedRoute, private routers: Router, private formBuilder: FormBuilder,
     private fileUploadService: FileUploadService, private applyNocParameterService: ApplyNocParameterService) { }
@@ -59,17 +60,19 @@ export class ApplyNOCMGOneComponent implements OnInit {
     this.GetDocuments('ApplyNOCMgOne')
   }
   async GetDocuments(Type: string) {
+    debugger;
     try {
       this.loaderService.requestStarted();
-      await this.collegeDocumentService.GetList(this.SelectedDepartmentID, this.SelectedCollageID, Type, 0)
+      await this.collegeDocumentService.GetListLOI(this.SelectedDepartmentID, this.SelectedCollageID, Type, 0)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
-          this.request.DocumentDetails = data['Data'][0]['data'];
-          console.log(this.request.DocumentDetails)
-
+          this.LOIApplicationDetails = data['Data'][0]['data'];
+         // console.log('Amit');
+         // console.log(this.LOIApplicationDetails)
+         // console.log('Amit1');
         }, error => console.error(error));
     }
     catch (Ex) {
@@ -221,29 +224,44 @@ export class ApplyNOCMGOneComponent implements OnInit {
       let isValid = true;
       this.isSubmitted = true;
       //set
-      this.request.DocumentDetails.forEach(item => {
-        if (item.IsMandatory == true && item.FileName == '') {
-          this.IsValid = false;
-        }
-      });
+      //this.request.DocumentDetails.forEach(item => {
+      //  if (item.IsMandatory == true && item.FileName == '') {
+      //    this.IsValid = false;
+      //  }
+      //});
       if (!this.IsTermsChecked) {
         this.toastr.warning('Please accept terms and condition');
         isValid = false;
       }
       await this.CheckTabsEntry();
-      if (this.CheckTabsEntryData['LandInformation'] <= 0) {
+      if (this.CheckTabsEntryData['CourseDetails'] <= 0) {
+        this.toastr.warning('Please Fill Course Details');
+        isValid = false;
+      }if (this.CheckTabsEntryData['LandInformation'] <= 0) {
         this.toastr.warning('Please Fill land Details');
+        isValid = false;
+      } if (this.CheckTabsEntryData['BuildingDocuments'] <= 0) {
+        this.toastr.warning('Please Fill Building Documents');
+        isValid = false;
+      } if (this.CheckTabsEntryData['MedicalCollegeFID'] <= 0) {
+        this.toastr.warning('Please Fill Infrastructure Medical College Facilities');
+        isValid = false;
+      } if (this.CheckTabsEntryData['HospitalDetails'] <= 0) {
+        this.toastr.warning('Please Fill Hospital Details');
+        isValid = false;
+      } if (this.CheckTabsEntryData['ClinicalLab'] <= 0) {
+        this.toastr.warning('Please Fill Clinical Material Facilities');
+        isValid = false;
+      } if (this.CheckTabsEntryData['HostelDetails'] <= 0) {
+        this.toastr.warning('Please Fill Hostel Details');
+        isValid = false;
+      } if (this.CheckTabsEntryData['StaffDetailsMGone'] <= 0) {
+        this.toastr.warning('Please Fill Staff Details');
         isValid = false;
       } else if (this.CheckTabsEntryData['RequiredDocument'] <= 0) {
         this.toastr.warning('Please Fill Required Document');
         isValid = false;
-      } else if (this.CheckTabsEntryData['BuildingDocuments'] <= 0) {
-        this.toastr.warning('Please Fill Building Details');
-        isValid = false;
-      } else if (this.CheckTabsEntryData['HospitalDetails'] <= 0) {
-        this.toastr.warning('Please Fill Hospital Details');
-        isValid = false;
-      }
+      } 
 
 
 
@@ -258,10 +276,10 @@ export class ApplyNOCMGOneComponent implements OnInit {
 
         this.loaderService.requestStarted();
 
-        await this.collegeDocumentService.SaveData(this.request)
-          .then((data: any) => {
-            this.toastr.success(this.SuccessMessage)
-          })
+        //await this.collegeDocumentService.SaveData(this.request)
+        //  .then((data: any) => {
+        //    this.toastr.success(this.SuccessMessage)
+        //  })
         //post
         await this.applyNocParameterService.SaveApplyNocApplication(this.applyrequest)
           .then((data: any) => {

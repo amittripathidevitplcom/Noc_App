@@ -19,6 +19,7 @@ export class HostelDataModel extends DocumentScrutiny_ActionModule {
   public FromDate: string = '';
   public ToDate: string = '';  
   public HostelDetails: HostelDetailsDataModel_Hostel[] = [];
+  public ResidentialQuartersDetails: ResidentialQuartersDataModel_Hostel[] = [];
 
   //Address
   public AddressLine1: string = '';
@@ -65,6 +66,12 @@ export class HostelDataModel extends DocumentScrutiny_ActionModule {
   public DistanceCertificateDocument: string = '';
   public DistanceCertificateDocumentPath: string = '';
   public DistanceCertificateDocument_Dis_FileName: string = '';
+
+  //Added14-0525 for Department5
+  public UGStudents: number = 0;
+  public InternsStudents: number = 0;
+  public ResidentsDoctors: number = 0;
+
 }
 
 export class HostelDetailsDataModel_Hostel {
@@ -80,5 +87,13 @@ export class HostelDetailsDataModel_Hostel {
   public ImageFileName: string = '';
   public Dis_FileName: string = '';
   public ImageFilePath: string = '';
-  public HostelBlockName: string = '';
+  public HostelBlockName: string = ''; 
+}
+export class ResidentialQuartersDataModel_Hostel {  
+  public ResidentialQuartersDetailID: number = 0;
+  public DepartmentID: number = 0;
+  public ResidentialQuarters: string = 'Yes';
+  public AccommodationTypesID: number = 0;
+  public AccommodationName: string = '';
+  public ResidentialNoofQuarters: number = 0;
 }

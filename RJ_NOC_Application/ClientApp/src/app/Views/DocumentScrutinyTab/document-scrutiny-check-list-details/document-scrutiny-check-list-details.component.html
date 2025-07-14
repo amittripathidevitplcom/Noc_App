@@ -2803,6 +2803,13 @@
   <div class="row  m-2" *ngIf="sSOLoginDataModel.RoleID!=16 && sSOLoginDataModel.RoleID!=45">
     <div class="col-md-12 mb-5">
       <button type="button" class="btn btn-primary" (click)="DocumentScrutiny()" title="Submit">Submit</button>
+      &nbsp;
+      <ng-container *ngIf="SelectedDepartmentID ==6">
+        <button type="button" class="btn btn-sm btn-info" title="View Application trail"
+                (click)="GetApplicationTrail(myMedicalThreemodal,0)">
+          <i class="fa fa-list"></i>
+        </button>
+      </ng-container>
     </div>
   </div>
 
@@ -4414,3 +4421,49 @@
     </div>
   </div>
 </ng-template>
+
+<ng-template #myMedicalThreemodal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title" style="font-size: 17px; font-weight: 600 !important;">Trail Final Remark</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <i class="fa fa-close"></i>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="card">
+
+      <div class="card-footer text-end">
+        <button type="button" class="btn btn-outline-primary" title="PDF" id="btnSavePDF" (click)="btnSavePDF_Click()"><i class="fa fa-file-pdf-o"></i></button>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="table-responsive">
+            <table class="table table-hover table-striped-columns" id="Remarktabellist">
+              <thead>
+                <tr>
+                  <th>Sr.No.</th>
+                  <th>User Name</th>
+                  <th>Next User & Role</th>
+                  <th>Action</th>
+                  <th>Action Date</th>
+                  <th>Remark</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of ApplicationTrailList let idx =index">
+                  <td>{{idx+1}}</td>
+                  <td>{{item.ActionUser}}</td>
+                  <td>{{item.NextUserName}} ({{item.NextRoleName}})</td>
+                  <td>{{item.ActionName}}</td>
+                  <td>{{item.ActionDate}}</td>
+                  <td>{{item.Remark}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+

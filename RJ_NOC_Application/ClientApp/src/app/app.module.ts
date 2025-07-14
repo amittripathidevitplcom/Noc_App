@@ -500,6 +500,11 @@ import { PaymentHistoryReportCollegeWiseComponent } from './Views/Reports/paymen
 import { DocumentScrutinyOnlinepaymentDetailsDceComponent } from './Views/DocumentScrutinyTabDCE/document-scrutiny-onlinepayment-details-dce/document-scrutiny-onlinepayment-details-dce.component';
 import { AdminDashboardComponent } from './Views/admin-dashboard/admin-dashboard.component';
 import { InfrastructureMedicalCollegeFacilitiesMgoneComponent } from './Views/TabDetail/infrastructure-medical-college-facilities-mgone/infrastructure-medical-college-facilities-mgone.component';
+import { BTERAdminUpdateComponent } from './Views/DTEAffiliationDetails/bteradmin-update/bteradmin-update.component';
+import { UpdateCollegedataforBTERComponent } from './Views/DTE_Affiliation/update-collegedatafor-bter/update-collegedatafor-bter.component';
+import { UpdateBterCourseDetailsForAdminComponent } from './Views/DTE_Affiliation/update-bter-course-details-for-admin/update-bter-course-details-for-admin.component';
+import { UpdateotherdetailsadminforbterComponent } from './Views/DTE_Affiliation/updateotherdetailsadminforbter/updateotherdetailsadminforbter.component';
+import { PreviewInfrastructureMedicalCollegeFacilitiesmgoneComponent } from './Views/PreviewTabs/preview-infrastructure-medical-college-facilitiesmgone/preview-infrastructure-medical-college-facilitiesmgone.component';
 
 
  
@@ -998,6 +1003,11 @@ import { InfrastructureMedicalCollegeFacilitiesMgoneComponent } from './Views/Ta
     DocumentScrutinyOnlinepaymentDetailsDceComponent,
     AdminDashboardComponent,
     InfrastructureMedicalCollegeFacilitiesMgoneComponent,
+    BTERAdminUpdateComponent,
+    UpdateCollegedataforBTERComponent,
+    UpdateBterCourseDetailsForAdminComponent,
+    UpdateotherdetailsadminforbterComponent,
+    PreviewInfrastructureMedicalCollegeFacilitiesmgoneComponent,
   ],
   imports: [
     CommonModule,

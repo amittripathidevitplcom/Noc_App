@@ -1,0 +1,331 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="card mb-0">
+      <div class="card-header">
+        <b *ngIf="collegeListData.DepartmentID==5"><i class="bi bi-table"></i> Infrastructure Medical College Facilities</b>
+       
+      </div>
+      <div class="card-body">
+        <div class="card">
+          <div class="card-header d-flex justify-content-between align-items-center">
+            <b>Lecture Theatre Detail</b>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive" *ngIf="request.LectureTheatreDetails.length>0">
+              <table class="table table-bordered table-hover table-striped">
+                <thead>
+                  <tr>
+                    <th>Sr. No.</th>
+                    <th>Lecture Theatre Type</th>
+                    <th>Lecture Theatre (capacity)</th>
+                    <th>Lecture Theatre Size (sq. mt.)</th>
+                    <th>Upload Photo</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let row of request.LectureTheatreDetails; let indexOfelement=index;">
+                    <td> {{indexOfelement+1}}</td>
+                    <td>{{row.LectureTheatreType}}</td>
+                    <td>{{row.LectureTheatreCapacity}}</td>
+                    <td>{{row.LectureTheatreSize}}</td>
+                    <td>
+                      <a *ngIf="row.LectureTheatrePhoto!='' && row.LectureTheatrePhotoPath!='N/A'" target="_blank" href="{{row.LectureTheatrePhotoPath}}" title="View Member Photo"><i class="fa fa-eye"></i></a>
+                      <label *ngIf="row.LectureTheatrePhotoPath=='N/A'">{{row.LectureTheatrePhotoPath}}</label>
+                    </td>
+                  </tr>
+                  <tr *ngIf="request.LectureTheatreDetails.length<=0">
+                    <td colspan="12" style="color:red">No Data Found.!</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header d-flex justify-content-between align-items-center">
+            <b>Museum Detail </b>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive" *ngIf="request.MuseumDetails.length>0">
+              <table class="table table-bordered table-hover table-striped">
+                <thead>
+                  <tr>
+                    <th>Sr. No.</th>
+                    <th>Museum Type</th>
+                    <th>Museum (capacity)</th>
+                    <th>Museum Size (sq. mt.)</th>
+                    <th>Upload Photo</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let row of request.MuseumDetails; let indexOfelement=index;">
+                    <td> {{indexOfelement+1}}</td>
+                    <td>{{row.MuseumType}}</td>
+                    <td>{{row.MuseumCapacity}}</td>
+                    <td>{{row.MuseumSize}}</td>
+                    <td>
+                      <a *ngIf="row.MuseumPhoto!='' && row.MuseumPhotoPath!='N/A'" target="_blank" href="{{row.MuseumPhotoPath}}" title="View Member Photo"><i class="fa fa-eye"></i></a>
+                      <label *ngIf="row.MuseumPhotoPath=='N/A'">{{row.MuseumPhotoPath}}</label>
+                    </td>
+                  </tr>
+                  <tr *ngIf="request.MuseumDetails.length<=0">
+                    <td colspan="12" style="color:red">No Data Found.!</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header d-flex justify-content-between align-items-center">
+            <b>Dissection Hall Detail</b>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive" *ngIf="request.DissectionHallDetails.length>0">
+              <table class="table table-bordered table-hover table-striped">
+                <thead>
+                  <tr>
+                    <th>Sr. No.</th>
+                    <th>Dissection Hall (Number)</th>
+                    <th>Dissection Hall (Capcity)</th>
+                    <th>Dissection Hall Size (sq. mt.)</th>
+                    <th>Upload Photo</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let row of request.DissectionHallDetails; let indexOfelement=index;">
+                    <td> {{indexOfelement+1}}</td>
+                    <td>{{row.DissectionHallNumber}}</td>
+                    <td>{{row.DissectionHallCapacity}}</td>
+                    <td>{{row.DissectionHallsize}}</td>
+                    <td>
+                      <a *ngIf="row.DissectionHallPhoto!='' && row.DissectionHallPhotoPath!='N/A'" target="_blank" href="{{row.DissectionHallPhotoPath}}" title="View Member Photo"><i class="fa fa-eye"></i></a>
+                      <label *ngIf="row.DissectionHallPhoto=='N/A'">{{row.DissectionHallPhotoPath}}</label>
+                    </td>
+                  </tr>
+                  <tr *ngIf="request.DissectionHallDetails.length<=0">
+                    <td colspan="12" style="color:red">No Data Found.!</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header d-flex justify-content-between align-items-center">
+            <b>Laboratory Detail</b>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive" *ngIf="request.SkillLaboratoryDetails.length>0">
+              <table class="table table-bordered table-hover table-striped">
+                <thead>
+                  <tr>
+                    <th>Sr. No.</th>
+                    <th>Laboratory(Number)</th>
+                    <th>Laboratory Size (sq. mt.)</th>
+                    <th>Upload Photo</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let row of request.SkillLaboratoryDetails; let indexOfelement=index;">
+                    <td> {{indexOfelement+1}}</td>
+                    <td>{{row.SkillLaboratoryNumber}}</td>
+                    <td>{{row.SkillLaboratorySize}}</td>
+                    <td>
+                      <a *ngIf="row.SkillLaboratoryPhoto!='' && row.SkillLaboratoryPhotoPath!='N/A'" target="_blank" href="{{row.SkillLaboratoryPhotoPath}}" title="View Member Photo"><i class="fa fa-eye"></i></a>
+                      <label *ngIf="row.SkillLaboratoryPhoto=='N/A'">{{row.SkillLaboratoryPhotoPath}}</label>
+                    </td>
+                  </tr>
+                  <tr *ngIf="request.SkillLaboratoryDetails.length<=0">
+                    <td colspan="12" style="color:red">No Data Found.!</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+              <label>Demonstration Room (Teaching rooms For Each Speciality):</label>
+              <input class="form-control disabled mt-1" disabled value="{{request.DemonstrationRoom}}" />
+            </div>
+            <div class="row" *ngIf="request.DemonstrationRoom=='Yes'">
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                <label>Histology:</label>
+                <input class="form-control disabled mt-1" disabled value="{{request.Histology}}" />
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="request.Histology=='Yes'">
+                <label><b>Uploaded Photo Histology:</b></label>
+                <div class="clearfix"></div>
+                <a *ngIf="!request.UploadPhotoHistologyPath.includes('.pdf')" data-fancybox="gallery" href="{{request.UploadPhotoHistologyPath}}" data-caption="Image 10" title="click here to zoom">
+                  <img src="{{request.UploadPhotoHistologyPath}}" alt="Uploaded Photo Histology" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                </a>
+                <a class="bi bi-file-earmark-pdf-fill" *ngIf="request.UploadPhotoHistologyPath.includes('.pdf')" data-fancybox="gallery" href="{{request.UploadPhotoHistologyPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px">
+                </a>
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                <label>Clinical Physiology:</label>
+                <input class="form-control disabled mt-1" disabled value="{{request.ClinicalPhysiology}}" />
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="request.ClinicalPhysiology=='Yes'">
+                <label><b>Uploaded Photo Clinical Physiology:</b></label>
+                <div class="clearfix"></div>
+                <a *ngIf="!request.UploadPhotoClinicalPhysiologyPath.includes('.pdf')" data-fancybox="gallery" href="{{request.UploadPhotoClinicalPhysiologyPath}}" data-caption="Image 10" title="click here to zoom">
+                  <img src="{{request.UploadPhotoClinicalPhysiologyPath}}" alt="Uploaded Photo Clinical Physiology" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                </a>
+                <a class="bi bi-file-earmark-pdf-fill" *ngIf="request.UploadPhotoClinicalPhysiologyPath.includes('.pdf')" data-fancybox="gallery" href="{{request.UploadPhotoClinicalPhysiologyPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px">
+                </a>
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                <label>Biochemistry:</label>
+                <input class="form-control disabled mt-1" disabled value="{{request.Biochemistry}}" />
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="request.Biochemistry=='Yes'">
+                <label><b>Uploaded Photo Biochemistry:</b></label>
+                <div class="clearfix"></div>
+                <a *ngIf="!request.UploadPhotoBiochemistryPath.includes('.pdf')" data-fancybox="gallery" href="{{request.UploadPhotoBiochemistryPath}}" data-caption="Image 10" title="click here to zoom">
+                  <img src="{{request.UploadPhotoBiochemistryPath}}" alt="Uploaded Photo Biochemistry" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                </a>
+                <a class="bi bi-file-earmark-pdf-fill" *ngIf="request.UploadPhotoBiochemistryPath.includes('.pdf')" data-fancybox="gallery" href="{{request.UploadPhotoBiochemistryPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px">
+                </a>
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                <label>Histopathology & Cytopathology:</label>
+                <input class="form-control disabled mt-1" disabled value="{{request.HistopathologyCytopathology}}" />
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="request.HistopathologyCytopathology=='Yes'">
+                <label><b>Uploaded Photo Histopathology & Cytopathology:</b></label>
+                <div class="clearfix"></div>
+                <a *ngIf="!request.UploadPhotoHistopathologyCytopathologyPath.includes('.pdf')" data-fancybox="gallery" href="{{request.UploadPhotoHistopathologyCytopathologyPath}}" data-caption="Image 10" title="click here to zoom">
+                  <img src="{{request.UploadPhotoHistopathologyCytopathologyPath}}" alt="Uploaded Photo Histopathology Cytopathology" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                </a>
+                <a class="bi bi-file-earmark-pdf-fill" *ngIf="request.UploadPhotoHistopathologyCytopathologyPath.includes('.pdf')" data-fancybox="gallery" href="{{request.UploadPhotoHistopathologyCytopathologyPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px">
+                </a>
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                <label>Clinical Pathology & Haematology:</label>
+                <input class="form-control disabled mt-1" disabled value="{{request.ClinicalPathologyHaematolog}}" />
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="request.ClinicalPathologyHaematolog=='Yes'">
+                <label><b>Uploaded Photo Clinical Pathology & Haematology:</b></label>
+                <div class="clearfix"></div>
+                <a *ngIf="!request.UploadPhotoClinicalPathologyHaematologPath.includes('.pdf')" data-fancybox="gallery" href="{{request.UploadPhotoClinicalPathologyHaematologPath}}" data-caption="Image 10" title="click here to zoom">
+                  <img src="{{request.UploadPhotoClinicalPathologyHaematologPath}}" alt="Uploaded Photo Clinical Pathology Haematology" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                </a>
+                <a class="bi bi-file-earmark-pdf-fill" *ngIf="request.UploadPhotoClinicalPathologyHaematologPath.includes('.pdf')" data-fancybox="gallery" href="{{request.UploadPhotoClinicalPathologyHaematologPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px">
+                </a>
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                <label>Microbiology:</label>
+                <input class="form-control disabled mt-1" disabled value="{{request.Microbiology}}" />
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="request.Microbiology=='Yes'">
+                <label><b>Uploaded Photo Microbiology:</b></label>
+                <div class="clearfix"></div>
+                <a *ngIf="!request.UploadPhotoMicrobiologyPath.includes('.pdf')" data-fancybox="gallery" href="{{request.UploadPhotoMicrobiologyPath}}" data-caption="Image 10" title="click here to zoom">
+                  <img src="{{request.UploadPhotoMicrobiologyPath}}" alt="Uploaded Photo Microbiology" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                </a>
+                <a class="bi bi-file-earmark-pdf-fill" *ngIf="request.UploadPhotoMicrobiologyPath.includes('.pdf')" data-fancybox="gallery" href="{{request.UploadPhotoMicrobiologyPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px">
+                </a>
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                <label>Clinical Pharmacology and Computer Assisted Learning (CAL):</label>
+                <input class="form-control disabled mt-1" disabled value="{{request.ClinicalPharmacologyandComputerAssistedLearning}}" />
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="request.ClinicalPharmacologyandComputerAssistedLearning=='Yes'">
+                <label><b>Uploaded Photo Clinical Pharmacology and Computer Assisted Learning (CAL):</b></label>
+                <div class="clearfix"></div>
+                <a *ngIf="!request.ClinicalPharmacologyandComputerAssistedLearningPath.includes('.pdf')" data-fancybox="gallery" href="{{request.ClinicalPharmacologyandComputerAssistedLearningPath}}" data-caption="Image 10" title="click here to zoom">
+                  <img src="{{request.ClinicalPharmacologyandComputerAssistedLearningPath}}" alt="Uploaded Photo Microbiology" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                </a>
+                <a class="bi bi-file-earmark-pdf-fill" *ngIf="request.ClinicalPharmacologyandComputerAssistedLearningPath.includes('.pdf')" data-fancybox="gallery" href="{{request.ClinicalPharmacologyandComputerAssistedLearningPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px">
+                </a>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+            <label>Central Library:</label>
+            <input class="form-control disabled mt-1" disabled value="{{request.CentralLibrary}}" />
+          </div>
+          <div class="row" *ngIf="request.CentralLibrary=='Yes'">
+            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+              <label>Central Library Area (Minimum Required 1000 (sq.mt)):</label>
+              <input class="form-control disabled mt-1" disabled value="{{request.CentralLibraryArea}}" />
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+              <label>Central Library Seating Capacity (Inside + Outside)(Minimum Required 350):</label>
+              <input class="form-control disabled mt-1" disabled value="{{request.CentralLibrarySeatingCapacity}}" />
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+              <label>Central Library(Books Minimum Required 4500):</label>
+              <input class="form-control disabled mt-1" disabled value="{{request.CentralLibraryBooks}}" />
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+              <label><b>Uploaded Central Library books List:</b></label>
+              <div class="clearfix"></div>
+              <a *ngIf="!request.CentralLibrarybooksListPath.includes('.pdf')" data-fancybox="gallery" href="{{request.CentralLibrarybooksListPath}}" data-caption="Image 10" title="click here to zoom">
+                <img src="{{request.CentralLibrarybooksListPath}}" alt="Uploaded Central Library books List" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+              </a>
+              <a class="bi bi-file-earmark-pdf-fill" *ngIf="request.CentralLibrarybooksListPath.includes('.pdf')" data-fancybox="gallery" href="{{request.CentralLibrarybooksListPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px">
+              </a>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+              <label>Journals(Indian + Foreign)(Minimum Required 45):</label>
+              <input class="form-control disabled mt-1" disabled value="{{request.JournalsIndianForeign}}" />
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+              <label><b>Uploaded Journals(Indian + Foreign) List:</b></label>
+              <div class="clearfix"></div>
+              <a *ngIf="!request.JournalsIndianForeignListPath.includes('.pdf')" data-fancybox="gallery" href="{{request.JournalsIndianForeignListPath}}" data-caption="Image 10" title="click here to zoom">
+                <img src="{{request.JournalsIndianForeignListPath}}" alt="Uploaded Central Library books List" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+              </a>
+              <a class="bi bi-file-earmark-pdf-fill" *ngIf="request.JournalsIndianForeignListPath.includes('.pdf')" data-fancybox="gallery" href="{{request.JournalsIndianForeignListPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px">
+              </a>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+              <label>Rural Health Training Center:</label>
+              <input class="form-control disabled mt-1" disabled value="{{request.RuralHealthTrainingCentre}}" />
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="request.RuralHealthTrainingCentre=='Yes'">
+              <label>Rural Health(Number):</label>
+              <input class="form-control disabled mt-1" disabled value="{{request.RuralHealth}}" />
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+              <label>Rural Health Training Center:</label>
+              <input class="form-control disabled mt-1" disabled value="{{request.UrbanHealthTrainingCentre}}" />
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="request.UrbanHealthTrainingCentre=='Yes'">
+              <label>Rural Health(Number):</label>
+              <input class="form-control disabled mt-1" disabled value="{{request.UrbanHealth}}" />
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+            <label>Power Backup:</label>
+            <input class="form-control disabled mt-1" disabled value="{{request.PowerBackup}}" />
+          </div>
+          <div class="row" *ngIf="request.PowerBackup=='Yes'">
+            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+              <label>Power Backup (Capacity):</label>
+              <input class="form-control disabled mt-1" disabled value="{{request.PowerBackupCapacity}}" />
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+              <label><b>Uploaded Photo Power Backup:</b></label>
+              <div class="clearfix"></div>
+              <a *ngIf="!request.PowerBackupPhotoPath.includes('.pdf')" data-fancybox="gallery" href="{{request.PowerBackupPhotoPath}}" data-caption="Image 10" title="click here to zoom">
+                <img src="{{request.PowerBackupPhotoPath}}" alt="Uploaded Central Library books List" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+              </a>
+              <a class="bi bi-file-earmark-pdf-fill" *ngIf="request.PowerBackupPhotoPath.includes('.pdf')" data-fancybox="gallery" href="{{request.PowerBackupPhotoPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px">
+              </a>
+            </div>
+          </div>
+        </div>
+        </div>
+      </div>
+  </div>
+</div>
+
+
+

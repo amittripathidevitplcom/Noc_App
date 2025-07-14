@@ -1195,7 +1195,22 @@
           <a routerLink="/totallegalentitypreview">View more <i class="fa fa-chevron-circle-right"></i></a>
         </div>
       </div>
-
+      <div class="col-lg-2 col-md-4 col-sm-6 col-12" *ngIf="+mgonecount > 0">
+        <div class="card staticsCards">
+          <div class="card-body">
+            <div class="">
+              <div class="dashCardIcon">
+                <i class="fa fa-bank"></i>
+              </div>
+              <div class="dashCardContent">
+                <h4>LOI</h4>
+                <h2>{{dashboardDataModel.TotalMGLOI}}</h2>
+              </div>
+            </div>
+          </div>
+          <a routerLink="/draftapplicationlist/IsLOI">View more <i class="fa fa-chevron-circle-right"></i></a>
+        </div>
+      </div>
 
     </div>
     <!--</div>
@@ -1517,7 +1532,7 @@
       </div>
       <div class="card-body">
         <div class="row">
-          <div class="col-lg-3 col-md-4 col-sm-6 col-12" *ngIf="this.sSOLoginDataModel.RoleID==5 || this.sSOLoginDataModel.RoleID==3">
+          <div class="col-lg-3 col-md-4 col-sm-12 col-12" *ngIf="this.sSOLoginDataModel.RoleID==5 || this.sSOLoginDataModel.RoleID==3">
             <div class="card staticsCards">
               <div class="card-header text-center text-white" style="background: rgba(0, 0, 0, 0.2) !important;"><h5>Application Scrutiny</h5></div>
               <div class="card-body">
@@ -1527,7 +1542,7 @@
                     <h2>
                       <a href="/applicationslist/Pending" style="background: none;">{{dashboardDataModel.Pending}}</a>
                     </h2>
-                  </div>
+                  </div>                 
                   <div class="dashCardContent">
                     <h4>Completed</h4>
                     <a href="/applicationslist/Completed" style="background: none;"><h2>{{dashboardDataModel.Completed}}</h2></a>
@@ -1536,7 +1551,7 @@
               </div>
             </div>
           </div>
-          <div class="col-lg-3 col-md-4 col-sm-6 col-12" *ngIf="this.sSOLoginDataModel.RoleID==5 || this.sSOLoginDataModel.RoleID==3 || this.sSOLoginDataModel.RoleID==6|| this.sSOLoginDataModel.RoleID==16">
+          <div class="col-lg-9 col-md-8 col-sm-12 col-12" *ngIf="this.sSOLoginDataModel.RoleID==5 || this.sSOLoginDataModel.RoleID==3 || this.sSOLoginDataModel.RoleID==6|| this.sSOLoginDataModel.RoleID==16">
             <div class="card staticsCards">
               <div class="card-header text-center text-white" style="background: rgba(0, 0, 0, 0.2) !important;"><h5>Document Scrutiny</h5></div>
               <div class="card-body">
@@ -1545,6 +1560,36 @@
                     <h4>Pending</h4>
                     <h2>
                       <a href="/dsapplicationslist/DCPending" style="background: none;">{{dashboardDataModel.DCPending}}</a>
+                    </h2>
+                  </div>
+                  <div class="dashCardContent text-start" *ngIf="this.sSOLoginDataModel.RoleID==6">
+                    <h4>JS New Applications</h4>
+                    <h2>
+                      <a href="/dsapplicationslist/JSNewApplication" style="background: none;">{{dashboardDataModel.JSFressApplication}}</a>
+                    </h2>
+                  </div>
+                  <div class="dashCardContent text-start" *ngIf="this.sSOLoginDataModel.RoleID==6">
+                    <h4>Reverted In Loops Applications</h4>
+                    <h2>
+                      <a href="/dsapplicationslist/RevertLoopApplications" style="background: none;">{{dashboardDataModel.RevertLoopApplications}}</a>
+                    </h2>
+                  </div>
+                  <div class="dashCardContent text-start" *ngIf="this.sSOLoginDataModel.RoleID==6">
+                    <h4>JS Forward After(DC)Inspection Committee</h4>
+                    <h2>
+                      <a href="/dsapplicationslist/FADCInspectionCommittee" style="background: none;">{{dashboardDataModel.FADCInspectionCommittee}}</a>
+                    </h2>
+                  </div>
+                  <div class="dashCardContent text-start" *ngIf=" this.sSOLoginDataModel.RoleID!=6&& this.sSOLoginDataModel.RoleID!=16&& this.sSOLoginDataModel.RoleID!=3">
+                    <h4>Forward After(DC)</h4>
+                    <h2>
+                      <a href="/dsapplicationslist/FADCPending" style="background: none;">{{dashboardDataModel.FADCPending}}</a>
+                    </h2>
+                  </div>
+                  <div class="dashCardContent text-start" *ngIf=" this.sSOLoginDataModel.RoleID!=6&& this.sSOLoginDataModel.RoleID!=16&& this.sSOLoginDataModel.RoleID!=3">
+                    <h4>Re_Submited Application</h4>
+                    <h2>
+                      <a href="/dsapplicationslist/ReSubmitApplication" style="background: none;">{{dashboardDataModel.ReSubmitApplication}}</a>
                     </h2>
                   </div>
                   <div class="dashCardContent text-start" *ngIf="this.sSOLoginDataModel.RoleID!=16">
@@ -1561,7 +1606,33 @@
               </div>
             </div>
           </div>
-          <div class="col-lg-3 col-md-4 col-sm-6 col-12" *ngIf="this.sSOLoginDataModel.RoleID==2">
+          <div class="col-lg-3 col-md-4 col-sm-6 col-12" *ngIf="this.sSOLoginDataModel.RoleID==5">
+            <div class="card staticsCards">
+              <div class="card-header text-center text-white" style="background: rgba(0, 0, 0, 0.2) !important;"><h5>Document Scrutiny(Reverted By JS)</h5></div>
+              <div class="card-body">
+                <div class="d-flex justify-content-between">
+
+                  <div class="dashCardContent text-start" *ngIf="(this.sSOLoginDataModel.RoleID!=6 && this.sSOLoginDataModel.RoleID!=16 && this.sSOLoginDataModel.RoleID!=3)">
+                    <h4>Reverted By JS</h4>
+                    <h2>
+                      <a href="/dsapplicationslist/JsRevert" style="background: none;">{{dashboardDataModel.JsRevert}}</a>
+                    </h2>
+                  </div>
+                  <div class="dashCardContent text-start" *ngIf="(this.sSOLoginDataModel.RoleID!=6 && this.sSOLoginDataModel.RoleID!=16 && this.sSOLoginDataModel.RoleID!=3)">
+                    <h4>Completed</h4>
+                    <a href="/dsapplicationslist/AsCompleted" style="background: none;"><h2>{{dashboardDataModel.AsCompleted}}</h2></a>
+                  </div>
+                  <div class="dashCardContent text-start" *ngIf="(this.sSOLoginDataModel.RoleID!=6 && this.sSOLoginDataModel.RoleID!=16 && this.sSOLoginDataModel.RoleID!=5)">
+                    <h4>Reverted By AS</h4>
+                    <h2>
+                      <a href="/dsapplicationslist/AsRevert" style="background: none;">{{dashboardDataModel.AsRevert}}</a>
+                    </h2>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-9 col-md-8 col-sm-6 col-12" *ngIf="this.sSOLoginDataModel.RoleID==2">
             <div class="card staticsCards">
               <div class="card-header text-center text-white" style="background: rgba(0, 0, 0, 0.2) !important;"><h5>Document Scrutiny</h5></div>
               <div class="card-body">
@@ -1570,6 +1641,18 @@
                     <h4>Pending</h4>
                     <h2>
                       <a href="/dsapplicationslist/DCPending" style="background: none;">{{dashboardDataModel.Pending}}</a>
+                    </h2>
+                  </div>
+                  <div class="dashCardContent text-start">
+                    <h4>Forwarded To SO</h4>
+                    <h2>
+                      <a href="/dsapplicationslist/ForwardedToSO" style="background: none;">{{dashboardDataModel.ForwardedToSO}}</a>
+                    </h2>
+                  </div>
+                  <div class="dashCardContent text-start" *ngIf="(this.sSOLoginDataModel.RoleID!=6 && this.sSOLoginDataModel.RoleID!=16 && this.sSOLoginDataModel.RoleID!=3)">
+                    <h4>Forward after document scrutiny By SO</h4>
+                    <h2>
+                      <a href="/dsapplicationslist/FADCSOPending" style="background: none;">{{dashboardDataModel.FADCSOPending}}</a>
                     </h2>
                   </div>
                   <div class="dashCardContent">

@@ -25,7 +25,9 @@ export class PreviewStaffDetailComponent implements OnInit {
   public TotalNonTeachingStaffDetail: number = 0;
   public TotalTeachingStaffDetail: number = 0;
   request = new StaffDetailDataModel();
-
+  public TotalNursingStaffDetail: number = 0;
+  public TotalDoctorsStaffDetail: number = 0;
+  public TotalParamedicalNonTeachingStaffDetail: number = 0;
   closeResult: string | undefined;
   modalReference: NgbModalRef | undefined;
 
@@ -62,11 +64,24 @@ export class PreviewStaffDetailComponent implements OnInit {
               let visibleSection = this.StaffDetailModel[i].AadhaarNo.slice(-visibleDigits);
               this.StaffDetailModel[i].MaskedAadhaarNo = maskedSection.replace(/./g, 'X') + visibleSection;
             }
-            if (this.StaffDetailModel[i].TeachingType == 'Teaching') {
-              this.TotalTeachingStaffDetail++;
+            if (this.SelectedDepartmentID != 5) {
+              if (this.StaffDetailModel[i].TeachingType == 'Teaching') {
+                this.TotalTeachingStaffDetail++;
+              }
+              else {
+                this.TotalNonTeachingStaffDetail++;
+              }
             }
             else {
-              this.TotalNonTeachingStaffDetail++;
+              if (this.StaffDetailModel[i].TeachingType == 'NursingStaff') {
+                this.TotalNursingStaffDetail++;
+              }
+              if (this.StaffDetailModel[i].TeachingType == 'Doctors') {
+                this.TotalDoctorsStaffDetail++;
+              }
+              if (this.StaffDetailModel[i].TeachingType == 'ParamedicalNonTeaching') {
+                this.TotalParamedicalNonTeachingStaffDetail++;
+              }
             }
           }
         }, error => console.error(error));

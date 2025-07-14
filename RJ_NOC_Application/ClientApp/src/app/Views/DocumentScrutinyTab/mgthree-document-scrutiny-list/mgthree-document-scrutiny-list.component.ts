@@ -47,6 +47,7 @@ export class MGThreeDocumentScrutinyListComponent implements OnInit {
   }
 
   async GetApplyNOCApplicationListByRole() {
+    debugger;
     try {
 
       if (this.QueryStatus == 'DCPending' && this.sSOLoginDataModel.RoleID != 45) {
@@ -64,8 +65,39 @@ export class MGThreeDocumentScrutinyListComponent implements OnInit {
       else if (this.QueryStatus == 'DCRevert') {
         this.request.ActionName = 'Revert';
       }
+      else if (this.QueryStatus == 'JsRevert') {
+        this.request.ActionName = 'JsRevert';
+      }
+      else if (this.QueryStatus == 'AsCompleted') {
+        this.request.ActionName = 'AsCompleted';
+      }
+      else if (this.QueryStatus == 'FADCPending') {
+        this.request.ActionName = 'Forward after document scrutiny';
+        //this.request.ActionName = 'Forward after document scrutiny';
+      }
+      else if (this.QueryStatus == 'ReSubmitApplication') {
+        this.request.ActionName = 'ReSubmit Application';       
+      }
+      else if (this.QueryStatus == 'FADCSOPending') {
+        this.request.ActionName = 'Forward after document scrutiny';       
+      }
+      else if (this.QueryStatus == 'JSNewApplication' && this.sSOLoginDataModel.RoleID == 6) {
+        this.request.ActionName = 'JSNewApplication';       
+      }
+      else if (this.QueryStatus == 'FADCInspectionCommittee' && this.sSOLoginDataModel.RoleID == 6) {
+        this.request.ActionName = 'FADCInspectionCommittee';       
+      }
+      else if (this.QueryStatus == 'RevertLoopApplications' && this.sSOLoginDataModel.RoleID == 6) {
+        this.request.ActionName = 'RevertLoopApplications';       
+      }
+      else if (this.QueryStatus == 'ForwardedToSO') {
+        this.request.ActionName = 'ForwardedToSO';       
+      }
       
       this.loaderService.requestStarted();
+      console.log(this.request.ActionName);
+      console.log(this.request);
+
       await this.medicalDocumentScrutinyService.GetApplyNOCApplicationList(this.request)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
@@ -270,6 +302,7 @@ export class MGThreeDocumentScrutinyListComponent implements OnInit {
 
   public isInspectionReportValid: boolean = false;
   async DocumentScrutinyAction() {
+    debugger;
     this.requestpi = [];
     this.isFormvalid = true;
     this.isInspectionReportValid = true;

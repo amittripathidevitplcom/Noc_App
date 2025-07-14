@@ -978,7 +978,7 @@ import { DocumentScrutinyComponent } from '../../DCE/document-scrutiny/document-
 import { FarmLandDetailDataModel } from '../../../Models/FarmLandDetailDataModel';
 import { AgricultureDocumentScrutinyService } from '../../../Services/AgricultureDocumentScrutiny/agriculture-document-scrutiny.service';
 import { MedicalDocumentScrutinyService } from '../../../Services/MedicalDocumentScrutiny/medical-document-scrutiny.service';
-
+import { HospitalDataModel, HospitalParentNotDataModel } from '../../../Models/HospitalDataModel';
 
 @Injectable({
   providedIn: 'root'
@@ -1065,7 +1065,7 @@ export class RevertCheckListDCEComponent implements OnInit {
   public AcademicInformation_FinalRemarks: any = [];
   public HospitalDetails_FinalRemarks: any = [];
   public UnitOfLand: string = '';
-
+  public CheckList_HospitalParentNotDataModelList: HospitalDataModel[] = [];
   closeResult: string | undefined;
   modalReference: NgbModalRef | undefined;
 
@@ -1198,6 +1198,7 @@ export class RevertCheckListDCEComponent implements OnInit {
     this.getFDRDetailId(this.SelectedCollageID);
     this.GetOfflinePaymentDetails();
     this.GetCourseDetailAllList();
+    this.GetHospitalDataList();
   }
   // Start Land Details
   async GetLandDetailsDataList() {
@@ -1734,6 +1735,29 @@ export class RevertCheckListDCEComponent implements OnInit {
     }
   }
   //End Farm Land Details
+  //Start Hospital Details
+  async GetHospitalDataList() {
+    this.loaderService.requestStarted();
+    try {
+      await this.medicalDocumentScrutinyService.DocumentScrutiny_HospitalDetail(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
+        .then(async (data: any) => {
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          if (data['Data'].length > 0) {
+            this.CheckList_HospitalParentNotDataModelList = data['Data'][0]['HospitalDetails'][0];
+            this.HospitalDetails_FinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
+          }
+        })
+    }
+    catch (ex) { console.log(ex) }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  //End Hospital Details
 
   private getDismissReason(reason: any): string {
     if (reason === ModalDismissReasons.ESC) {

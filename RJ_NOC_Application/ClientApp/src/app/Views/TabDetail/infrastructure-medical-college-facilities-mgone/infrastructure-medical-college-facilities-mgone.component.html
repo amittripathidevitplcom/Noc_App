@@ -27,7 +27,14 @@
         <div class="card-body">
           <div class="row">
             <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-2">
-              <label for="txtLectureTheatrecapacity" class="form-label">Lecture Theatre (capacity)<span style="color:red">*</span></label>
+              <label for="txtLectureTheatreType" class="form-label">Lecture Theatre Type<span style="color:red">*</span></label>
+              <input type="text" class="form-control" id="txtLectureTheatreType" [(ngModel)]="LectureTheatreDetails.LectureTheatreType" formControlName="txtLectureTheatreType" (keypress)="alphaOnly($event)">
+              <div *ngIf="isSubmitted&&AMform.txtLectureTheatreType.errors" class="text-danger">
+                <p *ngIf="AMform.txtLectureTheatreType.errors.required"> This field is required .!</p>
+              </div>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-2">
+              <label for="txtLectureTheatrecapacity" class="form-label">Lecture Theatre (capacity Minimum Required 180)<span style="color:red">*</span></label>
               <input type="text" class="form-control" id="txtLectureTheatrecapacity" [(ngModel)]="LectureTheatreDetails.LectureTheatreCapacity" formControlName="txtLectureTheatrecapacity" (keypress)="numberOnly($event)">
               <div *ngIf="isSubmitted&&AMform.txtLectureTheatrecapacity.errors" class="text-danger">
                 <p *ngIf="AMform.txtLectureTheatrecapacity.errors.required"> This field is required .!</p>
@@ -50,7 +57,7 @@
                 </label>
                 <div class="btn-group" *ngIf="LectureTheatreDetails.LectureTheatrePhoto !=''">
                   <a class="btn btn-outline-primary" target="_blank" href="{{LectureTheatreDetails.LectureTheatrePhotoPath}}"><i class="fa fa-eye"></i></a>
-                  <button type="button" class="btn btn-outline-danger" (click)="DeleteLectureImage('TheatrePhoto', LectureTheatreDetails.LectureTheatrePhoto)"><i class="fa fa-trash-o"></i></button>
+                  <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('TheatrePhoto', LectureTheatreDetails.LectureTheatrePhoto)"><i class="fa fa-trash-o"></i></button>
                 </div>
               </div>
               <div *ngIf="isLectureTheatre" class="text-danger">
@@ -71,6 +78,7 @@
               <thead>
                 <tr>
                   <th>Sr. No.</th>
+                  <th>Lecture Theatre Type</th>
                   <th>Lecture Theatre (capacity)</th>
                   <th>Lecture Theatre Size (sq. mt.)</th>
                   <th>Upload Photo</th>
@@ -80,15 +88,15 @@
               <tbody>
                 <tr *ngFor="let row of request.LectureTheatreDetails; let indexOfelement=index;">
                   <td> {{indexOfelement+1}}</td>
+                  <td>{{row.LectureTheatreType}}</td>
                   <td>{{row.LectureTheatreCapacity}}</td>
                   <td>{{row.LectureTheatreSize}}</td>
                   <td>
                     <a *ngIf="row.LectureTheatrePhoto!='' && row.LectureTheatrePhotoPath!='N/A'" target="_blank" href="{{row.LectureTheatrePhotoPath}}" title="View Member Photo"><i class="fa fa-eye"></i></a>
                     <label *ngIf="row.LectureTheatrePhotoPath=='N/A'">{{row.LectureTheatrePhotoPath}}</label>
                   </td>
-                  <td>
-                    <button type="button" id="btnEdit_{{indexOfelement}}" class="btn btn-primary" title="Edit" (click)="EditLectureDetail(indexOfelement)" [attr.disabled]="isDisabledGrid ? true : null"><i class="fa fa-edit"></i></button><!--[attr.disabled]="isDisabledGrid ? true : null"-->
-                    <button class="btn btn-danger" type="button" (click)="DeleteMember(indexOfelement)" [attr.disabled]="isDisabledGrid ? true : null"><i class="fa fa-trash-o"></i></button>
+                  <td>                   
+                    <button class="btn btn-danger" type="button" (click)="DeleteLectureImage(indexOfelement)" [attr.disabled]="isDisabledGrid ? true : null"><i class="fa fa-trash-o"></i></button>
                   </td>
                 </tr>
                 <tr *ngIf="request.LectureTheatreDetails.length<=0">
@@ -110,7 +118,14 @@
         <div class="card-body">
           <div class="row">
             <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-2">
-              <label for="txtName" class="form-label">Museum(capacity)<span style="color:red">*</span></label>
+              <label for="txtMuseumType" class="form-label">Museum Type<span style="color:red">*</span></label>
+              <input type="text" class="form-control" id="txtMuseumType" [(ngModel)]="MuseumDetails.MuseumType" formControlName="txtMuseumType" (keypress)="alphaOnly($event)">
+              <div *ngIf="isSubmitted&&museumform.txtMuseumType.errors" class="text-danger">
+                <p *ngIf="museumform.txtMuseumType.errors.required"> This field is required .!</p>
+              </div>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-2">
+              <label for="txtName" class="form-label">Museum(capacity Minimum Required 50)<span style="color:red">*</span></label>
               <input type="text" class="form-control" id="txtMuseum" [(ngModel)]="MuseumDetails.MuseumCapacity" formControlName="txtMuseum" (keypress)="numberOnly($event)">
               <div *ngIf="isSubmitted&&museumform.txtMuseum.errors" class="text-danger">
                 <p *ngIf="museumform.txtMuseum.errors.required"> This field is required .!</p>
@@ -154,6 +169,7 @@
               <thead>
                 <tr>
                   <th>Sr. No.</th>
+                  <th>Museum Type</th>
                   <th>Museum (capacity)</th>
                   <th>Museum Size (sq. mt.)</th>
                   <th>Upload Photo</th>
@@ -163,18 +179,185 @@
               <tbody>
                 <tr *ngFor="let row of request.MuseumDetails; let indexOfelement=index;">
                   <td> {{indexOfelement+1}}</td>
+                  <td>{{row.MuseumType}}</td>
                   <td>{{row.MuseumCapacity}}</td>
                   <td>{{row.MuseumSize}}</td>
                   <td>
                     <a *ngIf="row.MuseumPhoto!='' && row.MuseumPhotoPath!='N/A'" target="_blank" href="{{row.MuseumPhotoPath}}" title="View Member Photo"><i class="fa fa-eye"></i></a>
                     <label *ngIf="row.MuseumPhotoPath=='N/A'">{{row.MuseumPhotoPath}}</label>
                   </td>
-                  <td>
-                    <button type="button" id="btnEdit_{{indexOfelement}}" class="btn btn-primary" title="Edit" (click)="EditMuseumDetail(indexOfelement)" [attr.disabled]="isDisabledGrid ? true : null"><i class="fa fa-edit"></i></button><!--[attr.disabled]="isDisabledGrid ? true : null"-->
+                  <td>                   
                     <button class="btn btn-danger" type="button" (click)="DeleteMuseumMember(indexOfelement)" [attr.disabled]="isDisabledGrid ? true : null"><i class="fa fa-trash-o"></i></button>
                   </td>
                 </tr>
                 <tr *ngIf="request.MuseumDetails.length<=0">
+                  <td colspan="12" style="color:red">No Data Found.!</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </form>
+      <form [formGroup]="medicalcollegeDissectionHallForm" class="form-horizontal">
+        <div class="card-header border-top">
+          <b>Dissection Hall</b>
+          <!--<button class="btn btn-outline-dark btn-sm ms-3" type="button" onclick="js_FilterCollapse(this)"><i class="fa fa-plus"></i></button>-->
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-lg-3 col-md-3 col-sm-4 col-12 mb-3">
+              <label for="DissectionHallNumber" class="form-label">Dissection Hall Number<span style="color:red;">*</span> </label>
+              <input type="text" autocomplete="off" class="form-control" id="txtDissectionHallNumber" name="txtDissectionHallNumber" [(ngModel)]="DissectionHallDetails.DissectionHallNumber" formControlName="txtDissectionHallNumber" (keypress)="numberOnly($event)">
+              <div *ngIf="isSubmitted&&medicalcollegeDissectionHall.txtDissectionHallNumber.errors" class="text-danger">
+                <p *ngIf="medicalcollegeDissectionHall.txtDissectionHallNumber.errors.required">  This field is required .!</p>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-4 col-12 mb-3">
+              <label for="DissectionHallCapacity " class="form-label">Dissection Hall (Capacity Minimum Required 75) <span style="color:red;">*</span> </label>
+              <input type="text" autocomplete="off" class="form-control" id="txtDissectionHallCapacity" name="txtDissectionHallCapacity" [(ngModel)]="DissectionHallDetails.DissectionHallCapacity" formControlName="txtDissectionHallCapacity" (keypress)="numberOnly($event)">
+              <div *ngIf="isSubmitted&&medicalcollegeDissectionHall.txtDissectionHallCapacity.errors" class="text-danger">
+                <p *ngIf="medicalcollegeDissectionHall.txtDissectionHallCapacity.errors.required">  This field is required .!</p>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-4 col-12 mb-3">
+              <label for="DissectionHallsize" class="form-label">Dissection Hall size(Minimum Required 315 (sq.mt))<span style="color:red;">*</span> </label>
+              <input type="text" autocomplete="off" class="form-control" id="txtDissectionHallsize" name="txtDissectionHallsize" [(ngModel)]="DissectionHallDetails.DissectionHallsize" formControlName="txtDissectionHallsize" (keypress)="numberOnly($event)">
+              <div *ngIf="isSubmitted&&medicalcollegeDissectionHall.txtDissectionHallsize.errors" class="text-danger">
+                <p *ngIf="medicalcollegeDissectionHall.txtDissectionHallsize.errors.required">  This field is required .!</p>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-4 col-12 mb-3">
+              <label for="txtDissectionHallPhoto" class="form-label">Upload Photo</label>
+              <div class="d-flex">
+                <input type="file" class="form-control d-none" id="txtDissectionHallPhoto" (change)="ValidateImage($event,'DissectionHallPhoto')" formControlName="txtDissectionHallPhoto">
+                <label class="btn upload" for="txtDissectionHallPhoto">
+                  <span class="filename">Choose file</span>
+                  {{DissectionHallDetails.DissectionHallPhoto === '' ? 'No File Choosen' : DissectionHallDetails.Dis_DissectionHallPhoto}}
+                </label>
+                <div class="btn-group" *ngIf="DissectionHallDetails.DissectionHallPhoto!=''">
+                  <a class="btn btn-outline-primary" target="_blank" href="{{DissectionHallDetails.DissectionHallPhotoPath}}"><i class="fa fa-eye"></i></a>
+                  <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('DissectionHallPhoto', DissectionHallDetails.DissectionHallPhoto)"><i class="fa fa-trash-o"></i></button>
+                </div>
+              </div>
+              <div *ngIf="isDissectionHallPhoto" class="text-danger">
+                <p *ngIf="isDissectionHallPhoto"> This field is required .!</p>
+              </div>
+              <div *ngIf="isValidDissectionHallPhoto" class="text-danger">
+                <p *ngIf="isValidDissectionHallPhoto"> {{ImageValidationMessage_DissectionHallPhoto}}</p>
+              </div>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+              <button class="btn btn-primary" id="btnDissectionHall" style="margin-top:27px" (click)="AddDissectionHall()"><i class="fa fa-plus"></i> Add</button>&nbsp;&nbsp;
+              <button type="button" class="btn btn-danger" style="margin-top:27px" (click)="ReseDissectionHall()"> Reset</button>
+            </div>
+          </div>
+          <hr />
+          <div class="table-responsive" *ngIf="request.DissectionHallDetails.length>0">
+            <table class="table table-bordered table-hover table-striped">
+              <thead>
+                <tr>
+                  <th>Sr. No.</th>
+                  <th>Dissection Hall (Number)</th>
+                  <th>Dissection Hall (Capcity)</th>
+                  <th>Dissection Hall Size (sq. mt.)</th>
+                  <th>Upload Photo</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let row of request.DissectionHallDetails; let indexOfelement=index;">
+                  <td> {{indexOfelement+1}}</td>
+                  <td>{{row.DissectionHallNumber}}</td>
+                  <td>{{row.DissectionHallCapacity}}</td>
+                  <td>{{row.DissectionHallsize}}</td>
+                  <td>
+                    <a *ngIf="row.DissectionHallPhoto!='' && row.DissectionHallPhotoPath!='N/A'" target="_blank" href="{{row.DissectionHallPhotoPath}}" title="View Member Photo"><i class="fa fa-eye"></i></a>
+                    <label *ngIf="row.DissectionHallPhoto=='N/A'">{{row.DissectionHallPhotoPath}}</label>
+                  </td>
+                  <td>                    
+                    <button class="btn btn-danger" type="button" (click)="DeleteDissectionHall(indexOfelement)" [attr.disabled]="isDisabledGrid ? true : null"><i class="fa fa-trash-o"></i></button>
+                  </td>
+                </tr>
+                <tr *ngIf="request.DissectionHallDetails.length<=0">
+                  <td colspan="12" style="color:red">No Data Found.!</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </form>
+      <form [formGroup]="medicalcollegeSkillLaboratoryForm" class="form-horizontal">
+        <div class="card-header border-top">
+          <b>Skill Laboratory</b>
+          <!--<button class="btn btn-outline-dark btn-sm ms-3" type="button" onclick="js_FilterCollapse(this)"><i class="fa fa-plus"></i></button>-->
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-lg-3 col-md-3 col-sm-4 col-12 mb-3">
+              <label for="LaboratoryNumber" class="form-label">Laboratory Number<span style="color:red;">*</span> </label>
+              <input type="text" autocomplete="off" class="form-control" id="txtLaboratoryNumber" name="txtLaboratoryNumber" [(ngModel)]="SkillLaboratoryDetails.SkillLaboratoryNumber" formControlName="txtLaboratoryNumber" (keypress)="numberOnly($event)">
+              <div *ngIf="isSubmitted&&medicalcollegeSkillLaboratory.txtLaboratoryNumber.errors" class="text-danger">
+                <p *ngIf="medicalcollegeSkillLaboratory.txtLaboratoryNumber.errors.required">  This field is required .!</p>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-4 col-12 mb-3">
+              <label for="LaboratorySize" class="form-label">Laboratory Size( Minimum Required 600 (sq.mt)) <span style="color:red;">*</span> </label>
+              <input type="text" autocomplete="off" class="form-control" id="txtLaboratorySize" name="txtLaboratorySize" [(ngModel)]="SkillLaboratoryDetails.SkillLaboratorySize" formControlName="txtLaboratorySize" (keypress)="numberOnly($event)">
+              <div *ngIf="isSubmitted&&medicalcollegeSkillLaboratory.txtLaboratorySize.errors" class="text-danger">
+                <p *ngIf="medicalcollegeSkillLaboratory.txtLaboratorySize.errors.required">  This field is required .!</p>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-4 col-12 mb-3">
+              <label for="txtSkillLaboratoryPhoto" class="form-label">Upload Photo</label>
+              <div class="d-flex">
+                <input type="file" class="form-control d-none" id="txtSkillLaboratoryPhoto" formControlName="txtSkillLaboratoryPhoto" (change)="ValidateImage($event,'SkillLaboratoryPhoto')">
+                <label class="btn upload" for="txtSkillLaboratoryPhoto">
+                  <span class="filename">Choose file</span>
+                  {{SkillLaboratoryDetails.SkillLaboratoryPhoto === '' ? 'No File Choosen' : SkillLaboratoryDetails.Dis_SkillLaboratoryPhoto}}
+                </label>
+                <div class="btn-group" *ngIf="SkillLaboratoryDetails.SkillLaboratoryPhoto !=''">
+                  <a class="btn btn-outline-primary" target="_blank" href="{{SkillLaboratoryDetails.SkillLaboratoryPhotoPath}}"><i class="fa fa-eye"></i></a>
+                  <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('SkillLaboratoryPhoto', SkillLaboratoryDetails.SkillLaboratoryPhoto)"><i class="fa fa-trash-o"></i></button>
+                </div>
+              </div>
+              <div *ngIf="isSkillLaboratoryPhoto" class="text-danger">
+                <p *ngIf="isSkillLaboratoryPhoto"> This field is required .!</p>
+              </div>
+              <div *ngIf="isValidSkillLaboratoryPhoto" class="text-danger">
+                <p *ngIf="isValidSkillLaboratoryPhoto"> {{ImageValidationMessage_SkillLaboratoryPhoto}}</p>
+              </div>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+              <button class="btn btn-primary" id="btnSkillLaboratory" style="margin-top:27px" (click)="AddSkillLaboratory()"><i class="fa fa-plus"></i> Add</button>&nbsp;&nbsp;
+              <button type="button" class="btn btn-danger" style="margin-top:27px" (click)="ReseSkillLaboratory()"> Reset</button>
+            </div>
+          </div>
+          <hr />
+          <div class="table-responsive" *ngIf="request.SkillLaboratoryDetails.length>0">
+            <table class="table table-bordered table-hover table-striped">
+              <thead>
+                <tr>
+                  <th>Sr. No.</th>
+                  <th>Laboratory(Number)</th>                  
+                  <th>Laboratory Size (sq. mt.)</th>
+                  <th>Upload Photo</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let row of request.SkillLaboratoryDetails; let indexOfelement=index;">
+                  <td> {{indexOfelement+1}}</td>
+                  <td>{{row.SkillLaboratoryNumber}}</td>                 
+                  <td>{{row.SkillLaboratorySize}}</td>
+                  <td>
+                    <a *ngIf="row.SkillLaboratoryPhoto!='' && row.SkillLaboratoryPhotoPath!='N/A'" target="_blank" href="{{row.SkillLaboratoryPhotoPath}}" title="View Member Photo"><i class="fa fa-eye"></i></a>
+                    <label *ngIf="row.SkillLaboratoryPhoto=='N/A'">{{row.SkillLaboratoryPhotoPath}}</label>
+                  </td>
+                  <td>                    
+                    <button class="btn btn-danger" type="button" (click)="DeleteSkillLaboratory(indexOfelement)" [attr.disabled]="isDisabledGrid ? true : null"><i class="fa fa-trash-o"></i></button>
+                  </td>
+                </tr>
+                <tr *ngIf="request.SkillLaboratoryDetails.length<=0">
                   <td colspan="12" style="color:red">No Data Found.!</td>
                 </tr>
               </tbody>
@@ -201,10 +384,10 @@
             </div>
           </div>
         </div>
-        <div class="card-header border-top d-flex justify-content-between align-items-center">
+        <div class="card-header border-top d-flex justify-content-between align-items-center" *ngIf="request.DemonstrationRoom=='Yes'">
           <b><i class="fa fa-filter"></i>&nbsp;Student Practical Labs</b>
         </div>
-        <div class="card-body">
+        <div class="card-body" *ngIf="request.DemonstrationRoom=='Yes'">
           <div class="row">
             <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
               <label for="rdHistology" class="form-label d-block" style="margin-right:15px">
@@ -217,6 +400,26 @@
               </select>
               <p><span *ngIf="request.Histology==''" style="color:red;">This field is required .!</span></p>
             </div>
+            <div class="col-lg-3 col-md-3 col-sm-4 col-12 mb-3" *ngIf="request.Histology=='Yes'">
+              <label for="txtUploadPhotoHistology" class="form-label">Upload Photo Histology<span style="color:red;">*</span></label>
+              <div class="d-flex">
+                <input type="file" class="form-control d-none" id="txtUploadPhotoHistology" formControlName="txtUploadPhotoHistology" (change)="ValidateImage($event,'UploadPhotoHistology')">
+                <label class="btn upload" for="txtUploadPhotoHistology">
+                  <span class="filename">Choose file</span>
+                  {{request.UploadPhotoHistology === '' ? 'No File Choosen' : request.Dis_UploadPhotoHistology}}
+                </label>
+                <div class="btn-group" *ngIf="request.UploadPhotoHistology !=''">
+                  <a class="btn btn-outline-primary" target="_blank" href="{{request.UploadPhotoHistologyPath}}"><i class="fa fa-eye"></i></a>
+                  <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('UploadPhotoHistology', request.UploadPhotoHistology)"><i class="fa fa-trash-o"></i></button>
+                </div>
+              </div>
+              <div *ngIf="isUploadPhotoHistologyPhoto" class="text-danger">
+                <p *ngIf="isUploadPhotoHistologyPhoto"> This field is required .!</p>
+              </div>
+              <div *ngIf="isValidUploadPhotoHistologyPhoto" class="text-danger">
+                <p *ngIf="isValidUploadPhotoHistologyPhoto"> {{ImageValidationMessage_UploadPhotoHistology}}</p>
+              </div>
+            </div>
             <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
               <label for="ClinicalPhysiology" class="form-label d-block" style="margin-right:15px">
                 Clinical Physiology<span style="color:red;">*</span>
@@ -227,6 +430,26 @@
                 <option value="No">No</option>
               </select>
               <p><span *ngIf="request.ClinicalPhysiology==''" style="color:red;">This field is required .!</span></p>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-4 col-12 mb-3" *ngIf="request.ClinicalPhysiology=='Yes'">
+              <label for="txtUploadPhotoClinicalPhysiology" class="form-label">Upload Photo Clinical Physiology<span style="color:red;">*</span></label>
+              <div class="d-flex">
+                <input type="file" class="form-control d-none" id="txtUploadPhotoClinicalPhysiology" formControlName="txtUploadPhotoClinicalPhysiology" (change)="ValidateImage($event,'UploadPhotoClinicalPhysiology')">
+                <label class="btn upload" for="txtUploadPhotoClinicalPhysiology">
+                  <span class="filename">Choose file</span>
+                  {{request.UploadPhotoClinicalPhysiology === '' ? 'No File Choosen' : request.Dis_UploadPhotoClinicalPhysiology}}
+                </label>
+                <div class="btn-group" *ngIf="request.UploadPhotoClinicalPhysiology !=''">
+                  <a class="btn btn-outline-primary" target="_blank" href="{{request.UploadPhotoClinicalPhysiologyPath}}"><i class="fa fa-eye"></i></a>
+                  <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('UploadPhotoClinicalPhysiology', request.UploadPhotoClinicalPhysiology)"><i class="fa fa-trash-o"></i></button>
+                </div>
+              </div>
+              <div *ngIf="isUploadPhotoClinicalPhysiology" class="text-danger">
+                <p *ngIf="isUploadPhotoClinicalPhysiology"> This field is required .!</p>
+              </div>
+              <div *ngIf="isValidUploadPhotoClinicalPhysiology" class="text-danger">
+                <p *ngIf="isValidUploadPhotoClinicalPhysiology"> {{ImageValidationMessage_UploadPhotoClinicalPhysiology}}</p>
+              </div>
             </div>
             <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
               <label for="Biochemistry" class="form-label d-block" style="margin-right:15px">
@@ -239,6 +462,26 @@
               </select>
               <p><span *ngIf="request.Biochemistry==''" style="color:red;">This field is required .!</span></p>
             </div>
+            <div class="col-lg-3 col-md-3 col-sm-4 col-12 mb-3" *ngIf="request.Biochemistry=='Yes'">
+              <label for="txtUploadPhotoBiochemistry" class="form-label">Upload Photo Biochemistry<span style="color:red;">*</span></label>
+              <div class="d-flex">
+                <input type="file" class="form-control d-none" id="txtUploadPhotoBiochemistry" formControlName="txtUploadPhotoBiochemistry" (change)="ValidateImage($event,'UploadPhotoBiochemistry')">
+                <label class="btn upload" for="txtUploadPhotoBiochemistry">
+                  <span class="filename">Choose file</span>
+                  {{request.UploadPhotoBiochemistry === '' ? 'No File Choosen' : request.Dis_UploadPhotoBiochemistry}}
+                </label>
+                <div class="btn-group" *ngIf="request.UploadPhotoBiochemistry !=''">
+                  <a class="btn btn-outline-primary" target="_blank" href="{{request.UploadPhotoBiochemistryPath}}"><i class="fa fa-eye"></i></a>
+                  <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('UploadPhotoBiochemistry', request.UploadPhotoBiochemistry)"><i class="fa fa-trash-o"></i></button>
+                </div>
+              </div>
+              <div *ngIf="isUploadPhotoBiochemistryPhoto" class="text-danger">
+                <p *ngIf="isUploadPhotoBiochemistryPhoto"> This field is required .!</p>
+              </div>
+              <div *ngIf="isValidUploadPhotoBiochemistryPhoto" class="text-danger">
+                <p *ngIf="isValidUploadPhotoBiochemistryPhoto"> {{ImageValidationMessage_UploadPhotoBiochemistryPhoto}}</p>
+              </div>
+            </div>
             <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
               <label for="HistopathologyCytopathology" class="form-label d-block" style="margin-right:15px">
                 Histopathology & Cytopathology<span style="color:red;">*</span>
@@ -249,6 +492,26 @@
                 <option value="No">No</option>
               </select>
               <p><span *ngIf="request.HistopathologyCytopathology==''" style="color:red;">This field is required .!</span></p>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-4 col-12 mb-3" *ngIf="request.HistopathologyCytopathology=='Yes'">
+              <label for="txtUploadPhotoHistopathologyCytopathologyPhoto" class="form-label">Upload Photo  Histopathology & Cytopathology<span style="color:red;">*</span></label>
+              <div class="d-flex">
+                <input type="file" class="form-control d-none" id="txtUploadPhotoHistopathologyCytopathologyPhoto" formControlName="txtUploadPhotoHistopathologyCytopathologyPhoto" (change)="ValidateImage($event,'UploadPhotoHistopathologyCytopathology')">
+                <label class="btn upload" for="txtUploadPhotoHistopathologyCytopathologyPhoto">
+                  <span class="filename">Choose file</span>
+                  {{request.UploadPhotoHistopathologyCytopathology === '' ? 'No File Choosen' : request.Dis_UploadPhotoHistopathologyCytopathology}}
+                </label>
+                <div class="btn-group" *ngIf="request.UploadPhotoHistopathologyCytopathology !=''">
+                  <a class="btn btn-outline-primary" target="_blank" href="{{request.UploadPhotoHistopathologyCytopathologyPath}}"><i class="fa fa-eye"></i></a>
+                  <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('UploadPhotoHistopathologyCytopathology', request.UploadPhotoHistopathologyCytopathology)"><i class="fa fa-trash-o"></i></button>
+                </div>
+              </div>
+              <div *ngIf="isUploadPhotoHistopathologyCytopathologyPhoto" class="text-danger">
+                <p *ngIf="isUploadPhotoHistopathologyCytopathologyPhoto"> This field is required .!</p>
+              </div>
+              <div *ngIf="isValidUploadPhotoHistopathologyCytopathologyPhoto" class="text-danger">
+                <p *ngIf="isValidUploadPhotoHistopathologyCytopathologyPhoto"> {{ImageValidationMessage_UploadPhotoHistopathologyCytopathology}}</p>
+              </div>
             </div>
             <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
               <label for="ClinicalPathologyHaematolog" class="form-label d-block" style="margin-right:15px">
@@ -261,6 +524,26 @@
               </select>
               <p><span *ngIf="request.ClinicalPathologyHaematolog==''" style="color:red;">This field is required .!</span></p>
             </div>
+            <div class="col-lg-3 col-md-3 col-sm-4 col-12 mb-3" *ngIf="request.ClinicalPathologyHaematolog=='Yes'">
+              <label for="txtUploadPhotoClinicalPathologyHaematologPhoto" class="form-label">Upload Photo Clinical Pathology & Haematology<span style="color:red;">*</span></label>
+              <div class="d-flex">
+                <input type="file" class="form-control d-none" id="txtUploadPhotoClinicalPathologyHaematologPhoto" formControlName="txtUploadPhotoClinicalPathologyHaematologPhoto" (change)="ValidateImage($event,'UploadPhotoClinicalPathologyHaematolog')">
+                <label class="btn upload" for="txtUploadPhotoClinicalPathologyHaematologPhoto">
+                  <span class="filename">Choose file</span>
+                  {{request.UploadPhotoClinicalPathologyHaematolog === '' ? 'No File Choosen' : request.Dis_UploadPhotoClinicalPathologyHaematolog}}
+                </label>
+                <div class="btn-group" *ngIf="request.UploadPhotoClinicalPathologyHaematolog !=''">
+                  <a class="btn btn-outline-primary" target="_blank" href="{{request.UploadPhotoClinicalPathologyHaematologPath}}"><i class="fa fa-eye"></i></a>
+                  <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('UploadPhotoClinicalPathologyHaematolog', request.UploadPhotoClinicalPathologyHaematolog)"><i class="fa fa-trash-o"></i></button>
+                </div>
+              </div>
+              <div *ngIf="isUploadPhotoClinicalPathologyHaematologPhoto" class="text-danger">
+                <p *ngIf="isUploadPhotoClinicalPathologyHaematologPhoto"> This field is required .!</p>
+              </div>
+              <div *ngIf="isValidUploadPhotoClinicalPathologyHaematologPhoto" class="text-danger">
+                <p *ngIf="isValidUploadPhotoClinicalPathologyHaematologPhoto"> {{ImageValidationMessage_UploadPhotoClinicalPathologyHaematolog}}</p>
+              </div>
+            </div>
             <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
               <label for="Microbiology" class="form-label d-block" style="margin-right:15px">
                 Microbiology<span style="color:red;">*</span>
@@ -271,6 +554,26 @@
                 <option value="No">No</option>
               </select>
               <p><span *ngIf="request.Microbiology==''" style="color:red;">This field is required .!</span></p>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-4 col-12 mb-3" *ngIf="request.Microbiology=='Yes'">
+              <label for="txtUploadPhotoMicrobiologyPhoto" class="form-label">Upload Photo Microbiology<span style="color:red;">*</span></label>
+              <div class="d-flex">
+                <input type="file" class="form-control d-none" id="txtUploadPhotoMicrobiologyPhoto" formControlName="txtUploadPhotoMicrobiologyPhoto" (change)="ValidateImage($event,'UploadPhotoMicrobiology')">
+                <label class="btn upload" for="txtUploadPhotoMicrobiologyPhoto">
+                  <span class="filename">Choose file</span>
+                  {{request.UploadPhotoMicrobiology === '' ? 'No File Choosen' : request.Dis_UploadPhotoMicrobiology}}
+                </label>
+                <div class="btn-group" *ngIf="request.UploadPhotoMicrobiology !=''">
+                  <a class="btn btn-outline-primary" target="_blank" href="{{request.UploadPhotoMicrobiologyPath}}"><i class="fa fa-eye"></i></a>
+                  <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('UploadPhotoMicrobiology', request.UploadPhotoMicrobiology)"><i class="fa fa-trash-o"></i></button>
+                </div>
+              </div>
+              <div *ngIf="isUploadPhotoMicrobiologyPhoto" class="text-danger">
+                <p *ngIf="isUploadPhotoMicrobiologyPhoto"> This field is required .!</p>
+              </div>
+              <div *ngIf="isValidUploadPhotoMicrobiologyPhoto" class="text-danger">
+                <p *ngIf="isValidUploadPhotoMicrobiologyPhoto"> {{ImageValidationMessage_UploadPhotoMicrobiologyPhoto}}</p>
+              </div>
             </div>
             <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
               <label for="ClinicalPharmacologyandComputerAssistedLearning" class="form-label d-block" style="margin-right:15px">
@@ -283,110 +586,28 @@
               </select>
               <p><span *ngIf="request.ClinicalPharmacologyandComputerAssistedLearning==''" style="color:red;">This field is required .!</span></p>
             </div>
-          </div>
-        </div>
-        <div class="card-header border-top d-flex justify-content-between align-items-center">
-          <b><i class="fa fa-filter"></i>&nbsp;Dissection Hall:</b>
-        </div>
-        <div class="card-body">
-          <div class="row">
-            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-              <label for=" DissectionHall" class="form-label d-block" style="margin-right:15px">
-                Dissection Hall<span style="color:red;">*</span>
-              </label>
-              <select class="form-select" id="rdDissectionHall" name="rdDissectionHall" [(ngModel)]="request.DissectionHall" formControlName="rdDissectionHall">
-                <option value="">--Select--</option>
-                <option value="Yes">Yes</option>
-                <option value="No">No</option>
-              </select>
-              <p><span *ngIf="request.DissectionHall==''" style="color:red;">This field is required .!</span></p>
-            </div>
-            <div class="col-lg-3 col-md-3 col-sm-4 col-12 mb-3" *ngIf="request.DissectionHall=='Yes'">
-              <label for="DissectionHallNumber" class="form-label">Dissection Hall Number<span style="color:red;">*</span> </label>
-              <input type="text" autocomplete="off" class="form-control" id="txtDissectionHallNumber" name="txtDissectionHallNumber" [(ngModel)]="request.DissectionHallNumber" formControlName="txtDissectionHallNumber">>
-              <p><span *ngIf="request.DissectionHall=='Yes' && request.DissectionHallNumber==''" style="color:red;">This field is required .!</span></p>
-            </div>
-            <div class="col-lg-3 col-md-3 col-sm-4 col-12 mb-3" *ngIf="request.DissectionHall=='Yes'">
-              <label for="DissectionHallCapacity " class="form-label">Dissection Hall Capacity <span style="color:red;">*</span> </label>
-              <input type="text" autocomplete="off" class="form-control" id="txtDissectionHallCapacity" name="txtDissectionHallCapacity" [(ngModel)]="request.DissectionHallCapacity" formControlName="txtDissectionHallCapacity">
-              <p><span *ngIf="request.DissectionHall=='Yes' && request.DissectionHallCapacity==''" style="color:red;">This field is required .!</span></p>
-            </div>
-            <div class="col-lg-3 col-md-3 col-sm-4 col-12 mb-3" *ngIf="request.DissectionHall=='Yes'">
-              <label for="DissectionHallsize" class="form-label">Dissection Hall size<span style="color:red;">*</span> </label>
-              <input type="text" autocomplete="off" class="form-control" id="txtDissectionHallsize" name="txtDissectionHallsize" [(ngModel)]="request.DissectionHallsize" formControlName="txtDissectionHallsize">
-
-              <p><span *ngIf="request.DissectionHall=='Yes' && request.DissectionHallsize==''" style="color:red;">This field is required .!</span></p>
-            </div>
-            <div class="col-lg-3 col-md-3 col-sm-4 col-12 mb-3" *ngIf="request.DissectionHall=='Yes'">
-              <label for="txtDissectionHallPhoto" class="form-label">Upload Photo <span style="color:red">*</span></label>
+            <div class="col-lg-3 col-md-3 col-sm-4 col-12 mb-3">
+              <label for="txtUploadPhotoClinicalPharmacologyandComputerAssistedLearningPhoto" class="form-label">Upload Photo (CAL)</label>
               <div class="d-flex">
-                <input type="file" class="form-control d-none" id="txtDissectionHallPhoto" (change)="ValidateImage($event,'DissectionHallPhoto')">
-                <label class="btn upload" for="txtDissectionHallPhoto">
+                <input type="file" class="form-control d-none" id="txtUploadPhotoClinicalPharmacologyandComputerAssistedLearningPhoto" formControlName="txtUploadPhotoClinicalPharmacologyandComputerAssistedLearningPhoto" (change)="ValidateImage($event,'UploadPhotoClinicalPharmacologyandComputerAssistedLearning')">
+                <label class="btn upload" for="txtUploadPhotoClinicalPharmacologyandComputerAssistedLearningPhoto">
                   <span class="filename">Choose file</span>
-                  {{request.DissectionHallPhoto === '' ? 'No File Choosen' : request.Dis_DissectionHallPhoto}}
+                  {{request.UploadPhotoClinicalPharmacologyandComputerAssistedLearning === '' ? 'No File Choosen' : request.Dis_ClinicalPharmacologyandComputerAssistedLearning}}
                 </label>
-                <div class="btn-group" *ngIf="request.DissectionHallPhoto!=''">
-                  <a class="btn btn-outline-primary" target="_blank" href="{{request.DissectionHallPhotoPath}}"><i class="fa fa-eye"></i></a>
-                  <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('DissectionHallPhoto', request.DissectionHallPhoto)"><i class="fa fa-trash-o"></i></button>
+                <div class="btn-group" *ngIf="request.UploadPhotoClinicalPharmacologyandComputerAssistedLearning !=''">
+                  <a class="btn btn-outline-primary" target="_blank" href="{{request.ClinicalPharmacologyandComputerAssistedLearningPath}}"><i class="fa fa-eye"></i></a>
+                  <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('UploadPhotoClinicalPharmacologyandComputerAssistedLearning', request.UploadPhotoClinicalPharmacologyandComputerAssistedLearning)"><i class="fa fa-trash-o"></i></button>
                 </div>
               </div>
-              <div *ngIf="isDissectionHallPhoto" class="text-danger">
-                <p *ngIf="isDissectionHallPhoto"> This field is required .!</p>
+              <div *ngIf="isUploadPhotoClinicalPharmacologyandComputerAssistedLearningPhoto" class="text-danger">
+                <p *ngIf="isUploadPhotoClinicalPharmacologyandComputerAssistedLearningPhoto"> This field is required .!</p>
               </div>
-              <div *ngIf="isValidDissectionHallPhoto" class="text-danger">
-                <p *ngIf="isValidDissectionHallPhoto"> {{ImageValidationMessage_DissectionHallPhoto}}</p>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="card-header border-top d-flex justify-content-between align-items-center">
-          <b><i class="fa fa-filter"></i>&nbsp;Skill Laboratory:</b>
-        </div>
-        <div class="card-body">
-          <div class="row">
-            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-              <label for=" SkillLaboratory" class="form-label d-block" style="margin-right:15px">
-                Skill Laboratory<span style="color:red;">*</span>
-              </label>
-              <select class="form-select" id="rdSkillLaboratory" name="rdSkillLaboratory" [(ngModel)]="request.SkillLaboratory" formControlName="rdSkillLaboratory">
-                <option value="">--Select--</option>
-                <option value="Yes">Yes</option>
-                <option value="No">No</option>
-              </select>
-              <p><span *ngIf="request.SkillLaboratory==''" style="color:red;">This field is required .!</span></p>
-            </div>
-            <div class="col-lg-3 col-md-3 col-sm-4 col-12 mb-3" *ngIf="request.SkillLaboratory=='Yes'">
-              <label for="LaboratoryNumber" class="form-label">Laboratory Number<span style="color:red;">*</span> </label>
-              <input type="text" autocomplete="off" class="form-control" id="txtLaboratoryNumber" name="txtLaboratoryNumber" [(ngModel)]="request.LaboratoryNumber" formControlName="txtLaboratoryNumber">
-              <p><span *ngIf="request.SkillLaboratory=='Yes' && request.LaboratoryNumber==''" style="color:red;">This field is required .!</span></p>
-            </div>
-            <div class="col-lg-3 col-md-3 col-sm-4 col-12 mb-3" *ngIf="request.SkillLaboratory=='Yes'">
-              <label for="LaboratoryCapacity" class="form-label">Laboratory Capacity <span style="color:red;">*</span> </label>
-              <input type="text" autocomplete="off" class="form-control" id="txtLaboratoryCapacity" name="txtLaboratoryCapacity" [(ngModel)]="request.LaboratoryCapacity" formControlName="txtLaboratoryCapacity">
-              <p><span *ngIf="request.SkillLaboratory=='Yes' && request.LaboratoryCapacity==''" style="color:red;">This field is required .!</span></p>
-            </div>
-            <div class="col-lg-3 col-md-3 col-sm-4 col-12 mb-3" *ngIf="request.SkillLaboratory=='Yes'">
-              <label for="txtSkillLaboratoryPhoto" class="form-label">Upload Photo <span style="color:red">*</span></label>
-              <div class="d-flex">
-                <input type="file" class="form-control d-none" id="txtSkillLaboratoryPhoto" (change)="ValidateImage($event,'SkillLaboratoryPhoto')">
-                <label class="btn upload" for="txtSkillLaboratoryPhoto">
-                  <span class="filename">Choose file</span>
-                  {{request.SkillLaboratoryPhoto === '' ? 'No File Choosen' : request.Dis_SkillLaboratoryPhoto}}
-                </label>
-                <div class="btn-group" *ngIf="request.SkillLaboratoryPhoto !=''">
-                  <a class="btn btn-outline-primary" target="_blank" href="{{request.SkillLaboratoryPhotoPath}}"><i class="fa fa-eye"></i></a>
-                  <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('SkillLaboratoryPhoto', request.SkillLaboratoryPhoto)"><i class="fa fa-trash-o"></i></button>
-                </div>
-              </div>
-              <div *ngIf="isSkillLaboratoryPhoto" class="text-danger">
-                <p *ngIf="isSkillLaboratoryPhoto"> This field is required .!</p>
-              </div>
-              <div *ngIf="isValidSkillLaboratoryPhoto" class="text-danger">
-                <p *ngIf="isValidSkillLaboratoryPhoto"> {{ImageValidationMessage_SkillLaboratoryPhoto}}</p>
+              <div *ngIf="isValidUploadPhotoClinicalPharmacologyandComputerAssistedLearningPhoto" class="text-danger">
+                <p *ngIf="isValidUploadPhotoClinicalPharmacologyandComputerAssistedLearningPhoto"> {{ImageValidationMessage_UploadPhotoClinicalPharmacologyandComputerAssistedLearning}}</p>
               </div>
             </div>
-          </div>
-        </div>
+          </div>         
+        </div>        
         <div class="card-header border-top d-flex justify-content-between align-items-center">
           <b><i class="fa fa-filter"></i>&nbsp; Central research lab/ cell</b>
         </div>
@@ -394,7 +615,7 @@
           <div class="row">
             <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
               <label for="Centralresearch" class="form-label d-block" style="margin-right:15px">
-                Central research (lab/cell)<span style="color:red;">*</span>
+                Central research (lab/cell Common for All Department)<span style="color:red;">*</span>
               </label>
               <select class="form-select" id="rdCentralresearch" name="rdCentralresearch" [(ngModel)]="request.Centralresearch" formControlName="rdCentralresearch">
                 <option value="">--Select--</option>
@@ -422,27 +643,67 @@
               <p><span *ngIf="request.CentralLibrary==''" style="color:red;">This field is required .!</span></p>
             </div>
             <div class="col-lg-3 col-md-3 col-sm-4 col-12 mb-3" *ngIf="request.CentralLibrary=='Yes'">
-              <label for="CentralLibraryArea" class="form-label">Central Library Area (Sq.m) <span style="color:red;">*</span> </label>
-              <input type="text" autocomplete="off" class="form-control" id="txtCentralLibraryArea" name="txtCentralLibraryArea" [(ngModel)]="request.CentralLibraryArea" formControlName="txtCentralLibraryArea">
+              <label for="CentralLibraryArea" class="form-label">Central Library Area (Minimum Required 1000 (sq.mt)) <span style="color:red;">*</span> </label>
+              <input type="text" autocomplete="off" class="form-control" id="txtCentralLibraryArea" name="txtCentralLibraryArea" [(ngModel)]="request.CentralLibraryArea" formControlName="txtCentralLibraryArea" (keypress)="numberOnly($event)">
               <p><span *ngIf="request.CentralLibrary=='Yes' && request.CentralLibraryArea==''" style="color:red;">This field is required .!</span></p>
             </div>
             <div class="col-lg-3 col-md-3 col-sm-4 col-12 mb-3" *ngIf="request.CentralLibrary=='Yes'">
-              <label for="CentralLibrarySeatingCapacity" class="form-label">Central Library Seating Capacity (Inside + Outside)<span style="color:red;">*</span> </label>
-              <input type="text" autocomplete="off" class="form-control" id="txtCentralLibrarySeatingCapacity" name="txtCentralLibrarySeatingCapacity" [(ngModel)]="request.CentralLibrarySeatingCapacity" formControlName="txtCentralLibrarySeatingCapacity">
+              <label for="CentralLibrarySeatingCapacity" class="form-label">Central Library Seating Capacity (Inside + Outside)(Minimum Required 350)<span style="color:red;">*</span> </label>
+              <input type="text" autocomplete="off" class="form-control" id="txtCentralLibrarySeatingCapacity" name="txtCentralLibrarySeatingCapacity" [(ngModel)]="request.CentralLibrarySeatingCapacity" formControlName="txtCentralLibrarySeatingCapacity" (keypress)="numberOnly($event)">
               <p><span *ngIf="request.CentralLibrary=='Yes' && request.CentralLibrarySeatingCapacity==''" style="color:red;">This field is required .!</span></p>
             </div>
             <div class="col-lg-3 col-md-3 col-sm-4 col-12 mb-3" *ngIf="request.CentralLibrary=='Yes'">
-              <label for="CentralLibraryBooks" class="form-label">Central Library(Books)<span style="color:red;">*</span> </label>
-              <input type="text" autocomplete="off" class="form-control" id="txtCentralLibraryBooks" name="txtCentralLibraryBooks" [(ngModel)]="request.CentralLibraryBooks" formControlName="txtCentralLibraryBooks">
+              <label for="CentralLibraryBooks" class="form-label">Central Library(Books Minimum Required 4500)<span style="color:red;">*</span> </label>
+              <input type="text" autocomplete="off" class="form-control" id="txtCentralLibraryBooks" name="txtCentralLibraryBooks" [(ngModel)]="request.CentralLibraryBooks" formControlName="txtCentralLibraryBooks" (keypress)="numberOnly($event)">
               <p><span *ngIf="request.CentralLibrary=='Yes' && request.CentralLibraryBooks==''" style="color:red;">This field is required .!</span></p>
             </div>
             <div class="col-lg-3 col-md-3 col-sm-4 col-12 mb-3" *ngIf="request.CentralLibrary=='Yes'">
-              <label for="JournalsIndianForeign" class="form-label">Journals(Indian + Foreign)<span style="color:red;">*</span> </label>
-              <input type="text" autocomplete="off" class="form-control" id="txtJournalsIndianForeign" name="txtJournalsIndianForeign" [(ngModel)]="request.JournalsIndianForeign" formControlName="JournalsIndianForeign">
+              <label for="txtCentralLibrarybooksList" class="form-label">Upload Central Library books List</label>
+              <div class="d-flex">
+                <input type="file" class="form-control d-none" id="txtCentralLibrarybooksList" (change)="ValidateImage($event,'CentralLibrarybooksList')">
+                <label class="btn upload" for="txtCentralLibrarybooksList">
+                  <span class="filename">Choose file</span>
+                  {{request.CentralLibrarybooksList === '' ? 'No File Choosen' : request.Dis_CentralLibrarybooksList}}
+                </label>
+                <div class="btn-group" *ngIf="request.CentralLibrarybooksList !=''">
+                  <a class="btn btn-outline-primary" target="_blank" href="{{request.CentralLibrarybooksListPath}}"><i class="fa fa-eye"></i></a>
+                  <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('CentralLibrarybooksList', request.CentralLibrarybooksList)"><i class="fa fa-trash-o"></i></button>
+                </div>
+              </div>
+              <div *ngIf="isCentralLibrarybooksList" class="text-danger">
+                <p *ngIf="isCentralLibrarybooksList"> This field is required .!</p>
+              </div>
+              <div *ngIf="isValidCentralLibrarybooksList" class="text-danger">
+                <p *ngIf="isValidCentralLibrarybooksList"> {{ImageValidationMessage_CentralLibrarybooksList}}</p>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-4 col-12 mb-3" *ngIf="request.CentralLibrary=='Yes'">
+              <label for="JournalsIndianForeign" class="form-label">Journals(Indian + Foreign)(Minimum Required 45)<span style="color:red;">*</span> </label>
+              <input type="text" autocomplete="off" class="form-control" id="txtJournalsIndianForeign" name="txtJournalsIndianForeign" [(ngModel)]="request.JournalsIndianForeign" formControlName="JournalsIndianForeign" (keypress)="numberOnly($event)">
               <p><span *ngIf="request.CentralLibrary=='Yes' && request.JournalsIndianForeign==''" style="color:red;">This field is required .!</span></p>
             </div>
             <div class="col-lg-3 col-md-3 col-sm-4 col-12 mb-3" *ngIf="request.CentralLibrary=='Yes'">
-              <label for="txtCentralLibraryPhoto" class="form-label">Upload Photo <span style="color:red">*</span></label>
+              <label for="txtJournalsIndianForeignList" class="form-label">Upload Journals (Indian + Foreign) List</label>
+              <div class="d-flex">
+                <input type="file" class="form-control d-none" id="txtJournalsIndianForeignList" (change)="ValidateImage($event,'JournalsIndianForeignList')">
+                <label class="btn upload" for="txtJournalsIndianForeignList">
+                  <span class="filename">Choose file</span>
+                  {{request.JournalsIndianForeignList === '' ? 'No File Choosen' : request.Dis_JournalsIndianForeignList}}
+                </label>
+                <div class="btn-group" *ngIf="request.JournalsIndianForeignList !=''">
+                  <a class="btn btn-outline-primary" target="_blank" href="{{request.JournalsIndianForeignListPath}}"><i class="fa fa-eye"></i></a>
+                  <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('JournalsIndianForeignList', request.JournalsIndianForeignList)"><i class="fa fa-trash-o"></i></button>
+                </div>
+              </div>
+              <div *ngIf="isJournalsIndianForeignList" class="text-danger">
+                <p *ngIf="isJournalsIndianForeignList"> This field is required .!</p>
+              </div>
+              <div *ngIf="isValidJournalsIndianForeignList" class="text-danger">
+                <p *ngIf="isValidJournalsIndianForeignList"> {{ImageValidationMessage_JournalsIndianForeignList}}</p>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-4 col-12 mb-3" *ngIf="request.CentralLibrary=='Yes'">
+              <label for="txtCentralLibraryPhoto" class="form-label">Upload Central Library Photo</label>
               <div class="d-flex">
                 <input type="file" class="form-control d-none" id="txtCentralLibraryPhoto" (change)="ValidateImage($event,'CentralLibraryPhoto')">
                 <label class="btn upload" for="txtCentralLibraryPhoto">
@@ -481,7 +742,7 @@
             </div>
             <div class="col-lg-3 col-md-3 col-sm-4 col-12 mb-3" *ngIf="request.RuralHealthTrainingCentre=='Yes'">
               <label for="RuralHealth" class="form-label">Rural Health(Number)<span style="color:red;">*</span> </label>
-              <input type="text" autocomplete="off" class="form-control" id="txtRuralHealth" name="txtRuralHealth" [(ngModel)]="request.RuralHealth" formControlName="txtRuralHealth">
+              <input type="text" autocomplete="off" class="form-control" id="txtRuralHealth" name="txtRuralHealth" [(ngModel)]="request.RuralHealth" formControlName="txtRuralHealth" (keypress)="numberOnly($event)">
               <p><span *ngIf="request.RuralHealthTrainingCentre=='Yes' && request.RuralHealth==''" style="color:red;">This field is required .!</span></p>
             </div>
             <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
@@ -497,7 +758,7 @@
             </div>
             <div class="col-lg-3 col-md-3 col-sm-4 col-12 mb-3" *ngIf="request.UrbanHealthTrainingCentre=='Yes'">
               <label for="UrbanHealth" class="form-label">Urban Health(Number)<span style="color:red;">*</span> </label>
-              <input type="text" autocomplete="off" class="form-control" id="txtUrbanHealth" name="txtUrbanHealth" [(ngModel)]="request.UrbanHealth" formControlName="txtUrbanHealth">
+              <input type="text" autocomplete="off" class="form-control" id="txtUrbanHealth" name="txtUrbanHealth" [(ngModel)]="request.UrbanHealth" formControlName="txtUrbanHealth" (keypress)="numberOnly($event)">
               <p><span *ngIf="request.UrbanHealthTrainingCentre=='Yes' && request.UrbanHealth==''" style="color:red;">This field is required .!</span></p>
             </div>
           </div>
@@ -521,11 +782,11 @@
             <div class="col-lg-3 col-md-3 col-sm-4 col-12 mb-3" *ngIf="request.PowerBackup=='Yes'">
               <label for="txtPowerBackupCapacity" class="form-label">Power Backup (Capacity)<span style="color:red;">*</span></label>
               <input type="number" min="1" class="form-control" id="txtPowerBackupCapacity" name="txtPowerBackupCapacity"
-                     [(ngModel)]="request.PowerBackupCapacity" formControlName="txtPowerBackupCapacity">
-              <p><span *ngIf="request.PowerBackup=='Yes' && (request.PowerBackupCapacity?.trim() == '')" style="color:red;">This field is required.!</span></p>
+                     [(ngModel)]="request.PowerBackupCapacity" formControlName="txtPowerBackupCapacity" (keypress)="numberOnly($event)">
+              <p><span *ngIf="request.PowerBackup=='Yes' && (request.PowerBackupCapacity== '')" style="color:red;">This field is required.!</span></p>
             </div>
             <div class="col-lg-3 col-md-3 col-sm-4 col-12 mb-3" *ngIf="request.PowerBackup=='Yes'">
-              <label for="txtPowerBackupPhoto" class="form-label">Upload Photo <span style="color:red">*</span></label>
+              <label for="txtPowerBackupPhoto" class="form-label">Upload Photo</label>
               <div class="d-flex">
                 <input type="file" class="form-control d-none" id="txtPowerBackupPhoto" (change)="ValidateImage($event,'PowerBackupPhoto')">
                 <label class="btn upload" for="txtPowerBackupPhoto">
@@ -534,7 +795,7 @@
                 </label>
                 <div class="btn-group" *ngIf="request.PowerBackupPhoto !=''">
                   <a class="btn btn-outline-primary" target="_blank" href="{{request.PowerBackupPhotoPath}}"><i class="fa fa-eye"></i></a>
-                  <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('PowerBackupPhoto', request.PowerBackupPhoto)"><i class="fa fa-trash-o"></i></button>
+                  <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('PowerBackupPhoto',request.PowerBackupPhoto)"><i class="fa fa-trash-o"></i></button>
                 </div>
               </div>
               <div *ngIf="isPowerBackupPhoto" class="text-danger">
@@ -547,7 +808,7 @@
           </div>
         </div>
       </form>
-      
+
     </div>
     <div class="card-footer text-end">
       <button type="button" class="btn btn-danger" (click)="ResetControl()" aria-label="Close">Cancel</button>

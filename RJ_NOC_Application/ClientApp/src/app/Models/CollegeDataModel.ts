@@ -163,3 +163,9 @@ export class CollegeLevelDetailsDataModel {
   public ID: number = 0;
   public Name: string = '';
 }
+
+export class PresentCollegeStatusDataModel {
+  public CollegeID: number = 0;
+  public PresentCollegeStatusID: number = 0;
+  public DepartmentID: number = 0;
+}

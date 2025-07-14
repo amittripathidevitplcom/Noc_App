@@ -121,6 +121,7 @@ export class ApplicationDetailEntryComponent implements OnInit {
   }
   public IsAHDegreeCollege: boolean = false;
   async GetCollageDetails() {
+    debugger;
     try {
       this.IsAHDegreeCollege = false;
       this.loaderService.requestStarted();

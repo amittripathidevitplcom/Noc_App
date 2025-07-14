@@ -163,7 +163,39 @@ export class HospitalDataModel {
 
   public OTICUBed: number = null;
   public CasualtyBeds: number = null;
-
+  //Added 16-06-2025
+  public ICU: number = null;
+  public HospitalBedDistributionTotal: number = null;
+  public MajorOT: number = null;
+  public MinorOT: number = null;
+  public XRaystaticUnit500: number = null;
+  public MobileportableXRayUnit: number = null;
+  public IITVFluoroscopy: number = null;
+  public USGColour: number = null;
+  public CTScan: number = null;
+  public Biochemistry: number = null;
+  public MicrobiologyPathology: number = null;
+  public Haematology: number = null;
+  public ClinicalPathology: number = null;
+  public CSSD: number = null;
+  public Laundry: number = null;
+  public CCTVBiometricmachines: string = '';
+  public Pharmacy: string = '';
+  public HospitalInformationSystem: string = '';
+  public IsCSSD: string = '';
+  public CSSDPhoto: string = '';
+  public Dis_CSSDPhoto: string = '';
+  public CSSDPhotoPath: string = '';
+  public IsLaundry: string = '';
+  public LaundryPhoto: string = '';
+  public Dis_LaundryPhoto: string = '';
+  public LaundryPhotoPath: string = '';
+  public PharmacyPhoto: string = '';
+  public Dis_PharmacyPhoto: string = '';
+  public PharmacyPhotoPath: string = '';
+  public CCTVBiometricPhoto: string = '';
+  public Dis_CCTVBiometricPhoto: string = '';
+  public CCTVBiometricPhotoPath: string = '';
 }
 export class HospitalParentNotDataModel {// not have parent
   public ParentHospitalID: number = 0;
@@ -334,6 +366,7 @@ export class MGThreeHospitalDataModel {
   public IsAnyAffiliatedHospital: string = '';
 
   public MGThreeAffiliatedHospitalList: MGThreeAffiliatedHospitalDataModel[] = [];
+ 
 }
 
 export class MGThreeAffiliatedHospitalDataModel {

@@ -30,7 +30,7 @@ export class TotalDraftBedCollegeListComponent {
   public TotalDraftentryCollege: any = [];
   public DraftEntryCollegeDetailsList: any = [];
   // public QueryStringStatus: any = 'Summary';
-
+  public TotalDraftentryCollegeFinal: any = [];
   constructor(private loaderService: LoaderService, private toastr: ToastrService, private commonMasterService: CommonMasterService, private modalService: NgbModal, private routers: Router, private router: ActivatedRoute) {
 
   }
@@ -221,5 +221,35 @@ export class TotalDraftBedCollegeListComponent {
       }, 200);
     }
   }
+  public isLoadingFinalDraftExport: boolean = false;
+  async btnFinalDraftExportTable_Click(): Promise<void> {
+    debugger;
+    try {
+      this.loaderService.requestStarted();
+      this.request.DepartmentID = this.sSOLoginDataModel.DepartmentID;
+      console.log(this.request.DepartmentID);
+      const data: any = await this.commonMasterService.GetTotalFinalDraftentryDepartmentFormat(this.request);
+      const parsedData = JSON.parse(JSON.stringify(data));
+      this.TotalDraftentryCollegeFinal = parsedData['Data'][0];
+      console.log(this.TotalDraftentryCollegeFinal);
 
+      if (this.TotalDraftentryCollegeFinal && this.TotalDraftentryCollegeFinal.length > 0) {
+        this.isLoadingFinalDraftExport = true;
+        const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(this.TotalDraftentryCollegeFinal);
+        const wb: XLSX.WorkBook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+        XLSX.writeFile(wb, "TotalBedDraftEntryCollegeList.xlsx");
+      } else {
+        this.toastr.warning("No Record Found.!");
+      }
+
+    } catch (error) {
+      console.error("Error during export:", error);
+    } finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+        this.isLoadingFinalDraftExport = false;
+      }, 200);
+    }
+  }
 }

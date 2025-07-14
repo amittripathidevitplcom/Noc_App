@@ -28,6 +28,7 @@ export class DashboardComponent implements OnInit {
   closeResult: string | undefined;
   public SessionID: number = 0;
   public DepartmentID: number = 0;
+  public mgonecount: number = 0;
   public Departmentlist: any = [];
 
   @ViewChild('ApplicationSessionmodal') templateRef: TemplateRef<any> | undefined;
@@ -61,6 +62,7 @@ export class DashboardComponent implements OnInit {
           this.ErrorMessage = data['ErrorMessage'];
           console.log(data['Data']);
           this.dashboardDataModel = data['Data'][0]['DashBoardCount'][0];
+          this.mgonecount = data?.Data?.[0]?.DashBoardCount?.[0]?.TotalMGLOI || 0;
           if (data['Data'][0]['AllDepartmentCommonCount'] != null) {
             this.OtherdashboardDataModel = data['Data'][0]['AllDepartmentCommonCount'][0];
           }

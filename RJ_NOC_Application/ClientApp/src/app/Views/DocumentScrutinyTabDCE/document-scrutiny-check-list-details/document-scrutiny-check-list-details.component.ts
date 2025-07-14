@@ -937,6 +937,7 @@ export class DocumentScrutinyCheckListDetailsComponentDce implements OnInit {
         this.DCPendingPoint = "";
         await this.commonMasterService.Check30Female(this.SelectedCollageID)
           .then((data: any) => {
+            debugger;
             this.State = data['State'];
             this.SuccessMessage = data['SuccessMessage'];
             this.ErrorMessage = data['ErrorMessage'];
@@ -1026,13 +1027,18 @@ export class DocumentScrutinyCheckListDetailsComponentDce implements OnInit {
           console.log(this.GetDeficiencyActionData)
         }, error => console.error(error));
 
-
+      console.log(this.UploadDocument);
+      console.log(this.SelectedApplyNOCID);
       this.loaderService.requestStarted();
       //if (this.sSOLoginDataModel.RoleID == 16) {
       //  this.routers.navigate(['/inspectioncommitteephysicalverification/Pending']);
       //}
       //else {
       if (confirm("Are you sure you want to submit?")) {
+
+        if (this.sSOLoginDataModel.RoleID == 19 && this.ActionID == 3 && this.NextRoleID == 17 && this.SelectedDepartmentID == 3) {
+          this.NextActionID = 64;
+        }
         await this.applyNOCApplicationService.DocumentScrutiny(this.sSOLoginDataModel.RoleID, this.sSOLoginDataModel.UserID, this.ActionID, this.SelectedApplyNOCID, this.SelectedDepartmentID, this.CheckFinalRemark, this.NextRoleID, this.NextUserID, this.NextActionID, this.UploadDocument)
           .then((data: any) => {
             data = JSON.parse(JSON.stringify(data));
@@ -1242,10 +1248,22 @@ export class DocumentScrutinyCheckListDetailsComponentDce implements OnInit {
       this.ShowHideNextRole = true;
       //this.ShowHideNextAction = false;
     }
-    if ((this.sSOLoginDataModel.RoleID == 17 || this.sSOLoginDataModel.RoleID == 19) && this.ActionID == 3) {
+    //if ((this.sSOLoginDataModel.RoleID == 17 || this.sSOLoginDataModel.RoleID == 19) && this.ActionID == 3) {
+    //  this.UserRoleList = this.UserRoleList.filter((x: { RoleID: number }) => x.RoleID == 1);
+    //  this.ShowHideNextUser = false;
+    //}
+
+    if ((this.sSOLoginDataModel.RoleID == 17) && this.ActionID == 3) {
+
       this.UserRoleList = this.UserRoleList.filter((x: { RoleID: number }) => x.RoleID == 1);
       this.ShowHideNextUser = false;
     }
+    if ((this.sSOLoginDataModel.RoleID == 19) && this.ActionID == 3) {
+
+      this.UserRoleList = this.UserRoleList.filter((x: { RoleID: number }) => [1, 17].includes(x.RoleID));
+      this.ShowHideNextUser = false;
+    }
+
   }
 
   public CheckTabsEntryData: any = [];

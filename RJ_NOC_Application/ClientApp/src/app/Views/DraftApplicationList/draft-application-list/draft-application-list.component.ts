@@ -34,6 +34,7 @@ export class DraftApplicationListComponent implements OnInit {
   searchText: string = '';
   sSOLoginDataModel = new SSOLoginDataModel();
   public DepartmentID: number = 0;
+  public QueryStringStatus: any = '';
 
   constructor(private draftApplicationListService: DraftApplicationListService, private toastr: ToastrService, private loaderService: LoaderService,
     private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private _fb: FormBuilder) {
@@ -41,7 +42,7 @@ export class DraftApplicationListComponent implements OnInit {
   }
 
   async ngOnInit() {
-
+    debugger;
     //Call Encrypt and Decrypt
     //let ab = this.commonMasterService.Encrypt("rishi");
     //let abc = this.commonMasterService.Decrypt(ab);
@@ -49,13 +50,15 @@ export class DraftApplicationListComponent implements OnInit {
 
 
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
+    this.QueryStringStatus = this.router.snapshot.paramMap.get('Status')?.toString();
+    console.log(this.QueryStringStatus);
     await this.GetApplicationList();
   }
 
   async GetApplicationList() {
     try {
       this.loaderService.requestStarted();
-      await this.draftApplicationListService.DraftApplicationList(this.sSOLoginDataModel.SSOID, this.sSOLoginDataModel.SessionID)
+      await this.draftApplicationListService.DraftApplicationList(this.sSOLoginDataModel.SSOID, this.sSOLoginDataModel.SessionID, this.QueryStringStatus)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];

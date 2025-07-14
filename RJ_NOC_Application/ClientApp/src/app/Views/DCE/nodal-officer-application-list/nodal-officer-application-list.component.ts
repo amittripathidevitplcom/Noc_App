@@ -435,6 +435,7 @@ export class NodalOfficerApplicationListComponent implements OnInit {
 
 
   async AddMemberDetail() {
+    debugger;
     this.isSubmitted_MemberDetails = true;
     if (this.CommitteeMemberDetails.invalid) {
       return

@@ -161,8 +161,8 @@
                 <label class="form-label">Address Line 2 <!--<span style="color:red;">*</span>--></label>
                 <input type="text" class="form-control" id="txtAddressLine2" name="txtAddressLine2" [(ngModel)]="request.AddressLine2" formControlName="txtAddressLine2" (keypress)="alphaandNumberOnly($event)">
                 <!--<div *ngIf="isSubmitted&&form.txtAddressLine2.errors" class="text-danger">
-                  <p *ngIf="form.txtAddressLine2.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-                </div>-->
+            <p *ngIf="form.txtAddressLine2.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+          </div>-->
               </div>
               <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                 <label class="form-label">Select Area <span style="color:red;">*</span></label>
@@ -248,7 +248,394 @@
             </div>
           </div>
         </div>
-
+        <div class="card">
+          <div class="card-header">
+            <b>
+              <i class="bi bi-table"></i>&nbsp; Manage by of the Parental Hospital
+            </b>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="row mb-2">
+                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                  <label>Manage by Name <span style="color:red;">*</span></label>
+                  <input class="form-control" type="text" id="txtManageByName" name="txtManageByName" formControlName="txtManageByName" [(ngModel)]="request.ManageByName" (keypress)="alphaOnly($event)" />
+                  <div *ngIf="isSubmitted&&form.txtManageByName.errors" class="text-danger">
+                    <p *ngIf="form.txtManageByName.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                  </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                  <label>Manage by Contact No. <span style="color:red;">*</span></label>
+                  <input class="form-control" type="text" id="txtManageByPhone" name="txtManageByPhone" formControlName="txtManageByPhone" [(ngModel)]="request.ManageByPhone" (keypress)="NumberOnly($event)" maxlength="10" />
+                  <div *ngIf="isSubmitted&&form.txtManageByPhone.errors" class="text-danger">
+                    <p *ngIf="form.txtManageByPhone.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                    <p *ngIf="form.txtManageByPhone.errors.pattern"><i aria-hidden="true"></i> Manage by Contact number is not valid .!</p>
+                  </div>
+                </div>
+                <!-- address -->
+                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                  <label class="form-label">Address Line 1 <span style="color:red;">*</span></label>
+                  <input type="text" class="form-control" id="txtAddressLine1_ManageBy" name="txtAddressLine1_ManageBy" [(ngModel)]="request.AddressLine1_ManageBy" formControlName="txtAddressLine1_ManageBy" (keypress)="alphaandNumberOnly($event)">
+                  <div *ngIf="isSubmitted&&form.txtAddressLine1_ManageBy.errors" class="text-danger">
+                    <p *ngIf="form.txtAddressLine1_ManageBy.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                  </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                  <label class="form-label">Address Line 2 <!--<span style="color:red;">*</span>--></label>
+                  <input type="text" class="form-control" id="txtAddressLine2_ManageBy" name="txtAddressLine2_ManageBy" [(ngModel)]="request.AddressLine2_ManageBy" formControlName="txtAddressLine2_ManageBy" (keypress)="alphaandNumberOnly($event)">
+                  <!--<div *ngIf="isSubmitted&&form.txtAddressLine2_ManageBy.errors" class="text-danger">
+              <p *ngIf="form.txtAddressLine2_ManageBy.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+            </div>-->
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                  <label class="form-label">Select Area <span style="color:red;">*</span></label>
+                  <div class="clearfix"></div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" id="rbRural_ManageBy" name="rbRuralUrban_ManageBy" [(ngModel)]="request.RuralUrban_ManageBy" value="1" [value]="1" formControlName="rbRuralUrban_ManageBy" (change)="IsRuralOrUrban(true,'ManageBy',true)">
+                    <label class="form-check-label" for="rbRural_ManageBy">Rural</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" id="rbUrban_ManageBy" name="rbRuralUrban_ManageBy" [(ngModel)]="request.RuralUrban_ManageBy" value="2" [value]="2" formControlName="rbRuralUrban_ManageBy" (change)="IsRuralOrUrban(false,'ManageBy',true)">
+                    <label class="form-check-label" for="rbUrban_ManageBy">Urban</label>
+                  </div>
+                  <div *ngIf="isSubmitted&&form.rbRuralUrban_ManageBy.errors" class="text-danger">
+                    <p *ngIf="form.rbRuralUrban_ManageBy.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                  </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                  <label class="form-label">Division <span style="color:red;">*</span></label>
+                  <select class="form-select" id="ddlDivisionID_ManageBy" name="ddlDivisionID_ManageBy" [(ngModel)]="request.DivisionID_ManageBy" formControlName="ddlDivisionID_ManageBy" #SelectedDivisionID_ManageBy (change)="FillDivisionRelatedDDL($event,SelectedDivisionID_ManageBy.value,'ManageBy')">
+                    <option value="0">--Select--</option>
+                    <option *ngFor="let item of DivisionList" value="{{item.DivisionID}}">{{item.DivisionName}}</option>
+                  </select>
+                  <div *ngIf="isSubmitted&&form.ddlDivisionID_ManageBy.errors" class="text-danger">
+                    <p *ngIf="!form.ddlDivisionID_ManageBy.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
+                  </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                  <label class="form-label">District <span style="color:red;">*</span></label>
+                  <select class="form-select" id="ddlDistrictID_ManageBy" name="ddlDistrictID_ManageBy" [(ngModel)]="request.DistrictID_ManageBy" formControlName="ddlDistrictID_ManageBy" #SelectedDistrictID_ManageBy (change)="FillDistrictRelatedDDL($event,SelectedDistrictID_ManageBy.value,'ManageBy')">
+                    <option value="0">--Select--</option>
+                    <option *ngFor="let item of DistrictList_ManageBy" value="{{item.DistrictID}}">{{item.DistrictName}}</option>
+                  </select>
+                  <div *ngIf="isSubmitted&&form.ddlDistrictID_ManageBy.errors" class="text-danger">
+                    <p *ngIf="!form.ddlDistrictID_ManageBy.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
+                  </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                  <label class="form-label">Tehsil <span style="color:red;">*</span></label>
+                  <select class="form-select" id="ddlTehsilID_ManageBy" name="ddlTehsilID_ManageBy" [(ngModel)]="request.TehsilID_ManageBy" formControlName="ddlTehsilID_ManageBy">
+                    <option value="0">--Select--</option>
+                    <option *ngFor="let item of TehsilList_ManageBy" value="{{item.TehsilID}}">{{item.TehsilName}}</option>
+                  </select>
+                  <div *ngIf="isSubmitted&&form.ddlTehsilID_ManageBy.errors" class="text-danger">
+                    <p *ngIf="!form.ddlTehsilID_ManageBy.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
+                  </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" [hidden]="IsRural_ManageBy">
+                  <label for="ddlCityID_ManageBy" class="form-label">City<span style="color:red;">*</span></label>
+                  <select class="form-select" id="ddlCityID_ManageBy" name="ddlCityID_ManageBy" [(ngModel)]="request.CityID_ManageBy" formControlName="ddlCityID_ManageBy">
+                    <option value="0">--Select--</option>
+                    <option *ngFor="let item of CityList_ManageBy" value="{{item.CityID}}">{{item.City_English}}</option>
+                  </select>
+                  <div *ngIf="isSubmitted&&form.ddlCityID_ManageBy.errors" class="text-danger">
+                    <p *ngIf="!form.ddlCityID_ManageBy.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
+                  </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" [hidden]="!IsRural_ManageBy">
+                  <label class="form-label">Panchayat Samiti <span style="color:red;">*</span></label>
+                  <select class="form-select" id="ddlPanchayatSamitiID_ManageBy" name="ddlPanchayatSamitiID_ManageBy" [(ngModel)]="request.PanchayatSamitiID_ManageBy" formControlName="ddlPanchayatSamitiID_ManageBy">
+                    <option value="0">--Select--</option>
+                    <option *ngFor="let item of PanchyatSamitiList_ManageBy" value="{{item.PanchyatSamitiID}}">{{item.PanchyatSamitiName}}</option>
+                  </select>
+                  <div *ngIf="isSubmitted&&form.ddlPanchayatSamitiID_ManageBy.errors" class="text-danger">
+                    <p *ngIf="!form.ddlPanchayatSamitiID_ManageBy.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
+                  </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                  <label class="form-label">City/Town/Village <span style="color:red;">*</span></label>
+                  <input type="text" class="form-control" id="txtCityTownVillage_ManageBy" name="txtCityTownVillage_ManageBy" [(ngModel)]="request.CityTownVillage_ManageBy" formControlName="txtCityTownVillage_ManageBy" (keypress)="alphaandNumberOnly($event)">
+                  <div *ngIf="isSubmitted&&form.txtCityTownVillage_ManageBy.errors" class="text-danger">
+                    <p *ngIf="form.txtCityTownVillage_ManageBy.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                  </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                  <label class="form-label">Pincode <span style="color:red;">*</span></label>
+                  <input type="text" class="form-control" id="txtPincode_ManageBy" name="txtPincode_ManageBy" [(ngModel)]="request.Pincode_ManageBy" formControlName="txtPincode_ManageBy" (keypress)="NumberOnly($event)" maxlength="6">
+                  <div *ngIf="isSubmitted&&form.txtPincode_ManageBy.errors" class="text-danger">
+                    <p *ngIf="form.txtPincode_ManageBy.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                    <p *ngIf="form.txtPincode_ManageBy.errors.pattern"><i aria-hidden="true"></i> Pin code is not valid .!</p>
+                  </div>
+                </div>
+                <!-- end -->
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header">
+            <b>
+              <i class="bi bi-table"></i>&nbsp; Owner of the Parental Hospital
+            </b>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="row mb-2">
+                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                  <label>Owner Name <span style="color:red;">*</span></label>
+                  <input class="form-control" type="text" id="txtOwnerName" name="txtOwnerName" formControlName="txtOwnerName" [(ngModel)]="request.OwnerName" (keypress)="alphaOnly($event)" />
+                  <div *ngIf="isSubmitted&&form.txtOwnerName.errors" class="text-danger">
+                    <p *ngIf="form.txtOwnerName.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                  </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                  <label>Owner Contact No. <span style="color:red;">*</span></label>
+                  <input class="form-control" type="text" id="txtOwnerPhone" name="txtOwnerPhone" formControlName="txtOwnerPhone" [(ngModel)]="request.OwnerPhone" (keypress)="NumberOnly($event)" maxlength="10" />
+                  <div *ngIf="isSubmitted&&form.txtOwnerPhone.errors" class="text-danger">
+                    <p *ngIf="form.txtOwnerPhone.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                    <p *ngIf="form.txtOwnerPhone.errors.pattern"><i aria-hidden="true"></i> Owner Contact number is not valid .!</p>
+                  </div>
+                </div>
+                <!-- address -->
+                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                  <label class="form-label">Address Line 1 <span style="color:red;">*</span></label>
+                  <input type="text" class="form-control" id="txtAddressLine1_Owner" name="txtAddressLine1_Owner" [(ngModel)]="request.AddressLine1_Owner" formControlName="txtAddressLine1_Owner" (keypress)="alphaandNumberOnly($event)">
+                  <div *ngIf="isSubmitted&&form.txtAddressLine1_Owner.errors" class="text-danger">
+                    <p *ngIf="form.txtAddressLine1_Owner.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                  </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                  <label class="form-label">Address Line 2 <!--<span style="color:red;">*</span>--></label>
+                  <input type="text" class="form-control" id="txtAddressLine2_Owner" name="txtAddressLine2_Owner" [(ngModel)]="request.AddressLine2_Owner" formControlName="txtAddressLine2_Owner" (keypress)="alphaandNumberOnly($event)">
+                  <!--<div *ngIf="isSubmitted&&form.txtAddressLine2_Owner.errors" class="text-danger">
+              <p *ngIf="form.txtAddressLine2_Owner.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+            </div>-->
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                  <label class="form-label">Select Area <span style="color:red;">*</span></label>
+                  <div class="clearfix"></div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" id="rbRural_Owner" name="rbRuralUrban_Owner" [(ngModel)]="request.RuralUrban_Owner" value="1" [value]="1" formControlName="rbRuralUrban_Owner" (change)="IsRuralOrUrban(true,'Owner',true)">
+                    <label class="form-check-label" for="rbRural_Owner">Rural</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" id="rbUrban_Owner" name="rbRuralUrban_Owner" [(ngModel)]="request.RuralUrban_Owner" value="2" [value]="2" formControlName="rbRuralUrban_Owner" (change)="IsRuralOrUrban(false,'Owner',true)">
+                    <label class="form-check-label" for="rbUrban_Owner">Urban</label>
+                  </div>
+                  <div *ngIf="isSubmitted&&form.rbRuralUrban_Owner.errors" class="text-danger">
+                    <p *ngIf="form.rbRuralUrban_Owner.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                  </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                  <label class="form-label">Division <span style="color:red;">*</span></label>
+                  <select class="form-select" id="ddlDivisionID_Owner" name="ddlDivisionID_Owner" [(ngModel)]="request.DivisionID_Owner" formControlName="ddlDivisionID_Owner" #SelectedDivisionID_Owner (change)="FillDivisionRelatedDDL($event,SelectedDivisionID_Owner.value,'Owner')">
+                    <option value="0">--Select--</option>
+                    <option *ngFor="let item of DivisionList" value="{{item.DivisionID}}">{{item.DivisionName}}</option>
+                  </select>
+                  <div *ngIf="isSubmitted&&form.ddlDivisionID_Owner.errors" class="text-danger">
+                    <p *ngIf="!form.ddlDivisionID_Owner.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
+                  </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                  <label class="form-label">District <span style="color:red;">*</span></label>
+                  <select class="form-select" id="ddlDistrictID_Owner" name="ddlDistrictID_Owner" [(ngModel)]="request.DistrictID_Owner" formControlName="ddlDistrictID_Owner" #SelectedDistrictID_Owner (change)="FillDistrictRelatedDDL($event,SelectedDistrictID_Owner.value,'Owner')">
+                    <option value="0">--Select--</option>
+                    <option *ngFor="let item of DistrictList_Owner" value="{{item.DistrictID}}">{{item.DistrictName}}</option>
+                  </select>
+                  <div *ngIf="isSubmitted&&form.ddlDistrictID_Owner.errors" class="text-danger">
+                    <p *ngIf="!form.ddlDistrictID_Owner.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
+                  </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                  <label class="form-label">Tehsil <span style="color:red;">*</span></label>
+                  <select class="form-select" id="ddlTehsilID_Owner" name="ddlTehsilID_Owner" [(ngModel)]="request.TehsilID_Owner" formControlName="ddlTehsilID_Owner">
+                    <option value="0">--Select--</option>
+                    <option *ngFor="let item of TehsilList_Owner" value="{{item.TehsilID}}">{{item.TehsilName}}</option>
+                  </select>
+                  <div *ngIf="isSubmitted&&form.ddlTehsilID_Owner.errors" class="text-danger">
+                    <p *ngIf="!form.ddlTehsilID_Owner.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
+                  </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" [hidden]="IsRural_Owner">
+                  <label for="ddlCityID_Owner" class="form-label">City<span style="color:red;">*</span></label>
+                  <select class="form-select" id="ddlCityID_Owner" name="ddlCityID_Owner" [(ngModel)]="request.CityID_Owner" formControlName="ddlCityID_Owner">
+                    <option value="0">--Select--</option>
+                    <option *ngFor="let item of CityList_Owner" value="{{item.CityID}}">{{item.City_English}}</option>
+                  </select>
+                  <div *ngIf="isSubmitted&&form.ddlCityID_Owner.errors" class="text-danger">
+                    <p *ngIf="!form.ddlCityID_Owner.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
+                  </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" [hidden]="!IsRural_Owner">
+                  <label class="form-label">Panchayat Samiti <span style="color:red;">*</span></label>
+                  <select class="form-select" id="ddlPanchayatSamitiID_Owner" name="ddlPanchayatSamitiID_Owner" [(ngModel)]="request.PanchayatSamitiID_Owner" formControlName="ddlPanchayatSamitiID_Owner">
+                    <option value="0">--Select--</option>
+                    <option *ngFor="let item of PanchyatSamitiList_Owner" value="{{item.PanchyatSamitiID}}">{{item.PanchyatSamitiName}}</option>
+                  </select>
+                  <div *ngIf="isSubmitted&&form.ddlPanchayatSamitiID_Owner.errors" class="text-danger">
+                    <p *ngIf="!form.ddlPanchayatSamitiID_Owner.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
+                  </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                  <label class="form-label">City/Town/Village <span style="color:red;">*</span></label>
+                  <input type="text" class="form-control" id="txtCityTownVillage_Owner" name="txtCityTownVillage_Owner" [(ngModel)]="request.CityTownVillage_Owner" formControlName="txtCityTownVillage_Owner" (keypress)="alphaandNumberOnly($event)">
+                  <div *ngIf="isSubmitted&&form.txtCityTownVillage_Owner.errors" class="text-danger">
+                    <p *ngIf="form.txtCityTownVillage_Owner.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                  </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                  <label class="form-label">Pincode <span style="color:red;">*</span></label>
+                  <input type="text" class="form-control" id="txtPincode_Owner" name="txtPincode_Owner" [(ngModel)]="request.Pincode_Owner" formControlName="txtPincode_Owner" (keypress)="NumberOnly($event)" maxlength="6">
+                  <div *ngIf="isSubmitted&&form.txtPincode_Owner.errors" class="text-danger">
+                    <p *ngIf="form.txtPincode_Owner.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                    <p *ngIf="form.txtPincode_Owner.errors.pattern"><i aria-hidden="true"></i> Pin code is not valid .!</p>
+                  </div>
+                </div>
+                <!-- end -->
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header">
+            <b>
+              <i class="bi bi-table"></i>&nbsp; Other
+            </b>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-5 mb-5">
+                <label> Whether the parent hospital is related to any other institution in the past or not </label>
+                <div class="clearfix"></div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="rbParentHospitalRelatedToOtherID" id="YesOrgRelation" value="1" [value]="1" (change)="IsParentHospitalRelatedToOtherOrNot(true)" formControlName="rbParentHospitalRelatedToOtherID" [(ngModel)]="request.ParentHospitalRelatedToOtherID">
+                  <label class="form-check-label" for="YesOrgRelation">Yes</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="rbParentHospitalRelatedToOtherID" id="NoOrgRelation" value="2" [value]="2" (change)="IsParentHospitalRelatedToOtherOrNot(false)" formControlName="rbParentHospitalRelatedToOtherID" [(ngModel)]="request.ParentHospitalRelatedToOtherID">
+                  <label class="form-check-label" for="NoOrgRelation">No</label>
+                </div>
+              </div>
+            </div>
+            <div class="row" [hidden]="!IsParentHospitalRelatedToOther">
+              <div class="col-md-12">
+                <div class="row">
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                    <label>Name of Institution <span style="color:red;">*</span></label>
+                    <input class="form-control" type="text" id="txtInstitutionName" name="txtInstitutionName" formControlName="txtInstitutionName" [(ngModel)]="request.InstitutionName" (keypress)="alphaOnly($event)" />
+                    <div *ngIf="isSubmitted&&form.txtInstitutionName.errors" class="text-danger">
+                      <p *ngIf="form.txtInstitutionName.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                    <label>Institute Contact No. <span style="color:red;">*</span></label>
+                    <input class="form-control" type="text" id="txtOrganizationPhone" name="txtOrganizationPhone" formControlName="txtOrganizationPhone" [(ngModel)]="request.OrganizationPhone" (keypress)="NumberOnly($event)" maxlength="10" />
+                    <div *ngIf="isSubmitted&&form.txtOrganizationPhone.errors" class="text-danger">
+                      <p *ngIf="form.txtOrganizationPhone.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                      <p *ngIf="form.txtOrganizationPhone.errors.pattern"><i aria-hidden="true"></i> Institute Contact number is not valid .!</p>
+                    </div>
+                  </div>
+                  <!-- address -->
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                    <label class="form-label">Address Line 1 <span style="color:red;">*</span></label>
+                    <input type="text" class="form-control" id="txtAddressLine1_Other" name="txtAddressLine1_Other" [(ngModel)]="request.AddressLine1_Other" formControlName="txtAddressLine1_Other" (keypress)="alphaandNumberOnly($event)">
+                    <div *ngIf="isSubmitted&&form.txtAddressLine1_Other.errors" class="text-danger">
+                      <p *ngIf="form.txtAddressLine1_Other.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                    <label class="form-label">Address Line 2 <!--<span style="color:red;">*</span>--></label>
+                    <input type="text" class="form-control" id="txtAddressLine2_Other" name="txtAddressLine2_Other" [(ngModel)]="request.AddressLine2_Other" formControlName="txtAddressLine2_Other" (keypress)="alphaandNumberOnly($event)">
+                    <!--<div *ngIf="isSubmitted&&form.txtAddressLine2_Other.errors" class="text-danger">
+                <p *ngIf="form.txtAddressLine2_Other.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+              </div>-->
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                    <label class="form-label">Select Area <span style="color:red;">*</span></label>
+                    <div class="clearfix"></div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" id="rbRural_Other" name="rbRuralUrban_Other" [(ngModel)]="request.RuralUrban_Other" value="1" [value]="1" formControlName="rbRuralUrban_Other" (change)="IsRuralOrUrban(true,'Other',true)">
+                      <label class="form-check-label" for="rbRural_Other">Rural</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" id="rbUrban_Other" name="rbRuralUrban_Other" [(ngModel)]="request.RuralUrban_Other" value="2" [value]="2" formControlName="rbRuralUrban_Other" (change)="IsRuralOrUrban(false,'Other',true)">
+                      <label class="form-check-label" for="rbUrban_Other">Urban</label>
+                    </div>
+                    <div *ngIf="isSubmitted&&form.rbRuralUrban_Other.errors" class="text-danger">
+                      <p *ngIf="form.rbRuralUrban_Other.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                    <label class="form-label">Division <span style="color:red;">*</span></label>
+                    <select class="form-select" id="ddlDivisionID_Other" name="ddlDivisionID_Other" [(ngModel)]="request.DivisionID_Other" formControlName="ddlDivisionID_Other" #SelectedDivisionID_Other (change)="FillDivisionRelatedDDL($event,SelectedDivisionID_Other.value,'Other')">
+                      <option value="0">--Select--</option>
+                      <option *ngFor="let item of DivisionList" value="{{item.DivisionID}}">{{item.DivisionName}}</option>
+                    </select>
+                    <div *ngIf="isSubmitted&&form.ddlDivisionID_Other.errors" class="text-danger">
+                      <p *ngIf="!form.ddlDivisionID_Other.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                    <label class="form-label">District <span style="color:red;">*</span></label>
+                    <select class="form-select" id="ddlDistrictID_Other" name="ddlDistrictID_Other" [(ngModel)]="request.DistrictID_Other" formControlName="ddlDistrictID_Other" #SelectedDistrictID_Other (change)="FillDistrictRelatedDDL($event,SelectedDistrictID_Other.value,'Other')">
+                      <option value="0">--Select--</option>
+                      <option *ngFor="let item of DistrictList_Other" value="{{item.DistrictID}}">{{item.DistrictName}}</option>
+                    </select>
+                    <div *ngIf="isSubmitted&&form.ddlDistrictID_Other.errors" class="text-danger">
+                      <p *ngIf="!form.ddlDistrictID_Other.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                    <label class="form-label">Tehsil <span style="color:red;">*</span></label>
+                    <select class="form-select" id="ddlTehsilID_Other" name="ddlTehsilID_Other" [(ngModel)]="request.TehsilID_Other" formControlName="ddlTehsilID_Other">
+                      <option value="0">--Select--</option>
+                      <option *ngFor="let item of TehsilList_Other" value="{{item.TehsilID}}">{{item.TehsilName}}</option>
+                    </select>
+                    <div *ngIf="isSubmitted&&form.ddlTehsilID_Other.errors" class="text-danger">
+                      <p *ngIf="!form.ddlTehsilID_Other.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" [hidden]="IsRural_Other">
+                    <label for="ddlCityID_Other" class="form-label">City<span style="color:red;">*</span></label>
+                    <select class="form-select" id="ddlCityID_Other" name="ddlCityID_Other" [(ngModel)]="request.CityID_Other" formControlName="ddlCityID_Other">
+                      <option value="0">--Select--</option>
+                      <option *ngFor="let item of CityList_Other" value="{{item.CityID}}">{{item.City_English}}</option>
+                    </select>
+                    <div *ngIf="isSubmitted&&form.ddlCityID_Other.errors" class="text-danger">
+                      <p *ngIf="!form.ddlCityID_Other.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" [hidden]="!IsRural_Other">
+                    <label class="form-label">Panchayat Samiti <span style="color:red;">*</span></label>
+                    <select class="form-select" id="ddlPanchayatSamitiID_Other" name="ddlPanchayatSamitiID_Other" [(ngModel)]="request.PanchayatSamitiID_Other" formControlName="ddlPanchayatSamitiID_Other">
+                      <option value="0">--Select--</option>
+                      <option *ngFor="let item of PanchyatSamitiList_Other" value="{{item.PanchyatSamitiID}}">{{item.PanchyatSamitiName}}</option>
+                    </select>
+                    <div *ngIf="isSubmitted&&form.ddlPanchayatSamitiID_Other.errors" class="text-danger">
+                      <p *ngIf="!form.ddlPanchayatSamitiID_Other.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                    <label class="form-label">City/Town/Village <span style="color:red;">*</span></label>
+                    <input type="text" class="form-control" id="txtCityTownVillage_Other" name="txtCityTownVillage_Other" [(ngModel)]="request.CityTownVillage_Other" formControlName="txtCityTownVillage_Other" (keypress)="alphaandNumberOnly($event)">
+                    <div *ngIf="isSubmitted&&form.txtCityTownVillage_Other.errors" class="text-danger">
+                      <p *ngIf="form.txtCityTownVillage_Other.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                    <label class="form-label">Pincode <span style="color:red;">*</span></label>
+                    <input type="text" class="form-control" id="txtPincode_Other" name="txtPincode_Other" [(ngModel)]="request.Pincode_Other" formControlName="txtPincode_Other" (keypress)="NumberOnly($event)" maxlength="6">
+                    <div *ngIf="isSubmitted&&form.txtPincode_Other.errors" class="text-danger">
+                      <p *ngIf="form.txtPincode_Other.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                      <p *ngIf="form.txtPincode_Other.errors.pattern"><i aria-hidden="true"></i> Pin code is not valid .!</p>
+                    </div>
+                  </div>
+                  <!-- end -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
         <div class="card">
           <div class="card-header">
             <b>
@@ -287,11 +674,10 @@
             </div>
           </div>
         </div>
-
         <div class="card">
           <div class="card-header">
             <b>
-              <i class="bi bi-table"></i>&nbsp; Distribution of beds in different areas
+              <i class="bi bi-table"></i>&nbsp; Hospital Bed Distribution
             </b>
           </div>
           <div class="card-body">
@@ -304,31 +690,36 @@
               <div class="card-body">
                 <div class="row">
                   <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                    <label>General Medicine <span style="color:red;">*</span></label>
-                    <input class="form-control" type="text" [(ngModel)]="request.GeneralMedicinebed" name="txtGeneralMedicine" id="txtGeneralMedicine" formControlName="txtGeneralMedicine" (keypress)="NumberOnly($event)" maxlength="5" />
+                    <label>General Medicine (Minimum Required Bed 150) <span style="color:red;">*</span></label>
+                    <input class="form-control" type="text" [(ngModel)]="request.GeneralMedicinebed" name="txtGeneralMedicine" id="txtGeneralMedicine" formControlName="txtGeneralMedicine" (keypress)="NumberOnly($event)" maxlength="5" (change)="HospitalbedDistributionGrandTotalBed()" />
                     <div *ngIf="isSubmitted&&form.txtGeneralMedicine.errors" class="text-danger">
                       <p *ngIf="form.txtGeneralMedicine.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                      <p *ngIf="form.txtGeneralMedicine.errors.min"><i aria-hidden="true"></i> Enter Value Minimum 150 or more</p>
                     </div>
+
                   </div>
                   <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                    <label>Paediatrics <span style="color:red;">*</span></label>
-                    <input class="form-control" type="text" [(ngModel)]="request.PaediatricsBed" name="txtPaediatricsBed" id="txtPaediatricsBed" formControlName="txtPaediatricsBed" (keypress)="NumberOnly($event)" maxlength="5" />
+                    <label>Paediatrics (Minimum Required Bed 75)<span style="color:red;">*</span></label>
+                    <input class="form-control" type="text" [(ngModel)]="request.PaediatricsBed" name="txtPaediatricsBed" id="txtPaediatricsBed" formControlName="txtPaediatricsBed" (keypress)="NumberOnly($event)" maxlength="5" (change)="HospitalbedDistributionGrandTotalBed()" />
                     <div *ngIf="isSubmitted&&form.txtPaediatricsBed.errors" class="text-danger">
                       <p *ngIf="form.txtPaediatricsBed.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                      <p *ngIf="form.txtPaediatricsBed.errors.min"><i aria-hidden="true"></i> Enter Value Minimum 75 or more</p>
                     </div>
                   </div>
                   <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                    <label>Skin and V.D. <span style="color:red;">*</span></label>
-                    <input class="form-control" type="text" [(ngModel)]="request.SkinandVDBed" name="txtSkinandVDBed" id="txtSkinandVDBed" formControlName="txtSkinandVDBed" (keypress)="NumberOnly($event)" maxlength="5" />
+                    <label>Skin and V.D.(Minimum Required Bed 10) <span style="color:red;">*</span></label>
+                    <input class="form-control" type="text" [(ngModel)]="request.SkinandVDBed" name="txtSkinandVDBed" id="txtSkinandVDBed" formControlName="txtSkinandVDBed" (keypress)="NumberOnly($event)" maxlength="5" (change)="HospitalbedDistributionGrandTotalBed()" />
                     <div *ngIf="isSubmitted&&form.txtSkinandVDBed.errors" class="text-danger">
                       <p *ngIf="form.txtSkinandVDBed.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                      <p *ngIf="form.txtSkinandVDBed.errors.min"><i aria-hidden="true"></i> Enter Value Minimum 10 or more</p>
                     </div>
                   </div>
                   <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                    <label>Psychiatry <span style="color:red;">*</span></label>
-                    <input class="form-control" type="text" [(ngModel)]="request.PsychiatryBed" name="txtPsychiatryBed" id="txtPsychiatryBed" formControlName="txtPsychiatryBed" (keypress)="NumberOnly($event)" maxlength="5" />
+                    <label>Psychiatry (Minimum Required Bed 15) <span style="color:red;">*</span></label>
+                    <input class="form-control" type="text" [(ngModel)]="request.PsychiatryBed" name="txtPsychiatryBed" id="txtPsychiatryBed" formControlName="txtPsychiatryBed" (keypress)="NumberOnly($event)" maxlength="5" (change)="HospitalbedDistributionGrandTotalBed()" />
                     <div *ngIf="isSubmitted&&form.txtPsychiatryBed.errors" class="text-danger">
                       <p *ngIf="form.txtPsychiatryBed.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                      <p *ngIf="form.txtPsychiatryBed.errors.min"><i aria-hidden="true"></i> Enter Value Minimum 15 or more</p>
                     </div>
                   </div>
                 </div>
@@ -343,31 +734,35 @@
               <div class="card-body">
                 <div class="row">
                   <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                    <label>General Surgery (including 10% Paediatric Surgery) <span style="color:red;">*</span></label>
-                    <input class="form-control" type="text" [(ngModel)]="request.GeneralSurgeryBed" name="txtGeneralSurgery" id="txtGeneralSurgery" formControlName="txtGeneralSurgery" (keypress)="NumberOnly($event)" maxlength="5" />
+                    <label>General Surgery (including 10% Paediatric Surgery)(Minimum Required Bed 150) <span style="color:red;">*</span></label>
+                    <input class="form-control" type="text" [(ngModel)]="request.GeneralSurgeryBed" name="txtGeneralSurgery" id="txtGeneralSurgery" formControlName="txtGeneralSurgery" (keypress)="NumberOnly($event)" maxlength="5" (change)="HospitalbedDistributionGrandTotalBed()" />
                     <div *ngIf="isSubmitted&&form.txtGeneralSurgery.errors" class="text-danger">
                       <p *ngIf="form.txtGeneralSurgery.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                      <p *ngIf="form.txtGeneralSurgery.errors.min"><i aria-hidden="true"></i> Enter Value Minimum 150 or more</p>
                     </div>
                   </div>
                   <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                    <label>Orthopaedics <span style="color:red;">*</span></label>
-                    <input class="form-control" type="text" [(ngModel)]="request.SurgeryOrthopaedicsBed" name="txtSurgeryOrthopaedicsBed" id="txtSurgeryOrthopaedicsBed" formControlName="txtSurgeryOrthopaedicsBed" (keypress)="NumberOnly($event)" maxlength="5" />
+                    <label>Orthopaedics (Minimum Required Bed 60)<span style="color:red;">*</span></label>
+                    <input class="form-control" type="text" [(ngModel)]="request.SurgeryOrthopaedicsBed" name="txtSurgeryOrthopaedicsBed" id="txtSurgeryOrthopaedicsBed" formControlName="txtSurgeryOrthopaedicsBed" (keypress)="NumberOnly($event)" maxlength="5" (change)="HospitalbedDistributionGrandTotalBed()" />
                     <div *ngIf="isSubmitted&&form.txtSurgeryOrthopaedicsBed.errors" class="text-danger">
                       <p *ngIf="form.txtSurgeryOrthopaedicsBed.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                      <p *ngIf="form.txtSurgeryOrthopaedicsBed.errors.min"><i aria-hidden="true"></i> Enter Value Minimum 60 or more</p>
                     </div>
                   </div>
                   <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                    <label>Ophthalmology <span style="color:red;">*</span></label>
-                    <input class="form-control" type="text" [(ngModel)]="request.SurgeryOphthalmologyBed" name="txtSurgeryOphthalmologyBed" id="txtSurgeryOphthalmologyBed" formControlName="txtSurgeryOphthalmologyBed" (keypress)="NumberOnly($event)" maxlength="5" />
+                    <label>Ophthalmology (Minimum Required Bed 20)<span style="color:red;">*</span></label>
+                    <input class="form-control" type="text" [(ngModel)]="request.SurgeryOphthalmologyBed" name="txtSurgeryOphthalmologyBed" id="txtSurgeryOphthalmologyBed" formControlName="txtSurgeryOphthalmologyBed" (keypress)="NumberOnly($event)" maxlength="5" (change)="HospitalbedDistributionGrandTotalBed()" />
                     <div *ngIf="isSubmitted&&form.txtSurgeryOphthalmologyBed.errors" class="text-danger">
                       <p *ngIf="form.txtSurgeryOphthalmologyBed.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                      <p *ngIf="form.txtSurgeryOphthalmologyBed.errors.min"><i aria-hidden="true"></i> Enter Value Minimum 20 or more</p>
                     </div>
                   </div>
                   <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                    <label>Otorhinolaryngology (ENT) <span style="color:red;">*</span></label>
-                    <input class="form-control" type="text" [(ngModel)]="request.SurgeryOtorhinolaryngologyBed" name="txtSurgeryOtorhinolaryngologyBed" id="txtSurgeryOtorhinolaryngologyBed" formControlName="txtSurgeryOtorhinolaryngologyBed" (keypress)="NumberOnly($event)" maxlength="5" />
+                    <label>Otorhinolaryngology (ENT)(Minimum Required Bed 20) <span style="color:red;">*</span></label>
+                    <input class="form-control" type="text" [(ngModel)]="request.SurgeryOtorhinolaryngologyBed" name="txtSurgeryOtorhinolaryngologyBed" id="txtSurgeryOtorhinolaryngologyBed" formControlName="txtSurgeryOtorhinolaryngologyBed" (keypress)="NumberOnly($event)" maxlength="5" (change)="HospitalbedDistributionGrandTotalBed()" />
                     <div *ngIf="isSubmitted&&form.txtSurgeryOtorhinolaryngologyBed.errors" class="text-danger">
                       <p *ngIf="form.txtSurgeryOtorhinolaryngologyBed.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                      <p *ngIf="form.txtSurgeryOtorhinolaryngologyBed.errors.min"><i aria-hidden="true"></i> Enter Value Minimum 20 or more</p>
                     </div>
                   </div>
                 </div>
@@ -376,16 +771,25 @@
             <div class="card">
               <div class="card-header">
                 <b>
-                  &nbsp; OBG
+                  &nbsp; OBG & ICU
                 </b>
               </div>
               <div class="card-body">
                 <div class="row">
                   <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                    <label>Obstetrics and Gynaecology<span style="color:red;">*</span></label>
-                    <input class="form-control" type="text" [(ngModel)]="request.ObstetricsGynaecologyBed" name="txtObstetricsGynaecologyBed" id="txtObstetricsGynaecologyBed" formControlName="txtObstetricsGynaecologyBed" (keypress)="NumberOnly($event)" maxlength="5" />
+                    <label>Obstetrics and Gynaecology (Minimum Required Bed 75)<span style="color:red;">*</span></label>
+                    <input class="form-control" type="text" [(ngModel)]="request.ObstetricsGynaecologyBed" name="txtObstetricsGynaecologyBed" id="txtObstetricsGynaecologyBed" formControlName="txtObstetricsGynaecologyBed" (keypress)="NumberOnly($event)" maxlength="5" (change)="HospitalbedDistributionGrandTotalBed()" />
                     <div *ngIf="isSubmitted&&form.txtObstetricsGynaecologyBed.errors" class="text-danger">
                       <p *ngIf="form.txtObstetricsGynaecologyBed.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                      <p *ngIf="form.txtObstetricsGynaecologyBed.errors.min"><i aria-hidden="true"></i> Enter Value Minimum 75 or more</p>
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                    <label>ICU (Minimum Required Bed 30)<span style="color:red;">*</span></label>
+                    <input class="form-control" type="text" [(ngModel)]="request.ICU" name="txtICU" id="txtICU" formControlName="txtICU" (keypress)="NumberOnly($event)" maxlength="5" (change)="HospitalbedDistributionGrandTotalBed()" />
+                    <div *ngIf="isSubmitted&&form.txtICU.errors" class="text-danger">
+                      <p *ngIf="form.txtICU.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                      <p *ngIf="form.txtICU.errors.min"><i aria-hidden="true"></i> Enter Value Minimum 30 or more</p>
                     </div>
                   </div>
                 </div>
@@ -394,51 +798,95 @@
             <div class="card">
               <div class="card-header">
                 <b>
-                  &nbsp; ICU
+                  &nbsp; Hospital Bed Distribution Grand Total
                 </b>
               </div>
               <div class="card-body">
                 <div class="row">
+
                   <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                    <label>ICU<span style="color:red;">*</span></label>
-                    <input class="form-control" type="text" [(ngModel)]="request.ICUBed" name="txtICUBed" id="txtICUBed" formControlName="txtICUBed" (keypress)="NumberOnly($event)" maxlength="5" (change)="ICUGrandTotalBed()"/>
-                    <div *ngIf="isSubmitted&&form.txtICUBed.errors" class="text-danger">
-                      <p *ngIf="form.txtICUBed.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                    <label>Grand Total (Minimum Required Bed 605)</label>
+                    <input class="form-control disabled" type="text" [(ngModel)]="request.HospitalBedDistributionTotal" name="txtHospitalBedDistributionTotal" id="txtHospitalBedDistributionTotal" formControlName="txtHospitalBedDistributionTotal" (keypress)="NumberOnly($event)" disabled maxlength="10" />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-header">
+                <b>
+                  &nbsp;  OT & ICU
+                </b>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
+                    <label>A) Major OT (Minimum Required Bed 09)<span style="color:red;">*</span></label>
+                    <input class="form-control" type="text" [(ngModel)]="request.MajorOT" name="txtMajorOT" id="txtMajorOT" formControlName="txtMajorOT" (keypress)="NumberOnly($event)" maxlength="5" (change)="ICUGrandTotalBed()" />
+                    <div *ngIf="isSubmitted&&form.txtMajorOT.errors" class="text-danger">
+                      <p *ngIf="form.txtMajorOT.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
                     </div>
                   </div>
-                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                    <label>ICCU<span style="color:red;">*</span></label>
-                    <input class="form-control" type="text" [(ngModel)]="request.ICCUBed" name="txtICCUBed" id="txtICCUBed" formControlName="txtICCUBed" (keypress)="NumberOnly($event)" maxlength="5" (change)="ICUGrandTotalBed()"/>
-                    <div *ngIf="isSubmitted&&form.txtICCUBed.errors" class="text-danger">
-                      <p *ngIf="form.txtICCUBed.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                  <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
+                    <label>B) Minor OT (Minimum Required Bed 06)<span style="color:red;">*</span></label>
+                    <input class="form-control" type="text" [(ngModel)]="request.MinorOT" name="txtMinorOT" id="txtMinorOT" formControlName="txtMinorOT" (keypress)="NumberOnly($event)" maxlength="5" (change)="ICUGrandTotalBed()" />
+                    <div *ngIf="isSubmitted&&form.txtMinorOT.errors" class="text-danger">
+                      <p *ngIf="form.txtMinorOT.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
                     </div>
                   </div>
-                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                    <label>RICU<span style="color:red;">*</span></label>
-                    <input class="form-control" type="text" [(ngModel)]="request.RICUBed" name="txtRICUBed" id="txtRICUBed" formControlName="txtRICUBed" (keypress)="NumberOnly($event)" maxlength="5" (change)="ICUGrandTotalBed()"/>
-                    <div *ngIf="isSubmitted&&form.txtRICUBed.errors" class="text-danger">
-                      <p *ngIf="form.txtRICUBed.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                  <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
+                    <label>C) ICU [ICCUICU/Intensive Respiratory Care Unit/ PICU/NICU/Critical Care Burns Unit/Post-op Surgical Care Unit Obstetric HDU/ ICU (Minimum Required Bed 30)<span style="color:red;">*</span></label>
+                    <input class="form-control" type="text" [(ngModel)]="request.OTICUBed" name="txtOTICUBed" id="txtOTICUBed" formControlName="txtOTICUBed" (keypress)="NumberOnly($event)" maxlength="5" (change)="ICUGrandTotalBed()" />
+                    <div *ngIf="isSubmitted&&form.txtOTICUBed.errors" class="text-danger">
+                      <p *ngIf="form.txtOTICUBed.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
                     </div>
                   </div>
-                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                    <label>SICU<span style="color:red;">*</span></label>
-                    <input class="form-control" type="text" [(ngModel)]="request.SICUBed" name="txtSICUBed" id="txtSICUBed" formControlName="txtSICUBed" (keypress)="NumberOnly($event)" maxlength="5" (change)="ICUGrandTotalBed()"/>
-                    <div *ngIf="isSubmitted&&form.txtSICUBed.errors" class="text-danger">
-                      <p *ngIf="form.txtSICUBed.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-                    </div>
-                  </div>
-                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                    <label>NICU<span style="color:red;">*</span></label>
-                    <input class="form-control" type="text" [(ngModel)]="request.NICUBed" name="txtNICUBed" id="txtNICUBed" formControlName="txtNICUBed" (keypress)="NumberOnly($event)" maxlength="5" (change)="ICUGrandTotalBed()"/>
-                    <div *ngIf="isSubmitted&&form.txtNICUBed.errors" class="text-danger">
-                      <p *ngIf="form.txtNICUBed.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-                    </div>
-                  </div>
-                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                    <label>PICU & Critical Care Burns ICU<span style="color:red;">*</span></label>
-                    <input class="form-control" type="text" [(ngModel)]="request.PICUBed" name="txtPICUBed" id="txtPICUBed" formControlName="txtPICUBed" (keypress)="NumberOnly($event)" maxlength="5" (change)="ICUGrandTotalBed()"/>
-                    <div *ngIf="isSubmitted&&form.txtPICUBed.errors" class="text-danger">
-                      <p *ngIf="form.txtPICUBed.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                  <!--<div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <label>ICU<span style="color:red;">*</span></label>
+              <input class="form-control" type="text" [(ngModel)]="request.ICUBed" name="txtICUBed" id="txtICUBed" formControlName="txtICUBed" (keypress)="NumberOnly($event)" maxlength="5" (change)="ICUGrandTotalBed()" />
+              <div *ngIf="isSubmitted&&form.txtICUBed.errors" class="text-danger">
+                <p *ngIf="form.txtICUBed.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <label>ICCU<span style="color:red;">*</span></label>
+              <input class="form-control" type="text" [(ngModel)]="request.ICCUBed" name="txtICCUBed" id="txtICCUBed" formControlName="txtICCUBed" (keypress)="NumberOnly($event)" maxlength="5" (change)="ICUGrandTotalBed()" />
+              <div *ngIf="isSubmitted&&form.txtICCUBed.errors" class="text-danger">
+                <p *ngIf="form.txtICCUBed.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <label>RICU<span style="color:red;">*</span></label>
+              <input class="form-control" type="text" [(ngModel)]="request.RICUBed" name="txtRICUBed" id="txtRICUBed" formControlName="txtRICUBed" (keypress)="NumberOnly($event)" maxlength="5" (change)="ICUGrandTotalBed()" />
+              <div *ngIf="isSubmitted&&form.txtRICUBed.errors" class="text-danger">
+                <p *ngIf="form.txtRICUBed.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <label>SICU<span style="color:red;">*</span></label>
+              <input class="form-control" type="text" [(ngModel)]="request.SICUBed" name="txtSICUBed" id="txtSICUBed" formControlName="txtSICUBed" (keypress)="NumberOnly($event)" maxlength="5" (change)="ICUGrandTotalBed()" />
+              <div *ngIf="isSubmitted&&form.txtSICUBed.errors" class="text-danger">
+                <p *ngIf="form.txtSICUBed.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <label>NICU<span style="color:red;">*</span></label>
+              <input class="form-control" type="text" [(ngModel)]="request.NICUBed" name="txtNICUBed" id="txtNICUBed" formControlName="txtNICUBed" (keypress)="NumberOnly($event)" maxlength="5" (change)="ICUGrandTotalBed()" />
+              <div *ngIf="isSubmitted&&form.txtNICUBed.errors" class="text-danger">
+                <p *ngIf="form.txtNICUBed.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <label>PICU & Critical Care Burns ICU<span style="color:red;">*</span></label>
+              <input class="form-control" type="text" [(ngModel)]="request.PICUBed" name="txtPICUBed" id="txtPICUBed" formControlName="txtPICUBed" (keypress)="NumberOnly($event)" maxlength="5" (change)="ICUGrandTotalBed()" />
+              <div *ngIf="isSubmitted&&form.txtPICUBed.errors" class="text-danger">
+                <p *ngIf="form.txtPICUBed.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+              </div>
+            </div>-->
+                  <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
+                    <label>Casualty Beds<span style="color:red;">*</span></label>
+                    <input class="form-control" type="text" [(ngModel)]="request.CasualtyBeds" name="txtCasualtyBeds" id="txtCasualtyBeds" formControlName="txtCasualtyBeds" (keypress)="NumberOnly($event)" maxlength="5" (change)="ICUGrandTotalBed()" />
+                    <div *ngIf="isSubmitted&&form.txtCasualtyBeds.errors" class="text-danger">
+                      <p *ngIf="form.txtCasualtyBeds.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
                     </div>
                   </div>
                   <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
@@ -448,89 +896,324 @@
                 </div>
               </div>
             </div>
+            <!--<div class="card">
+        <div class="card-header">
+          <b>
+            &nbsp; OT & ICU
+          </b>
+        </div>
+        <div class="card-body">
+          <div class="row">
+
+
+
+          </div>
+        </div>
+      </div>-->
             <div class="card">
               <div class="card-header">
                 <b>
-                  &nbsp; OT & ICU
+                  &nbsp; Radiology
                 </b>
               </div>
               <div class="card-body">
                 <div class="row">
                   <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
-                    <label>ICU [ICCUICU/Intensive Respiratory Care Unit/ PICU/NICU/Critical Care Burns Unit/Post-op Surgical Care Unit Obstetric HDU/ ICU<span style="color:red;">*</span></label>
-                    <input class="form-control" type="text" [(ngModel)]="request.OTICUBed" name="txtOTICUBed" id="txtOTICUBed" formControlName="txtOTICUBed" (keypress)="NumberOnly($event)" maxlength="5" />
-                    <div *ngIf="isSubmitted&&form.txtOTICUBed.errors" class="text-danger">
-                      <p *ngIf="form.txtOTICUBed.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                    <label>
+                      X-Ray static Unit 500≥mA (Minimum Required 2)<span style="color:red;">*</span>
+                    </label>
+                    <input class="form-control" type="text" [(ngModel)]="request.XRaystaticUnit500" name="txtXRaystaticUnit500" id="txtXRaystaticUnit500" formControlName="txtXRaystaticUnit500" (keypress)="NumberOnly($event)" maxlength="5" />
+                    <div *ngIf="isSubmitted&&form.txtXRaystaticUnit500.errors" class="text-danger">
+                      <p *ngIf="form.txtXRaystaticUnit500.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
                     </div>
                   </div>
                   <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
-                    <label>Casualty Beds<span style="color:red;">*</span></label>
-                    <input class="form-control" type="text" [(ngModel)]="request.CasualtyBeds" name="txtCasualtyBeds" id="txtCasualtyBeds" formControlName="txtCasualtyBeds" (keypress)="NumberOnly($event)" maxlength="5" />
-                    <div *ngIf="isSubmitted&&form.txtCasualtyBeds.errors" class="text-danger">
-                      <p *ngIf="form.txtCasualtyBeds.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                    <label>
+                      Mobile / portable X– Ray Unit (Minimum Required 1)<span style="color:red;">*</span>
+                    </label>
+                    <input class="form-control" type="text" [(ngModel)]="request.MobileportableXRayUnit" name="txtMobileportableXRayUnit" id="txtMobileportableXRayUnit" formControlName="txtMobileportableXRayUnit" (keypress)="NumberOnly($event)" maxlength="5" />
+                    <div *ngIf="isSubmitted&&form.txtMobileportableXRayUnit.errors" class="text-danger">
+                      <p *ngIf="form.txtMobileportableXRayUnit.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                    </div>
+                  </div>
+                  <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
+                    <label>IITV + Fluoroscopy (Minimum Required 1)<span style="color:red;">*</span></label>
+                    <input class="form-control" type="text" [(ngModel)]="request.IITVFluoroscopy" name="txtIITVFluoroscopy" id="txtIITVFluoroscopy" formControlName="txtIITVFluoroscopy" (keypress)="NumberOnly($event)" maxlength="5" />
+                    <div *ngIf="isSubmitted&&form.txtIITVFluoroscopy.errors" class="text-danger">
+                      <p *ngIf="form.txtIITVFluoroscopy.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                    </div>
+                  </div>
+                  <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
+                    <label>USG (Colour) (Minimum Required 2)<span style="color:red;">*</span></label>
+                    <input class="form-control" type="text" [(ngModel)]="request.USGColour" name="txtUSGColour" id="txtUSGColour" formControlName="txtUSGColour" (keypress)="NumberOnly($event)" maxlength="5" />
+                    <div *ngIf="isSubmitted&&form.txtUSGColour.errors" class="text-danger">
+                      <p *ngIf="form.txtUSGColour.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                    </div>
+                  </div>
+                  <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
+                    <label>CT-Scan (Minimum Required 1)<span style="color:red;">*</span></label>
+                    <input class="form-control" type="text" [(ngModel)]="request.CTScan" name="txtCTScan" id="txtCTScan" formControlName="txtCTScan" (keypress)="NumberOnly($event)" maxlength="5" />
+                    <div *ngIf="isSubmitted&&form.txtCTScan.errors" class="text-danger">
+                      <p *ngIf="form.txtCTScan.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-            <!--<div class="row">
-    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-      <label>Medical <span style="color:red;">*</span></label>
-      <input class="form-control" type="text" [(ngModel)]="request.MedicalBeds" name="txtMedicalBeds" id="txtMedicalBeds" formControlName="txtMedicalBeds" (keypress)="NumberOnly($event)" maxlength="5" />
-      <div *ngIf="isSubmitted&&form.txtMedicalBeds.errors" class="text-danger">
-        <p *ngIf="form.txtMedicalBeds.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-        <p *ngIf="form.txtMedicalBeds.errors.min"><i aria-hidden="true"></i> Enter Value 30 or more</p>
-      </div>
-    </div>
-    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-      <label>Surgical <span style="color:red;">*</span></label>
-      <input class="form-control" type="text" [(ngModel)]="request.SurgicalBeds" name="txtSurgicalBeds" id="txtSurgicalBeds" formControlName="txtSurgicalBeds" (keypress)="NumberOnly($event)" maxlength="5" />
-      <div *ngIf="isSubmitted&&form.txtSurgicalBeds.errors" class="text-danger">
-        <p *ngIf="form.txtSurgicalBeds.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-        <p *ngIf="form.txtSurgicalBeds.errors.min"><i aria-hidden="true"></i> Enter Value 30 or more</p>
-      </div>
-    </div>
-    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-      <label>Obst. & Gynaecology <span style="color:red;">*</span></label>
-      <input class="form-control" type="text" [(ngModel)]="request.ObstAndGynaecologyBeds" name="txtObstAndGynaecologyBeds" id="txtObstAndGynaecologyBeds" formControlName="txtObstAndGynaecologyBeds" (keypress)="NumberOnly($event)" maxlength="5" />
-      <div *ngIf="isSubmitted&&form.txtObstAndGynaecologyBeds.errors" class="text-danger">
-        <p *ngIf="form.txtObstAndGynaecologyBeds.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-        <p *ngIf="form.txtObstAndGynaecologyBeds.errors.min"><i aria-hidden="true"></i> Enter Value 30 or more</p>
-      </div>
-    </div>
-    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-      <label>Pediatrics <span style="color:red;">*</span></label>
-      <input class="form-control" type="text" [(ngModel)]="request.PediatricsBeds" name="txtPediatricsBeds" id="txtPediatricsBeds" formControlName="txtPediatricsBeds" (keypress)="NumberOnly($event)" maxlength="5" />
-      <div *ngIf="isSubmitted&&form.txtPediatricsBeds.errors" class="text-danger">
-        <p *ngIf="form.txtPediatricsBeds.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-        <p *ngIf="form.txtPediatricsBeds.errors.min"><i aria-hidden="true"></i> Enter Value 20 or more</p>
-      </div>
-    </div>
-    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-      <label>Ortho <span style="color:red;">*</span></label>
-      <input class="form-control" type="text" [(ngModel)]="request.OrthoBeds" name="txtOrthoBeds" id="txtOrthoBeds" formControlName="txtOrthoBeds" (keypress)="NumberOnly($event)" maxlength="5" />
-      <div *ngIf="isSubmitted&&form.txtOrthoBeds.errors" class="text-danger">
-        <p *ngIf="form.txtOrthoBeds.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-        <p *ngIf="form.txtOrthoBeds.errors.min"><i aria-hidden="true"></i> Enter Value 10 or more</p>
-      </div>
-    </div>
-    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-      <label>Bed Occupancy of the Hospital in percentege <span style="color:red;">*</span></label>
-      <input class="form-control" type="text" [(ngModel)]="request.OccupancyPercentegeBeds" name="txtOccupancyPercentegeBeds" id="txtOccupancyPercentegeBeds" formControlName="txtOccupancyPercentegeBeds" (keypress)="NumberOnly($event)" maxlength="5" />
-      <div *ngIf="isSubmitted&&form.txtOccupancyPercentegeBeds.errors" class="text-danger">
-        <p *ngIf="form.txtOccupancyPercentegeBeds.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-        <p *ngIf="form.txtOccupancyPercentegeBeds.errors.min"><i aria-hidden="true"></i> Enter Value 75 or more</p>
-      </div>
-    </div>
-    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-      <label>Affiliation of psychiatric hospital beds <span style="color:red;">*</span></label>
-      <input class="form-control" type="text" [(ngModel)]="request.AffiliationPsychiatricBeds" name="txtAffiliationPsychiatricBeds" id="txtAffiliationPsychiatricBeds" formControlName="txtAffiliationPsychiatricBeds" (keypress)="NumberOnly($event)" maxlength="5" />
-      <div *ngIf="isSubmitted&&form.txtAffiliationPsychiatricBeds.errors" class="text-danger">
-        <p *ngIf="form.txtAffiliationPsychiatricBeds.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-        <p *ngIf="form.txtAffiliationPsychiatricBeds.errors.min"><i aria-hidden="true"></i> Enter Value 50 or more</p>
-      </div>
-    </div>
-  </div>-->
+            <div class="card">
+              <div class="card-header">
+                <b>
+                  &nbsp; Central Laboratory for Investigations
+                </b>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
+                    <label>
+                      Biochemistry(Minimum Required 1)<span style="color:red;">*</span>
+                    </label>
+                    <input class="form-control" type="text" [(ngModel)]="request.Biochemistry" name="txtBiochemistry" id="txtBiochemistry" formControlName="txtBiochemistry" (keypress)="NumberOnly($event)" maxlength="5" />
+                    <div *ngIf="isSubmitted&&form.txtBiochemistry.errors" class="text-danger">
+                      <p *ngIf="form.txtBiochemistry.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                    </div>
+                  </div>
+                  <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
+                    <label>
+                      Microbiology & Pathology (Minimum Required 1)<span style="color:red;">*</span>
+                    </label>
+                    <input class="form-control" type="text" [(ngModel)]="request.MicrobiologyPathology" name="txtMicrobiologyPathology" id="txtMicrobiologyPathology" formControlName="txtMicrobiologyPathology" (keypress)="NumberOnly($event)" maxlength="5" />
+                    <div *ngIf="isSubmitted&&form.txtMicrobiologyPathology.errors" class="text-danger">
+                      <p *ngIf="form.txtMicrobiologyPathology.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                    </div>
+                  </div>
+                  <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
+                    <label>Haematology (Minimum Required 1)<span style="color:red;">*</span></label>
+                    <input class="form-control" type="text" [(ngModel)]="request.Haematology" name="txtHaematology" id="txtHaematology" formControlName="txtHaematology" (keypress)="NumberOnly($event)" maxlength="5" />
+                    <div *ngIf="isSubmitted&&form.txtHaematology.errors" class="text-danger">
+                      <p *ngIf="form.txtHaematology.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                    </div>
+                  </div>
+                  <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
+                    <label>
+                      Clinical Pathology(Minimum Required 1)<span style="color:red;">*</span>
+                    </label>
+                    <input class="form-control" type="text" [(ngModel)]="request.ClinicalPathology" name="txtClinicalPathology" id="txtClinicalPathology" formControlName="txtClinicalPathology" (keypress)="NumberOnly($event)" maxlength="5" />
+                    <div *ngIf="isSubmitted&&form.txtClinicalPathology.errors" class="text-danger">
+                      <p *ngIf="form.txtClinicalPathology.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-header">
+                <b>
+                  &nbsp;Centrally Sterilization Services Department (CSSD)
+                </b>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                    <label for="rdCSSD" class="form-label d-block" style="margin-right:15px">
+                      CSSD<span style="color:red;">*</span>
+                    </label>
+                    <select class="form-select" id="rdIsCSSD" name="rdIsCSSD" [(ngModel)]="request.IsCSSD" formControlName="rdIsCSSD">
+                      <option value="">--Select--</option>
+                      <option value="Yes">Yes</option>
+                      <option value="No">No</option>
+                    </select>
+                    <p><span *ngIf="request.IsCSSD==''" style="color:red;">This field is required .!</span></p>
+                  </div>
+                  <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3" *ngIf="request.IsCSSD=='Yes'">
+                    <label>
+                      CSSD Size<span style="color:red;">*</span>
+                    </label>
+                    <input class="form-control" type="text" [(ngModel)]="request.CSSD" name="txtCSSD" id="txtCSSD" formControlName="txtCSSD" (keypress)="NumberOnly($event)" maxlength="5" />
+                    <div *ngIf="isSubmitted&&form.txtCSSD.errors" class="text-danger">
+                      <p *ngIf="form.txtCSSD.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                    </div>
+                  </div>
+                  <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3" *ngIf="request.IsCSSD=='Yes'">
+                    <label>CSSD Photo<span style="color:red;">*</span></label>
+                    <div class="d-flex">
+                      <input type="file" class="form-control" id="fCSSDPhoto" style="display:none" formControlName="fCSSDPhoto" (change)="onFilechange($event,'CSSDPhoto')" #fCSSDPhoto />
+                      <label class="btn upload" for="fCSSDPhoto">
+                        <span class="filename">Choose file</span>
+                        {{request.CSSDPhoto === '' ? 'No File Choosen' : request.Dis_CSSDPhoto}}
+                      </label>
+                      <div class="btn-group" *ngIf="request.CSSDPhoto!=''">
+                        <a class="btn btn-outline-primary" target="_blank" href="{{request.CSSDPhotoPath}}"><i class="fa fa-eye"></i></a>
+                        <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('CSSDPhoto')"><i class="fa fa-trash-o"></i></button>
+                      </div>
+                    </div>
+                    <div *ngIf="isSubmitted&&request.CSSDPhoto==''" class="text-danger">
+                      <p *ngIf="request.CSSDPhoto==''"><i aria-hidden="true"></i> This field is required .!</p>
+                    </div>
+                    <div *ngIf="CSSDPhotoValidationMessage!=''" class="text-danger">
+                      <p><i aria-hidden="true"></i>{{CSSDPhotoValidationMessage}}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-header">
+                <b>
+                  &nbsp;Laundry
+                </b>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                    <label for="rdLaundry" class="form-label d-block" style="margin-right:15px">
+                      Laundry<span style="color:red;">*</span>
+                    </label>
+                    <select class="form-select" id="rdIsLaundry" name="rdIsLaundry" [(ngModel)]="request.IsLaundry" formControlName="rdIsLaundry">
+                      <option value="">--Select--</option>
+                      <option value="Yes">Yes</option>
+                      <option value="No">No</option>
+                    </select>
+                    <p><span *ngIf="request.IsLaundry==''" style="color:red;">This field is required .!</span></p>
+                  </div>
+
+                  <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3" *ngIf="request.IsLaundry=='Yes'">
+                    <label>
+                      Laundry Size<span style="color:red;">*</span>
+                    </label>
+                    <input class="form-control" type="text" [(ngModel)]="request.Laundry" name="txtLaundry" id="txtLaundry" formControlName="txtLaundry" (keypress)="NumberOnly($event)" maxlength="5" />
+                    <div *ngIf="isSubmitted&&form.txtLaundry.errors" class="text-danger">
+                      <p *ngIf="form.txtLaundry.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                    </div>
+                  </div>
+                  <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3" *ngIf="request.IsLaundry=='Yes'">
+                    <label>Laundry Photo<span style="color:red;">*</span></label>
+                    <div class="d-flex">
+                      <input type="file" class="form-control" id="fLaundryPhoto" style="display:none" formControlName="fLaundryPhoto" (change)="onFilechange($event,'LaundryPhoto')" #fLaundryPhoto />
+                      <label class="btn upload" for="fLaundryPhoto">
+                        <span class="filename">Choose file</span>
+                        {{request.LaundryPhoto === '' ? 'No File Choosen' : request.Dis_LaundryPhoto}}
+                      </label>
+                      <div class="btn-group" *ngIf="request.LaundryPhoto!=''">
+                        <a class="btn btn-outline-primary" target="_blank" href="{{request.LaundryPhotoPath}}"><i class="fa fa-eye"></i></a>
+                        <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('LaundryPhoto')"><i class="fa fa-trash-o"></i></button>
+                      </div>
+                    </div>
+                    <div *ngIf="isSubmitted&&request.LaundryPhoto==''" class="text-danger">
+                      <p *ngIf="request.LaundryPhoto==''"><i aria-hidden="true"></i> This field is required .!</p>
+                    </div>
+                    <div *ngIf="LaundryPhotoValidationMessage!=''" class="text-danger">
+                      <p><i aria-hidden="true"></i>{{LaundryPhotoValidationMessage}}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-header">
+                <b>
+                  &nbsp;Pharmacy
+                </b>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
+                    <label>
+                      Pharmacy<span style="color:red;">*</span>
+                    </label>
+                    <select class="form-select" id="rdPharmacy" name="rdPharmacy" [(ngModel)]="request.Pharmacy" formControlName="rdPharmacy">
+                      <option value="">--Select--</option>
+                      <option value="Yes">Yes</option>
+                      <option value="No">No</option>
+                    </select>
+                    <p><span *ngIf="request.Pharmacy==''" style="color:red;">This field is required .!</span></p>
+                  </div>
+                  <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3" *ngIf="request.Pharmacy=='Yes'">
+                    <label>Pharmacy Photo<span style="color:red;">*</span></label>
+                    <div class="d-flex">
+                      <input type="file" class="form-control" id="fPharmacyPhoto" style="display:none" formControlName="fPharmacyPhoto" (change)="onFilechange($event,'PharmacyPhoto')" #fPharmacyPhoto />
+                      <label class="btn upload" for="fPharmacyPhoto">
+                        <span class="filename">Choose file</span>
+                        {{request.PharmacyPhoto === '' ? 'No File Choosen' : request.Dis_PharmacyPhoto}}
+                      </label>
+                      <div class="btn-group" *ngIf="request.PharmacyPhoto!=''">
+                        <a class="btn btn-outline-primary" target="_blank" href="{{request.PharmacyPhotoPath}}"><i class="fa fa-eye"></i></a>
+                        <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('PharmacyPhoto')"><i class="fa fa-trash-o"></i></button>
+                      </div>
+                    </div>
+                    <div *ngIf="isSubmitted&&request.PharmacyPhoto==''" class="text-danger">
+                      <p *ngIf="request.PharmacyPhoto==''"><i aria-hidden="true"></i> This field is required .!</p>
+                    </div>
+                    <div *ngIf="PharmacyPhotoValidationMessage!=''" class="text-danger">
+                      <p><i aria-hidden="true"></i>{{PharmacyPhotoValidationMessage}}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-header">
+                <b>
+                  &nbsp;CCTV & Biometric machines
+                </b>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
+                    <label>
+                      CCTV Biometric machines<span style="color:red;">*</span>
+                    </label>
+                    <select class="form-select" id="rdCCTVBiometricmachines" name="rdCCTVBiometricmachines" [(ngModel)]="request.CCTVBiometricmachines" formControlName="rdCCTVBiometricmachines">
+                      <option value="">--Select--</option>
+                      <option value="Yes">Yes</option>
+                      <option value="No">No</option>
+                    </select>
+                    <p><span *ngIf="request.CCTVBiometricmachines==''" style="color:red;">This field is required .!</span></p>
+                  </div>
+                  <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3" *ngIf="request.CCTVBiometricmachines=='Yes'">
+                    <label>CCTV Biometric Photo<span style="color:red;">*</span></label>
+                    <div class="d-flex">
+                      <input type="file" class="form-control" id="fCCTVBiometricPhoto" style="display:none" formControlName="fCCTVBiometricPhoto" (change)="onFilechange($event,'CCTVBiometricPhoto')" #fLaundryPhoto />
+                      <label class="btn upload" for="fCCTVBiometricPhoto">
+                        <span class="filename">Choose file</span>
+                        {{request.CCTVBiometricPhoto === '' ? 'No File Choosen' : request.Dis_CCTVBiometricPhoto}}
+                      </label>
+                      <div class="btn-group" *ngIf="request.CCTVBiometricPhoto!=''">
+                        <a class="btn btn-outline-primary" target="_blank" href="{{request.CCTVBiometricPhotoPath}}"><i class="fa fa-eye"></i></a>
+                        <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('CCTVBiometricPhoto')"><i class="fa fa-trash-o"></i></button>
+                      </div>
+                    </div>
+                    <div *ngIf="isSubmitted&&request.CCTVBiometricPhoto==''" class="text-danger">
+                      <p *ngIf="request.CCTVBiometricPhoto==''"><i aria-hidden="true"></i> This field is required .!</p>
+                    </div>
+                    <div *ngIf="CCTVBiometricPhotoValidationMessage!=''" class="text-danger">
+                      <p><i aria-hidden="true"></i>{{CCTVBiometricPhotoValidationMessage}}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-header">
+                <b>
+                  &nbsp;Hospital Information System
+                </b>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
+                    <label>
+                      Hospital Information System <span style="color:red;">*</span>
+                    </label>
+                    <select class="form-select" id="rdHospitalInformationSystem" name="rdHospitalInformationSystem" [(ngModel)]="request.HospitalInformationSystem" formControlName="rdHospitalInformationSystem">
+                      <option value="">--Select--</option>
+                      <option value="Yes">Yes</option>
+                      <option value="No">No</option>
+                    </select>
+                    <p><span *ngIf="request.HospitalInformationSystem==''" style="color:red;">This field is required .!</span></p>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -646,9 +1329,9 @@
                   <input class="form-control" type="text" [(ngModel)]="request.OncologyNursingMedicalBeds" name="txtOncologyNursingMedicalBeds" id="txtOncologyNursingMedicalBeds" formControlName="txtOncologyNursingMedicalBeds" (keypress)="NumberOnly($event)" maxlength="5" />
                 </div>
                 <!--<div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                  <label>Surgical Beds </label>
-                  <input class="form-control" type="text" [(ngModel)]="request.OncologyNursingSurgicalBeds" name="txtOncologyNurSingsurgicalBeds" id="txtOncologyNursingSurgicalBeds" formControlName="txtOncologyNursingSurgicalBeds" />
-                </div>-->
+            <label>Surgical Beds </label>
+            <input class="form-control" type="text" [(ngModel)]="request.OncologyNursingSurgicalBeds" name="txtOncologyNurSingsurgicalBeds" id="txtOncologyNursingSurgicalBeds" formControlName="txtOncologyNursingSurgicalBeds" />
+          </div>-->
                 <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                   <label>Chemotherapy Beds </label>
                   <input class="form-control" type="text" [(ngModel)]="request.OncologyNursingChemotherapyBeds" name="txtOncologyNursingChemotherapyBeds" id="txtOncologyNursingChemotherapyBeds" formControlName="txtOncologyNursingChemotherapyBeds" (keypress)="NumberOnly($event)" maxlength="5" />
@@ -797,394 +1480,7 @@
           </div>
         </div>
 
-        <div class="card">
-          <div class="card-header">
-            <b>
-              <i class="bi bi-table"></i>&nbsp; Manage by of the Parental Hospital
-            </b>
-          </div>
-          <div class="card-body">
-            <div class="row">
-              <div class="row mb-2">
-                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                  <label>Manage by Name <span style="color:red;">*</span></label>
-                  <input class="form-control" type="text" id="txtManageByName" name="txtManageByName" formControlName="txtManageByName" [(ngModel)]="request.ManageByName" (keypress)="alphaOnly($event)" />
-                  <div *ngIf="isSubmitted&&form.txtManageByName.errors" class="text-danger">
-                    <p *ngIf="form.txtManageByName.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-                  </div>
-                </div>
-                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                  <label>Manage by Contact No. <span style="color:red;">*</span></label>
-                  <input class="form-control" type="text" id="txtManageByPhone" name="txtManageByPhone" formControlName="txtManageByPhone" [(ngModel)]="request.ManageByPhone" (keypress)="NumberOnly($event)" maxlength="10" />
-                  <div *ngIf="isSubmitted&&form.txtManageByPhone.errors" class="text-danger">
-                    <p *ngIf="form.txtManageByPhone.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-                    <p *ngIf="form.txtManageByPhone.errors.pattern"><i aria-hidden="true"></i> Manage by Contact number is not valid .!</p>
-                  </div>
-                </div>
-                <!-- address -->
-                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                  <label class="form-label">Address Line 1 <span style="color:red;">*</span></label>
-                  <input type="text" class="form-control" id="txtAddressLine1_ManageBy" name="txtAddressLine1_ManageBy" [(ngModel)]="request.AddressLine1_ManageBy" formControlName="txtAddressLine1_ManageBy" (keypress)="alphaandNumberOnly($event)">
-                  <div *ngIf="isSubmitted&&form.txtAddressLine1_ManageBy.errors" class="text-danger">
-                    <p *ngIf="form.txtAddressLine1_ManageBy.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-                  </div>
-                </div>
-                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                  <label class="form-label">Address Line 2 <!--<span style="color:red;">*</span>--></label>
-                  <input type="text" class="form-control" id="txtAddressLine2_ManageBy" name="txtAddressLine2_ManageBy" [(ngModel)]="request.AddressLine2_ManageBy" formControlName="txtAddressLine2_ManageBy" (keypress)="alphaandNumberOnly($event)">
-                  <!--<div *ngIf="isSubmitted&&form.txtAddressLine2_ManageBy.errors" class="text-danger">
-                    <p *ngIf="form.txtAddressLine2_ManageBy.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-                  </div>-->
-                </div>
-                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                  <label class="form-label">Select Area <span style="color:red;">*</span></label>
-                  <div class="clearfix"></div>
-                  <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" id="rbRural_ManageBy" name="rbRuralUrban_ManageBy" [(ngModel)]="request.RuralUrban_ManageBy" value="1" [value]="1" formControlName="rbRuralUrban_ManageBy" (change)="IsRuralOrUrban(true,'ManageBy',true)">
-                    <label class="form-check-label" for="rbRural_ManageBy">Rural</label>
-                  </div>
-                  <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" id="rbUrban_ManageBy" name="rbRuralUrban_ManageBy" [(ngModel)]="request.RuralUrban_ManageBy" value="2" [value]="2" formControlName="rbRuralUrban_ManageBy" (change)="IsRuralOrUrban(false,'ManageBy',true)">
-                    <label class="form-check-label" for="rbUrban_ManageBy">Urban</label>
-                  </div>
-                  <div *ngIf="isSubmitted&&form.rbRuralUrban_ManageBy.errors" class="text-danger">
-                    <p *ngIf="form.rbRuralUrban_ManageBy.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-                  </div>
-                </div>
-                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                  <label class="form-label">Division <span style="color:red;">*</span></label>
-                  <select class="form-select" id="ddlDivisionID_ManageBy" name="ddlDivisionID_ManageBy" [(ngModel)]="request.DivisionID_ManageBy" formControlName="ddlDivisionID_ManageBy" #SelectedDivisionID_ManageBy (change)="FillDivisionRelatedDDL($event,SelectedDivisionID_ManageBy.value,'ManageBy')">
-                    <option value="0">--Select--</option>
-                    <option *ngFor="let item of DivisionList" value="{{item.DivisionID}}">{{item.DivisionName}}</option>
-                  </select>
-                  <div *ngIf="isSubmitted&&form.ddlDivisionID_ManageBy.errors" class="text-danger">
-                    <p *ngIf="!form.ddlDivisionID_ManageBy.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
-                  </div>
-                </div>
-                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                  <label class="form-label">District <span style="color:red;">*</span></label>
-                  <select class="form-select" id="ddlDistrictID_ManageBy" name="ddlDistrictID_ManageBy" [(ngModel)]="request.DistrictID_ManageBy" formControlName="ddlDistrictID_ManageBy" #SelectedDistrictID_ManageBy (change)="FillDistrictRelatedDDL($event,SelectedDistrictID_ManageBy.value,'ManageBy')">
-                    <option value="0">--Select--</option>
-                    <option *ngFor="let item of DistrictList_ManageBy" value="{{item.DistrictID}}">{{item.DistrictName}}</option>
-                  </select>
-                  <div *ngIf="isSubmitted&&form.ddlDistrictID_ManageBy.errors" class="text-danger">
-                    <p *ngIf="!form.ddlDistrictID_ManageBy.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
-                  </div>
-                </div>
-                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                  <label class="form-label">Tehsil <span style="color:red;">*</span></label>
-                  <select class="form-select" id="ddlTehsilID_ManageBy" name="ddlTehsilID_ManageBy" [(ngModel)]="request.TehsilID_ManageBy" formControlName="ddlTehsilID_ManageBy">
-                    <option value="0">--Select--</option>
-                    <option *ngFor="let item of TehsilList_ManageBy" value="{{item.TehsilID}}">{{item.TehsilName}}</option>
-                  </select>
-                  <div *ngIf="isSubmitted&&form.ddlTehsilID_ManageBy.errors" class="text-danger">
-                    <p *ngIf="!form.ddlTehsilID_ManageBy.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
-                  </div>
-                </div>
-                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" [hidden]="IsRural_ManageBy">
-                  <label for="ddlCityID_ManageBy" class="form-label">City<span style="color:red;">*</span></label>
-                  <select class="form-select" id="ddlCityID_ManageBy" name="ddlCityID_ManageBy" [(ngModel)]="request.CityID_ManageBy" formControlName="ddlCityID_ManageBy">
-                    <option value="0">--Select--</option>
-                    <option *ngFor="let item of CityList_ManageBy" value="{{item.CityID}}">{{item.City_English}}</option>
-                  </select>
-                  <div *ngIf="isSubmitted&&form.ddlCityID_ManageBy.errors" class="text-danger">
-                    <p *ngIf="!form.ddlCityID_ManageBy.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
-                  </div>
-                </div>
-                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" [hidden]="!IsRural_ManageBy">
-                  <label class="form-label">Panchayat Samiti <span style="color:red;">*</span></label>
-                  <select class="form-select" id="ddlPanchayatSamitiID_ManageBy" name="ddlPanchayatSamitiID_ManageBy" [(ngModel)]="request.PanchayatSamitiID_ManageBy" formControlName="ddlPanchayatSamitiID_ManageBy">
-                    <option value="0">--Select--</option>
-                    <option *ngFor="let item of PanchyatSamitiList_ManageBy" value="{{item.PanchyatSamitiID}}">{{item.PanchyatSamitiName}}</option>
-                  </select>
-                  <div *ngIf="isSubmitted&&form.ddlPanchayatSamitiID_ManageBy.errors" class="text-danger">
-                    <p *ngIf="!form.ddlPanchayatSamitiID_ManageBy.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
-                  </div>
-                </div>
-                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                  <label class="form-label">City/Town/Village <span style="color:red;">*</span></label>
-                  <input type="text" class="form-control" id="txtCityTownVillage_ManageBy" name="txtCityTownVillage_ManageBy" [(ngModel)]="request.CityTownVillage_ManageBy" formControlName="txtCityTownVillage_ManageBy" (keypress)="alphaandNumberOnly($event)">
-                  <div *ngIf="isSubmitted&&form.txtCityTownVillage_ManageBy.errors" class="text-danger">
-                    <p *ngIf="form.txtCityTownVillage_ManageBy.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-                  </div>
-                </div>
-                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                  <label class="form-label">Pincode <span style="color:red;">*</span></label>
-                  <input type="text" class="form-control" id="txtPincode_ManageBy" name="txtPincode_ManageBy" [(ngModel)]="request.Pincode_ManageBy" formControlName="txtPincode_ManageBy" (keypress)="NumberOnly($event)" maxlength="6">
-                  <div *ngIf="isSubmitted&&form.txtPincode_ManageBy.errors" class="text-danger">
-                    <p *ngIf="form.txtPincode_ManageBy.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-                    <p *ngIf="form.txtPincode_ManageBy.errors.pattern"><i aria-hidden="true"></i> Pin code is not valid .!</p>
-                  </div>
-                </div>
-                <!-- end -->
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="card">
-          <div class="card-header">
-            <b>
-              <i class="bi bi-table"></i>&nbsp; Owner of the Parental Hospital
-            </b>
-          </div>
-          <div class="card-body">
-            <div class="row">
-              <div class="row mb-2">
-                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                  <label>Owner Name <span style="color:red;">*</span></label>
-                  <input class="form-control" type="text" id="txtOwnerName" name="txtOwnerName" formControlName="txtOwnerName" [(ngModel)]="request.OwnerName" (keypress)="alphaOnly($event)" />
-                  <div *ngIf="isSubmitted&&form.txtOwnerName.errors" class="text-danger">
-                    <p *ngIf="form.txtOwnerName.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-                  </div>
-                </div>
-                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                  <label>Owner Contact No. <span style="color:red;">*</span></label>
-                  <input class="form-control" type="text" id="txtOwnerPhone" name="txtOwnerPhone" formControlName="txtOwnerPhone" [(ngModel)]="request.OwnerPhone" (keypress)="NumberOnly($event)" maxlength="10" />
-                  <div *ngIf="isSubmitted&&form.txtOwnerPhone.errors" class="text-danger">
-                    <p *ngIf="form.txtOwnerPhone.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-                    <p *ngIf="form.txtOwnerPhone.errors.pattern"><i aria-hidden="true"></i> Owner Contact number is not valid .!</p>
-                  </div>
-                </div>
-                <!-- address -->
-                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                  <label class="form-label">Address Line 1 <span style="color:red;">*</span></label>
-                  <input type="text" class="form-control" id="txtAddressLine1_Owner" name="txtAddressLine1_Owner" [(ngModel)]="request.AddressLine1_Owner" formControlName="txtAddressLine1_Owner" (keypress)="alphaandNumberOnly($event)">
-                  <div *ngIf="isSubmitted&&form.txtAddressLine1_Owner.errors" class="text-danger">
-                    <p *ngIf="form.txtAddressLine1_Owner.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-                  </div>
-                </div>
-                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                  <label class="form-label">Address Line 2 <!--<span style="color:red;">*</span>--></label>
-                  <input type="text" class="form-control" id="txtAddressLine2_Owner" name="txtAddressLine2_Owner" [(ngModel)]="request.AddressLine2_Owner" formControlName="txtAddressLine2_Owner" (keypress)="alphaandNumberOnly($event)">
-                  <!--<div *ngIf="isSubmitted&&form.txtAddressLine2_Owner.errors" class="text-danger">
-                    <p *ngIf="form.txtAddressLine2_Owner.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-                  </div>-->
-                </div>
-                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                  <label class="form-label">Select Area <span style="color:red;">*</span></label>
-                  <div class="clearfix"></div>
-                  <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" id="rbRural_Owner" name="rbRuralUrban_Owner" [(ngModel)]="request.RuralUrban_Owner" value="1" [value]="1" formControlName="rbRuralUrban_Owner" (change)="IsRuralOrUrban(true,'Owner',true)">
-                    <label class="form-check-label" for="rbRural_Owner">Rural</label>
-                  </div>
-                  <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" id="rbUrban_Owner" name="rbRuralUrban_Owner" [(ngModel)]="request.RuralUrban_Owner" value="2" [value]="2" formControlName="rbRuralUrban_Owner" (change)="IsRuralOrUrban(false,'Owner',true)">
-                    <label class="form-check-label" for="rbUrban_Owner">Urban</label>
-                  </div>
-                  <div *ngIf="isSubmitted&&form.rbRuralUrban_Owner.errors" class="text-danger">
-                    <p *ngIf="form.rbRuralUrban_Owner.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-                  </div>
-                </div>
-                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                  <label class="form-label">Division <span style="color:red;">*</span></label>
-                  <select class="form-select" id="ddlDivisionID_Owner" name="ddlDivisionID_Owner" [(ngModel)]="request.DivisionID_Owner" formControlName="ddlDivisionID_Owner" #SelectedDivisionID_Owner (change)="FillDivisionRelatedDDL($event,SelectedDivisionID_Owner.value,'Owner')">
-                    <option value="0">--Select--</option>
-                    <option *ngFor="let item of DivisionList" value="{{item.DivisionID}}">{{item.DivisionName}}</option>
-                  </select>
-                  <div *ngIf="isSubmitted&&form.ddlDivisionID_Owner.errors" class="text-danger">
-                    <p *ngIf="!form.ddlDivisionID_Owner.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
-                  </div>
-                </div>
-                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                  <label class="form-label">District <span style="color:red;">*</span></label>
-                  <select class="form-select" id="ddlDistrictID_Owner" name="ddlDistrictID_Owner" [(ngModel)]="request.DistrictID_Owner" formControlName="ddlDistrictID_Owner" #SelectedDistrictID_Owner (change)="FillDistrictRelatedDDL($event,SelectedDistrictID_Owner.value,'Owner')">
-                    <option value="0">--Select--</option>
-                    <option *ngFor="let item of DistrictList_Owner" value="{{item.DistrictID}}">{{item.DistrictName}}</option>
-                  </select>
-                  <div *ngIf="isSubmitted&&form.ddlDistrictID_Owner.errors" class="text-danger">
-                    <p *ngIf="!form.ddlDistrictID_Owner.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
-                  </div>
-                </div>
-                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                  <label class="form-label">Tehsil <span style="color:red;">*</span></label>
-                  <select class="form-select" id="ddlTehsilID_Owner" name="ddlTehsilID_Owner" [(ngModel)]="request.TehsilID_Owner" formControlName="ddlTehsilID_Owner">
-                    <option value="0">--Select--</option>
-                    <option *ngFor="let item of TehsilList_Owner" value="{{item.TehsilID}}">{{item.TehsilName}}</option>
-                  </select>
-                  <div *ngIf="isSubmitted&&form.ddlTehsilID_Owner.errors" class="text-danger">
-                    <p *ngIf="!form.ddlTehsilID_Owner.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
-                  </div>
-                </div>
-                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" [hidden]="IsRural_Owner">
-                  <label for="ddlCityID_Owner" class="form-label">City<span style="color:red;">*</span></label>
-                  <select class="form-select" id="ddlCityID_Owner" name="ddlCityID_Owner" [(ngModel)]="request.CityID_Owner" formControlName="ddlCityID_Owner">
-                    <option value="0">--Select--</option>
-                    <option *ngFor="let item of CityList_Owner" value="{{item.CityID}}">{{item.City_English}}</option>
-                  </select>
-                  <div *ngIf="isSubmitted&&form.ddlCityID_Owner.errors" class="text-danger">
-                    <p *ngIf="!form.ddlCityID_Owner.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
-                  </div>
-                </div>
-                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" [hidden]="!IsRural_Owner">
-                  <label class="form-label">Panchayat Samiti <span style="color:red;">*</span></label>
-                  <select class="form-select" id="ddlPanchayatSamitiID_Owner" name="ddlPanchayatSamitiID_Owner" [(ngModel)]="request.PanchayatSamitiID_Owner" formControlName="ddlPanchayatSamitiID_Owner">
-                    <option value="0">--Select--</option>
-                    <option *ngFor="let item of PanchyatSamitiList_Owner" value="{{item.PanchyatSamitiID}}">{{item.PanchyatSamitiName}}</option>
-                  </select>
-                  <div *ngIf="isSubmitted&&form.ddlPanchayatSamitiID_Owner.errors" class="text-danger">
-                    <p *ngIf="!form.ddlPanchayatSamitiID_Owner.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
-                  </div>
-                </div>
-                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                  <label class="form-label">City/Town/Village <span style="color:red;">*</span></label>
-                  <input type="text" class="form-control" id="txtCityTownVillage_Owner" name="txtCityTownVillage_Owner" [(ngModel)]="request.CityTownVillage_Owner" formControlName="txtCityTownVillage_Owner" (keypress)="alphaandNumberOnly($event)">
-                  <div *ngIf="isSubmitted&&form.txtCityTownVillage_Owner.errors" class="text-danger">
-                    <p *ngIf="form.txtCityTownVillage_Owner.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-                  </div>
-                </div>
-                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                  <label class="form-label">Pincode <span style="color:red;">*</span></label>
-                  <input type="text" class="form-control" id="txtPincode_Owner" name="txtPincode_Owner" [(ngModel)]="request.Pincode_Owner" formControlName="txtPincode_Owner" (keypress)="NumberOnly($event)" maxlength="6">
-                  <div *ngIf="isSubmitted&&form.txtPincode_Owner.errors" class="text-danger">
-                    <p *ngIf="form.txtPincode_Owner.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-                    <p *ngIf="form.txtPincode_Owner.errors.pattern"><i aria-hidden="true"></i> Pin code is not valid .!</p>
-                  </div>
-                </div>
-                <!-- end -->
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="card">
-          <div class="card-header">
-            <b>
-              <i class="bi bi-table"></i>&nbsp; Other
-            </b>
-          </div>
-          <div class="card-body">
-            <div class="row">
-              <div class="col-md-5 mb-5">
-                <label> Whether the parent hospital is related to any other institution in the past or not </label>
-                <div class="clearfix"></div>
-                <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="radio" name="rbParentHospitalRelatedToOtherID" id="YesOrgRelation" value="1" [value]="1" (change)="IsParentHospitalRelatedToOtherOrNot(true)" formControlName="rbParentHospitalRelatedToOtherID" [(ngModel)]="request.ParentHospitalRelatedToOtherID">
-                  <label class="form-check-label" for="YesOrgRelation">Yes</label>
-                </div>
-                <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="radio" name="rbParentHospitalRelatedToOtherID" id="NoOrgRelation" value="2" [value]="2" (change)="IsParentHospitalRelatedToOtherOrNot(false)" formControlName="rbParentHospitalRelatedToOtherID" [(ngModel)]="request.ParentHospitalRelatedToOtherID">
-                  <label class="form-check-label" for="NoOrgRelation">No</label>
-                </div>
-              </div>
-            </div>
-            <div class="row" [hidden]="!IsParentHospitalRelatedToOther">
-              <div class="col-md-12">
-                <div class="row">
-                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                    <label>Name of Institution <span style="color:red;">*</span></label>
-                    <input class="form-control" type="text" id="txtInstitutionName" name="txtInstitutionName" formControlName="txtInstitutionName" [(ngModel)]="request.InstitutionName" (keypress)="alphaOnly($event)" />
-                    <div *ngIf="isSubmitted&&form.txtInstitutionName.errors" class="text-danger">
-                      <p *ngIf="form.txtInstitutionName.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-                    </div>
-                  </div>
-                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                    <label>Institute Contact No. <span style="color:red;">*</span></label>
-                    <input class="form-control" type="text" id="txtOrganizationPhone" name="txtOrganizationPhone" formControlName="txtOrganizationPhone" [(ngModel)]="request.OrganizationPhone" (keypress)="NumberOnly($event)" maxlength="10" />
-                    <div *ngIf="isSubmitted&&form.txtOrganizationPhone.errors" class="text-danger">
-                      <p *ngIf="form.txtOrganizationPhone.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-                      <p *ngIf="form.txtOrganizationPhone.errors.pattern"><i aria-hidden="true"></i> Institute Contact number is not valid .!</p>
-                    </div>
-                  </div>
-                  <!-- address -->
-                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                    <label class="form-label">Address Line 1 <span style="color:red;">*</span></label>
-                    <input type="text" class="form-control" id="txtAddressLine1_Other" name="txtAddressLine1_Other" [(ngModel)]="request.AddressLine1_Other" formControlName="txtAddressLine1_Other" (keypress)="alphaandNumberOnly($event)">
-                    <div *ngIf="isSubmitted&&form.txtAddressLine1_Other.errors" class="text-danger">
-                      <p *ngIf="form.txtAddressLine1_Other.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-                    </div>
-                  </div>
-                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                    <label class="form-label">Address Line 2 <!--<span style="color:red;">*</span>--></label>
-                    <input type="text" class="form-control" id="txtAddressLine2_Other" name="txtAddressLine2_Other" [(ngModel)]="request.AddressLine2_Other" formControlName="txtAddressLine2_Other" (keypress)="alphaandNumberOnly($event)">
-                    <!--<div *ngIf="isSubmitted&&form.txtAddressLine2_Other.errors" class="text-danger">
-                      <p *ngIf="form.txtAddressLine2_Other.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-                    </div>-->
-                  </div>
-                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                    <label class="form-label">Select Area <span style="color:red;">*</span></label>
-                    <div class="clearfix"></div>
-                    <div class="form-check form-check-inline">
-                      <input class="form-check-input" type="radio" id="rbRural_Other" name="rbRuralUrban_Other" [(ngModel)]="request.RuralUrban_Other" value="1" [value]="1" formControlName="rbRuralUrban_Other" (change)="IsRuralOrUrban(true,'Other',true)">
-                      <label class="form-check-label" for="rbRural_Other">Rural</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                      <input class="form-check-input" type="radio" id="rbUrban_Other" name="rbRuralUrban_Other" [(ngModel)]="request.RuralUrban_Other" value="2" [value]="2" formControlName="rbRuralUrban_Other" (change)="IsRuralOrUrban(false,'Other',true)">
-                      <label class="form-check-label" for="rbUrban_Other">Urban</label>
-                    </div>
-                    <div *ngIf="isSubmitted&&form.rbRuralUrban_Other.errors" class="text-danger">
-                      <p *ngIf="form.rbRuralUrban_Other.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-                    </div>
-                  </div>
-                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                    <label class="form-label">Division <span style="color:red;">*</span></label>
-                    <select class="form-select" id="ddlDivisionID_Other" name="ddlDivisionID_Other" [(ngModel)]="request.DivisionID_Other" formControlName="ddlDivisionID_Other" #SelectedDivisionID_Other (change)="FillDivisionRelatedDDL($event,SelectedDivisionID_Other.value,'Other')">
-                      <option value="0">--Select--</option>
-                      <option *ngFor="let item of DivisionList" value="{{item.DivisionID}}">{{item.DivisionName}}</option>
-                    </select>
-                    <div *ngIf="isSubmitted&&form.ddlDivisionID_Other.errors" class="text-danger">
-                      <p *ngIf="!form.ddlDivisionID_Other.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
-                    </div>
-                  </div>
-                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                    <label class="form-label">District <span style="color:red;">*</span></label>
-                    <select class="form-select" id="ddlDistrictID_Other" name="ddlDistrictID_Other" [(ngModel)]="request.DistrictID_Other" formControlName="ddlDistrictID_Other" #SelectedDistrictID_Other (change)="FillDistrictRelatedDDL($event,SelectedDistrictID_Other.value,'Other')">
-                      <option value="0">--Select--</option>
-                      <option *ngFor="let item of DistrictList_Other" value="{{item.DistrictID}}">{{item.DistrictName}}</option>
-                    </select>
-                    <div *ngIf="isSubmitted&&form.ddlDistrictID_Other.errors" class="text-danger">
-                      <p *ngIf="!form.ddlDistrictID_Other.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
-                    </div>
-                  </div>
-                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                    <label class="form-label">Tehsil <span style="color:red;">*</span></label>
-                    <select class="form-select" id="ddlTehsilID_Other" name="ddlTehsilID_Other" [(ngModel)]="request.TehsilID_Other" formControlName="ddlTehsilID_Other">
-                      <option value="0">--Select--</option>
-                      <option *ngFor="let item of TehsilList_Other" value="{{item.TehsilID}}">{{item.TehsilName}}</option>
-                    </select>
-                    <div *ngIf="isSubmitted&&form.ddlTehsilID_Other.errors" class="text-danger">
-                      <p *ngIf="!form.ddlTehsilID_Other.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
-                    </div>
-                  </div>
-                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" [hidden]="IsRural_Other">
-                    <label for="ddlCityID_Other" class="form-label">City<span style="color:red;">*</span></label>
-                    <select class="form-select" id="ddlCityID_Other" name="ddlCityID_Other" [(ngModel)]="request.CityID_Other" formControlName="ddlCityID_Other">
-                      <option value="0">--Select--</option>
-                      <option *ngFor="let item of CityList_Other" value="{{item.CityID}}">{{item.City_English}}</option>
-                    </select>
-                    <div *ngIf="isSubmitted&&form.ddlCityID_Other.errors" class="text-danger">
-                      <p *ngIf="!form.ddlCityID_Other.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
-                    </div>
-                  </div>
-                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" [hidden]="!IsRural_Other">
-                    <label class="form-label">Panchayat Samiti <span style="color:red;">*</span></label>
-                    <select class="form-select" id="ddlPanchayatSamitiID_Other" name="ddlPanchayatSamitiID_Other" [(ngModel)]="request.PanchayatSamitiID_Other" formControlName="ddlPanchayatSamitiID_Other">
-                      <option value="0">--Select--</option>
-                      <option *ngFor="let item of PanchyatSamitiList_Other" value="{{item.PanchyatSamitiID}}">{{item.PanchyatSamitiName}}</option>
-                    </select>
-                    <div *ngIf="isSubmitted&&form.ddlPanchayatSamitiID_Other.errors" class="text-danger">
-                      <p *ngIf="!form.ddlPanchayatSamitiID_Other.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
-                    </div>
-                  </div>
-                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                    <label class="form-label">City/Town/Village <span style="color:red;">*</span></label>
-                    <input type="text" class="form-control" id="txtCityTownVillage_Other" name="txtCityTownVillage_Other" [(ngModel)]="request.CityTownVillage_Other" formControlName="txtCityTownVillage_Other" (keypress)="alphaandNumberOnly($event)">
-                    <div *ngIf="isSubmitted&&form.txtCityTownVillage_Other.errors" class="text-danger">
-                      <p *ngIf="form.txtCityTownVillage_Other.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-                    </div>
-                  </div>
-                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                    <label class="form-label">Pincode <span style="color:red;">*</span></label>
-                    <input type="text" class="form-control" id="txtPincode_Other" name="txtPincode_Other" [(ngModel)]="request.Pincode_Other" formControlName="txtPincode_Other" (keypress)="NumberOnly($event)" maxlength="6">
-                    <div *ngIf="isSubmitted&&form.txtPincode_Other.errors" class="text-danger">
-                      <p *ngIf="form.txtPincode_Other.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-                      <p *ngIf="form.txtPincode_Other.errors.pattern"><i aria-hidden="true"></i> Pin code is not valid .!</p>
-                    </div>
-                  </div>
-                  <!-- end -->
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+
         <div class="card-footer text-end">
           <button type="button" class="btn btn-primary" (click)="SaveDataOfParent()"> {{request.HospitalID>0?'Update':'Save'}}</button>
           <button type="button" class="btn btn-danger" (click)="ResetHospitalOfParent()"> Reset</button>

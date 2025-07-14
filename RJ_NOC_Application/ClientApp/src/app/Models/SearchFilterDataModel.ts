@@ -88,6 +88,8 @@ export class GrievanceReportSearchFilter {
   public FromDate: string = '';
   public ToDate: string = '';
   public searchText = '';
+  public DepartmentID: number = 0;
+  public CollegeID: number = 0;
 }
 
 

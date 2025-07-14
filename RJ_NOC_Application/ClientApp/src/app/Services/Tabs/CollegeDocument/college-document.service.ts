@@ -58,4 +58,15 @@ export class CollegeDocumentService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
+  public async GetListLOI(DepartmentID: number, CollegeID: number, DocumentType: string, ApplyNOCID: number = 0) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl + "/GetListLOI/" + DepartmentID + "/" + CollegeID + "/" + DocumentType + "/" + ApplyNOCID)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
 }

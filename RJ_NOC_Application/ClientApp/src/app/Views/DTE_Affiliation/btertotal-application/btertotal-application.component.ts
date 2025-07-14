@@ -251,5 +251,12 @@ finally {
       }, 200);
     }
   }
+  async Edit_OnClick(DepartmentID: number, CollegeID: number) {
+    debugger;
+    this.routers.navigate(['/bteradminupdate' + "/" + encodeURI(this.commonMasterService.Encrypt(DepartmentID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(CollegeID.toString()))]);
+    
+
+
+  }
 }
 

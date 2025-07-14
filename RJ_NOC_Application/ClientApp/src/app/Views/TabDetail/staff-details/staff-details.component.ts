@@ -60,6 +60,9 @@ export class StaffDetailsComponent implements OnInit {
   public TotalStaffDetail: number = 0;
   public TotalNonTeachingStaffDetail: number = 0;
   public TotalTeachingStaffDetail: number = 0;
+  public TotalNursingStaffDetail: number = 0;
+  public TotalDoctorsStaffDetail: number = 0;
+  public TotalParamedicalNonTeachingStaffDetail: number = 0;
 
   public isSubject: boolean = false;
   public CourseLevelName: string = '';
@@ -215,13 +218,35 @@ export class StaffDetailsComponent implements OnInit {
   }
 
   async IsChnageTechingType(val: any) {
+    debugger;
     this.GetCollegeWiseSubjectList(this.SelectedCollageID);
     this.ProfessionalQualificationData = [];
     this.request.HighestQualification = 0;
     this.request.SubjectID = 0;
     this.DeleteResetFiles('All', false, '', '', '');
-    await this.GetStaffDesignation(this.request.TeachingType == 'Teaching' ? 1 : 0);
-    await this.GetHighestQualificationList_DepartmentAndTypeWise(this.SelectedDepartmentID, this.request.TeachingType == 'Teaching' ? 1 : 0);
+    console.log(this.request.TeachingType);
+    if (this.request.TeachingType == 'Teaching') {
+      await this.GetStaffDesignation(1);
+      await this.GetHighestQualificationList_DepartmentAndTypeWise(this.SelectedDepartmentID,1);
+    }
+    if (this.request.TeachingType == 'NonTeaching') {
+      await this.GetStaffDesignation(0);
+      await this.GetHighestQualificationList_DepartmentAndTypeWise(this.SelectedDepartmentID,0);
+    }
+    if (this.request.TeachingType == 'Doctors') {
+      await this.GetStaffDesignation(3);
+      await this.GetHighestQualificationList_DepartmentAndTypeWise(this.SelectedDepartmentID, 3);
+    }
+    if (this.request.TeachingType == 'NursingStaff') {
+      await this.GetStaffDesignation(2);
+      await this.GetHighestQualificationList_DepartmentAndTypeWise(this.SelectedDepartmentID, 2);
+    }
+    if (this.request.TeachingType == 'ParamedicalNonTeaching') {
+      await this.GetStaffDesignation(4);
+      await this.GetHighestQualificationList_DepartmentAndTypeWise(this.SelectedDepartmentID, 4);
+    }
+    //await this.GetStaffDesignation(this.request.TeachingType == 'Teaching' ? 1 : 0);
+   // await this.GetHighestQualificationList_DepartmentAndTypeWise(this.SelectedDepartmentID, this.request.TeachingType == 'Teaching' ? 1 : 0);
     if (this.SelectedDepartmentID == 2) {
       if (this.CourseLevelName == 'Diploma')
         this.IsCourseLevel = 'No';
@@ -964,12 +989,21 @@ export class StaffDetailsComponent implements OnInit {
       }, 200);
     }
   }
-
+  public isTeachingType: number = 0;
   async GetQualificationList_DepartmentAndTypeWise() {
     try {
       this.loaderService.requestStarted();
       var QualificationName = this.HighestQualificationData.find((x: { QualificationID: number; }) => x.QualificationID == this.request.HighestQualification)?.QualificationName;
-      await this.commonMasterService.GetQualificationMasterList_DepartmentWise(this.SelectedDepartmentID, this.request.TeachingType == 'Teaching' ? 1 : 0, 'Qualification', this.request.RoleID)
+      if (this.request.TeachingType == 'Teaching') {
+        this.isTeachingType = this.request.TeachingType == 'Teaching' ? 1 : 1
+      }
+      if (this.request.TeachingType == 'NonTeaching') {
+        this.isTeachingType = this.request.TeachingType == 'NonTeaching' ? 0 : 0
+      }
+      if (this.request.TeachingType == 'NursingStaff') {
+        this.isTeachingType =this.request.TeachingType == 'NursingStaff' ? 2 : 2
+      }
+      await this.commonMasterService.GetQualificationMasterList_DepartmentWise(this.SelectedDepartmentID, this.isTeachingType, 'Qualification', this.request.RoleID)
         .then((data: any) => {
 
           data = JSON.parse(JSON.stringify(data));
@@ -1042,6 +1076,9 @@ export class StaffDetailsComponent implements OnInit {
           }
           this.TotalTeachingStaffDetail = 0;
           this.TotalNonTeachingStaffDetail = 0;
+          this.TotalNursingStaffDetail = 0;
+          this.TotalDoctorsStaffDetail = 0;
+          this.TotalParamedicalNonTeachingStaffDetail = 0;
           for (var i = 0; i < this.StaffDetailModel.length; i++) {
 
             if (this.StaffDetailModel[i].AadhaarNo.length > 0) {
@@ -1050,12 +1087,26 @@ export class StaffDetailsComponent implements OnInit {
               let visibleSection = this.StaffDetailModel[i].AadhaarNo.slice(-visibleDigits);
               this.StaffDetailModel[i].MaskedAadhaarNo = maskedSection.replace(/./g, 'X') + visibleSection;
             }
-            if (this.StaffDetailModel[i].TeachingType == 'Teaching') {
-              this.TotalTeachingStaffDetail++;
+            if (this.SelectedDepartmentID != 5) {
+              if (this.StaffDetailModel[i].TeachingType == 'Teaching') {
+                this.TotalTeachingStaffDetail++;
+              }
+              else {
+                this.TotalNonTeachingStaffDetail++;
+              }
             }
-            else {
-              this.TotalNonTeachingStaffDetail++;
+            else
+            {            
+            if (this.StaffDetailModel[i].TeachingType == 'NursingStaff') {
+              this.TotalNursingStaffDetail++;
             }
+            if (this.StaffDetailModel[i].TeachingType == 'Doctors') {
+              this.TotalDoctorsStaffDetail++;
+            }
+            if (this.StaffDetailModel[i].TeachingType == 'ParamedicalNonTeaching') {
+              this.TotalParamedicalNonTeachingStaffDetail++;
+            }
+        }
           }
         }, error => console.error(error));
     }
@@ -1097,8 +1148,29 @@ export class StaffDetailsComponent implements OnInit {
           this.request.Marks = '';
           // console.log(data_Staff['Data'][0]);
           //await this.GetCollegeWiseSubjectList(this.SelectedCollageID);
-          await this.GetStaffDesignation(this.request.TeachingType == 'Teaching' ? 1 : 0);
-          await this.GetHighestQualificationList_DepartmentAndTypeWise(this.SelectedDepartmentID, this.request.TeachingType == 'Teaching' ? 1 : 0);
+          if (this.request.TeachingType == 'Teaching') {
+            await this.GetStaffDesignation(1);
+            await this.GetHighestQualificationList_DepartmentAndTypeWise(this.SelectedDepartmentID, 1);
+          }
+          if (this.request.TeachingType == 'NonTeaching') {
+            await this.GetStaffDesignation(0);
+            await this.GetHighestQualificationList_DepartmentAndTypeWise(this.SelectedDepartmentID, 0);
+          }
+          if (this.request.TeachingType == 'Doctors') {
+            await this.GetStaffDesignation(3);
+            await this.GetHighestQualificationList_DepartmentAndTypeWise(this.SelectedDepartmentID, 3);
+          }
+          if (this.request.TeachingType == 'NursingStaff') {
+            await this.GetStaffDesignation(2);
+            await this.GetHighestQualificationList_DepartmentAndTypeWise(this.SelectedDepartmentID, 2);
+          }
+          if (this.request.TeachingType == 'ParamedicalNonTeaching') {
+            await this.GetStaffDesignation(4);
+            await this.GetHighestQualificationList_DepartmentAndTypeWise(this.SelectedDepartmentID, 4);
+          }
+
+          //await this.GetStaffDesignation(this.request.TeachingType == 'Teaching' ? 1 : 0);
+         // await this.GetHighestQualificationList_DepartmentAndTypeWise(this.SelectedDepartmentID, this.request.TeachingType == 'Teaching' ? 1 : 0);
 
 
           this.OnChangeHighestQualification();

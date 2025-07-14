@@ -65,6 +65,17 @@ export class GrievanceService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
+  public async Get_GrievanceTrail(GrievanceID: number, actionType: string) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl + "/Get_GrievanceTrail/" + GrievanceID + "/" + actionType)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
 }
 
 

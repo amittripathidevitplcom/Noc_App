@@ -38,7 +38,7 @@ import { ActivityDetailsService } from '../../Services/ActivityDetails/activity-
 import { CourtOrderService } from '../../Services/Tabs/court-order.service';
 import { CollegeDocumentService } from '../../Services/Tabs/CollegeDocument/college-document.service';
 import { ClinicalFacilityService } from '../../Services/ClinicalFacility/clinical-facility.service';
-
+import { InfrastructureMedicalCollegeFacilitiesDataModel, LectureTheatreDetailsDataModel, MuseumDetailsDataModel, DissectionHallDetailsDataModel, SkillLaboratoryDetailsDataModel } from '../../Models/InfrastructureMedicalCollegeFacilitiesDataModel';
 
 @Component({
   selector: 'app-application-pdf',
@@ -118,7 +118,11 @@ export class ApplicationPDFComponent implements OnInit {
   public RequiredDocumentDetailsDataList: any = [];
   public OtherDocumentDetailsDataList: any = [];
   public HospitalRealtedDocuments: any = [];
-
+  request = new InfrastructureMedicalCollegeFacilitiesDataModel();
+  LectureTheatreDetails = new LectureTheatreDetailsDataModel();
+  MuseumDetails = new MuseumDetailsDataModel();
+  DissectionHallDetails = new DissectionHallDetailsDataModel();
+  SkillLaboratoryDetails = new SkillLaboratoryDetailsDataModel();
 
   public QueryStringStatus: string = 'Web'
   constructor(public activeModal: NgbActiveModal, private roomDetailsService: RoomDetailsService, private facilityDetailsService: FacilityDetailsService, private buildingDetailsMasterService: BuildingDetailsMasterService, private landDetailsService: LandDetailsService, private socityService: SocityService, private draftApplicationListService: DraftApplicationListService, private TrusteeGeneralInfoService: TrusteeGeneralInfoService, private legalEntityListService: LegalEntityService, private modalService: NgbModal, private courseMasterService: CourseMasterService, private toastr: ToastrService, private loaderService: LoaderService, private collegeService: CollegeService,
@@ -185,6 +189,7 @@ export class ApplicationPDFComponent implements OnInit {
       await this.GetAllCourOrderList();
       await this.GetRequiredDocuments();
       await this.GetOtherDocuments();
+      await this.GetInfrastructuremedicalgrouponecollege();
       if (this.SelectedDepartmentID == 6) {
         await this.GetHospitalRelatedDocuments();
         await this.GetMGThreeHospitalDetailList_DepartmentCollegeWise();
@@ -300,7 +305,7 @@ export class ApplicationPDFComponent implements OnInit {
       }
       else if (this.SelectedDepartmentID == 5) {
         Heading1 = 'GOVERNMENT OF RAJASTHAN';
-        Heading2 = 'Medical Education Group 1';
+        Heading2 = 'Department Of Medical Education';
         Heading3 = '';
       }
       else if (this.SelectedDepartmentID == 6) {
@@ -360,26 +365,20 @@ export class ApplicationPDFComponent implements OnInit {
       if (this.SelectedDepartmentID == 1) {
         pDFData.push({ "ContentName": "#icardetails" })
       }
-
-
       pDFData.push({ "ContentName": "#CourseBasicDetails" })
       pDFData.push({ "ContentName": "#CollegeManagementSociety" })
       pDFData.push({ "ContentName": "#LandDetails" })
       pDFData.push({ "ContentName": "#BuildingDetails" })
-      pDFData.push({ "ContentName": "#FacilityDetails" })
-      if (this.SelectedDepartmentID != 6) {
-        pDFData.push({ "ContentName": "#RequiredDocumentDetails" })
-      }
-
+      if (this.SelectedDepartmentID != 5) {
+        pDFData.push({ "ContentName": "#FacilityDetails" }) 
+      }      
       pDFData.push({ "ContentName": "#OtherDocumentDetails" })
       if (this.SelectedDepartmentID == 6) {
         //pDFData.push({ "ContentName": "#OtherHospitalRealtedDocumentDetails" })
       }
-
       if (this.SelectedDepartmentID == 3) {
         pDFData.push({ "ContentName": "#ActivityDetails" })
       }
-
       pDFData.push({ "ContentName": "#RoomDetails" })
       pDFData.push({ "ContentName": "#OtherInfoDetails" })
 
@@ -393,12 +392,20 @@ export class ApplicationPDFComponent implements OnInit {
       }
       if (this.SelectedDepartmentID == 3 || this.SelectedDepartmentID == 6 || this.SelectedDepartmentID == 4) {
         pDFData.push({ "ContentName": "#HostelDetial" })
-        //pDFData.push({ "ContentName": "#HospitalDetailInfo" })
-
       }
       if (this.SelectedDepartmentID == 5) {
+        pDFData.push({ "ContentName": "#LectureTheatreDetails" })
+        pDFData.push({ "ContentName": "#MuseumDetails" })
+        pDFData.push({ "ContentName": "#DissectionHallDetails" })
+        pDFData.push({ "ContentName": "#SkillLaboratoryDetails" })
+        pDFData.push({ "ContentName": "#DemonstrationRoom" })
+        pDFData.push({ "ContentName": "#CentralLibrary" })
+        pDFData.push({ "ContentName": "#HealthTrainingCenter" })
+        pDFData.push({ "ContentName": "#PowerBackup" })
         pDFData.push({ "ContentName": "#HospitalDetailInfo" })
-      }
+        pDFData.push({ "ContentName": "#MGOneClinicalList" })
+        pDFData.push({ "ContentName": "#StaffDetails" })
+      }      
       if (this.SelectedDepartmentID == 6) {
         pDFData.push({ "ContentName": "#MGThreeHospitalDetailInfo" })
         pDFData.push({ "ContentName": "#courtOrder" })
@@ -411,18 +418,16 @@ export class ApplicationPDFComponent implements OnInit {
         pDFData.push({ "ContentName": "#courtOrder" })
         pDFData.push({ "ContentName": "#AHDepartmentList" })
       }
-      pDFData.push({ "ContentName": "#OfflinePayment" })
-      pDFData.push({ "ContentName": "#OnlinePayment" })
+      if (this.SelectedDepartmentID != 6) {
+        pDFData.push({ "ContentName": "#RequiredDocumentDetails" })
+      }
       pDFData.push({ "ContentName": "#ApplyNOCDetails" })
       if (this.SelectedDepartmentID == 9) {
         pDFData.push({ "ContentName": "#clinicalFacility" })
       }
-      if (this.SelectedDepartmentID == 5) {
-        pDFData.push({ "ContentName": "#MGOneDepartmentList" })
-        pDFData.push({ "ContentName": "#MGOneClassRoomDepartmentList" })
-        pDFData.push({ "ContentName": "#MGOneClinicalList" })
-        pDFData.push({ "ContentName": "#StaffDetails" })
-      }
+      pDFData.push({ "ContentName": "#OfflinePayment" })
+      pDFData.push({ "ContentName": "#OnlinePayment" })           
+      
       for (var i = 0; i < pDFData.length; i++) {
 
         if (pDFData[i].ContentName == '#TrusteeMemberDetails') {
@@ -1953,6 +1958,35 @@ export class ApplicationPDFComponent implements OnInit {
     finally {
       setTimeout(() => {
         this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  async GetInfrastructuremedicalgrouponecollege() {
+    debugger;
+    //Show Loading
+    this.loaderService.requestStarted();
+    // this.isLoading = true;
+    //this.IsEdit = true;
+
+    try {
+      await this.commonMasterService.GetInfrastructuremedicalgrouponecollege(this.SelectedCollageID)
+        .then(async (data: any) => {
+          //this.SelectedCollegeLevel = [];
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          // data
+          debugger;
+          this.request = JSON.parse(JSON.stringify(data['Data']));
+
+        })
+    }
+    catch (ex) { console.log(ex) }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+        //this.isLoading = false;
+
       }, 200);
     }
   }
